@@ -108,7 +108,7 @@ function delObligation() {
 		<!-- page -->
 		<div style="margin-left:13">
 		<table cellspacing="7pts" width="600">
-			<tr><td width="82%">
+			<tr><td width="82%" colspan="2">
 				<span class="head1">Details of reporting obligation</span>
 <!--
 			[
@@ -134,9 +134,27 @@ function delObligation() {
 				</xsl:choose>]
 -->
 			</td>
+			<td align="right" nowrap="true" rowspan="3">
+					<xsl:if test="contains($permissions, 'O')='true'">
+					<!--xsl:if test="$admin='true'"-->
+						<a>
+						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
+<!--
+						<xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+-->
+						<img src="images/newobligation.png" alt="Add a new reporting obligation" border="0"/></a><br/>
+					</xsl:if>
+					<xsl:if test="contains($permissions, 'o')='true'">
+						<a><xsl:attribute name="href">reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+							<img src="images/editobligation.png" alt="Edit reporting obligation" border="0"/></a><br/>
+						</xsl:if>
+						<xsl:if test="contains($permissions, 'X')='true'">
+						<a href="javascript:delObligation()"><img src="images/deleteobligation.gif" alt="Delete reporting obligation" border="0"/><br/>
+						</a>
+					</xsl:if>				
+				</td>
+
 			</tr>
-		</table>
-		<table cellspacing="7pts" width="600" border="0">
 			<tr valign="top">
 				<td width="22%"><span class="head0">Alias name:</span></td>
 				<td width="60%">
@@ -148,25 +166,6 @@ function delObligation() {
 							Obligation
 						</xsl:otherwise>
 					</xsl:choose>
-				</td>
-				<td align="right" nowrap="true">
-					<xsl:if test="contains($permissions, 'O')='true'">
-					<!--xsl:if test="$admin='true'"-->
-						<a>
-						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
-<!--
-						<xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
--->
-						<img src="images/new.gif" alt="Add a new reporting obligation" border="0"/></a>
-					</xsl:if>
-					<xsl:if test="contains($permissions, 'o')='true'">
-						<a><xsl:attribute name="href">reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
-							<img src="images/open.gif" alt="Edit reporting obligation" border="0"/></a>&#160;
-						</xsl:if>
-						<xsl:if test="contains($permissions, 'X')='true'">
-						<a href="javascript:delObligation()"><img src="images/del.gif" alt="Delete reporting obligation" border="0"/>
-						</a>
-					</xsl:if>				
 				</td>
 			</tr>
 			<tr valign="top">
