@@ -56,6 +56,7 @@
 		<table cellspacing="7pts" width="600">
 			<tr><td width="82%">
 				<span class="head1">Details of reporting obligation</span>
+<!--
 			[
 				<xsl:choose>
 					<xsl:when test="T_REPORTING/RECOGNIZED = 'N'">
@@ -65,6 +66,7 @@
 						<span class="head0">Recognized</span>
 					</xsl:otherwise>
 				</xsl:choose>]
+-->
 			</td>
 			</tr>
 		</table>
@@ -90,10 +92,8 @@
 			</tr>
 			<tr valign="top">
 				<td width="22%"><span class="head0">Related legal instrument:</span></td>
-				<td colspan="2">
-					<a>	<xsl:attribute name="href">
-					show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-					<xsl:choose>
+				<td colspan="2"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+						<xsl:choose>
 						<xsl:when test="T_SOURCE/ALIAS != ''">
 							<xsl:value-of select="T_SOURCE/ALIAS"/>
 						</xsl:when>
@@ -153,9 +153,8 @@
 			<tr>
 				<td></td>
 				<td colspan="2">
-					<span class="head0"><a>
-						<xsl:attribute name="href">show.jsv?mode=ROP&amp;id=<xsl:value-of select="$ro-id"/></xsl:attribute>
-						<xsl:attribute name="target">_new</xsl:attribute>
+					<span class="head0"><a><xsl:attribute name="href">show.jsv?mode=ROP&amp;id=<xsl:value-of select="$ro-id"/></xsl:attribute>
+					<xsl:attribute name="target">_new</xsl:attribute>
 						Show all related parameters
 					</a></span>
 				</td>
@@ -208,9 +207,7 @@
 			</tr>
 			<xsl:for-each select="Row/T_ACTIVITY">
 				<tr>
-					<td>
-					<a>	<xsl:attribute name="href">
-					show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
+					<td><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="TITLE != ''">
 								<xsl:value-of select="TITLE"/>
@@ -238,6 +235,7 @@
 	</xsl:template>
 
 	<xsl:template name="RelatedInformation">
+		<xsl:param name="type" select="'Not selected'"/>
 		<!--<xsl:if test="count(Row)>0">-->
 			<tr></tr>
 			<tr>

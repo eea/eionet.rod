@@ -103,6 +103,7 @@ function delObligation() {
 		<table cellspacing="7pts" width="600">
 			<tr><td width="82%">
 				<span class="head1">Details of reporting obligation</span>
+<!--
 			[
 				<xsl:choose>
 					<xsl:when test="T_REPORTING/RECOGNIZED = 'N'">
@@ -114,14 +115,17 @@ function delObligation() {
 								<span class="head0"><xsl:value-of select="T_REPORTING/RECOGNIZED_DETAIL"/></span>
 							</xsl:when>
 							<xsl:otherwise>
+-->
 <!--
 								<span class="head0"><xsl:call-template name="RecognizedDefault"/></span>
 -->
+<!--
 								<span class="head0">Recognized</span>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:otherwise>
 				</xsl:choose>]
+-->
 			</td>
 			</tr>
 		</table>
@@ -146,9 +150,7 @@ function delObligation() {
 						<xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 -->
 						<img src="images/new.gif" alt="Add a new reporting obligation" border="0"/></a>
-						<a><xsl:attribute name="href">
-								reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>
-							</xsl:attribute>
+						<a><xsl:attribute name="href">reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 							<img src="images/open.gif" alt="Edit reporting obligation" border="0"/></a>&#160;
 						<a href="javascript:delObligation()"><img src="images/del.gif" alt="Delete reporting obligation" border="0"/>
 						</a>
@@ -164,8 +166,7 @@ function delObligation() {
 			<tr valign="top">
 				<td width="22%"><span class="head0">Related legal instrument:</span></td>
 				<td colspan="2">
-					<a>	<xsl:attribute name="href">
-					show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+					<a>	<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 					<xsl:choose>
 						<xsl:when test="T_SOURCE/ALIAS != ''">
 							<xsl:value-of select="T_SOURCE/ALIAS"/>
@@ -251,9 +252,7 @@ function delObligation() {
 			<tr><td colspan="3">
 			Contents in this application are maintained by the EEA.
 			<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>&#160;
-			<a><xsl:attribute name="href">
-				show.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=PR
-			</xsl:attribute><xsl:attribute name="target">_new</xsl:attribute>Printable page.</a>
+			<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=PR</xsl:attribute><xsl:attribute name="target">_new</xsl:attribute>Printable page.</a>
 			</td></tr>
 		</table>
 		</div>
@@ -290,8 +289,7 @@ function delObligation() {
 			<xsl:for-each select="Row/T_ACTIVITY">
 				<tr>
 					<td>
-					<a>	<xsl:attribute name="href">
-					show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
+					<a>	<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="TITLE != ''">
 								<xsl:value-of select="TITLE"/>
@@ -319,6 +317,7 @@ function delObligation() {
 	</xsl:template>
 
 	<xsl:template name="RelatedInformation">
+		<xsl:param name="type" select="'Not selected'"/>
 		<!--<xsl:if test="count(Row)>0">-->
 			<tr></tr>
 			<tr>
