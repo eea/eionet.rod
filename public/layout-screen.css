@@ -188,6 +188,7 @@ body {
 .breadcrumbhead {
 	float: left;
 	width: 20px;
+	font-size: 0px;
 	visibility: hidden;
 }
 .breadcrumbtail {
