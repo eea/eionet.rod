@@ -9,7 +9,7 @@
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
- * The Original Code is "WFTool".
+ * The Original Code is "WebROD".
  *
  * The Initial Developer of the Original Code is TietoEnator.
  * The Original Code code was developed for the European
@@ -20,7 +20,7 @@
  *
  * Original Code: Rando Valt (TietoEnator)
  *
- * $Id: Log4jLoggerImpl.java,v 1.1 2002/10/09 11:21:02 te-ee Exp $
+ * $Id: Log4jLoggerImpl.java,v 1.2 2002/11/25 09:42:38 te-ee Exp $
  */
 
 package eionet.rod.services.modules;
@@ -37,7 +37,7 @@ import eionet.rod.services.LogServiceIF;
  * Updates: <UL>15.02.02 log4j version</UL>
  *
  * @author  Rando Valt
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public class Log4jLoggerImpl implements LogServiceIF {
@@ -55,7 +55,7 @@ public class Log4jLoggerImpl implements LogServiceIF {
  * will be initialized by the servlet container.
  */
   public Log4jLoggerImpl() {
-    logger = Category.getInstance("wf.engine");
+    logger = Category.getInstance("webrod");
   }
   
   private Priority convSeverity(int severity) {

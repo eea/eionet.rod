@@ -69,6 +69,7 @@ private static LogServiceIF   _logSrv = null;
         _logSrv = new Log4jLoggerImpl();
       } catch (Exception se) {
         _logSrv = new StderrLogger();
+        _logSrv.error("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOGSERVICE ERROR " + se.toString());
       }
     }
     

@@ -75,17 +75,26 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
         }
 
         //KL021029-> Access Control List for ROD
-        try {
+/*        try {
         
           acl = AccessController.getAcl("webrod");
           //log("************* ACL OK");
         } catch (SignOnException soe ) {
           log(" Error, getting ACL for webrod " + soe);
-        }
+        } */
+
+        initAcl();
         
     }
 
+  protected void resetAcl() {
+    acl=null;
+  }
   protected AccessControlListIF getAcl() {
+
+    if (acl== null)
+      initAcl();
+      
     return acl;
   }
   
@@ -144,5 +153,15 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
       }
       
       return dataSrc;
+   }
+
+   private void initAcl() {
+        try {
+          acl = AccessController.getAcl("webrod");
+          //log("************* ACL OK");
+        } catch (SignOnException soe ) {
+          log(" Error, getting ACL for webrod " + soe);
+        }
+
    }
 }

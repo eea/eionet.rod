@@ -102,6 +102,19 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
     }
   }
 
+   public String[][] getDeadlines() throws ServiceException {
+      String sql = "SELECT PK_RA_ID, FIRST_REPORTING, REPORT_FREQ_MONTHS, NEXT_DEADLINE, NEXT_DEADLINE_PLUS " +
+                   "FROM T_ACTIVITY WHERE REPORT_FREQ_MONTHS > 0"; // Only date-based repeating deadlines
+      return _executeStringQuery(sql);
+   }
+
+   public void saveDeadline(String raId, String next, String nextPlus) throws ServiceException {
+      String sql = "UPDATE T_ACTIVITY SET NEXT_DEADLINE='" + next + 
+                   "', NEXT_DEADLINE_PLUS='" + nextPlus + 
+                   "' WHERE PK_RA_ID=" + raId;
+      _executeUpdate(sql);
+   }
+
 
   private String getDeliveryId(String identifier) throws ServiceException {
     String deliveryId = _executeStringQuery("SELECT PK_DELIVERY_ID FROM " +

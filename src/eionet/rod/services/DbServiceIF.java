@@ -101,6 +101,18 @@ public interface DbServiceIF  {
 
 
  /**
+ * Returns deadline data in 2-dimensional array
+ * 0-PK_RA_ID, 1-FIRST_REPORTING, 2-REPORT_FREQ_MONTHS, 3-NEXT_DEADLINE, 4-NEXT_DEADLINE_PLUS
+ */
+  public String[][] getDeadlines() throws ServiceException;  
+
+ /**
+ * Saves deadline
+ * 0-PK_RA_ID, 1-NEXT_DEADLINE, 2-NEXT_DEADLINE_PLUS
+ */
+  public void saveDeadline(String raId, String next, String nextPlus) throws ServiceException ;
+
+ /**
  * Saves roles
  */
   public void saveRole(Hashtable role ) throws ServiceException ;
