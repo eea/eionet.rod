@@ -146,10 +146,10 @@ Legislative instrument</a></div>
 			</table>
 
 		<h1>Reporting obligation for <xsl:value-of select="T_SOURCE/ALIAS"/> &#160; <xsl:value-of select="T_SOURCE/SOURCE_CODE"/></h1>
-		<table width="600" border="0">
+		<table width="100%" border="0">
 			<tr>
 			<td width="100%" style="border:1px solid #006666">
-				<table border="0" width="600" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
+				<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
 					<tr bgcolor="#ECECEC">
 						<td width="30%" valign="top" align="left" style="border-right: 1px solid #C0C0C0">
 							<span class="head0"><font face="Verdana" size="2"><b>Title</b></font></span>
