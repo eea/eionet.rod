@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<!--
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of
+ * the License at http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * rights and limitations under the License.
+ *
+ * The Original Code is "EINRC-4 / WebROD Project".
+ *
+ * The Initial Developer of the Original Code is TietoEnator.
+ * The Original Code code was developed for the European
+ * Environment Agency (EEA) under the IDA/EINRC framework contract.
+ *
+ * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Rights Reserved.
+ *
+ * Original Code: Andre Karpistsenko (TietoEnator)
+ * -->
+
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="ParameterGroup" distinct="true">
+		<T_PARAM_GROUP>
+			<PK_GROUP_ID/>
+			<GROUP_NAME/>
+		</T_PARAM_GROUP>
+		<xrs:Ordering>T_PARAM_GROUP.GROUP_NAME</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="Parameter" distinct="true">
+		<T_PARAMETER>
+			<PARAMETER_NAME/>
+			<FK_GROUP_ID/>
+		</T_PARAMETER>
+		<T_PARAMETER_LNK relation="T_PARAMETER.PK_PARAMETER_ID=T_PARAMETER_LNK.FK_PARAMETER_ID" reltype="inner">
+			<PARAMETER_UNIT/>
+		</T_PARAMETER_LNK>
+		<T_UNIT relation="T_UNIT.PK_UNIT_ID=T_PARAMETER_LNK.FK_UNIT_ID" reltype="outer">
+			<UNIT_NAME/>
+			<UNIT_HELP/>
+		</T_UNIT>
+		<T_ACTIVITY relation="T_PARAMETER_LNK.FK_RA_ID=T_ACTIVITY.PK_RA_ID" reltype="inner">
+		</T_ACTIVITY>
+		<xrs:Constraint>T_ACTIVITY.FK_RO_ID=@ID</xrs:Constraint>
+		<xrs:Ordering>T_PARAMETER.PARAMETER_NAME</xrs:Ordering>
+	</xrs:RowSet>
+</xrs:XmlData>

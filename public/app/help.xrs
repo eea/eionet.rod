@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet>
+		<T_HELP>
+			<PK_HELP_ID/>
+			<HELP_TITLE/>
+			<HELP_TEXT/>
+		</T_HELP>
+		<xrs:Constraint>PK_HELP_ID='@ID'</xrs:Constraint>
+	</xrs:RowSet>
+</xrs:XmlData>
+	

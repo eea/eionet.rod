@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<!--
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of
+ * the License at http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * rights and limitations under the License.
+ *
+ * The Original Code is "EINRC-4 / WebROD Project".
+ *
+ * The Initial Developer of the Original Code is TietoEnator.
+ * The Original Code code was developed for the European
+ * Environment Agency (EEA) under the IDA/EINRC framework contract.
+ *
+ * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Rights Reserved.
+ *
+ * Original Code: Andre Karpistsenko (TietoEnator)
+ * -->
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="Source">
+		<T_REPORTING>
+			<PK_RO_ID/>
+			<ALIAS/>
+		</T_REPORTING>
+		<T_SOURCE relation="T_REPORTING.FK_SOURCE_ID=T_SOURCE.PK_SOURCE_ID" reltype="inner">
+			<PK_SOURCE_ID/>
+			<FK_TYPE_ID/>
+			<TITLE/>
+			<ALIAS/>
+		</T_SOURCE>
+		<xrs:Constraint>T_REPORTING.PK_RO_ID=@RID</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="Activity" skeleton="true">
+		<T_ACTIVITY PKField="PK_ACTIVITY_ID">
+			<PK_RA_ID/>
+			<FK_SOURCE_ID/>
+			<FK_RO_ID/>
+			<VALID_SINCE expression="IF(T_ACTIVITY.VALID_SINCE, DATE_FORMAT(T_ACTIVITY.VALID_SINCE, '%d/%m/%Y'), '') AS VALID_SINCE"/>
+			<VALID_TO expression="IF(T_ACTIVITY.VALID_TO, DATE_FORMAT(T_ACTIVITY.VALID_TO, '%d/%m/%Y'), '') AS VALID_TO"/>
+			<TITLE/>
+			<FORMAT_NAME/>
+			<REPORT_FORMAT_URL/>
+			<REPORT_FREQ_DETAIL/>
+			<REPORTING_FORMAT/>
+			<NEXT_REPORTING/>
+			<LAST_UPDATE/>
+			<TERMINATE/>
+			<REPORT_FREQ/>
+			<COMMENT/>
+			<RESPONSIBLE_ROLE/>
+			<DATE_COMMENTS/>
+			<NEXT_DEADLINE expression="IF(T_ACTIVITY.NEXT_DEADLINE, DATE_FORMAT(T_ACTIVITY.NEXT_DEADLINE, '%d/%m/%Y'), '') AS NEXT_DEADLINE"/>
+			<RM_NEXT_UPDATE expression="IF(T_ACTIVITY.RM_NEXT_UPDATE, DATE_FORMAT(T_ACTIVITY.RM_NEXT_UPDATE, '%d/%m/%Y'), '') AS RM_NEXT_UPDATE"/>
+			<RM_VERIFIED expression="IF(T_ACTIVITY.RM_VERIFIED, DATE_FORMAT(T_ACTIVITY.RM_VERIFIED, '%d/%m/%Y'), '') AS RM_VERIFIED"/>
+			<RM_VERIFIED_BY/>
+			<NEXT_DEADLINE2 expression="IF(T_ACTIVITY.NEXT_DEADLINE2, DATE_FORMAT(T_ACTIVITY.NEXT_DEADLINE2, '%d/%m/%Y'), '') AS NEXT_DEADLINE2"/>
+			<FIRST_REPORTING expression="IF(T_ACTIVITY.FIRST_REPORTING, DATE_FORMAT(T_ACTIVITY.FIRST_REPORTING, '%d/%m/%Y'), '') AS FIRST_REPORTING"/>
+			<REPORT_FREQ_MONTHS/>
+		</T_ACTIVITY>
+		<xrs:Constraint>T_ACTIVITY.PK_RA_ID=@ID</xrs:Constraint>
+		<xrs:SubSet name="LnkPar" relation="T_ACTIVITY.PK_RA_ID=T_PARAMETER_LNK.FK_RA_ID">
+			<T_PARAMETER_LNK>
+				<FK_PARAMETER_ID/>
+				<PARAMETER_UNIT/>
+			</T_PARAMETER_LNK>
+			<T_UNIT relation="T_UNIT.PK_UNIT_ID=T_PARAMETER_LNK.FK_UNIT_ID" reltype="outer">
+				<PK_UNIT_ID/>
+				<UNIT_NAME/>
+			</T_UNIT>
+			<T_PARAMETER relation="T_PARAMETER_LNK.FK_PARAMETER_ID=T_PARAMETER.PK_PARAMETER_ID" reltype="inner">
+				<PARAMETER_NAME/>
+				<FK_GROUP_ID/>
+			</T_PARAMETER>
+			<xrs:Ordering>T_PARAMETER.PARAMETER_NAME</xrs:Ordering>
+		</xrs:SubSet>
+		<xrs:SubSet name="LnkIssue" relation="T_ACTIVITY.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID">
+			<T_RAISSUE_LNK>
+				<FK_ISSUE_ID/>
+			</T_RAISSUE_LNK>
+			<T_ISSUE relation="T_RAISSUE_LNK.FK_ISSUE_ID=T_ISSUE.PK_ISSUE_ID" reltype="inner">
+				<ISSUE_NAME/>
+			</T_ISSUE>
+			<xrs:Ordering>T_ISSUE.ISSUE_NAME</xrs:Ordering>
+		</xrs:SubSet>
+	</xrs:RowSet>
+	<xrs:RowSet name="YesNo" omitRow="true">
+		<T_LOOKUP>
+			<C_VALUE/>
+			<C_TERM/>
+		</T_LOOKUP>
+		<xrs:Constraint>T_LOOKUP.CATEGORY='1'</xrs:Constraint>
+		<xrs:Ordering>T_LOOKUP.C_TERM</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="Frequency" omitRow="true">
+		<T_LOOKUP>
+			<C_TERM/>
+		</T_LOOKUP>
+		<xrs:Constraint>T_LOOKUP.CATEGORY='F'</xrs:Constraint>
+		<xrs:Ordering>T_LOOKUP.C_TERM</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="UnitType" omitRow="true">
+		<T_UNIT>
+			<PK_UNIT_ID/>
+			<UNIT_NAME/>
+			<UNIT_HELP/>
+		</T_UNIT>
+		<xrs:Ordering>T_UNIT.UNIT_NAME</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="GroupType">
+		<T_LOOKUP>
+			<C_VALUE/>
+			<C_TERM/>
+		</T_LOOKUP>
+		<xrs:Constraint>T_LOOKUP.CATEGORY='P'</xrs:Constraint>
+		<xrs:Ordering>C_TERM</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="ParamGroup">
+		<T_PARAM_GROUP>
+			<PK_GROUP_ID/>
+			<GROUP_NAME/>
+			<GROUP_TYPE/>
+		</T_PARAM_GROUP>
+		<xrs:Ordering>GROUP_NAME</xrs:Ordering>
+	</xrs:RowSet>
+</xrs:XmlData>
