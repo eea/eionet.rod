@@ -23,14 +23,10 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:include href="common.xsl"/>
+	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:template match="XmlData">
 	<!-- context bar -->
-      <table cellspacing="0" cellpadding="0" width="621" border="0">
-			<tr>
-         	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
-          	<td width="600" background="images/bar_filled.jpg" height="25">
 
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
@@ -39,23 +35,8 @@
  <div class="breadcrumbtail">&#160;</div>
 </div>
 
-            <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
-            	<tr>
-               	<td valign="bottom">
-									<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
-								</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom"><span class="barfont">ROD</span></td>
-   	            <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
-	              <td valign="bottom" align="right" width="360"></td>
-
-					</tr>
- 				</table>
-			</td></tr>
-  			<tr><td>&#160;</td></tr>
-		</table>
 		<!-- page -->
-		<div id="workarea">
+<div id="workarea">
 		<xsl:value-of select="//HLP_AREA[AREA_ID='Introduction']/HTML" disable-output-escaping="yes"/>
 		<!--table width="600" style="border: 1px solid #006666"  cellspacing="3" cellpadding="3">
 			<tr>
@@ -144,7 +125,7 @@
 
 		<xsl:call-template name="CommonFooter"/>
 
-		</div>
+</div> <!-- workarea -->
 		
 	</xsl:template>
 
