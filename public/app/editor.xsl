@@ -756,7 +756,7 @@ function checkAndSave(first, freq, next, textrep, to, terminate) {
 								<div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
 							</td>
 			            <td width="20">&#160;</td>
-			            <td><a href="http://www.eea.eu.int" target="_blank"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></a></td>
+			            <td><a href="/" target="_blank"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></a></td>
 			          </tr>
 			          </table>
 			          </td>
