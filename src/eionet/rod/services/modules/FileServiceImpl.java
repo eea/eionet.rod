@@ -31,7 +31,7 @@ import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import eionet.rod.countrysrv.Constants;
+import eionet.rod.countrysrv.ExtractorConstants;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.ServiceException;
 
@@ -41,7 +41,7 @@ import eionet.rod.services.ServiceException;
  * @author  Rando Valt
  * @version 0.1
  */
-public class FileServiceImpl implements FileServiceIF, Constants {
+public class FileServiceImpl implements FileServiceIF, ExtractorConstants {
    
   private ResourceBundle props;
   //private String appRoot;
