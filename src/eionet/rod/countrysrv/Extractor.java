@@ -387,14 +387,15 @@ public class Extractor implements ExtractorConstants {
 
   if (mode == ALL_DATA || mode == PARAMS) {
     actionText += " -parameters";
-
+    //Extract from DD will come here!!!
     //duplicate query, fix me!
+  /*
     raData=csDb.getRaData();
 
     for(int i = 0; raData != null && i < raData.length; i++) {
       csDb.harvestParams(raData[i][0]);
    }
-          
+  */          
     //DataDict client:
     
   }

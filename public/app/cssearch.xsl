@@ -164,19 +164,19 @@ function submitSearchForm() {
 						</td>
 				</tr>
 				<tr>
-           <td rowspan="7" valign="top" style="border-right:1 solid #C0C0C0">
+           <td rowspan="10" valign="top" style="border-right:1 solid #C0C0C0">
 							Deadlines
            </td>
             <td style="border-bottom: 1 solid #C0C0C0">
 										<select name="COUNTRY_ID" style="color: #000000; font-size: 8pt; width:200" size="1">
-											<option value="0">Any country</option>
+											<option value="">Any country</option>
 											<xsl:call-template name="SpatialTemplate2">
 												<xsl:with-param name ="type">C</xsl:with-param>
 												<xsl:with-param name ="type2"></xsl:with-param>
 											</xsl:call-template>
                     </select>
 						</td>
-						<td rowspan="7" valign="center" align="center" style="border-left:1 solid #C0C0C0">
+						<td rowspan="10" valign="center" align="center" style="border-left:1 solid #C0C0C0">
 							<xsl:call-template name="go"/>
 						</td>
 				</tr>
@@ -189,8 +189,22 @@ function submitSearchForm() {
 				<tr>
 					<td style="border-bottom: 1 solid #C0C0C0">
 						<select name="ISSUE_ID" style="font-size: 8pt; color: #000000; width:223" height="20">
-								<option value="0">All issues</option>
+								<option value="">All issues</option>
 								<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td style="border-bottom: 1 solid #C0C0C0">*</td>
+				</tr>
+				<tr>
+					<td bgcolor="#FFFFFF" style="border-bottom: 1 solid #C0C0C0"><b>For an organisation</b>	</td>
+				</tr>
+				<tr>
+					<td style="border-bottom: 1 solid #C0C0C0">
+						<select name="CLIENT_ID" style="font-size: 8pt; color: #000000; width:350" height="20">
+								<option value="">Any organisation</option>
+								<xsl:apply-templates select="RowSet[@Name='Client']"/>
 						</select>
 					</td>
 				</tr>
@@ -214,7 +228,7 @@ function submitSearchForm() {
   </div></body></html>
 	</xsl:template>
 
-		<xsl:template name="SpatialTemplate2">
+	<xsl:template name="SpatialTemplate2">
 		<xsl:param name="type" select="'Not selected'"/>
 		<xsl:param name="type2" select="'Not selected'"/>
 		<xsl:for-each select="RowSet[@Name='Spatial']/Row/T_SPATIAL[SPATIAL_TYPE=$type or SPATIAL_TYPE=$type2]">
@@ -230,6 +244,13 @@ function submitSearchForm() {
 		<xsl:for-each select="Row/T_ISSUE">
 			<option><xsl:attribute name="value"><xsl:value-of select="PK_ISSUE_ID"/></xsl:attribute>
 			<xsl:value-of select="ISSUE_NAME"/></option>
+		</xsl:for-each>
+	</xsl:template>
+
+	<xsl:template match="RowSet[@Name='Client']">
+		<xsl:for-each select="Row/T_CLIENT">
+			<option><xsl:attribute name="value"><xsl:value-of select="PK_CLIENT_ID"/></xsl:attribute>
+			<xsl:value-of select="CLIENT_NAME"/></option>
 		</xsl:for-each>
 	</xsl:template>
 

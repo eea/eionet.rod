@@ -39,6 +39,17 @@
 		<xsl:if test="$rora='B'">A</xsl:if>
 	</xsl:variable>
 
+	<xsl:variable name="analysisMode">
+		<xsl:value-of select="substring(substring-after(/XmlData/xml-query-string,'anmode='),1,1)"/>
+	</xsl:variable>
+
+	<xsl:variable name="analysisText">
+		<xsl:if test="$analysisMode='C'">EEA Core set of indicators</xsl:if>
+		<xsl:if test="$analysisMode='P'">EIONET Priority Data flows</xsl:if>
+		<xsl:if test="$analysisMode='O'">Delivery process or content overlaps with another obligation</xsl:if>
+		<xsl:if test="$analysisMode='F'">Flagged</xsl:if>
+	</xsl:variable>
+
 	<xsl:variable name="sel_country">
 		<xsl:value-of select="//RowSet[@Name='Search results']/@Country_equals" />
 	</xsl:variable>
@@ -99,13 +110,9 @@
 		<table cellspacing="0" border="0" width="602">
 			<tr valign="top">
 			<td width="76%">
-				<span class="head1">Reporting obligations
-								<xsl:if test="$sel_country!=''">
-									: <xsl:value-of select="$sel_country"/>
-								</xsl:if>
-								<xsl:if test="$sel_client!=''">
-									: <xsl:value-of select="$sel_client"/>
-								</xsl:if>
+				<span class="head1">Reporting obligations<xsl:if test="$analysisMode!=''">: <xsl:value-of select="$analysisText"/>	</xsl:if>
+								<xsl:if test="$sel_country!=''">: <xsl:value-of select="$sel_country"/></xsl:if>
+								<xsl:if test="$sel_client!=''">	: <xsl:value-of select="$sel_client"/></xsl:if>
 								<xsl:if test="$sel_issue!=''">
 									<xsl:if test="$sel_country='' and $sel_client=''">:</xsl:if>
 										<xsl:if test="$sel_country!=$sel_issue and $sel_client!=$sel_issue"> <!-- Quickfix -->
@@ -122,7 +129,7 @@
 				<xsl:call-template name="Print"/>
 			</td></tr>
 			<xsl:if test="$printmode='N'">
-				<xsl:if test="$showfilters=''">
+				<xsl:if test="$showfilters='' and $analysisMode=''">
 					<tr><td>
 					<a>
 						<xsl:attribute name="href">javascript:window.location.replace(window.location.href+'&amp;showfilters=1')</xsl:attribute>
@@ -257,56 +264,97 @@
 		</xsl:for-each>
 	</xsl:template>
 
+	<xsl:template match="Row">
+		<!--ra-->
+		<xsl:if test="$rora='A'">
+		<TD style="BORDER-LEFT: #008080 1px solid;  BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+			<SPAN class="head0n">
+				<A> 
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
+					<FONT face="Verdana" size="2">
+							<xsl:choose>
+								<xsl:when test="T_OBLIGATION/TITLE !=''">
+									<xsl:value-of select="T_OBLIGATION/TITLE"/>
+								</xsl:when>
+								<xsl:otherwise>
+									Reporting Obligation
+								</xsl:otherwise>
+							</xsl:choose>
+					</FONT>
+				</A>
+			</SPAN>&#160;
+		</TD>
+		</xsl:if>
+		<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+			<SPAN class="head0n">
+				<A> 
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+					<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/TITLE"/></FONT>
+				</A>
+			</SPAN>
+		</TD>
+		<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+			<SPAN class="head0n">
+					<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/SOURCE_CODE"/></FONT>
+			</SPAN>
+			&#160;
+		</TD>
+	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Search results']">
-			<xsl:choose>
-				<xsl:when test="count(Row)=0">			
-					<tr><td><xsl:call-template name="nofound"/></td></tr>
-				</xsl:when>
-				<xsl:otherwise>
+		<xsl:choose>
+			<xsl:when test="$analysisMode!=''">
+				<xsl:choose>
+					<xsl:when test="$analysisMode='C'">
+						<xsl:for-each select="Row[T_OBLIGATION/EEA_CORE='1']">
+							<tr>
+								<xsl:attribute name="bgColor"><xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if></xsl:attribute>
+								<xsl:apply-templates select="."/>
+							</tr>
+						</xsl:for-each>
+					</xsl:when>
+					<xsl:when test="$analysisMode='P'">
+						<xsl:for-each select="Row[T_OBLIGATION/EEA_PRIMARY='1']">
+							<tr>
+								<xsl:attribute name="bgColor"><xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if></xsl:attribute>
+								<xsl:apply-templates select="."/>
+							</tr>
+						</xsl:for-each>
+					</xsl:when>
+					<xsl:when test="$analysisMode='O'">
+						<xsl:for-each select="Row[string-length(normalize-space(T_OBLIGATION/OVERLAP_URL)) > 0]">
+							<tr>
+								<xsl:attribute name="bgColor"><xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if></xsl:attribute>
+								<xsl:apply-templates select="."/>
+							</tr>
+						</xsl:for-each>
+					</xsl:when>
+					<xsl:when test="$analysisMode='F'">
+						<xsl:for-each select="Row[T_OBLIGATION/FLAGGED='1']">
+							<tr>
+								<xsl:attribute name="bgColor"><xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if></xsl:attribute>
+								<xsl:apply-templates select="."/>
+							</tr>
+						</xsl:for-each>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="count(Row)=0">			
+						<tr><td><xsl:call-template name="nofound"/></td></tr>
+					</xsl:when>
+					<xsl:otherwise>
 						<xsl:for-each select="Row">
-						<TR>
-							<xsl:attribute name="bgColor">
-								<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
-							</xsl:attribute>
-							<!--ra-->
-							<xsl:if test="$rora='A'">
-							<TD style="BORDER-LEFT: #008080 1px solid;  BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
-								<SPAN class="head0n">
-									<A> 
-										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
-										<FONT face="Verdana" size="2">
-												<xsl:choose>
-													<xsl:when test="T_OBLIGATION/TITLE !=''">
-														<xsl:value-of select="T_OBLIGATION/TITLE"/>
-													</xsl:when>
-													<xsl:otherwise>
-														Reporting Obligation
-													</xsl:otherwise>
-												</xsl:choose>
-										</FONT>
-									</A>
-								</SPAN>&#160;
-							</TD>
-							</xsl:if>
-							<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
-								<SPAN class="head0n">
-									<A> 
-										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-										<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/TITLE"/></FONT>
-									</A>
-								</SPAN>
-							</TD>
-							<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
-								<SPAN class="head0n">
-										<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/SOURCE_CODE"/></FONT>
-								</SPAN>
-								&#160;
-							</TD>
-						</TR>
+							<tr>
+								<xsl:attribute name="bgColor"><xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if></xsl:attribute>
+								<xsl:apply-templates select="."/>
+							</tr>
 						</xsl:for-each>
 					</xsl:otherwise>
 				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='CCClients']">

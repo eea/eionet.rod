@@ -60,8 +60,8 @@ public class Activities extends RDFServletAC {
 
   private static final String  actPropName = "activity";
 
-  private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace +
-    //"xmlns:eor=\"http://dublincore.org/2000/03/13/eor#\" " +
+  private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace + dcNs +
+    "xmlns:eor=\"http://dublincore.org/2000/03/13/eor#\" " +
     "xmlns:dcterms='http://purl.org/dc/terms/'";
 
 
@@ -71,6 +71,7 @@ public class Activities extends RDFServletAC {
     s.append(rdfHeader);
     s.append("<rdf:RDF ")
     //.append(" xmlns=\"").append(activitiesNamespace).append("#\"")
+    
     .append(" xmlns:rod=\"").append(rodSchemaNamespace).append("#\"")
     .append(" ")
     .append(allNameSpaces)
@@ -86,18 +87,87 @@ public class Activities extends RDFServletAC {
       String pk = (String)act.get("PK_RA_ID");
       String title = (String)act.get("TITLE");
       String lastUpdate = (String)act.get("LAST_UPDATE");
-
       String liId = (String)act.get("PK_SOURCE_ID");
+      
+      String validSince = (String)act.get("VALID_SINCE");
+      String terminated = (String)act.get("terminated");
+      String comment = (String)act.get("COMMENT");
+
+      String respRole = (String)act.get("RESPONSIBLE_ROLE");
+      String nextDeadline = (String)act.get("NEXT_DEADLINE");
+      String nextDeadline2 = (String)act.get("NEXT_DEADLINE2");
+
+      String repFormat=(String)act.get("REPORTING_FORMAT");
+      String formatName=(String)act.get("FORMAT_NAME");
+      String repFormatUrl=(String)act.get("REPORT_FORMAT_URL");      
+
+      String description=(String)act.get("DESCRIPTION");  
+
+      if (formatName.equals("") && !repFormatUrl.equals(""))
+        formatName = repFormatUrl;
+
+      String detailsUrl = (String)act.get("details_url");
+
 
       //s.append("<rod:Obligation rdf:ID=\"ra-").append(pk).append("\">")
       s.append("<rod:Obligation rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">")
-        .append("<rdf:value>").append(title).append("</rdf:value>")
+        .append("<dc:title>").append(title).append("</dc:title>")
         .append("<rdfs:label>").append(title).append("</rdfs:label>")
+        .append("<dcterms:abstract>").append(description).append("</dcterms:abstract>")
         .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
-        .append("<rod:instrument rdf:resource=\"" + instrumentsNamespace + liId + "\"/>")
-        .append("</rod:Obligation>");
+        .append("<dcterms:valid>").append(validSince).append("</dcterms:valid>")        
+        .append("<rod:terminated>").append(terminated).append("</rod:terminated>")                
+        .append("<rod:comment>").append(comment).append("</rod:comment>")                
+        .append("<rod:responsiblerole>").append(respRole).append("</rod:responsiblerole>")                
+        .append("<rod:nextdeadline>").append(nextDeadline).append("</rod:nextdeadline>")                        
+        .append("<rod:nextdeadline2>").append(nextDeadline2).append("</rod:nextdeadline2>")                
+        .append("<rod:guidelines>").append(repFormat).append("</rod:guidelines>")                
+        
+        .append("<rod:instrument rdf:resource=\"" + instrumentsNamespace + liId + "\"/>");
+
+        s.append(composeResource("rod:details_url", "Information page", detailsUrl));
+
+        if (!repFormatUrl.equals(""))
+          s.append(composeResource("rod:guidelines_url", formatName, repFormatUrl));
+
+        
+        s.append("</rod:Obligation>");
 
     }
+    //loop for the countries
+    String[][] raIds=wSrv.getObligationIds();
+    for (int i= 0; i< raIds.length; i++) {
+      String pk = raIds[i][0];
+
+      String[][] spIds = wSrv.getCountries(pk);
+      
+      s.append("<rdf:Description rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">");
+        for (int j=0; j<spIds.length; j++) 
+          s.append(countryTag(spIds[j][0]));
+          
+      s.append("</rdf:Description>");      
+    }
+
+    //issues list
+    String [][] issues = wSrv.getIssueIdPairs();
+    for (int i= 0; i< issues.length; i++) {
+      String pk = issues[i][0];
+      String name = issues[i][1];
+      s.append("<rod:Issue rdf:about=\"").append(issuesNamespace).append(pk).append("\">")
+        .append("<rdfs:label>").append(name).append("</rdfs:label>")
+        .append("</rod:Issue>");
+      
+    }
+
+   for (int i= 0; i< raIds.length; i++) {
+   
+    s.append("<rdf:Description rdf:about=\"").append(obligationsNamespace).append("/").append(raIds[i][0]).append("\">");
+    String[][] iIds = wSrv.getIssues(raIds[i][0]);
+    for (int j=0; j<iIds.length; j++) 
+      s.append("<rod:issue rdf:resource=\"" + issuesNamespace + iIds[j][0] + "\"/>");
+          
+    s.append("</rdf:Description>");         
+   }
     
     s.append("</rdf:RDF>");
 
@@ -106,4 +176,8 @@ public class Activities extends RDFServletAC {
   }  
 
  
+
+  private String countryTag(String spatialId) {
+    return "<rod:locality rdf:resource=\"" + spatialNamespace + spatialId + "\"/>";
+  } 
 }

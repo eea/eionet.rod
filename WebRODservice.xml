@@ -1,18 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./services.xsd">
 	<Service Name="WebRODService" Provider="eionet.rod.services.WebRODService">
-	<Methods>
-		<Method Name="getActivities" Auth="false">
-				<Parameters/>
-				<Value Type="ARRAY">
-					<Array Type="STRUCT"/>
-				</Value>
-		</Method>
-		<Method Name="getCountries" Auth="false">
-				<Parameters/>
-				<Value Type="ARRAY">
-					<Array Type="STRUCT"/>
-				</Value>
+		<Methods>
+			<Method Name="getActivities" Auth="false">
+					<Parameters/>
+					<Value Type="ARRAY">
+						<Array Type="STRUCT"/>
+					</Value>
+			</Method>
+			<Method Name="getCountries" Auth="false">
+					<Parameters/>
+					<Value Type="ARRAY">
+						<Array Type="STRUCT"/>
+					</Value>
+				</Method>
+			<Method Name="getROSummary" Auth="false">
+					<Parameters/>
+					<Value Type="ARRAY">
+						<Array Type="STRUCT"/>
+					</Value>
+			</Method>
+			<Method Name="getROComplete" Auth="false">
+					<Parameters/>
+					<Value Type="ARRAY">
+						<Array Type="STRUCT"/>
+					</Value>
+			</Method>
+			<Method Name="getRODeadlines" Auth="false">
+					<Parameters/>
+					<Value Type="ARRAY">
+						<Array Type="STRUCT"/>
+					</Value>
 			</Method>
 		</Methods>		
 	</Service>

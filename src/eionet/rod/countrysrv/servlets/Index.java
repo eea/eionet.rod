@@ -34,7 +34,9 @@ import com.tee.xmlserver.DataSourceIF;
 import com.tee.xmlserver.XSQLException;
 import com.tee.xmlserver.XMLSource;
 
-public class Index extends CSServletAC {
+import eionet.rod.ROServletAC;
+
+public class Index extends ROServletAC { //CSServletAC {
   protected String setXSLT(HttpServletRequest req) {
       return PREFIX + "csindex.xsl";
    }

@@ -61,6 +61,10 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
   protected String obligationsNamespace;
   protected String instrumentsNamespace;
   protected String rodSchemaNamespace;
+  
+
+  protected String issuesNamespace;
+  protected String spatialNamespace;
 
   protected static ResourceBundle props; 
   
@@ -70,7 +74,9 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
   protected static final String dcNs = " xmlns:dc=\"http://purl.org/dc/elements/1.1/\" ";
 
-  public void init(  ServletConfig config ) throws ServletException {
+  protected static final String webPageType="http://dublincore.org/2000/03/13/eor#WebPage";
+
+  public void init(ServletConfig config) throws ServletException {
 
     try {
         props = ResourceBundle.getBundle(PROP_FILE);
@@ -85,15 +91,30 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
       try {
         instrumentsNamespace = props.getString(ROD_LI_NS);
       } catch (MissingResourceException mre ) {
-        rodSchemaNamespace="http://rod.eionet.eu.int/instruments/";
+        instrumentsNamespace="http://rod.eionet.eu.int/instruments/";
       }
+
+    if (issuesNamespace == null)
+      try {
+        issuesNamespace = props.getString(ROD_ISSUES_NS);
+      } catch (MissingResourceException mre ) {
+        issuesNamespace="http://rod.eionet.eu.int/issues/";
+      }
+
+    if (spatialNamespace == null)
+      try {
+        spatialNamespace = props.getString("spatial.namespace");
+      } catch (MissingResourceException mre ) {
+        issuesNamespace="http://rod.eionet.eu.int/spatial/";
+      }
+
 
     if (obligationsNamespace == null)
       obligationsNamespace = props.getString(ROD_URL_RO_NS);
 
     if (rodSchemaNamespace == null)
       try {
-        rodSchemaNamespace=props.getString("schame.namespace");
+        rodSchemaNamespace=props.getString("schema.namespace");
         //quite likely it will not change
       } catch (MissingResourceException mre ) {
         rodSchemaNamespace="http://rod.eionet.eu.int/schema.rdf";
@@ -125,6 +146,16 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
  }
 
+ protected String composeResource(String tagName, String value, String id) {
+
+    String s = "<" + tagName + " rdf:parseType=\"Resource\">" +
+        "<rdf:value>" + value + "</rdf:value>" +
+        "<dc:identifier rdf:resource=\"" + id + "\"/>" +
+        "<rdf:type rdf:resource=\"" + webPageType + "\"/>" +
+        "</" + tagName + ">";
+
+    return s;
+  }
 
     protected static void _log(String s) { System.out.println("****** " + s);}
 }

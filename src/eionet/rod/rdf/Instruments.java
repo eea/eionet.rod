@@ -86,8 +86,12 @@ public class Instruments extends RDFServletAC {
       String legalName=(String)li.get("TITLE");
       String lastUpdate=(String)li.get("LAST_UPDATE");
       String url=(String)li.get("URL");      
+      String guidelinesDescr=(String)li.get("LEGAL_NAME");      
       String abstr=(String)li.get("ABSTRACT");      
       String issuedBy=(String)li.get("ISSUED_BY");      
+      String celexRef=(String)li.get("CELEX_REF");    
+
+      String detailsUrl=(String)li.get("details_url");            
 
       //show legal name if short name is empty
       title=(Util.nullString(title) ? legalName : title);
@@ -96,26 +100,20 @@ public class Instruments extends RDFServletAC {
         .append("<rdf:value>").append(title).append("</rdf:value>")
         .append("<rdfs:label>").append(title).append("</rdfs:label>")        
         .append("<dc:title>").append(legalName).append("</dc:title>")        
-        .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>");
+        .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
+        .append("<rod:celexref>").append(celexRef).append("</rod:celexref>");
 
         if (!Util.nullString(abstr))
           s.append("<dcterms:abstract>").append(abstr).append("</dcterms:abstract>");
         
         if (!Util.nullString(url))
-          s.append("<dc:identifier rdf:resource=\"" + url + "\"/>");
+          s.append( composeResource("rod:guidelines_url", guidelinesDescr, url));
 
         if (!Util.nullString(issuedBy))
           s.append("<dc:creator>").append(issuedBy).append("</dc:creator>");
           
-          
-        s.append("</rod:Instrument>");        
-/*
-      s.append("<rod:Obligation rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">")
-        .append("<rdf:value>").append(title).append("</rdf:value>")
-        .append("<rdfs:label>").append(title).append("</rdfs:label>")
-        .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
-        .append("</rod:Obligation>");
-*/
+        s.append(composeResource("rod:details_url", "Information page", detailsUrl))
+          .append("</rod:Instrument>");        
     }
     
     s.append("</rdf:RDF>");

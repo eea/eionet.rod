@@ -22,26 +22,55 @@
  * Original Code: Kaido Laine (TietoEnator)
  * -->
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="EnvIssue">
+		<T_ISSUE>
+			<PK_ISSUE_ID/>
+			<ISSUE_NAME/>
+		</T_ISSUE>
+		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
+	</xrs:RowSet>
 	<xrs:RowSet name="Spatial">
 		<T_SPATIAL>
 			<PK_SPATIAL_ID/>
 			<SPATIAL_NAME/>
 			<SPATIAL_TYPE/>
 		</T_SPATIAL>
-		<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
+		<xrs:Ordering>SPATIAL_NAME</xrs:Ordering>
 	</xrs:RowSet>
-	<xrs:RowSet name="EnvIssue">
+	<xrs:RowSet name="Client" distinct="true">
+		<T_OBLIGATION>
+			<FK_CLIENT_ID/>
+		</T_OBLIGATION>
+		<T_CLIENT relation="T_OBLIGATION.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID" reltype="outer">
+			<PK_CLIENT_ID/>
+			<CLIENT_NAME expression="CONCAT(LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
+		</T_CLIENT>
+		<xrs:Constraint>T_OBLIGATION.FK_CLIENT_ID IS NOT NULL AND FK_CLIENT_ID!=0</xrs:Constraint>
+		<xrs:Ordering>CLIENT_NAME</xrs:Ordering>
+	</xrs:RowSet>
+
+
+	<xrs:RowSet name="CountryData">
+		<T_SPATIAL>
+			<PK_SPATIAL_ID/>
+			<SPATIAL_NAME/>
+			<SPATIAL_TWOLETTER/>
+		</T_SPATIAL>
+		<xrs:Constraint>PK_SPATIAL_ID=@COUNTRY_ID</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="IssueData">
 		<T_ISSUE>
 			<PK_ISSUE_ID/>
 			<ISSUE_NAME/>
 		</T_ISSUE>
-		<xrs:Ordering>T_ISSUE.ISSUE_NAME</xrs:Ordering>
+		<xrs:Constraint>PK_ISSUE_ID=@ISSUE_ID</xrs:Constraint>
 	</xrs:RowSet>
-	<xrs:RowSet name="Client">
+	<xrs:RowSet name="ClientData">
 		<T_CLIENT>
 			<PK_CLIENT_ID/>
-			<CLIENT_NAME expression="CONCAT( IF(CLIENT_ACRONYM != '', CONCAT(CLIENT_ACRONYM, ' - '), ''),  LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
+			<CLIENT_NAME/>
 		</T_CLIENT>
-		<xrs:Ordering>CLIENT_NAME</xrs:Ordering>
+		<xrs:Constraint>PK_CLIENT_ID=@CLIENT_ID</xrs:Constraint>
 	</xrs:RowSet>
+
 </xrs:XmlData>

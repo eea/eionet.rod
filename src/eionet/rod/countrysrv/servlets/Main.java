@@ -34,176 +34,59 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
+import java.util.Enumeration;
+import com.tee.xmlserver.DataSource;
+import com.tee.xmlserver.QueryStatementIF;
+import eionet.rod.countrysrv.CSSearchStatement;
+import com.tee.util.Util;
+import eionet.rod.ROServletAC;
 
-public class Main extends CSServletAC {
+public class Main extends ROServletAC { // CSServletAC {
 
   protected String setXSLT(HttpServletRequest req) {
-    String mode = req.getParameter("MODE");
-      if (mode!= null && mode.equals("PR"))
-        return PREFIX + "csprintmain.xsl";
-      else
         return PREFIX + "csmain.xsl";
    }
 
   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
-    String querySource = "";
-
-    String queryPars[][]=null;
-    String countryID = params.getParameter("COUNTRY_ID");
-    String countryPar;
-
-    if (countryID.equals("0"))
-      countryPar = "'%%'";
-    else
-      countryPar = "'" + countryID + "'";
-
-    String order = params.getParameter("ORD");
-
-    if (order == null)
-      order = "NEXT_DEADLINE";
-      
-
-    boolean issue=false;
-    boolean deadline =false;
-
-    String issueID = params.getParameter("ISSUE_ID");
-
-    if (issueID != null && !issueID.equals("0")){
-      issue=true;
-      issueID = "'" + issueID + "'";
-    }
-    else
-      issueID="'%%'";
-   
-    String date1 = params.getParameter("DATE_1");
-    String date2 = params.getParameter("DATE_2");
-
-    String dlCase = params.getParameter("DEADLINES");
-
-    if ( (date1 !=null && !date1.equals("dd/mm/yyyy")) || (date2 !=null && !date2.equals("dd/mm/yyyy")) || dlCase != null )
-      deadline=true;
-
-
-
-    if (!issue && !deadline) { //only country
-      querySource = PREFIX + "csmain.xml";
-      queryPars = new String[2][2];
-      queryPars[0][0] = "COUNTRY_ID";
-      queryPars[0][1] = countryPar;
-
-      queryPars[1][0] = "ORD";
-      queryPars[1][1] = order;
-      
-    }
-    else  { 
-
-      //querySource = "app/advanced.xml";
-      queryPars = new String[4][2];
-
-      queryPars[0][0] = "COUNTRY_ID";
-      queryPars[0][1] = countryPar;
-
-      //issue id
-      queryPars[1][0] = "ISSUE_ID";
-      queryPars[1][1] = issueID;
-
-      //deadlines
-      queryPars[2][0] = "DEADLINES";
-
-      if ( dlCase != null ) {
-
-        //all Deadlines
-        if (dlCase.equals("0")) {
-          date1 ="dd/mm/yyyy";
-          date2 ="dd/mm/yyyy";
-        }
-        //next month
-        else if (dlCase.equals("1")) {
-          Calendar today = Calendar.getInstance();
-          date1=getDate(today);
-          today.add(Calendar.MONTH, 1);
-          date2=getDate(today);
-        }
-
-        //next 3 months
-        else if (dlCase.equals("2")) {
-          Calendar today = Calendar.getInstance();
-          date1=getDate(today);
-          today.add(Calendar.MONTH, 3);
-          date2=getDate(today);
-        
-        }
-        //next 6 months
-        else if (dlCase.equals("3")) {
-          Calendar today = Calendar.getInstance();
-          date1=getDate(today);
-          today.add(Calendar.MONTH, 6);
-          date2=getDate(today);
-        }
-
-        //passed
-        else if (dlCase.equals("4")) {
-          Calendar today = Calendar.getInstance();
-          date2=getDate(today);
-		  today.add(Calendar.MONTH, -3);
-		  date1=getDate(today);
-        }
-      }
-            
-      if (date1.equals("dd/mm/yyyy"))
-        date1 ="00/00/0000";
-
-      date1=cnvDate(date1);
-
-      //!!!!!!!!!!! fix it
-      if (date2.equals("dd/mm/yyyy"))
-        date2="31/12/9999";
-
-      date2=cnvDate(date2);
-      
-      //if all deadlines we take text deadlines into accout as well otherwqise only date deadlines
-      //queryPars[2][1] = " (NEXT_DEADLINE IS NOT NULL OR NEXT_REPORTING != '') ";
-      queryPars[2][1] = "((NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "') OR NEXT_REPORTING != '') " ;
-      
-      
-      queryPars[3][0] = "ORD";
-      queryPars[3][1] = order ;
-
-      if( issue && deadline )
-        querySource = PREFIX + "csadvanced.xml";
-      else if ( issue )
-        querySource = PREFIX + "csadvanced_issue.xml"; //only issue
-      else 
-        querySource = PREFIX + "csadvanced_deadline.xml"; // only deadline
-
-    }
-
     HttpServletRequest req = params.getRequest();
-    DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, req);
+    DataSource dataSrc = new DataSource();
 
+    //lookup values from rorabrowse.xrs
+    DataSourceIF XMLDataSrc = XMLSource.getXMLSource(PREFIX + "csmain.xrs", req);
+          Enumeration e = XMLDataSrc.getQueries();
+          while (e.hasMoreElements()) 
+            dataSrc.setQuery((QueryStatementIF)e.nextElement());
+            
+     String[][] queryPars= new String[3][2];
+
+     String countryId = params.getParameter("COUNTRY_ID");
+     queryPars[0][0]="COUNTRY_ID";
+     queryPars[0][1]=(Util.nullString(countryId) ? "0": countryId);
+
+     String issueId = params.getParameter("ISSUE_ID");
+     queryPars[1][0]="ISSUE_ID";
+     queryPars[1][1]=(Util.nullString(issueId) ? "0": issueId);
+
+     String clientId = params.getParameter("CLIENT_ID");
+     queryPars[2][0]="CLIENT_ID";
+     queryPars[2][1]=(Util.nullString(clientId) ? "0": clientId);
+          
     dataSrc.setParameters(queryPars);
+    dataSrc.setQuery(new CSSearchStatement(params, false));
+
+
+
+    //dataSrc.setParameters(queryPars);
     addMetaInfo(dataSrc);
     
     return userInfo(req,dataSrc);    
   }
 
-  /**
-  * dd/mm/yyyy -> yyyy-MM-dd
-  */
-  private String cnvDate(String date ){
-    date = date.substring(6) +  date.substring(3,5) +  date.substring(0,2);
-    return date;
-  }
-  private String getDate(Calendar cal ) {
-    String day = Integer.toString( cal.get( Calendar.DATE) );
-    if (day.length() == 1) day  ="0" + day;
-    String month = Integer.toString( cal.get( Calendar.MONTH) +1 );    
-    if (month.length() == 1) month  ="0" + month;        
-    String year = Integer.toString( cal.get( Calendar.YEAR) );    
-    
-    return day + "/" + month + "/" + year;
-  }
-  private void _log(String s ) {
+    protected int setMode() {
+        return FORM_HANDLER;
+    }
+
+  /*private void _log(String s ) {
     System.out.println("================= " + s);
-  }
+  } */
 }

@@ -237,6 +237,37 @@ public interface DbServiceIF  {
   public void harvestParams(String raId) throws ServiceException;
 
 
+  /**
+  * Obligation Ids, sorted 
+  */
+  public String[][] getObligationIds() throws ServiceException;
+  /**
+  * Countries of an obligation
+  * NB! SPATIAL_TYPE='C'
+  */
+  public String[][] getCountries(String raId) throws ServiceException;
+
+  /**
+  * Issues of an obligations 
+  */
+  public String[][] getIssues(String raId) throws ServiceException;
+
+  /**
+  * array [0]-pk_issue_id, [1] - issue_name
+  */
+  public String[][] getIssueIdPairs() throws ServiceException;
+
+  /**
+  * XML/RPC methods for WebRODService
+  */
+  public Vector getROComplete() throws ServiceException;
+  public Vector getROSummary() throws ServiceException;
+  public Vector getRODeadlines() throws ServiceException;  
+
+  /**
+  * LI RSS
+  */
+  public String[][] getInstrumentsRSS() throws ServiceException ;    
 }
 
 

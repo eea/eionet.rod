@@ -132,7 +132,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
    }
 
 
-  public int getActivitiesCountInIssue( String issueId, String raId) throws ServiceException {
+/*  public int getActivitiesCountInIssue( String issueId, String raId) throws ServiceException {
       
       String sqlq = "SELECT COUNT(RA_ID) FROM T_ISSUE_LNK WHERE FK_ISSUE_ID=" + issueId + " AND RA_ID=" + raId ;
       String[][] res = _executeStringQuery(sqlq);
@@ -141,6 +141,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       return cnt;
 
   }
+  */
 
 
 
@@ -641,6 +642,9 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       rplAmp("s.ALIAS", "ALIAS") +"," +
       rplAmp("s.URL", "URL") + "," + rplAmp("s.ABSTRACT", "ABSTRACT") + ", " +
       rplAmp("c.CLIENT_NAME", "ISSUED_BY") + "," +
+      rplAmp("s.LEGAL_NAME", "LEGAL_NAME") + "," +
+      rplAmp("s.CELEX_REF", "CELEX_REF") + "," +
+      " CONCAT('" + rodDomain + "/show.jsv?id=', PK_SOURCE_ID, '&#038;mode=S') AS details_url, " +
       "DATE_FORMAT(s.LAST_UPDATE, '%Y-%m-%d') AS LAST_UPDATE " +
       " FROM T_SOURCE s LEFT OUTER JOIN T_CLIENT c ON s.FK_CLIENT_ID=c.PK_CLIENT_ID ORDER BY s.ALIAS ";
 
@@ -658,9 +662,17 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       
       String sql = "SELECT a.PK_RA_ID, s.PK_SOURCE_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE, " +
         " IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, a.LAST_UPDATE, " +
-        " CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&aid=', FK_SOURCE_ID, '&mode=A') AS details_url, " +
+        " CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&#038;aid=', FK_SOURCE_ID, '&#038;mode=A') AS details_url, " +
         " CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri, " +
-        " IF (TERMINATE='Y', 1, 0) AS 'terminated' "+
+        " IF (TERMINATE='Y', 1, 0) AS 'terminated', a.VALID_SINCE, " +
+          rplAmp("a.RESPONSIBLE_ROLE", "RESPONSIBLE_ROLE") + ", " +
+          rplAmp("a.DESCRIPTION", "DESCRIPTION") + ", " +
+          " a.NEXT_DEADLINE, " +
+        " a.NEXT_DEADLINE2, "  + 
+          rplAmp("a.COMMENT", "COMMENT") + ", " +
+          rplAmp("a.REPORTING_FORMAT", "REPORTING_FORMAT") + ", " +
+          rplAmp("a.FORMAT_NAME", "FORMAT_NAME") + ", " +
+          rplAmp("a.REPORT_FORMAT_URL", "REPORT_FORMAT_URL") + 
         " FROM T_OBLIGATION a , T_SOURCE s " +
         " WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " ;
 
@@ -727,9 +739,10 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   public String[][] getActivityDeadlines() throws ServiceException  {
 
-    String sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, FK_SOURCE_ID " +
-      " FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND " +
-      "NEXT_DEADLINE > '0000-00-00'";
+    String sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, FK_SOURCE_ID, " +
+      rplAmp("DESCRIPTION", "DESRCIPTION")  +
+        " FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND " +
+        "NEXT_DEADLINE > '0000-00-00'";
 
     return _executeStringQuery( sql);
   }
@@ -764,14 +777,16 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
    //if certain issues wanted make a join over ISSUE_LNK   table
    if (ids!= null) {
-    sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID FROM " +
-      " T_OBLIGATION a, T_RAISSUE_LNK il WHERE " +
+    sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
+      rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
+    " FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " +
       "  a.PK_RA_ID = il.FK_RA_ID ";
 
      sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
     }        
     else
-      sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE, NEXT_DEADLINE, FK_SOURCE_ID FROM T_OBLIGATION a";
+      sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE, NEXT_DEADLINE, " +
+      " FK_SOURCE_ID, " + rplAmp("DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION ";
 
     sql += " ORDER BY PK_RA_ID";
 
@@ -941,4 +956,49 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   }
 
+  public String[][] getCountries(String raId) throws ServiceException {
+    String sql="SELECT sl.FK_SPATIAL_ID FROM T_RASPATIAL_LNK sl, T_SPATIAL s " +
+      "WHERE s.SPATIAL_TYPE='C' AND sl.FK_SPATIAL_ID=s.PK_SPATIAL_ID AND sl.FK_RA_ID=" + raId + 
+      " ORDER BY FK_SPATIAL_ID";
+      
+    return _executeStringQuery(sql);
+    
+  }
+  public String[][] getIssues(String raId) throws ServiceException {
+    return _executeStringQuery("SELECT FK_ISSUE_ID FROM T_OBLIGATION o, T_RAISSUE_LNK il " +
+      " WHERE il.FK_RA_ID=o.PK_RA_ID AND il.FK_RA_ID=" + raId + " ORDER BY FK_ISSUE_ID" );
+  }
+
+  public String[][] getObligationIds() throws ServiceException {
+    return _executeStringQuery("SELECT PK_RA_ID FROM T_OBLIGATION ORDER BY PK_RA_ID");
+    
+  } 
+
+  public String[][] getIssueIdPairs() throws ServiceException {
+    return _executeStringQuery("SELECT PK_ISSUE_ID, " + rplAmp("ISSUE_NAME", "ISSUE_NAME") + " FROM T_ISSUE ORDER BY PK_ISSUE_ID");
+  }  
+
+  public Vector getROComplete() throws ServiceException {
+    return _getVectorOfHashes("SELECT * FROM T_OBLIGATION");
+  }
+  public Vector getROSummary() throws ServiceException {
+    return _getVectorOfHashes("SELECT TITLE, LAST_UPDATE, DESCRIPTION, " +
+     "CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID,'&aid=', FK_SOURCE_ID, '&mode=A') AS details_url " +
+     " FROM T_OBLIGATION ");
+  }
+  public Vector getRODeadlines() throws ServiceException {
+    return _getVectorOfHashes("SELECT o.TITLE, c.CLIENT_NAME, " +
+    " IF (o.NEXT_DEADLINE IS NULL, o.NEXT_REPORTING, o.NEXT_DEADLINE) AS NEXT_DEADLINE, "+
+    " o.NEXT_DEADLINE2, o.DATE_COMMENTS FROM T_OBLIGATION o " +
+    "LEFT OUTER JOIN T_CLIENT c ON o.FK_CLIENT_ID=c.PK_CLIENT_ID");
+
+  }  
+
+   public String[][] getInstrumentsRSS() throws ServiceException {
+      String sql = "SELECT PK_SOURCE_ID, " + rplAmp("TITLE", "TITLE") + ", " +
+        "CONCAT('" + rodDomain + "/show.jsv?id=', PK_SOURCE_ID, '&amp;mode=S') AS LINK, " +  
+        rplAmp("COMMENT", "COMMENT") + " FROM T_SOURCE ORDER BY PK_SOURCE_ID ";
+
+      return _executeStringQuery(sql);
+   }
  }

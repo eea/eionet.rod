@@ -78,7 +78,7 @@ public class Harvester extends ROEditServletAC {
       .append("ff.submit();")
       .append("} </script>")
       .append("<body bgcolor=\"#f0f0f0\">")
-      .append("<a href=\"javascript:openHistory('0','H')\"><img src='images/showhistory.png' alt='Show harvesting history' border='0'/></a><br/>")
+      .append("<a href=\"javascript:openPopup('history.jsv', 'id=0&amp;entity=H')\"><img src='images/showhistory.png' alt='Show harvesting history' border='0'/></a><br/>")
       .append("<form align='center' name=\"f\" method=\"POST\" action=\"harvester.jsv\">")
       .append("<b>Select data, you want to be harvested:</b><br/>")
       .append("<input width='200'  type='button' onClick='javascript:harvest(0)' value='All' style=\"width: 200; background-image: url(\'images/bgr_form_buttons_wide.jpg\'); font-family: Verdana; font-size: 10pt; font-weight: bold\"></input>")

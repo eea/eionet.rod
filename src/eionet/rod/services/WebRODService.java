@@ -37,7 +37,7 @@ public  class WebRODService {
   private static DbServiceIF dbSrv;
 
 
- public WebRODService() {}
+   public WebRODService() { }
   
   /**
 	* Returns Activity Ids and Titles
@@ -65,5 +65,21 @@ public  class WebRODService {
     return dbSrv.getCountries();
   } 
 
-
+  public Vector getROComplete() throws ServiceException {
+    if (dbSrv == null )
+      dbSrv = RODServices.getDbService();    
+   return dbSrv.getROComplete();
+  }
+  public Vector getRODeadlines() throws ServiceException {
+    if (dbSrv == null )
+      dbSrv = RODServices.getDbService();
+    return dbSrv.getRODeadlines();
+  }
+  public Vector getROSummary() throws ServiceException {
+    if (dbSrv == null )
+      dbSrv = RODServices.getDbService();    
+   return dbSrv.getROSummary();
+  }
+  
+  
 }

@@ -124,6 +124,7 @@ public interface Constants {
   static final String ROD_URL_EVENTS ="rod.url.events";
   //static final String ROD_URL_OBLIGATIONS ="rod.url.obligations";
   static final String ROD_URL_ACTIVITIES ="rod.url.activities";  
+  static final String ROD_URL_INSTRUMENTS ="rod.url.instruments";  
 
   /**
 * Properties file name
@@ -135,6 +136,11 @@ public interface Constants {
 * Parameter in the props file for LI namespace
 */
   public static final String ROD_LI_NS = "instruments.namespace";
+
+/**
+* Parameter in the props file for issues namespace
+*/
+  public static final String ROD_ISSUES_NS = "issues.namespace";
 
 
 /**

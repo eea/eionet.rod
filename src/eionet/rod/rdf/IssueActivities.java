@@ -74,11 +74,14 @@ public class IssueActivities extends RSSServletAC {
       String title = acts[i][1];
       String date = acts[i][2];
       String link = getActivityUrl(pk, acts[i][3] );
+      String description = acts[i][4];
       
       s.append( "<item rdf:about=\"").append(obligationsNamespace).append("/")
         .append(pk).append("\">")
         .append("<title>").append(title).append("</title>")
-        .append("<link>").append(link).append("</link>");
+        .append("<link>").append(link).append("</link>")
+        .append("<description>").append(description).append("</description>");
+
         if (date != null)
           s.append("<ev:startdate>").append(date).append("</ev:startdate>");
         else

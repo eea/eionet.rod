@@ -2,6 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 <xsl:include href="common.xsl"/>
 
+
 	<xsl:variable name="admin">
 		<xsl:value-of select="//RowSet[position()=1]/@auth"/>
 	</xsl:variable>
@@ -10,6 +11,9 @@
 				<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'COUNTRY_ID='),'&amp;')"/>
 		</xsl:variable>
 
+		<xsl:variable name="sel_client">
+				<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'CLIENT_ID='),'&amp;')"/>
+		</xsl:variable>
 
 		<xsl:variable name="sel_issue">
 			<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'ISSUE_ID='),'&amp;')"/>
@@ -23,7 +27,8 @@
 
 <xsl:template match="XmlData">
 
-<html lang="en"><head><title>Country Services</title>
+<html lang="en">
+<head><title>Country Services</title>
 	<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/><link type="text/css" rel="stylesheet" href="eionet.css"/>
 
 <script language="JavaScript" src="script/util.js"></script>
@@ -31,14 +36,6 @@
 
 <![CDATA[
 
-
-function openCirca(url){
-	var name = "CSCIRCA";
-	var features = "location=yes, menubar=yes, width=750, height=600, top=30, left=50, resizable=yes, SCROLLBARS=YES";
-	var w = window.open( url, name, features);
-	w.focus();
-
-}
 
 	function setOrder(fld) {
 		changeParamInString(document.URL,'ORD',fld)
@@ -50,9 +47,10 @@ function openCirca(url){
 				var picklist = new Array();
 
 				
-			</script>
-			</head>
+</script>
+</head>
 <body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
+
 <xsl:if test="$printmode='N'">
 	<table border="0" width="100%" cellpadding="0" cellspacing="0">
 	<tr>
@@ -82,18 +80,20 @@ function openCirca(url){
 
 	<div style="margin-left:13">
 	
-	<xsl:variable name="oneCountry"><xsl:value-of select="count(child::RowSet[@Name='Dummy']/Row/T_DUMMY)"/></xsl:variable>
 
 	<table border="0" width="98%">
 	<tr><td width="90%">
     <span class="head1"><span lang="en-us">Reporting overview: </span>
-		<xsl:if test="$oneCountry=0">
+		<xsl:if test="$sel_country!='0'">
 			<xsl:value-of select="//RowSet[@Name='CountryData']/Row/T_SPATIAL/SPATIAL_NAME"/>
 		</xsl:if>
-		<xsl:if test="$sel_issue!='' and $sel_issue != '0'">
+		<xsl:if test="$sel_issue!='0' and $sel_issue!=''">
 		 [<xsl:value-of select="//RowSet[@Name='IssueData']/Row/T_ISSUE/ISSUE_NAME"/>] 
  		</xsl:if>
-    </span>
+		<xsl:if test="$sel_client!='0' and $sel_client!='' ">
+		 <br/>for: <xsl:value-of select="//RowSet[@Name='ClientData']/Row/T_CLIENT/CLIENT_NAME"/>
+ 		</xsl:if>
+		</span>
 		</td><td width="*" align="right" valign="top">
 		</td></tr>
 	</table>
@@ -104,11 +104,6 @@ function openCirca(url){
 	<table border="0"><tr>
 	<TD width="771">
 
-		<input type="hidden" name="COUNTRY_ID">
-			<xsl:attribute name="value">
-					<xsl:value-of select="$sel_country"/>
-			</xsl:attribute>
-		</input>
 	<TABLE cellSpacing="0" cellPadding="3" width="100%" border="0">
 			<TR>
 				<TD vAlign="center" width="33%" bgColor="#ffffff" style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #C0C0C0 1px solid; BORDER-TOP: #008080 1px solid;"><FONT face="Verdana" size="1"><B>Select issue:</B></FONT></TD>
@@ -161,10 +156,18 @@ function openCirca(url){
 					</SELECT>
 				</TD>
 				<TD vAlign="center" align="right" style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid">
-					<!--a>
-						<xsl:attribute name="href">javascript:document.forms["ff"].submit()</xsl:attribute>
-						<img src="images/go.png" alt="" border="0"/>
-					</a-->
+
+					<input type="hidden" name="CLIENT_ID">
+						<xsl:attribute name="value">
+							<xsl:value-of select="$sel_client"/>
+						</xsl:attribute>
+					</input>
+					<input type="hidden" name="COUNTRY_ID">
+						<xsl:attribute name="value">
+							<xsl:value-of select="$sel_country"/>
+						</xsl:attribute>
+					</input>
+
 					<xsl:call-template name="go"/>
 				</TD>
 			</TR>
@@ -184,24 +187,21 @@ function openCirca(url){
 						vAlign="center" width="26%" bgColor="#ffffff">
 
 		<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
 			<TR><TD><SPAN class="headsmall"><B><FONT title="Reporting Obligation" face="Verdana" color="#000000" size="1">Reporting Obligation</FONT></B></SPAN></TD>
   				<TD><P align="right"><MAP name="FPMap1"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('T_OBLIGATION.TITLE DESC')"/>
 								<AREA shape="RECT" alt="Sort A-Z"  coords="1,13,16,21" href="javascript:setOrder('T_OBLIGATION.TITLE')"/></MAP>
 								<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap1" border="0"/></P>
 				</TD></TR>
-			</TBODY>
 		</TABLE>
 	</TD>
 
 	<!-- client -->
 	<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="9%" bgColor="#ffffff">
+						vAlign="center" width="15%" bgColor="#ffffff">
 
 		<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Responsible persons" face="Verdana" color="#000000" size="1">Reporting to</FONT></B></SPAN></TD>
+				<TD><SPAN class="headsmall"><B><FONT title="Reporting client" face="Verdana" color="#000000" size="1">Reporting to</FONT></B></SPAN></TD>
 				<TD>
 						<P align="right">
 							<MAP name="FPMap2">
@@ -212,7 +212,6 @@ function openCirca(url){
 						</P>
 					</TD>
 			</TR>
-			</TBODY>
 		</TABLE>
 	</TD>
 	<!-- deadline -->
@@ -220,9 +219,8 @@ function openCirca(url){
 						vAlign="center" width="9%" bgColor="#ffffff">
 
 		<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Title of delivery" face="Verdana" color="#000000" size="1">Deadline</FONT></B></SPAN></TD>
+				<TD><SPAN class="headsmall"><B><FONT title="Date of delivery" face="Verdana" color="#000000" size="1">Deadline</FONT></B></SPAN></TD>
 				<TD>
 						<P align="right">
 							<MAP name="FPMap3">
@@ -233,7 +231,6 @@ function openCirca(url){
 						</P>
 					</TD>
 			</TR>
-			</TBODY>
 		</TABLE>
 	</TD>
 	<!-- dl2 -->
@@ -241,56 +238,48 @@ function openCirca(url){
 		vAlign="center" width="9%" bgColor="#ffffff">
 
 		<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Date of delivery" face="Verdana" color="#000000" size="1">Next DL</FONT></B></SPAN></TD>
+				<TD><SPAN class="headsmall"><B><FONT title="Next deadline" face="Verdana" color="#000000" size="1">Next DL</FONT></B></SPAN></TD>
 				<TD><P align="right"><MAP name="FPMap4"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('DEADLINE2 DESC')"/>
 						<AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('DEADLINE2')"/></MAP>
 						<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap4" border="0"/></P>
 				</TD>
 			</TR>
-			</TBODY>
 		</TABLE>
 	</TD>
+
 	<!-- responsible -->
 	<TD style="BORDER-TOP: #008080 1px solid; BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-		vAlign="center" width="19%" bgColor="#ffffff">
+		vAlign="center" width="13%" bgColor="#ffffff">
 
 		<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Date of delivery" face="Verdana" color="#000000" size="1">Responsible</FONT></B></SPAN></TD>
+				<TD><SPAN class="headsmall"><B><FONT title="Responsible person or role" face="Verdana" color="#000000" size="1">Responsible</FONT></B></SPAN></TD>
 				<TD><P align="right"><MAP name="FPMap5"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('ROLE_DESCR DESC')"/>
 						<AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('ROLE_DESCR')"/></MAP>
 						<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap5" border="0"/></P>
 				</TD>
 			</TR>
-			</TBODY>
 		</TABLE>
 	</TD>
+
 	<!-- empty td -->
 	<TD style="BORDER-TOP: #008080 1px solid; BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 		vAlign="center" width="8%" bgColor="#ffffff">
 
 		<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Date of delivery" face="Verdana" color="#000000" size="1">Deliveries</FONT></B></SPAN>
+				<TD><SPAN class="headsmall"><B><FONT title="Show deliveries in the repository" face="Verdana" color="#000000" size="1">Deliveries</FONT></B></SPAN>
 				</TD>
 				<TD>
-				<!--MAP name="FPMap7"><AREA shape="RECT" alt="" coords="0,0,16,7" href="javascript:setOrder('FK_DELIVERY_COUNTRY_IDS DESC')"/>
-						<AREA shape="RECT" alt=""  coords="1,13,16,21" href="javascript:setOrder('FK_DELIVERY_COUNTRY_IDS')"/></MAP>
-						<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap7" border="0"/-->
 				</TD>
 			</TR>
-			</TBODY>
 		</TABLE>
 	</TD>
-	<xsl:if test="$oneCountry !=0">
+	<xsl:if test="$sel_country='0' or $sel_country=''">
 	<TD style="BORDER-TOP: #008080 1px solid; BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-		vAlign="center" width="*" bgColor="#ffffff">
+		vAlign="center" width="10%" bgColor="#ffffff">
 		<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
 			<TR>
 				<TD><SPAN class="headsmall"><B><FONT title="Date of delivery" face="Verdana" color="#000000" size="1">Country</FONT></B></SPAN></TD>
 				<TD><P align="right"><MAP name="FPMap6"><AREA shape="RECT" alt="" coords="0,0,16,7" href="javascript:setOrder('SPATIAL_NAME DESC')"/>
@@ -298,7 +287,6 @@ function openCirca(url){
 						<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap6" border="0"/></P>
 				</TD>
 			</TR>
-			</TBODY>
 		</TABLE>
 	</TD>
 
@@ -356,6 +344,7 @@ function openCirca(url){
 	</TD>
 	<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top">
 		<span class="smallfont">
+			<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
 			<font>
 			<xsl:choose>
 			<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
@@ -365,17 +354,14 @@ function openCirca(url){
 				<xsl:attribute name="color">#000000</xsl:attribute>
 			</xsl:otherwise>			
 			</xsl:choose>
-			<xsl:value-of select="T_OBLIGATION/DEADLINE"/>
 
-			<!--xsl:choose>
-				<xsl:when test="T_OBLIGATION/DEADLINE != '' ">	
-					<xsl:value-of select="T_OBLIGATION/DEADLINE"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<font color="#006666">
-					<xsl:value-of select="T_OBLIGATION/NEXT_REPORTING"/>
-				</xsl:otherwise>
-			</xsl:choose-->
+			<xsl:call-template name="short">
+				<xsl:with-param name="text" select="T_OBLIGATION/DEADLINE"/>
+				<xsl:with-param name="length">10</xsl:with-param>
+			</xsl:call-template>
+			
+			<!--xsl:value-of select="T_OBLIGATION/DEADLINE"/-->
+
 			</font>
 		</span>&#160;
 	</TD>
@@ -389,34 +375,36 @@ function openCirca(url){
 
 	<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top">
 		<span class="smallfont">
-	<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE != ''">
-			<xsl:choose>
-			<xsl:when test="RESPONSIBLE/ROLE_DESCR=''">
-						<xsl:call-template name="short">
-							<xsl:with-param name="text" select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-',T_SPATIAL/SPATIAL_TWOLETTER)"/>
-							<xsl:with-param name="length">40</xsl:with-param>
-						</xsl:call-template>
-			</xsl:when>
-			<xsl:otherwise>
-			<a>
-			<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_URL"/>')</xsl:attribute>
-						<xsl:call-template name="short">
-							<xsl:with-param name="text" select="RESPONSIBLE/ROLE_DESCR"/>
-							<xsl:with-param name="length">50</xsl:with-param>
-						</xsl:call-template>
-			</a>&#160;
-			<img src="images/details.jpg" alt="Additional details for logged-in users">
-				<xsl:attribute name="onClick">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-			</img>
-			</xsl:otherwise>
-			</xsl:choose>
-	</xsl:if>
+			<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE != ''">
+				<xsl:choose>
+				<xsl:when test="RESPONSIBLE/ROLE_DESCR=''">
+					<xsl:attribute name="title"><xsl:value-of select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-',T_SPATIAL/SPATIAL_TWOLETTER)"/></xsl:attribute>
+					<xsl:call-template name="short">
+						<xsl:with-param name="text" select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-',T_SPATIAL/SPATIAL_TWOLETTER)"/>
+						<xsl:with-param name="length">25</xsl:with-param>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+				<a>
+				<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_URL"/>')</xsl:attribute>
+				<xsl:attribute name="title"><xsl:value-of select="RESPONSIBLE/ROLE_DESCR"/></xsl:attribute>
+							<xsl:call-template name="short">
+								<xsl:with-param name="text" select="RESPONSIBLE/ROLE_DESCR"/>
+								<xsl:with-param name="length">15</xsl:with-param>
+							</xsl:call-template>
+				</a>&#160;
+				<img src="images/details.jpg" alt="Additional details for logged-in users">
+					<xsl:attribute name="onClick">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
+				</img>
+				</xsl:otherwise>
+				</xsl:choose>
+			</xsl:if>
 		</span>&#160;
 	</TD>
 	<TD vAlign="top">
 		<xsl:attribute name="style">
 			<xsl:choose>
-				<xsl:when test="$oneCountry !=0">BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid</xsl:when>
+				<xsl:when test="$sel_country ='0' or $sel_country=''">BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid</xsl:when>
 				<xsl:otherwise>BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid</xsl:otherwise>
 			</xsl:choose>
 		</xsl:attribute>
@@ -434,7 +422,7 @@ function openCirca(url){
 			</xsl:choose>
 		</span>&#160;
 	</TD>
-	<xsl:if test="$oneCountry !=0">
+	<xsl:if test="$sel_country='0' or $sel_country=''">
 	<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top">
 		<span class="smallfont">
 				<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
@@ -446,10 +434,7 @@ function openCirca(url){
 
 </xsl:if>
 <!-- end of table row -->
-	<tr><td>
-		<xsl:attribute name="colspan">
-			<xsl:value-of select="6+$oneCountry"/>
-		</xsl:attribute>
+	<tr><td colspan="6">
 		<br/>
 		
 		<xsl:variable name="recCount"><xsl:value-of select="count(child::RowSet[@Name='Main']/Row/T_OBLIGATION)"/></xsl:variable>

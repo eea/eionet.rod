@@ -33,8 +33,9 @@ import com.tee.xmlserver.Parameters;
 import com.tee.xmlserver.DataSourceIF;
 import com.tee.xmlserver.XSQLException;
 import com.tee.xmlserver.XMLSource;
+import eionet.rod.ROServletAC;
 
-public class Deliveries extends CSServletAC {
+public class Deliveries extends ROServletAC { // CSServletAC {
   protected String setXSLT(HttpServletRequest req) {
       return PREFIX + "csdeliveries.xsl";
    }
