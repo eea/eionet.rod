@@ -5,7 +5,7 @@
          xmlns:rdfs='http://www.w3.org/2000/01/rdf-schema#'>
 
   <eor:Schema rdf:about=''>
-    <rdf:value>Obligations schema</rdf:value>
+    <rdfs:label>Obligations schema</rdfs:label>
   </eor:Schema>
 
   <rdfs:Class rdf:ID='Obligation'>
