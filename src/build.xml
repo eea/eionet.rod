@@ -1,0 +1,19 @@
+<project name="webrod" default="compile" basedir=".">
+
+  <!-- set global properties for this build -->
+  <property name="src" value="."/>
+  <property name="classes.dir" value="../WEB-INF/classes"/>
+
+  <target name="compile">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac debug="on" deprecation="off" srcdir="${src}" destdir="${classes.dir}"
+		   classpath="../WEB-INF/lib/xmlserver.jar;../WEB-INF/lib/uit-client.jar;../WEB-INF/lib/servlet.jar"/>
+  </target>
+
+
+	<target name="buildjar" depends="compile"> 
+    <jar basedir="${classes.dir}" jarfile="../WEB-INF/lib/rod.jar"/>  
+  </target>
+
+</project>
+
