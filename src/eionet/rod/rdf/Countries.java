@@ -54,9 +54,11 @@ public class Countries extends RDFServletAC {
       Hashtable act = (Hashtable)countries.elementAt(i);
       String uri = (String)act.get("uri");
       String name = (String)act.get("name");
+      String iso = (String)act.get("iso");
 
       s.append("<rod:Locality rdf:about='").append(uri).append("'>")
         .append("<rdfs:label>").append(name).append("</rdfs:label>")
+        .append("<rod:loccode>").append(iso).append("</rod:loccode>")
         .append("</rod:Locality>");
 
     }
