@@ -204,7 +204,7 @@
 			
 			<!-- KL 031013 -->
 			<tr valign="top">
-				<td nowrap="true" colspan="4"><span class="head0">Spatial coverage:
+				<td nowrap="true" colspan="4"><span class="head0">Countries reporting formally:
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_SPATIALCOVERAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</span></td>
 			</tr>
@@ -622,7 +622,7 @@
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='SpatialType']">
-		<select name="spatial_type" onchange="fillclist(this.options[this.selectedIndex].value,document.f.spatial_list);">
+		<select name="spatial_type" onchange="fillclist(this.options[this.selectedIndex].value,document.f.spatial_list);" style="visibility:hidden" disabled="true">
 			<xsl:for-each select="T_LOOKUP">
 				<option>
 					<xsl:attribute name="value">
