@@ -10,7 +10,7 @@
 	</context-param>
 	<context-param>
 		<param-name>log-level</param-name>
-		<param-value>9</param-value>
+		<param-value>4</param-value>
 	</context-param>
 	<context-param>
 		<param-name>module-cache</param-name>
@@ -264,6 +264,10 @@
 		<servlet-name>rorabrowse</servlet-name>
 		<url-pattern>/rorabrowse.jsv</url-pattern>
 	</servlet-mapping>
+	<session-config>
+	      <session-timeout>600</session-timeout>    <!-- minutes -->
+	</session-config>
+
 	<!-- the application server might allow directory listing.
        The welcome-files are used to overcome workings of such feature 
   -->
