@@ -307,7 +307,7 @@ function delObligation() {
 		</div>
 	</xsl:template>
 
-	<xsl:template match="//RowSet[@Name='EnvIssue']">
+	<!--xsl:template match="//RowSet[@Name='EnvIssue']">
 		<xsl:for-each select="Row/T_ISSUE">
 		<xsl:choose>
 			<xsl:when test="position()!=count(//RowSet[@Name='EnvIssue']/Row/T_ISSUE)">
@@ -315,7 +315,7 @@ function delObligation() {
 			</xsl:when>
 			<xsl:otherwise><xsl:value-of select="ISSUE_NAME"/></xsl:otherwise>
 		</xsl:choose></xsl:for-each>
-	</xsl:template>
+	</xsl:template-->
 
 	<xsl:template match="//RowSet[@Name='EnvRaIssue']">
 		<xsl:for-each select="Row/T_ISSUE">

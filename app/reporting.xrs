@@ -75,14 +75,14 @@
 		<xrs:Ordering>NEXT_REPORTING</xrs:Ordering>
 		<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
 	</xrs:RowSet>
-	<xrs:RowSet name="EnvIssue">
+	<!--xrs:RowSet name="EnvIssue">
 		<T_ISSUE_LNK/>
 		<T_ISSUE relation="T_ISSUE_LNK.FK_ISSUE_ID=T_ISSUE.PK_ISSUE_ID">
 			<ISSUE_NAME/>
 		</T_ISSUE>
 		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
 		<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
-	</xrs:RowSet>
+	</xrs:RowSet-->
 	<xrs:RowSet name="EnvRaIssue" distinct="true">
 		<T_ACTIVITY/>
 		<T_RAISSUE_LNK relation="T_ACTIVITY.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID"/>
