@@ -928,7 +928,7 @@
 		</select>
 	</xsl:template>
 
-	<xsl:template match="SubSet[@Name='LnkPar']">
+	<!--xsl:template match="SubSet[@Name='LnkPar']">
 		<select multiple="true" size="9" style="width:300"  width="300">
 			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='LnkPar']/@XPath"/>/Row/T_PARAMETER_LNK/FK_PARAMETER_ID</xsl:attribute><xsl:for-each select="Row"><option>
 				<xsl:attribute name="value">
@@ -940,9 +940,9 @@
 				</option>
 			</xsl:for-each>
 		</select>
-	</xsl:template>
+	</xsl:template-->
 
-	<xsl:template match="RowSet[@Name='PARAMETER']">
+	<!--xsl:template match="RowSet[@Name='PARAMETER']">
 		<script language="JavaScript">
 			<xsl:for-each select="//RowSet[@Name='ParamGroup']/Row/T_PARAM_GROUP">
 				picklist.push("<xsl:value-of select="PK_GROUP_ID"/>:<xsl:value-of select="GROUP_NAME"/>:<xsl:value-of select="GROUP_TYPE"/>");
@@ -979,7 +979,7 @@
 		<script language="JavaScript">
 			fillMultilist(document.f.param_group.options[0].value,document.f.par_list)
 		</script>
-	</xsl:template>
+	</xsl:template-->
 
 
 	<xsl:template match="RowSet[@Name='Client']">
@@ -1010,7 +1010,7 @@
 	</xsl:template>
 
 
-	<xsl:template match="RowSet[@Name='ParamGroup']">
+	<!--xsl:template match="RowSet[@Name='ParamGroup']">
 		<xsl:for-each select="//RowSet[@Name='ParamGroup']/Row/T_PARAM_GROUP">
 			<option>
 				<xsl:attribute name="value">
@@ -1018,7 +1018,7 @@
 				</xsl:attribute>
 			<xsl:value-of select="GROUP_NAME"/></option>
 		</xsl:for-each>
-	</xsl:template>
+	</xsl:template-->
 
 	<xsl:template match="SubSet[@Name='VoluntaryCountries']">
 		<select multiple="true" size="9" style="width:240"  width="240">

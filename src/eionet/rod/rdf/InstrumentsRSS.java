@@ -75,7 +75,7 @@ public class InstrumentsRSS extends RSSServletAC {
       String link = lis[i][2];
       String description = lis[i][3];
       
-      s.append( "<item rdf:about=\"").append(instrumentsNamespace).append("/")
+      s.append( "<item rdf:about=\"").append(instrumentsNamespace)
         .append(pk).append("\">")
         .append("<title>").append(title).append("</title>")
         .append("<link>").append(link).append("</link>")

@@ -174,7 +174,6 @@ public class ActivityHandler extends ROHandler {
          setDateValue(gen, "RM_VERIFIED");
          gen.setFieldExpr("LAST_UPDATE", "CURDATE()");
 
-System.out.println("===================== " + gen.updateStatement());
          defaultProcessing(gen, null);
          id = recordID;
 

@@ -138,14 +138,5 @@
 		</xsl:for-each>
 	</xsl:template>
 
-	<xsl:template match="RowSet[@Name='ParamGroup']">
-		<xsl:for-each select="Row/T_PARAM_GROUP">
-			<option>
-				<xsl:attribute name="value">
-					<xsl:value-of select="PK_GROUP_ID"/>:<xsl:value-of select="GROUP_NAME"/>
-				</xsl:attribute>
-			<xsl:value-of select="GROUP_NAME"/></option>
-		</xsl:for-each>
-	</xsl:template>
 
 </xsl:stylesheet>

@@ -532,27 +532,6 @@
 		</xsl:for-each>&#160;
 	</xsl:template>
 
-	<xsl:template match="SubSet[@Name='Parameter']">
-		<xsl:if test="count(Row)>0">
-		<table width="100%" colspan="5" border="1">
-			<tr>
-				<td bgcolor="#646666"><span class="head0"><font color="white">Nr</font></span></td>
-				<td bgcolor="#646666"><span class="head0"><font color="white">Parameter</font></span></td>
-			</tr>
-			<xsl:for-each select="Row">
-				<tr>
-					<td>
-						<xsl:number format="1."/>
-					</td>
-					<td>
-						<xsl:value-of select="T_PARAMETER/PARAMETER_NAME"/>
-					</td>
-				</tr>
-			</xsl:for-each>
-		</table>
-		</xsl:if>
-	</xsl:template>
-
 	<xsl:template name="OtherClients">
 		<table cellpadding="0" cellspacing="0">
 			<xsl:for-each select="SubSet[@Name='CCClients']/Row/T_CLIENT">

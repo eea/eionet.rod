@@ -224,8 +224,8 @@
 				<TD>
 						<P align="right">
 							<MAP name="FPMap3">
-								<AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('NEXT_DEADLINE, NEXT_REPORTING DESC')"/>
-								<AREA shape="RECT" alt="Sort A-Z"  coords="1,13,16,21" href="javascript:setOrder('NEXT_DEADLINE, NEXT_REPORTING')"/>
+								<AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('NEXT_REPORTING, NEXT_DEADLINE DESC')"/>
+								<AREA shape="RECT" alt="Sort A-Z"  coords="1,13,16,21" href="javascript:setOrder('NEXT_REPORTING, NEXT_DEADLINE')"/>
 							</MAP>
 							<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap3" border="0"/>
 						</P>

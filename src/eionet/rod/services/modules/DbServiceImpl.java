@@ -313,7 +313,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
 
   private void _log(String s) {
-  	logger.debug("*********** " + s);
+	if (logger.enable(logger.DEBUG))
+	  	logger.debug(s);
   }
 
   /*public String[][] getActivityIds() throws ServiceException {
