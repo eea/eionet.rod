@@ -100,7 +100,7 @@
 		<tr height="30" valign="top">
 			<td></td>
 			<td align="right"><b>Country:</b></td>
-			<td align="left"><xsl:value-of select="XmlData/RowSet/Row/T_SPATIAL/SPATIAL_NAME"/></td>
+			<td align="left"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/COUNTRY"/></td>
 		</tr>
 		<tr height="30" valign="top">
 			<td></td>

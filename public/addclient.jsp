@@ -90,13 +90,8 @@
 				</tr>
 				<tr>
 					<td align="right"><b>Country:&#160;</b></td>
-					<td align="left" >
-						<select name="/XmlData/RowSet/Row/T_CLIENT/FK_SPATIAL_ID" width="40" style="width:263">
-							<option value="0" selected="true"></option>
-							<% for (int i=0; i< countries.length; i++) { %>
-								<option value="<%=countries[i][0]%>"><%=countries[i][1]%></option>
-							<% } %>
-						</select>
+					<td align="left">
+						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/COUNTRY" size="40" maxlength="255"></input>
 					</td>
 				</tr>
 				<tr>
