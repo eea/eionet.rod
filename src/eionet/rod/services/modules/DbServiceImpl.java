@@ -893,7 +893,12 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 	*/
 
   public  Vector getActivities(  ) throws ServiceException {
-      String sql = "SELECT PK_RA_ID, TITLE FROM T_ACTIVITY ";
+      //String sql = "SELECT PK_RA_ID, TITLE FROM T_ACTIVITY ";
+      String sql = "SELECT a.PK_RA_ID, s.PK_SOURCE_ID, a.TITLE as TITLE, " +
+        " IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE " +
+        " FROM T_ACTIVITY a , T_SOURCE s WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " +
+        " AND a.TERMINATE = 'N' ORDER BY SOURCE_TITLE, TITLE;";
+        
       return  _getVectorOfHashes(sql);
   }
 
