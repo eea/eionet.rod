@@ -40,7 +40,14 @@
 
 	<xsl:template match="/">
    	<html lang="en">
-			<head>
+		<head>
+		<META http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="title" content="EEA - Reporting Obligations Database" />
+		<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that 		countries have towards international organisations." />
+		<meta name="keywords" content="reporting obligations, environmental legislation, environmental reporting, environmental dataflows, European Environment 		Agency, EEA, European, Environmental information, Environmental portal, Eionet, Reportnet, air, waste, water, biodiversity" />
+		<meta name="Publisher" content="EEA, The European Environment Agency" />
+		<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
+
 				<title><xsl:call-template name="PageTitle"/></title>
 				<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=ISO-8859-1"/>
 				<!--<link type="text/css" rel="stylesheet" href="http://www.eionet.eu.int/eionet.css">-->
@@ -88,7 +95,7 @@ function openActionTypeHistory(MODE,TYPE){
 
 	var url = "history.jsv?entity=" + TYPE + "&mode=" + MODE;
 	var name = "History";
-	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var features = "location=no, menubar=no, width=700, height=400, top=100, left=100, scrollbars=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 
@@ -122,7 +129,7 @@ function openClient(ID){
 
 	var url = "client.jsv?id=" + ID;
 	var name = "Client";
-	var features = "location=no, menubar=no, width=640, height=600, top=50, left=200, scrollbars=yes, resizable=yes";
+	var features = "location=no, menubar=no, width=650, height=500, top=50, left=50, scrollbars=no, resizable=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 

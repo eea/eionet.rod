@@ -50,14 +50,14 @@
 		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="Client" distinct="true">
-		<T_REPORTING>
-			<FK_CLIENT_ID/>
-		</T_REPORTING>
-		<T_CLIENT relation="T_REPORTING.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID" reltype="outer">
+		<T_CLIENT>
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME expression="CONCAT(LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
 		</T_CLIENT>
-		<xrs:Constraint>T_REPORTING.FK_CLIENT_ID IS NOT NULL AND FK_CLIENT_ID != 0</xrs:Constraint>
+		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID">
+		</T_CLIENT_LNK>
+		<T_REPORTING relation="T_REPORTING.PK_RO_ID=T_CLIENT_LNK.FK_OBJECT_ID">
+		</T_REPORTING>
 		<xrs:Ordering>CLIENT_NAME</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="Spatial">

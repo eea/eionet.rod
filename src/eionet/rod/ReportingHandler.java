@@ -33,7 +33,7 @@ import com.tee.uit.security.AccessControlListIF;
 /**
  * <P>Handler to store WebROD obligation data.</P>
  *
- * <P>Database tables updated: T_REPORTING, T_SPATIAL_LNK. In case of delete also activities
+ * <P>Database tables updated: T_REPORTING, T_SPATIAL_LNK, T_CLIENT_LNK. In case of delete also activities
  * (and the related) data will be deleted.</P>
  *
  * @see ActivityHandler
@@ -44,6 +44,7 @@ import com.tee.uit.security.AccessControlListIF;
 
 public class ReportingHandler extends ActivityHandler {
    private Vector spatialCont = new Vector();
+   private Vector clientCont = new Vector();
 
    protected final void DELETE_RO(String roID, boolean delSelf) {
       // cascade deleted related activitiess
@@ -74,6 +75,9 @@ public class ReportingHandler extends ActivityHandler {
       updateDB("DELETE FROM T_INFORMATION WHERE FK_RO_ID=" + roID);
       // delete reporting obligation itself
       updateDB("DELETE FROM T_REPORTING WHERE PK_RO_ID=" + roID);
+
+      //client_lnk
+      updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='R' AND FK_OBJECT_ID=" + roID);
       HistoryLogger.logObligationHistory(roID,this.user.getUserName(), DELETE_RECORD, ""); 
       }
    }
@@ -119,6 +123,19 @@ public class ReportingHandler extends ActivityHandler {
         
 
       if (tblName.equals("T_REPORTING")) {
+
+		if (state != INSERT_RECORD) 
+	        updateDB("DELETE FROM T_CLIENT_LNK WHERE FK_OBJECT_ID= " + gen.getFieldValue("PK_RO_ID")  + " AND " +
+            " TYPE='R'");
+
+
+		  /*if (state != DELETE_RECORD && !gen.getFieldValue("FK_CLIENT_ID").equals("0"))
+	          updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, STATUS, TYPE) " +
+		        " VALUES ( " + gen.getFieldValue("FK_CLIENT_ID") + ", " + gen.getFieldValue("PK_RO_ID") +
+			    ", 'M', 'R')");            */
+
+
+
          if (state != INSERT_RECORD) {
             gen.setPKField("PK_RO_ID");
             id = gen.getFieldValue("PK_RO_ID");
@@ -150,21 +167,41 @@ public class ReportingHandler extends ActivityHandler {
          
          setDateValue(gen, "RM_NEXT_UPDATE");
          setDateValue(gen, "RM_VERIFIED");
+
+         String mainClientId=gen.getFieldValue("FK_CLIENT_ID");
+        //System.out.println("========= u " + gen.updateStatement());
          defaultProcessing(gen, null);
           
          id = recordID;
+		//Logger.log("================== ID=" + id);
+
+		 if (state != DELETE_RECORD && !gen.getFieldValue("FK_CLIENT_ID").equals("0"))
+			updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, STATUS, TYPE) " +
+		        " VALUES ( " + gen.getFieldValue("FK_CLIENT_ID") + ", " + id +
+			    ", 'M', 'R')");     
+
         //log history
         //HistoryLogger.logObligationHistory(id, this.user.getUserName(), state, gen.getFieldValue("ALIAS"));
         logHistory(gen);
          
          if (servlet != null)
             servlet.setCurrentID(id);
+
+
+            
       }
       else if (tblName.equals("T_SPATIAL_LNK")) {
        if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
           spatialCont.add(gen.clone());
        else
         return false;
+      }
+      else if (tblName.equals("T_CLIENT_LNK")) {
+        if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
+          clientCont.add(gen.clone());
+        else
+          return false;
+
       }
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing
@@ -178,9 +215,30 @@ public class ReportingHandler extends ActivityHandler {
            spatialGen.setField("FK_RO_ID", id);
 
            updateDB(spatialGen.insertStatement());
+
+           
          }
          spatialCont.clear();
       }
+      //client lnk
+      if ( (id != null) && (!clientCont.isEmpty()) ) {
+      
+         for (int i=0; i < clientCont.size(); i++) {
+           SQLGenerator clientGen = (SQLGenerator)clientCont.get(i);
+           String value = clientGen.getFieldValue("FK_CLIENT_ID");
+           //String id = getID(value);
+           
+           clientGen.setField("FK_CLIENT_ID", value.substring( value.indexOf(":") +1));
+           clientGen.setField("FK_OBJECT_ID", id);
+           clientGen.setField("STATUS", "C");
+           clientGen.setField("TYPE", "R");           
+            //System.out.println("================I: " + clientGen.insertStatement());
+
+           updateDB(clientGen.insertStatement());
+         }
+         clientCont.clear();
+      }
+      
       return true;
    }
 

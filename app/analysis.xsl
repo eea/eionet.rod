@@ -54,12 +54,18 @@
 			<tr><td>&#160;</td></tr>
 		</table>
 		<div style="margin-left:13">
-		<div class="head1">Database Content Statistics</div>
+		<table width="97%" border="0">  
+			<tr>
+				<td width="70%" align="left"><div class="head1">Database Content Statistics</div></td>
+				<td width="30%" align="right"><xsl:call-template name="Print"/></td>
+			</tr>
+		</table>
 		<br/>
 		<xsl:value-of select="RowSet[@Name='RAAnalysis']/Row/T_ACTIVITY/TOTAL_RA"/> Reporting Activity records (last update: <xsl:value-of select="RowSet[@Name='RAAnalysis']/Row/T_ACTIVITY/RA_UPDATE"/>)<br/>
 		<xsl:value-of select="RowSet[@Name='ROAnalysis']/Row/T_REPORTING/TOTAL_RO"/> Reporting Obligation records (last update: <xsl:value-of select="RowSet[@Name='ROAnalysis']/Row/T_REPORTING/RO_UPDATE"/>)<br/>
 		<xsl:value-of select="RowSet[@Name='LIAnalysis']/Row/T_SOURCE/TOTAL_LI"/> Legal Instrument records (last update: <xsl:value-of select="RowSet[@Name='LIAnalysis']/Row/T_SOURCE/LI_UPDATE"/>)
 		</div>
+
 		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
 

@@ -99,7 +99,7 @@ public class SearchStatement extends QueryStatement implements Constants {
       vFields = new Vector();
       vTables = new Vector();
 
-      if (mode.equals(REPORTING_MODE)) {
+/*      if (mode.equals(REPORTING_MODE)) {
          vTables.add(new TableInfo("T_REPORTING"));
          vFields.add(new FieldInfo("PK_RO_ID", "T_REPORTING"));
          vFields.add(new FieldInfo("ALIAS", "T_REPORTING"));
@@ -108,31 +108,35 @@ public class SearchStatement extends QueryStatement implements Constants {
          vFields.add(new FieldInfo("TITLE", "T_SOURCE"));
          vFields.add(new FieldInfo("ALIAS", "T_SOURCE"));
          vFields.add(new FieldInfo("URL", "T_SOURCE"));
-		 vFields.add(new FieldInfo("CELEX_REF", "T_SOURCE"));
-		 vFields.add(new FieldInfo("SOURCE_CODE", "T_SOURCE"));
+      	 vFields.add(new FieldInfo("CELEX_REF", "T_SOURCE"));
+    		 vFields.add(new FieldInfo("SOURCE_CODE", "T_SOURCE"));
          vFields.add(new FieldInfo("FK_CLIENT_ID", "T_REPORTING")); //KL030213
-      }
-      else {
-         vTables.add(new TableInfo("T_ACTIVITY"));
+      } */
+  //    else {
+
+         vTables.add(new TableInfo("T_REPORTING")); //, "T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID", TableInfo.INNER_JOIN));
+         vFields.add(new FieldInfo("PK_RO_ID", "T_REPORTING"));
+         vFields.add(new FieldInfo("ALIAS", "T_REPORTING"));
+
+         vTables.add(new TableInfo("T_ACTIVITY", "T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID", TableInfo.OUTER_JOIN));
          vFields.add(new FieldInfo("PK_RA_ID","T_ACTIVITY"));
          vFields.add(new FieldInfo("TITLE","T_ACTIVITY"));
          vFields.add(new FieldInfo("NEXT_REPORTING","T_ACTIVITY"));
          vFields.add(new FieldInfo("NEXT_DEADLINE","T_ACTIVITY"));
          vFields.add(new FieldInfo("FK_RO_ID","T_ACTIVITY"));
          vFields.add(new FieldInfo("TERMINATE","T_ACTIVITY"));
-		 vFields.add(new FieldInfo("TERMINATE","T_ACTIVITY")); //KL030609
-         vTables.add(new TableInfo("T_REPORTING", "T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID", TableInfo.INNER_JOIN));
-         vFields.add(new FieldInfo("PK_RO_ID", "T_REPORTING"));
-         vFields.add(new FieldInfo("ALIAS", "T_REPORTING"));
+    		 vFields.add(new FieldInfo("TERMINATE","T_ACTIVITY")); //KL030609
+         
          vTables.add(new TableInfo("T_SOURCE", "T_SOURCE.PK_SOURCE_ID = T_REPORTING.FK_SOURCE_ID", TableInfo.OUTER_JOIN));
          vFields.add(new FieldInfo("PK_SOURCE_ID", "T_SOURCE"));
          vFields.add(new FieldInfo("TITLE", "T_SOURCE"));
          vFields.add(new FieldInfo("ALIAS", "T_SOURCE"));
          vFields.add(new FieldInfo("URL", "T_SOURCE"));
-		 vFields.add(new FieldInfo("CELEX_REF", "T_SOURCE"));
-		 vFields.add(new FieldInfo("SOURCE_CODE", "T_SOURCE"));
+         vFields.add(new FieldInfo("CELEX_REF", "T_SOURCE"));
+    		 vFields.add(new FieldInfo("SOURCE_CODE", "T_SOURCE"));
          vFields.add(new FieldInfo("FK_CLIENT_ID", "T_REPORTING")); //KL030213
-      }
+
+     // }
 
       _Pair env_issue, country, river, sea, lake, param_group, rotype, client;
       String source;

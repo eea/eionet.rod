@@ -23,8 +23,10 @@
  * Original Code: Ander Tenno (TietoEnator)
  * -->
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:java="http://xml.apache.org/xslt/java" version="1.0">
 
+	<xsl:param name="req" select="'default value'"/>
+	<xsl:variable name="printmode" select="java:eionet.rod.RODUtil.getParameter($req, 'printmode')"/>
 
 	<xsl:template name="LIRORAFooter">
 		<xsl:param name="table"/>
@@ -45,12 +47,12 @@
 		<script language="JavaScript" src="script/util.js"></script>
 
 		<table>
-			<tr height="50"><td></td>
+			<tr height="20"><td></td>
 			</tr>
 			<tr>
 				<td width="600" align="center">
 									<span class="barfont">
-									| <a href="javascript:history.back()">Back</a>
+									<a href="javascript:history.back()">Back</a>
 									| <a href="mailto:rod@eea.eu.int">E-mail</a> 
 									| <a>
 											<xsl:attribute name="href">
@@ -104,7 +106,7 @@
 												<xsl:call-template name="Feedback_URL"/>
 											</xsl:attribute>
 									Feedback </a>
-									| <a href="javascript:openPrintable()">Printable Page</a>
+									<!--a href="javascript:openPrintable()">Printable Page</a-->
 									</span>
                   </td>
 
@@ -121,14 +123,26 @@
             </tr>
 				</table>
 	</xsl:template>
+	<xsl:template name="Print">
+		<xsl:if test="$printmode !='Y'">
+			<img src="images/printerfriendly.png" onClick="javascript:openPrintable()" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'" />
+		</xsl:if>
+	</xsl:template>
 
 	<xsl:template name="Help">
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
-		<map name="{$id}">
-			<area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="View Help"></area>
-		</map>
-		&#160;<img src="images/bb_help.png" usemap="#{$id}" border="0"></img>
+		<xsl:param name="green">N</xsl:param>
+		<xsl:choose>
+			<xsl:when test="contains($green, 'Y')">
+				<map name="{$id}"><area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="Show help for this form"></area></map>
+				<img src="images/gb_help.png" usemap="#{$id}" border="0"></img>
+			</xsl:when>
+			<xsl:otherwise>
+				<map name="{$id}"><area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="Help for logged-in users"></area></map>
+				<img src="images/bb_help.png" usemap="#{$id}" border="0"></img>
+			</xsl:otherwise>
+		</xsl:choose>
 		<xsl:call-template name="EditHelp">
 			<xsl:with-param name="id"><xsl:value-of select="$id"/></xsl:with-param>
 			<xsl:with-param name="perm"><xsl:value-of select="$perm"/></xsl:with-param>
@@ -139,9 +153,10 @@
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
 		<map name="{$id}">
-			<area shape="rect" tabindex="-1" coords="0,0,120,17" href="javascript:openViewHelp('{$id}')" alt="View Help"></area>
+			<area shape="rect" tabindex="-1" coords="0,0,120,17" href="javascript:openViewHelp('{$id}')" alt="Context sensitive help"></area>
 		</map>
-		&#160;<img src="images/bb_helpoverview.png" usemap="#{$id}" border="0"></img>
+		<img src="images/bb_helpoverview.png" usemap="#{$id}" border="0"></img>
+		&#160;
 		<xsl:call-template name="EditHelp">
 			<xsl:with-param name="id"><xsl:value-of select="$id"/></xsl:with-param>
 			<xsl:with-param name="perm"><xsl:value-of select="$perm"/></xsl:with-param>
@@ -151,7 +166,7 @@
 	<xsl:template name="EditHelp">
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
-		<xsl:if test="contains($perm, ',Helptext:u,')='true'">
+		<xsl:if test="contains($perm, ',/Admin/Helptext:u,')='true'">
 			<map name="{$id}_Edit">
 				<area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openHelp('{$id}')" alt="Edit help text"></area>
 			</map>
@@ -178,17 +193,17 @@
 					</a>
 				</td></tr>
 				<tr><td align="right">
-					<a href="rorabrowse.jsv?mode=R" onMouseOver="Over('img1')" onMouseOut="Out('img1')" onClick="Click('img1')">
+					<a href="rorabrowse.jsv?mode=A" onMouseOver="Over('img1')" onMouseOut="Out('img1')" onClick="Click('img1')">
 						<img name="img1" src="images/off.gif" border="0" alt=""/>
 						<img src="images/button_obligations.gif" border="0" width="84" height="13" alt="Reporting Obligations"/>
 					</a>
 				</td></tr>
-				<tr><td align="right">
+				<!--tr><td align="right">
 					<a href="rorabrowse.jsv?mode=A" onMouseOver="Over('img4')" onMouseOut="Out('img4')" onClick="Click('img4')">
 						<img name="img4" src="images/off.gif" border="0" alt=""/>
 						<img src="images/button_activities.gif" border="0" width="84" height="13" alt="Reporting Activities"/>
 					</a>
-				</td></tr>
+				</td></tr-->
 				<tr><td align="right">
 					<a href="deliveries.jsv" onMouseOver="Over('img8')" onMouseOut="Out('img8')" onClick="Click('img8')">
 						<img name="img8" src="images/off.gif" border="0" alt=""/>

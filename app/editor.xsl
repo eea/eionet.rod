@@ -60,7 +60,6 @@ if ((navigator.appName.substring(0,5) == "Netsc"
 } */
 
 function openAddClientWin() {
-	//window.open('addclient.html','sInfo','height=338,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
 	window.open('addclient.jsp','sInfo','height=450,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
 }
 
@@ -94,7 +93,7 @@ function checkStatus() {
 	if (isChanged) {
 		var mode = document.f.elements["dom-update-mode"];
 		if (mode == 'D') mode = 'U';
-		save("Save data?");
+		save("Save data?", false);
 	}
 }
 var selects = new Array();
@@ -114,17 +113,22 @@ function compField(txt, fld) {
 	compulsory[compulsory.length] = pair;
 }
 
-function save() {
-	return save(null);
-}
+/*function save() {
+	//return save(null,true);
+} */
 
 function del() {
 	document.f.elements["dom-update-mode"].value="D";
-	save();
+	save(null,false);
 }
 
-function save(text) {
+/*function save(txt) {
+	save(txt,true);
+} */
+
+function save(text,silent) {
 	var i, j;
+	//alert("save");
 	var mode = document.f.elements["dom-update-mode"];
 	var bDelete = (mode.value == 'D');
 
@@ -135,15 +139,15 @@ function save(text) {
 			return false;
 		}
 	}
-		
 	
 	if (text == null) {
 		text = (mode.value != 'D' ? "Save data?" 	: "Delete record?");
 		//text = "Do you want to " + text;
 	}
 
-	if (confirm(text) == false)
-		return false;
+	if (!silent)
+		if (confirm(text) == false)
+			return false;
 
 	if (!bDelete) {
 		// check once more all values before sending to server
@@ -169,10 +173,10 @@ function save(text) {
 			selValues(selects[i][0]);
 		}
 	}//end-if !bDelete
-		
+
 
 	document.f.submit();
-	
+	//alert("submit ok");	
 	isChanged = false;
 
 	return true;
@@ -295,6 +299,73 @@ function mvValues(selFrom, selTo, unit) {
 		}
 		else if (browser == 'N') {
 			selFrom[selected[i]] = null;
+		}
+	}
+}
+
+/**
+* KL
+*/
+function addFullValues(selFrom, selTo) {
+	var i, j, count = 0;
+	var optsLen;
+	var newVal, newText;
+	
+	isChanged = true;
+
+	var selected = new Array();
+
+	for (i = 0; i < selFrom.length; ++i) {
+		if (selFrom[i].selected) {
+			var exists;
+			exists = false;
+			for (j = 0;j < selTo.length; ++j) {
+				var s,x;
+				s = new String(selTo[j].value);
+				u = new String("");
+
+/*				if (s.indexOf(":") > -1) {
+					u = s.substr(s.indexOf(":")+1);
+					s = s.substring(0,s.indexOf(":"));
+				} */
+
+					if (s.valueOf() == selFrom[i].value) {
+						exists = true;
+						break;
+					}
+			}
+			if (!exists) {
+				selected[count++] = i;
+	
+				newVal = selFrom[i].value;
+
+				var pos = newVal.indexOf(':');
+				/*if (pos > 0) {
+					newVal = newVal.substr(0, pos);
+				} */
+				
+				newText = selFrom[i].text;
+				pos = newText.indexOf('[');
+				if (pos > 1) {
+					newText = newText.substr(0, pos - 1); // strip leading space as well
+				}
+				/*if (unit != null && unit.text.length > 0) {
+					newVal = newVal + ':' + unit.value;
+					newText = newText + ' [' + unit.text + ']';
+				} */
+	
+				// add to
+				if (browser == 'E') {
+					var opt = document.createElement("option");
+					selTo.add(opt);
+					opt.text = newText;
+					opt.value = newVal;
+				}
+				else if (browser == 'N') {
+					var opt = new Option(newText, newVal, false, false);
+					selTo[selTo.length] = opt;
+				}
+			}
 		}
 	}
 }
@@ -599,15 +670,15 @@ function ddmmyyyyDate(dat) {
 
 function checkAndSave(first, freq, next, textrep, to, terminate) {
 	if(textrep.value.length == 0 && (first.value.length == 0 || to.value.length == 0 || freq.value.length == 0)) {
-		alert("Both Reporting Date (Text Format) and one or more of normal reporting date fields (First Reporting, Valid To, Reporting Frequency) are empty. One of them must be used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
+		alert("Both Reporting Date (Text Format) and one or more of normal reporting date fields (Baseline Reporting Date, Valid To, Reporting Frequency) are empty. One of them must be used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
 		return;
 	}
 	else if(textrep.value.length != 0 && next.value.length != 0) {
-		alert("Both Reporting Date (Text Format) and normal reporting date fields (First Reporting, Valid To, Reporting Frequency) are used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
+		alert("Both Reporting Date (Text Format) and normal reporting date fields (Baseline Reporting Date, Valid To, Reporting Frequency) are used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
 		return;
 	}
 	else if(next.value.length == 0 && first.value.length != 0 && to.value.length != 0 && freq.value.length != 0) {
-		alert("Unable to calculate next due date. Please make sure you have entered valid date (dd/mm/yyyy format) in First Reporting field and whole number (0 for non-repeating reporting) in Reporting Frequency in Months field.");
+		alert("Unable to calculate next due date. Please make sure you have entered valid date (dd/mm/yyyy format) in Baseline Reporting Date field and whole number (0 for non-repeating reporting) in Reporting Frequency in Months field.");
 		return;
 	}
 	
@@ -619,7 +690,7 @@ function checkAndSave(first, freq, next, textrep, to, terminate) {
 	}		
 
 	next.disabled = false;
-	save();
+	save(null,false);
 }
 
 //-->
@@ -632,7 +703,7 @@ function checkAndSave(first, freq, next, textrep, to, terminate) {
 			<!-- MAIN table -->
 			<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
-			  <td width="130" bgcolor="#FFB655" valign="top"><img src="images/top1.jpg" height="113" width="130" alt=""/></td>
+			  <td width="130" valign="top"><img src="images/top1.jpg" height="113" width="130" alt=""/></td>
 			  <td width="20" valign="top"><img height="113" width="20" src="images/top2.jpg" alt=""/></td>
 			  <td width="621" valign="top"> 
 			    <table border="0" cellpadding="0" cellspacing="0">

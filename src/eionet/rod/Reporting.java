@@ -29,6 +29,7 @@ import javax.servlet.http.*;
 import com.tee.xmlserver.*;
 import com.tee.util.*;
 import javax.servlet.ServletException;
+import eionet.rod.services.RODServices;
 
 /**
  * <P>Reporting obligations editor servlet class.</P>
@@ -66,6 +67,15 @@ public class Reporting extends ROEditServletAC {
       if ( Util.nullString(sid) )
          throw new GeneralException(null, "Missing parameter '" + AID_PARAM + "'");
 
+
+      //quick fix !! 
+      /*try {
+      if (id.equals("MAX"))
+        id=RODServices.getDbService().getMaxROId();
+      } catch (Exception e ) {
+        throw new XSQLException (e,"Error getting id=" + e.toString());
+      } */
+        
       String[][] queryPars = {{"ID", id}, {"SID", sid}};   
 
 	  HttpServletRequest req = params.getRequest();
@@ -103,12 +113,11 @@ public class Reporting extends ROEditServletAC {
          conn = (user != null) ? user.getConnection() : null;
          if (conn == null)
             throw new XSQLException(null, "Not authenticated user");
-/*
-System.out.println("==================================================");
-System.out.println("= DOGET ");
-System.out.println("==================================================");
-*/
-         //checkPermissions(req);      
+			/*
+			System.out.println("==================================================");
+			System.out.println("= DOGET ");
+			System.out.println("==================================================");
+			*/
 
          try {
             stmt = conn.createStatement();
@@ -172,6 +181,10 @@ System.out.println("= AppdOPOST ");
 System.out.println("==================================================");
 */
         //checkPermissions(req);  
+
+		String reDirect=req.getParameter("silent");
+		reDirect=(reDirect==null ? "0" : reDirect);
+
       
          String location = "show.jsv?" + 
             ((curRecord != null) ?
@@ -181,10 +194,15 @@ System.out.println("==================================================");
                "id=" + req.getParameter("/XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/FK_SOURCE_ID") + 
                "&mode=S");
          // DBG         
+		//Logger.log("========== Redirecting to " + reDirect);
          if (Logger.enable(5))
             Logger.log("Redirecting to " + location);
          //
-         res.sendRedirect(location);
+		 if (reDirect.equals("0"))
+	         res.sendRedirect(location);
+		 else
+		    res.sendRedirect("reporting.jsv?id=" + curRecord + "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/FK_SOURCE_ID") );
+
       } catch(java.io.IOException e) {
          throw new XSQLException(e, "Error in redirection");
      /* } catch(ServletException se) {
@@ -200,41 +218,5 @@ System.out.println("==================================================");
 
    private static final String SPATIALS =
       "T_SPATIAL_LNK.FK_SPATIAL_ID FROM T_SPATIAL_LNK WHERE T_SPATIAL_LNK.FK_RO_ID=";
-/*
-  private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
-    String mode = null;
-    
-    String userName = getUser(req).getUserName();
-    
-    //String id = req.getParameter( ID_PARAM );
-    String upd = req.getParameter( FormHandlerIF.MODE_PARAM );
-    upd = (upd==null ? "" : upd);
-    //id = (id==null ? "" : id); //not needed?
 
-System.out.println("==================================================");
-System.out.println("= UPD " + upd);
-System.out.println("==================================================");
-    
-    if ( upd.equals("A"))
-      mode = Constants.ACL_INSERT_PERMISSION;
-    else if ( upd.equals("D"))
-      mode = Constants.ACL_DELETE_PERMISSION;
-    else if ( upd.equals("U"))
-      mode = Constants.ACL_UPDATE_PERMISSION;
-System.out.println("==================================================");
-System.out.println("= MODE " + mode);
-System.out.println("==================================================");
-         
-    boolean b = false;
-    try {
-      b = getAcl(Constants.ACL_RO_NAME).checkPermission( userName, mode );
-    } catch ( Exception e ) {
-      throw new XSQLException (e, "Error getting user rights ");
-    }
-
-    if (!b)
-      throw new XSQLException (null, "No permission to perform the action, user = " + userName);
-
-    
-  } */
 }

@@ -45,6 +45,9 @@ import com.tee.uit.security.AccessControlListIF;
 public class SourceHandler extends ReportingHandler {
 
    private void DELETE_SOURCE(String srcID, boolean delSelf, boolean updateMode) {
+      if ( delSelf)
+        updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND FK_OBJECT_ID=" + srcID);   
+        
       updateDB("DELETE FROM T_SOURCE_LNK WHERE CHILD_TYPE='S' AND FK_SOURCE_CHILD_ID=" + srcID);
       if(!updateMode)
          updateDB("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + srcID);
@@ -97,26 +100,16 @@ public class SourceHandler extends ReportingHandler {
         return false;
       }
 
-/*      if (state == INSERT_RECORD && !ins )
-        return false;
-      if (state == DELETE_RECORD && !del )
-        return false;
-      if (state == MODIFY_RECORD && !upd )
-        return false;  */
-/*
-System.out.println("============================= SOURCE HANDLER ========");
-System.out.println("============================= state " + state );
-System.out.println("============================= ins " + ins);
-System.out.println("============================= upd " + upd);
-System.out.println("============================= del " + del);
-*/
-
       if (tblName.equals("T_SOURCE")) {
+
+          
          if (state != INSERT_RECORD) {
              
             gen.setPKField("PK_SOURCE_ID");
             id = gen.getFieldValue("PK_SOURCE_ID");
             // delete all linked parameter and medium records and in delete mode also the self record
+		    updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND STATUS = 'M' AND FK_OBJECT_ID=" + id);
+
             boolean delSelf = (state == DELETE_RECORD);
 
             if (delSelf && !del)
@@ -143,6 +136,11 @@ System.out.println("============================= del " + del);
          setDateValue(gen, "RM_VERIFIED");
          defaultProcessing(gen, null);
          id = recordID;
+
+
+          updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, TYPE, STATUS) VALUES " +
+             " ( " + gen.getFieldValue("FK_CLIENT_ID") + "," + id + ", 'S', 'M')");
+
 
         logHistory(gen);
           

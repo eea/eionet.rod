@@ -6,7 +6,20 @@
 	<xsl:variable name="admin">
 		<xsl:value-of select="//RowSet[position()=1]/@auth"/>
 	</xsl:variable>
+		
+		<xsl:variable name="sel_country">
+				<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'COUNTRY_ID='),'&amp;')"/>
+		</xsl:variable>
 
+
+		<xsl:variable name="sel_issue">
+			<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'ISSUE_ID='),'&amp;')"/>
+			<!--xsl:value-of select="translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'env_issue='),'%3A'),'&amp;'),'+',' ')"/-->
+		</xsl:variable>
+
+		<xsl:variable name="sel_period">
+			<xsl:value-of select="substring-after(/XmlData/xml-query-string,'DEADLINES=')"/>
+		</xsl:variable>
 
 
 <xsl:template match="XmlData">
@@ -37,9 +50,8 @@ function openCirca(url){
 
 
 ]]>
-var browser = document.all ? 'E' : 'N';
-
-var picklist = new Array();
+				var browser = document.all ? 'E' : 'N';
+				var picklist = new Array();
 
 				
 			</script>
@@ -123,18 +135,17 @@ var picklist = new Array();
 	</xsl:if>
 	</xsl:variable-->
 	<table border="0" width="98%">
-	<tr><td width="475">
+	<tr><td width="90%">
     <span class="head1"><span lang="en-us">Reporting overview: </span>
 		<xsl:if test="$oneCountry=0">
-			<xsl:value-of select="RowSet/Row/T_SPATIAL/SPATIAL_NAME"/>
+			<!--xsl:value-of select="RowSet/Row/T_SPATIAL/SPATIAL_NAME"/-->
+			<xsl:value-of select="//RowSet[@Name='CountryData']/Row/T_SPATIAL/SPATIAL_NAME"/>
 		</xsl:if>
+		<xsl:if test="$sel_issue!='' and $sel_issue != '0'">
+		 [<xsl:value-of select="//RowSet[@Name='IssueData']/Row/T_ISSUE/ISSUE_NAME"/>] 
+ 		</xsl:if>
     </span>
 		</td><td width="*" align="right" valign="top">
-		<!--a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt="Advanced search"/></a><br/-->
-		<!--span class="head0">&#160;&#160;&#160;
-			<a href="cssearch">[Advanced search]</a>
-			<a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt="Advanced search"/></a><br/>
-		</span-->
 		</td></tr>
 	</table>
 	<!-- 6 -->
@@ -143,72 +154,78 @@ var picklist = new Array();
 	<!-- 7 -->
 	</div>
 	<!-- 8 -->
-<table><tr>
-<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-          width="771">
+<form name="ff" method="get" action="csmain">
+<table border="0"><tr>
+<TD width="771">
 
 <!--b>x:</b><xsl:value-of select="$selIssue"/-->
-<form name="ff" method="get" action="csmain">
 	<input type="hidden" name="COUNTRY_ID">
 		<xsl:attribute name="value">
-			<xsl:choose>
+				<xsl:value-of select="$sel_country"/>
+			<!--xsl:choose>
 			<xsl:when test="$oneCountry=0 and RowSet/Row/T_SPATIAL/PK_SPATIAL_ID != '' ">
 				<xsl:value-of select="RowSet/Row/T_SPATIAL/PK_SPATIAL_ID"/>
 			</xsl:when>
 			<xsl:otherwise>0</xsl:otherwise>
-			</xsl:choose>
+			</xsl:choose-->
 		</xsl:attribute>
 	</input>
-<TABLE cellSpacing="0" cellPadding="3" width="100%" border="1">
-	<TBODY>
+<TABLE cellSpacing="0" cellPadding="3" width="100%" border="0">
 		<TR>
-			<TD vAlign="center" width="34%" bgColor="#ffffff"><FONT face="Verdana" size="1"><B>Select issue:</B></FONT>
-			</TD>
-			<TD vAlign="center" width="23%" bgColor="#ffffff"><B><FONT face="Verdana" size="1">Select deadline:</FONT></B></TD>
-			<TD vAlign="center" width="21%" bgColor="#ffffff">&#160;</TD>
-			<TD vAlign="center" width="22%" bgColor="#ffffff">
+			<TD vAlign="center" width="33%" bgColor="#ffffff" style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #C0C0C0 1px solid; BORDER-TOP: #008080 1px solid;"><FONT face="Verdana" size="1"><B>Select issue:</B></FONT></TD>
+			<TD vAlign="center" width="19%" bgColor="#ffffff" style="BORDER-TOP: #008080 1px solid;"><B><FONT face="Verdana" size="1">Select deadline:</FONT></B></TD>
+			<TD vAlign="center" width="7%" bgColor="#ffffff" style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid;">
 				<P align="right">
-				<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSMAIN1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSMAIN1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 				<!--IMG height="16" alt="[ HELP ]" src="images/help_green.png" width="16" border="0"/--> 
 				</P>
 			</TD>
+			<TD vAlign="top" align="right" width="41%" rowspan="2">
+				<xsl:call-template name="Print"/><br/><br/>
+				<a>
+					<xsl:attribute name="href">cssearch</xsl:attribute>
+					<img src="images/bb_advsearch.png" alt="" border="0"/>
+				</a>
+			</TD>
 		</TR>
 		<TR>
-			<TD vAlign="center" width="34%">
-				<SELECT style="FONT-SIZE: 8pt; WIDTH: 207px; COLOR: #000000; HEIGHT: 23px; BACKGROUND-COLOR: #ffffff"  size="1" name="ISSUE_ID" height="20">
+			<TD vAlign="center" style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #C0C0C0 1px solid; BORDER-BOTTOM: #008080 1px solid">
+				<SELECT style="FONT-SIZE: 8pt; WIDTH: 240px; COLOR: #000000; HEIGHT: 23px; BACKGROUND-COLOR: #ffffff"  size="1" name="ISSUE_ID" height="20">
 									<OPTION value="0" selected="true">All issues</OPTION>
 									<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 				</SELECT>
 			</TD>
-			<TD vAlign="center" width="23%">
+			<TD vAlign="center" style="BORDER-BOTTOM: #008080 1px solid">
 				<SELECT style="FONT-SIZE: 8pt; WIDTH: 129px; COLOR: #000000; HEIGHT: 33px; BACKGROUND-COLOR: #ffffff" size="1" name="DEADLINES"> 
-					<OPTION value="0" selected="true">All deadlines</OPTION> 
-					<OPTION value="1">In the next month</OPTION> 
-					<OPTION value="2">In the next 3 months</OPTION> 
-					<OPTION value="3">In the next 6 months</OPTION> 
-					<OPTION value="4">Previous months</OPTION>
+					<OPTION value="0">
+						<xsl:if test="$sel_period='' or $sel_period='0'"> 
+							<xsl:attribute name="selected"/>
+						</xsl:if>
+					All deadlines
+					</OPTION> 
+					<OPTION value="1">
+						<xsl:if test="$sel_period='1'"> 
+							<xsl:attribute name="selected"/>
+						</xsl:if>
+					In the next month</OPTION> 
+					<OPTION value="2"><xsl:if test="$sel_period='2'"><xsl:attribute name="selected"/></xsl:if>
+							In the next 3 months</OPTION> 
+					<OPTION value="3"><xsl:if test="$sel_period='3'"><xsl:attribute name="selected"/></xsl:if>In the next 6 months</OPTION> 
+					<OPTION value="4"><xsl:if test="$sel_period='4'"><xsl:attribute name="selected"/></xsl:if>Previous months</OPTION>
 				</SELECT>
 			</TD>
-			<TD vAlign="center" width="21%">
-                  <P align="left"><INPUT style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; FONT-WEIGHT: bold; FONT-SIZE: 8pt; BORDER-LEFT: #008080 1px solid; COLOR: #008080; BORDER-BOTTOM: #008080 1px solid; FONT-FAMILY: Verdana; BACKGROUND-COLOR: #cbdcdc" type="submit" value="GO" name="B3"/></P>
+			<TD vAlign="center" align="right" style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid">
+				<a>
+					<xsl:attribute name="href">javascript:document.forms["ff"].submit()</xsl:attribute>
+					<img src="images/go.png" alt="" border="0"/>
+				</a>
 			</TD>
-					<TD vAlign="center" width="22%">
-					<TABLE cellSpacing="0" cellPadding="0" width="100%" border="0">
-          <TBODY>
-                    <TR>
-                      <TD style="BORDER-RIGHT: #003366 1px solid; BORDER-TOP: #003366 1px solid; BORDER-LEFT: #003366 1px solid; BORDER-BOTTOM: #003366 1px solid" 
-                      width="100%" bgColor="#ffffff" height="18">
-					<P align="center"><B><FONT face="Verdana" size="1"><A href="cssearch">Advanced search</A></FONT></B></P></TD></TR></TBODY>
-					</TABLE>
-					
-					</TD>
-			</TR>
-			</TBODY>
-			</TABLE>
-	</form>
+		</TR>
+		</TABLE>
 	</TD>
 	</tr>
 	</table>
+	</form>
 
 	&#160;
 	<table width="777" cellspacing="0" border="0">
@@ -222,8 +239,8 @@ var picklist = new Array();
 		<TABLE cellSpacing="0" width="100%" border="0">
 			<TBODY>
 			<TR><TD><SPAN class="headsmall"><B><FONT title="Reporting Activity" face="Verdana" color="#000000" size="1">Reporting Activity</FONT></B></SPAN></TD>
-  				<TD><P align="right"><MAP name="FPMap1"><AREA shape="RECT" alt="Sort by country" coords="0,0,16,7" href="javascript:setOrder('T_ACTIVITY.TITLE DESC')"/>
-								<AREA shape="RECT" alt=""  coords="1,13,16,21" href="javascript:setOrder('T_ACTIVITY.TITLE')"/></MAP>
+  				<TD><P align="right"><MAP name="FPMap1"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('T_ACTIVITY.TITLE DESC')"/>
+								<AREA shape="RECT" alt="Sort A-Z"  coords="1,13,16,21" href="javascript:setOrder('T_ACTIVITY.TITLE')"/></MAP>
 								<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap1" border="0"/></P>
 				</TD></TR>
 			</TBODY>
@@ -241,8 +258,8 @@ var picklist = new Array();
 				<TD>
 						<P align="right">
 							<MAP name="FPMap2">
-								<AREA shape="RECT" alt="" coords="0,0,16,7" href="javascript:setOrder('CLIENT_NAME DESC')"/>
-								<AREA shape="RECT" alt=""  coords="1,13,16,21" href="javascript:setOrder('CLIENT_NAME')"/>
+								<AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('CLIENT_NAME DESC')"/>
+								<AREA shape="RECT" alt="Sort A-Z"  coords="1,13,16,21" href="javascript:setOrder('CLIENT_NAME')"/>
 							</MAP>
 							<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap2" border="0"/>
 						</P>
@@ -262,8 +279,8 @@ var picklist = new Array();
 				<TD>
 						<P align="right">
 							<MAP name="FPMap3">
-								<AREA shape="RECT" alt="" coords="0,0,16,7" href="javascript:setOrder('DEADLINE DESC')"/>
-								<AREA shape="RECT" alt=""  coords="1,13,16,21" href="javascript:setOrder('DEADLINE')"/>
+								<AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('DEADLINE DESC')"/>
+								<AREA shape="RECT" alt="Sort A-Z"  coords="1,13,16,21" href="javascript:setOrder('DEADLINE')"/>
 							</MAP>
 							<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap3" border="0"/>
 						</P>
@@ -280,8 +297,8 @@ var picklist = new Array();
 			<TBODY>
 			<TR>
 				<TD><SPAN class="headsmall"><B><FONT title="Date of delivery" face="Verdana" color="#000000" size="1">Next DL</FONT></B></SPAN></TD>
-				<TD><P align="right"><MAP name="FPMap4"><AREA shape="RECT" alt="" coords="0,0,16,7" href="javascript:setOrder('DEADLINE2 DESC')"/>
-						<AREA shape="RECT" alt=""  coords="1,13,16,21" href="javascript:setOrder('DEADLINE2')"/></MAP>
+				<TD><P align="right"><MAP name="FPMap4"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('DEADLINE2 DESC')"/>
+						<AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('DEADLINE2')"/></MAP>
 						<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap4" border="0"/></P>
 				</TD>
 			</TR>
@@ -296,8 +313,8 @@ var picklist = new Array();
 			<TBODY>
 			<TR>
 				<TD><SPAN class="headsmall"><B><FONT title="Date of delivery" face="Verdana" color="#000000" size="1">Responsible</FONT></B></SPAN></TD>
-				<TD><P align="right"><MAP name="FPMap5"><AREA shape="RECT" alt="" coords="0,0,16,7" href="javascript:setOrder('ROLE_NAME DESC')"/>
-						<AREA shape="RECT" alt=""  coords="1,13,16,21" href="javascript:setOrder('ROLE_NAME')"/></MAP>
+				<TD><P align="right"><MAP name="FPMap5"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('ROLE_NAME DESC')"/>
+						<AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('ROLE_NAME')"/></MAP>
 						<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap5" border="0"/></P>
 				</TD>
 			</TR>
@@ -428,7 +445,7 @@ var picklist = new Array();
 			<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_URL"/>')</xsl:attribute>
 				<xsl:value-of select="RESPONSIBLE/ROLE_NAME"/>
 			</a>&#160;
-			<img src="images/button_role.gif" alt="Log in to CIRCA and see all role details">
+			<img src="images/button_role.png" alt="Additional details for logged-in users">
 				<xsl:attribute name="onClick">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
 			</img>
 			</xsl:otherwise>
@@ -471,7 +488,7 @@ var picklist = new Array();
 			<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_URL"/>')</xsl:attribute>
 				<xsl:value-of select="RESPONSIBLE/ROLE_NAME"/>
 			</a>
-			<img src="images/button_role.gif" alt="Log in to CIRCA and see all the information">
+			<img src="images/button_role.png" alt="Log in to CIRCA and see all the information">
 				<xsl:attribute name="onClick">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
 			</img>
 			</xsl:otherwise>
@@ -570,12 +587,13 @@ var picklist = new Array();
 </xsl:template>
 
 	<xsl:template match="RowSet[@Name='EnvIssue']">
+
 		<xsl:for-each select="Row/T_ISSUE">
 			<option>
 				<xsl:attribute name="value"><xsl:value-of select="PK_ISSUE_ID"/></xsl:attribute>
-				<!--xsl:attribute name="selected">
-					<xsl:if test="/XmlData/RowSet[@Name='Main']/Row/T_RAISSUE_LNK/FK_ISSUE_ID=PK_ISSUE_ID">true</xsl:if>
-				</xsl:attribute-->
+					<xsl:if test="PK_ISSUE_ID=$sel_issue">
+							<xsl:attribute name="selected"/>
+					</xsl:if>
 				<xsl:value-of select="ISSUE_NAME"/>
 			</option>
 		</xsl:for-each>

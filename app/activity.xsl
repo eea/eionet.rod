@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -122,18 +121,6 @@ function delActivity() {
 				<span class="head1">Details of reporting activity</span>
 			</td></tr>
 		</table>
-		<!--xsl:if test="T_ACTIVITY/FK_DELIVERY_COUNTRY_IDS != ''">
-			<table width="600">
-				<tr valign="top">
-					<td width="500">
-					</td>
-					<td>
-						<a><xsl:attribute name="href">javascript:openDeliveries('1','2')</xsl:attribute>
-							 <img src="images/bb_show_deliveries.png" alt="Add a new reporting activity" border="0"/></a>
-					</td>
-				</tr>
-			</table>
-		</xsl:if-->
 		<table cellspacing="7pts" width="600" border="0">
 			<tr valign="top">
 				<td width="22%"><span class="head0">Title:</span></td>
@@ -147,41 +134,46 @@ function delActivity() {
 						</xsl:otherwise>
 					</xsl:choose>
 				</td>
-<!-- DGB -->
-<!--xsl:value-of select="$permissions"/-->
-				<td align="right" nowrap="true" rowspan="3">
-					<!--xsl:if test="$admin='true'"-->
-					<xsl:if test="T_ACTIVITY/FK_DELIVERY_COUNTRY_IDS != ''">
-						<a><xsl:attribute name="href">javascript:openDeliveries('<xsl:value-of select="$ra-id"/>','%%')</xsl:attribute>
-							 <img src="images/bb_show_deliveries.png" alt="Show status of deliveries for this RA" border="0"/></a><br/>
+			<!-- DGB -->
+			<!--xsl:value-of select="$permissions"/-->
+				<td width="*" align="right" rowspan="3" >
+					<table width="100%">
+					<tr>
+					<td>
+						<xsl:call-template name="Print"/>  <br/><br/>
+						<xsl:if test="T_ACTIVITY/FK_DELIVERY_COUNTRY_IDS != ''">
+							<a><xsl:attribute name="href">javascript:openDeliveries('<xsl:value-of select="$ra-id"/>','%%')</xsl:attribute>
+							 <img src="images/bb_show_deliveries.png" alt="Show the status of country deliveries" border="0"/></a><br/>
+						</xsl:if>
+					</td>
+					</tr>
+					<tr><td align="center">
+					<xsl:if test="$admin='true'">
+						<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
+						<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
+						<b><font color="#FFFFFF">Actions</font></b><br/><br/>
 					</xsl:if>
-
 					<xsl:if test="contains($permissions, ',/RA:i,')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
-							<img src="images/newactivity.png" alt="Add a new reporting activity" border="0"/></a><br/>
+							<img src="images/newactivity.png" alt="Create a new reporting activity" border="0"/></a><br/>
 						</xsl:if>
 						<xsl:if test="contains($permissions, ',/RA:u,')='true'">
-						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute><img src="images/editactivity.png" alt="Edit reporting activity" border="0"/></a><br/>
+						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute><img src="images/editactivity.png" alt="Edit this activity" border="0"/></a><br/>
 						</xsl:if>
 						<xsl:if test="contains($permissions, ',/RA:d,')='true'">
-						<a href="javascript:delActivity()"><img src="images/deleteactivity.png" alt="Delete reporting activity" border="0"/></a><br/>
+						<a href="javascript:delActivity()"><img src="images/deleteactivity.png" alt="Delete this activity" border="0"/></a><br/>
 					</xsl:if>				
 					<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 					<a>
 					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ra-id"/>', 'A')</xsl:attribute>
-					<img src="images/showhistory.png" alt="Show history" border="0"/>
+					<img src="images/showhistory.png" alt="Show history of changes" border="0"/>
 					</a><br/>
 					</xsl:if>				
+					</td>
+					</tr>
+					</table>
 				</td>
 			</tr>
-			<!-- Remove after moving this field to footer
-			<tr valign="top">
-				<td width="22%"><span class="head0">Document last modifed:</span></td>
-				<td colspan="2">
-					<xsl:value-of select="T_ACTIVITY/LAST_UPDATE"/>
-				</td>
-			</tr>
-			-->
 			<tr valign="top">
 				<td width="22%"><span class="head0">Parent reporting obligation:</span></td>
 				<td width="60%">
@@ -229,8 +221,8 @@ function delActivity() {
 				</td>
 			</tr>
 			<tr valign="top">
-				<td width="22%"><span class="head0">First report due:</span></td>
-				<td colspan="2">
+				<td width="22%"><span class="head0">Baseline reporting date:</span></td>
+				<td>
 					<xsl:value-of select="T_ACTIVITY/FIRST_REPORTING"/>
 				</td>
 			</tr>
@@ -238,30 +230,6 @@ function delActivity() {
 				<tr valign="top">
 					<td width="22%"><span class="head0">Reporting frequency:</span></td>
 					<td colspan="2">
-							<!--xsl:choose>
-							<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
-								<xsl:choose>
-								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '0'">
-									One time only
-								</xsl:when>
-								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '1'">
-									Monthly
-								</xsl:when>
-								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '12'">
-									Annually
-								</xsl:when>
-								<xsl:when test="string-length(T_ACTIVITY/NEXT_DEADLINE) = 0">
-									&#160;
-								</xsl:when>
-								<xsl:otherwise>
-									Every <xsl:value-of select="T_ACTIVITY/REPORT_FREQ_MONTHS"/> months
-								</xsl:otherwise>
-								</xsl:choose>
-							</xsl:when>
-							<xsl:otherwise>
-								<font color="red">terminated</font>
-							</xsl:otherwise>
-						</xsl:choose--> 
 						<xsl:call-template name="RAReportingFrequency"/>
 					</td>
 				</tr>
@@ -270,9 +238,6 @@ function delActivity() {
 				<td width="22%"><span class="head0">Next report due:</span></td>
 				<td colspan="2">
 					<xsl:choose>
-						<!--xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
-						<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
-						</xsl:when-->
 						<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
 							<xsl:choose>
 							<xsl:when test="string-length(T_ACTIVITY/NEXT_REPORTING) = 0">
@@ -296,19 +261,15 @@ function delActivity() {
 				</td>
 			</tr>
 			<tr valign="top">
-				<td width="22%"><span class="head0">Responsible for reporting (Eionet role):</span></td>
+				<td width="22%"><span class="head0">National Reporting contacts:</span></td>
 				<td colspan="2">
 					<xsl:choose>
 					<xsl:when test="T_ROLE/ROLE_ID!=''">
 						<a>
 							<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_URL"/>')</xsl:attribute>
-							<xsl:attribute name="title"><xsl:value-of select="T_ROLE/ROLE_NAME"/></xsl:attribute>
-							<xsl:value-of select="T_ROLE/ROLE_ID"/>
-						</a>
-						&#160; <img src="images/button_role.gif" alt="Log to CIRCA and see role information for members">
-							<xsl:attribute name="onClick">
-								javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_MEMBERS_URL"/>')
-							</xsl:attribute>
+							<xsl:value-of select="T_ROLE/ROLE_NAME"/> (<xsl:value-of select="T_ROLE/ROLE_ID"/>)</a>
+						&#160;<img src="images/button_role.png" alt="Additional details for logged-in users">
+							<xsl:attribute name="onClick">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
 						</img>
 					</xsl:when>
 					<xsl:otherwise>
@@ -346,7 +307,14 @@ function delActivity() {
 					<xsl:choose>
 						<xsl:when test="T_ACTIVITY/REPORT_FORMAT_URL != ''">
 							<a>	<xsl:attribute name="href"><xsl:value-of select="T_ACTIVITY/REPORT_FORMAT_URL"/></xsl:attribute>
-							<xsl:value-of select="T_ACTIVITY/FORMAT_NAME"/>
+							<xsl:choose>
+								<xsl:when test="T_ACTIVITY/FORMAT_NAME != ''">								
+									<xsl:value-of select="T_ACTIVITY/FORMAT_NAME"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="T_ACTIVITY/REPORT_FORMAT_URL"/>
+								</xsl:otherwise>
+							</xsl:choose>
 							</a>
 						</xsl:when>
 						<xsl:otherwise>

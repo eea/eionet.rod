@@ -99,7 +99,9 @@
 				<td nowrap="true" width="160"><b>Short name:</b>
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ALIASNAME</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
-				<td colspan="5"><textarea rows="4" cols="55" wrap="soft" width="570" style="width:570" onChange="changed()">
+				<td colspan="5">
+
+					<textarea rows="4" cols="55" wrap="soft" width="570" style="width:570" onChange="changed()">
 					<xsl:attribute name="name"><xsl:value-of select="ALIAS/@XPath"/></xsl:attribute>
 					<xsl:value-of select="ALIAS"/></textarea></td>
 			</tr>
@@ -132,9 +134,11 @@
 					</input-->
 
 					<xsl:variable name="selIssuer">
-							<xsl:value-of select="FK_CLIENT_ID"/>
+							<xsl:value-of select="../T_CLIENT_LNK/FK_CLIENT_ID"/>
 					</xsl:variable>
+			
 				<select  width="500" style="width:500" maxlength="255" onChange="changeIssuer(this)">
+
 					<xsl:attribute name="name"><xsl:value-of select="FK_CLIENT_ID/@XPath"/></xsl:attribute>
 						<option value=''></option>
 						<xsl:for-each select="//RowSet[@Name='Issuer']/Row">
@@ -151,9 +155,9 @@
 						</xsl:for-each>
 				</select>
 				<map name="newIssuerMap">
-					<area alt="Add a new client" shape="rect" coords="0,0,25,25" href="javascript:openAddClientWin()"></area>
+					<area alt="Add a new client to client list" shape="rect" coords="0,0,25,25" href="javascript:openAddClientWin()"></area>
 				</map>
-				<img border="0" height="25" width="25" src="images/new.gif" usemap="#newIssuerMap"></img>
+				<img border="0" height="17" width="40" src="images/bb_new.png" usemap="#newIssuerMap"></img>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -332,7 +336,7 @@
 			<hr width="700"/>
 			<div style="margin-left:20">
 				<table cellspacing="7"><tr>
-					<td><input type="button" onclick="save()" value="Save changes" width="100" style="width:100"/></td>
+					<td><input type="button" onclick="save(null,false)" value="Save changes" width="100" style="width:100"/></td>
 			             <td><input type="button" onclick='history.back()' value="Exit"/></td>
 <!--					<td><input type="button" onclick="add()" value="New record" width="100" style="width:100"/></td>
 

@@ -82,15 +82,10 @@ function openHistory(ID,TYPE) {
 			</head>
 <body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
 
-	<table  cellspacing="0" cellpadding="0" border="0"><tr valign="top">
-	<td></td>
 
-	<td>
-
-	<div style="margin-left:13">
-
-	<table border="0" width="525">
-		<tr valign="top"><td width="400" align="right">
+	<table border="0" width="100%">
+		<tr valign="top">
+		<td width="100%" align="center">
 		<span class="head0">
 			<xsl:choose>
 				<xsl:when test="$action-type='I'">
@@ -117,19 +112,20 @@ function openHistory(ID,TYPE) {
 			</xsl:choose>
 		</span>
    </td>
-	 <!--td align="left"><b> ID=<xsl:value-of select="XmlData/RowSet/Row/T_HISTORY/ITEM_ID"/> </b></td-->
 	 </tr>
 	 </table>
-	 <br/><div style="margin-left:20"><table cellspacing="7pts"></table></div>
+	 <br/>
 	 
-<table width="525" cellspacing="7pts">
+
+<table width="100%" cellspacing="3pts" border="1">
 
 
 <tr>
-<td bgcolor="#646666" align="center" width="75"><span class="head0"><font color="#FFFFFF">Item ID</font></span></td>
-<td bgcolor="#646666" align="center" width="100"><span class="head0"><font color="#FFFFFF"><span lang="en-us">Time</span></font></span></td>
-<td bgcolor="#646666" align="center" width="70"><span class="head0"><font color="#FFFFFF">Action</font></span></td>
-<td bgcolor="#646666" align="center" width="100"><span class="head0"><font color="#FFFFFF">User</font></span></td>
+<td bgcolor="#646666" align="center" width="10%"><span class="head0"><font color="#FFFFFF">Item ID</font></span></td>
+<td bgcolor="#646666" align="center" width="25%"><span class="head0"><font color="#FFFFFF"><span lang="en-us">Type</span></font></span></td>
+<td bgcolor="#646666" align="center" width="25%"><span class="head0"><font color="#FFFFFF"><span lang="en-us">Time</span></font></span></td>
+<td bgcolor="#646666" align="center" width="15%"><span class="head0"><font color="#FFFFFF">Action</font></span></td>
+<td bgcolor="#646666" align="center" width="25%"><span class="head0"><font color="#FFFFFF">User</font></span></td>
 <!--td bgcolor="#646666" align="center" width="*"><span class="head0"><font color="#FFFFFF">Description</font></span></td-->
 </tr>
 
@@ -142,10 +138,24 @@ function openHistory(ID,TYPE) {
 	<xsl:value-of select="T_HISTORY/ITEM_ID"/>
 	</a>
 </td>
-<td align="center" width="100">
+<td>
+	<xsl:choose>
+	<xsl:when test="T_HISTORY/ITEM_TYPE='O'">
+		Reporting Obligation
+	</xsl:when>
+	<xsl:when test="T_HISTORY/ITEM_TYPE='A'">
+		Reporting Activity
+	</xsl:when>
+	<xsl:when test="T_HISTORY/ITEM_TYPE='L'">
+		Legal Instrument
+	</xsl:when>
+	</xsl:choose>
+
+</td>
+<td align="center">
 	<xsl:value-of select="T_HISTORY/TIME_STAMP"/>
 </td>
-<td width="70">
+<td>
 	<xsl:choose>
 	<xsl:when test="T_HISTORY/ACTION_TYPE='I'">
 		Insert
@@ -158,24 +168,12 @@ function openHistory(ID,TYPE) {
 	</xsl:when>
 	</xsl:choose>
 </td>
-<td width="100">
+<td>
 	<xsl:value-of select="T_HISTORY/USER"/>
 </td>
-<!--td width="*">
-	<xsl:value-of select="T_HISTORY/DESCRIPTION"/>
-</td-->
-
 </tr>	
 </xsl:for-each>
   </table>
-
-  </div>	</td>
-	</tr>
-<tr><td></td></tr>
-</table>
-
-<!--a href="javascript:close()">close window</a-->
-
 
 </body>
 </html>

@@ -38,6 +38,7 @@
 	</head>
 
 	<body onLoad="setFocus('clientForm')" onUnload="window.opener.document.location.reload(true)">
+	<!--body onLoad="setFocus('clientForm')"-->
 		<center>
 		<h2>Add Client Organisation</h2>
 		<form name="clientForm" method="post" action="addclient.jsv" charset="iso-8859-1">
@@ -97,7 +98,7 @@
 						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_EMAIL" size="40" maxlength="255"></input>
 					</td>
 				</tr>
-				<tr>
+				<tr valign="top">
 					<td align="right"><b>Comments:&#160;</b></td>
 					<td align="left">
 						<textarea name="/XmlData/RowSet/Row/T_CLIENT/DESCRIPTION" rows="4" cols="34"></textarea>

@@ -136,41 +136,53 @@ function delObligation() {
 		</table>
 		<!-- page -->
 		<div style="margin-left:13">
-		<table cellspacing="7pts" width="600">
+		<table cellspacing="7pts" width="600" border="0">
 			<tr><td width="82%" colspan="2">
 				<span class="head1">Details of reporting obligation</span>
 
-			<!-- DEBUG -->
-			<!--xsl:value-of select="$permissions"/-->
-
-			</td>
-				<td align="right" nowrap="true" rowspan="3">
+				</td>
+				<td align="center" nowrap="true" rowspan="3">
+					<table>
+						<tr>
+							<td>					<xsl:call-template name="Print"/><br/><br/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+					<xsl:if test="$admin='true'">
+						<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
+						<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
+						<b><font color="#FFFFFF">Actions</font></b><br/><br/>
+					</xsl:if>
 					<xsl:if test="contains($permissions, ',/RO:i,')='true'">
 						<a>
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
-						<img src="images/newobligation.png" alt="Add a new reporting obligation" border="0"/></a><br/>
+						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/></a><br/>
 					</xsl:if>
 					<!--xsl:if test="$admin='true'"-->
 					<xsl:if test="contains($permissions, ',/RA:i,')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
-							<img src="images/newactivity.png" alt="Add a new reporting activity" border="0"/></a><br/>
+							<img src="images/newactivity.png" alt="Create a new reporting activity" border="0"/></a><br/>
 					</xsl:if>
 					<xsl:if test="contains($permissions, ',/RO:u,')='true'">
 						<a><xsl:attribute name="href">reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
-							<img src="images/editobligation.png" alt="Edit reporting obligation" border="0"/></a><br/>
+							<img src="images/editobligation.png" alt="Edit this obligation" border="0"/></a><br/>
 					</xsl:if>
 					<xsl:if test="contains($permissions, ',/RO:d,')='true'">
-						<a href="javascript:delObligation()"><img src="images/deleteobligation.png" alt="Delete reporting obligation" border="0"/></a><br/>
+						<a href="javascript:delObligation()"><img src="images/deleteobligation.png" alt="Delete this obligation" border="0"/></a><br/>
 					</xsl:if>				
 					<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 					<a>
 					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ro-id"/>','O')</xsl:attribute>
-					<img src="images/showhistory.png" alt="Show history" border="0"/>
+					<img src="images/showhistory.png" alt="Show history of changes" border="0"/>
 					</a>
 					</xsl:if>				
+						</td>
+						</tr>
+					</table>
 				</td>
 
-
+			
 
 <!-- -->			
 			</tr>
@@ -215,9 +227,15 @@ function delObligation() {
 				<td width="22%"><span class="head0">Report to:</span></td>
 				<td colspan="2">
 					<a>
-						<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="T_REPORTING/FK_CLIENT_ID"/>')</xsl:attribute>
+						<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
 						<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
 					</a>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td width="22%"><span class="head0">Other clients using this reporting:</span></td>
+				<td colspan="2">
+						<xsl:call-template name="OtherClients"/>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -316,6 +334,22 @@ function delObligation() {
 			<xsl:otherwise><xsl:value-of select="ISSUE_NAME"/></xsl:otherwise>
 		</xsl:choose></xsl:for-each>
 	</xsl:template-->
+
+	<xsl:template name="OtherClients">
+		<table cellpadding="0" cellspacing="0">
+		<xsl:for-each select="SubSet[@Name='CCClients']/Row/T_CLIENT">
+			<tr>
+				<td>
+					<a>
+						<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="PK_CLIENT_ID"/>')</xsl:attribute>
+						<xsl:value-of select="CLIENT_NAME"/>
+					</a>
+				</td>
+			</tr>
+		</xsl:for-each>
+		</table>
+	</xsl:template>
+
 
 	<xsl:template match="//RowSet[@Name='EnvRaIssue']">
 		<xsl:for-each select="Row/T_ISSUE">

@@ -29,7 +29,7 @@
 			<ALIAS/>
 			<LEGAL_MORAL/>
 			<!--REPORT_TO/-->
-			<FK_CLIENT_ID/>
+			<!--FK_CLIENT_ID/-->
 			<LAST_UPDATE expression="DATE_FORMAT(T_REPORTING.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
 			<RM_NEXT_UPDATE expression="DATE_FORMAT(T_REPORTING.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE"/>
 			<RM_VERIFIED expression="DATE_FORMAT(T_REPORTING.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED"/>
@@ -40,11 +40,32 @@
 			<TITLE/>
 			<ALIAS/>
 		</T_SOURCE>
-		<T_CLIENT relation="T_CLIENT.PK_CLIENT_ID = T_REPORTING.FK_CLIENT_ID" reltype="outer">
+		<!-- main client! -->
+		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_REPORTING.PK_RO_ID" reltype="outer">
+			<FK_CLIENT_ID/>
+			<FK_OBJECT_ID/>
+			<STATUS/>
+			<TYPE/>
+		</T_CLIENT_LNK>
+		<!--xrs:Constraint>T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.STATUS='M'</xrs:Constraint-->
+		<T_CLIENT relation="T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID" reltype="outer">
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME/>
 		</T_CLIENT>
 		<xrs:Constraint>PK_RO_ID=@ID</xrs:Constraint>
+		<xrs:SubSet name="CCClients" relation="T_REPORTING.PK_RO_ID=T_CLIENT_LNK.FK_OBJECT_ID">
+			<T_CLIENT_LNK>
+				<FK_CLIENT_ID/>
+				<FK_OBJECT_ID/>
+				<STATUS/>
+				<TYPE/>
+			</T_CLIENT_LNK>
+			<T_CLIENT relation="T_CLIENT.PK_CLIENT_ID=T_CLIENT_LNK.FK_CLIENT_ID" reltype="inner">
+				<PK_CLIENT_ID/>
+				<CLIENT_NAME/>
+			</T_CLIENT>
+			<xrs:Constraint>STATUS="C" AND TYPE="R"</xrs:Constraint>
+		</xrs:SubSet>
 		<xrs:SubSet name="Activity" relation="T_REPORTING.PK_RO_ID=T_ACTIVITY.FK_RO_ID">
 			<T_ACTIVITY>
 				<PK_RA_ID/>

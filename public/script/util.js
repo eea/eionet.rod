@@ -52,11 +52,23 @@ function openDeliveries(ACT_ID, COUNTRY_ID){
 	var url = "csdeliveries?ACT_DETAILS_ID=" + ACT_ID ; // + "&#038;mi6";
 	url = url + "&COUNTRY_ID=" + escape(COUNTRY_ID);
 	var name = "CSDeliveries";
-	var features = "location=no, menubar=no, width=950, height=500, top=50, left=30, scrollbars=yes";
+	var features = "location=no, menubar=yes, width=750, height=600, top=50, left=30, scrollbars=yes";
 	var w = window.open( url, name, features);
 	w.focus();
 }
 
+/**
+* opens client/issuer window
+*/
+function openClient(ID){
+
+	var url = "client.jsv?id=" + ID;
+	var name = "Client";
+	var features = "location=no, menubar=no, width=650, height=500, top=50, left=50, scrollbars=no, resizable=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
+}
 
 /**
 * Link to Circa
@@ -134,13 +146,6 @@ function openPrintable() {
 	var url;
 	var name ="PrintROD";
 	
-	/*		
-		if (mode != '')
-			mode = "P" + mode ;
-		else
-			mode = "P";
-	*/
-
 	url = changeParamInUrl("printmode",  "Y");
 
 	var features = "location=no, menubar=yes, width=700, height=600, top=50, left=100, scrollbars=yes, resizable=yes";

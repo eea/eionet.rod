@@ -37,7 +37,7 @@
 
 	<xsl:template match="XmlData">
 		<xsl:apply-templates select="RowSet[@Name='Source']"/>
-		<xsl:call-template name="LIRORAFooter">
+			<xsl:call-template name="LIRORAFooter">
 			<xsl:with-param name="table">LI</xsl:with-param>			
 		</xsl:call-template>
 	</xsl:template>
@@ -85,45 +85,35 @@ function delLegislation() {
 		</table>
 		<!-- page -->
 		<div style="margin-left:13">
-		<table cellspacing="7pts" border="0" width="600">
+		<table cellspacing="5pts" border="0" width="600">
 			<tr>
 				<td><span class="head1">Details of legal instrument</span></td>
 			</tr>
 		</table>
-		<table cellspacing="7pts" border="0" width="600">
-		<!-- temporary field indicating, where is the data imported -->
-		</table>
 		<!-- classification hierarchy -->
-		<table cellspacing="7pts" width="600" border="0">
+
+		<table cellspacing="3pts" width="600" border="0">
 			<tr>
 				<td colspan="2" nowrap="true"><span class="head0">Classification:</span></td>
-				<!--td align="right">
-					<xsl:apply-templates select="SubSet[@Name='Obligation']"/>
-				</td-->
-				<!--xsl:if test="$admin='true'"-->
-				<xsl:if test="contains($permissions, ',/RO:i,')='true'">
-					<td align="right">
-						<a><xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
-						<img src="images/newobligation.png" alt="Add a new reporting obligation" border="0"/></a></td>
-				</xsl:if>
+
+					<td align="right"></td>
+
 			</tr>
 
 			<xsl:apply-templates select="SubSet[@Name='Parents']"/>
 		</table>
 
-		<table cellspacing="7pts" border="0" width="600">
-		<tr><td colspan="5"><hr/></td></tr>
+		<table cellspacing="5pts" border="0" width="600">
+		<tr><td colspan="3"><hr/></td></tr>
 
 		<tr valign="top">
 			<td nowrap="true" width="10%"><span class="head0">Legal name:</span></td>
-			<td colspan="3">
+			<td width="50%">
 				<xsl:choose>
 					<xsl:when test="T_SOURCE/URL!=''">
 						<a>
 							<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/URL"/></xsl:attribute>
-							<xsl:attribute name="target">
-								_new
-							</xsl:attribute>
+							<xsl:attribute name="target">_new</xsl:attribute>
 							<xsl:value-of select="T_SOURCE/TITLE"/>
 						</a>
 					</xsl:when>
@@ -132,38 +122,58 @@ function delLegislation() {
 					</xsl:otherwise>
 				</xsl:choose>
 			</td>
-			<td align="right" width="10%" rowspan="3" valign="top">
-				<!--xsl:if test="$admin='true'"-->
+
+			
+			<td align="center" width="25%" rowspan="4" valign="top">
+
+				<table><tr><td>					<xsl:call-template name="Print"/><br/><br/></td></tr>
+					<tr><td align="center">
+					<xsl:if test="$admin='true'">
+						<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
+						<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
+						<b><font color="#FFFFFF">Actions</font></b><br/><br/>
+					</xsl:if>
+				<xsl:if test="contains($permissions, ',/RO:i,')='true'">
+					<a><xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+					<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/></a><br/>
+				</xsl:if>
 				<xsl:if test="contains($permissions, ',/LI:i,')='true'">
 					<a><xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
-						<img src="images/newinstrument.png" alt="Add a new legal instrument" border="0"/></a><br/>
+						<img src="images/newinstrument.png" alt="Create a new legislative instrument" border="0"/></a><br/>
 					</xsl:if>
 					<xsl:if test="contains($permissions, ',/LI:u,')='true'">
 						<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
-						<img src="images/editinstrument.png" alt="Edit legislation" border="0"/></a><br/>
+						<img src="images/editinstrument.png" alt="Edit this instrument" border="0"/></a><br/>
 						</xsl:if>
-					<xsl:if test="contains($permissions, './LI:d,')='true'">
-						<a href="javascript:delLegislation()"><img src="images/deleteinstrument.png" alt="Delete legislation" border="0"/></a><br/>
+					<xsl:if test="contains($permissions, ',/LI:d,')='true'">
+						<a href="javascript:delLegislation()"><img src="images/deleteinstrument.png" alt="Delete this instrument" border="0"/></a><br/>
 				</xsl:if>
 				<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 					<a>
 					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$src-id"/>', 'L')</xsl:attribute>
-					<img src="images/showhistory.png" alt="Show history" border="0"/></a><br/>
+					<img src="images/showhistory.png" alt="Show history of changes" border="0"/></a><br/>
 				</xsl:if>
+				</td>
+				</tr>
+				</table>
 			</td>
 		</tr>
 		
 		<tr valign="top">
 			<td nowrap="true" width="10%"><span class="head0">Short name:</span></td>
-			<td colspan="3"><span class="head0"><xsl:value-of select="T_SOURCE/ALIAS"/></span></td>
+			<td><xsl:value-of select="T_SOURCE/ALIAS"/></td>
 		</tr>
 
 		<xsl:apply-templates select="SubSet[@Name='Origin']"/>
+
+	<!-- 2nd -->
+
+
 		<xsl:apply-templates select="SubSet[@Name='RelatedInstruments']"/>
 
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">Issued by:</span></td>
-			<td colspan="3">
+			<td>
 				<a>
 				<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
 				<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
@@ -172,24 +182,24 @@ function delLegislation() {
 		</tr>
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">Issued by URL:</span></td>
-			<td colspan="3">
-				<a>
+			<td colspan="2">
+				<a href="_new">
 				<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/ISSUED_BY_URL"/></xsl:attribute>
-				<xsl:value-of select="T_SOURCE/ISSUED_BY_URL"/>
+				<xsl:value-of select="T_SOURCE/ISSUED_BY_URL_LABEL"/>
 				</a>
 			</td>
 		</tr>
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">CELEX number:</span></td>
-			<td colspan="3"><xsl:value-of select="T_SOURCE/CELEX_REF"/></td>
+			<td colspan="2"><xsl:value-of select="T_SOURCE/CELEX_REF"/></td>
 		</tr>
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">Valid from:</span></td>
-			<td colspan="3"><xsl:value-of select="T_SOURCE/VALID_FROM"/></td>
+			<td colspan="2"><xsl:value-of select="T_SOURCE/VALID_FROM"/></td>
 		</tr>
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">Abstract:</span></td>
-			<td colspan="3"><xsl:value-of select="T_SOURCE/ABSTRACT"/></td>
+			<td colspan="2"><xsl:value-of select="T_SOURCE/ABSTRACT"/></td>
 		</tr>
 
 					<!-- KL 030220 Obligations -->
@@ -233,14 +243,14 @@ function delLegislation() {
 		</tr>
 	</xsl:if>
 	</xsl:for-each>
-		<tr><td colspan="5"><hr/></td></tr>
+
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">Comment:</span></td>
-			<td colspan="5">
+			<td colspan="2">
 				<xsl:value-of select="T_SOURCE/COMMENT"/>
 			</td>
 		</tr>
-		<!-- show history link KL 021127 -->
+		<tr><td colspan="6"><hr/></td></tr>
 		</table>
 		</div>
 	</xsl:template>
@@ -275,16 +285,6 @@ function delLegislation() {
 
 
 
-	<!--xsl:template match="SubSet[@Name='Obligation']">
-		<xsl:choose>
-			<xsl:when test="count(Row)>0">
-				<a><xsl:attribute name="href">rorabrowse.jsv?source=<xsl:value-of select="$src-id"/>&amp;mode=R</xsl:attribute>
-				<span class="head0">Related reporting obligations under this instrument</span></a>
-			</xsl:when>
-			<xsl:otherwise><span class="head0">No reporting obligations</span></xsl:otherwise>
-		</xsl:choose>
-	</xsl:template-->
-
 	<xsl:template match="SubSet[@Name='Parents']">
 		<xsl:for-each select="Row/T_SOURCE_CLASS">
 			<tr>
@@ -301,8 +301,8 @@ function delLegislation() {
 
 	<xsl:template match="SubSet[@Name='Origin']/Row/LSOURCE">
 		<tr valign="top">
-			<td nowrap="true" width="10%"><span class="head0">Parent legal instrument:</span></td>
-			<td colspan="3"><a>
+			<td width="10%"><span class="head0">Parent legal instrument:</span></td>
+			<td><a>
 				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="ALIAS != ''">

@@ -68,16 +68,19 @@
 		<!-- page -->
 		<div style="margin-left:13">
 		<!-- page title -->
-	   <table cellspacing="7" width="600" border="0"><tr><td valign="top">
+	   <table cellspacing="7" width="600" border="0">
+		 <tr><td valign="top">
 			<span class="head1">Legal instruments regarding reporting obligations</span></td>
 		<td align="right" valign="top">
+			<xsl:call-template name="Print"/>&#160;&#160;
+			<br/>
 			<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_HIERARCHY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 			<!--img src="images/help.png" alt="Help" onclick="javascript:alert('By clicking on a sub-section link, a legal instruments hierarchy for that sub-section is displayed (i.e. on this new page the clicked section will be a top level section). Clicking on the legal instrument link, a page with this legal instrument data is displayed.')"/-->
 			<br/>
 		<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 			<a>
 				<xsl:attribute name="href">javascript:openActionTypeHistory('D','L')</xsl:attribute>
-				<img src="images/showdeleted.png" border="0" alt="Show deleted legal instruments"/>
+				<img src="images/showdeleted.png" border="0" alt="Show history of deleted records"/>
 			</a>
 		</xsl:if>
 
@@ -85,7 +88,7 @@
 			<br/>
 			<a>
 				<xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
-				<img src="images/newinstrument.png" border="0" alt="Add a new legal instrument"/>
+				<img src="images/newinstrument.png" border="0" alt="Create a new legislative instrument"/>
 			</a>
 		</xsl:if>
 

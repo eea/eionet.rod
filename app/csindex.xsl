@@ -56,17 +56,22 @@ var picklist = new Array();
 	</table>
 
 <div style="margin-left:13"><form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form><div style="margin-left:20"><table cellspacing="7pts"></table></div>
-<table width="600"><tr><td>
+<table width="600">
+<tr><td>
 <table width="100%">
-<tr><td></td><td valign="top" align="right">
-<a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt="Advanced search"/></a><br/><br/>
-<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
-				<map name="openHarvesterMap">
-					<area alt="Harvest data from other services" shape="rect" coords="0,0,120,17" href="javascript:openHarvester()"></area>
-				</map>
-				<img border="0" height="17" width="120" src="images/bb_harvest.png" usemap="#openHarvesterMap"></img>
-		&#160;<br/>
+<tr>
+	<td></td>
+	<td valign="top" align="right">
+		<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
+				<!--map name="openHarvesterMap">
+					<area alt="Harvest Reportnet meta-information" shape="rect" coords="0,0,120,17" href="javascript:openHarvester()"></area>
+				</map-->
+				<img alt="Harvest Reportnet meta-information" border="0" src="images/bb_harvest.png" onClick="javascript:openHarvester()"></img>
+		<br/>		<br/>
 </xsl:if>
+	<xsl:call-template name="Print"/><br/><br/>
+	<a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt=""/></a><br/><br/>
+
 </td></tr>
 <tr><td valign="top" colspan="2"><div class="Mainfont" align="justify">
 This part of ROD helps countries co-ordinate and manage their international
@@ -78,39 +83,32 @@ of ROD and CDR by using the advanced search.
 <br/><br/>
 </div>
 </td>
-<!--td valign="top" align="right">
-<a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt="Advanced search"/></a><br/>
-
-<xsl:if test="contains($permissions, ',Admin:u,')='true'">
-				<map name="openHarvesterMap">
-					<area alt="Harvest data from other services" shape="rect" coords="0,0,120,17" href="javascript:openHarvester()"></area>
-				</map>
-				<img border="0" height="17" width="120" src="images/bb_harvest.png" usemap="#openHarvesterMap"></img>
-		&#160;<br/>
-</xsl:if>
-</td--></tr></table>
-
+</tr></table>
 
 <table width="100%">
 
-<xsl:variable name="noOfCountries"><xsl:value-of select="count(child::RowSet/Row/T_SPATIAL)"/></xsl:variable>
-<table><tr>
+<xsl:variable name="noOfCountries"><xsl:value-of select="count(child::RowSet[@Name='Members']/Row/T_SPATIAL)"/></xsl:variable>
+<table>
+<tr valign="top">
+	<td colspan="3"><b>EEA member countries </b><hr/></td>
+</tr>
+<tr>
 <td width="200" valign="top">
-<xsl:for-each select="RowSet/Row/T_SPATIAL">
+<xsl:for-each select="RowSet[@Name='Members']/Row/T_SPATIAL">
 	<xsl:if test="position() &lt; $noOfCountries div 3">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
 <td width="200" valign="top">
-<xsl:for-each select="RowSet/Row/T_SPATIAL">
+<xsl:for-each select="RowSet[@Name='Members']/Row/T_SPATIAL">
 	<xsl:if test="position() &gt;= $noOfCountries div 3 and position() &lt; ($noOfCountries div 3) * 2">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
 <td width="200" valign="top">
-<xsl:for-each select="RowSet/Row/T_SPATIAL">
+<xsl:for-each select="RowSet[@Name='Members']/Row/T_SPATIAL">
 	<xsl:if test="position() &gt;= ($noOfCountries div 3) * 2">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
@@ -118,18 +116,41 @@ of ROD and CDR by using the advanced search.
 
 </td>
 </tr>
-<!--tr><td colspan="3"><hr/><br/></td></tr-->
-
-<!--tr><td colspan="3">	<b>
-	Disclaimer: EEA does not guarantee that all possible deliveries are shown, nor that the recorded deliveries 
-	totally cover all aspects a country has to comply with regarding a specific reporting activity. 
-	If you find any inconsistencies in the database, please <a href="mailto:eea@eea.eu.int">report back</a> to EEA.  
-	</b>
-</td></tr-->
-
 </table>
 
-	<xsl:call-template name="CommonFooter"/>
+<xsl:variable name="noOfNMCountries"><xsl:value-of select="count(child::RowSet[@Name='NonMembers']/Row/T_SPATIAL)"/></xsl:variable>
+<table>
+<tr valign="top">
+	<td colspan="3"><b>Other countries </b><hr/></td>
+</tr>
+<tr>
+<td width="200" valign="top">
+<xsl:for-each select="RowSet[@Name='NonMembers']/Row/T_SPATIAL">
+	<xsl:if test="position() &lt; $noOfNMCountries div 3">
+		<xsl:call-template name="COUNTRYNAME"/>
+	</xsl:if>
+</xsl:for-each>
+</td>
+<td width="200" valign="top">
+<xsl:for-each select="RowSet[@Name='NonMembers']/Row/T_SPATIAL">
+	<xsl:if test="position() &gt;= $noOfNMCountries div 3 and position() &lt; ($noOfNMCountries div 3) * 2">
+		<xsl:call-template name="COUNTRYNAME"/>
+	</xsl:if>
+</xsl:for-each>
+</td>
+<td width="200" valign="top">
+<xsl:for-each select="RowSet[@Name='NonMembers']/Row/T_SPATIAL">
+	<xsl:if test="position() &gt;= ($noOfNMCountries div 3) * 2">
+		<xsl:call-template name="COUNTRYNAME"/>
+	</xsl:if>
+</xsl:for-each>
+
+</td>
+</tr>
+</table>
+
+
+<xsl:call-template name="CommonFooter"/>
 </table>
 
 	<br/>
@@ -148,7 +169,7 @@ of ROD and CDR by using the advanced search.
 </xsl:template>
 <xsl:template name="COUNTRYNAME">
 		<img src="images/Folder_icon.gif" width="16" height="16"/>
-		<a><xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&#038;ORD=TITLE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
+		<a><xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&#038;ORD=NEXT_DEADLINE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
 		<br/>
 </xsl:template>
 

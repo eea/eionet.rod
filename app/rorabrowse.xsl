@@ -41,6 +41,15 @@
 		<xsl:if test="$rora='B'">A</xsl:if>
 	</xsl:variable>
 
+
+		<xsl:variable name="sel_country">
+			<xsl:value-of select="substring-after(substring-after(/XmlData/xml-query-string, 'country='),'%3A')"/>
+		</xsl:variable>
+
+		<xsl:variable name="sel_issue">
+			<xsl:value-of select=" translate( translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'env_issue='),'%3A'),'&amp;'),'+',' '), '%26', '&amp;') "/>
+		</xsl:variable>
+
 	<xsl:template match="XmlData">
 	<script lang="Javascript">
 	function setOrder(fld) {
@@ -50,6 +59,7 @@
 	</script>
 
 	<!-- context bar -->
+	
       <table cellspacing="0" cellpadding="0" width="621" border="0">
 			<tr>
          	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25"> </td>
@@ -67,77 +77,149 @@
                	<td valign="bottom">
 				<xsl:choose>
 					<xsl:when test="$rora='A'">
-						<a href="rorabrowse.jsv?mode=A"><span class="barfont">Reporting activity</span></a>
+						<a href="rorabrowse.jsv?mode=A"><span class="barfont">Reporting obligations</span></a>
 					</xsl:when>
 					<xsl:when test="$rora='B'">
-						<a href="rorabrowse.jsv?mode=A"><span class="barfont">Reporting activity</span></a>
+						<a href="rorabrowse.jsv?mode=A"><span class="barfont">Reporting obligations</span></a>
 					</xsl:when>
 					<xsl:otherwise>
 						<a href="rorabrowse.jsv?mode=R"><span class="barfont">Reporting obligation</span></a>
 					</xsl:otherwise>
 				</xsl:choose>
 			</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
+          <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
 					</tr>
 				</table>
 			</td></tr>
-			<tr><td> </td></tr>
+			<tr><td></td></tr>
 		</table>
 
 		<!-- page -->
 		<div style="margin-left:13">
 
+		<br/>
+		<table cellspacing="0" border="0" width="600">
+			<tr valign="bottom">
+			<td width="78%">
+				<span class="head1">Reporting obligations
+								<xsl:if test="$sel_country!=''">
+									: <xsl:value-of select="$sel_country"/>
+								</xsl:if>
+								<xsl:if test="$sel_issue!=''">
+									<xsl:if test="$sel_country=''">:</xsl:if>
+										[<xsl:value-of select="$sel_issue"/>]
+								</xsl:if>
+					<br/><br/>
+				</span>
+
+			</td>
+		<td>
+			<table>
+			<tr><td>
+				<xsl:call-template name="Print"/><br/>
+				<xsl:if test="$showfilters=''">
+					<br/>
+					<a>
+						<xsl:attribute name="href">javascript:window.location.replace(window.location.href+'&amp;showfilters=1')</xsl:attribute>
+						<img src="images/bb_advsearch.png" alt="" border="0"/>
+					</a><br/>
+				</xsl:if>
+			</td></tr>
+			<tr><td align="center">
+					<xsl:if test="$admin='true' and $showfilters=''">
+						<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
+						<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
+						<b><font color="#FFFFFF">Actions</font></b><br/><br/>
+					</xsl:if>
+
+				<xsl:if test="contains($permissions, ',/Admin:v,') and $showfilters=''">
+					<a>
+						<xsl:attribute name="href">javascript:openActionTypeHistory("D","O' OR ITEM_TYPE='A" )</xsl:attribute>
+						<img src="images/showdeleted.png" alt="Show history of deleted records" border="0"/>
+					</a><br/>
+				</xsl:if>
+				<xsl:if test="contains($permissions, ',/RO:i,') and $showfilters=''">
+					<a>
+						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
+						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/>
+					</a><br/>
+				</xsl:if>
+			</td>
+			</tr>
+			</table>
+		<!--table border="1">
+			<tr><td>
+				<xsl:if test="contains($permissions, ',/Admin:v,') and $showfilters=''">
+					<a>
+						<xsl:attribute name="href">javascript:openActionTypeHistory('D','<xsl:value-of select="$historyMode"/>')</xsl:attribute>
+						<img src="images/showdeleted.png" alt="Show history of deleted records" border="0"/>
+					</a><br/>
+				</xsl:if>
+			</td></tr>
+			<tr><td>
+				<xsl:if test="$showfilters=''">
+					<a>
+						<xsl:attribute name="href">javascript:window.location.replace(window.location.href+'&amp;showfilters=1')</xsl:attribute>
+						<img src="images/bb_advsearch.png" alt="" border="0"/>
+					</a><br/>
+				</xsl:if>
+			</td></tr>
+			<tr><td>
+				<xsl:if test="contains($permissions, ',/RO:i,') and $showfilters=''">
+					<a>
+						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
+						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/>
+					</a>
+				</xsl:if>
+			</td></tr>
+			</table-->
+
+
+			</td>
+			</tr>
+		</table>
+
 <!-- Search filters -->
 		<xsl:choose>
 			<xsl:when test="$showfilters=''">
-				<table cellspacing="10" border="0" width="600">
-					<tr><td colspan="3" align="right">
-						<span class="head0">
-						<!--a href="javascript:window.location.replace(window.location.href+'&amp;showfilters=1')">Show filters</a-->
-						<!--a href="javascript:window.location.replace(window.location.href+'&amp;showfilters=1')"><img border="0" src="images/bb_advsearch.png"/></a-->
-					</span>
-					<xsl:if test="contains($permissions,',/RO:i,')='true' and $rora='R'">
-						<br/>
-						<a>
-							<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
-							<img src="images/newobligation.png" alt="Add new Reporting obligation" border="0"/>
-						</a>
-					</xsl:if>
-					</td></tr>
-				</table>
 			</xsl:when>
 		<xsl:otherwise>
-<!-- KL 030227 -->
+<!-- KL 030227  search form -->
 		<form name="x1" method="get" action="rorabrowse.jsv">
 		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
 				 <tr>
-						<td width="110" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
+						<td width="120" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
 						</td>
-						<td width="260" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
+						<td width="245" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
 						</td>
-						<td width="200" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For a country</span>
+						<td width="215" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For a country</span>
 						</td>
-						<td width="30" bgcolor="#FFFFFF">
+						<td width="42" bgcolor="#FFFFFF" align="right">
 						<!--img onclick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/-->
-						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
 				</tr>
 				<tr>
            <td>
 								<table>
 									<tr><td>
-										<input type="radio" value="R" name="mode">
+										<input type="hidden" value="A" name="mode"/>
+										<!--input type="radio" value="R" name="mode">
 												<xsl:if test="$rora='R'">
 												<xsl:attribute name="checked"/>
 												</xsl:if>
-										</input><span class="barfont">Obligations</span>
+										</input-->
+										<span class="barfont">
+											Obligations
+										</span>
+										
 									</td></tr>
 									<tr><td>
-										<input type="radio" value="A" name="mode">
+										<!--input type="radio" value="A" name="mode">
 												<xsl:if test="$rora='A'">
 												<xsl:attribute name="checked"/>
 												</xsl:if>
-										</input><span class="barfont">Activities</span>
+										</input--><!--span class="barfont">Activities</span-->
 								</td></tr>
 								</table>
             </td>
@@ -156,49 +238,46 @@
 											</xsl:call-template>
                     </select>
 								</td>
-                <td>
-                   <input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 8pt; color: #000000; text-align: Center"/>
-								</td>
+                <td align="right">
+						<a>
+							<xsl:attribute name="href">javascript:document.forms["x1"].submit()</xsl:attribute>
+							<img src="images/go.png" alt="" border="0"/>
+						</a>
+					</td>
 					</tr>
 		</table>
 		</form>
-		<table width="600">
-				  <tr>
-             <td width="100%">
-		            <span class="head0">or</span>
-             </td>
-          </tr>
-		</table>
-
+      <span class="head0">or</span>
 		<form name="x2" method="get" action="rorabrowse.jsv">
 		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
 				 <tr>
-						<td width="110" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
+						<td width="120" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
 						</td>
-						<td width="260" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
+						<td width="245" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
 						</td>
-						<td width="200" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an organisation</span>
+						<td width="215" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an organisation</span>
 						</td>
-						<td width="30" bgcolor="#FFFFFF"><!--img onClick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/-->
-						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH2</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+						<td width="42" bgcolor="#FFFFFF" align="right"><!--img onClick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/-->
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH2</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
 				</tr>
 				 <tr>
                <td>
 								<table>
 									<tr><td>
-										<input type="radio" value="R" name="mode">
+										<input type="hidden" value="A" name="mode"/>
+										<!--input type="radio" value="R" name="mode">
 												<xsl:if test="$rora='R'">
 												<xsl:attribute name="checked"/>
 												</xsl:if>
-										</input><span class="barfont">Obligations</span>
+										</input--><span class="barfont">Obligations</span>
 									</td></tr>
 									<tr><td>
-										<input type="radio" value="A" name="mode">
+										<!--input type="radio" value="A" name="mode">
 												<xsl:if test="$rora='A'">
 												<xsl:attribute name="checked"/>
 												</xsl:if>
-										</input><span class="barfont">Activities</span>
+										</input><span class="barfont">Activities</span-->
 								</td></tr>
 								</table>
             </td>
@@ -214,9 +293,12 @@
 											<xsl:apply-templates select="RowSet[@Name='Client']"/>
 		                </select>
 								</td>
-                <td>
-                   <input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 8pt; color: #000000; text-align: Center"/>
-								</td>
+                <td align="right">
+						<a>
+							<xsl:attribute name="href">javascript:document.forms["x2"].submit()</xsl:attribute>
+							<img src="images/go.png" alt="" border="0"/>
+						</a>
+					</td>
 					</tr>
 				</table>
 				</form> <!-- search form -->
@@ -224,41 +306,6 @@
 		</xsl:otherwise>
 		</xsl:choose>
 
-		<table cellspacing="0" border="0" width="600">
-			<tr>
-			<td width="78%">
-				<span class="head1">Reporting 
-				<xsl:choose>
-									<xsl:when test="$rora='A'">
-										activities
-									</xsl:when>
-							<xsl:otherwise>obligations</xsl:otherwise>
-				</xsl:choose>
-				</span>
-			</td>
-			<td>
-				<table>
-			<tr><td>
-				<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
-				<a>
-					<xsl:attribute name="href">javascript:openActionTypeHistory('D','<xsl:value-of select="$historyMode"/>')</xsl:attribute>
-					<img src="images/showdeleted.png" alt="Show deleted" border="0"/>
-				</a><br/>
-				</xsl:if>
-			</td></tr>
-				<tr>
-					<td align="center" style="BORDER-RIGHT: #003366 1px solid; BORDER-TOP: #003366 1px solid; BORDER-LEFT: #003366 1px solid; BORDER-BOTTOM: #003366 1px solid" 
-                      width="22%" bgColor="#ffffff" height="18">
-					<span class="headsmall"><a href="javascript:window.location.replace(window.location.href+'&amp;showfilters=1')">Advanced search</a></span>
-
-		
-					</td></tr>
-			</table>
-			</td>
-			</tr>
-			<tr><td colspan="2">&#160;</td></tr>
-		</table>
-		
 		<!-- header -->
 		<TABLE cellSpacing="0" cellPadding="5" width="600" border="0">
 		<TBODY>
@@ -266,7 +313,7 @@
 	    <!--TD width="20"></TD-->
 		<xsl:if test="$rora='A'">
 			<TD style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="145" bgColor="#ffffff">
+						vAlign="center" width="172" bgColor="#ffffff">
 
 			<TABLE cellSpacing="0" width="100%" border="0">
 			<TBODY>
@@ -283,7 +330,7 @@
 			</TD>
 		</xsl:if>
 		<TD style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="145" bgColor="#ffffff">
+						vAlign="center" width="172" bgColor="#ffffff">
 
 			<TABLE cellSpacing="0" width="100%" border="0">
 			<TBODY>
@@ -299,7 +346,7 @@
 			</TABLE>
 			</TD>
 		<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="100" bgColor="#ffffff">
+						vAlign="center" width="172" bgColor="#ffffff">
 
 			<TABLE cellSpacing="0" width="100%" border="0">
 			<TBODY>
@@ -320,7 +367,7 @@
 			<TABLE cellSpacing="0" width="100%" border="0">
 			<TBODY>
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Type of reporting activity" face="Verdana" color="#000000" size="1">Type</FONT></B></SPAN>
+				<TD><SPAN class="headsmall"><B><FONT title="Reference number" face="Verdana" color="#000000" size="1">Ref. nr</FONT></B></SPAN>
 				</TD>
 				<TD> <P align="right"><MAP name="FPMap4"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
 							href="javascript:setOrder('T_SOURCE.SOURCE_CODE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_SOURCE.SOURCE_CODE')"/></MAP>
@@ -330,7 +377,7 @@
 			</TBODY>
 			</TABLE>
 			</TD>
-		<xsl:if test="$rora='A'">
+		<!--xsl:if test="$rora='A'">
 		<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" width="80" bgColor="#ffffff">
 
@@ -347,7 +394,7 @@
 			</TBODY>
 			</TABLE>
 			</TD>
-		</xsl:if>
+		</xsl:if-->
 
 		</TR>
 		<!--TR>
@@ -398,8 +445,14 @@
 
 	<xsl:template match="RowSet[@Name='EnvIssue']">
 		<xsl:for-each select="Row/T_ISSUE">
-			<option><xsl:attribute name="value"><xsl:value-of select="PK_ISSUE_ID"/>:<xsl:value-of select="ISSUE_NAME"/></xsl:attribute>
-			<xsl:value-of select="ISSUE_NAME"/></option>
+			<option>
+				<xsl:attribute name="value"><xsl:value-of select="PK_ISSUE_ID"/>:<xsl:value-of select="ISSUE_NAME"/></xsl:attribute>
+				<!--xsl:attribute name="selected">
+					<xsl:if test="PK_ISSUE_ID=$sel_issue">
+						true
+					</xsl:if>
+				</xsl:attribute-->
+				<xsl:value-of select="ISSUE_NAME"/></option>
 		</xsl:for-each>
 	</xsl:template>
 
@@ -439,7 +492,7 @@
 			<!--xsl:when test="$rora='A'"-->
 				<xsl:choose>
 					<xsl:when test="count(Row)=0">			
-						<xsl:call-template name="nofound"/>
+						<tr><td><xsl:call-template name="nofound"/></td></tr>
 					</xsl:when>
 					<xsl:otherwise>
 						<!--table cellspacing="0" width="600"-->
@@ -452,11 +505,22 @@
 								<xsl:if test="$rora='A'">
 								<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 									<SPAN class="head0n">
+										<xsl:if test="T_ACTIVITY/PK_RA_ID !=''">
 										<A> 
 											<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
-											<FONT face="Verdana" size="2"><xsl:value-of select="T_ACTIVITY/TITLE"/></FONT>
+											<FONT face="Verdana" size="2">
+													<xsl:choose>
+														<xsl:when test="T_ACTIVITY/TITLE !=''">
+															<xsl:value-of select="T_ACTIVITY/TITLE"/>
+														</xsl:when>
+														<xsl:otherwise>
+															Reporting Activity
+														</xsl:otherwise>
+													</xsl:choose>
+											</FONT>
 										</A>
-									</SPAN>
+										</xsl:if>
+									</SPAN>&#160;
 								</TD>
 								</xsl:if>
 								<!--ro-->
@@ -464,7 +528,16 @@
 									<SPAN class="head0n">
 										<A> 
 											<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
-											<FONT face="Verdana" size="2"><xsl:value-of select="T_REPORTING/ALIAS"/></FONT>
+											<FONT face="Verdana" size="2">
+													<xsl:choose>
+														<xsl:when test="T_REPORTING/ALIAS!=''">
+															<xsl:value-of select="T_REPORTING/ALIAS"/>
+														</xsl:when>
+														<xsl:otherwise>
+															Obligation
+														</xsl:otherwise>
+													</xsl:choose>
+											</FONT>
 										</A>
 									</SPAN>&#160;
 								</TD>
@@ -482,192 +555,16 @@
 									</SPAN>
 									&#160;
 								</TD>
-								<xsl:if test="$rora='A'">
-								<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
-									<SPAN class="head0n">
-									<xsl:if test="T_ACTIVITY/NEXT_REPORTING != '' or T_ACTIVITY/NEXT_DEADLINE != '' or T_ACTIVITY/TERMINATE='Y'">
-											<xsl:choose>
-												<xsl:when test="T_ACTIVITY/TERMINATE  = 'Y'">
-													<font color="red">terminated</font>
-												</xsl:when>
-												<xsl:otherwise>
-													<xsl:choose>
-														<xsl:when test="T_ACTIVITY/NEXT_DEADLINE != ''">
-															<xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE"/>
-														</xsl:when>
-														<xsl:otherwise>
-															<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
-														</xsl:otherwise>
-													</xsl:choose>
-												</xsl:otherwise>
-											</xsl:choose>
-									</xsl:if>
-									</SPAN>
-									&#160;
-								</TD>
-								</xsl:if>
 							</TR>
 							</xsl:for-each>
 							<!--/table-->
 						</xsl:otherwise>
 					</xsl:choose>
-				<!--/xsl:when>
-				<xsl:otherwise-->
 
-					<!-- RO results here -->
 
-		<!--xsl:choose>
-			<xsl:when test="count(Row)=0">			
-				<xsl:call-template name="nofound"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<table cellspacing="7pts" width="600">
-				<xsl:for-each select="Row">
-					<tr valign="top">
-						<td width="10"><img src="images/diamlil.gif" vspace="4"/></td>
-						<td colspan="2">
-						<span class="head0n"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
-						<xsl:choose>
-							<xsl:when test="T_REPORTING/ALIAS != ''">
-								<xsl:value-of select="T_REPORTING/ALIAS"/></xsl:when>
-							<xsl:otherwise>
-								Obligation</xsl:otherwise></xsl:choose></a>
-						</span>
-						<b> from </b><i>
-						<a>	
-							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-							<xsl:choose>
-								<xsl:when test="T_SOURCE/ALIAS != ''">
-									<xsl:value-of select="T_SOURCE/ALIAS"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="T_SOURCE/TITLE"/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</a></i>						
-						<br/>
-						</td>
-					</tr>
-				</xsl:for-each>
-				</table>
-			</xsl:otherwise>
-		</xsl:choose-->		
 
-				<!--/xsl:otherwise-->
-			<!--/xsl:choose-->
 	</xsl:template>
-	<!--xsl:template match="RowSet[@Name='Old Search results']">
 
-		<xsl:choose>
-			<xsl:when test="$rora='A'">
-				<xsl:choose>
-					<xsl:when test="count(Row)=0">			
-						<xsl:call-template name="nofound"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<table cellspacing="7pts" width="600">
-							<xsl:for-each select="Row">
-								<tr valign="top">
-									<td width="10"><img src="images/diamlil.gif" vspace="4"/></td>
-									<td colspan="2">
-										<span class="head0n"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
-									<xsl:choose>
-										<xsl:when test="T_ACTIVITY/TITLE != ''">
-											<xsl:value-of select="T_ACTIVITY/TITLE"/>
-									</xsl:when>
-									<xsl:otherwise>
-										Reporting Activity</xsl:otherwise>	
-									</xsl:choose></a></span>
-									<b> for </b>
-									<span class="head0n"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
-									<xsl:choose>
-										<xsl:when test="T_REPORTING/ALIAS != ''">
-											<xsl:value-of select="T_REPORTING/ALIAS"/></xsl:when>
-										<xsl:otherwise>
-											Obligation</xsl:otherwise></xsl:choose></a></span>
-											<b> from </b><i>
-												<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-											<xsl:choose>
-												<xsl:when test="T_SOURCE/ALIAS != ''">
-													<xsl:value-of select="T_SOURCE/ALIAS"/>
-												</xsl:when>
-												<xsl:otherwise>
-													<xsl:value-of select="T_SOURCE/TITLE"/>
-												</xsl:otherwise>
-											</xsl:choose>
-											</a></i>						
-						<br/>
-						</td>
-					</tr>
-					<xsl:if test="T_ACTIVITY/NEXT_REPORTING != '' or T_ACTIVITY/NEXT_DEADLINE != '' or T_ACTIVITY/TERMINATE='Y'">
-					<tr><td/>
-						<td><span class="head0">Next reporting: </span> 
-							<xsl:choose>
-								<xsl:when test="T_ACTIVITY/TERMINATE  = 'Y'">
-									<font color="red">terminated</font>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:choose>
-										<xsl:when test="T_ACTIVITY/NEXT_DEADLINE != ''">
-											<xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE"/>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
-										</xsl:otherwise>
-									</xsl:choose>
-								</xsl:otherwise>
-							</xsl:choose>
-						</td>
-					</tr>
-					</xsl:if>
-				</xsl:for-each>
-				</table>
-			</xsl:otherwise>
-		</xsl:choose>	
-		
-		</xsl:when>
-
-		<xsl:otherwise>
-		<xsl:choose>
-			<xsl:when test="count(Row)=0">			
-				<xsl:call-template name="nofound"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<table cellspacing="7pts" width="600">
-				<xsl:for-each select="Row">
-					<tr valign="top">
-						<td width="10"><img src="images/diamlil.gif" vspace="4"/></td>
-						<td colspan="2">
-						<span class="head0n"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
-						<xsl:choose>
-							<xsl:when test="T_REPORTING/ALIAS != ''">
-								<xsl:value-of select="T_REPORTING/ALIAS"/></xsl:when>
-							<xsl:otherwise>
-								Obligation</xsl:otherwise></xsl:choose></a>
-						</span>
-						<b> from </b><i>
-						<a>	
-							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-							<xsl:choose>
-								<xsl:when test="T_SOURCE/ALIAS != ''">
-									<xsl:value-of select="T_SOURCE/ALIAS"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="T_SOURCE/TITLE"/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</a></i>						
-						<br/>
-						</td>
-					</tr>
-				</xsl:for-each>
-				</table>
-			</xsl:otherwise>
-		</xsl:choose>		
-
-		</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template-->
 	<xsl:template match="RowSet[@Name='Search results']/@*">
 		<xsl:if test="name(.)!='Name' and name(.)!='order' and name(.)!='auth'">
 			<tr><td>

@@ -50,7 +50,7 @@
 		<!-- page -->
 		<div style="margin-left:13">
 
-		<table width="600" cellspacing="0" border="0">
+		<table width="600" cellspacing="0" cellpadding="0" border="0">
 			<!--tr valign="middle">
 				<td colspan="2"><span class="head1"><xsl:call-template name="IntroductoryTitle"/></span></td>
 			</tr-->
@@ -63,14 +63,15 @@
 		<form name="x1" method="get" action="rorabrowse.jsv">
 		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
 				 <tr>
-						<td width="110" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
+						<td width="120" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0">
+							<span class="smallfont">Show reporting:</span>
 						</td>
-						<td width="260" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
+						<td width="245" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
 						</td>
-						<td width="153" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For a country</span>
+						<td width="215" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For a country</span>
 						</td>
-						<td bgcolor="#FFFFFF" width="77" align="right">
-						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+						<td bgcolor="#FFFFFF" width="42" align="right">
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
 						<!--td width="30" bgcolor="#FFFFFF"><img onclick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/>
 						</td-->
@@ -79,12 +80,12 @@
             <td>
 								<table border="0" width="100%" cellspacing="0" cellpadding="0">
 									<tr>
-										<td width="22" valign="middle"><input type="radio" value="R" checked="true" name="mode"/></td>
+										<td width="22" valign="middle"><!--input type="radio" value="R" checked="true" name="mode"/--></td>
 										<td width="88" valign="middle"><span class="barfont">Obligations</span></td>
 									</tr>
 									<tr>
-										<td width="22" valign="middle"><input type="radio" value="A" name="mode"/></td>
-										<td width="88" valign="middle"><span class="barfont">Activities</span></td>
+										<td width="22" valign="middle"><input type="hidden" value="A" name="mode"/></td>
+										<td width="88" valign="middle"><!--span class="barfont">Activities</span--></td>
 									</tr>
 								</table>
               </td>
@@ -103,31 +104,27 @@
 											</xsl:call-template>
                     </select>
 								</td>
-                <td>
-                   <input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 8pt; color: #000000; text-align: Center"/>
-								</td>
+                <td align="right">
+                <a>
+							<xsl:attribute name="href">javascript:document.forms["x1"].submit()</xsl:attribute>
+							<img src="images/go.png" alt="" border="0"/>
+						</a>
+					</td>
 					</tr>
 		</table>
 		</form>
-		<table width="600">
-				  <tr>
-             <td width="100%">
-		            <span class="head0">or</span>
-             </td>
-          </tr>
-		</table>
-
+      <span class="head0">or</span>
 		<form name="x2" method="get" action="rorabrowse.jsv">
 		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
 				 <tr>
-						<td width="110" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
+						<td width="120" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
 						</td>
-						<td width="260" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
+						<td width="245" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
 						</td>
-						<td width="153" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an organisation</span>
+						<td width="215" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an organisation</span>
 						</td>
-						<td bgcolor="#FFFFFF" width="77" align="right">
-						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH2</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+						<td bgcolor="#FFFFFF" width="42" align="right">
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH2</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
 						<!--td width="30" bgcolor="#FFFFFF"><img onClick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/>
 						</td-->
@@ -136,12 +133,12 @@
             <td>
 								<table border="0" width="100%" cellspacing="0" cellpadding="0">
 									<tr>
-										<td width="22" valign="middle"><input type="radio" value="R" checked="true" name="mode"/></td>
+										<td width="22" valign="middle"><!--input type="radio" value="R" checked="true" name="mode"/--></td>
 										<td width="88" valign="middle"><span class="barfont">Obligations</span></td>
 									</tr>
 									<tr>
-										<td width="22" valign="middle"><input type="radio" value="A" name="mode"/></td>
-										<td width="88" valign="middle"><span class="barfont">Activities</span></td>
+										<td width="22" valign="middle"><input type="hidden" value="A" name="mode"/></td>
+										<td width="88" valign="middle"><!--span class="barfont">Activities</span--></td>
 									</tr>
 								</table>
               </td>
@@ -159,9 +156,12 @@
 												<xsl:apply-templates select="RowSet[@Name='Client']"/>
 		                </select>
 								</td>
-                <td>
-                   <input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 8pt; color: #000000; text-align: Center"/>
-								</td>
+                <td align="right">
+						<a>
+							<xsl:attribute name="href">javascript:document.forms["x2"].submit()</xsl:attribute>
+							<img src="images/go.png" alt="" border="0"/>
+						</a>
+					</td>
 					</tr>
 				</table>
 				</form> <!-- search form -->
@@ -188,13 +188,13 @@
                         </tr>
                         <tr>
                           <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
-                          <td width="92%" height="25"><a href="rorabrowse.jsv?mode=R">
+                          <td width="92%" height="25"><a href="rorabrowse.jsv?mode=A">
 														<span class="head0n">All reporting obligations</span></a></td>
                         </tr>
                         <tr>
-                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
-                          <td width="92%" height="25"><a href="rorabrowse.jsv?mode=A">
-														<span class="head0n">All reporting activities</span></a></td>
+                          <td width="8%" height="25"><!--img border="0" src="images/diamlil.gif" width="8" height="9"/--></td>
+                          <td width="92%" height="25"><!--a href="rorabrowse.jsv?mode=A">
+														<span class="head0n">All reporting activities</span></a--></td>
                         </tr>
                       </table>
                     </td>

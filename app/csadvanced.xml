@@ -9,8 +9,9 @@
 			<NEXT_REPORTING/>
 			<DEADLINE2 expression="NEXT_DEADLINE2 AS DEADLINE2"/>
 			<FK_DELIVERY_COUNTRY_IDS/>
+			<TERMINATE/>
 		</T_ACTIVITY>
-		<xrs:Constraint>@DEADLINES</xrs:Constraint>
+		<xrs:Constraint>@DEADLINES AND TERMINATE='N'</xrs:Constraint>
 
 		<T_ROLE alias="RESPONSIBLE" relation="CONCAT(T_ACTIVITY.RESPONSIBLE_ROLE,'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=RESPONSIBLE.ROLE_ID" reltype="outer">
 			<ROLE_NAME/>
@@ -25,10 +26,16 @@
 			<FK_CLIENT_ID/>
 		</T_REPORTING>
 
-		<T_CLIENT relation="T_REPORTING.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID" reltype="outer">
+		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_REPORTING.PK_RO_ID" reltype="outer">
+			<FK_CLIENT_ID/>
+			<FK_OBJECT_ID/>
+			<STATUS/>
+			<TYPE/>
+		</T_CLIENT_LNK>
+
+		<T_CLIENT relation="T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID" reltype="outer">
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME/>
-			<CLIENT_URL/>	
 		</T_CLIENT>
 
 		<T_SPATIAL_LNK relation="T_SPATIAL_LNK.FK_RO_ID=T_REPORTING.PK_RO_ID" >		
@@ -77,4 +84,17 @@
 		</T_DUMMY>
 		<xrs:Constraint>DUMMY=@COUNTRY_ID</xrs:Constraint>
 	</xrs:RowSet>
+	<xrs:RowSet name="IssueData">
+		<T_ISSUE>
+			<ISSUE_NAME/>
+		</T_ISSUE>
+		<xrs:Constraint>PK_ISSUE_ID=@ISSUE_ID</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="CountryData">
+		<T_SPATIAL>
+			<SPATIAL_NAME/>
+		</T_SPATIAL>
+		<xrs:Constraint>PK_SPATIAL_ID=@COUNTRY_ID</xrs:Constraint>
+	</xrs:RowSet>
+
 </xrs:XmlData>

@@ -26,7 +26,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
 	<xsl:template name="PageTitle">
-		Reporting Obligations Database
+		EEA - Reporting Obligations Database
 	</xsl:template>
 
 	<xsl:template name="FirstHeading">

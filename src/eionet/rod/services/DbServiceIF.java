@@ -229,6 +229,11 @@ public interface DbServiceIF  {
   * Returns countries from the DB: PK_SPATIAL_ID, SPATIAL_NAME from T_SPATIAL
   */
   public String[][] getCountries() throws ServiceException;
+
+  /**
+  * Returns max PK_RO_ID
+  */
+  public String getMaxROId() throws ServiceException;
   
 }
 

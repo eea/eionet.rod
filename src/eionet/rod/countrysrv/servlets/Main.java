@@ -61,7 +61,7 @@ public class Main extends CSServletAC {
 
     //!!! 
     if (order == null)
-      order = "TITLE";
+      order = "NEXT_DEADLINE";
       
     //int parCount = 1;
 
@@ -149,8 +149,9 @@ public class Main extends CSServletAC {
         //passed
         else if (dlCase.equals("4")) {
           Calendar today = Calendar.getInstance();
-          date1="dd/mm/yyyy";
           date2=getDate(today);
+		  today.add(Calendar.MONTH, -3);
+		  date1=getDate(today);
         }
       }
             
@@ -166,16 +167,6 @@ public class Main extends CSServletAC {
       date2=cnvDate(date2);
 
 
-//      System.out.println("========== DATE 1 " + date1);
-//      System.out.println("========== DATE 2 " + date2);
-
-
-      //queryPars[2][1] = "DEADLINE >= '" + date1 + "' AND DEADLINE <= '" + date2 + "'" ;
-      //queryPars[2][1] = "NEXT_REPORTING >= '" + date1 + "' AND NEXT_REPORTING <= '" + date2 + "'" ;
-
-      /*String deadLineFld = " PERIOD_ADD(DATE_FORMAT(FIRST_REPORTING,'%Y%m%d'), "
-          + "ROUND(PERIOD_DIFF(DATE_FORMAT(CURRENT_DATE,'%Y%m%d'), " 
-          + "DATE_FORMAT(FIRST_REPORTING,'%Y%m%d')) / REPORT_FREQ_MONTHS) * REPORT_FREQ_MONTHS)  "; */
       
       queryPars[2][1] = "NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "'" ;
       //queryPars[2][1] = deadLineFld + " >= '" + date1 + "' AND " + deadLineFld + " <= '" + date2 + "' AND T_ACTIVITY.VALID_TO >= CURRENT_DATE " ;
@@ -183,7 +174,6 @@ public class Main extends CSServletAC {
       
       queryPars[3][0] = "ORD";
       queryPars[3][1] = order ;
-//_log("5");
 
       if( issue && deadline )
         querySource = PREFIX + "csadvanced.xml";

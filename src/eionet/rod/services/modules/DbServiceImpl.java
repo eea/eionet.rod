@@ -1060,4 +1060,10 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       return _executeStringQuery(sql);      
    }
 
+    public String getMaxROId() throws ServiceException {
+        String sql = "SELECT MAX(PK_RO_ID) FROM T_REPORTING";
+      String [][] s = _executeStringQuery(sql);
+
+      return s[0][0];
+    }
  }
