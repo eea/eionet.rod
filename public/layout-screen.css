@@ -50,7 +50,6 @@ body {
 #workarea {
 	clear:right;
 	margin-left: 150px;
-	padding-top: 1em;
 	padding-left:0px;
 	padding-right: 2px;
 }
@@ -188,7 +187,7 @@ body {
 .breadcrumbhead {
 	float: left;
 	width: 20px;
-	font-size: 0px;
+	font-size: 1px;
 	visibility: hidden;
 }
 .breadcrumbtail {
