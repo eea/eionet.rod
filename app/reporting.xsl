@@ -140,7 +140,11 @@ function delObligation() {
 				</td>
 				<td align="right" nowrap="true">
 					<xsl:if test="$admin='true'">
-						<a><xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+						<a>
+						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
+<!--
+						<xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+-->
 						<img src="images/new.gif" alt="Add a new reporting obligation" border="0"/></a>
 						<a><xsl:attribute name="href">
 								reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>

@@ -38,15 +38,14 @@ import com.tee.xmlserver.*;
  * <LI>mode=S - displays legislative act information;
  *    <UL TYPE="DISC">
  *       <LI>HTTP request parameters: id=T_SOURCE.PK_SOURCE_ID
- *       <LI>Database tables involved: T_SOURCE, T_SOURCE_LNK, T_SOURCE_CLASS, T_SOURCE_TYPE, T_GROUP_LNK,
- *       T_COUNTRY_GROUP, T_TOPIC_LNK, T_TOPIC, T_REPORTING
+ *       <LI>Database tables involved: T_SOURCE, T_SOURCE_LNK, T_SOURCE_CLASS, T_SOURCE_TYPE, T_REPORTING
  *       <LI>XSL file used: <CODE>source.xsl</CODE>
  *       <LI>Query file used: <CODE>source.xrs</CODE>
  *    </UL>
  * <LI>mode=R - displays reporting obligation information;
  *    <UL TYPE="DISC">
  *       <LI>HTTP request parameters: id=T_REPORTING.PK_RO_ID, aid=T_REPORTING.FK_SOURCE_ID, page
- *       <LI>Database tables involved: T_REPORTING, T_SOURCE, T_ACTIVITY, T_COUNTRY
+ *       <LI>Database tables involved: T_REPORTING, 	T_SOURCE, T_ACTIVITY, T_INFORMATION, T_ISSUE_LNK, T_SPATIAL_LNK
  *       <LI>XSL file used: <CODE>reporting.xsl</CODE>
  *       <LI>Query file used: <CODE>reporting.xrs</CODE>
  *    </UL>
@@ -63,6 +62,13 @@ import com.tee.xmlserver.*;
  *       <LI>Database tables involved: T_SOURCE_LNK, T_SOURCE_CLASS, T_SOURCE
  *       <LI>XSL file used: <CODE>hierarchy.xsl</CODE>
  *       <LI>Query file used: <CODE>hierarchy.xrs</CODE>
+ *    </UL>
+ * <LI>mode=X - displays legislation hierarchy for adding obligations;
+ *    <UL TYPE="DISC">
+ *       <LI>HTTP request parameters: id=T_SOURCE_CLASS.PK_CLASS_ID
+ *       <LI>Database tables involved: T_SOURCE_LNK, T_SOURCE_CLASS, T_SOURCE
+ *       <LI>XSL file used: <CODE>hierarchyx.xsl</CODE>
+ *       <LI>Query file used: <CODE>hierarchyx.xrs</CODE>
  *    </UL>
  *
  * @author  Andre Karpistsenko, Rando Valt
@@ -101,6 +107,8 @@ public class Show extends ROServletAC {
          return PREFIX + SOURCE_XSL;
       else if (mode.equals(HIERARCHY_MODE))
          return PREFIX + HIERARCHY_XSL;
+      else if (mode.equals(HIERARCHYX_MODE))
+         return PREFIX + HIERARCHYX_XSL;
       else if (mode.equals(REPORTING_MODE))
          return PREFIX + REPORTING_XSL;
       else if (mode.equals(REPORTING_PRINT_MODE))
@@ -134,7 +142,7 @@ public class Show extends ROServletAC {
          String qrySrc;
          if (mode.equals(SOURCE_MODE))
             qrySrc = PREFIX + SOURCE_QUERY;
-         else if (mode.equals(HIERARCHY_MODE))
+         else if (mode.equals(HIERARCHY_MODE) || mode.equals(HIERARCHYX_MODE))
             qrySrc = PREFIX + HIERARCHY_QUERY;
          else if (mode.equals(REPORTING_MODE))
             qrySrc = PREFIX + REPORTING_QUERY;

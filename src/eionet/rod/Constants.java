@@ -48,6 +48,7 @@ public interface Constants {
    public static final String SOURCE_QUERY  = "source.xrs";
    public static final String HIERARCHY_XSL = "hierarchy.xsl";
    public static final String HIERARCHY_QUERY  = "hierarchy.xrs";
+   public static final String HIERARCHYX_XSL = "hierarchyx.xsl";
    public static final String REPORTING_XSL = "reporting.xsl";
    public static final String REPORTING_QUERY  = "reporting.xrs";
    public static final String ACTIVITY_XSL = "activity.xsl";
@@ -60,6 +61,7 @@ public interface Constants {
    // show mode constants
    public static final String SOURCE_MODE = "S";
    public static final String HIERARCHY_MODE = "C";
+   public static final String HIERARCHYX_MODE = "X";
    public static final String REPORTING_MODE = "R";
    public static final String REPORTING_PARAM_MODE = "ROP";
    public static final String ACTIVITY_MODE = "A";
