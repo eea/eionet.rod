@@ -24,7 +24,8 @@
 
 package eionet.rod.services;
 
-import com.tee.xmlserver.Logger;
+//import com.tee.xmlserver.Logger;
+
 
 /**
  * Exception class for service layer error/exception situations.
@@ -47,7 +48,8 @@ public class ServiceException extends java.lang.Exception {
  */
     public ServiceException(String msg) {
         super(msg);
-        Logger.log("Service exception occured with reason <<" + msg + ">>");
+        //Logger.log("Service exception occured with reason <<" + msg + ">>");
+        RODServices.getLogService().error(  "Service exception occured with reason <<" + msg + ">>");        
     }
 }
 

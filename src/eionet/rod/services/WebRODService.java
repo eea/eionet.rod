@@ -28,12 +28,13 @@ import java.util.Vector;
 
 /**
  * Container class for providing public services of WebROD
+ * through XML/RPC || SOAP
  * <P>
  * @author Kaido Laine
  */
 public  class WebRODService {
 
-  
+  private static DbServiceIF dbSrv;
 
   /**
 	* Returns Activity Ids and Titles
@@ -41,7 +42,11 @@ public  class WebRODService {
   * @throw ServiceException  
 	*/
   public static Vector getActivities() throws ServiceException {
-   return DbService.getActivities();
+
+  if (dbSrv == null )
+    dbSrv = RODServices.getDbService();
+    
+    return dbSrv.getActivities();
   }
 
   /**
@@ -49,9 +54,9 @@ public  class WebRODService {
   * @return Vector (contains hashtables, one for each record)
   * @throw ServiceException  
 	*/
-  public static Vector getCountries() throws ServiceException {
+/*  public static Vector getCountries() throws ServiceException {
     return DbService.getCountries();
-  }
+  } */
 
 
   /**
@@ -60,27 +65,27 @@ public  class WebRODService {
   * @param String activity ID
   * @throw ServiceException
 	*/
-  public static String getDeadline( String activityId) throws ServiceException {
+/*  public static String getDeadline( String activityId) throws ServiceException {
     return DbService.getDeadLine( activityId );
-    }
+    } */
 
   /**
 	* Returns parameter groups
   * @return Vector
   * @throw ServiceException
 	*/
-  public static Vector getParamGroups( ) throws ServiceException {
+/*  public static Vector getParamGroups( ) throws ServiceException {
     return DbService.getParamGroups();
-  }
+  } */
 
   /**
 	* Returns issue IDs and values
   * @return Vector
   * @throw ServiceException
 	*/
-  public static Vector getIssues( ) throws ServiceException {
+/*  public static Vector getIssues( ) throws ServiceException {
     return DbService.getIssues();
-  }
+  } */
 
   /**
 	* Returns issue links
@@ -90,9 +95,9 @@ public  class WebRODService {
   * @return Vector
   * @throw ServiceException
 	*/
-  public static Vector getIssueLinks( String activityID ) throws ServiceException {
+/*  public static Vector getIssueLinks( String activityID ) throws ServiceException {
     return DbService.getIssueLinks(activityID);
-  }
+  } */
 
   /**
 	* Returns group links
@@ -102,20 +107,20 @@ public  class WebRODService {
   * @return Vector
   * @throw ServiceException
 	*/
-  public static Vector getGroupLinks( String activityID ) throws ServiceException {
+/*  public static Vector getGroupLinks( String activityID ) throws ServiceException {
 //    return RODServices.getDbService().getGroupLinks(activityID);
     return DbService.getGroupLinks( activityID );
     //return null;    
-  }
+  } */
 
   /**
 	* Returns Activity data for each country
   * @return Vector of Hashtables
   * @throw ServiceException
 	*/
-  public static Vector getActivityDetails( ) throws ServiceException {
+/*  public static Vector getActivityDetails( ) throws ServiceException {
     return DbService.getActivityDetails();
-  }
+  } */
 
 }
 
