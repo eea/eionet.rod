@@ -42,6 +42,7 @@ import eionet.rod.services.ServiceException;
 import javax.servlet.ServletConfig;
 import com.tee.xmlserver.BaseServletAC;
 import eionet.rod.services.RODServices;
+import com.tee.util.Util;
 
 /**
  * <P>Servlet URL: <CODE>rdf</CODE></P>
@@ -84,13 +85,30 @@ public class Instruments extends RDFServletAC {
       String title=(String)li.get("ALIAS");
       String legalName=(String)li.get("TITLE");
       String lastUpdate=(String)li.get("LAST_UPDATE");
+      String url=(String)li.get("URL");      
+      String abstr=(String)li.get("ABSTRACT");      
+      String issuedBy=(String)li.get("ISSUED_BY");      
+
+      //show legal name if short name is empty
+      title=(Util.nullString(title) ? legalName : title);
 
       s.append("<rod:Instrument rdf:about=\"" + instrumentsNamespace + pk + "\">")
         .append("<rdf:value>").append(title).append("</rdf:value>")
         .append("<rdfs:label>").append(title).append("</rdfs:label>")        
         .append("<dc:title>").append(legalName).append("</dc:title>")        
-        .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
-        .append("</rod:Instrument>");        
+        .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>");
+
+        if (!Util.nullString(abstr))
+          s.append("<dcterms:abstract>").append(abstr).append("</dcterms:abstract>");
+        
+        if (!Util.nullString(url))
+          s.append("<dc:identifier rdf:resource=\"" + url + "\"/>");
+
+        if (!Util.nullString(issuedBy))
+          s.append("<dc:creator>").append(issuedBy).append("</dc:creator>");
+          
+          
+        s.append("</rod:Instrument>");        
 /*
       s.append("<rod:Obligation rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">")
         .append("<rdf:value>").append(title).append("</rdf:value>")

@@ -591,10 +591,18 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     _executeUpdate(sql);
   }
 
+  private String rplAmp(String fld, String alias ){
+    return "REPLACE(" + fld +", '&', '&#038;') AS " + alias;
+  }
 
   public  Vector getInstruments() throws ServiceException {
-    String sql = "SELECT s.PK_SOURCE_ID, s.TITLE, s.ALIAS, DATE_FORMAT(s.LAST_UPDATE, '%Y-%m-%d') AS LAST_UPDATE FROM T_SOURCE s ORDER BY s.ALIAS ";
-//DATE_FORMAT(last_update, "%Y-%m-%d") 
+    String sql = "SELECT s.PK_SOURCE_ID," +  rplAmp("s.TITLE", "TITLE") +"," +
+      rplAmp("s.ALIAS", "ALIAS") +"," +
+      rplAmp("s.URL", "URL") + "," + rplAmp("s.ABSTRACT", "ABSTRACT") + ", " +
+      rplAmp("c.CLIENT_NAME", "ISSUED_BY") + "," +
+      "DATE_FORMAT(s.LAST_UPDATE, '%Y-%m-%d') AS LAST_UPDATE " +
+      " FROM T_SOURCE s LEFT OUTER JOIN T_CLIENT c ON s.FK_CLIENT_ID=c.PK_CLIENT_ID ORDER BY s.ALIAS ";
+
     return  _getVectorOfHashes(sql);        
   }
   
