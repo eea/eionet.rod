@@ -191,14 +191,6 @@
 		<xrs:Constraint>T_LOOKUP.CATEGORY='F'</xrs:Constraint>
 		<xrs:Ordering>T_LOOKUP.C_TERM</xrs:Ordering>
 	</xrs:RowSet>
-	<xrs:RowSet name="UnitType" omitRow="true">
-		<T_UNIT>
-			<PK_UNIT_ID/>
-			<UNIT_NAME/>
-			<UNIT_HELP/>
-		</T_UNIT>
-		<xrs:Ordering>T_UNIT.UNIT_NAME</xrs:Ordering>
-	</xrs:RowSet>
 	<xrs:RowSet name="InfoType" omitRow="true">
 		<T_LOOKUP>
 			<C_VALUE/>
