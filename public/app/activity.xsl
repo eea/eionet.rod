@@ -34,13 +34,6 @@
 		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/Row/T_SOURCE/PK_SOURCE_ID"/>
 	</xsl:variable>
 	
-	<xsl:variable name="admin">
-		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@auth"/>
-	</xsl:variable>
-
-	<xsl:variable name="permissions">
-		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@permissions"/>
-	</xsl:variable>
 
 	<xsl:template match="XmlData">
 		<xsl:choose>
