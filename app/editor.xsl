@@ -442,7 +442,12 @@ function changedReporting(first, freq, next, to, terminate) {
 	fiDate = checkDateSimple(first);
 	toDate = checkDateSimple(to);
 	fx = checkNumberSimple(freq);
-	
+
+	// Provide default if to value not given
+	//
+	if(fiDate != false && toDate == false)
+		to.value = "31/12/9999";			
+
 	// Check that date fields have valid values
 	//
 	if(fiDate == false || toDate == false)
@@ -462,7 +467,7 @@ function changedReporting(first, freq, next, to, terminate) {
 	if(fx == -1)
 		return;
 	
-	// If non-repeating, use Valid From for Next Due Date
+	// If non-repeating, use First Reporting for Next Due Date
 	//
 	if(fx == 0) {
 		next.value = first.value;
@@ -574,15 +579,15 @@ function ddmmyyyyDate(dat) {
 
 function checkAndSave(first, freq, next, textrep, to) {
 	if(textrep.value.length == 0 && (first.value.length == 0 || to.value.length == 0 || freq.value.length == 0)) {
-		alert("Both Reporting Date (Text Format) and one or more of normal reporting date fields (Valid From, Valid To, Reporting Frequency) are empty. One of them must be used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
+		alert("Both Reporting Date (Text Format) and one or more of normal reporting date fields (First Reporting, Valid To, Reporting Frequency) are empty. One of them must be used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
 		return;
 	}
 	else if(textrep.value.length != 0 && next.value.length != 0) {
-		alert("Both Reporting Date (Text Format) and normal reporting date fields (Valid From, Valid To, Reporting Frequency) are used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
+		alert("Both Reporting Date (Text Format) and normal reporting date fields (First Reporting, Valid To, Reporting Frequency) are used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
 		return;
 	}
 	else if(next.value.length == 0 && first.value.length != 0 && to.value.length != 0 && freq.value.length != 0) {
-		alert("Unable to calculate next due date. Please make sure you have entered valid date (dd/mm/yyyy format) in Valid From field and whole number (0 for non-repeating reporting) in Reporting Frequency in Months field.");
+		alert("Unable to calculate next due date. Please make sure you have entered valid date (dd/mm/yyyy format) in First Reporting field and whole number (0 for non-repeating reporting) in Reporting Frequency in Months field.");
 		return;
 	}
 	next.disabled = false;

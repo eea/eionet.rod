@@ -29,7 +29,7 @@
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
 		<map name="{$id}">
-			<area shape="rect" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="View help for this field"></area>
+			<area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="View help for this field"></area>
 		</map>
 		&#160;<img src="images/bb_help.png" usemap="#{$id}" border="0"></img>
 		<xsl:call-template name="EditHelp">
@@ -42,7 +42,7 @@
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
 		<map name="{$id}">
-			<area shape="rect" coords="0,0,120,17" href="javascript:openViewHelp('{$id}')" alt="See overview of this form"></area>
+			<area shape="rect" tabindex="-1" coords="0,0,120,17" href="javascript:openViewHelp('{$id}')" alt="See overview of this form"></area>
 		</map>
 		&#160;<img src="images/bb_helpoverview.png" usemap="#{$id}" border="0"></img>
 		<xsl:call-template name="EditHelp">
@@ -56,7 +56,7 @@
 		<xsl:param name="perm">x</xsl:param>
 		<xsl:if test="contains($perm, 'h')='true'">
 			<map name="{$id}_Edit">
-				<area shape="rect" coords="0,0,17,17" href="javascript:openHelp('{$id}')" alt="Edit help text"></area>
+				<area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openHelp('{$id}')" alt="Edit help text"></area>
 			</map>
 			<img src="images/bb_edithelp.png" usemap="#{$id}_Edit" border="0"></img>
 		</xsl:if>

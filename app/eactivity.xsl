@@ -137,7 +137,7 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" width="155"><span class="head0">Valid from:</span><br/>(dd/mm/yyyy)
+				<td nowrap="true" width="155"><span class="head0">First reporting:</span><br/>(dd/mm/yyyy)
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDFROM</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
 				<td colspan="3">

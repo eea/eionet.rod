@@ -221,7 +221,7 @@ function delActivity() {
 				</td>
 			</tr>
 			<tr valign="top">
-				<td width="22%"><span class="head0">Valid from:</span></td>
+				<td width="22%"><span class="head0">First reporting:</span></td>
 				<td colspan="2">
 					<xsl:value-of select="T_ACTIVITY/FIRST_REPORTING"/>
 				</td>
