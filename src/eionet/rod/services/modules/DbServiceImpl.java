@@ -332,8 +332,10 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
   }
 
   public String[][] getRaData() throws ServiceException {
-    String sql = "SELECT A.PK_DETAILS_ID, A.TITLE, C.SPATIAL_NAME FROM " +
-      " T_ACTIVITY_DETAILS A, T_SPATIAL C WHERE A.FK_COUNTRY_ID=C.PK_SPATIAL_ID";
+    String sql = "SELECT a.PK_RA_ID, a.TITLE, s.PK_SPATIAL_ID, s.SPATIAL_NAME " + 
+      " FROM T_ACTIVITY a, T_REPORTING r, T_SPATIAL_LNK sl, T_SPATIAL s " + 
+      " WHERE a.FK_Ro_id = r.pk_ro_id and r.pk_ro_id = sl.fk_ro_id " + 
+      " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND s.SPATIAL_TYPE='C';";
 
      return _executeStringQuery(sql);
   }  
@@ -343,7 +345,14 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
 */
 
   public String[][] getRespRoles() throws ServiceException {
-    return _executeStringQuery("SELECT RESPONSIBLE_ROLE FROM T_ACTIVITY_DETAILS");
+    //return _executeStringQuery("SELECT RESPONSIBLE_ROLE FROM T_ACTIVITY_DETAILS");
+    String sql = "SELECT CONCAT(a.RESPONSIBLE_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER))  " + 
+      " FROM T_ACTIVITY a, T_SPATIAL s, T_REPORTING r, T_SPATIAL_LNK sl  " + 
+      " WHERE  a.FK_RO_ID = r.PK_RO_ID AND sl.FK_RO_ID=r.PK_RO_ID " +
+      " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND a.RESPONSIBLE_ROLE IS NOT NULL " +
+      " AND a.RESPONSIBLE_ROLE <> '' AND s.SPATIAL_TYPE = 'C';" ;
+
+      return _executeStringQuery(sql);
   }
 
   public void dropTables(int mode) throws ServiceException {
@@ -352,17 +361,18 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       _executeUpdate("DELETE FROM T_GROUP");
       _executeUpdate("DELETE FROM T_ISSUE");
   */
-      if (mode == Extractor.ALL_DATA || mode == Extractor.ACTS || mode == Extractor.ACTS_DELIVERIES ) {
+      /*if (mode == Extractor.ALL_DATA || mode == Extractor.ACTS || mode == Extractor.ACTS_DELIVERIES ) {
         _executeUpdate("DELETE FROM T_ACTIVITY_DETAILS");
         _executeUpdate("DELETE FROM T_DEADLINE");
       }
+      */
 /*     
       _executeUpdate("DELETE FROM T_GROUP_LNK");
       _executeUpdate("DELETE FROM T_ISSUE_LNK");
 */
       if (mode == Extractor.ALL_DATA || mode == Extractor.DELIVERIES || mode == Extractor.ACTS_DELIVERIES ) {
         _executeUpdate("DELETE FROM T_DELIVERY");
-        _executeUpdate("DELETE FROM T_DELIVERY_LNK");
+        //_executeUpdate("DELETE FROM T_DELIVERY_LNK");
       }
     
       //_executeUpdate("DELETE FROM T_ORGANISATION");
@@ -373,11 +383,9 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
   }
 
 
-
+/*
   public void saveCountries( Vector countries ) throws ServiceException {
 
-    /*if(countries.size() == 0)
-      return; */
       
     for(int i = 0; i < countries.size(); i++) {
 
@@ -401,11 +409,9 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       _executeUpdate(sql);
     }
   }
-
-
+*/
+/*
   public void saveParamGroups(Vector paramGroups ) throws ServiceException {
-    /*if(arr == null || arr.length == 0)
-      return; */
 
     for(int i = 0; i < paramGroups.size(); i++) {
       String pkId, name, type;
@@ -424,7 +430,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       _executeUpdate(sql);
     }
   }
-
+*/
+/*
   public void saveIssues(Vector issues ) throws ServiceException {
 
   for(int i = 0; i < issues.size(); i++) {
@@ -441,7 +448,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       _executeUpdate(sql);
     }
   }
-
+*/
+/*
  public void saveActivities(Vector activities ) throws ServiceException {
 
     for(int i = 0; i < activities.size(); i++) {
@@ -499,12 +507,11 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       _executeUpdate(sql);
     }
   }
-
+*/
+/*
    public void saveParamGroupLinks( Vector prmGrpLinks) throws ServiceException {
 
-    /*if(arr == null || arr.length == 0)
-      return; */
-
+  
     for(int i = 0; i < prmGrpLinks.size(); i++) {
       String groupId= (String)((Hashtable)prmGrpLinks.elementAt(i)).get("FK_GROUP_ID");
       String raId= (String)((Hashtable)prmGrpLinks.elementAt(i)).get("FK_RA_ID");
@@ -516,7 +523,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       }
     }
   }
-
+*/
+/*
    public void saveIssueLinks( Vector issueLinks ) throws ServiceException {
     for(int i = 0; i < issueLinks.size(); i++) {
       String issueId= (String)((Hashtable)issueLinks.elementAt(i)).get("FK_ISSUE_ID");
@@ -529,7 +537,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
     }
 
    }
-
+*/
+/*
    public void saveDeadlines( String raId, String deadline ) throws ServiceException {
     if(deadline == null)
       return;
@@ -548,7 +557,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
     //_log( "=============== DEADLINES OK FOR RA_ID=" + raId);
 
   }
-
+*/
 // Takes in a raw date string and parses it to correct date string(s).
   // There are four types of date:
   // 1. No date
@@ -605,7 +614,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
     String mail = (String)role.get("MAIL");
     
     String sql = "INSERT INTO T_ROLE SET ROLE_NAME='" + desc +
-                 "', ROLE_EMAIL='" + mail + "', ROLE='" + roleId + "',  " + 
+                 "', ROLE_EMAIL='" + mail + "', ROLE_ID='" + roleId + "',  " + 
                 " ROLE_URL ='" + circaUrl + "'";
     if (roleId != null)
       _executeUpdate(sql);
@@ -615,7 +624,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
   /**
   *
   */
-   public void saveDelivery(String detailsId, Hashtable delivery ) throws ServiceException {
+   public void saveDelivery(String raId, String countryId, Hashtable delivery ) throws ServiceException {
 
     if(delivery == null || delivery.size() == 0)
       return;
@@ -647,25 +656,28 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
                  ((crURL == null)? "" : crURL) + "\", DELIVERY_URL='" +
                  identifier + "', TYPE='" +
                  ((type == null)? "" : type) + "', FORMAT='" +
-                 ((format == null)? "" : format) + "'";
+                 ((format == null)? "" : format) + "'," +
+                 " FK_SPATIAL_ID = " + countryId + ", " +
+                 " FK_RA_ID = " + raId + " ;" ;
 
     _executeUpdate(sql);
  
     //delivery_link
 
-    String deliveryId = getDeliveryId( identifier );
-    saveDeliveryLink( deliveryId, detailsId );
+    //String deliveryId = getDeliveryId( identifier );
+    //saveDeliveryLink( deliveryId, detailsId );
 
 
    }  
-  
+
+/*  
   private void saveDeliveryLink( String deliveryId, String actDetailsId ) throws ServiceException {
     String sql = "INSERT INTO T_DELIVERY_LNK (FK_DELIVERY_ID, FK_DETAILS_ID ) VALUES (" +
       deliveryId + ", " + actDetailsId + ")";
 
     _executeUpdate(sql);
 }
-
+*/
   private String composeCrURL( String deliveryURL ){
     deliveryURL = URLEncoder.encode( deliveryURL );
     String url = crUrlPref + "md5('" + deliveryURL + "')";
@@ -675,12 +687,18 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
 
   private String cnvVector( Vector v ) {
 
+    //quick fix
+    if (v == null)
+      return "";
+      
     //_log("vector = " + v);  
     StringBuffer s = new StringBuffer();
     for (int i =0; i< v.size(); i++) {
-      s.append((String)v.elementAt(i));
-      if (i < v.size() -1 )
-        s.append (",");
+      if (v.elementAt(i) != null) {
+        s.append((String)v.elementAt(i));
+        if (i < v.size() -1 )
+          s.append (",");
+      }
     }    
 
     return s.toString();
@@ -690,7 +708,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
  /**
 	* Returns all Reporting activities
 	*/
-
+/*
   public Vector getActivityDetails(  ) throws ServiceException {
 
   //_log("*********** HAAAAAAAAAAAAAAAAAAAAAAAAAAA");
@@ -717,7 +735,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       return ret;          
   }
 
-
+*/
  /**
  * returns result as vector of String arrays
  */
@@ -780,6 +798,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
   * @param String activity ID
   * @throw ServiceException
 	*/
+  /*
+  
   public String getDeadLine( String activityId) throws ServiceException {
 
     String deadLine = ""; 
@@ -799,7 +819,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
     //_log("RA= "+ activityId + " deadline= " + deadLine);      
     return deadLine;
     }
-
+*/
 
  /**
 	* Returns all Reporting activities pk_id + title

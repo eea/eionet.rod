@@ -43,7 +43,19 @@ public class Main extends CSServletAC {
 
     boolean issue=false;
     boolean deadline =false;
-    
+
+    /*
+    boolean ra = false;
+
+    String raID = params.getParameter("RA_ID");
+
+    if (raID != null && !raID.equals("0")){
+      ra=true;
+      raID = "'" + raID + "'";
+    }
+    else
+      raID="'%%'";
+   */ 
     String issueID = params.getParameter("ISSUE_ID");
 
     if (issueID != null && !issueID.equals("0")){
@@ -98,7 +110,8 @@ public class Main extends CSServletAC {
       date2=cnvDate(date2);
       
       queryPars[2][0] = "DEADLINES";
-      queryPars[2][1] = "DEADLINE >= '" + date1 + "' AND DEADLINE <= '" + date2 + "'" ;
+      //queryPars[2][1] = "DEADLINE >= '" + date1 + "' AND DEADLINE <= '" + date2 + "'" ;
+      queryPars[2][1] = "NEXT_REPORTING >= '" + date1 + "' AND NEXT_REPORTING <= '" + date2 + "'" ;
 
       queryPars[3][0] = "ORD";
       queryPars[3][1] = order ;

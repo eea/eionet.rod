@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
 	<xrs:RowSet>
-		<T_DELIVERY_LNK>
-			<FK_DELIVERY_ID/>
-			<FK_DETAILS_ID/>
-		</T_DELIVERY_LNK>
-		<T_DELIVERY relation="T_DELIVERY.PK_DELIVERY_ID=T_DELIVERY_LNK.FK_DELIVERY_ID" reltype="inner" >
+		<T_DELIVERY>
 			<PK_DELIVERY_ID/>
+			<FK_RA_ID/>
+			<FK_SPATIAL_ID/>
 			<TITLE/>
 			<DELIVERY_URL/>
 			<UPLOAD_DATE/>
@@ -14,17 +12,16 @@
 			<FORMAT/>
 			<CONTREG_URL/>
 		</T_DELIVERY>
-		<T_ACTIVITY_DETAILS relation="T_DELIVERY_LNK.FK_DETAILS_ID=T_ACTIVITY_DETAILS.PK_DETAILS_ID" reltype="inner">
-			<PK_DETAILS_ID/>
+		<T_ACTIVITY relation="T_DELIVERY.FK_RA_ID=T_ACTIVITY.PK_RA_ID" reltype="inner">
+			<PK_RA_ID/>
+			<FK_RO_ID/>
 			<TITLE/>
-			<RA_URL/>
-			<FK_COUNTRY_ID/>
-		</T_ACTIVITY_DETAILS>
-		<T_SPATIAL relation="T_SPATIAL.PK_SPATIAL_ID=T_ACTIVITY_DETAILS.FK_COUNTRY_ID" reltype="outer">
+		</T_ACTIVITY>
+		<T_SPATIAL relation="T_SPATIAL.PK_SPATIAL_ID=T_DELIVERY.FK_SPATIAL_ID" reltype="outer">
 			<PK_SPATIAL_ID/>
 			<SPATIAL_NAME/>
 		</T_SPATIAL>
-		<xrs:Constraint>T_DELIVERY_LNK.FK_DETAILS_ID=@ACT_DETAILS_ID</xrs:Constraint>
+		<xrs:Constraint>T_DELIVERY.FK_RA_ID=@ACT_DETAILS_ID</xrs:Constraint>
 		<xrs:Ordering>T_DELIVERY.UPLOAD_DATE DESC</xrs:Ordering>
 	</xrs:RowSet>
 </xrs:XmlData>

@@ -293,7 +293,7 @@ function doSearch(){
     <img src="images/bar_hole.jpg" width="28" height="24"/></td><td width="92" align="middle" valign="bottom"><a href="index.html"><span class="barfont">WebROD</span></a></td>
 
 				<td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-				<td width="122"	align="middle" valign="bottom"><a href="csindex"><span class="barfont">Deliveries</span></a></td>
+				<td width="122"	align="middle" valign="bottom"><a href="deliveries.jsv"><span class="barfont">Deliveries</span></a></td>
 
 		<td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
 		<td width="122" align="middle" valign="bottom"><span class="barfont"><!--a href="cssearch.html"-->Advanced Search<!--/a--></span></td>
@@ -342,14 +342,20 @@ function doSearch(){
 		
 </td>
   </tr>
-  <tr>
+	<!-- temporarily commented off until the deadline generating mechanism is not ready -->
+
+
+		<input type="hidden" name="DATE_1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
+		<input type="hidden" name="DATE_2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
+
+  <!--tr>
     <td width="10">
   <img src="images/diamlil.gif" width="8" height="9"/></td>
 	<td width="200">Time period</td><td>
 		<input type="text" name="DATE_1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/><b> - </b>	
 		<input type="text" name="DATE_2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
 		</td>
-  </tr>
+  </tr-->
   <tr><td colspan="2"></td><td>
     <input value="Show selected reporting deliveries" onclick="doSearch()" style="width:300" type="button"/></td></tr></table>
 		</form><br/><div style="margin-left:20"><table cellspacing="7pts"></table></div>

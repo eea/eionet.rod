@@ -92,10 +92,8 @@ function openMetaData(url){
 	</td></tr>
 		<tr><td>
 		<span class="head0"><a target="RA"> <!-- need to direct to another window ????? -->
-		<xsl:attribute name="href">
-			<xsl:value-of select="XmlData/RowSet/Row/T_ACTIVITY_DETAILS/RA_URL"/>
-		</xsl:attribute>
-		<xsl:value-of select="XmlData/RowSet/Row/T_ACTIVITY_DETAILS/TITLE"/>
+		<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="XmlData/RowSet/Row/T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="XmlData/RowSet/Row/T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
+		<xsl:value-of select="XmlData/RowSet/Row/T_ACTIVITY/TITLE"/>
 		</a>
 		</span>
    </td></tr>

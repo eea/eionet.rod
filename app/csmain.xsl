@@ -158,6 +158,12 @@ var picklist = new Array();
 <!-- main table -->
 <table cellspacing="0" cellpadding="0" border="0">
 
+<map name="sortClient">
+<area shape="rect" coords="0,0, 12,7" href="javascript:changeParamInString(document.URL,'ORD','CLIENT_NAME')" alt="Click to sort in ascending order" />
+<area shape="rect" coords="12,0, 24,7" href="javascript:changeParamInString(document.URL,'ORD','CLIENT_NAME DESC')" alt="Click to sort in descending order" />
+</map>
+
+
 <map name="sortTitle">
 <area shape="rect" coords="0,0, 12,7" href="javascript:changeParamInString(document.URL,'ORD','TITLE')" alt="Click to sort in ascending order" />
 <area shape="rect" coords="12,0, 24,7" href="javascript:changeParamInString(document.URL,'ORD','TITLE DESC')" alt="Click to sort in descending order" />
@@ -328,15 +334,15 @@ var picklist = new Array();
 				<td bgcolor="#646666" align="center" width="10"> </td>
 				<td bgcolor="#646666" align="center" width="147"><span class="head0" title="Local organisation, responsible for reporting"><font color="#FFFFFF">Responsible</font> </span></td>
 				<!--td bgcolor="#646666" align="center" width="10"></td-->
-				<td bgcolor="#646666" align="center" width="147"><font color="#FFFFFF"><span class="head0" title="Organisation to report to">Reporting to</span></font></td>
+				<td bgcolor="#646666" align="center" width="147"><font color="#FFFFFF"><span class="head0" title="Organisation to report to">Reporting to <IMG name="updown" border="0" src="images/updown.gif" usemap="#sortClient"></IMG></span></font></td>
 				<td bgcolor="#646666" align="center" width="100"><span class="head0" title="List of deliveries for the given RA"><font color="#FFFFFF">Deliveries</font></span></td>
 				<td bgcolor="#646666" align="center" width="180"><span class="head0"><font color="#FFFFFF" title="Title of the reporting activity">Reporting Activity <IMG name="updown" border="0" src="images/updown.gif" usemap="#sortTitle"></IMG></font></span></td>
 			  <td bgcolor="#646666" align="center" width="140">
 				<p align="center"/><span class="head0" title="Deadline for reporting">
 			  <font color="#FFFFFF">Deadline
-					<xsl:if test="XmlData/RowSet/Row/T_DEADLINE/DEADLINE !=''">
+					<!--xsl:if test="XmlData/RowSet/Row/T_DEADLINE/DEADLINE !=''"-->
 						<IMG name="sort" border="0" src="images/updown.gif" usemap="#sortDeadline"></IMG>
-					</xsl:if>
+					<!--/xsl:if-->
 					</font></span>
 				</td>
 				<xsl:if test="$oneCountry !=0">
@@ -361,7 +367,7 @@ var picklist = new Array();
 			<xsl:choose>
 			<xsl:when test="RESPONSIBLE/ROLE_NAME=''">
 				<!--No contact-->
-				<xsl:value-of select="T_ACTIVITY_DETAILS/RESPONSIBLE_ROLE"/>
+				<xsl:value-of select="T_ACTIVITY/RESPONSIBLE_ROLE"/>-<xsl:value-of select="T_SPATIAL/SPATIAL_TWOLETTER"/>
 			</xsl:when>
 			<xsl:otherwise>
 			<a>
@@ -377,7 +383,7 @@ var picklist = new Array();
 <img src="images/diamlil.gif" width="8" height="9"/>
 </td-->
 <td width="147"><font color="#646666">
-		<xsl:value-of select="T_ACTIVITY_DETAILS/REPORT_TO"/>
+		<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
 		</font>
 </td>
 <td width="100">
@@ -388,11 +394,7 @@ var picklist = new Array();
 					</xsl:when>
 					<xsl:otherwise>
 						<a window="delivery">
-						<xsl:attribute name="href">javascript:openDeliveries(<xsl:value-of select="T_ACTIVITY_DETAILS/PK_DETAILS_ID"/>)</xsl:attribute>
-						
-						<!--xsl:attribute name="href">
-							csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_ACTIVITY_DETAILS/PK_DETAILS_ID"/>
-						</xsl:attribute-->
+						<xsl:attribute name="href">javascript:openDeliveries(<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>)</xsl:attribute>
 							Show list
 						</a>
 					</xsl:otherwise>
@@ -402,22 +404,22 @@ var picklist = new Array();
 <td width="250">
 	<span class="head0">
 		<a>
-			<xsl:attribute name="href">
-			<xsl:value-of select="T_ACTIVITY_DETAILS/RA_URL"/>
-			</xsl:attribute>
-			<xsl:value-of select="T_ACTIVITY_DETAILS/TITLE"/>
+			<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
+			<xsl:value-of select="T_ACTIVITY/TITLE"/>
 		</a>
 		</span>
 </td>
   <td width="140" align="center">
 			<!-- check, where we are -->
-			<xsl:choose>
+			<xsl:value-of select="T_ACTIVITY/DEADLINE"/>
+<!-- remove deadline parsing -->
+			<!--xsl:choose>
 			<xsl:when test="T_DEADLINE/DEADLINE != '' ">	
 				<xsl:value-of select="T_DEADLINE/DEADLINE"/>
 			</xsl:when>
 			<xsl:otherwise>
 			<xsl:choose>
-						<!-- if there are future deadlines, we show the 1st from the future, otherwise last one from the past -->
+
 						<xsl:when test="count(descendant::SubSet[@Name='FutureDeadlines']/Row) = 0 ">	
 							<xsl:choose>
 									<xsl:when test="SubSet[@Name='PassedDeadlines']/Row/T_DEADLINE/DEADLINE =''">	
@@ -440,8 +442,8 @@ var picklist = new Array();
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:otherwise>
-			</xsl:choose>
-	</td>
+			</xsl:choose-->
+			</td>
 	<xsl:if test="$oneCountry !=0">
 		<td width="*" align="left"><span lang="en-us"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/></span></td>
 	</xsl:if>

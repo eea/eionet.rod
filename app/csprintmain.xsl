@@ -191,7 +191,7 @@ var picklist = new Array();
 <td width="163"><font color="#646666">
 			<xsl:choose>
 			<xsl:when test="RESPONSIBLE/ROLE_NAME=''">
-					<xsl:value-of select="T_ACTIVITY_DETAILS/RESPONSIBLE_ROLE"/>
+					<xsl:value-of select="T_ACTIVITY/RESPONSIBLE_ROLE"/>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="RESPONSIBLE/ROLE_NAME"/>
@@ -200,7 +200,7 @@ var picklist = new Array();
 			</font>
 </td>
 <td width="147"><font color="#646666">
-				<xsl:value-of select="T_ACTIVITY_DETAILS/REPORT_TO"/>
+				<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
 			</font>
 </td>
 <td width="100">
@@ -217,18 +217,18 @@ var picklist = new Array();
 </td>
 <td width="250">
 	<span class="head0">
-			<xsl:value-of select="T_ACTIVITY_DETAILS/TITLE"/>
+			<xsl:value-of select="T_ACTIVITY/TITLE"/>
 		</span>
 </td>
   <td width="140" align="center">
+			<xsl:value-of select="T_ACTIVITY/DEADLINE"/>
 			<!-- check, where we are -->
-			<xsl:choose>
+			<!--xsl:choose>
 			<xsl:when test="T_DEADLINE/DEADLINE != '' ">	
 				<xsl:value-of select="T_DEADLINE/DEADLINE"/>
 			</xsl:when>
 			<xsl:otherwise>
 			<xsl:choose>
-						<!-- if there are future deadlines, we show the 1st from the future, otherwise last one from the past -->
 						<xsl:when test="count(descendant::SubSet[@Name='FutureDeadlines']/Row) = 0 ">	
 							<xsl:choose>
 									<xsl:when test="SubSet[@Name='PassedDeadlines']/Row/T_DEADLINE/DEADLINE =''">	
@@ -251,10 +251,10 @@ var picklist = new Array();
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:otherwise>
-			</xsl:choose>
+			</xsl:choose-->
 	</td>
 	<xsl:if test="$oneCountry !=0">
-		<td width="*" align="left"><span lang="en-us"><xsl:value-of select="T_COUNTRY/COUNTRY_NAME"/></span></td>
+		<td width="*" align="left"><span lang="en-us"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/></span></td>
 	</xsl:if>
 
   </tr>

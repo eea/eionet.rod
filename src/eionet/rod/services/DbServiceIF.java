@@ -46,11 +46,11 @@ public interface DbServiceIF  {
  /**
  * returns RA IDs in an array
  */
-  public String[][] getActivityIds() throws ServiceException;  
+//  public String[][] getActivityIds() throws ServiceException;  
 
  /**
  * returns RA data in 2-dimensional array
- * 0-PK_ACTIVITTY_DETAILS_ID, 1-TITLE, 2-COUNTRY_NAME
+ * 0-PK_ACTIVITTY_DETAILS_ID, 1-TITLE, 2-COUNTRY_ID, 3-COUNTRY_NAME
  */
   public String[][] getRaData() throws ServiceException;  
 
@@ -67,37 +67,37 @@ public interface DbServiceIF  {
  /**
  * Saves countries
  */
-  public void saveCountries( Vector countries ) throws ServiceException;
+ // public void saveCountries( Vector countries ) throws ServiceException;
 
  /**
  * Saves parameter groups
  */
-  public void saveParamGroups(Vector paramGroups ) throws ServiceException ;  
+ // public void saveParamGroups(Vector paramGroups ) throws ServiceException ;  
 
  /**
  * Saves issues
  */
-  public void saveIssues(Vector issues ) throws ServiceException ;    
+//  public void saveIssues(Vector issues ) throws ServiceException ;    
 
  /**
  * Saves activity details
  */
-  public void saveActivities(Vector activities ) throws ServiceException ;    
+  //public void saveActivities(Vector activities ) throws ServiceException ;    
 
  /**
  * Saves param group links
  */
-  public void saveParamGroupLinks( Vector prmGrpLinks ) throws ServiceException ;  
+//  public void saveParamGroupLinks( Vector prmGrpLinks ) throws ServiceException ;  
 
  /**
  * Saves issue links
  */
-  public void saveIssueLinks( Vector issueLinks ) throws ServiceException ;  
+//  public void saveIssueLinks( Vector issueLinks ) throws ServiceException ;  
 
  /**
  * Saves deadlines
  */
-  public void saveDeadlines( String raId, String deadline) throws ServiceException ;     
+//  public void saveDeadlines( String raId, String deadline) throws ServiceException ;     
 
 
  /**
@@ -108,16 +108,16 @@ public interface DbServiceIF  {
  /**
  * Saves delivery
  */
-  public void saveDelivery(String detailsId, Hashtable delivery ) throws ServiceException ;   
+  public void saveDelivery(String raId, String countryId, Hashtable delivery ) throws ServiceException ;   
 
  /**
  * Get Activity details
  */
-  public Vector getActivityDetails() throws ServiceException ;   
+  //public Vector getActivityDetails() throws ServiceException ;   
   /**
   * Deadline of the activity 
   */
-  public String getDeadLine( String activityId) throws ServiceException ;
+  //public String getDeadLine( String activityId) throws ServiceException ;
 
 
   /**
