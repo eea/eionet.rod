@@ -174,6 +174,7 @@
 
 	<xsl:template name="LeftToolbar">
 		<xsl:param name="admin">false</xsl:param>
+		<xsl:param name="username"/>
 			<!-- Toolbar -->
 		<div id="globalnav">
 		  <h2>Contents</h2>
@@ -185,11 +186,21 @@
 		    <li><a href="deliveries.jsv" title="Country deadlines">Deadlines</a></li>
 		    <li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations</a></li>
 		    <li><a href="text.jsv?mode=H" title="General Help">Help</a></li>
-  			 <xsl:if test="contains($admin,'true')='true'">
-			    <li>&#160;</li>
-			    <li><a href="logout_servlet" title="Log out">Logout</a></li>
-			 </xsl:if>
-		  </ul>
+		    </ul>
+		       <xsl:choose>
+				<xsl:when test="contains($admin,'true')='true'">
+					<h2>Logged in as<br/><xsl:value-of select="$username"/></h2>
+				    	<ul>
+					    <li><a href="logout_servlet" title="Log out">Logout</a></li>
+					</ul>
+				</xsl:when>
+				<xsl:otherwise>
+				    	<h2>Not logged in</h2>
+					<ul>
+					    <li><a href="login.html" title="Login">Login</a></li>
+					</ul>
+				</xsl:otherwise>
+			</xsl:choose>
 		  <h2>Reportnet</h2>
 		  <ul>
 		    <li><a href="http://cdr.eionet.eu.int/" title="Central Data Repository">CDR</a></li>

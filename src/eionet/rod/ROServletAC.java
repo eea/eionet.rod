@@ -160,6 +160,9 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
             try {
                //prms = acl.getPermissions( u.getUserName() ) ;
                String uName = (u==null ? "" : u.getUserName() );
+               if (uName != null) 
+                qry.addAttribute("username", uName);
+
                prms=AccessController.getPermissions(uName);
             } catch (SignOnException soe ) {
               prms = null;

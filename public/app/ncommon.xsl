@@ -35,6 +35,10 @@
 	<xsl:variable name="admin">
 		<xsl:value-of select="//RowSet[position()=1]/@auth"/>
 	</xsl:variable>
+	<xsl:variable name="username">
+		<xsl:value-of select="//RowSet[position()=1]/@username"/>
+	</xsl:variable>
+
 
 	<xsl:variable name="permissions">
 		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
@@ -141,6 +145,7 @@ function fillPicklist(type,list,text) {
 
 					<xsl:call-template name="LeftToolbar">
 						<xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param>
+						<xsl:with-param name="username"><xsl:value-of select="$username"/></xsl:with-param>
 					</xsl:call-template>
 					<xsl:apply-templates select="XmlData"/>
 			</body>
