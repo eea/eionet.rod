@@ -123,6 +123,15 @@
 				</td>
 			</tr>
 			<tr valign="top">
+				<td nowrap="true" width="120"><span class="head0">Responsible for reporting:</span><br/>(role prefix)</td>
+				<td colspan="3">
+					<input type="text" size="30" onChange="changed()">
+						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/RESPONSIBLE_ROLE/@XPath"/></xsl:attribute>
+						<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/RESPONSIBLE_ROLE"/></xsl:attribute>
+					</input>
+				</td>
+			</tr>
+			<tr valign="top">
 				<td nowrap="true" width="120"><span class="head0">Reporting frequency:</span><br/></td>
 				<td colspan="3">
 					<select onChange="changed()">
@@ -202,7 +211,7 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" width="120"><span class="head0">Reporting format:</span></td>
+				<td nowrap="true" width="120"><span class="head0">Reporting guidelines:</span></td>
 				<td colspan="3">
 					<textarea rows="5" cols="55" wrap="soft" width="570" style="width:570" onChange="changed()">
 					<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/REPORTING_FORMAT/@XPath"/></xsl:attribute>
@@ -210,7 +219,7 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" width="120"><span class="head0">Name of format:</span></td>
+				<td nowrap="true" width="120"><span class="head0">Name of reporting guidelines:</span></td>
 				<td colspan="3">
 					<input type="text" size="60" onChange="changed()">
 						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/FORMAT_NAME/@XPath"/></xsl:attribute>
@@ -228,7 +237,7 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" width="120"><span class="head0">Link to reporting format template:</span> (URL)</td>
+				<td nowrap="true" width="120"><span class="head0">URL to reporting guidelines:</span></td>
 				<td colspan="3">
 					<input type="text" size="60" onChange="changed()">
 						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/REPORT_FORMAT_URL/@XPath"/></xsl:attribute>

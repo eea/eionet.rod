@@ -53,6 +53,7 @@
 			<TERMINATE/>
 			<REPORT_FREQ/>
 			<COMMENT/>
+			<RESPONSIBLE_ROLE/>
 		</T_ACTIVITY>
 		<xrs:Constraint>T_ACTIVITY.PK_RA_ID=@ID</xrs:Constraint>
 		<xrs:SubSet name="LnkPar" relation="T_ACTIVITY.PK_RA_ID=T_PARAMETER_LNK.FK_RA_ID">

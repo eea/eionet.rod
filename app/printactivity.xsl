@@ -80,6 +80,18 @@
 				</td>
 			</tr>
 			<tr valign="top">
+				<td width="22%"><span class="head0">Document last modifed:</span></td>
+				<td colspan="2">
+					<xsl:value-of select="T_ACTIVITY/LAST_UPDATE"/>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td width="22%"><span class="head0">Responsible for reporting (role prefix):</span></td>
+				<td colspan="2">
+					<xsl:value-of select="T_ACTIVITY/RESPONSIBLE_ROLE"/>
+				</td>
+			</tr>
+			<tr valign="top">
 				<td width="22%"><span class="head0">Related obligation:</span></td>
 				<td colspan="2">
 						<a><xsl:attribute name="href">
@@ -161,7 +173,7 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td width="22%"><span class="head0">Reporting format:</span></td>
+				<td width="22%"><span class="head0">Reporting guidelines:</span></td>
 				<td colspan="2">
 				<xsl:choose>
 					<xsl:when test="T_ACTIVITY/REPORTING_FORMAT=''">N/A</xsl:when>
@@ -170,7 +182,7 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td width="22%"><span class="head0">Link to reporting format template:</span></td>
+				<td width="22%"><span class="head0">URL to reporting guidelines:</span></td>
 				<td colspan="2">
 					<xsl:choose>
 						<xsl:when test="T_ACTIVITY/REPORT_FORMAT_URL != ''">
@@ -195,9 +207,8 @@
 			</tr>
 			<tr><td colspan="3"><br/><hr/></td></tr>
 			<tr><td colspan="3">
-			Document last modified: <xsl:value-of select="T_ACTIVITY/LAST_UPDATE"/>.
-			<a><xsl:attribute name="href"></xsl:attribute><xsl:attribute name="target">_new</xsl:attribute></a><br/>
-			Contents in this application is maintained by the EEA.
+			Contents in this application are maintained by the EEA.
+			<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>
 			</td></tr>
 		</table>
 	</xsl:template>
@@ -208,7 +219,9 @@
 			<tr>
 				<td bgcolor="#646666"><span class="head0"><font color="white">Nr</font></span></td>
 				<td bgcolor="#646666"><span class="head0"><font color="white">Parameter</font></span></td>
+<!--
 				<td bgcolor="#646666"><span class="head0"><font color="white">Unit type</font></span></td>
+-->
 			</tr>
 			<xsl:for-each select="Row">
 				<tr>
@@ -218,6 +231,7 @@
 					<td>
 						<xsl:value-of select="T_PARAMETER/PARAMETER_NAME"/>
 					</td>
+<!--
 					<td>
 						<xsl:choose>
 							<xsl:when test="T_PARAMETER_LNK/PARAMETER_UNIT = ''">
@@ -228,6 +242,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</td>
+-->
 				</tr>
 			</xsl:for-each>
 		</table>

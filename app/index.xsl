@@ -65,6 +65,7 @@
 					<td width="10"><img src="images/diamlil.gif"/></td>
 					<td width="590"><a href="rorabrowse.jsv?mode=R"><span class="head0">All obligations</span></a></td>
 				</tr>
+<!--
 				<tr>
 					<td width="10"><img src="images/diamlil.gif"/></td>
 					<td width="590"><a><xsl:attribute name="href">
@@ -100,6 +101,7 @@
 								</xsl:attribute><span class="head0">Other requests</span>
 							</a></td>
 				</tr>
+-->
 			</table></td>
 			<td valign="top"><table cellspacing="10" border="0">
 				<tr>
@@ -149,6 +151,7 @@
 					</select>
 				</td>
 			</tr>
+<!--
 			<tr valign="center">
 				<td width="10"></td>
 				<td width="200">River runoff areas</td>
@@ -188,6 +191,7 @@
 					</select>
 				</td>
 			</tr>
+-->
 			<tr valign="center">
 				<td width="10"><img src="images/diamlil.gif"/></td>
 				<td width="200">Specific parameters</td>
@@ -222,6 +226,12 @@
 			<tr>
 				<td colspan="2"></td>
 				<td><input type="button" style="width:300" onclick="javascript:document.f.mode.value = 'A';document.f.submit();" value="Show selected reporting activities"></input></td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td><input type="button" style="width:150" onclick="javascript:alert('The content of the database can be browsed by clicking the links of categorized obligations and activities. It is also possible to browse ROs and RAs by choosing between different filters which specify the documents that are going to be displayed. At the bottom of the screen the number of reporting obligations, -activities and the date of the latest update is shown.\n\n 
+Each page in WebROD has a Navigation Bar on the left side of the screen where user can navigate to legislations (categorized by type and according to EUR-LEX), environmental issues, obligations and activities.')" value="General Help"></input>
+				<input type="button" style="width:150" onclick="javascript:alert('It is possible to use six different categories to filter obligations or activities. By choosing values from more than one list box all filters are concatenated by using logical AND operator (for example: Environmental issue=Air and Country=Denmark will give all obligations/activities that Denmark has to fulfill in the issues concerning Air.\n\nThere are two types of parameters - chemicals, and species - which can be accessed by choosing the relevant value from the small list box.')" value="Search Help"></input></td>
 			</tr>
 		</table>
 		</form>

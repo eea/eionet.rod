@@ -83,6 +83,12 @@
 				</td>
 			</tr>
 			<tr valign="top">
+				<td width="22%"><span class="head0">Document last modified:</span></td>
+				<td colspan="2">
+					<xsl:value-of select="T_REPORTING/LAST_UPDATE"/>
+				</td>
+			</tr>
+			<tr valign="top">
 				<td width="22%"><span class="head0">Related legal instrument:</span></td>
 				<td colspan="2">
 					<a>	<xsl:attribute name="href">
@@ -155,18 +161,19 @@
 				</td>
 			</tr>
 			</xsl:if>
+<!--
 			<xsl:call-template name="RelatedInformation">
 				<xsl:with-param name="type">ER</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="RelatedInformation">
 				<xsl:with-param name="type">NS</xsl:with-param>
 			</xsl:call-template>
+-->
 			
 			<tr><td colspan="3"><br/><hr/></td></tr>
 			<tr><td colspan="3">
-			Document last modified: <xsl:value-of select="T_REPORTING/LAST_UPDATE"/>.
-			<a><xsl:attribute name="href"></xsl:attribute><xsl:attribute name="target">_new</xsl:attribute></a><br/>
-			Contents in this application is maintained by the EEA.
+			Contents in this application are maintained by the EEA.
+			<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>
 			</td></tr>
 		</table>
 	</xsl:template>
