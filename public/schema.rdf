@@ -18,6 +18,16 @@
     <rdfs:range rdf:resource='#Obligation' />
   </rdf:Property>
 
+  <rdfs:Class rdf:ID='Instrument'>
+    <rdfs:label>Legal Instrument</rdfs:label>
+  </rdfs:Class>
+
+<!-- Used by obligations to refer to the instrument with an rdf:resource attribute -->
+  <rdf:Property rdf:ID='instrument'>
+    <rdfs:label>Legal Instrument</rdfs:label>
+    <rdfs:range rdf:resource='#Instrument' />
+  </rdf:Property>
+
 <!-- A Delivery is the combination of an Envelope and its contents. -->
   <rdfs:Class rdf:ID="Delivery" rdfs:label="Reportnet Delivery"/>
 
