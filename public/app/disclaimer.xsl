@@ -82,10 +82,15 @@ well as international reporting obligations for air, waste and water
 themes for EEA member countries. These themes correspond to around half
 of all environmental reporting obligations for member countries. Other
 themes are in the process of being added to the ROD.</p>
-<p>The April 2003 quality assessment identified the following omissions
-in the database that remain to be corrected:</p>
-<p>Regulation 2037/2000 on ozone depleting substances.</p>
-<p>Eurostat/OECD Joint questionnaire.</p>
+
+<p>Current known issues with the database contents that are awaiting resolution:</p>
+
+<p>Marine conventions (OSPAR, HELCOM, Barcelona, Wadden Sea) are missing some
+reporting obligations.</p>
+
+<p>The old categories of reporting obligations "legal" and "moral" have not been
+fully replaced with the new categories "compulsory", "expected" and "voluntary".</p>
+
 <p>Material in the ROD is not necessarily comprehensive, complete,
 accurate or up to date and contains links to external sites over which
 the EEA has no control. The information in the database is supplied as
@@ -117,7 +122,9 @@ the process of identifying new reporting obligations that have been
 introduced since the database was last updated and need to be included
 in the database. These legislative references and reporting obligations
 are added to the database as part of updating.</p>
+
 <h3>Verification</h3>
+
 <p>Verification is a structured quality assurance process with an
 integrated feedback mechanism carried out by the EEA to quality control
 new coverage and new depth added to the database. Thematic experts carry
