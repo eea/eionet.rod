@@ -57,7 +57,7 @@ public class TxtServlet extends ROServletAC {
 
   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
 
-    String querySource = PREFIX + "dummy.xrs";
+    String querySource = PREFIX + "text.xrs";
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
     addMetaInfo(dataSrc);
     return userInfo(params.getRequest(),dataSrc);

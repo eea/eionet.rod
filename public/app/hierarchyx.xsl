@@ -74,7 +74,7 @@
 		</td></tr></table>
 
 	   <br/>
-	   <table cellspacing="4" cellpadding="0" width="606" style="border: 1 solid #006666" bgcolor="#FFFFFF"><tr><td>
+	   <table cellspacing="4" cellpadding="0" width="606" style="border: 1px solid #006666" bgcolor="#FFFFFF"><tr><td>
 
 		<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!='' or T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
 		   <table cellspacing="6">

@@ -1,5 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN" >
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
 <%@ page import="eionet.rod.services.RODServices" %>
 

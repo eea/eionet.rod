@@ -127,6 +127,9 @@ function delLegislation() {
 									<a><xsl:attribute name="href">javascript:openPopup('history.jsv', 'id=<xsl:value-of select="$src-id"/>&amp;entity=L')</xsl:attribute>
 									<img src="images/showhistory.png" alt="Show history of changes" border="0"/></a><br/>
 								</xsl:if>
+								<xsl:if test="$admin='true'">
+									<a href="javascript:openHelpList('LI')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
+								</xsl:if>
 							</td>
 						</tr>
 					</xsl:if>
@@ -137,7 +140,7 @@ function delLegislation() {
 
 		<table width="608" border="0">
 			<tr>
-			<td width="100%" style="border:1 solid #006666">
+			<td width="100%" style="border:1px solid #006666">
 				<table border="0" cellspacing="6" bgcolor="#FFFFFF">
 					<tr valign="top">
 						<td width="25%">

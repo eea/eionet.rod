@@ -31,7 +31,8 @@
 <xsl:template match="/XmlData">
 <html lang="en">
 <head><title>Client information</title>
-	<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/><link type="text/css" rel="stylesheet" href="eionet.css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="eionet.css"/>
 	<script lang="JavaScript" src="script/util.js"></script>
 	<script lang="JavaScript">
 			function check() {
@@ -55,8 +56,8 @@
 			</xsl:attribute>
 		</input>
 
-	<table border="0" width="500" cellspacing="0" cellpadding="2" style="border: 1 solid #808080" height="125">
-  <tr bgcolor="#FFFFFF" height="25" style="border-right: 1 solid #C0C0C0">
+	<table border="0" width="500" cellspacing="0" cellpadding="2" style="border: 1px solid #808080" height="125">
+  <tr bgcolor="#FFFFFF" height="25" style="border-right: 1px solid #C0C0C0">
     <td width="107" valign="top" align="left" ><font face="Verdana" size="2"><b>Indicator title</b></font></td>
     <td width="277" valign="top" align="left">
 			<input type="hidden" size="20">
@@ -73,7 +74,7 @@
 			</input>
 		</td>
 	</tr>
-  <tr height="25" style="border-right: 1 solid #C0C0C0">
+  <tr height="25" style="border-right: 1px solid #C0C0C0">
     <td valign="top" align="left" ><font face="Verdana" size="2"><b>Indicator number</b></font></td>
     <td valign="top" align="left">
 		<input type="text" size="60">
@@ -82,7 +83,7 @@
 		</input>
 		</td>
 	</tr>
-  <tr bgcolor="#FFFFFF" height="25" style="border-right: 1 solid #C0C0C0">
+  <tr bgcolor="#FFFFFF" height="25" style="border-right: 1px solid #C0C0C0">
     <td valign="top" align="left" ><font face="Verdana" size="2"><b>URL</b></font></td>
     <td valign="top" align="left">
 		<input type="text" size="60" onchange="chkUrl(this)">
@@ -91,7 +92,7 @@
 		</input>
 		</td>
 	</tr>
-  <tr height="25" style="border-right: 1 solid #C0C0C0">
+  <tr height="25" style="border-right: 1px solid #C0C0C0">
     <td valign="top" align="left" ><font face="Verdana" size="2"><b>Owner</b></font></td>
     <td valign="top" align="left">
 		<input type="text" size="60">
@@ -100,7 +101,7 @@
 		</input>
 		</td>
 	</tr>
-  <tr bgcolor="#FFFFFF" height="25" style="border-right: 1 solid #C0C0C0">
+  <tr bgcolor="#FFFFFF" height="25" style="border-right: 1px solid #C0C0C0">
     <td valign="top" align="left" >&#160;</td>
     <td valign="top" align="left">
 			<input type="submit" value="Save" name="B1" style="background-image: url('images/bgr_form_buttons_wide.jpg'); font-family: Verdana; font-size: 10pt; color: #000000; font-weight: bold"></input>

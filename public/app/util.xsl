@@ -140,9 +140,7 @@
 				</table>
 	</xsl:template>
 	<xsl:template name="Print">
-		<xsl:if test="$printmode='N'">
-			<img src="images/printerfriendly.jpg" onClick="javascript:openPrintable()" border="0" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'" />
-		</xsl:if>
+		<xsl:if test="$printmode='N'"><img src="images/printerfriendly.jpg" onClick="javascript:openPrintable()" border="0" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'"/></xsl:if>
 	</xsl:template>
 
 	<xsl:template name="Help">
@@ -192,73 +190,28 @@
 	<xsl:template name="LeftToolbar">
 		<xsl:param name="admin">false</xsl:param>
 			<!-- Toolbar -->
-			<p><center>
-				<table border="0" cellpadding="0" cellspacing="0">
-				<tr><td align="right"><font color="#ffffff"><span class="head0">Contents</span></font></td></tr>
-				<tr><td align="right">
-					<span href="index.html" onMouseOver="OverI('img3', this)" onMouseOut="OutI('img3', this)" onClick="ClickI('img3', this);">
-						<img name="img3" src="images/off.gif" border="0" alt=""/>
-						<img src="images/button_rod.gif" border="0" width="84" height="13" alt="ROD Home"/>
-					</span>
-				</td></tr>
-				<!--tr><td align="right">
-					<a href="show.jsv?id=1&amp;mode=C" onMouseOver="Over('img0')" onMouseOut="Out('img0')" onClick="Click('img0')">
-						<img name="img0" src="images/off.gif" border="0" alt=""/>
-						<img src="images/button_legislation.gif" border="0" width="84" height="13" alt="Legislative Instruments"/>
-					</a>
-				</td></tr-->
-				<tr><td align="right">
-					<a href="deliveries.jsv" onMouseOver="Over('img8')" onMouseOut="Out('img8')" onClick="Click('img8')">
-						<img name="img8" src="images/off.gif" border="0" alt=""/>
-						<img src="images/button_cs.gif" border="0" width="84" height="13" alt="Country deadlines"/>
-					</a>
-				</td></tr>
-				<tr><td align="right">
-					<a href="rorabrowse.jsv?mode=A" onMouseOver="Over('img1')" onMouseOut="Out('img1')" onClick="Click('img1')">
-						<img name="img1" src="images/off.gif" border="0" alt=""/>
-						<img src="images/button_obligations.gif" border="0" width="84" height="13" alt="Reporting Obligations"/>
-					</a>
-				</td></tr>
-				<tr><td align="right">
-					<a href="text.jsv?mode=H" onMouseOver="Over('img5')" onMouseOut="Out('img5')">
-						<img name="img5" src="images/off.gif" border="0" alt=""/>
-						<img src="images/button_help.gif" border="0" width="84" height="13" alt="General Help"/>
-					</a>
-				</td></tr>
-				<xsl:if test="contains($admin,'true')='true'">
-					<tr><td>&#160;</td></tr>
-					<tr><td align="right">
-						<a href="logout_servlet" onMouseOver="Over('img9')" onMouseOut="Out('img9')" onClick="Click('img9')">
-							<img name="img9" src="images/off.gif" border="0" alt=""/>
-							<img src="images/button_logout.gif" border="0" width="84" height="13" alt="Log out"/>
-						</a>
-					</td></tr>
-				</xsl:if>
-				<tr><td>&#160;</td></tr>
-				<tr><td>&#160;</td></tr>
-				<tr><td align="right"><font color="#ffffff">
-					<span class="head0" style="cursor:hand" onclick="javascript:openWindow('http://www.eionet.eu.int/reportnet.html')">Reportnet</span>
-				</font></td></tr>
-				<tr><td align="right">
-					<a href="http://cdr.eionet.eu.int/" onMouseOver="Over('img20')" onMouseOut="Out('img20')">
-						<img name="img20" src="images/off.gif" border="0" alt=""/>
-						<img src="images/dd_but_cdr.jpg" border="0" width="84" height="12" alt="Central Data Repository"/>
-					</a>
-				</td></tr>
-				<tr><td align="right">
-					<a href="http://dd.eionet.eu.int/" onMouseOver="Over('img21')" onMouseOut="Out('img21')">
-						<img name="img21" src="images/off.gif" border="0" alt=""/>
-						<img src="images/dd_but_dd.jpg" border="0" width="84" height="12" alt="Data Dictionary"/>
-					</a>
-				</td></tr>
-				<tr><td align="right">
-					<a href="http://cr.eionet.eu.int/" onMouseOver="Over('img22')" onMouseOut="Out('img22')">
-						<img name="img22" src="images/off.gif" border="0" alt=""/>
-						<img src="images/dd_but_cr.jpg" border="0" width="84" height="12" alt="Content Registry"/>
-					</a>
-				</td></tr>
-			</table>
-		</center></p>
+		<div id="globalnav">
+		  <h2>Contents</h2>
+		  <ul>
+		    <xsl:choose>
+				 <xsl:when test="//HOMEPAGE != ''"><li><span>ROD</span></li></xsl:when>
+				 <xsl:otherwise><li><a href="index.html" title="ROD Home">ROD</a></li></xsl:otherwise>
+			 </xsl:choose>
+		    <li><a href="deliveries.jsv" title="Country deadlines">Deadlines</a></li>
+		    <li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations</a></li>
+		    <li><a href="text.jsv?mode=H" title="General Help">Help</a></li>
+  			 <xsl:if test="contains($admin,'true')='true'">
+			    <li>&#160;</li>
+			    <li><a href="logout_servlet" title="Log out">Logout</a></li>
+			 </xsl:if>
+		  </ul>
+		  <h2><span style="cursor:hand" onclick="javascript:openWindow('http://www.eionet.eu.int/reportnet.html')">Reportnet</span></h2>
+		  <ul>
+		    <li><a href="http://cdr.eionet.eu.int/" title="Central Data Repository">CDR</a></li>
+		    <li><a href="http://dd.eionet.eu.int/" title="Data Dictionary">DD</a></li>
+		    <li><a href="http://cr.eionet.eu.int/" title="Content Registry">CR</a></li>
+		  </ul>
+		</div>
 	</xsl:template>
 
 	<xsl:template name="RM_Dates">
@@ -328,28 +281,28 @@
 						</xsl:choose>
 		</xsl:template>
 	<xsl:template name="go">
-		<input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 10pt; color: #000000; text-align: Center; background-color: #CBDCDC; font-weight: bold; border-left: 1 solid #008080; border-right: 2 solid #006666; border-top: 1 solid #008080; border-bottom: 2 solid #006666"></input>
+		<input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 10pt; color: #000000; text-align: Center; background-color: #CBDCDC; font-weight: bold; border-left: 1px solid #008080; border-right: 2 solid #006666; border-top: 1px solid #008080; border-bottom: 2 solid #006666"></input>
 	</xsl:template>
 
 	<xsl:template name="RASearch">
 		<form name="x1" method="get" action="rorabrowse.jsv">
 		<input type="hidden" name="mode" value="A"></input>
-		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
+		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1px solid #008080">
 				 <tr>
-						<td width="36%" bgcolor="#FFFFFF" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
+						<td width="36%" bgcolor="#FFFFFF" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
 							<b>Show reporting obligations</b>
 						</td>
-						<td width="59%" bgcolor="#FFFFFF" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
+						<td width="59%" bgcolor="#FFFFFF" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
 							<b>For a country</b>
 						</td>
-						<td bgcolor="#FFFFFF" align="center" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
+						<td bgcolor="#FFFFFF" align="center" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
 				</tr>
 				<tr>
-					<td rowspan="4" valign="top" style="border-right: 1 solid #C0C0C0">
+					<td rowspan="4" valign="top" style="border-right: 1px solid #C0C0C0">
 					</td>
-					<td style="border-left: 1 solid #C0C0C0">
+					<td style="border-left: 1px solid #C0C0C0">
 						<select name="country" style="color: #000000; font-size: 9pt; width:223" size="1">
 								<option value="-1">Any country</option>
 									<xsl:call-template name="SpatialTemplate">
@@ -358,17 +311,17 @@
 									</xsl:call-template>
             </select>
 					</td>
-					<td rowspan="7" valign="center" style="border-left: 1 solid #C0C0C0"><xsl:call-template name="go"/></td>
+					<td rowspan="7" valign="center" style="border-left: 1px solid #C0C0C0"><xsl:call-template name="go"/></td>
 				</tr>
 
 				<tr>
-					<td style="border-bottom: 1 solid #008080; border-left: 1 solid #C0C0C0">&#160;</td>
+					<td style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0">&#160;</td>
 				</tr>
 				<tr>
-           <td valign="middle" align="left" style="border-bottom: 1 solid #008080" bgcolor="#FFFFFF"><b>For an issue</b></td>
+           <td valign="middle" align="left" style="border-bottom: 1px solid #008080" bgcolor="#FFFFFF"><b>For an issue</b></td>
 				</tr>
 				<tr>
-					<td style="border-left: 1 solid #C0C0C0">
+					<td style="border-left: 1px solid #C0C0C0">
 							<select width="280" name="env_issue" style="font-size: 9pt; color: #000000; width:223" height="20">
 									<option value="-1">All issues</option>
 									<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
@@ -377,13 +330,13 @@
 				</tr>
 
 				<tr>
-					<td>&#160;</td><td style="border-bottom: 1 solid #008080; border-left: 1 solid #C0C0C0">&#160;</td>
+					<td>&#160;</td><td style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0">&#160;</td>
 				</tr>
 				<tr>
-           <td>&#160;</td><td valign="middle" align="left" style="border-bottom: 1 solid #008080; border-left: 1 solid #C0C0C0" bgcolor="#FFFFFF"><b>For an organisation</b></td>
+           <td>&#160;</td><td valign="middle" align="left" style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0" bgcolor="#FFFFFF"><b>For an organisation</b></td>
 				</tr>
 				<tr><td>&#160;</td>
-					<td style="border-left: 1 solid #C0C0C0">
+					<td style="border-left: 1px solid #C0C0C0">
 								<select name="client" style="color: #000000; font-size: 9pt; width:350" size="1" width="280">
 										<option value="-1">Any organisation</option>
 										<xsl:apply-templates select="RowSet[@Name='Client']"/>

@@ -21,12 +21,13 @@
  *
  * Original Code: Ander Tenno (TietoEnator)
  * -->
-
 <!-- Dummy -->
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
-	<xrs:RowSet name="Dummy">
-		<T_DUMMY>
-			<DUMMY/>
-		</T_DUMMY>
+	<xrs:RowSet name="HelpTexts">
+		<HLP_AREA>
+			<AREA_ID/>
+			<HTML/>
+		</HLP_AREA>
+		<xrs:Constraint>HLP_AREA.SCREEN_ID='Disclaimer_page' OR HLP_AREA.SCREEN_ID='Help_page' OR HLP_AREA.SCREEN_ID='RSSHelp_page'</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>

@@ -98,7 +98,7 @@ public class Source extends ROEditServletAC {
          AppUserIF user = getUser(req);
          conn = (user != null) ? user.getConnection() : null;
          if (conn == null)
-            throw new XSQLException(null, "Not authenticated user");
+            throw new XSQLException(null, "Not authenticated user. Please verify that you are logged in (for security reasons, the system will log you out after a period of inactivity). If the problem persists, please contact the server administrator.");
 
         //checkPermissions(req);
         
@@ -156,6 +156,9 @@ public class Source extends ROEditServletAC {
    protected void appDoPost(HttpServletRequest req, HttpServletResponse res)
          throws XSQLException {
       try {
+    		String reDirect = req.getParameter("silent");
+         reDirect = (reDirect == null) ? "0" : reDirect;
+
          String location = null;
          //checkPermissions(req);         
          if (curRecord != null) {
@@ -183,8 +186,13 @@ public class Source extends ROEditServletAC {
          // DBG         
          if (Logger.enable(5))
             Logger.log("Redirecting to " + location);
-         //
-         res.sendRedirect(location);
+
+         // if adding a new client we do a "silent" save, no redirecting
+    		if (reDirect.equals("0"))
+	         res.sendRedirect(location);
+         else
+            res.sendRedirect("source.jsv?id=" + curRecord);
+
       } catch(java.io.IOException e) {
          throw new XSQLException(e, "Error in redirection");
       }

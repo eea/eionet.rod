@@ -24,15 +24,17 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+	<!--xsl:output indent="yes"/-->   
+	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" omit-xml-declaration="yes"/>   
+	<!--xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd" omit-xml-declaration="yes"/-->   
+
 	<xsl:include href="util.xsl"/>
-	
-	<xsl:output indent="yes"/>   
             
 	<xsl:template match="/">
 		<html>
 			<head>
 				<title><xsl:call-template name="PageTitle"/></title>
-				<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=ISO-8859-1"/>
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 				<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache"/>
 				<META HTTP-EQUIV="Expires" CONTENT="Tue, 01 Jan 1980 00:00:00 GMT"/>
 				<link href="eionet.css" rel="stylesheet" type="text/css"/>
@@ -108,51 +110,10 @@
 			}
 
 
-Net=1;
-if ((navigator.appName.substring(0,5) == "Netsc"
-  && navigator.appVersion.charAt(0) > 2)
-  || (navigator.appName.substring(0,5) == "Micro"
-  && navigator.appVersion.charAt(0) > 3)) {
- Net=0;
-
- over = new Image;
- out = new Image;
- gammel = new Image;
-
- over.src = "images/on.gif";
- out.src = "images/off.gif";
- 
- gTarget = 'img1';
-}
-
 function openAddClientWin() {
 	window.open('addclient.jsp','sInfo','height=405,width=470,status=no,toolbar=no,scrollbars=no,resizable=yes,menubar=no,location=no');
 }
 
-function Click(Target) {
- if (Net != 1){
-  if (Target != gTarget) {
-   document[Target].src = over.src;
-   document[gTarget].src = out.src;
-   gTarget = Target;
-   gammel.src = document[Target].src;
-  }
- }
-}
-
-function Over(Target) {
- if (Net != 1){
-  gammel.src = document[Target].src;
-  document[Target].src = over.src;
- }
-}
-
-function Out(Target) {
- if (Net != 1){
-  document[Target].src = gammel.src;
- }
-}
-var browser = document.all ? 'E' : 'N';
 var isChanged = false;
 
 function checkStatus() {
@@ -302,6 +263,7 @@ function selValues(sel) {
 	}
 }
 
+var browser = document.all ? 'E' : 'N';
 function mvValues(selFrom, selTo, unit) {
 	var i, count = 0;
 	var optsLen;
@@ -790,13 +752,8 @@ function checkAndSave(first, freq, next, textrep, to, terminate) {
 			      <td><table border="0" width="621">
 			          <tr>
 			            <td width="648">
-								<font color="#006666" face="Arial"><strong><span class="head2">
-									<xsl:call-template name="FirstHeading"/>
-								</span></strong></font>
-								<br/>
-								<font color="#669999" size="2"><strong><span class="head0">
-									<xsl:call-template name="SecondHeading"/>
-								</span></strong></font>
+								<div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
+								<div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
 							</td>
 			            <td width="20">&#160;</td>
 			            <td><a href="http://www.eea.eu.int" target="_blank"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></a></td>

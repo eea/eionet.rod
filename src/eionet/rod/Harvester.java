@@ -62,10 +62,10 @@ public class Harvester extends ROEditServletAC {
       java.sql.Connection conn = (user != null) ? user.getConnection() : null;
 
       if (conn == null)
-        throw new XSQLException(null, "Not authenticated user");
+         throw new XSQLException(null, "Not authenticated user. Please verify that you are logged in (for security reasons, the system will log you out after a period of inactivity). If the problem persists, please contact the server administrator.");
 
     if  ( ! getAcl(Constants.ACL_HARVEST_NAME).checkPermission( user.getUserName(), Constants.ACL_VIEW_PERMISSION ))
-        throw new XSQLException(null, "Not authorized user");
+         throw new XSQLException(null, "Not authorized user. Please verify that you are logged in (for security reasons, the system will log you out after a period of inactivity). If the problem persists, please contact the server administrator.");
 
   StringBuffer s = new StringBuffer();
   s.append("<html>")

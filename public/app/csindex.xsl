@@ -16,8 +16,6 @@
 
 <html lang="en"><head><title>Country Services</title>
 	
-	<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/>
-	<link type="text/css" rel="stylesheet" href="eionet.css"/>
 	<script language="JavaScript">
 
 function openHarvester(){
@@ -28,9 +26,6 @@ function openHarvester(){
 
 }
 
-
-
-var browser = document.all ? 'E' : 'N';
 var picklist = new Array();
 
 </script></head>
@@ -61,14 +56,12 @@ var picklist = new Array();
 <table width="100%">
 <tr>
 	<td width="77%">&#160;</td>
-	<td align="right"><xsl:call-template name="Print"/>	</td>
+	<td align="right"><xsl:call-template name="Print"/></td>
 </tr>
 <xsl:if test="$printmode='N'">
 <tr>
 	<td width="77%">&#160;</td>
-	<td align="right">
-		<a href="cssearch"><img border="0" src="images/but_advancedsearch.jpg" alt=""/></a><br/><br/>
-	</td>
+	<td align="right"><a href="cssearch"><img border="0" src="images/but_advancedsearch.jpg" alt=""/></a><br/><br/></td>
 </tr>
 <xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
 	<tr>
@@ -177,7 +170,7 @@ of ROD and CDR by using the advanced search.
 </xsl:template>
 <xsl:template name="COUNTRYNAME">
 	<img src="images/Folder_icon.gif"/>
-	<a><xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&#038;ORD=NEXT_DEADLINE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
+	<a><xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&#038;ORD=NEXT_REPORTING, NEXT_DEADLINE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
 	<br/>
 </xsl:template>
 

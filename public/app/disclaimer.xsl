@@ -51,7 +51,8 @@
 		<div style="margin-left:13">
 		<div class="head1">Disclaimer</div>
       <br/>
-<table cellspacing="0" cellpadding="0" width="590" border="0">
+		<xsl:value-of select="//HLP_AREA[AREA_ID='Disclaimer']/HTML" disable-output-escaping="yes"/>
+<!--table cellspacing="0" cellpadding="0" width="590" border="0">
 <tr><td>
 
 <h2>Summary</h2>
@@ -146,7 +147,7 @@ to ROD is subsequently verified by thematic experts and enters an update
 cycle.</p>
 
 </td></tr>
-</table>
+</table-->
 
 		<br/>
 		</div>

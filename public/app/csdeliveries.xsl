@@ -5,7 +5,8 @@
 <xsl:template match="/">
 
 <html lang="en"><head><title>Status of deliveries</title>
-	<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/><link type="text/css" rel="stylesheet" href="eionet.css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="eionet.css"/>
 	<script language="JavaScript" src="script/util.js"></script>
 	<script language="JavaScript">
 			function setOrder(fld) {

@@ -89,7 +89,7 @@ public class LoginServlet extends BaseServletAC {
          if ( loginError != null)
            res.sendRedirect(loginError);
           else
-            printPage(res, "<html>Not authenticated</html>");
+            printPage(res, "<html>Login failed. Please verify that your user name and password are typed in correctly and in correct case. If the problem persists, please contact the server administrator.</html>");
   
       }
 

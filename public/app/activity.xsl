@@ -172,6 +172,9 @@
 								<img src="images/showhistory.png" alt="Show history of changes" border="0"/>
 							</a><br/>
 						</xsl:if>				
+						<xsl:if test="$admin='true'">
+							<a href="javascript:openHelpList('RO')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
+						</xsl:if>
 						</td>
 						</tr>
 						</xsl:if><!-- printmode -->
@@ -182,13 +185,13 @@
 
 		<table width="600" border="0">
 			<tr>
-			<td width="100%" style="border:1 solid #006666">
+			<td width="100%" style="border:1px solid #006666">
 				<table border="0" width="600" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
 					<tr bgcolor="#ECECEC">
-						<td width="30%" valign="top" align="left" style="border-right: 1 solid #C0C0C0">
+						<td width="30%" valign="top" align="left" style="border-right: 1px solid #C0C0C0">
 							<span class="head0"><font face="Verdana" size="2"><b>Title</b></font></span>
 						</td>
-						<td width="65%" valign="top" align="left" style="border-right: 1 solid #C0C0C0">
+						<td width="65%" valign="top" align="left" style="border-right: 1px solid #C0C0C0">
 							<xsl:choose>
 								<xsl:when test="T_OBLIGATION/TITLE != ''">
 									<xsl:value-of select="T_OBLIGATION/TITLE"/>
@@ -201,8 +204,8 @@
 						<td width="5%" align="right">&#160;</td>
 					</tr>
 					<tr valign="top">
-						<td style="border-right: 1 solid #C0C0C0"><b>Description</b></td>
-						<td style="border-right: 1 solid #C0C0C0">
+						<td style="border-right: 1px solid #C0C0C0"><b>Description</b></td>
+						<td style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="break">
 								 <xsl:with-param name="text" select="T_OBLIGATION/DESCRIPTION"/>
 							</xsl:call-template>
@@ -231,8 +234,8 @@
 					</td>
 				</tr>
 				<tr valign="top">
-					<td style="border-right: 1 solid #C0C0C0"><b>National reporting coordinators</b></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><b>National reporting coordinators</b></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:choose>
 						<xsl:when test="COORD_ROLE/ROLE_ID!=''">
 							<a>
@@ -260,8 +263,8 @@
 					</td>
 				</tr>
 				<tr valign="top"  bgcolor="#ECECEC">
-					<td style="border-right: 1 solid #C0C0C0"><b>National reporting contacts</b></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><b>National reporting contacts</b></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:choose>
 						<xsl:when test="RESP_ROLE/ROLE_ID!=''">
 							<a>
@@ -289,22 +292,22 @@
 					</td>
 				</tr>
 				<!--tr valign="top">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Baseline reporting date</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Baseline reporting date</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:value-of select="T_OBLIGATION/FIRST_REPORTING"/>
 					</td>
-					<td style="border-right: 1 solid #C0C0C0"></td>
+					<td style="border-right: 1px solid #C0C0C0"></td>
 				</tr-->
 				<tr valign="top">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Reporting frequency</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Reporting frequency</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:call-template name="RAReportingFrequency"/>
 					</td>
-					<td style="border-right: 1 solid #C0C0C0"></td>
+					<td style="border-right: 1px solid #C0C0C0"></td>
 				</tr>
 				<tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Next report due</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Next report due</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:choose>
 							<xsl:when test="T_OBLIGATION/TERMINATE = 'N'">
 								<xsl:choose>
@@ -321,18 +324,18 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</td>
-					<td style="border-right: 1 solid #C0C0C0"></td>
+					<td style="border-right: 1px solid #C0C0C0"></td>
 				</tr>
 				<tr valign="top">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Date comments</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Date comments</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:value-of select="T_OBLIGATION/DATE_COMMENTS"/>&#160;
 					</td>
-					<td style="border-right: 1 solid #C0C0C0"></td>
+					<td style="border-right: 1px solid #C0C0C0"></td>
 				</tr>
 				<tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Report to</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Report to</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 							<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>&#160;
 					</td>
 					<td align="center">
@@ -344,15 +347,15 @@
 					</td>
 				</tr>
 				<tr valign="top">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Other clients using this reporting</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Other clients using this reporting</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="OtherClients"/>
 					</td>
 					<td></td>
 				</tr>
 				<tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Reporting guidelines</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Reporting guidelines</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 							<xsl:choose>
 							<xsl:when test="T_OBLIGATION/REPORT_FORMAT_URL!=''">
 								<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
@@ -377,8 +380,8 @@
 					<td></td>
 				</tr>
 				<tr valign="top">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Extra information</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Extra information</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="break">
 								 <xsl:with-param name="text" select="T_OBLIGATION/REPORTING_FORMAT"/>
 							</xsl:call-template>&#160;
@@ -386,8 +389,8 @@
 					<td></td>
 				</tr>
 				<tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Principle repository</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Principle repository</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:choose>
 							<xsl:when test="T_OBLIGATION/LOCATION_PTR != ''">
 								<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/LOCATION_PTR"/></xsl:attribute>						
@@ -409,8 +412,8 @@
 					<td></td>
 				</tr>
 				<tr valign="top">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Type of information reported</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Type of information reported</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:apply-templates select="SubSet[@Name='InfoType']"/>
 					</td>
 					<td></td>
@@ -419,8 +422,8 @@
 					<td bgcolor="#006666" colspan="3" valign="top" align="left"><font color="#FFFFFF"><b>Legal framework</b></font></td>
 				</tr>
 				<tr valign="top"  bgcolor="#ECECEC">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Parent legislative instrument</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Parent legislative instrument</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="T_SOURCE/ALIAS != ''">
@@ -438,49 +441,49 @@
 					<td></td>
 				</tr>
 				<tr valign="top">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Sibling reporting obligations</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Sibling reporting obligations</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:call-template name="Sibling"/>
 					</td>
 					<td></td>
 				</tr>
 				<tr valign="top"  bgcolor="#ECECEC">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Type of obligation</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Type of obligation</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 							<xsl:value-of select="T_LOOKUP/C_TERM"/>
 					</td>
 					<td></td>
 				</tr>
 				<tr valign="top">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Countries</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Countries</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:apply-templates select="//RowSet[@Name='Spatial']"/>
 					</td>
 					<td align="center">
 						<a><xsl:attribute name="href">javascript:openPopup('spatialhistory.jsv', 'ID=<xsl:value-of select="$ra-id"/>')</xsl:attribute>
-							<img src="images/details.jpg" alt="Details for countries' joining history" border="0"/>
+							<img src="images/details.jpg" alt="Status of country participation" border="0"/>
 						</a>
 					</td>
 				</tr>
 				<tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Environmental issues</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Environmental issues</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:apply-templates select="//RowSet[@Name='EnvIssue']"/>&#160;
 					</td>
 					<td></td>
 				</tr>
 				<tr valign="top" >
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">General comments</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">General comments</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="break">
 								 <xsl:with-param name="text" select="T_OBLIGATION/COMMENT"/>
 							</xsl:call-template>&#160;
 					</td>
-					<td style="border-right: 1 solid #C0C0C0"></td>
+					<td style="border-right: 1px solid #C0C0C0"></td>
 				</tr>
 				<!--tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1 solid #C0C0C0"><span class="head0">Authority giving rise to the obligation</span></td>
-					<td style="border-right: 1 solid #C0C0C0">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Authority giving rise to the obligation</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:value-of select="T_OBLIGATION/AUTHORITY"/>
 					</td>
 					<td></td>

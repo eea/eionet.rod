@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -24,6 +23,10 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:java="http://xml.apache.org/xslt/java" version="1.0">
+	<!--xsl:output indent="yes"/-->   
+	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" omit-xml-declaration="yes"/>   
+	<!--xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd" omit-xml-declaration="yes"/-->   
+
 	<xsl:include href="util.xsl"/>
 
 	<xsl:param name="req" select="'default value'"/>
@@ -40,37 +43,19 @@
 	<xsl:template match="/">
    	<html lang="en">
 		<head>
-		<META http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="title" content="EEA - Reporting Obligations Database" />
-		<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that 		countries have towards international organisations." />
-		<meta name="keywords" content="reporting obligations, environmental legislation, environmental reporting, environmental dataflows, European Environment 		Agency, EEA, European, Environmental information, Environmental portal, Eionet, Reportnet, air, waste, water, biodiversity" />
+		<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
+		<meta name="keywords" content="reporting obligations, environmental legislation, environmental reporting, environmental dataflows, European Environment Agency, EEA, European, Environmental information, Environmental portal, Eionet, Reportnet, air, waste, water, biodiversity" />
 		<meta name="Publisher" content="EEA, The European Environment Agency" />
 		<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
 
 				<title><xsl:call-template name="PageTitle"/></title>
-				<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=ISO-8859-1"/>
 				<link href="eionet.css" rel="stylesheet" type="text/css"/>
 				<script language="JavaScript" src="script/util.js"></script>
 				<script language="JavaScript">
 					<![CDATA[
 <!--
-Net=1;
-if ((navigator.appName.substring(0,5) == "Netsc"
-  && navigator.appVersion.charAt(0) > 2)
-  || (navigator.appName.substring(0,5) == "Micro"
-  && navigator.appVersion.charAt(0) > 3)) {
- Net=0;
-
- over = new Image;
- out = new Image;
- gammel = new Image;
-
- over.src = "images/on.gif";
- out.src = "images/off.gif";
- 
- gTarget = 'img1';
-}
-
 function showhelp(text) {
 	if (text != '')
 		alert(text);
@@ -112,58 +97,6 @@ function openClient(ID){
 
 }
 */
-function Click(Target) {
- if (Net != 1){
-  if (Target != gTarget) {
-   document[Target].src = over.src;
-   document[gTarget].src = out.src;
-   gTarget = Target;
-   gammel.src = document[Target].src;
-  }
- }
-}
-
-function ClickI(Target, c) {
-  if(window.location.href.indexOf('index.html') == -1) {
-     window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
-  }
-}
-
-function Over(Target) {
- if (Net != 1){
-  gammel.src = document[Target].src;
-  document[Target].src = over.src;
- }
-}
-
-function OverI(Target, c) {
- if (Net != 1){
-  if(window.location.href.indexOf('index.html') == -1) {
-	  c.style.cursor='hand';
-     gammel.src = document[Target].src;
-	  document[Target].src = over.src;
-  }
- }
-}
-
-function Out(Target) {
- if (Net != 1){
-  document[Target].src = gammel.src;
- }
-}
-
-function OutI(Target, c) {
- if (Net != 1){
-  if(window.location.href.indexOf('index.html') == -1) {
-	  document[Target].src = gammel.src;
-	  c.style.cursor='default';
-  }
- }
-}
-
-
-var browser = document.all ? 'E' : 'N';
-
 var picklist = new Array();
 
 function fillPicklist(type,list,text) {
@@ -207,13 +140,8 @@ function fillPicklist(type,list,text) {
 			      <td><table border="0" width="621">
 			          <tr>
 			            <td width="648">
-								<font color="#006666" face="Arial"><strong><span class="head2">
-									<xsl:call-template name="FirstHeading"/>
-								</span></strong></font>
-								<br/>
-								<font color="#669999" size="2"><strong><span class="head0">
-									<xsl:call-template name="SecondHeading"/>
-								</span></strong></font>
+								<div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
+								<div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
 							</td>
 			            <td width="20">&#160;</td>
 			            <td><a href="http://www.eea.eu.int" target="_blank"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></a></td>

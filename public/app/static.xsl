@@ -26,7 +26,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
 	<xsl:template name="PageTitle">
-		EEA - Reporting Obligations Database
+		<xsl:choose>
+			<xsl:when test="//PAGETITLE != ''"><xsl:value-of select="//PAGETITLE"/></xsl:when>
+			<xsl:otherwise>EEA - Reporting Obligations Database</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template name="FirstHeading">
@@ -82,7 +85,7 @@
 		
 	<xsl:template name="DB_OtherRequest_ID">23</xsl:template>
 
-	<xsl:template name="Feedback_URL">http://www.eionet.eu.int/software/rod/issues/add_issue_html</xsl:template>
+	<xsl:template name="Feedback_URL">mailto:helpdesk@eionet.eu.int?subject=Feedback from the ROD website</xsl:template>
 
 	<xsl:template name="Disclaimer_URL">text.jsv?mode=D</xsl:template>
 

@@ -99,13 +99,13 @@
 
 		<table border="0" width="615" cellspacing="0" cellpadding="0">
 			<tr>
-				<td width="100%" style="border: 1 solid #006666">
+				<td width="100%" style="border: 1px solid #006666">
 					<table>
 						<tr bgcolor="#FFFFFF">
-							<td width="20%" valign="top" align="left" style="border-right: 1 solid #C0C0C0">
+							<td width="20%" valign="top" align="left" style="border-right: 1px solid #C0C0C0">
 								<span class="head0">Title</span> 
 							 </td>
-							 <td width="7%" valign="top" align="center" style="border-right: 1 solid #C0C0C0">
+							 <td width="7%" valign="top" align="center" style="border-right: 1px solid #C0C0C0">
 									<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_TITLE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							 </td>
 							 <td width="73%" valign="top" align="left">
@@ -116,8 +116,8 @@
 							 </td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Description</span></td>
-							<td style="border-right: 1 solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_DESCRIPTION</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Description</span></td>
+							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_DESCRIPTION</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
 								<textarea rows="5" cols="55" wrap="soft" width="440" style="width:440" onChange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/DESCRIPTION/@XPath"/></xsl:attribute>
@@ -126,8 +126,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Baseline reporting date</span></td>
-							<td style="border-right: 1 solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDFROM</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Baseline reporting date</span></td>
+							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDFROM</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
 								<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE2/@XPath}"])'>
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/FIRST_REPORTING/@XPath"/></xsl:attribute>
@@ -136,8 +136,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Valid to</span></td>
-							<td style="border-right: 1 solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDTO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Valid to</span></td>
+							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDTO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
 								<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE2/@XPath}"])'>
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/VALID_TO/@XPath"/></xsl:attribute>
@@ -146,18 +146,18 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Reporting frequency in months</span></td>
-							<td style="border-right: 1 solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_REPORTINGFREQUENCYINMONTHS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Reporting frequency in months</span></td>
+							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_REPORTINGFREQUENCYINMONTHS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
 								<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE2/@XPath}"])'>
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/REPORT_FREQ_MONTHS"/></xsl:attribute>
-								</input><br/><span class="smallfont">&#160;(0 for one-time-only reporting)</span>
+								</input><br/><span class="smallfont">For one-time-only reporting, enter 0 and choose a reasonable Valid To</span>
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Next due date</span></td>
-							<td style="border-right: 1 solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_NEXTDUEDATE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Next due date</span></td>
+							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_NEXTDUEDATE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
 								<input type="text" size="30" onChange="changed()" disabled="true">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/NEXT_DEADLINE/@XPath"/></xsl:attribute>
@@ -166,14 +166,14 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td align="left" colspan="3" bgcolor="#FFCA95" style="border-top: 1 solid #000000; border-bottom: 1 solid #000000">
+							<td align="left" colspan="3" bgcolor="#FFCA95" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000">
                 <i><b>IMPORTANT!</b>&#160;Use the following field <b> only </b> if reporting dates (above fields)
                       cannot be given in numerical date format but have to be given in text format (for example, 'ASAP')</i>
 								</td>
             </tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Reporting date</span></td>
-							<td style="border-right: 1 solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_REPORTINGDATETEXTFORMAT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Reporting date</span></td>
+							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_REPORTINGDATETEXTFORMAT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
 								<input type="text" size="68" onChange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/NEXT_REPORTING/@XPath"/></xsl:attribute>
@@ -182,8 +182,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Date comments</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Date comments</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_DATECOMMENTS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -194,8 +194,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Report to</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Report to</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_REPORTTO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -234,7 +234,7 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF" >
-							<td colspan="2" style="border-right: 1 solid #C0C0C0"><span class="head0">Other clients using this reporting</span></td>
+							<td colspan="2" style="border-right: 1px solid #C0C0C0"><span class="head0">Other clients using this reporting</span></td>
 							<td>
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_OTHERCLIENTS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
@@ -268,8 +268,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Name of reporting guidelines</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Name of reporting guidelines</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_NAMEOFREPORTINGGUIDELINES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -280,8 +280,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">URL to reporting guidelines</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">URL to reporting guidelines</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_URLTOREPORTINGGUIDELINES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -292,8 +292,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Format valid since</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Format valid since</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_FORMATVALIDSINCE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -304,8 +304,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Reporting guidelines -Extra info.</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Reporting guidelines -Extra info.</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_REPORTINGGUIDELINES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -316,8 +316,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Name of repository</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Name of repository</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_LOCATIONINFO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -328,8 +328,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">URL to repository</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">URL to repository</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_LOCATIONPTR</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -340,7 +340,7 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td colspan="2" style="border-right: 1 solid #C0C0C0"><span class="head0">Countries reporting formally</span></td>
+							<td colspan="2" style="border-right: 1px solid #C0C0C0"><span class="head0">Countries reporting formally</span></td>
 							<td>
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_SPATIALCOVERAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 								<xsl:apply-templates select="//RowSet[@Name='SpatialType']"/>									
@@ -373,7 +373,7 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td colspan="2" style="border-right: 1 solid #C0C0C0"><span class="head0">Countries reporting voluntarily</span></td>
+							<td colspan="2" style="border-right: 1px solid #C0C0C0"><span class="head0">Countries reporting voluntarily</span></td>
 							<td>
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VOLUNTARYCOUNTRIES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
@@ -407,15 +407,15 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">National reporting coordinators</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">National reporting coordinators</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_REPORTINGCOORDINATOR</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
 								<table width="100%">
 									<tr>
-										<td style="border-bottom:1 solid #C0C0C0"><span class="head0">Role</span></td>
-										<td style="border-bottom:1 solid #C0C0C0">
+										<td style="border-bottom:1px solid #C0C0C0"><span class="head0">Role</span></td>
+										<td style="border-bottom:1px solid #C0C0C0">
 											<input type="text" size="15" onChange="changed()">
 												<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/COORDINATOR_ROLE/@XPath"/></xsl:attribute>
 												<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/COORDINATOR_ROLE"/></xsl:attribute>
@@ -429,7 +429,7 @@
 												</xsl:attribute>
 											</input>
 										</td>
-										<td style="border-bottom:1 solid #C0C0C0">
+										<td style="border-bottom:1px solid #C0C0C0">
 											<input type="checkbox">
 												<xsl:attribute name="onClick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/COORDINATOR_ROLE_SUF/@XPath'/>"], true)</xsl:attribute>
 												<xsl:if test="T_OBLIGATION/COORDINATOR_ROLE_SUF='0'">
@@ -437,12 +437,12 @@
 												</xsl:if>
 											</input>
 										</td>
-										<td style="border-bottom:1 solid #C0C0C0">
+										<td style="border-bottom:1px solid #C0C0C0">
 											<span class="head0">do not append country suffix</span>
 										</td>
 									</tr>
 									<tr>
-										<td style="border-bottom:1 solid #C0C0C0" colspan="4" align="center">
+										<td style="border-bottom:1px solid #C0C0C0" colspan="4" align="center">
 											<i>- OR -</i>
 										</td>
 									</tr>
@@ -472,15 +472,15 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">National reporting contacts</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">National reporting contacts</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RESPONSIBLEFORREPORTING</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
 								<table width="100%">
 									<tr>
-										<td style="border-bottom:1 solid #C0C0C0"><span class="head0">Role</span></td>
-										<td style="border-bottom:1 solid #C0C0C0">
+										<td style="border-bottom:1px solid #C0C0C0"><span class="head0">Role</span></td>
+										<td style="border-bottom:1px solid #C0C0C0">
 											<input type="text" size="15" onChange="changed()">
 												<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE/@XPath"/></xsl:attribute>
 												<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/></xsl:attribute>
@@ -494,7 +494,7 @@
 												</xsl:attribute>
 											</input>
 										</td>
-										<td style="border-bottom:1 solid #C0C0C0">
+										<td style="border-bottom:1px solid #C0C0C0">
 											<input type="checkbox">
 												<xsl:attribute name="onClick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/RESPONSIBLE_ROLE_SUF/@XPath'/>"], true)</xsl:attribute>
 												<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE_SUF='0'">
@@ -502,12 +502,12 @@
 												</xsl:if>
 											</input>
 										</td>
-										<td style="border-bottom:1 solid #C0C0C0">
+										<td style="border-bottom:1px solid #C0C0C0">
 											<span class="head0">do not append country suffix</span>
 										</td>
 									</tr>
 									<tr>
-										<td style="border-bottom:1 solid #C0C0C0" colspan="4" align="center">
+										<td style="border-bottom:1px solid #C0C0C0" colspan="4" align="center">
 											<i>- OR -</i>
 										</td>
 									</tr>
@@ -537,8 +537,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Obligation type</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Obligation type</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_OBLIGATIONTYPE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -559,8 +559,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Type of info reported</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Type of info reported</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_INFOTYPE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -580,7 +580,7 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td colspan="2" style="border-right: 1 solid #C0C0C0"><span class="head0">Environmental issues</span></td>
+							<td colspan="2" style="border-right: 1px solid #C0C0C0"><span class="head0">Environmental issues</span></td>
 							<td>
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_ENVIRONMENTALISSUES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
@@ -612,8 +612,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Parameters</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Parameters</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_PARAMETERS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -624,8 +624,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">This obligation is</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">This obligation is</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_FLAGS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -677,8 +677,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">URL of overlapping obligation</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">URL of overlapping obligation</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_OVERLAPURL</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -689,8 +689,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Indicators</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Indicators</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_INDICATORS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -702,8 +702,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">General comments</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">General comments</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_COMMENT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -714,8 +714,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Authority giving rise to the obligation</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Authority giving rise to the obligation</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_AUTHORITY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -726,7 +726,7 @@
 							</td>
 						</tr>
 						<tr valign="top" align="left" bgcolor="#B7DBDB">
-							<td align="left" style="border-right: 1 solid #C0C0C0" bgcolor="#B7DBDB">
+							<td align="left" style="border-right: 1px solid #C0C0C0" bgcolor="#B7DBDB">
 									<span class="head0">Record management</span>
 							</td>
 							<td colspan="2" valign="center">
@@ -734,8 +734,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Verified</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Verified</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RMVERIFIED</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -746,8 +746,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Verified by</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Verified by</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RMVERIFIEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -758,8 +758,8 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Next update due</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Next update due</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RMNEXTUPDATEDUE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
@@ -770,8 +770,8 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
-							<td style="border-right: 1 solid #C0C0C0"><span class="head0">Validated by</span></td>
-							<td style="border-right: 1 solid #C0C0C0">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Validated by</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
 									<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDATEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>

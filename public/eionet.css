@@ -182,3 +182,90 @@ font-weight: bold;
 color: #000000;
 background-image: url('images/bgr_form_buttons.jpg');
 }
+
+/*
+ * The globalnav is for buttons that exist on all pages.
+ * They are shown on the left
+ */
+#globalnav {
+     width: 130px;
+     margin: 0px;
+}
+
+#globalnav h2 {
+	color: black;
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-style: normal; 
+	line-height: normal; 
+	padding-top:10px;
+	margin-bottom: 0px;
+	font-weight: bold;
+	text-align: center; 
+	text-decoration: none;
+}
+
+#globalnav ul {
+	list-style-image: url('none'); /* bug in IE */
+	padding-left: 5px;
+	list-style-type:none; margin-left:10px; margin-right:0px; margin-top:0px; margin-bottom:0px
+}
+
+#globalnav li {
+	font-size:.75em;
+	font-family: sans-serif;
+	font-weight: bold;
+	width:112px;
+	height:13px;
+	line-height: 100%;
+	vertical-align: bottom;
+	color:#ffffff;
+	border: none;
+	margin: 0px;
+	white-space: nowrap;
+}
+#globalnav li a {
+	display:block;
+	font-weight: bold;
+	text-decoration: none;
+	color:#ffffff;
+	width:92px;
+	height:13px;
+	padding: 0px 6px 0px 20px;
+	background: url('images/inactive.gif') no-repeat left top;
+	border: none;
+	margin: 0px;
+}
+
+#globalnav li span {
+	display:block;
+	font-weight: bold;
+	text-decoration: none;
+	color:#ffffff;
+	width:92px;
+	height:13px;
+	padding: 0px 6px 0px 20px;
+	background: url('images/inactive.gif') no-repeat left top;
+	border: none;
+	margin: 0px;
+}
+
+#globalnav li a:hover {
+	background: url('images/selected.gif') no-repeat left top;
+}
+
+#globalnav form {
+   text-align: center;
+}
+
+.sitetitle {
+	color: #006666;
+	font-size: 14pt;
+	font-weight: bold;
+}
+
+.sitetagline {
+	color: #006666;
+	font-size: 10pt;
+	font-weight: bold;
+}

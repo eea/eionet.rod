@@ -25,6 +25,7 @@
 	<xrs:RowSet name="Source">
 		<T_SOURCE PKField="PK_SOURCE_ID">
 			<PK_SOURCE_ID/>
+			<SOURCE_CODE/>
 			<CELEX_REF/>
 			<TITLE expression="REPLACE(REPLACE(T_SOURCE.TITLE, '\r\n', '\n'), '\r', '\n') AS TITLE"/>
 			<ALIAS/>
@@ -45,6 +46,7 @@
 			<RM_VALIDATED_BY/>
 			<GEOGRAPHIC_SCOPE/>
 			<DGENV_REVIEW/>
+			<PAGETITLE expression="CONCAT('Legislative instrument details: ', T_SOURCE.ALIAS) AS PAGETITLE"/>
 		</T_SOURCE>
 		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='S' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_SOURCE.PK_SOURCE_ID" reltype="outer">
 			<FK_CLIENT_ID/>
@@ -89,6 +91,7 @@
 			<T_OBLIGATION>
 				<PK_RA_ID/>
 				<TITLE/>
+				<AUTHORITY/>
 			</T_OBLIGATION>
 		</xrs:SubSet>
 	</xrs:RowSet>

@@ -51,9 +51,10 @@
 			<tr><td>&#160;</td></tr>
 		</table>
 		<div style="margin-left:13">
-		<div class="head1">Data Extraction Help</div>
+		<div class="head1">XML and Data Extraction Help</div>
       <br/>
-<table cellspacing="0" cellpadding="0" width="590" border="0">
+		<xsl:value-of select="//HLP_AREA[AREA_ID='RSSHelp']/HTML" disable-output-escaping="yes"/>
+<!--table cellspacing="0" cellpadding="0" width="590" border="0">
 <tr><td>
 
 <p>
@@ -100,7 +101,7 @@ contains the reporting client name and the next deadline<br/>
 </p>
 
 </td></tr>
-</table>
+</table-->
 
 		<br/>
 		</div>

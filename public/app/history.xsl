@@ -33,7 +33,8 @@
 
 <html lang="en">
 <head><title>History of changes</title>
-	<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/><link type="text/css" rel="stylesheet" href="eionet.css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="eionet.css"/>
 </head>
 <body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
 
@@ -65,10 +66,10 @@
 
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<tr>
-		<td style="border-right: 1 solid #008080; border-left: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080" bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">Time</span></td>
-		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="15%"><span class="head0">Action</span></td>
-		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">User</span></td>
-		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="35%"><span class="head0">Description</span></td>
+		<td style="border-right: 1px solid #008080; border-left: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080" bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">Time</span></td>
+		<td style="border-right: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080; " bgcolor="#FFFFFF" align="center" width="15%"><span class="head0">Action</span></td>
+		<td style="border-right: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">User</span></td>
+		<td style="border-right: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080; " bgcolor="#FFFFFF" align="center" width="35%"><span class="head0">Description</span></td>
 	</tr>
 
 
@@ -77,10 +78,10 @@
 	<xsl:attribute name="bgcolor">
 		<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
 	</xsl:attribute>
-	<td align="center" style="border-right: 1 solid #C0C0C0; border-left: 1 solid #008080; border-bottom: 1 solid #C0C0C0">
+	<td align="center" style="border-right: 1px solid #C0C0C0; border-left: 1px solid #008080; border-bottom: 1px solid #C0C0C0">
 		<xsl:value-of select="T_HISTORY/TIME_STAMP"/>
 	</td>
-	<td style="border-right: 1 solid #C0C0C0; border-bottom: 1 solid #C0C0C0">
+	<td style="border-right: 1px solid #C0C0C0; border-bottom: 1px solid #C0C0C0">
 		<xsl:choose>
 			<xsl:when test="T_HISTORY/ACTION_TYPE='I'">
 				Insert
@@ -96,10 +97,10 @@
 			</xsl:when>
 		</xsl:choose>
 	</td>
-	<td style="border-right: 1 solid #C0C0C0; border-bottom: 1 solid #C0C0C0">
+	<td style="border-right: 1px solid #C0C0C0; border-bottom: 1px solid #C0C0C0">
 		<xsl:value-of select="T_HISTORY/USER"/>
 	</td>
-	<td style="border-right: 1 solid #008080; border-bottom: 1 solid #C0C0C0">
+	<td style="border-right: 1px solid #008080; border-bottom: 1px solid #C0C0C0">
 		<xsl:value-of select="T_HISTORY/DESCRIPTION"/>&#160;
 	</td>
 </tr>	

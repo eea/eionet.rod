@@ -36,6 +36,7 @@
 
 	<xsl:template match="RowSet[@Name='Source']/Row/T_SOURCE">
 		<form name="f" method="POST" action="source.jsv">
+		<input type="hidden" name="silent" value="0"/> <!--silent save -->
 		<input type="hidden" name="dom-update-mode">
 			<xsl:attribute name="value">
 				<xsl:choose>
@@ -63,13 +64,13 @@
       	<td width="615" height="10" colspan="3"></td>
      	</tr>
       <tr>
-	      <td width="615" style="border: 1 solid #006666" colspan="3">
+	      <td width="615" style="border: 1px solid #006666" colspan="3">
    		   <table border="0" cellspacing="0" width="100%" cellpadding="2">
 			      <tr valign="top" bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Legal name</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_LEGALNAME</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -80,10 +81,10 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Short name</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ALIASNAME</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -94,10 +95,10 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Identification number</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_IDENTIFICATIONNUMBER</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -124,10 +125,10 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">URL to official text</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_URLTOOFFICIALSOURCE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -138,10 +139,10 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">CELEX reference</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_CELEXREFERENCE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -152,10 +153,10 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Issued by</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ISSUEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -184,7 +185,7 @@
 									</td>
 									<td>
 										<map name="newIssuerMap">
-											<area alt="Add a new client to client list" shape="rect" coords="0,0,23,15" href="javascript:openAddClientWin()"></area>
+											<area alt="Add a new client to client list" shape="rect" coords="0,0,23,15" href="javascript:addCl()"></area>
 										</map>
 										&#160;<img border="0" height="15" width="23" src="images/but_new_blue.jpg" usemap="#newIssuerMap"></img>
 									</td>
@@ -193,10 +194,10 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">URL to issuer</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_URLTOISSUER</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -207,10 +208,10 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Parent legislative instrument</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_PARENTLEGALINSTRUMENT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -230,10 +231,10 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Eur-lex categories</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_CLASSIFICATION</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3"></td>
@@ -267,10 +268,10 @@
 						</td>
 					</tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">DG Env review of reporting theme</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_DGENVREVIEW</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -281,10 +282,10 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Valid from</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_VALIDFROM</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -304,10 +305,10 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Geographic scope</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_GSCOPE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -318,10 +319,10 @@
 						</td>
 			      </tr>
 			      <tr valign="top">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Abstract</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ABSTRACT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -332,10 +333,10 @@
 						</td>
 			      </tr>
 			      <tr valign="top" bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Comments</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_COMMENT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -354,10 +355,10 @@
                	</td>
                </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">EC entry into force </span><span class="smallfont">(dd/mm/yyyy)</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ECENTRYINTOFORCE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -386,10 +387,10 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Secretariat</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_SECRETARIAT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -400,10 +401,10 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">URL to Secretariat homepage</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_SECRETARIATHOMEPAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -422,10 +423,10 @@
                	</td>
                </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Verified</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMVERIFIED</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -445,10 +446,10 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Verified by</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMVERIFIEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -459,10 +460,10 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Next update due</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMNEXTUPDATEDUE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -482,10 +483,10 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1 solid #C0C0C0">
+				      <td width="19%" style="border-right: 1px solid #C0C0C0">
 					      <span class="head0">Validated by</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1 solid #C0C0C0">
+				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMVALIDATEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">

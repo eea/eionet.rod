@@ -71,8 +71,7 @@
 			<FK_SOURCE_PARENT_ID/>
 		</T_SOURCE_LNK>
 		<T_SOURCE alias="PARENT" relation="T_SOURCE_LNK.FK_SOURCE_PARENT_ID=PARENT.PK_SOURCE_ID" reltype="outer">
-			<TITLE expression="CONCAT(LEFT(PARENT.TITLE, 80), '...') AS TITLE"/>
-			<ALIAS expression="CONCAT(LEFT(PARENT.ALIAS, 80), '...') AS ALIAS"/>
+			<TITLE expression="CONCAT(IF(PARENT.ALIAS != '', CONCAT(PARENT.ALIAS, ' - '), ''), PARENT.TITLE) AS TITLE"/>
 		</T_SOURCE>
 		<xrs:Constraint>T_SOURCE.PK_SOURCE_ID=@ID</xrs:Constraint>
 		<xrs:SubSet name="LnkParent" relation="T_SOURCE.PK_SOURCE_ID=T_SOURCE_LNK.FK_SOURCE_CHILD_ID">
@@ -104,8 +103,7 @@
 	<xrs:RowSet name="Sources" omitRow="true">
 		<T_SOURCE>
 			<PK_SOURCE_ID/>
-			<TITLE expression="CONCAT(LEFT(TITLE, 80),'...') AS TITLE"/>
-			<ALIAS expression="CONCAT(LEFT(ALIAS, 80),'...') AS ALIAS"/>
+			<TITLE expression="CONCAT(IF(ALIAS != '', CONCAT(ALIAS, ' - '), ''),  TITLE) AS TITLE"/>
 		</T_SOURCE>
 		<xrs:Constraint>T_SOURCE.PK_SOURCE_ID!=@ID</xrs:Constraint>
 		<xrs:Ordering>T_SOURCE.TITLE</xrs:Ordering>

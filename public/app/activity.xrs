@@ -72,6 +72,7 @@
 			<ALIAS/>
 			<CELEX_REF/>
 			<SOURCE_CODE/>
+			<PAGETITLE expression="CONCAT('Reporting obligation for ', T_SOURCE.ALIAS, ' ', T_SOURCE.SOURCE_CODE) AS PAGETITLE"/>
 		</T_SOURCE>
 		<T_ROLE alias="RESP_ROLE" relation="RESP_ROLE.ROLE_ID=T_OBLIGATION.RESPONSIBLE_ROLE" reltype="outer">
 			<ROLE_ID/>

@@ -59,7 +59,7 @@ public class History extends ROServletAC {
    protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
 
       if  (!isAuthorised( params.getRequest() ))
-        throw new XSQLException(null, "Not authorized");
+         throw new XSQLException(null, "Not authorized user. Please verify that you are logged in (for security reasons, the system will log you out after a period of inactivity). If the problem persists, please contact the server administrator.");
         
       String id = params.getParameter(ID_PARAM);
       String item_type = params.getParameter(ENTITY_PARAM);

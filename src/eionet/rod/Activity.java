@@ -113,7 +113,7 @@ public class Activity extends ROEditServletAC {
 
          conn = (user != null) ? user.getConnection() : null;
          if (conn == null)
-            throw new XSQLException(null, "Not authenticated user");
+            throw new XSQLException(null, "Not authenticated user. Please verify that you are logged in (for security reasons, the system will log you out after a period of inactivity). If the problem persists, please contact the server administrator.");
 
          //checkPermissions(req);      
          

@@ -40,9 +40,6 @@
 
 <html lang="en">
 <head><title>Country Services</title>
-	<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/><link type="text/css" rel="stylesheet" href="eionet.css"/>
-
-<script language="JavaScript" src="script/util.js"></script>
 <script language="JavaScript">
 
 <![CDATA[
@@ -54,7 +51,6 @@
 
 
 ]]>
-				var browser = document.all ? 'E' : 'N';
 				var picklist = new Array();
 
 				
@@ -144,10 +140,7 @@
 								<td>
 									<xsl:call-template name="Print"/>&#160;<br/>
 									<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_CSMAIN</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>&#160;<br/>
-									<a>
-										<xsl:attribute name="href">cssearch</xsl:attribute>
-										<img src="images/but_advancedsearch.jpg" alt="" border="0"/>
-									</a>&#160;
+									<a><xsl:attribute name="href">cssearch</xsl:attribute><img src="images/but_advancedsearch.jpg" alt="" border="0"/></a>
 								</td>
 							</tr>
 					</table>
@@ -155,13 +148,13 @@
 			</TR>
 			<TR>
 				<TD vAlign="center" style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #C0C0C0 1px solid; BORDER-BOTTOM: #008080 1px solid">
-					<SELECT style="FONT-SIZE: 9pt; WIDTH: 240px; COLOR: #000000; HEIGHT: 23px; BACKGROUND-COLOR: #ffffff"  size="1" name="ISSUE_ID" height="20">
+					<SELECT style="FONT-SIZE: 9pt; WIDTH: 240px; COLOR: #000000; BACKGROUND-COLOR: #ffffff"  size="1" name="ISSUE_ID" height="20">
 										<OPTION value="0" selected="true">All issues</OPTION>
 										<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 					</SELECT>
 				</TD>
 				<TD vAlign="center" style="BORDER-BOTTOM: #008080 1px solid">
-					<SELECT style="FONT-SIZE: 9pt; WIDTH: 129px; COLOR: #000000; HEIGHT: 33px; BACKGROUND-COLOR: #ffffff" size="1" name="DEADLINES"> 
+					<SELECT style="FONT-SIZE: 9pt; WIDTH: 129px; COLOR: #000000; BACKGROUND-COLOR: #ffffff" size="1" name="DEADLINES"> 
 						<OPTION value="0">
 							<xsl:if test="$sel_period='' or $sel_period='0'"> 
 								<xsl:attribute name="selected"/>

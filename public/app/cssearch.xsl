@@ -13,9 +13,6 @@
 <xsl:template match="XmlData">
 
 <html lang="en"><head><title>Country Services</title>
-<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/>
-	<link type="text/css" rel="stylesheet" href="eionet.css"/>
-	<script language="JavaScript" src="script/util.js"></script>
 	<script language="JavaScript">
 
 <![CDATA[
@@ -149,25 +146,25 @@ function submitSearchForm() {
 		 </td></tr><tr><td></td></tr>
 	</table>
 	 
-	 <div style="margin-left:13">
+	 <div style="margin-left:13; margin-top:13">
 		<form name="x1" method="get" action="csmain">
-		<table  width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
-				 <tr height="25" style="border-bottom:1 solid #006666">
-						<td width="34%" bgcolor="#FFFFFF"  style="border-bottom:1 solid #008080; border-right:1 solid #C0C0C0">
+		<table  width="600" cellspacing="0" cellpadding="2" style="border: 1px solid #008080">
+				 <tr height="25" style="border-bottom:1px solid #006666">
+						<td width="34%" bgcolor="#FFFFFF"  style="border-bottom:1px solid #008080; border-right:1px solid #C0C0C0">
 							<b>Show reporting deadlines</b>
 						</td>
-						<td width="60%" bgcolor="#FFFFFF" style="border-bottom:1 solid #008080; border-right:1 solid #C0C0C0">
+						<td width="60%" bgcolor="#FFFFFF" style="border-bottom:1px solid #008080; border-right:1px solid #C0C0C0">
 							<b>For a country</b>
 						</td>
-						<td bgcolor="#FFFFFF" align="center" style="border-bottom:1 solid #008080">
+						<td bgcolor="#FFFFFF" align="center" style="border-bottom:1px solid #008080">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSINDEX_SEARCH</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
 				</tr>
 				<tr>
-           <td rowspan="10" valign="top" style="border-right:1 solid #C0C0C0">
+           <td rowspan="10" valign="top" style="border-right:1px solid #C0C0C0">
 							&#160;
            </td>
-            <td style="border-bottom: 1 solid #C0C0C0">
+            <td style="border-bottom: 1px solid #C0C0C0">
 										<select name="COUNTRY_ID" style="color: #000000; font-size: 9pt; width:223" size="1">
 											<option value="">Any country</option>
 											<xsl:call-template name="SpatialTemplate2">
@@ -176,18 +173,18 @@ function submitSearchForm() {
 											</xsl:call-template>
                     </select>
 						</td>
-						<td rowspan="10" valign="center" align="center" style="border-left:1 solid #C0C0C0">
+						<td rowspan="10" valign="center" align="center" style="border-left:1px solid #C0C0C0">
 							<xsl:call-template name="go"/>
 						</td>
 				</tr>
 				<tr>
-					<td style="border-bottom: 1 solid #C0C0C0">&#160;</td>
+					<td style="border-bottom: 1px solid #C0C0C0">&#160;</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFFFF" style="border-bottom: 1 solid #C0C0C0"><b>For an issue</b>	</td>
+					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0"><b>For an issue</b>	</td>
 				</tr>
 				<tr>
-					<td style="border-bottom: 1 solid #C0C0C0">
+					<td style="border-bottom: 1px solid #C0C0C0">
 						<select name="ISSUE_ID" style="font-size: 9pt; color: #000000; width:223" height="20">
 								<option value="">All issues</option>
 								<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
@@ -195,13 +192,13 @@ function submitSearchForm() {
 					</td>
 				</tr>
 				<tr>
-					<td style="border-bottom: 1 solid #C0C0C0">&#160;</td>
+					<td style="border-bottom: 1px solid #C0C0C0">&#160;</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFFFF" style="border-bottom: 1 solid #C0C0C0"><b>For an organisation</b>	</td>
+					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0"><b>For an organisation</b>	</td>
 				</tr>
 				<tr>
-					<td style="border-bottom: 1 solid #C0C0C0">
+					<td style="border-bottom: 1px solid #C0C0C0">
 						<select name="CLIENT_ID" style="font-size: 9pt; color: #000000; width:350" height="20">
 								<option value="">Any organisation</option>
 								<xsl:apply-templates select="RowSet[@Name='Client']"/>
@@ -209,13 +206,13 @@ function submitSearchForm() {
 					</td>
 				</tr>
 				<tr>
-					<td style="border-bottom: 1 solid #C0C0C0">&#160;</td>
+					<td style="border-bottom: 1px solid #C0C0C0">&#160;</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFFFF" style="border-bottom: 1 solid #C0C0C0"><b>Next deadline</b></td>
+					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0"><b>Next deadline</b></td>
 				</tr>
 				<tr>
-					<td align="left" style="border-left: 1 solid #C0C0C0" >
+					<td align="left" style="border-left: 1px solid #C0C0C0" >
 										<span class="Mainfont"><input type="text" style="color: #000000; font-size: 10pt;" name="DATE_1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/><b> -</b></span>
 										<span class="Mainfont"><font size="1"><input type="text" style="color: #000000; font-size: 10pt;" name="DATE_2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/></font></span>
 						</td>

@@ -26,6 +26,7 @@
 		<T_ISSUE>
 			<PK_ISSUE_ID/>
 			<ISSUE_NAME/>
+			<HOMEPAGE expression="CONCAT('ROD ', 'Home') AS HOMEPAGE"/>
 		</T_ISSUE>
 		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
 	</xrs:RowSet>
@@ -53,5 +54,12 @@
 		</T_LOOKUP>
 		<xrs:Constraint>T_LOOKUP.CATEGORY='P'</xrs:Constraint>
 		<xrs:Ordering>C_TERM</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="HelpTexts">
+		<HLP_AREA>
+			<AREA_ID/>
+			<HTML/>
+		</HLP_AREA>
+		<xrs:Constraint>HLP_AREA.SCREEN_ID='Home_page'</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>

@@ -48,19 +48,21 @@
 		</table>
 		<!-- page -->
 		<div style="margin-left:13">
-		<table width="600" cellspacing="0" cellpadding="0" border="0">
+		<xsl:value-of select="//HLP_AREA[AREA_ID='Introduction']/HTML" disable-output-escaping="yes"/>
+		<!--table width="600" style="border: 1px solid #006666"  cellspacing="3" cellpadding="3">
 			<tr>
 				<td valign="full" ><span class="head0n"><xsl:call-template name="IntroductoryText"/></span></td>
 			</tr>
-		</table>
+		</table-->
 		<br/>
   
 <!--- -->
  	<xsl:call-template name="RASearch"/>
 
-				<table width="600">
+		<xsl:value-of select="//HLP_AREA[AREA_ID='Two_boxes']/HTML" disable-output-escaping="yes"/>
+				<!--table width="600">
            <tr>
-              <td width="100%" colspan="4" style="border: 1 solid #006666">
+              <td width="100%" colspan="4" style="border: 1px solid #006666">
                  <table border="0" width="100%" cellspacing="5" cellpadding="3">
                   <tr>
                     <td width="33%" bgcolor="#CBDCDC" valign="top">
@@ -86,7 +88,6 @@
                       </table>
                     </td>
                     <td width="33%" bgcolor="#CBDCDC" valign="top">
-                      <!-- HTML from HAT will be inserted here later -->
                       <table border="0" width="100%" cellspacing="0" height="90">
 								 <tr>
 									 <td width="100%" height="25" colspan="2">
@@ -110,8 +111,28 @@
                 </table>
               </td>
             </tr>
-		</table>
+		</table-->
 
+<!-- SiteSearch Google -->
+<br/>
+<form method="get" action="http://www.google.com/search">
+	<input type="hidden" name="ie" value="UTF-8"/>
+	<input type="hidden" name="oe" value="UTF-8"/>
+		<table width="600" style="border: 1px solid #006666">
+		<tr>
+			<td valign="middle" width="42%">
+				<b>Search ROD website with Google:</b>
+				<input type="hidden" name="domains" value="rod.eionet.eu.int"/><br/>
+				<input type="hidden" name="sitesearch" value="rod.eionet.eu.int" checked="checked"/>
+			</td>
+			<td valign="middle">
+				<input type="text" name="q" size="44" maxlength="255" value=""/>&#160;
+				<xsl:call-template name="go"/>
+			</td>
+		</tr>
+	</table>
+</form>
+<!-- SiteSearch Google -->
 
 		<xsl:call-template name="CommonFooter"/>
 

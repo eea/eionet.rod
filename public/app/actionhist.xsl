@@ -13,29 +13,10 @@
 </xsl:variable>
 
 <html lang="en"><head><title>History of changes</title>
-	<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/><link type="text/css" rel="stylesheet" href="eionet.css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="eionet.css"/>
 	<script language="JavaScript">
 					
-Net=1;
-
-if ((navigator.appName.substring(0,5) == "Netsc"
-  &amp;&amp; navigator.appVersion.charAt(0) > 2)
-  || (navigator.appName.substring(0,5) == "Micro"
-  &amp;&amp; navigator.appVersion.charAt(0) > 3)) {
- Net=0;
-
- over = new Image;
- out = new Image;
- gammel = new Image;
-
- over.src = "images/on.gif";
- out.src = "images/off.gif";
- 
- gTarget = 'img1';
-}
-
-var browser = document.all ? 'E' : 'N';
-
 var picklist = new Array();
 
 
@@ -88,11 +69,11 @@ var picklist = new Array();
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<tr>
-		<td style="border-right: 1 solid #008080; border-left: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080" bgcolor="#FFFFFF" align="center" width="15%"><span class="head0">Item ID</span></td>
-		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">Type</span></td>
-		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">Time</span></td>
-		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="15%"><span class="head0">Action</span></td>
-		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">User</span></td>
+		<td style="border-right: 1px solid #008080; border-left: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080" bgcolor="#FFFFFF" align="center" width="15%"><span class="head0">Item ID</span></td>
+		<td style="border-right: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">Type</span></td>
+		<td style="border-right: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">Time</span></td>
+		<td style="border-right: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080; " bgcolor="#FFFFFF" align="center" width="15%"><span class="head0">Action</span></td>
+		<td style="border-right: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">User</span></td>
 	</tr>
 
 <xsl:for-each select="XmlData/RowSet/Row">
@@ -100,13 +81,13 @@ var picklist = new Array();
 	<xsl:attribute name="bgcolor">
 		<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
 	</xsl:attribute>
-	<td style="border-right: 1 solid #C0C0C0; border-left: 1 solid #008080; border-bottom: 1 solid #C0C0C0">
+	<td style="border-right: 1px solid #C0C0C0; border-left: 1px solid #008080; border-bottom: 1px solid #C0C0C0">
 		<a title="Show the change record of this item">
 		<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="T_HISTORY/ITEM_ID"/>','<xsl:value-of select="T_HISTORY/ITEM_TYPE"/>')</xsl:attribute>
 		<xsl:value-of select="T_HISTORY/ITEM_ID"/>
 		</a>
 	</td>
-	<td style="border-right: 1 solid #C0C0C0; border-bottom: 1 solid #C0C0C0">
+	<td style="border-right: 1px solid #C0C0C0; border-bottom: 1px solid #C0C0C0">
 		<xsl:choose>
 		<xsl:when test="T_HISTORY/ITEM_TYPE='O'">
 			Reporting Obligation
@@ -120,10 +101,10 @@ var picklist = new Array();
 		</xsl:choose>
 
 	</td>
-	<td align="center" style="border-right: 1 solid #C0C0C0; border-bottom: 1 solid #C0C0C0">
+	<td align="center" style="border-right: 1px solid #C0C0C0; border-bottom: 1px solid #C0C0C0">
 		<xsl:value-of select="T_HISTORY/TIME_STAMP"/>
 	</td>
-	<td style="border-right: 1 solid #C0C0C0; border-bottom: 1 solid #C0C0C0">
+	<td style="border-right: 1px solid #C0C0C0; border-bottom: 1px solid #C0C0C0">
 		<xsl:choose>
 			<xsl:when test="T_HISTORY/ACTION_TYPE='I'">
 				Insert
@@ -136,7 +117,7 @@ var picklist = new Array();
 			</xsl:when>
 		</xsl:choose>
 	</td>
-	<td style="border-right: 1 solid #008080; border-bottom: 1 solid #C0C0C0">
+	<td style="border-right: 1px solid #008080; border-bottom: 1px solid #C0C0C0">
 		<xsl:value-of select="T_HISTORY/USER"/>
 	</td>
 </tr>	

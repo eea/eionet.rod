@@ -49,7 +49,8 @@
 			<tr><td>&#160;</td></tr>
 		</table>
 		<div style="margin-left:13">
-<table cellspacing="0" cellpadding="0" width="590" border="0">
+		<xsl:value-of select="//HLP_AREA[AREA_ID='Help']/HTML" disable-output-escaping="yes"/>
+<!--table cellspacing="0" cellpadding="0" width="590" border="0">
 <tr><td>
 <div class="head1">What is ROD?</div>
 <p>ROD is the EEA’s reporting obligations database. It contains records describing environmental reporting obligations that countries have towards international organisations. ROD is part of Reportnet. Reportnet is group of web applications and processes developed by the EEA to support international environmental reporting.</p>
@@ -113,7 +114,7 @@ Lastly the EEA itself makes use of ROD to identify and gain access to suitable d
 
 <p><a href="text.jsv?mode=R">RSS XML/RPC data extraction help</a></p>
 </td></tr>
-</table>
+</table-->
 
 		<br/>
 		</div>

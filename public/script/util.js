@@ -115,7 +115,18 @@ function openHelp(ID){
 function openViewHelp(ID){
 	var url = "viewhelp.jsv?helpID=" + ID;
 	var name = "Help";
-	var features = "location=no, menubar=no, width=470, height=345, top=100, left=200, scrollbars=yes";
+	var features = "location=no, menubar=no, width=470, height=345, top=100, left=200, scrollbars=yes, resizable=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+}
+
+//
+// Opens help list window
+//
+function openHelpList(mode){
+	var url = "helplist.jsv?mode=" + mode;
+	var name = "Help";
+	var features = "location=no, menubar=no, width=500, height=500, top=100, left=200, scrollbars=yes, resizable=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 }
