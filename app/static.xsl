@@ -34,7 +34,7 @@
 	</xsl:template>
 
 	<xsl:template name="SecondHeading">
-		Ver 1.0 beta. The database content is under establishment
+		The database content is under establishment
 <!--		Tracking obligations and performance for each country in Reporting -->
 	</xsl:template>
 

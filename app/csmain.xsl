@@ -199,7 +199,7 @@ var picklist = new Array();
 			<table width="621" border="0">
 				<tr><td width="618">
 					<span class="head2"><strong><font color="#006666">Reporting Obligations Database, ROD</font></strong></span><font face="Arial" size="5" color="#006666"><strong><span class="head2">
-					</span></strong></font><br/><span class="head0"><strong><font color="#006666">Ver 1.0 beta. The database contents is under establishment</font></strong></span>
+					</span></strong></font><br/><span class="head0"><strong><font color="#006666">The database content is under establishment</font></strong></span>
 				</td><td width="50"></td>
 				<td><img border="0" width="66" height="62" alt="" src="images/logo.jpg"/></td></tr>
 			</table>

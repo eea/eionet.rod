@@ -92,7 +92,7 @@ var picklist = new Array();
   <img alt="" src="images/top2.jpg" width="20" height="113"/></td><td valign="top" width="621"><table cellspacing="0" cellpadding="0" border="0"><tr><td>
     <img alt="" height="35" width="92" src="images/top3.jpg"/></td></tr><tr><td><table width="621" border="0"><tr><td width="618">
   <span class="head2"><strong><font color="#006666">Reporting Obligations Database, ROD</font></strong></span><br/><span class="head0"><strong>
-  <font color="#006666">Ver 1.0 beta. The database contents is under establishment</font></strong></span>
+  <font color="#006666">The database content is under establishment</font></strong></span>
   </td><td width="50"> </td><td><img border="0" width="66" height="62" alt="" src="images/logo.jpg"/></td></tr></table></td></tr></table></td></tr></table><table  cellspacing="0" cellpadding="0" border="0"><tr valign="top">
   <td nowrap="" width="130" bgcolor="#747400"><p><center><table cellspacing="0" cellpadding="0" border="0"><tr><td align="center"><span class="head0">Contents</span></td></tr>
   <!--tr>
