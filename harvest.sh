@@ -5,7 +5,7 @@
 rod=/prj/rod2
 java=/prj/javaserv/jdk1.2.2/bin/java
 
-libpath=$rod/WEB-INF/lib
+libpath=$rod/public/WEB-INF/lib
 
 # !!!!!!!!!!!!!!!!! CHECK, if mysql JAR is correct !!!!!!!!!!!!!!
 cp=/prj/javaserv/mm.mysql.jdbc-1.2c/mysql_uncomp.jar
