@@ -20,7 +20,9 @@ public class Deliveries extends CSServletAC {
     String querySource = "../app/csdeliveries.xml";
 
     String param = params.getParameter("ACT_DETAILS_ID");
-    String queryPars[][] = {{"ACT_DETAILS_ID", param}};
+    String param2 = params.getParameter("COUNTRY_ID");
+    
+    String queryPars[][] = {{"ACT_DETAILS_ID", param}, {"COUNTRY_ID", param2}};
 
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
 

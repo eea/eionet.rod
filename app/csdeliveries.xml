@@ -21,7 +21,7 @@
 			<PK_SPATIAL_ID/>
 			<SPATIAL_NAME/>
 		</T_SPATIAL>
-		<xrs:Constraint>T_DELIVERY.FK_RA_ID=@ACT_DETAILS_ID</xrs:Constraint>
+		<xrs:Constraint>T_DELIVERY.FK_RA_ID=@ACT_DETAILS_ID AND T_DELIVERY.FK_SPATIAL_ID=@COUNTRY_ID</xrs:Constraint>
 		<xrs:Ordering>T_DELIVERY.UPLOAD_DATE DESC</xrs:Ordering>
 	</xrs:RowSet>
 </xrs:XmlData>

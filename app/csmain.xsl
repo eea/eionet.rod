@@ -95,11 +95,13 @@ function openPersons(ROLE){
 	w.focus();
 	//var o = window.showModalDialog() ; 
 }
-function openDeliveries(ACT_ID){
+function openDeliveries(ACT_ID, COUNTRY_ID){
 	//alert("actID = " + ACT_ID);
 	var url = "csdeliveries?ACT_DETAILS_ID=" + ACT_ID ; // + "&#038;mi6";
+	url = url + "&amp;COUNTRY_ID=" + COUNTRY_ID;
+	//alert(url);
 	var name = "CSDeliveries";
-	var features = "location=no, menubar=no, width=550, height=400, top=100, left=200";
+	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
 	var w = window.open( url, name, features);
 	w.focus();
 
@@ -394,7 +396,7 @@ var picklist = new Array();
 					</xsl:when>
 					<xsl:otherwise>
 						<a window="delivery">
-						<xsl:attribute name="href">javascript:openDeliveries(<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>)</xsl:attribute>
+						<xsl:attribute name="href">javascript:openDeliveries(<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>, <xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>  )</xsl:attribute>
 							Show list
 						</a>
 					</xsl:otherwise>
