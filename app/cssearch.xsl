@@ -189,7 +189,7 @@ function doSearch(){
 		if( document.f.DATE_2.value=='' )
 			document.f.DATE_2.value = "dd/mm/yyyy";
 		
-
+	
 		document.f.submit();
 	}
 }
@@ -345,17 +345,17 @@ function doSearch(){
 	<!-- temporarily commented off until the deadline generating mechanism is not ready -->
 
 
-		<input type="hidden" name="DATE_1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
-		<input type="hidden" name="DATE_2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
+		<!--input type="hidden" name="DATE_1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
+		<input type="hidden" name="DATE_2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/-->
 
-  <!--tr>
+  <tr>
     <td width="10">
   <img src="images/diamlil.gif" width="8" height="9"/></td>
-	<td width="200">Time period</td><td>
+	<td width="200">Next deadline</td><td>
 		<input type="text" name="DATE_1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/><b> - </b>	
 		<input type="text" name="DATE_2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
 		</td>
-  </tr-->
+  </tr>
   <tr><td colspan="2"></td><td>
     <input value="Show selected reporting deliveries" onclick="doSearch()" style="width:300" type="button"/></td></tr></table>
 		</form><br/><div style="margin-left:20"><table cellspacing="7pts"></table></div>

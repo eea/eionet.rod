@@ -142,7 +142,8 @@ var picklist = new Array();
 	</form>
 	<!-- 6 -->
 	<xsl:variable name="oneCountry"><xsl:value-of select="count(child::XmlData/RowSet[@Name='Dummy']/Row/T_DUMMY)"/></xsl:variable>
-	<table border="0" width="600" cellspacing="7"><tr><td>
+	<table border="0" width="600" cellspacing="7">
+	<tr><td>
     <span class="head1"><span lang="en-us">Reporting overview: </span>
 		<xsl:if test="$oneCountry=0">
 			<xsl:value-of select="XmlData/RowSet/Row/T_SPATIAL/SPATIAL_NAME"/>
@@ -184,11 +185,11 @@ var picklist = new Array();
 	<xsl:if test="count(child::XmlData/RowSet[@Name='Main']/Row)!=0">
 	<!-- table row start -->
 	<xsl:for-each select="XmlData/RowSet/Row">
-  <tr>
-<td width="10">
-<!-- image, if deadline OK -->
-<img src="images/diamlil.gif" width="8" height="9"/></td>
-<td width="163"><font color="#646666">
+  <tr valign="top">
+		<td width="10">
+		<!-- image, if deadline OK -->
+		<img src="images/diamlil.gif" width="8" height="9"/></td>
+		<td width="163"><font color="#646666">
 			<xsl:choose>
 			<xsl:when test="RESPONSIBLE/ROLE_NAME=''">
 					<xsl:value-of select="T_ACTIVITY/RESPONSIBLE_ROLE"/>
@@ -221,7 +222,17 @@ var picklist = new Array();
 		</span>
 </td>
   <td width="140" align="center">
-			<xsl:value-of select="T_ACTIVITY/DEADLINE"/>
+			<xsl:choose>
+				<xsl:when test="T_ACTIVITY/DEADLINE != '' ">	
+					<xsl:value-of select="T_ACTIVITY/DEADLINE"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<!--font color="#006666"-->
+					<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
+					<!--/font-->
+				</xsl:otherwise>
+			</xsl:choose>
+
 			<!-- check, where we are -->
 			<!--xsl:choose>
 			<xsl:when test="T_DEADLINE/DEADLINE != '' ">	

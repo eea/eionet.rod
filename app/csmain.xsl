@@ -172,8 +172,8 @@ var picklist = new Array();
 </map>
 
 <map name="sortDeadline">
-<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL,'ORD','DEADLINE')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL,'ORD','DEADLINE DESC')" alt="Click to sort in descending order" />
+<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL,'ORD','NEXT_DEADLINE_PLUS')" alt="Click to sort in ascending order" />
+<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL,'ORD','NEXT_DEADLINE_PLUS DESC')" alt="Click to sort in descending order" />
 </map>
 
 <map name="sortCountry">
@@ -214,8 +214,10 @@ var picklist = new Array();
 	<p>
 	<center>
 	<!-- table 2 -->
-	<table cellspacing="0" cellpadding="0" border="0"><tr>
-	<td align="center"><span class="head0">Contents</span></td></tr>
+	<table cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td align="center"><span class="head0">Contents</span></td>
+	</tr>
   <!--tr><td align="right"><a onMouseOver="Over('img0')" onMouseOut="Out('img0')" href="show.jsv?id=1&#038;mode=C">
 			  <img alt="" border="0" src="images/off.gif" name="img0" width="16" height="13"/><img alt="Legislation" height="13" width="84" border="0" src="images/button_legislation.gif"/></a>
 			</td>
@@ -277,8 +279,9 @@ var picklist = new Array();
 	</td>
 	<td>
 	<!-- 3 -->
-	<table border="0" width="621" cellpadding="0" cellspacing="0"><tr><td height="25" background="images/bar_filled.jpg" width="20" align="bottom"> </td>
-	<td height="25" background="images/bar_filled.jpg" width="600">
+	<table border="0" width="621" cellpadding="0" cellspacing="0">
+		<tr><td height="25" background="images/bar_filled.jpg" width="20" align="bottom"> </td>
+			<td height="25" background="images/bar_filled.jpg" width="600">
 	<!-- 4 -->
 	<table border="0" background="" cellPadding="0" cellSpacing="0" height="8">
 		<tr><td width="92" align="middle" valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
@@ -361,7 +364,7 @@ var picklist = new Array();
 	<xsl:if test="count(child::XmlData/RowSet[@Name='Main']/Row)!=0">
 	<!-- table row start -->
 	<xsl:for-each select="XmlData/RowSet/Row">
-  <tr>
+  <tr valign="top">
 <td width="10">
 <!-- image, if deadline OK -->
 <img src="images/diamlil.gif" width="8" height="9"/></td>
@@ -413,8 +416,18 @@ var picklist = new Array();
 </td>
   <td width="140" align="center">
 			<!-- check, where we are -->
-			<xsl:value-of select="T_ACTIVITY/DEADLINE"/>
+			<!--xsl:value-of select="T_ACTIVITY/DEADLINE"/-->
 <!-- remove deadline parsing -->
+			<xsl:choose>
+				<xsl:when test="T_ACTIVITY/DEADLINE != '' ">	
+					<xsl:value-of select="T_ACTIVITY/DEADLINE"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<font color="#006666">
+					<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
+					</font>
+				</xsl:otherwise>
+			</xsl:choose>
 			<!--xsl:choose>
 			<xsl:when test="T_DEADLINE/DEADLINE != '' ">	
 				<xsl:value-of select="T_DEADLINE/DEADLINE"/>

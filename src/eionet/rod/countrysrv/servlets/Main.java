@@ -71,8 +71,8 @@ public class Main extends CSServletAC {
     if ( (date1 !=null && !date1.equals("dd/mm/yyyy")) || (date2 !=null && !date2.equals("dd/mm/yyyy")) )
       deadline=true;
 
-//_log("issue " + issue);
-//_log("deadline   " + deadline);
+    //_log("issue " + issue);
+    //_log("deadline   " + deadline);
 
 
     if (!issue && !deadline) { //only country
@@ -108,22 +108,29 @@ public class Main extends CSServletAC {
         date2="31/12/9999";
       
       date2=cnvDate(date2);
-      
+
+      //System.out.println("========== DATE 1 " + date1);
+      //System.out.println("========== DATE 2 " + date2);
+
       queryPars[2][0] = "DEADLINES";
       //queryPars[2][1] = "DEADLINE >= '" + date1 + "' AND DEADLINE <= '" + date2 + "'" ;
-      queryPars[2][1] = "NEXT_REPORTING >= '" + date1 + "' AND NEXT_REPORTING <= '" + date2 + "'" ;
+      //queryPars[2][1] = "NEXT_REPORTING >= '" + date1 + "' AND NEXT_REPORTING <= '" + date2 + "'" ;
+      queryPars[2][1] = "NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "'" ;
 
       queryPars[3][0] = "ORD";
       queryPars[3][1] = order ;
 
-  
+
       if( issue && deadline )
         querySource = "../app/csadvanced.xml";
       else if ( issue )
         querySource = "../app/csadvanced_issue.xml"; //only issue
       else 
         querySource = "../app/csadvanced_deadline.xml"; // only deadline
+
     }
+
+  
     
     //String queryPars[][] = {{"COUNTRY_ID", countryID}};
 
