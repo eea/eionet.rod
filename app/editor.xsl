@@ -509,6 +509,11 @@ function changedReporting(first, freq, next, to, terminate, next2) {
 	}
 	next.value = ddmmyyyyDate(repDate);
 	
+	// Calculate value for TERMINATE
+	//
+	if(repDate.getTime() < currDate.getTime())
+		terminate.value = "Y";
+
 	// Deadline after the next
 	//
 	if(repDate.getUTCDate() < 28)
