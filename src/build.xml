@@ -5,16 +5,16 @@
 
   <!-- set global properties for this build -->
   <property name="src" value="."/>
-  <property name="classes.dir" value="../WEB-INF/classes"/>
+  <property name="classes.dir" value="../public/WEB-INF/classes"/>
 
   <target name="compile">
     <!-- Compile the java code from ${src} into ${build} -->
     <javac debug="on" deprecation="off" srcdir="${src}" destdir="${classes.dir}"
-		   classpath="../WEB-INF/lib/xmlserver.jar;../WEB-INF/lib/uit-client.jar;../WEB-INF/lib/servlet.jar;../WEB-INF/lib/log4j.jar;../WEB-INF/lib/uit-security.jar;../WEB-INF/lib/eionet-dir.jar"/>
+		   classpath="../public/WEB-INF/lib/xmlserver.jar;../public/WEB-INF/lib/uit-client.jar;../public/WEB-INF/lib/servlet.jar;../public/WEB-INF/lib/log4j.jar;../public/WEB-INF/lib/uit-security.jar;../public/WEB-INF/lib/eionet-dir.jar"/>
   </target>
 
 	<target name="buildjar" depends="compile"> 
-    <jar basedir="${classes.dir}" jarfile="../WEB-INF/lib/rod.jar" includes="**/*.class"/>
+    <jar basedir="${classes.dir}" jarfile="../public/WEB-INF/lib/rod.jar" includes="**/*.class"/>
 		<delete dir="${classes.dir}/eionet"/>
 	</target>
 
