@@ -120,13 +120,14 @@ body {
 	width:80px;
 	height:13px;
 	padding: 0px 6px 0px 20px;
-	background: url('images/inactive.gif') no-repeat left top;
+	background: url('images/greybuttonred.gif') no-repeat left top;
 	border: none;
 	margin: 0px;
 }
 
 #globalnav li a:hover {
-	background: url('images/selected.gif') no-repeat left top;
+	background: url('images/greybuttonred.gif') no-repeat left top;
+        background-position: 0% -26px;
 }
 
 #globalnav form {
@@ -329,18 +330,6 @@ th a:active { color: #ff8080 }
 	float:right;
 	margin-top: 2px;
 	width:135px;
-}
-
-
-.quickjumps {
-	float:right;
-	padding-left: 1em;
-	margin-left: 0.5em;
-	padding-bottom: 15px;
-	padding-top: 1em;
-	border-left : 1px solid black; 
-	background-color : #E5E2DC; 
-	width : 155px;
 }
 
 table.box {
