@@ -660,7 +660,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
         " IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, a.LAST_UPDATE, " +
         " CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&aid=', FK_SOURCE_ID, '&mode=A') AS details_url, " +
         " CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri, " +
-        " IF (TERMINATE='Y', 1, 0) AS terminated "+
+        " IF (TERMINATE='Y', 1, 0) AS 'terminated' "+
         " FROM T_OBLIGATION a , T_SOURCE s " +
         " WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " ;
 
