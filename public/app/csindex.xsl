@@ -36,7 +36,7 @@ var picklist = new Array();
 <tr>
 	<td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td>
 	<td height="25" background="images/bar_filled.jpg" width="600">
- 		 <table border="0" background="" cellPadding="0" cellSpacing="0" height="8">
+ 		 <table border="0" background="" cellpadding="0" cellspacing="0" height="8">
 		 <tr>
 		  <td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
 		  <td width="28" valign="top">
@@ -72,7 +72,7 @@ var picklist = new Array();
 				<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
 				<b><font color="#FFFFFF">Actions</font></b><br/><br/>
 			</xsl:if>
-			<img alt="Harvest Reportnet meta-information" border="0" src="images/bb_harvest.png" onClick="javascript:openHarvester()"></img>
+			<img alt="Harvest Reportnet meta-information" border="0" src="images/bb_harvest.png" onclick="javascript:openHarvester()"></img>
 			<br/><br/>
 		</td>
 	</tr>

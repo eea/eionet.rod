@@ -126,7 +126,7 @@
 	 
 <!-- oneCountry=0 one country, one country = 1 all countries -->
 
-<TABLE cellSpacing="0" cellPadding="0" width="700" border="0">
+<TABLE cellspacing="0" cellpadding="0" width="700" border="0">
 
 <!--xsl:if test="position()=1"-->
 <TR>
@@ -134,7 +134,7 @@
 	<TD width="20%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" bgColor="#ffffff" align="right">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TBODY>
 			<TR> 
 				<TD><SPAN class="headsmall"><B><FONT title="Responsible persons" face="Verdana" color="#000000" size="1">&#160;Contact</FONT></B></SPAN></TD>
@@ -155,7 +155,7 @@
 	<TD width="24%" style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" bgColor="#ffffff">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TBODY>
 			<TR>
 				<TD><SPAN class="headsmall"><B><FONT title="Title of delivery" face="Verdana" color="#000000" size="1">&#160;Delivery Title</FONT></B></SPAN></TD>
@@ -176,7 +176,7 @@
 	<TD width="11%" style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 		vAlign="center" bgColor="#ffffff">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TBODY>
 			<TR>
 				<TD><SPAN class="headsmall"><B><FONT title="Date of delivery" face="Verdana" color="#000000" size="1">Delivery Date</FONT></B></SPAN></TD>
@@ -192,7 +192,7 @@
 	<TD width="31%" style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 		vAlign="center"  bgColor="#ffffff">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TBODY>
 			<TR>
 				<TD><SPAN class="headsmall"><B><FONT title="Period covered by this delivery" face="Verdana" color="#000000" size="1">&#160;Period covered</FONT></B></SPAN></TD>
@@ -209,7 +209,7 @@
 	<TD width="14%" style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #008080 1px solid" 
 						vAlign="center"  bgColor="#ffffff">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TBODY>
 			<TR><TD><SPAN class="headsmall"><B><FONT title="Country" face="Verdana" color="#000000" size="1">&#160;Country</FONT></B></SPAN></TD>
   				<TD><P align="right"><MAP name="FPMap1"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('SPATIAL_NAME DESC')"/>
@@ -251,7 +251,7 @@
 					</xsl:call-template>
 			</a>&#160;
 			<img src="images/details.jpg" alt="Additional details for logged-in users">
-				<xsl:attribute name="onClick">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
+				<xsl:attribute name="onclick">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
 			</img>
 			</xsl:otherwise>
 			</xsl:choose>
@@ -259,7 +259,7 @@
 		&#160;
 </SPAN>
 	</TD>
-	<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" 
+	<TD style="border-left: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" 
        vAlign="top">
 			 <SPAN class="Mainfont">
 					<a target="ROD_delivery">

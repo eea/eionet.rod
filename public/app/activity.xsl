@@ -83,7 +83,7 @@
 			<tr>
          	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
           	<td width="600" background="images/bar_filled.jpg" height="25">
-            <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
+            <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
             	<tr>
 		         	<td valign="bottom">
 							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>

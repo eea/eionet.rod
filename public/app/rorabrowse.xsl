@@ -76,7 +76,7 @@
 			<tr>
          	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25"> </td>
           	<td width="600" background="images/bar_filled.jpg" height="25">
-            <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
+            <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
             	<tr>
                	<td valign="bottom">
 							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
@@ -184,7 +184,7 @@
 		<div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div><br/>
 
 		<!-- header -->
-		<TABLE cellSpacing="0" cellPadding="5" width="600" border="0">
+		<TABLE cellspacing="0" cellpadding="5" width="600" border="0">
 
 		<TR>
 		<xsl:if test="$rora='A'">
@@ -193,7 +193,7 @@
 			<TD style="BORDER-TOP: #008080 1px solid;  BORDER-RIGHT: #C0C0C0 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" width="39%" bgColor="#ffffff">
 
-			<TABLE cellSpacing="0" width="100%" border="0">
+			<TABLE cellspacing="0" width="100%" border="0">
 			<TR>
 				<TD><SPAN class="headsmall"><B>
 					<font title="Title of the reporting obligation" face="Verdana" size="1">
@@ -216,7 +216,7 @@
 		<TD style="BORDER-RIGHT: #C0C0C0 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" width="39%" bgColor="#ffffff">
 
-				<TABLE cellSpacing="0" width="100%" border="0">
+				<TABLE cellspacing="0" width="100%" border="0">
 					<TBODY>
 							<TR>
 								<TD><SPAN class="headsmall"><B>
@@ -239,7 +239,7 @@
 				<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" width="19%" bgColor="#ffffff">
 
-						<TABLE cellSpacing="0" width="100%" border="0">
+						<TABLE cellspacing="0" width="100%" border="0">
 						<TBODY>
 							<TR>
 								<TD>

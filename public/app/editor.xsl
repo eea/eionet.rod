@@ -186,7 +186,7 @@ function save(text,silent) {
 						return false;
 					}
 				}
-			}//end-if onChange
+			}//end-if onchange
 		}//end-for document.f.elements
 	   // select all options of the specified selects
 		for (i = 0; i < selects.length; ++i) {

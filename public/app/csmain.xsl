@@ -63,7 +63,7 @@
 	<tr>
 		<td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td>
 		<td height="25" background="images/bar_filled.jpg" width="600">
-			 <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
+			 <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
 			 <tr valign="top">
 				<td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
 				<td width="28" valign="top">
@@ -124,7 +124,7 @@
 	<table border="0"><tr>
 	<TD width="771">
 
-	<TABLE cellSpacing="0" cellPadding="3" width="100%" border="0">
+	<TABLE cellspacing="0" cellpadding="3" width="100%" border="0">
 			<TR>
 				<TD vAlign="center" width="33%" bgColor="#ffffff" style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #C0C0C0 1px solid; BORDER-TOP: #008080 1px solid;"><FONT face="Verdana" size="1"><B>Select issue:</B></FONT></TD>
 				<TD vAlign="center" width="19%" bgColor="#ffffff" style="BORDER-TOP: #008080 1px solid;"><B><FONT face="Verdana" size="1">Select deadline:</FONT></B></TD>
@@ -208,7 +208,7 @@
 	<TD style="BORDER-RIGHT: #C0C0C0 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" width="25%" bgColor="#ffffff">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TR><TD><SPAN class="headsmall"><B>
 			<font title="Reporting Obligation" face="Verdana" size="1">
 				<xsl:call-template name="Sorter">
@@ -228,7 +228,7 @@
 	<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" width="14%" bgColor="#ffffff">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TR>
 				<TD><SPAN class="headsmall"><B>
 				<font title="Reporting client" face="Verdana" size="1">
@@ -254,7 +254,7 @@
 	<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" width="9%" bgColor="#ffffff">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TR>
 				<TD><SPAN class="headsmall"><B>
 				<font title="Date of delivery" face="Verdana" size="1">
@@ -280,7 +280,7 @@
 	<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 		vAlign="center" width="9%" bgColor="#ffffff">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TR>
 				<TD><SPAN class="headsmall"><B>
 				<font title="Next deadline" face="Verdana" size="1">
@@ -302,7 +302,7 @@
 	<TD style="BORDER-TOP: #008080 1px solid; BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 		vAlign="center" width="13%" bgColor="#ffffff">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TR>
 				<TD><SPAN class="headsmall"><B>
 				<font title="Responsible person or role" face="Verdana" size="1">
@@ -324,7 +324,7 @@
 	<TD style="BORDER-TOP: #008080 1px solid; BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 		vAlign="center" width="8%" bgColor="#ffffff">
 
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TR>
 				<TD><SPAN class="headsmall"><B><FONT title="Show deliveries in the repository" face="Verdana" color="#000000" size="1">Deliveries</FONT></B></SPAN>
 				</TD>
@@ -336,7 +336,7 @@
 	<xsl:if test="$sel_country='0' or $sel_country=''">
 	<TD style="BORDER-TOP: #008080 1px solid; BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 		vAlign="center" width="10%" bgColor="#ffffff">
-		<TABLE cellSpacing="0" width="100%" border="0">
+		<TABLE cellspacing="0" width="100%" border="0">
 			<TR>
 				<TD><SPAN class="headsmall"><B>
 				<font face="Verdana" size="1">

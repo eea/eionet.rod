@@ -114,7 +114,7 @@
 	 
 <!-- oneCountry=0 one country, one country = 1 all countries -->
 
-<TABLE cellSpacing="0" cellPadding="0" width="700" border="1">
+<TABLE cellspacing="0" cellpadding="0" width="700" border="1">
 
 <TR>
 	<th width="100%" style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">

@@ -109,7 +109,7 @@
 									<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_TITLE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							 </td>
 							 <td width="73%" valign="top" align="left">
-									<input type="text" size="68" onChange="changed()">
+									<input type="text" size="68" onchange="changed()">
 										<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/TITLE/@XPath"/></xsl:attribute>
 										<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/TITLE"/></xsl:attribute>
 									</input>&#160;
@@ -119,7 +119,7 @@
 							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Description</span></td>
 							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_DESCRIPTION</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
-								<textarea rows="5" cols="55" wrap="soft" width="440" style="width:440" onChange="changed()">
+								<textarea rows="5" cols="55" wrap="soft" width="440" style="width:440" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/DESCRIPTION/@XPath"/></xsl:attribute>
 									<xsl:value-of select="T_OBLIGATION/DESCRIPTION"/>
 								</textarea>
@@ -129,7 +129,7 @@
 							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Baseline reporting date</span></td>
 							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDFROM</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
-								<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE2/@XPath}"])'>
+								<input type="text" size="30" onchange='changedReporting(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE2/@XPath}"])'>
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/FIRST_REPORTING/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/FIRST_REPORTING"/></xsl:attribute>
 								</input><span class="smallfont">&#160;(dd/mm/yyyy)</span>
@@ -139,7 +139,7 @@
 							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Valid to</span></td>
 							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDTO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
-								<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE2/@XPath}"])'>
+								<input type="text" size="30" onchange='changedReporting(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE2/@XPath}"])'>
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/VALID_TO/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/VALID_TO"/></xsl:attribute>
 								</input><span class="smallfont">&#160;(dd/mm/yyyy)</span>
@@ -149,7 +149,7 @@
 							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Reporting frequency in months</span></td>
 							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_REPORTINGFREQUENCYINMONTHS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
-								<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE2/@XPath}"])'>
+								<input type="text" size="30" onchange='changedReporting(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE2/@XPath}"])'>
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/REPORT_FREQ_MONTHS"/></xsl:attribute>
 								</input><br/><span class="smallfont">For one-time-only reporting, enter 0 and choose a reasonable Valid To</span>
@@ -159,7 +159,7 @@
 							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Next due date</span></td>
 							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_NEXTDUEDATE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
-								<input type="text" size="30" onChange="changed()" disabled="true">
+								<input type="text" size="30" onchange="changed()" disabled="true">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/NEXT_DEADLINE/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/NEXT_DEADLINE"/></xsl:attribute>
 								</input><span class="smallfont">&#160;(calculated automatically)</span>
@@ -175,7 +175,7 @@
 							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Reporting date</span></td>
 							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_REPORTINGDATETEXTFORMAT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
-								<input type="text" size="68" onChange="changed()">
+								<input type="text" size="68" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/NEXT_REPORTING/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/NEXT_REPORTING"/></xsl:attribute>
 								</input>
@@ -187,7 +187,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_DATECOMMENTS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="68" onChange="changed()">
+								<input type="text" size="68" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/DATE_COMMENTS/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/DATE_COMMENTS"/></xsl:attribute>
 								</input>
@@ -199,7 +199,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_REPORTTO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<select  width="410" style="width:410" maxlength="255" onChange="changed()">
+								<select  width="410" style="width:410" maxlength="255" onchange="changed()">
 									<xsl:variable name="selClient">
 											<xsl:value-of select="T_CLIENT_LNK/FK_CLIENT_ID"/>
 									</xsl:variable>
@@ -273,7 +273,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_NAMEOFREPORTINGGUIDELINES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="68" onChange="changed()">
+								<input type="text" size="68" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/FORMAT_NAME/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/></xsl:attribute>
 								</input>
@@ -285,7 +285,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_URLTOREPORTINGGUIDELINES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="68" onChange="chkUrl(this); changed()">
+								<input type="text" size="68" onchange="chkUrl(this); changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
 								</input>
@@ -297,7 +297,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_FORMATVALIDSINCE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="30" onChange="changed()">
+								<input type="text" size="30" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/VALID_SINCE/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/VALID_SINCE"/></xsl:attribute>
 								</input><span class="smallfont">&#160;(dd/mm/yyyy)</span>
@@ -309,7 +309,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_REPORTINGGUIDELINES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<textarea rows="5" cols="55" wrap="soft" width="440" style="width:440" onChange="changed()">
+								<textarea rows="5" cols="55" wrap="soft" width="440" style="width:440" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/REPORTING_FORMAT/@XPath"/></xsl:attribute>
 									<xsl:value-of select="T_OBLIGATION/REPORTING_FORMAT"/>
 								</textarea>
@@ -321,7 +321,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_LOCATIONINFO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="68" onChange="changed()">
+								<input type="text" size="68" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/LOCATION_INFO/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/LOCATION_INFO"/></xsl:attribute>
 								</input>
@@ -333,7 +333,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_LOCATIONPTR</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="68" onChange="chkUrl(this); changed()">
+								<input type="text" size="68" onchange="chkUrl(this); changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/LOCATION_PTR/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/LOCATION_PTR"/></xsl:attribute>
 								</input>
@@ -416,7 +416,7 @@
 									<tr>
 										<td style="border-bottom:1px solid #C0C0C0"><span class="head0">Role</span></td>
 										<td style="border-bottom:1px solid #C0C0C0">
-											<input type="text" size="15" onChange="changed()">
+											<input type="text" size="15" onchange="changed()">
 												<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/COORDINATOR_ROLE/@XPath"/></xsl:attribute>
 												<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/COORDINATOR_ROLE"/></xsl:attribute>
 											</input>
@@ -431,7 +431,7 @@
 										</td>
 										<td style="border-bottom:1px solid #C0C0C0">
 											<input type="checkbox">
-												<xsl:attribute name="onClick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/COORDINATOR_ROLE_SUF/@XPath'/>"], true)</xsl:attribute>
+												<xsl:attribute name="onclick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/COORDINATOR_ROLE_SUF/@XPath'/>"], true)</xsl:attribute>
 												<xsl:if test="T_OBLIGATION/COORDINATOR_ROLE_SUF='0'">
 														<xsl:attribute name="checked"/>
 												</xsl:if>
@@ -449,7 +449,7 @@
 									<tr valign="top">
 										<td><span class="head0">Name</span></td>
 										<td>
-											<input type="text" size="15" onChange="changed()">
+											<input type="text" size="15" onchange="changed()">
 												<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/COORDINATOR/@XPath"/></xsl:attribute>
 												<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/COORDINATOR"/></xsl:attribute>
 											</input>
@@ -481,7 +481,7 @@
 									<tr>
 										<td style="border-bottom:1px solid #C0C0C0"><span class="head0">Role</span></td>
 										<td style="border-bottom:1px solid #C0C0C0">
-											<input type="text" size="15" onChange="changed()">
+											<input type="text" size="15" onchange="changed()">
 												<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE/@XPath"/></xsl:attribute>
 												<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/></xsl:attribute>
 											</input>
@@ -496,7 +496,7 @@
 										</td>
 										<td style="border-bottom:1px solid #C0C0C0">
 											<input type="checkbox">
-												<xsl:attribute name="onClick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/RESPONSIBLE_ROLE_SUF/@XPath'/>"], true)</xsl:attribute>
+												<xsl:attribute name="onclick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/RESPONSIBLE_ROLE_SUF/@XPath'/>"], true)</xsl:attribute>
 												<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE_SUF='0'">
 														<xsl:attribute name="checked"/>
 												</xsl:if>
@@ -514,7 +514,7 @@
 									<tr valign="top">
 										<td><span class="head0">Name</span></td>
 										<td>
-											<input type="text" size="15" onChange="changed()">
+											<input type="text" size="15" onchange="changed()">
 												<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT/@XPath"/></xsl:attribute>
 												<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT"/></xsl:attribute>
 											</input>
@@ -542,7 +542,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_OBLIGATIONTYPE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<select onChange="changed()"><xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/LEGAL_MORAL/@XPath"/></xsl:attribute>
+								<select onchange="changed()"><xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/LEGAL_MORAL/@XPath"/></xsl:attribute>
 									<xsl:for-each select="//RowSet[@Name='LegalMoral']/T_LOOKUP">
 										<xsl:choose>
 											<xsl:when test="C_VALUE=//RowSet[@Name='Activity']/Row/T_OBLIGATION/LEGAL_MORAL">
@@ -617,7 +617,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_PARAMETERS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<textarea rows="5" cols="55" wrap="soft" width="440" style="width:440" onChange="changed()">
+								<textarea rows="5" cols="55" wrap="soft" width="440" style="width:440" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/PARAMETERS/@XPath"/></xsl:attribute>
 									<xsl:value-of select="T_OBLIGATION/PARAMETERS"/>
 								</textarea>
@@ -638,7 +638,7 @@
 									</xsl:attribute>
 								</input>
 								<input type="checkbox">
-									<xsl:attribute name="onClick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/EEA_PRIMARY/@XPath'/>"])</xsl:attribute>
+									<xsl:attribute name="onclick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/EEA_PRIMARY/@XPath'/>"])</xsl:attribute>
 									<xsl:if test="T_OBLIGATION/EEA_PRIMARY='1'">
 											<xsl:attribute name="checked"/>
 									</xsl:if>
@@ -653,7 +653,7 @@
 									</xsl:attribute>
 								</input>
 								<input type="checkbox">
-									<xsl:attribute name="onClick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/EEA_CORE/@XPath'/>"])</xsl:attribute>
+									<xsl:attribute name="onclick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/EEA_CORE/@XPath'/>"])</xsl:attribute>
 									<xsl:if test="T_OBLIGATION/EEA_CORE='1'">
 											<xsl:attribute name="checked"/>
 									</xsl:if>
@@ -668,7 +668,7 @@
 									</xsl:attribute>
 								</input>
 								<input type="checkbox">
-									<xsl:attribute name="onClick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/FLAGGED/@XPath'/>"])</xsl:attribute>
+									<xsl:attribute name="onclick">chkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/FLAGGED/@XPath'/>"])</xsl:attribute>
 									<xsl:if test="T_OBLIGATION/FLAGGED='1'">
 											<xsl:attribute name="checked"/>
 									</xsl:if>
@@ -682,7 +682,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_OVERLAPURL</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="68" onChange="chkUrl(this); changed()">
+								<input type="text" size="68" onchange="chkUrl(this); changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/OVERLAP_URL/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/OVERLAP_URL"/></xsl:attribute>
 								</input>
@@ -707,7 +707,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_COMMENT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<textarea rows="5" cols="55" wrap="soft" width="440" style="width:440" onChange="changed()">
+								<textarea rows="5" cols="55" wrap="soft" width="440" style="width:440" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/COMMENT/@XPath"/></xsl:attribute>
 									<xsl:value-of select="T_OBLIGATION/COMMENT"/>
 								</textarea>
@@ -719,7 +719,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_AUTHORITY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input size="68" type="text" onChange="changed()">
+								<input size="68" type="text" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/AUTHORITY/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/AUTHORITY"/></xsl:attribute>
 								</input>
@@ -739,7 +739,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RMVERIFIED</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="30" onChange="checkDate(this)">
+								<input type="text" size="30" onchange="checkDate(this)">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/RM_VERIFIED/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/RM_VERIFIED"/></xsl:attribute>
 								</input>&#160;<span class="smallfont">(dd/mm/yyyy)</span>
@@ -751,7 +751,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RMVERIFIEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="68" onChange="changed()">
+								<input type="text" size="68" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/RM_VERIFIED_BY/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/RM_VERIFIED_BY"/></xsl:attribute>
 								</input>
@@ -763,7 +763,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RMNEXTUPDATEDUE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="30" onChange="checkDate(this)">
+								<input type="text" size="30" onchange="checkDate(this)">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/RM_NEXT_UPDATE/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/RM_NEXT_UPDATE"/></xsl:attribute>
 								</input>&#160;<span class="smallfont">(dd/mm/yyyy)</span>
@@ -775,7 +775,7 @@
 									<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDATEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<input type="text" size="68" onChange="changed()">
+								<input type="text" size="68" onchange="changed()">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/VALIDATED_BY/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/VALIDATED_BY"/></xsl:attribute>
 								</input>
@@ -978,7 +978,7 @@
 						<td><xsl:value-of select="T_INDICATOR/URL"/></td>
 						<td><xsl:value-of select="T_INDICATOR/OWNER"/></td>
 						<td><input type="button" value="Edit" style="color: #000000; font-family: Verdana; font-size: 8pt; font-weight: bold; background-image: url('images/bgr_form_buttons_wide.jpg')" name="edit">
-								<xsl:attribute name="onClick">javascript:updIndicator('<xsl:value-of select="T_INDICATOR/PK_INDICATOR_ID"/>','<xsl:value-of select="T_INDICATOR/FK_RA_ID"/>')</xsl:attribute>
+								<xsl:attribute name="onclick">javascript:updIndicator('<xsl:value-of select="T_INDICATOR/PK_INDICATOR_ID"/>','<xsl:value-of select="T_INDICATOR/FK_RA_ID"/>')</xsl:attribute>
 							</input>
 						</td>
 					<td>
@@ -986,7 +986,7 @@
 								<xsl:attribute name="value"><xsl:value-of select="T_INDICATOR/PK_INDICATOR_ID"/></xsl:attribute>
 						</input>
 						<input type="button" value="Delete" style="color: #000000; font-family: Verdana; font-size: 8pt; font-weight: bold; background-image: url('images/bgr_form_buttons_wide.jpg')" name="delete">
-							<xsl:attribute name="onClick">javascript:delIndicator('<xsl:value-of select="T_INDICATOR/PK_INDICATOR_ID"/>','<xsl:value-of select="T_INDICATOR/FK_RA_ID"/>', '<xsl:value-of select="T_INDICATOR/FK_RA_ID"/>', '<xsl:value-of select="$src-id"/>')</xsl:attribute>
+							<xsl:attribute name="onclick">javascript:delIndicator('<xsl:value-of select="T_INDICATOR/PK_INDICATOR_ID"/>','<xsl:value-of select="T_INDICATOR/FK_RA_ID"/>', '<xsl:value-of select="T_INDICATOR/FK_RA_ID"/>', '<xsl:value-of select="$src-id"/>')</xsl:attribute>
 						</input>
 					</td>
 				</tr>
@@ -995,7 +995,7 @@
 				<td colspan="2"></td>
 				<td colspan="2">
 						<input type="button" value="Add new indicator" style="color: #000000; font-family: Verdana; font-size: 10pt; font-weight: bold; background-image: url('images/bgr_form_buttons_wide.jpg')" name="addIndicator">
-							<xsl:attribute name="onClick">
+							<xsl:attribute name="onclick">
 							<xsl:choose>
 								<xsl:when test="//RowSet[@skeleton='1']">
 									alert("You have to save this obligation first before adding any indicators");

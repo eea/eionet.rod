@@ -111,7 +111,7 @@
 
 	<br/>
 	 
-<TABLE style="BORDER: #008080 1px solid" cellSpacing="0" cellPadding="0" width="700" border="0">
+<TABLE style="BORDER: #008080 1px solid" cellspacing="0" cellpadding="0" width="700" border="0">
 <TR>
 	<th width="20%" style="BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
 			<SPAN title="Indicator number" class="headsmall"><B><FONT size="1">&#160;Title</FONT></B></SPAN>

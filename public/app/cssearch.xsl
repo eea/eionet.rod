@@ -129,7 +129,7 @@ function submitSearchForm() {
 <tr>
 	<td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td>
 	<td height="25" background="images/bar_filled.jpg" width="600">
- 		 <table border="0" background="" cellPadding="0" cellSpacing="0" height="8">
+ 		 <table border="0" background="" cellpadding="0" cellspacing="0" height="8">
 		 <tr>
 		  <td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
 		  <td width="28" valign="top">
