@@ -54,6 +54,9 @@ import eionet.rod.services.ServiceException;
 import java.net.URLEncoder;
 import eionet.rod.countrysrv.Extractor;
 import eionet.rod.services.LogServiceIF;
+import java.util.Set;
+import java.util.Iterator;
+import java.util.HashMap;
 
 /**
  * CountrySrv database methods implementation.
@@ -692,7 +695,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
                  " FK_RA_ID = " + raId + " ;" ;
 
     _executeUpdate(sql);
- 
+
+    
     //delivery_link
 
     //String deliveryId = getDeliveryId( identifier );
@@ -991,6 +995,25 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
     s.append(" ) ");
     return s.toString();
  }
-}
 
 
+
+  public void markDeliveries ( HashMap countryIds ) throws ServiceException {
+
+
+    
+    for (Iterator i = countryIds.keySet().iterator(); i.hasNext();) {
+      StringBuffer s = new StringBuffer();
+      String raId = (String)i.next(); //raId
+      Set ids = (Set)countryIds.get(raId);
+      for (Iterator j=ids.iterator(); j.hasNext();)      
+        s.append((String)j.next()).append(",");  
+
+      String sql = "UPDATE T_ACTIVITY SET FK_DELIVERY_COUNTRY_IDS = '," + s.toString() + "' WHERE PK_RA_ID=" + raId;
+      _executeUpdate(sql);
+
+    }
+
+  }    
+
+ }

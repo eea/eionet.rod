@@ -64,10 +64,11 @@ public class Source extends ROEditServletAC {
       // prepare data source
       String[][] queryPars = {{"ID", id}};   
 
+      HttpServletRequest req = params.getRequest();
       DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + E_SOURCE_QUERY, params.getRequest());
       dataSrc.setParameters(queryPars);
-      
-      return dataSrc;
+ 
+      return userInfo(req, dataSrc);
    }
 /**
  *

@@ -369,9 +369,13 @@ var picklist = new Array();
 
 	<xsl:if test="count(child::XmlData/RowSet[@Name='Main']/Row)!=0">
 	<!-- table row start -->
-	<xsl:for-each select="XmlData/RowSet/Row">
+
+<xsl:for-each select="XmlData/RowSet[@Name='Main']/Row">
+
   <tr valign="top">
 <td width="10">
+
+
 <!-- image, if deadline OK -->
 <img src="images/diamlil.gif" width="8" height="9"/></td>
 <td width="163"><font color="#646666">
@@ -403,14 +407,15 @@ var picklist = new Array();
 <td width="100">
 		<font color="#999999">
 			<xsl:choose>
-					<xsl:when test="count(descendant::SubSet[@Name='Delivery']/Row) = 0 ">	
-						None
-					</xsl:when>
-					<xsl:otherwise>
+					<!--xsl:when test="count(descendant::SubSet[@Name='Delivery']/Row) = 0 "-->	
+					<xsl:when test="contains(T_ACTIVITY/FK_DELIVERY_COUNTRY_IDS, concat(',' , T_SPATIAL/PK_SPATIAL_ID , ',') )='true'">
 						<a window="delivery">
 						<xsl:attribute name="href">javascript:openDeliveries(<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>,<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>)</xsl:attribute>
 							Show list
 						</a>
+					</xsl:when>
+					<xsl:otherwise>
+							None
 					</xsl:otherwise>
 			</xsl:choose>
 	</font>
@@ -471,16 +476,21 @@ var picklist = new Array();
 	<xsl:if test="$oneCountry !=0">
 		<td width="*" align="left"><span lang="en-us"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/></span></td>
 	</xsl:if>
-
   </tr>
 </xsl:for-each>
+
 </xsl:if>
 <!-- end of table row -->
 	<tr><td>
 		<xsl:attribute name="colspan">
 			<xsl:value-of select="6+$oneCountry"/>
 		</xsl:attribute>
-		<br/><hr/><br/>
+		<br/>
+		
+		<xsl:variable name="recCount"><xsl:value-of select="count(child::XmlData/RowSet[@Name='Main']/Row/T_ACTIVITY)"/></xsl:variable>
+		<b><xsl:value-of select="$recCount"/> record(s) returned</b>
+		<hr/><br/>
+
 		<b><!--Document last modified: no info for last modifying-->
 			<a><xsl:attribute name="href">javascript:openPrintable();</xsl:attribute>
 			Printable page</a><br/>

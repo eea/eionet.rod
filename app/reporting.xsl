@@ -173,9 +173,15 @@ function delObligation() {
 					<xsl:if test="contains($permissions, 'o')='true'">
 						<a><xsl:attribute name="href">reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 							<img src="images/editobligation.png" alt="Edit reporting obligation" border="0"/></a><br/>
-						</xsl:if>
-						<xsl:if test="contains($permissions, 'X')='true'">
+					</xsl:if>
+					<xsl:if test="contains($permissions, 'X')='true'">
 						<a href="javascript:delObligation()"><img src="images/deleteobligation.png" alt="Delete reporting obligation" border="0"/></a><br/>
+					</xsl:if>				
+					<xsl:if test="contains($permissions, 'y')='true'">
+					<a>
+					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ro-id"/>','O')</xsl:attribute>
+					<img src="images/showhistory.png" alt="Show history" border="0"/>
+					</a>
 					</xsl:if>				
 				</td>
 
@@ -281,7 +287,7 @@ function delObligation() {
 			</xsl:if>
 
 			<!-- show history link KL 021127 -->
-			<xsl:if test="contains($permissions, 'y')='true'">
+			<!--xsl:if test="contains($permissions, 'y')='true'">
 			  <tr>
 				<td colspan="3">
 					<a>
@@ -290,7 +296,7 @@ function delObligation() {
 					</a>
 				</td>
 				</tr>
-			</xsl:if>
+			</xsl:if-->
 <!--
 			<xsl:call-template name="RelatedInformation">
 				<xsl:with-param name="type">ER</xsl:with-param>

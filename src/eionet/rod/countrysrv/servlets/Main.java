@@ -133,9 +133,11 @@ public class Main extends CSServletAC {
   
     
     //String queryPars[][] = {{"COUNTRY_ID", countryID}};
-
-    //_log("querysource " + querySource);
-
+/*
+_log("********************************");
+_log("querysource " + querySource);
+_log("********************************");
+*/
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
 
     dataSrc.setParameters(queryPars);

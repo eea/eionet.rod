@@ -27,6 +27,8 @@ import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.sql.Connection;
+import java.util.Set;
+import java.util.HashMap;
 
 
 /**
@@ -216,6 +218,12 @@ public interface DbServiceIF  {
 
   public String[][] getIssueActivities(StringTokenizer ids) throws ServiceException ;
 
+
+  /**
+  * Stores to RA table country Ids for RAs have deliveries
+  */
+
+  public void markDeliveries ( HashMap countryIds ) throws ServiceException;
   
 }
 

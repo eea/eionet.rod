@@ -47,6 +47,8 @@ import java.util.Iterator;
 import eionet.rod.services.*;
 import eionet.directory.DirectoryService;
 import eionet.directory.DirServiceException;
+import java.util.HashMap;
+//import java.util.ArrayList;
 
 
 /**
@@ -294,6 +296,9 @@ public class Extractor implements ExtractorConstants {
       Vector prms = new Vector();
       prms.add(null);
 
+      HashMap countryIds = new HashMap();
+
+
       //go through all details and get deliveries
       for(int i = 0; raData != null && i < raData.length; i++) {
 
@@ -311,15 +316,41 @@ public class Extractor implements ExtractorConstants {
 //        deliveries =new Vector();
 
         log("Received " + deliveries.size() + "  deliveries to RA: " + raData[i][1] + " from " + raData[i][3] );
+
+
+     
         
         for (int ii=0; ii<deliveries.size(); ii++){
           //deliveryKEY:STRING(url), VALUE:HASH (metadata)
           Hashtable delivery = (Hashtable)deliveries.elementAt(ii);
           //PK_RA_ID, PK_SPATIAL_ID, delivery
           csDb.saveDelivery( raData[i][0], raData[i][2], delivery );
+
+          Set ids;
+          if (countryIds.containsKey( raData[i][0] ) ) {
+            ids = (Set)countryIds.get(raData[i][0]);
+            //ids.add(raData[i][2]);
+          }
+          else {
+            ids = new HashSet();
+            countryIds.put(raData[i][0], ids);
+            //ids.add(raData[i][2]);
+          }
+
+          ids.add(raData[i][2]);
+
+                    
+          //countryIds.add(raData[i][2]);
         }
+
+/*        if (countryIds.size()>0)
+          csDb.markDeliveries( raData[i][0], countryIds ); */
       }
 
+    //log("countryIds  " + countryIds); 
+     if (countryIds.size()>0)
+      csDb.markDeliveries( countryIds ); 
+          
       if(extractor.debugLog) 
         log("* Deliveries OK");
         

@@ -174,13 +174,6 @@ var picklist = new Array();
 <span lang="EN-GB">
 This tool aims at facilitating EEA member countries to co-ordinate and to supervise their international reporting. It tells which country has to report what, when is the deadline, is the reported data set in ReportNet, who was responsible for delivering, and to whom was the data set delivered.<br/><br/>
 
-<xsl:if test="contains($permissions, 'H')='true'">
-				<map name="openHarvesterMap">
-					<area alt="Harvest data from other services" shape="rect" coords="0,0,20,20" href="javascript:openHarvester()"></area>
-				</map>
-				<img border="0" height="25" width="25" src="images/doc.gif" usemap="#openHarvesterMap"></img>
-		&#160;<br/>
-</xsl:if>
 
 </span>You can browse your national deliveries by choosing a country below or query the contents by using the advanced search.<br/><br/>
 <b><a href="cssearch">Advanced search</a></b></p-->
@@ -199,13 +192,22 @@ the contents by using the advanced search.
 
 <!--a href="javascript:openHarvester()"><img border="0" src="images/bb_harvest.png"/></a-->
 
-<xsl:if test="$admin = 'true'">
+<xsl:if test="contains($permissions, 'H')='true'">
+				<map name="openHarvesterMap">
+					<area alt="Harvest data from other services" shape="rect" coords="0,0,120,17" href="javascript:openHarvester()"></area>
+				</map>
+				<img border="0" height="17" width="120" src="images/bb_harvest.png" usemap="#openHarvesterMap"></img>
+		&#160;<br/>
+</xsl:if>
+
+
+<!--xsl:if test="$admin = 'true'">
 				<map name="openHarvesterMap">
 					<area alt="Harvest data from other services" shape="rect" coords="0,0,120,17" href="javascript:openHarvester()"></area>
 				</map>
 				<img border="0" heigth="17" witdh="120" src="images/bb_harvest.png" usemap="#openHarvesterMap"></img>
 		&#160;<br/>
-</xsl:if>
+</xsl:if-->
 
 </td></tr></table>
 

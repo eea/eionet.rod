@@ -7,6 +7,7 @@
 			<RESPONSIBLE_ROLE/>
 			<DEADLINE expression="NEXT_DEADLINE AS DEADLINE"/>
 			<NEXT_REPORTING/>
+			<FK_DELIVERY_COUNTRY_IDS/>
 		</T_ACTIVITY>
 
 		<T_ROLE alias="RESPONSIBLE" relation="CONCAT(T_ACTIVITY.RESPONSIBLE_ROLE,'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=RESPONSIBLE.ROLE_ID" reltype="outer">
@@ -43,9 +44,16 @@
 			<FK_RO_ID/>
 			<FK_ISSUE_ID/>
 		</T_ISSUE_LNK>
+
+		<T_DELIVERY relation="T_ACTIVITY.PK_RA_ID=T_DELIVERY.FK_RA_ID AND T_DELIVERY.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID" reltype="outer">
+				<PK_DELIVERY_ID/>
+				<FK_SPATIAL_ID/>
+				<FK_RA_ID/>
+		</T_DELIVERY>
+
 		<xrs:Constraint>FK_ISSUE_ID=@ISSUE_ID</xrs:Constraint>
 
-		<xrs:SubSet name="Delivery" relation="T_ACTIVITY.PK_RA_ID=T_DELIVERY.FK_RA_ID" >
+		<!--xrs:SubSet name="Delivery" relation="T_ACTIVITY.PK_RA_ID=T_DELIVERY.FK_RA_ID" >
 			<T_DELIVERY>
 				<PK_DELIVERY_ID/>
 				<FK_SPATIAL_ID/>
@@ -57,7 +65,8 @@
 				<FORMAT/>
 			</T_DELIVERY>
 			<xrs:Constraint>FK_SPATIAL_ID like @COUNTRY_ID</xrs:Constraint>
-		</xrs:SubSet>
+		</xrs:SubSet-->
+
 		<xrs:Ordering>@ORD</xrs:Ordering>
 	</xrs:RowSet>
 

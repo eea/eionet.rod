@@ -82,14 +82,15 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
         } catch (SignOnException soe ) {
           log(" Error, getting ACL for webrod " + soe);
         } */
-
+      //KL030127
+      if (acl==null)
         initAcl();
         
     }
 
   protected void resetAcl() {
     acl=null;
-Logger.log("******************* ACL = null");    
+    //Logger.log("******************* ACL = null");    
   }
   protected AccessControlListIF getAcl() throws SignOnException {
 
@@ -163,9 +164,10 @@ Logger.log("******************* ACL = null");
    private void initAcl() {
         try {
           acl = AccessController.getAcl("webrod");
+/*
 log("******************************");          
 log("************* ACL initiated ");
-log("******************************"); 
+log("******************************"); */
          } catch (SignOnException soe ) {
           log(" Error, getting ACL for webrod " + soe);
         }

@@ -28,7 +28,7 @@
 
 	<xsl:template match="XmlData">
 		<div style="margin-left:20">
-		<span class="head2">Error</span><br/><br/>
+		<span class="head2">Problem</span><br/><br/>
 		<table cellspacing="7pts" width="600">
 		<xsl:for-each select="Error">
 			<tr valign="top">
