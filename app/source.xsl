@@ -100,7 +100,7 @@ function delLegislation() {
 				<xsl:if test="contains($permissions, 'O')='true'">
 					<td align="right">
 						<a><xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
-						<img src="images/new.gif" alt="Add a new reporting obligation" border="0"/></a></td>
+						<img src="images/newobligation.png" alt="Add a new reporting obligation" border="0"/></a></td>
 				</xsl:if>
 			</tr>
 			<xsl:apply-templates select="SubSet[@Name='Parents']"/>
@@ -126,18 +126,23 @@ function delLegislation() {
 					</xsl:otherwise>
 				</xsl:choose>
 			</td>
-			<td align="right" width="10%">
+			<td align="right" width="10%" rowspan="3" valign="top">
 				<!--xsl:if test="$admin='true'"-->
 				<xsl:if test="contains($permissions, 'S')='true'">
 					<a><xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
-						<img src="images/new.gif" alt="Add a new legal instrument" border="0"/></a>
+						<img src="images/newinstrument.png" alt="Add a new legal instrument" border="0"/></a><br/>
 					</xsl:if>
 					<xsl:if test="contains($permissions, 's')='true'">
 						<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
-						<img src="images/open.gif" alt="Edit legislation" border="0"/></a>
+						<img src="images/editinstrument.png" alt="Edit legislation" border="0"/></a><br/>
 						</xsl:if>
 					<xsl:if test="contains($permissions, 'X')='true'">
-						<a href="javascript:delLegislation()"><img src="images/del.gif" alt="Delete legislation" border="0"/></a>
+						<a href="javascript:delLegislation()"><img src="images/deletelegislation.png" alt="Delete legislation" border="0"/></a><br/>
+				</xsl:if>
+				<xsl:if test="contains($permissions, 'y')='true'">
+					<a>
+					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$src-id"/>', 'L')</xsl:attribute>
+					<img src="images/showhistory.png" alt="Show history" border="0"/></a><br/>
 				</xsl:if>
 			</td>
 		</tr>
@@ -224,16 +229,6 @@ function delLegislation() {
 			</td>
 		</tr>
 		<!-- show history link KL 021127 -->
-			<xsl:if test="contains($permissions, 'y')='true'">
-			  <tr>
-				<td colspan="3">
-					<a>
-					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$src-id"/>', 'L')</xsl:attribute>
-					<b>Show history</b>
-					</a>
-				</td>
-				</tr>
-			</xsl:if>
 		</table>
 		</div>
 	</xsl:template>

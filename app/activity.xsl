@@ -132,18 +132,23 @@ function delActivity() {
 						</xsl:otherwise>
 					</xsl:choose>
 				</td>
-				<td align="right" nowrap="true">
+				<td align="right" nowrap="true" rowspan="3">
 					<!--xsl:if test="$admin='true'"-->
 					<xsl:if test="contains($permissions, 'A')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
-							<img src="images/new.gif" alt="Add a new reporting activity" border="0"/></a>
+							<img src="images/newactivity.png" alt="Add a new reporting activity" border="0"/></a><br/>
 						</xsl:if>
 						<xsl:if test="contains($permissions, 'a')='true'">
-						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute><img src="images/open.gif" alt="Edit reporting activity" border="0"/></a>&#160;
+						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute><img src="images/editactivity.png" alt="Edit reporting activity" border="0"/></a><br/>
 						</xsl:if>
 						<xsl:if test="contains($permissions, 'X')='true'">
-						<a href="javascript:delActivity()"><img src="images/del.gif" alt="Delete reporting activity" border="0"/>
-						</a>
+						<a href="javascript:delActivity()"><img src="images/delactivity.png" alt="Delete reporting activity" border="0"/></a><br/>
+					</xsl:if>				
+					<xsl:if test="contains($permissions, 'y')='true'">
+					<a>
+					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ra-id"/>', 'A')</xsl:attribute>
+					<img src="images/showhistory.png" alt="Show history" border="0"/>
+					</a><br/>
 					</xsl:if>				
 				</td>
 			</tr>
@@ -327,17 +332,6 @@ function delActivity() {
 				<xsl:value-of select="T_ACTIVITY/COMMENT"/>
 				</td>
 			</tr>
-			<!-- show history link KL 021127 -->
-			<xsl:if test="contains($permissions, 'y')='true'">
-			  <tr>
-				<td colspan="3">
-					<a>
-					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ra-id"/>', 'A')</xsl:attribute>
-					<b>Show history</b>
-					</a>
-				</td>
-				</tr>
-			</xsl:if>
 			<tr><td colspan="3"><br/><hr/></td></tr>
 			<tr><td colspan="3">
 			Contents in this application are maintained by the EEA.
