@@ -75,7 +75,7 @@ public abstract class CSServletAC extends XHTMLServletAC  {
    protected final DataSourceIF userInfo(HttpServletRequest req, DataSourceIF dataSrc) {
       // add/remove 'auth' attribute to the generated XML
 
-Logger.log("*************************** userInfo ");    
+      //Logger.log("*************************** userInfo ");    
       java.util.Enumeration e = dataSrc.getQueries();
       if (e != null) {
          QueryStatementIF qry = (QueryStatementIF)e.nextElement();
