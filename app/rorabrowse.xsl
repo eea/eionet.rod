@@ -75,8 +75,9 @@
 		<xsl:choose>
 			<xsl:when test="$showfilters=''">
 				<table cellspacing="10" border="0" width="600">
-					<tr><td colspan="3"><span class="head0">
-						<a href="javascript:window.location.replace(window.location.href+'&amp;showfilters=1')">Show filters</a>
+					<tr><td colspan="3" align="right"><span class="head0">
+						<!--a href="javascript:window.location.replace(window.location.href+'&amp;showfilters=1')">Show filters</a-->
+						<a href="javascript:window.location.replace(window.location.href+'&amp;showfilters=1')"><img border="0" src="images/bb_showfilters.png"/></a>
 					</span>	</td></tr>
 				</table>
 			</xsl:when>

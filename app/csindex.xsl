@@ -162,22 +162,49 @@ function openFeedback(){
     <span class="barfont"><!--a href="csbrowse.html"-->Deliveries<!--/a--></span></td><td width="28" valign="bottom">
     <img src="images/bar_dot.jpg" width="28" height="25"/></td><td width="2 10" align="right" valign="bottom"></td></tr></table></td></tr><tr><td> </td></tr></table><div style="margin-left:13"><form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form><div style="margin-left:20"><table cellspacing="7pts"></table></div>
   <table width="600"><tr><td>
-  <p class="MsoNormal"><span lang="EN-GB">
-This tool aims at facilitating EEA member countries to co-ordinate and to supervise their international reporting. It tells which country has to report what, when is the deadline, is the reported data set in ReportNet, who was responsible for delivering, and to whom was the data set delivered.<br/><br/>
 
-<!--b>This version of Country Services is a prototype application running at TietoEnator's environment with test-installations of ROD and Content Registry with test-databases. Please don't use the data for any other purpose than testing as it is not quality assured.</b><br/><br/--> 
+<!-- p class="MsoNormal">
+<span lang="EN-GB">
+This tool aims at facilitating EEA member countries to co-ordinate and to supervise their international reporting. It tells which country has to report what, when is the deadline, is the reported data set in ReportNet, who was responsible for delivering, and to whom was the data set delivered.<br/><br/>
 
 <xsl:if test="$admin = 'true'">
 				<map name="openHarvesterMap">
 					<area alt="Harvest data from other services" shape="rect" coords="0,0,20,20" href="javascript:openHarvester()"></area>
 				</map>
 				<img border="0" height="25" width="25" src="images/doc.gif" usemap="#openHarvesterMap"></img>
-		<!--img onClick = "openHarvester()" width="25" height="25" src="images/doc.gif" alt="Harvest data from other services" border="0"/-->
 		&#160;<br/>
 </xsl:if>
 
 </span>You can browse your national deliveries by choosing a country below or query the contents by using the advanced search.<br/><br/>
-<b><a href="cssearch">Advanced search</a></b></p>
+<b><a href="cssearch">Advanced search</a></b></p-->
+
+<table>
+<tr><td>
+This tool aims at facilitating EEA member countries to co-ordinate and to
+supervise their international reporting. It tells which country has to
+report what, when is the deadline, is the reported data set in ReportNet,
+who was responsible for delivering, and to whom was the data set delivered.
+  
+You can browse your national deliveries by choosing a country below or query
+the contents by using the advanced search.
+</td><td>
+<a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt="Advanced search"/></a><br/>
+
+<!--a href="javascript:openHarvester()"><img border="0" src="images/bb_harvest.png"/></a-->
+
+<xsl:if test="$admin = 'true'">
+				<map name="openHarvesterMap">
+					<area alt="Harvest data from other services" shape="rect" coords="0,0,120,17" href="javascript:openHarvester()"></area>
+				</map>
+				<img border="0" heigth="17" witdh="120" src="images/bb_harvest.png" usemap="#openHarvesterMap"></img>
+		&#160;<br/>
+</xsl:if>
+
+</td></tr></table>
+
+
+
+
 <table width="100%">
 
 <xsl:variable name="noOfCountries"><xsl:value-of select="count(child::XmlData/RowSet/Row/T_SPATIAL)"/></xsl:variable>
