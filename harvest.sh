@@ -10,6 +10,7 @@ libpath=$rod/WEB-INF/lib
 # !!!!!!!!!!!!!!!!! CHECK, if mysql JAR is correct !!!!!!!!!!!!!!
 cp=/prj/javaserv/mm.mysql.jdbc-1.2c/mysql_uncomp.jar
 
+cp=$cp:$libpath/ldap.jar
 cp=$cp:$libpath/jndi.jar
 cp=$cp:$libpath/eionet-dir.jar
 cp=$cp:$libpath/rod.jar:$libpath/xmlserver.jar:$libpath/xmlrpc.jar
