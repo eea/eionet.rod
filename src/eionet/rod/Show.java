@@ -23,10 +23,16 @@
 
 package eionet.rod;
 
+import eionet.rod.services.RODServices;
+import java.io.IOException;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
+import org.w3c.dom.*;
+import java.util.*;
 
 import com.tee.util.*;
 import com.tee.xmlserver.*;
+import com.tee.uit.client.*;
 
 /**
  * <P>Generic servlet to retrieve WebROD read-only pages.</P>
@@ -77,6 +83,7 @@ import com.tee.xmlserver.*;
 
 public class Show extends ROServletAC {
    private String mode = "";
+   private String id = "";
    
    private DataSourceIF _prepare(String SQL) {
       DataSourceIF dataSrc = new DataSource();
@@ -132,7 +139,7 @@ public class Show extends ROServletAC {
       DataSourceIF dataSrc = null;
       HttpServletRequest req = params.getRequest();
 
-      String id = params.getParameter(ID_PARAM);
+      id = params.getParameter(ID_PARAM);
       if ( Util.nullString(id) )
         throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
 
@@ -158,5 +165,129 @@ public class Show extends ROServletAC {
 
       addMetaInfo(dataSrc);
       return userInfo(req, dataSrc);
+   }
+	
+   //
+   // In case parameters window is displayed, get parameters from DD via XML-RPC and add them to XML
+   //
+   protected DOMDocumentIF accessXML(DOMDocumentIF xml) {
+      if(!mode.equals(PARAMETERS_MODE))
+         return xml;
+         
+		try {
+			String serviceName  = "DataDictService";
+			String rpcRouterUrl = RODServices.getFileService().getStringProperty("dd.service.url");
+			String methodName   = "getParametersByActivityID";
+         Element el, elmNam;
+         Node elmNamV;
+			
+			ServiceClientIF client = ServiceClients.getServiceClient(serviceName, rpcRouterUrl);
+			
+			Vector params = new Vector();
+			params.add(id);
+			
+			Vector result = (Vector)client.getValue(methodName, params);
+         NodeList pos = xml.selectNodes("/XmlData/RowSet[@Name='Activity']/Row");
+			for(int i = 0; result != null && i < result.size(); i++){
+				Hashtable hash = (Hashtable)result.get(i);
+				String elmName = (String)hash.get("elm-name"); // element name
+				String tblName = (String)hash.get("tbl-name"); // table name
+				String dstName = (String)hash.get("dst-name"); // dataset name
+				String elmUrl  = (String)hash.get("elm-url");  // details url
+
+            el = xml.createElement("DDPARAM");
+            elmNam = xml.createElement("ELEMENT_NAME");
+            elmNamV = xml.createTextNode(elmName);
+            elmNam.appendChild(elmNamV);
+            el.appendChild(elmNam);
+            elmNam = xml.createElement("ELEMENT_URL");
+            elmNamV = xml.createTextNode(elmUrl);
+            elmNam.appendChild(elmNamV);
+            el.appendChild(elmNam);
+            elmNam = xml.createElement("TABLE_NAME");
+            elmNamV = xml.createTextNode(tblName);
+            elmNam.appendChild(elmNamV);
+            el.appendChild(elmNam);
+            elmNam = xml.createElement("DATASET_NAME");
+            elmNamV = xml.createTextNode(dstName);
+            elmNam.appendChild(elmNamV);
+            el.appendChild(elmNam);
+            pos.item(0).appendChild(el);
+			}
+		}
+		catch (Exception e){
+         throw new GeneralException(null, e.toString());
+		}
+      return xml;
+   }
+
+   protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+      // override switch for testing: generates XML instead of applying XSLT
+      if (req.getParameter("mi6") != null)
+         mi6 = true;
+      else
+         mi6 = false;
+      if (mi6) {
+         super.doGet(req, res);
+         return;
+      }
+
+      XMLFactoryIF xmlFactory = XDBApplication.getXMLFactory();
+      try {
+         String xslt = setXSLT(req);
+         if (xslt == null)
+            throw new GeneralException(null, "XSLT file is missing");
+
+         appDoGet(req, res);
+         // generate XML
+         DOMDocumentIF xml = generateDocument(new Parameters(req));
+
+			// Custom modifications to the generated XML
+         //
+         xml = accessXML(xml);
+
+         int mode = setMode();
+         if (mode == URL_TRANSFER || mode == FORM_HANDLER) {
+            StringBuffer xmlRequest = new StringBuffer();
+
+            if (mode == URL_TRANSFER) {
+               String requestURI = req.getRequestURI();
+               if (requestURI != null)
+                  xmlRequest.append(requestURI);
+            }
+            else {
+               String pathInfo = req.getPathInfo();
+               if (pathInfo != null)
+                  xmlRequest.append(pathInfo);
+            }
+
+            String query = req.getQueryString();
+            if (query != null)
+               xmlRequest.append('?')
+                         .append(query);
+
+            // store query string and for FORM_HANDLER mode illustrate the DOM with XPath attributes
+            FormHandlerIF xform =
+               XDBApplication.getFormHandler(setProcName(new Parameters(req)));
+            xml = xform.illustrateDOM(xml, xmlRequest.toString(), mode == FORM_HANDLER);
+         }
+         // set response content type
+         res.setContentType(composeContentType());
+         if (mode == FORM_HANDLER) {
+            res.setHeader("Cache-Control", "no-cache");
+         }
+
+         // do the transformation
+         xmlFactory.xsltTransform(xslt, xml, setEncoding(), req, res);
+
+      } catch (XSQLException xe) {
+         // proper error handling should go here
+         printError(xe, req, res);
+      } catch (Exception e) {
+         if (XDBApplication.isDeployed())
+            printError(new XSQLException(e, e.getMessage()), req, res);
+         else
+            throw new GeneralException(e, e.getMessage());
+      }
    }
 }

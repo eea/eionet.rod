@@ -130,7 +130,46 @@
 </TR>
 
 </TABLE>
+
 </xsl:for-each>
+
+<xsl:if test="count(XmlData/RowSet[@Name='Activity']/Row/DDPARAM) > 0">
+<br/>
+<TABLE cellspacing="0" cellpadding="0" width="700" border="0">
+
+<TR>
+	<th colspan="3" width="100%" style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
+			<SPAN class="headsmall"><B><FONT size="1">&#160;Parameters from Data Dictionary</FONT></B></SPAN>
+	</th>
+</TR>
+<TR>
+	<td width="40%" style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
+			<SPAN class="headsmall"><B><FONT size="1">&#160;Parameter name</FONT></B></SPAN>
+	</td>
+	<td width="30%" style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
+			<SPAN class="headsmall"><B><FONT size="1">&#160;Table name</FONT></B></SPAN>
+	</td>
+	<td style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
+			<SPAN class="headsmall"><B><FONT size="1">&#160;Dataset name</FONT></B></SPAN>
+	</td>
+</TR>
+<xsl:for-each select="XmlData/RowSet[@Name='Activity']/Row/DDPARAM">
+<TR>
+	<xsl:attribute name="bgColor">
+		<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
+	</xsl:attribute>
+	<TD style="BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+		<span class="rowitem"><a href="{ELEMENT_URL}" title="View parameter details in Data Dictionary" target="_blank"><xsl:value-of select="ELEMENT_NAME"/></a></span>
+	</TD>
+	<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top"><span class="rowitem"><xsl:value-of select="TABLE_NAME"/></span></TD>
+	<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid; BORDER-RIGHT: #008080 1px solid"  vAlign="top"><span class="rowitem"><xsl:value-of select="DATASET_NAME"/></span></TD>
+</TR>
+</xsl:for-each>
+
+</TABLE>
+<br/>
+</xsl:if>
+
 <!--/xsl:for-each-->
 </td>
 </tr>
