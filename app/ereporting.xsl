@@ -38,7 +38,8 @@
 		<table cellspacing="7pts" width="700">
 		<tr>
 			<td>
-				<span class="head1">
+				<span class="head1">Edit/Create Obligation
+<!--
 					<xsl:choose>
 						<xsl:when test="//RowSet[@Name='Reporting']/Row/T_REPORTING/ALIAS != ''">
 							<xsl:value-of select="//RowSet[@Name='Reporting']/Row/T_REPORTING/ALIAS"/>
@@ -56,9 +57,36 @@
 							<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/TITLE"/>
 						</xsl:otherwise>
 					</xsl:choose>
+-->
 				</span>
 			</td>
 		</tr>
+		</table>
+		<table cellspacing="15pts">
+			<tr valign="top">
+				<td nowrap="true" width="134"><span class="head0">Obligation name:</span></td>
+				<td width="500">
+					<span class="head0">
+						<xsl:choose>
+							<xsl:when test="//RowSet[@Name='Reporting']/Row/T_REPORTING/ALIAS != ''">
+								<xsl:value-of select="//RowSet[@Name='Reporting']/Row/T_REPORTING/ALIAS"/>
+							</xsl:when>
+							<xsl:otherwise>
+								Obligation
+							</xsl:otherwise>
+						</xsl:choose>
+						from
+						<xsl:choose>
+							<xsl:when test="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS != ''">
+								<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/TITLE"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</span>
+				</td>
+			</tr>
 		</table>
 		<xsl:apply-templates select="RowSet[@Name='Reporting']/Row"/>
 	</xsl:template>

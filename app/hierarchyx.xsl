@@ -148,6 +148,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 					</a><br/>
+<!--
 					<xsl:choose>
 						<xsl:when test="T_SOURCE/URL!=''">
 							<a>
@@ -181,6 +182,7 @@
 						</a>
 						</ul>
 					</xsl:if>
+-->
 					</td>
 				</tr>
 

@@ -491,39 +491,34 @@ function warn(field, msg) {
 							</a>
 						</td></tr>
 						<tr><td align="right">
+							<a href="rorabrowse.jsv?mode=R&amp;type=14,25,2,3,4,5,6,7,8,9,10,11,12,13:EU%20legislation%20obligations">
+								<img src="images/button_eulegislation_sub.gif" border="0" width="100" height="13" alt="EU legislation obligations"/>
+							</a>
+						</td></tr>
+						<tr><td align="right">
+							<a href="rorabrowse.jsv?mode=R&amp;type=15:Conventions'%20obligations">
+								<img src="images/button_conventions_sub.gif" border="0" width="100" height="13" alt="Conventions obligations"/>
+							</a>
+						</td></tr>
+						<tr><td align="right">
+							<a href="rorabrowse.jsv?mode=R&amp;type=21:EEA%20requests">
+								<img src="images/button_eearequests_sub.gif" border="0" width="100" height="13" alt="EEA requests"/>
+							</a>
+						</td></tr>
+						<tr><td align="right">
+							<a href="rorabrowse.jsv?mode=R&amp;type=22:Eurostat%20requests">
+								<img src="images/button_eurostatrequests_sub.gif" border="0" width="100" height="13" alt="Eurostat requests"/>
+							</a>
+						</td></tr>
+						<tr><td align="right">
+							<a href="rorabrowse.jsv?mode=R&amp;type=23:Other%20requests">
+								<img src="images/button_otherrequests_sub.gif" border="0" width="100" height="13" alt="Other requests"/>
+							</a>
+						</td></tr>
+						<tr><td align="right">
 							<a href="rorabrowse.jsv?mode=A" onMouseOver="Over('img2')" onMouseOut="Out('img2')" onClick="Click('img2')">
 								<img name="img2" src="images/off.gif" border="0" alt=""/>
 								<img src="images/button_activities.gif" border="0" width="84" height="13" alt="Reporting Activities"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=14,25,2,3,4,5,6,7,8,9,10,11,12,13:EU%20legislation%20obligations" onMouseOver="Over('img3')" onMouseOut="Out('img3')" onClick="Click('img3')">
-								<img name="img3" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_eulegislation.gif" border="0" width="84" height="13" alt="EU legislation obligations"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=15:Conventions'%20obligations" onMouseOver="Over('img4')" onMouseOut="Out('img4')" onClick="Click('img4')">
-								<img name="img4" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_conventions.gif" border="0" width="84" height="13" alt="Conventions obligations"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=21:EEA%20requests" onMouseOver="Over('img5')" onMouseOut="Out('img5')" onClick="Click('img5')">
-								<img name="img5" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_eearequests.gif" border="0" width="84" height="13" alt="EEA requests"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=22:Eurostat%20requests" onMouseOver="Over('img6')" onMouseOut="Out('img6')" onClick="Click('img6')">
-								<img name="img6" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_eurostatrequests.gif" border="0" width="84" height="13" alt="Eurostat requests"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=23:Other%20requests" onMouseOver="Over('img7')" onMouseOut="Out('img7')" onClick="Click('img7')">
-								<img name="img7" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_otherrequests.gif" border="0" width="84" height="13" alt="Other requests"/>
 							</a>
 						</td></tr>
 <!--
