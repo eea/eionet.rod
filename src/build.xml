@@ -1,4 +1,7 @@
-<project name="webrod" default="compile" basedir=".">
+<!-- default is buildjar -->
+<!-- use JAR instead of classes becaiuse it is easier to debug errors -->
+
+<project name="webrod" default="buildjar" basedir=".">
 
   <!-- set global properties for this build -->
   <property name="src" value="."/>
@@ -10,10 +13,9 @@
 		   classpath="../WEB-INF/lib/xmlserver.jar;../WEB-INF/lib/uit-client.jar;../WEB-INF/lib/servlet.jar;../WEB-INF/lib/log4j.jar;../WEB-INF/lib/uit-security.jar;../WEB-INF/lib/eionet-dir.jar"/>
   </target>
 
-
 	<target name="buildjar" depends="compile"> 
-    <jar basedir="${classes.dir}" jarfile="../WEB-INF/lib/rod.jar"/>  
-  </target>
+    <jar basedir="${classes.dir}" jarfile="../WEB-INF/lib/rod.jar" includes="**/*.class"/>
+		<delete dir="${classes.dir}/eionet"/>
+	</target>
 
 </project>
-
