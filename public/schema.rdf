@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<rdf:RDF xmlns='http://rod.eionet.eu.int/schema#'
-         xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
          xmlns:eor='http://dublincore.org/2000/03/13/eor#'
          xmlns:rdfs='http://www.w3.org/2000/01/rdf-schema#'>
 
