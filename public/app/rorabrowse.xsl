@@ -68,6 +68,10 @@
 	<xsl:variable name="client_param">
 		<xsl:value-of select="//RowSet[@Name='Search results']/@Reporting_client_param" />
 	</xsl:variable>
+	<xsl:variable name="terminated_param">
+		<xsl:value-of select="//RowSet[@Name='Search results']/@terminated_param" />
+	</xsl:variable>
+
 
 
 	<xsl:variable name="sortorder">
@@ -138,7 +142,10 @@
 			<xsl:when test="$printmode='Y'">
 			</xsl:when>
 		<xsl:otherwise>
-			<xsl:call-template name="RASearch"/>
+			<xsl:call-template name="RASearch">
+				<xsl:with-param name="sel_country"><xsl:value-of select="$country_param"/></xsl:with-param>
+				<xsl:with-param name="terminated"><xsl:value-of select="$terminated_param"/></xsl:with-param>
+			</xsl:call-template>
 		</xsl:otherwise>
 		</xsl:choose> 
 
@@ -212,6 +219,9 @@
 		<xsl:for-each select="Row/T_ISSUE">
 			<option>
 				<xsl:attribute name="value"><xsl:value-of select="PK_ISSUE_ID"/>:<xsl:value-of select="ISSUE_NAME"/></xsl:attribute>
+				<xsl:if test="concat(PK_ISSUE_ID,  ':', ISSUE_NAME)=$issue_param">
+					<xsl:attribute name="selected">selected</xsl:attribute>
+				</xsl:if>
 				<xsl:value-of select="ISSUE_NAME"/></option>
 		</xsl:for-each>
 	</xsl:template>
@@ -219,6 +229,9 @@
 	<xsl:template match="RowSet[@Name='Client']">
 		<xsl:for-each select="Row/T_CLIENT">
 			<option><xsl:attribute name="value"><xsl:value-of select="PK_CLIENT_ID"/>:<xsl:value-of select="CLIENT_NAME"/></xsl:attribute>
+				<xsl:if test="concat(PK_CLIENT_ID,  ':',CLIENT_NAME)=$client_param">
+					<xsl:attribute name="selected">selected</xsl:attribute>
+				</xsl:if>
 			<xsl:value-of select="CLIENT_NAME"/></option>
 		</xsl:for-each>
 	</xsl:template>
@@ -295,8 +308,7 @@
 				<span class="rowitem">
 					<xsl:choose>
 						<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
-							<a window="delivery">
-								<xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%')</xsl:attribute>
+							<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%</xsl:attribute>
 							Show list
 							</a>
 						</xsl:when>
@@ -445,8 +457,7 @@
 							<span class="rowitem">
 								<xsl:choose>
 									<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
-										<a window="delivery">
-											<xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%')</xsl:attribute>
+										<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%</xsl:attribute>
 										Show list
 										</a>
 									</xsl:when>
@@ -485,10 +496,13 @@
 		<xsl:variable name="env_issue">
 			<xsl:if test="string-length($issue_param) &gt; 0">&amp;env_issue=<xsl:value-of select="$issue_param"/></xsl:if>
 		</xsl:variable>
+		<xsl:variable name="terminated">
+			<xsl:if test="string-length($terminated_param) &gt; 0">&amp;terminated=<xsl:value-of select="$terminated_param"/></xsl:if>
+		</xsl:variable>
 		<xsl:variable name="ORD">
 			<xsl:if test="string-length($sorted) &gt; 0">&amp;ORD=<xsl:value-of select="$sorted"/></xsl:if>
 		</xsl:variable>
 		
-		<xsl:value-of select="concat($uri, $anmode, $client, $country, $env_issue, $ORD)"/>
+		<xsl:value-of select="concat($uri, $anmode, $client, $country, $env_issue, $terminated, $ORD)"/>
 	</xsl:template>
 </xsl:stylesheet>

@@ -112,6 +112,7 @@ public interface Constants {
    public static final String ROTYPE_FILTER ="type";
    public static final String SOURCE_FILTER ="source";
    public static final String CLIENT_FILTER ="client";
+   public static final String TERMINATED_FILTER ="terminated";
 
 // Spatial attribute types
    public static final String SPATIAL_COUNTRY ="C";

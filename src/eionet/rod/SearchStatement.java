@@ -39,6 +39,7 @@ import com.tee.util.*;
  * <LI>param_group - parameter groups</LI>
  * <LI>rotype - show obligations of certain type</LI>
  * <LI>source - show legal instrument's obligations</LI>
+ * <LI>terminated - include terminated obligations</LI>
  * </UL>
  *
  * <P>Database tables involved: T_ACTIVITY, T_REPORTING, T_SOURCE, T_PARAMETER, T_PARAMETER_LNK,
@@ -139,7 +140,7 @@ public class SearchStatement extends QueryStatement implements Constants {
       vFields.add(new FieldInfo("CLIENT_NAME", "T_CLIENT"));
       vFields.add(new FieldInfo("CLIENT_ACRONYM", "T_CLIENT"));
   
-      _Pair env_issue, country, river, sea, lake, param_group, rotype, client;
+      _Pair env_issue, country, river, sea, lake, param_group, rotype, client, terminated;
       String source;
 
       env_issue = splitParam(params.getParameter(ENV_ISSUE_FILTER));
@@ -151,6 +152,7 @@ public class SearchStatement extends QueryStatement implements Constants {
       rotype = splitParam(params.getParameter(ROTYPE_FILTER));
       source = params.getParameter(SOURCE_FILTER);
       client = splitParam(params.getParameter(CLIENT_FILTER));      
+      terminated = splitParam(params.getParameter(TERMINATED_FILTER));      
 
       if ( !Util.nullString(env_issue.id) && !env_issue.id.equals("-1") ) {
       	/*if (mode.equals(REPORTING_MODE)) 
@@ -245,6 +247,17 @@ public class SearchStatement extends QueryStatement implements Constants {
 
 
     }
+     /*
+      * EK 050215 Terminated param added to the search, allows to include terminated obligaitons.
+      * By default exclude terminated obligations 
+      */
+    if ( !Util.nullString(terminated.id )) {
+    	addAttribute("terminated_param", params.getParameter(TERMINATED_FILTER));
+    }
+    else{
+    	appendConstraint("T_OBLIGATION.TERMINATE='N'", "1");
+    }
+
 
       setFields(vFields);
       setTables(vTables);

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  * The contents of this file are subject to the Mozilla Public
@@ -25,7 +25,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<!--xsl:output indent="yes"/-->   
-	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" omit-xml-declaration="yes"/>   
+	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" omit-xml-declaration="yes"  encoding="UTF-8"/>   
 	<!--xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd" omit-xml-declaration="yes"/-->   
 
 	<xsl:include href="util.xsl"/>
@@ -706,7 +706,8 @@ function ddmmyyyyDate(dat) {
 	return s;
 }
 
-function checkAndSave(first, freq, next, textrep, to, terminate) {
+function checkAndSave(first, freq, next, textrep, to, terminate, client) {
+
 	if(textrep.value.length == 0 && (first.value.length == 0 || to.value.length == 0 || freq.value.length == 0)) {
 		alert("Both Reporting Date (Text Format) and one or more of normal reporting date fields (Baseline Reporting Date, Valid To, Reporting Frequency) are empty. One of them must be used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
 		return;
@@ -717,6 +718,11 @@ function checkAndSave(first, freq, next, textrep, to, terminate) {
 	}
 	else if(next.value.length == 0 && first.value.length != 0 && to.value.length != 0 && freq.value.length != 0) {
 		alert("Unable to calculate next due date. Please make sure you have entered valid date (dd/mm/yyyy format) in Baseline Reporting Date field and whole number (0 for non-repeating reporting) in Reporting Frequency in Months field.");
+		return;
+	}
+	//EK 050215
+	if (client.value== 0 || client.value.length==0){
+		alert("'Report To' field is empty. Please make sure that the obligation is linked to at least one organisation.");
 		return;
 	}
 	

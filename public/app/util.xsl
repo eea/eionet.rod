@@ -32,11 +32,16 @@
 	<xsl:template name="SpatialTemplate">
 		<xsl:param name="type" select="'Not selected'"/>
 		<xsl:param name="type2" select="'Not selected'"/>
+		<xsl:param name="sel_spatial"/>
+		
 		<xsl:for-each select="RowSet[@Name='Spatial']/Row/T_SPATIAL[SPATIAL_TYPE=$type or SPATIAL_TYPE=$type2]">
 			<option>
 				<xsl:attribute name="value">
 					<xsl:value-of select="PK_SPATIAL_ID"/>:<xsl:value-of select="SPATIAL_NAME"/>
 				</xsl:attribute>
+				<xsl:if test="concat(PK_SPATIAL_ID, ':',SPATIAL_NAME)=$sel_spatial">
+					<xsl:attribute name="selected">selected</xsl:attribute>
+				</xsl:if>
 			<xsl:value-of select="SPATIAL_NAME"/></option>
 		</xsl:for-each>
 	</xsl:template>
@@ -75,7 +80,7 @@
 
 		<div id="pagefoot">
 									<a href="javascript:history.back()">Back</a>
-									| <a href="mailto:rod@eea.eu.int">E-mail</a> 
+									<!--| <a href="mailto:rod@eea.eu.int">E-mail</a> -->
 									| <a>
 											<xsl:attribute name="href">
 												<xsl:call-template name="Disclaimer_URL"/>
@@ -281,6 +286,11 @@
 	</xsl:template>
 
 	<xsl:template name="RASearch">
+		
+
+		<xsl:param name="sel_country"/>
+		<xsl:param name="terminated"/>
+		
 		<form name="x1" method="get" action="rorabrowse.jsv" class="notprintable">
 		<input type="hidden" name="mode" value="A"></input>
 		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1px solid #008080">
@@ -304,10 +314,11 @@
 									<xsl:call-template name="SpatialTemplate">
 										<xsl:with-param name ="type">C</xsl:with-param>
 										<xsl:with-param name ="type2"></xsl:with-param>
+										<xsl:with-param name ="sel_spatial"><xsl:value-of select="$sel_country"/></xsl:with-param>
 									</xsl:call-template>
             </select>
 					</td>
-					<td rowspan="7" valign="center" style="border-left: 1px solid #C0C0C0"><xsl:call-template name="go"/></td>
+					<td rowspan="10" valign="center" style="border-left: 1px solid #C0C0C0"><xsl:call-template name="go"/></td>
 				</tr>
 
 				<tr>
@@ -339,7 +350,19 @@
 								</select>
 						</td>
 				</tr>
-
+				<tr>
+					<td>&#160;</td><td style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0">&#160;</td>
+				</tr>
+				<tr>
+           <td>&#160;</td><td valign="middle" align="left" style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0" bgcolor="#FFFFFF"><b>Include terminated obligations</b></td>
+				</tr>
+				<tr><td>&#160;</td>
+					<td style="border-left: 1px solid #C0C0C0">
+						<input type="checkbox"	name="terminated" value="Y">
+							<xsl:if test="$terminated='Y'"><xsl:attribute name="checked">checked</xsl:attribute></xsl:if>
+						</input>
+					</td>
+				</tr>
 		</table>
 		</form>
 	</xsl:template>

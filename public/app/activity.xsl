@@ -37,6 +37,7 @@
 		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@auth"/>
 	</xsl:variable>
 
+
 	<xsl:variable name="permissions">
 		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@permissions"/>
 	</xsl:variable>
@@ -146,14 +147,14 @@ Legislative instrument</a></div>
 						</xsl:if>
 						<tr>
 							<td>
-							<a><xsl:attribute name="href">javascript:openPopup("show.jsv", 'mode=M&amp;id=<xsl:value-of select="$ra-id"/>')</xsl:attribute>
+							<a><xsl:attribute name="href">show.jsv?mode=M&amp;id=<xsl:value-of select="$ra-id"/></xsl:attribute>
 								<img src="images/parameters.jpg" alt="Show parameters" border="0"/></a><br/>
 							</td>
 						</tr>
 						<xsl:if test="T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != ''">
 							<tr>
 								<td>
-										<a><xsl:attribute name="href">javascript:openPopup('csdeliveries','ACT_DETAILS_ID=<xsl:value-of select="$ra-id"/>&amp;COUNTRY_ID=%%')</xsl:attribute>
+										<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="$ra-id"/>&amp;COUNTRY_ID=%%</xsl:attribute>
 										 <img src="images/statusofdeliveries.jpg" alt="Show the status of country deliveries" border="0"/></a><br/>
 								</td>
 							</tr>

@@ -50,7 +50,9 @@ public class Deliveries extends ROServletAC { // CSServletAC {
 
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
     dataSrc.setParameters(queryPars);
-
+    
+    addMetaInfo(dataSrc);
+    
     return  userInfo( params.getRequest() , dataSrc);    
   }
   protected int setMode() {

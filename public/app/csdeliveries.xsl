@@ -15,21 +15,44 @@
 	<xsl:variable name="sortorder">
 		<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'ORD='),'&amp;')"/>
 	</xsl:variable>
+	<xsl:variable name="country_name">
+		<xsl:value-of select="//XmlData/RowSet[@Name='Main']/Row/T_SPATIAL/SPATIAL_NAME"/>
+	</xsl:variable>
+	<xsl:variable name="sel_actdetails">
+		<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'ACT_DETAILS_ID='),'&amp;')"/>
+	</xsl:variable>
+	<xsl:variable name="src-id">
+		<xsl:value-of select="/XmlData/RowSet[@Name='RA']/Row/T_OBLIGATION/FK_SOURCE_ID"/>
+	</xsl:variable>
 
-<xsl:template match="/">
-<html lang="en">
-	<xsl:call-template name="html_head"/>
-	<body class="popup">
-	 	<!--a href="/" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a-->
-		<div class="popuphead">
-			<div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
-			<div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
-            		<!--h1><xsl:call-template name="FirstHeading"/></h1--> <hr/>
-       	 </div>
-	<div>
 
+<xsl:template match="XmlData">
+<!--html lang="en"-->
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ 	<xsl:choose>
+		<xsl:when test="$allCountries=0">
+			 <div class="breadcrumbitem"><a href="deliveries.jsv">Deadlines</a></div>
+			 <div class="breadcrumbitem">
+			 	<a>
+			 		<xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="$sel_country"/>&amp;ORD=NEXT_REPORTING,%20NEXT_DEADLINE</xsl:attribute><xsl:value-of select="$country_name"/></a></div>
+		</xsl:when>
+		<xsl:otherwise>
+			 <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;mode=S</xsl:attribute>
+Legislative instrument</a></div>
+			 <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$sel_actdetails"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=A</xsl:attribute> Reporting obligation</a></div>
+		</xsl:otherwise>
+	</xsl:choose>
+	<div class="breadcrumbitemlast">Deliveries</div>
+	 <div class="breadcrumbtail">&#160;</div>
+</div>
+
+	<!-- page -->
+	<div id="workarea">
 	<!-- header -->
-	<xsl:for-each select="XmlData/RowSet[@Name='RA']/Row">
+	<xsl:for-each select="//RowSet[@Name='RA']/Row">
 	
 	<table border="0" style="float:right">
 		<tr>
@@ -42,7 +65,7 @@
 	<h1>Status of deliveries:
 			<xsl:choose>
 				<xsl:when test="$allCountries=0">
-					<xsl:value-of select="//XmlData/RowSet[@Name='Main']/Row/T_SPATIAL/SPATIAL_NAME"/>
+					<xsl:value-of select="$country_name"/>
 				</xsl:when>
 				<xsl:otherwise>
 					all countries
@@ -108,7 +131,7 @@
 		</xsl:choose>
 	</xsl:variable>
 	<xsl:variable name="recCount">
-		<xsl:value-of select="count(XmlData/RowSet[@Name='Main']/Row/T_DELIVERY)"/>
+		<xsl:value-of select="count(//RowSet[@Name='Main']/Row/T_DELIVERY)"/>
 	</xsl:variable>
 
 	<!--div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div-->
@@ -165,7 +188,7 @@
 		</tr>
 	</thead>
 
-	<xsl:for-each select="XmlData/RowSet[@Name='Main']/Row">
+	<xsl:for-each select="//RowSet[@Name='Main']/Row">
 		<tr valign="top">
 			<xsl:attribute name="class">
 				<xsl:if test="position() mod 2 = 0">even</xsl:if>
@@ -236,11 +259,14 @@
 
 </table>
 
- </div>	
 	<br/><br/>
 	<span class="Mainfont">&#160;&#160;&#160;&#160;Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.</span>
-</body>
-</html>
+	<br/><br/>
+  </div> <!-- workarea -->
+<xsl:call-template name="CommonFooter"/>
+
+<!---/body>
+</html-->
 
 </xsl:template>
 <!-- EK 050210 template for calculating request URL for sorting -->
