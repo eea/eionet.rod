@@ -62,7 +62,7 @@ public class ActivityHandler extends ROHandler {
       // delete linked environmental issues & parameters
       updateDB("DELETE FROM T_RAISSUE_LNK WHERE FK_RA_ID=" + raID);
       updateDB("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + raID);      
-      updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
+      //updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
 
       updateDB("DELETE FROM T_INFO_LNK WHERE FK_RA_ID=" + raID);
 
@@ -212,7 +212,7 @@ System.out.println("===================== " + gen.updateStatement());
           return false;
       }
 
-      else if (tblName.equals("T_PARAMETER_LNK")) {
+      /*else if (tblName.equals("T_PARAMETER_LNK")) {
 
         //check 
         if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))
@@ -220,7 +220,7 @@ System.out.println("===================== " + gen.updateStatement());
         else 
           return false;
           
-      }
+      } */
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing
 

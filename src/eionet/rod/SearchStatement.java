@@ -205,7 +205,8 @@ public class SearchStatement extends QueryStatement implements Constants {
          addAttribute("Lake_or_reservoir_equals", lake.name);
       }
 
-      if ( !Util.nullString(param_group.id) && !param_group.id.equals("-1") ) {
+/*
+	  if ( !Util.nullString(param_group.id) && !param_group.id.equals("-1") ) {
            vTables.add(new TableInfo("T_PARAMETER_LNK",
                        "T_OBLGATION.PK_RA_ID = T_PARAMETER_LNK.FK_RA_ID",
                         TableInfo.INNER_JOIN));
@@ -215,7 +216,7 @@ public class SearchStatement extends QueryStatement implements Constants {
            appendConstraint("T_PARAMETER.FK_GROUP_ID=" + param_group.id, "1");
          addAttribute("Parameter_group_equals", param_group.name);
       }
-
+*/
 
      if ( !Util.nullString(client.id ) && !client.id.equals("-1") ) {
             vTables.add(new TableInfo("T_CLIENT_LNK ",

@@ -123,9 +123,11 @@ public class Activity extends ROEditServletAC {
             if (Logger.enable(5))
                Logger.log("Create temp table " + tmpIssueTbl);
             stmt.execute(CREATE1 + tmpIssueTbl + CREATE2 + ISSUES + "-1");
-            if (Logger.enable(5))
+		/*
+			if (Logger.enable(5))
                Logger.log("Create temp table " + tmpParTbl);
             stmt.execute(CREATE1 + tmpParTbl + CREATE2 + PARAMETERS + "-1");
+		*/
 
             if (Logger.enable(5))
                Logger.log("Create temp table " + tmpSpatialTbl);
@@ -144,8 +146,9 @@ public class Activity extends ROEditServletAC {
             qryIssue = new SubSelectStatement("ISSUE", tmpIssueTbl);
             dataSrc.setQuery(qryIssue);
             
-            qryPars = new SubSelectStatement("PARAMETER", "FK_GROUP_ID", tmpParTbl,"NEW=1");
-            dataSrc.setQuery(qryPars);
+            //qryPars = new SubSelectStatement("PARAMETER", "FK_GROUP_ID", tmpParTbl,"NEW=1");
+            //dataSrc.setQuery(qryPars);
+
             // spatials
             qrySpatial = new SubSelectStatement("SPATIAL", "SPATIAL_TYPE", tmpSpatialTbl, "", "");
             dataSrc.setQuery(qrySpatial);
@@ -246,9 +249,10 @@ public class Activity extends ROEditServletAC {
    
    private static final String ISSUES =
       "T_RAISSUE_LNK.FK_ISSUE_ID FROM T_RAISSUE_LNK WHERE T_RAISSUE_LNK.FK_RA_ID=";
+/*
    private static final String PARAMETERS =
       "T_PARAMETER_LNK.FK_PARAMETER_ID FROM T_PARAMETER_LNK WHERE T_PARAMETER_LNK.FK_RA_ID=";
-
+*/
    private static final String SPATIALS =
       "T_RASPATIAL_LNK.FK_SPATIAL_ID FROM T_RASPATIAL_LNK WHERE T_RASPATIAL_LNK.FK_RA_ID=";
 
