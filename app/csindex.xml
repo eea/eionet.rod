@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet>
+		<T_SPATIAL>
+			<PK_SPATIAL_ID/>
+			<SPATIAL_NAME/>
+			<SPATIAL_TWOLETTER/>
+		</T_SPATIAL>
+		<xrs:Constraint>T_SPATIAL.SPATIAL_TYPE='C'</xrs:Constraint>
+		<xrs:Ordering>SPATIAL_NAME</xrs:Ordering>
+	</xrs:RowSet>
+</xrs:XmlData>

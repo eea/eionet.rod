@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="Main">
+		<T_DEADLINE>
+			<PK_DEADLINE_ID/>
+			<RA_ID/>
+			<DEADLINE/>
+			<DEADLINE_TEXT/>
+		</T_DEADLINE>
+		<xrs:Constraint>@DEADLINES</xrs:Constraint>
+
+ 		<T_ACTIVITY_DETAILS relation="T_ACTIVITY_DETAILS.RA_ID=T_DEADLINE.RA_ID" reltype="inner">
+			<PK_DETAILS_ID/>
+			<RA_ID/>
+			<FK_COUNTRY_ID/>
+			<RA_URL/>
+			<TITLE/>
+			<REPORT_TO/>
+			<RESPONSIBLE_ROLE/>
+		</T_ACTIVITY_DETAILS>
+		<xrs:Constraint>FK_COUNTRY_ID like @COUNTRY_ID</xrs:Constraint>
+
+		<xrs:SubSet name="Delivery" relation="T_ACTIVITY_DETAILS.PK_DETAILS_ID=T_DELIVERY_LNK.FK_DETAILS_ID" reltype="outer">
+			<T_DELIVERY_LNK>
+				<FK_DELIVERY_ID/>
+				<FK_DETAILS_ID/>
+			</T_DELIVERY_LNK>
+			<T_DELIVERY relation="T_DELIVERY.PK_DELIVERY_ID=T_DELIVERY_LNK.FK_DELIVERY_ID" reltype="inner" >
+				<PK_DELIVERY_ID/>
+				<TITLE/>
+				<DELIVERY_URL/>
+				<UPLOAD_DATE/>
+				<TYPE/>
+				<FORMAT/>
+			</T_DELIVERY>
+		</xrs:SubSet>
+		<T_ROLE alias="RESPONSIBLE" relation="T_ACTIVITY_DETAILS.RESPONSIBLE_ROLE=RESPONSIBLE.ROLE" reltype="outer">
+			<ROLE_NAME/>
+			<ROLE_EMAIL/>
+			<ROLE/>	
+			<ROLE_URL/>
+		</T_ROLE>
+		<!--T_ORGANISATION alias="RECIPIENT" relation="T_ACTIVITY_DETAILS.REPORT_TO_ROLE=RECIPIENT.ORG_ROLE" reltype="outer">
+			<ORG_NAME/>
+			<ORG_EMAIL/>
+			<ORG_ROLE/>	
+			<CIRCA_URL/>
+		</T_ORGANISATION-->
+		<T_SPATIAL relation="T_ACTIVITY_DETAILS.FK_COUNTRY_ID=T_SPATIAL.PK_SPATIAL_ID" >
+			<PK_SPATIAL_ID/>
+			<SPATIAL_NAME/>
+			<SPATIAL_TWOLETTER/>
+		</T_SPATIAL>
+		<xrs:Ordering>@ORD</xrs:Ordering>
+		</xrs:RowSet>
+	<xrs:RowSet name="Dummy">
+		<T_DUMMY>
+			<DUMMY/>
+		</T_DUMMY>
+		<xrs:Constraint>DUMMY=@COUNTRY_ID</xrs:Constraint>
+	</xrs:RowSet>
+</xrs:XmlData>
