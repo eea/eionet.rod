@@ -63,15 +63,15 @@ function delLegislation() {
           	<td width="600" background="images/bar_filled.jpg" height="25">
             <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
             	<tr>
-               	<td valign="bottom" align="middle" width="92">
+               	<td valign="bottom" align="middle">
 							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
 						</td>
    	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom" align="middle" width="92">
-							<a href="index.html"><span class="barfont">WebROD</span></a>
+               	<td valign="bottom" align="middle">
+							<a href="index.html"><span class="barfont">ROD</span></a>
 						</td>
    	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom" align="middle" width="92"><span class="barfont">Legal instrument</span></td>
+               	<td valign="bottom" align="middle"><span class="barfont">Legal instrument</span></td>
    	            <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
 	               <td valign="bottom" align="right" width="240"></td>
 					</tr>
@@ -110,7 +110,7 @@ function delLegislation() {
 		<tr><td colspan="5"><hr/></td></tr>
 		<tr valign="top">
 			<td nowrap="true" width="10%"><span class="head0">Legal name:</span></td>
-			<td  colspan="3">
+			<td colspan="3">
 				<xsl:choose>
 					<xsl:when test="T_SOURCE/URL!=''">
 						<a>

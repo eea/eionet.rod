@@ -82,14 +82,6 @@ function openCirca(url){
 
 }
 
-function openFeedback(){
-	fwdUrl="http://213.168.23.13:81/countrysrv/public/fb_response.html";
-	var name = "CSFeedback";
-	var features = "location=no, menubar=yes, width=700, height=500, top=100, left=200, scrollbars=yes, resizable=yes";
-	var url = "http://213.168.23.13:81/wftool/feedback.jsp?fwd=" + fwdUrl + "&#038;pn=Country Services&#038;pv=1.0&#038;fn=Main" ;
-	var w = window.open( url, name, features);
-	w.focus();
-}
 
 function openPrintable(){
 	var url = document.URL + "&#038;MODE=PR";
@@ -280,7 +272,7 @@ var picklist = new Array();
   </tr>
   <!--tr>
   <td align="right">
-  <a onClick="Click('img4')" onMouseOut="Out('img4')" onMouseOver="Over('img4')" href="javascript:openFeedback()">
+  <a onClick="Click('img4')" onMouseOut="Out('img4')" onMouseOver="Over('img4')" href="http://www.eionet.eu.int/software/rod/issues/add_issue_quick_html">
     <img alt="" border="0" src="images/off.gif" name="img4" width="16" height="13"/><img alt="Send feedback about the application" height="13" width="84" border="0" src="images/button_feedback.gif"/></a></td>
   </tr-->
   </table>
@@ -296,9 +288,9 @@ var picklist = new Array();
 			<td height="25" background="images/bar_filled.jpg" width="600">
 	<!-- 4 -->
 	<table border="0" background="" cellPadding="0" cellSpacing="0" height="8">
-		<tr><td width="92" align="middle" valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
+		<tr><td align="middle" valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
 				<td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-				<td width="92" align="middle" valign="bottom"><a href="index.html"><span class="barfont">WebROD</span></a></td>
+				<td align="middle" valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
 				<td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
 				<td width="122"	align="middle" valign="bottom"><a href="deliveries.jsv"><span class="barfont">Deliveries</span></a></td>
 				<td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>

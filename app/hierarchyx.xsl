@@ -38,12 +38,12 @@
           	<td width="600" background="images/bar_filled.jpg" height="25">
             <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
             	<tr>
-               	<td valign="bottom" align="middle" width="92">
+               	<td valign="bottom" align="middle">
 							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
 						</td>
    	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom" align="middle" width="92">
-							<a href="index.html"><span class="barfont">WebROD</span></a>
+               	<td valign="bottom" align="middle">
+							<a href="index.html"><span class="barfont">ROD</span></a>
 						</td>
    	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
                	<td valign="bottom" align="middle" width="122">

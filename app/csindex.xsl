@@ -81,18 +81,7 @@ var browser = document.all ? 'E' : 'N';
 
 var picklist = new Array();
 
-function openFeedback(){
-	fwdUrl="http://213.168.23.13:81/countrysrv/public/fb_response.html";
-	var name = "CSFeedback";
-	var features = "location=no, width=700, height=500, menubar=yes,  top=100, left=200, scrollbars=yes, resizable=yes";
-	var url = "http://213.168.23.13:81/wftool/feedback.jsp?fwd=" + fwdUrl + "&#038;pn=Country Services&#038;pv=1.0&#038;fn=Index" ;
-	var w = window.open( url, name, features);
-	w.focus();
-}
 
-
-
-				
 </script></head>
 <body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
 
@@ -156,16 +145,16 @@ function openFeedback(){
   </tr>
   <!--tr>
   <td align="right">
-  <a onClick="Click('img4')" onMouseOut="Out('img4')" onMouseOver="Over('img4')" href="javascript:openFeedback()">
+  <a onClick="Click('img4')" onMouseOut="Out('img4')" onMouseOver="Over('img4')" href="http://www.eionet.eu.int/software/rod/issues/add_issue_quick_html">
     <img alt="" border="0" src="images/off.gif" name="img4" width="16" height="13"/><img alt="Send feedback about the application" height="13" width="84" border="0" src="images/button_feedback.gif"/></a></td>
   </tr-->
   </table>
   <p> </p>
-  </center></p></td><td><table border="0" width="621" cellpadding="0" cellspacing="0"><tr><td height="25" background="images/bar_filled.jpg" width="20" align="bottom"> </td><td height="25" background="images/bar_filled.jpg" width="600"><table border="0" background="" cellPadding="0" cellSpacing="0" height="8"><tr><td width="92" align="middle" valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td><td width="28" valign="bottom">
-    <img src="images/bar_hole.jpg" width="28" height="24"/></td><td width="92" align="middle" valign="bottom"><a href="index.html"><span class="barfont">WebROD</span></a></td><td width="28" valign="bottom">
+  </center></p></td><td><table border="0" width="621" cellpadding="0" cellspacing="0"><tr><td height="25" background="images/bar_filled.jpg" width="20" align="bottom"> </td><td height="25" background="images/bar_filled.jpg" width="600"><table border="0" background="" cellPadding="0" cellSpacing="0" height="8"><tr><td align="middle" valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td><td width="28" valign="bottom">
+    <img src="images/bar_hole.jpg" width="28" height="24"/></td><td align="middle" valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td><td width="28" valign="bottom">
     <img src="images/bar_hole.jpg" width="28" height="24"/></td><td width="122" align="middle" valign="bottom">
     <span class="barfont"><!--a href="csbrowse.html"-->Deliveries<!--/a--></span></td><td width="28" valign="bottom">
-    <img src="images/bar_dot.jpg" width="28" height="25"/></td><td width="2 10" align="right" valign="bottom"></td></tr></table></td></tr><tr><td> </td></tr></table><div style="margin-left:13"><form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form><div style="margin-left:20"><table cellspacing="7pts"></table></div>
+    <img src="images/bar_dot.jpg" width="28" height="25"/></td><td width="210" align="right" valign="bottom"></td></tr></table></td></tr><tr><td> </td></tr></table><div style="margin-left:13"><form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form><div style="margin-left:20"><table cellspacing="7pts"></table></div>
   <table width="600"><tr><td>
 
 <!-- p class="MsoNormal">
@@ -237,8 +226,8 @@ the contents by using the advanced search.
 
 </td>
 </tr>
-<tr><td  colspan="3"><hr/><br/></td></tr>
-<tr><td  colspan="3">	<b>
+<tr><td colspan="3"><hr/><br/></td></tr>
+<tr><td colspan="3">	<b>
 	Disclaimer: EEA does not guarantee that all possible deliveries are shown, nor that the recorded deliveries 
 	totally cover all aspects a country has to comply with regarding a specific reporting activity. 
 	If you find any inconsistencies in the database, please <a href="mailto:eea@eea.eu.int">report back</a> to EEA.  
@@ -246,7 +235,7 @@ the contents by using the advanced search.
 </td></tr>
 
 <!--tr><td colspan="3"><hr/></td></tr>
-<tr><td colspan="3"><b><a target="CSFeedback" href="/wftool/feedback.jsp?fwd=/countrysrv/public/csindex&#038;pn=Country Services&#038;pv=1.0&#038;fn=Index">Feedback</a> about this page.</b></td></tr-->
+<tr><td colspan="3"><b><a href="http://www.eionet.eu.int/software/rod/issues/add_issue_quick_html">Feedback</a> about this page.</b></td></tr-->
 </table>
 </table>
 
