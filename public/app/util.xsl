@@ -140,7 +140,7 @@
 				</table>
 	</xsl:template>
 	<xsl:template name="Print">
-		<xsl:if test="$printmode='N'"><img src="images/printerfriendly.jpg" onClick="javascript:openPrintable()" border="0" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'"/></xsl:if>
+		<xsl:if test="$printmode='N'"><img src="images/printerfriendly.jpg" onclick="javascript:openPrintable()" border="0" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'"/></xsl:if>
 	</xsl:template>
 
 	<xsl:template name="Help">
@@ -205,7 +205,7 @@
 			    <li><a href="logout_servlet" title="Log out">Logout</a></li>
 			 </xsl:if>
 		  </ul>
-		  <h2><span style="cursor:hand" onclick="javascript:openWindow('http://www.eionet.eu.int/reportnet.html')">Reportnet</span></h2>
+		  <h2>Reportnet</h2>
 		  <ul>
 		    <li><a href="http://cdr.eionet.eu.int/" title="Central Data Repository">CDR</a></li>
 		    <li><a href="http://dd.eionet.eu.int/" title="Data Dictionary">DD</a></li>
