@@ -55,9 +55,9 @@ public class Countries extends RDFServletAC {
       String uri = (String)act.get("uri");
       String name = (String)act.get("name");
 
-      s.append("<Locality rdf:about='").append(uri).append("'>")
+      s.append("<rod:Locality rdf:about='").append(uri).append("'>")
         .append("<rdfs:label>").append(name).append("</rdfs:label>")
-        .append("</Locality>");
+        .append("</rod:Locality>");
 
     }
     
