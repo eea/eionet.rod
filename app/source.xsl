@@ -30,13 +30,18 @@
 		<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/PK_SOURCE_ID"/>
 	</xsl:variable>
 
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet[@Name='Source']/@permissions"/>
+	</xsl:variable>
+
 	<xsl:template match="XmlData">
 		<xsl:apply-templates select="RowSet[@Name='Source']"/>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Source']/Row[position()=1]">
 		<!-- form for delete legislation action -->
-		<xsl:if test="$admin='true'">
+		<!--xsl:if test="$admin='true'"-->
+		<xsl:if test="contains($permissions, 'X')='true'">
 			<script language="JavaScript">
 			<![CDATA[
 function delLegislation() {
@@ -91,7 +96,8 @@ function delLegislation() {
 				<td align="right">
 					<xsl:apply-templates select="SubSet[@Name='Obligation']"/>
 				</td>
-				<xsl:if test="$admin='true'">
+				<!--xsl:if test="$admin='true'"-->
+				<xsl:if test="contains($permissions, 'O')='true'">
 					<td align="right">
 						<a><xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 						<img src="images/new.gif" alt="Add a new reporting obligation" border="0"/></a></td>
@@ -123,12 +129,17 @@ function delLegislation() {
 				</xsl:choose>
 			</td>
 			<td align="right" width="10%">
-				<xsl:if test="$admin='true'">
+				<!--xsl:if test="$admin='true'"-->
+				<xsl:if test="contains($permissions, 'S')='true'">
 					<a><xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
 						<img src="images/new.gif" alt="Add a new legal instrument" border="0"/></a>
-					<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
-					<img src="images/open.gif" alt="Edit legislation" border="0"/></a>
-					<a href="javascript:delLegislation()"><img src="images/del.gif" alt="Delete legislation" border="0"/></a>
+					</xsl:if>
+					<xsl:if test="contains($permissions, 's')='true'">
+						<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
+						<img src="images/open.gif" alt="Edit legislation" border="0"/></a>
+						</xsl:if>
+					<xsl:if test="contains($permissions, 'X')='true'">
+						<a href="javascript:delLegislation()"><img src="images/del.gif" alt="Delete legislation" border="0"/></a>
 				</xsl:if>
 			</td>
 		</tr>

@@ -426,6 +426,136 @@ function warn(field, msg) {
 	}
 	field.focus();
 }
+
+var dx;
+var mx;
+var yx;
+var fx;
+function changedReporting(first, freq, next, nextplus) {
+	changed();
+
+	next.value = "";
+	nextplus.value = "";
+	
+	// Check that all fields have valid values
+	//
+	if(!(checkDateSimple(first) && checkNumberSimple(freq)))
+		return;
+
+	// If non-repeating, use First Reporting for Next Reporting
+	//
+	if(fx == 0) {
+		next.value = first.value;
+		return;
+	}
+	
+	// Repeating date
+	//
+	var currDate = new Date();
+	currDate.setUTCDate(currDate.getUTCDate() - (fx * 3));  // Buffer
+	var repDate = new Date(yx, parseInt(mx, 10)-1, dx, 20);
+	
+	if(dx < 28)
+		while(repDate.getTime() < currDate.getTime())
+			repDate.setUTCMonth(repDate.getUTCMonth() + fx);
+	else {
+		repDate.setUTCDate(repDate.getUTCDate() - 3);
+		while(repDate.getTime() < currDate.getTime())
+			repDate.setUTCMonth(repDate.getUTCMonth() + fx);
+		var utcMonth = repDate.getUTCMonth();
+		while(utcMonth == repDate.getUTCMonth())
+			repDate.setUTCDate(repDate.getUTCDate() + 1);
+		repDate.setUTCDate(repDate.getUTCDate() - 1);
+	}
+	var plusDate = new Date(repDate.getTime());
+	plusDate.setUTCDate(plusDate.getUTCDate() + (fx * 3));
+	nextplus.value = ddmmyyyyDate(plusDate);
+	next.value = ddmmyyyyDate(repDate);
+}
+
+function checkDateSimple(field) {
+	var s = field.value;
+	
+	if(s.length == 0)
+		return false; 
+
+	var re = /([0-9]{2})\/([0-9]{2})\/([0-9]{4})/;
+	
+	if(!re.test(s)) {
+		alert("Invalid date format. Date needs to be in dd/mm/yyyy format.");
+		return false;
+	}
+
+	dx = RegExp.$1;
+	mx = RegExp.$2;
+	yx = RegExp.$3;
+
+	if(mx < 1 || mx > 12) {
+		alert("Invalid date.");
+		return false;
+	}
+	else if ((dx < 1) || 
+				((mx == 1 || mx == 3 || mx == 5 || mx == 7 || mx == 8 || mx == 10 || mx == 12) && dx > 31) ||
+				((mx == 4 || mx == 6 || mx == 9 || mx == 11) && dx > 30) ||
+				(mx == 2 && dx > 29)) {
+		alert("Invalid date.");
+		return false;
+	}
+
+	return true;
+}
+
+function checkNumberSimple(field) {
+	var s = field.value;
+	
+	if(s.length == 0)
+		return false; 
+	
+	fx = parseInt(field.value);
+	if(isNaN(fx) || fx < 0) {
+		alert("Invalid frequency. Positive, whole number expected.");
+		return false;
+	}
+
+	return true;
+}
+
+function ddmmyyyyDate(dat) {
+	var s;
+	
+	if(dat.getUTCDate() >= 10)
+		s = dat.getUTCDate();
+	else
+		s = "0" + dat.getUTCDate();
+
+	s += "/";
+	if(dat.getUTCMonth() >= 9)
+		s += parseInt(dat.getUTCMonth() + 1);
+	else
+		s += "0" + parseInt(dat.getUTCMonth() + 1);
+		
+	s += "/" + dat.getUTCFullYear();
+	
+	return s;
+}
+
+function checkAndSave(first, freq, next, textrep) {
+	if(textrep.value.length == 0 && first.value.length == 0 && freq.value.length == 0 && next.value.length == 0) {
+		alert("Both Reporting Date (Text Format) and normal reporting date fields (First Reporting, Frequency, and Next Reporting) are empty. One of them must be used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave normal fields empty.");
+		return;
+	}
+	else if(textrep.value.length != 0 && (first.value.length != 0 || freq.value.length != 0 || next.value.length != 0)) {
+		alert("Both Reporting Date (Text Format) and normal reporting date fields (First Reporting, Frequency, and Next Reporting) are used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave normal fields empty.");
+		return;
+	}
+	else if(next.value.length == 0 && (first.value.length != 0 || freq.value.length != 0)) {
+		alert("Unable to calculate next reporting date. Please make sure you have entered valid date (dd/mm/yyyy format) in First Reporting field and whole number (0 for non-repeating reporting) in Reporting Frequency in Months field.");
+		return;
+	}
+	next.disabled = false;
+	save();
+}
+
 //-->
 					]]>
 			</script>

@@ -83,19 +83,51 @@ public class SourceHandler extends ReportingHandler {
       String tblName = gen.getTableName();
       int state = gen.getState();
 
+      String userName = this.user.getUserName();
+      boolean ins = false, upd =false, del=false;
+      try {
+        upd = servlet.getAcl().checkPermission(userName, "s");
+        del = servlet.getAcl().checkPermission(userName, "X");
+        ins = servlet.getAcl().checkPermission(userName, "S");      
+      } catch (Exception e ) {
+        return false;
+      }
+
+/*      if (state == INSERT_RECORD && !ins )
+        return false;
+      if (state == DELETE_RECORD && !del )
+        return false;
+      if (state == MODIFY_RECORD && !upd )
+        return false;  */
+
+System.out.println("============================= SOURCE HANDLER ========");
+System.out.println("============================= state " + state );
+System.out.println("============================= ins " + ins);
+System.out.println("============================= upd " + upd);
+System.out.println("============================= del " + del);
+
+
       if (tblName.equals("T_SOURCE")) {
          if (state != INSERT_RECORD) {
+             
             gen.setPKField("PK_SOURCE_ID");
             id = gen.getFieldValue("PK_SOURCE_ID");
             // delete all linked parameter and medium records and in delete mode also the self record
             boolean delSelf = (state == DELETE_RECORD);
-            DELETE_SOURCE(id, delSelf);
+
+            if (delSelf && !del)
+              return false;
+
+            if (!upd)              
+              DELETE_SOURCE(id, delSelf);
 
             if (delSelf == true)
                return false; // everything is done, stop
          }
          else {
-            gen.removeField("PK_SOURCE_ID");
+              if (!ins)
+                return false;
+              gen.removeField("PK_SOURCE_ID");
          }
 
          setDateValue(gen, "VALID_FROM");
@@ -108,6 +140,10 @@ public class SourceHandler extends ReportingHandler {
             servlet.setCurrentID(id);
       } 
       else if (tblName.equals("T_SOURCE_LNK")) {
+
+         if ((state == INSERT_RECORD && !ins ) ||  (state == MODIFY_RECORD && !upd )      )
+          return false;
+          
          if ( Util.nullString(gen.getFieldValue("FK_SOURCE_PARENT_ID")) ) // no link information
             return true;
             

@@ -45,6 +45,8 @@ import java.util.Iterator;
 
 //import eionet.countrysrv.soap.*;
 import eionet.rod.services.*;
+import eionet.directory.DirectoryService;
+import eionet.directory.DirServiceException;
 
 
 /**
@@ -54,10 +56,10 @@ import eionet.rod.services.*;
 public class Extractor implements ExtractorConstants {
 
  public static final    int ALL_DATA = 0;
- public static final    int ACTS = 1;
- public static final    int DELIVERIES = 2;
- public static final    int ROLES = 3;
- public static final    int ACTS_DELIVERIES = 4;
+ //public static final    int ACTS = 1;
+ public static final    int DELIVERIES = 1;
+ public static final    int ROLES = 2;
+ //public static final    int ACTS_DELIVERIES = 4;
 
   private static FileServiceIF fileSrv = null;
   boolean debugLog = true;
@@ -75,7 +77,21 @@ public class Extractor implements ExtractorConstants {
   public static void main(String[] args) {
     try {
       //logger = RODServices.getLogService();
-      harvest(0);
+      String type = null;
+
+      if (args.length == 1 ) 
+        type = args[0];
+      else if (args.length > 1 ) {
+         System.out.println("Usage: Extractor [-mode]");
+         return;
+      }
+      else
+        type="0";
+
+      int iType = Integer.valueOf(type).intValue();
+      
+      harvest(iType);
+
     } catch (ServiceException se ) {
       logger.error(se.toString());
     }
@@ -251,7 +267,7 @@ public class Extractor implements ExtractorConstants {
 */
   
     // Get delivery list from Content Registry and save it also
-    if (mode == ALL_DATA || mode == DELIVERIES || mode == ACTS_DELIVERIES ) {   
+    if (mode == ALL_DATA || mode == DELIVERIES  ) {   
       try {
         crUrl =  fileSrv.getStringProperty( FileServiceIF.CONTREG_SRV_URL );
       }  catch (Exception e) {
@@ -362,9 +378,12 @@ public class Extractor implements ExtractorConstants {
           prms.setElementAt(roleName,0);
           Hashtable role = null;
           try {
-            role = (Hashtable)ldap.getValue(DIRECTORY_GETROLE_METHOD, prms );
+            //!!!!!!!!!!!
+            role = DirectoryService.getRole(roleName);
+            //role = (Hashtable)ldap.getValue(DIRECTORY_GETROLE_METHOD, prms );
             log("Received role info for " + roleName + " from Directory");
-          } catch (ServiceClientException rpce ) {
+          //} catch (ServiceClientException rpce ) {
+          } catch (DirServiceException rpce ) {
             logger.error("Error getting role " + roleName + " " + rpce.toString());
             //extractor.out.println("Error getting role " + roleName + " " + rpce.toString());          
           } catch (Exception e ) {

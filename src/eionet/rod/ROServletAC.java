@@ -29,6 +29,8 @@ import javax.servlet.*;
 import com.tee.util.*;
 import com.tee.xmlserver.*;
 
+import com.tee.uit.security.*;
+
 
 /**
  * <P>Common super-class for all WebROD servlets.</P>
@@ -45,8 +47,10 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
   private static final String APP_HOST = "127.0.0.1";
   private static final String APP_PORT = "80";
 
+  private static AccessControlListIF acl ;
+  
   public void appInit(){
-
+        //log("****************************** appInit GO ");
         ServletContext ctx = getServletContext();
         StringBuffer urlPrefix = new StringBuffer("http://");
 
@@ -69,8 +73,22 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
         else{
             //PREFIX = urlPrefix.append(CTXT).toString();
         }
+
+        //KL021029-> Access Control List for ROD
+        try {
+        
+          acl = AccessController.getAcl("webrod");
+          //log("************* ACL OK");
+        } catch (SignOnException soe ) {
+          log(" Error, getting ACL for webrod " + soe);
+        }
+        
     }
 
+  protected AccessControlListIF getAcl() {
+    return acl;
+  }
+  
 /**
  *
  */
@@ -105,9 +123,23 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
       java.util.Enumeration e = dataSrc.getQueries();
       if (e != null) {
          QueryStatementIF qry = (QueryStatementIF)e.nextElement();
-         if (getUser(req) != null)
+         AppUserIF u = getUser(req);
+         if (u != null) {
             qry.addAttribute("auth", "true");
-         else
+            //ACL
+            if ( acl != null) {
+              String prms = "";
+              try {
+                 prms = acl.getPermissions( u.getUserName() ) ;
+              } catch (SignOnException soe ) {
+                prms = null;
+              }
+              if (prms != null)
+                qry.addAttribute("permissions", prms);
+              //<- test acl
+            }
+          }
+          else
             qry.addAttribute("auth", "false");
       }
       

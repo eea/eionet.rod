@@ -42,6 +42,10 @@
 		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@auth"/>
 	</xsl:variable>
 
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@permissions"/>
+	</xsl:variable>
+
 	<xsl:template match="XmlData">
 		<xsl:choose>
 			<xsl:when test="count(RowSet[@Name='Activity']/Row)>0">
@@ -55,7 +59,8 @@
 
 	<xsl:template match="RowSet[@Name='Activity']/Row">
 		<!-- form for delete activity action -->
-		<xsl:if test="$admin='true'">
+		<!--xsl:if test="$admin='true'"-->
+		<xsl:if test="contains($permissions, 'X')='true'">
 			<script language="JavaScript">
 			<![CDATA[
 function delActivity() {
@@ -128,10 +133,15 @@ function delActivity() {
 					</xsl:choose>
 				</td>
 				<td align="right" nowrap="true">
-					<xsl:if test="$admin='true'">
+					<!--xsl:if test="$admin='true'"-->
+					<xsl:if test="contains($permissions, 'A')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 							<img src="images/new.gif" alt="Add a new reporting activity" border="0"/></a>
+						</xsl:if>
+						<xsl:if test="contains($permissions, 'a')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute><img src="images/open.gif" alt="Edit reporting activity" border="0"/></a>&#160;
+						</xsl:if>
+						<xsl:if test="contains($permissions, 'X')='true'">
 						<a href="javascript:delActivity()"><img src="images/del.gif" alt="Delete reporting activity" border="0"/>
 						</a>
 					</xsl:if>				
@@ -199,21 +209,18 @@ function delActivity() {
 				<td width="22%"><span class="head0">Next reporting:</span></td>
 				<td colspan="2">
 					<xsl:choose>
-						<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
+						<!--xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
 						<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<font color="red">terminated</font>
-						</xsl:otherwise>
-					</xsl:choose>
-				</td>
-			</tr>
-			<tr valign="top">
-				<td width="22%"><span class="head0">Reporting frequency:</span></td>
-				<td colspan="2">
-						<xsl:choose>
+						</xsl:when-->
 						<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
-							<xsl:value-of select="T_ACTIVITY/REPORT_FREQ"/>&#160;<xsl:value-of select="T_ACTIVITY/REPORT_FREQ_DETAIL"/>
+							<xsl:choose>
+							<xsl:when test="string-length(T_ACTIVITY/NEXT_REPORTING) = 0">
+								<xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
+							</xsl:otherwise>
+							</xsl:choose>
 						</xsl:when>
 						<xsl:otherwise>
 							<font color="red">terminated</font>
@@ -221,6 +228,35 @@ function delActivity() {
 					</xsl:choose>
 				</td>
 			</tr>
+			<xsl:if test="string-length(T_ACTIVITY/NEXT_REPORTING) = 0">
+				<tr valign="top">
+					<td width="22%"><span class="head0">Reporting frequency:</span></td>
+					<td colspan="2">
+							<xsl:choose>
+							<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
+								<!--xsl:value-of select="T_ACTIVITY/REPORT_FREQ"/>&#160;<xsl:value-of select="T_ACTIVITY/REPORT_FREQ_DETAIL"/-->
+								<xsl:choose>
+								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '0'">
+									One time only
+								</xsl:when>
+								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '1'">
+									Monthly
+								</xsl:when>
+								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '12'">
+									Annually
+								</xsl:when>
+								<xsl:otherwise>
+									Every <xsl:value-of select="T_ACTIVITY/REPORT_FREQ_MONTHS"/> months
+								</xsl:otherwise>
+								</xsl:choose>
+							</xsl:when>
+							<xsl:otherwise>
+								<font color="red">terminated</font>
+							</xsl:otherwise>
+						</xsl:choose>
+					</td>
+				</tr>
+			</xsl:if>
 			<tr valign="top">
 				<td width="22%"><span class="head0">Related parameters:</span></td>
 				<td colspan="2">

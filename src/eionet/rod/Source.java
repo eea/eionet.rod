@@ -30,7 +30,7 @@ import com.tee.util.*;
 import com.tee.xmlserver.*;
 
 /**
- * <P>Legislative acts editor servlet class.</P>
+ * <P>Legal instrument editor servlet class.</P>
  *
  * <P>Servlet URL: <CODE>source.jsv</CODE></P>
  *
@@ -91,11 +91,16 @@ public class Source extends ROEditServletAC {
       QueryStatementIF qryParents = null;
 
       try {
+
+
+        
          AppUserIF user = getUser(req);
          conn = (user != null) ? user.getConnection() : null;
          if (conn == null)
             throw new XSQLException(null, "Not authenticated user");
 
+        checkPermissions(req);
+        
          try {
             stmt = conn.createStatement();
 
@@ -151,7 +156,7 @@ public class Source extends ROEditServletAC {
          throws XSQLException {
       try {
          String location = null;
-         
+         //checkPermissions(req);         
          if (curRecord != null) {
             location = "show.jsv?id=" + curRecord + "&mode=S";
          }
@@ -183,7 +188,36 @@ public class Source extends ROEditServletAC {
          throw new XSQLException(e, "Error in redirection");
       }
    }
- 
+
+   private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
+    String mode;
+    
+    String userName = getUser(req).getUserName();
+    String id = req.getParameter( ID_PARAM );
+    String upd = req.getParameter( FormHandlerIF.MODE_PARAM );
+
+    upd = (upd==null ? "" : upd);
+    id = (id==null ? "" : id); //not needed?
+    
+    if ( id.equals("-1"))
+      mode = "S";
+    else if ( upd.equals("D"))
+      mode = "X";
+    else
+      mode = "s";
+        
+    boolean b = false;
+    try {
+      b = getAcl().checkPermission( userName, mode );
+    } catch ( Exception e ) {
+      throw new XSQLException (e, "Error getting user rights ");
+    }
+
+    if (!b)
+      throw new XSQLException (null, "No permission to perform the action");
+
+    
+  }
    private static final String PARENTS =
       "T_SOURCE_LNK.FK_SOURCE_PARENT_ID FROM T_SOURCE_LNK WHERE T_SOURCE_LNK.CHILD_TYPE='S' AND T_SOURCE_LNK.FK_SOURCE_CHILD_ID=";
 }

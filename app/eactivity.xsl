@@ -103,9 +103,13 @@
 			<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/FK_RO_ID/@XPath"/></xsl:attribute>
 			<xsl:attribute name="value"><xsl:value-of select="$ro-id"/></xsl:attribute>
 		</input>
+		<input type="hidden">
+			<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE_PLUS/@XPath"/></xsl:attribute>
+			<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE_PLUS"/></xsl:attribute>
+		</input>
 		<table cellspacing="15pts" border="0">
 			<tr valign="top">
-				<td nowrap="true" width="120"><span class="head0">Title:</span></td>
+				<td nowrap="true" width="150"><span class="head0">Title:</span></td>
 				<td colspan="3">
 					<input type="text" size="60" onChange="changed()">
 						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/TITLE/@XPath"/></xsl:attribute>
@@ -114,16 +118,7 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" width="120"><span class="head0">Next reporting dates:</span><br/>(dd/mm/yyyy)</td>
-				<td colspan="3">
-					<input type="text" size="60" onChange="changed()">
-						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/NEXT_REPORTING/@XPath"/></xsl:attribute>
-						<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/></xsl:attribute>
-					</input>
-				</td>
-			</tr>
-			<tr valign="top">
-				<td nowrap="true" width="120"><span class="head0">Responsible for reporting:</span><br/>(role prefix)</td>
+				<td nowrap="true" width="150"><span class="head0">Responsible for reporting:</span><br/>(role prefix)</td>
 				<td colspan="3">
 					<input type="text" size="30" onChange="changed()">
 						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/RESPONSIBLE_ROLE/@XPath"/></xsl:attribute>
@@ -132,28 +127,48 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" width="120"><span class="head0">Reporting frequency:</span><br/></td>
+				<td nowrap="true" width="150"><span class="head0">First reporting date:</span><br/>(dd/mm/yyyy)</td>
 				<td colspan="3">
-					<select onChange="changed()">
-						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/REPORT_FREQ/@XPath"/></xsl:attribute><option value=''/>
-						<xsl:for-each select="//RowSet[@Name='Frequency']/T_LOOKUP">
-							<option>
-								<xsl:attribute name="value"><xsl:value-of select="C_TERM"/></xsl:attribute>
-								<xsl:if test="C_TERM=//RowSet[@Name='Activity']/Row/T_ACTIVITY/REPORT_FREQ">
-									<xsl:attribute name="selected">true</xsl:attribute>
-								</xsl:if>
-								<xsl:value-of select="C_TERM"/>
-							</option>
-						</xsl:for-each>
-					</select>
-					<input type="text" size="40" onChange="changed()">
-						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/REPORT_FREQ_DETAIL/@XPath"/></xsl:attribute>
-						<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/REPORT_FREQ_DETAIL"/></xsl:attribute>
+					<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE_PLUS/@XPath}"])'>
+						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/FIRST_REPORTING/@XPath"/></xsl:attribute>
+						<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/FIRST_REPORTING"/></xsl:attribute>
 					</input>
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" width="120"><span class="head0">Terminated:</span></td>
+				<td nowrap="true" width="150"><span class="head0">Reporting frequency in months:</span><br/>(0 for one-time-only reporting)</td>
+				<td colspan="3">
+					<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE_PLUS/@XPath}"])'>
+						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath"/></xsl:attribute>
+						<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/REPORT_FREQ_MONTHS"/></xsl:attribute>
+					</input>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td nowrap="true" width="150"><span class="head0">Next reporting date:</span><br/>(calculated automatically)</td>
+				<td colspan="3">
+					<input type="text" size="30" onChange="changed()" disabled="true">
+						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE/@XPath"/></xsl:attribute>
+						<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE"/></xsl:attribute>
+					</input>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td colspan="4">
+					<i><b>IMPORTANT!</b> Use the following field <b>only</b> if reporting date (above fields) cannot ge given in date format (for example, 'ASAP'). Otherwise, leave it empty.</i><br/>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td nowrap="true" width="150"><span class="head0">Reporting date (text format):</span><br/></td>
+				<td colspan="3">
+					<input type="text" size="60" onChange="changed()">
+						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/NEXT_REPORTING/@XPath"/></xsl:attribute>
+						<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/></xsl:attribute>
+					</input>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td nowrap="true" width="150"><span class="head0">Terminated:</span></td>
 				<td colspan="3">
 					<select onChange="changed()"><xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/TERMINATE/@XPath"/></xsl:attribute>
 						<xsl:for-each select="//RowSet[@Name='YesNo']/T_LOOKUP">
@@ -257,7 +272,7 @@
 			<hr width="700"/>
 			<div style="margin-left:20">
 				<table cellspacing="7"><tr>
-					<td><input type="button" onclick="save()" value="Save changes" width="100" style="width:100"/></td>
+					<td><input type="button" onclick='checkAndSave(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_REPORTING/@XPath}"])' value="Save changes" width="100" style="width:100"/></td>
 			             <td><input type="button" onclick='history.back()' value="Exit"/></td>
 				</tr></table>
 			</div>

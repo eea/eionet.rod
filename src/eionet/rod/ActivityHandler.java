@@ -61,22 +61,54 @@ public class ActivityHandler extends ROHandler {
       String tblName = gen.getTableName();
       int state = gen.getState();
 
+     String userName = this.user.getUserName();
+      boolean ins = false, upd =false, del=false;
+      try {
+        upd = servlet.getAcl().checkPermission(userName, "a");
+        del = servlet.getAcl().checkPermission(userName, "X");
+        ins = servlet.getAcl().checkPermission(userName, "A");      
+      } catch (Exception e ) {
+        return false;
+      }
+
+
+
       if (tblName.equals("T_ACTIVITY")) {
          if (state != INSERT_RECORD) {
+
+            if (!ins)
+              return false;
+              
             gen.setPKField("PK_RA_ID");
             id = gen.getFieldValue("PK_RA_ID");
             // delete all linked parameter records and in delete mode also the self record
             boolean delSelf = (state == DELETE_RECORD);
+
+            if (delSelf && !del)
+                return false;
+            else if (!upd)
+              return false;
+              
             DELETE_ACTIVITY(id, delSelf);
 
             if (delSelf == true)
                return false; // everything is done, stop
          }
          else {
+
+            if (!ins)
+              return false;
+              
             gen.removeField("PK_RA_ID");
          }
 
+         String months = gen.getFieldValue("REPORT_FREQ_MONTHS");
+         if(months.trim().length() == 0)
+            gen.setFieldExpr("REPORT_FREQ_MONTHS", "NULL");
          setDateValue(gen, "VALID_SINCE");
+         setDateValue(gen, "NEXT_DEADLINE");
+         setDateValue(gen, "NEXT_DEADLINE_PLUS");
+         setDateValue(gen, "FIRST_REPORTING");
 
          defaultProcessing(gen, null);
          id = recordID;
@@ -85,7 +117,13 @@ public class ActivityHandler extends ROHandler {
             servlet.setCurrentID(id);
       }
       else if (tblName.equals("T_PARAMETER_LNK")) {
-        paramCont.add(gen.clone());
+
+        //check 
+        if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))
+          paramCont.add(gen.clone());
+        else 
+          return false;
+          
       }
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing

@@ -370,7 +370,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       _executeUpdate("DELETE FROM T_GROUP_LNK");
       _executeUpdate("DELETE FROM T_ISSUE_LNK");
 */
-      if (mode == Extractor.ALL_DATA || mode == Extractor.DELIVERIES || mode == Extractor.ACTS_DELIVERIES ) {
+      if (mode == Extractor.ALL_DATA || mode == Extractor.DELIVERIES  ) {
         _executeUpdate("DELETE FROM T_DELIVERY");
         //_executeUpdate("DELETE FROM T_DELIVERY_LNK");
       }

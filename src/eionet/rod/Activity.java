@@ -98,6 +98,8 @@ public class Activity extends ROEditServletAC {
          if (conn == null)
             throw new XSQLException(null, "Not authenticated user");
 
+         checkPermissions(req);      
+         
          try {
             stmt = conn.createStatement();
 
@@ -171,4 +173,36 @@ public class Activity extends ROEditServletAC {
    
    private static final String PARAMETERS =
       "T_PARAMETER_LNK.FK_PARAMETER_ID FROM T_PARAMETER_LNK WHERE T_PARAMETER_LNK.FK_RA_ID=";
+
+
+  private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
+    String mode;
+    
+    String userName = getUser(req).getUserName();
+    
+    String id = req.getParameter( ID_PARAM );
+    String upd = req.getParameter( FormHandlerIF.MODE_PARAM );
+
+    upd = (upd==null ? "" : upd);
+    id = (id==null ? "" : id); //not needed?
+    
+    if ( id.equals("-1"))
+      mode = "A";
+    else if ( upd.equals("D"))
+      mode = "X";
+    else
+      mode = "a";
+        
+    boolean b = false;
+    try {
+      b = getAcl().checkPermission( userName, mode );
+    } catch ( Exception e ) {
+      throw new XSQLException (e, "Error getting user rights ");
+    }
+
+    if (!b)
+      throw new XSQLException (null, "No permission to perform the action");
+    
+  }
+      
 }

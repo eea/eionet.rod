@@ -13,6 +13,8 @@ import javax.servlet.*;
 import com.tee.xmlserver.*;
 import com.tee.util.*;
 
+import eionet.rod.ROServletAC;
+
 /**
  * This is the base servlet for all CountrySrv servlets
  * So its an abstract super class for other servlets to extend.
@@ -27,8 +29,9 @@ import com.tee.util.*;
  *
  * @author Kaido Laine
  */
- 
-public abstract class CSServletAC extends XHTMLServletAC  {
+
+public abstract class CSServletAC extends ROServletAC {
+//public abstract class CSServletAC extends XHTMLServletAC  {
     
     
 /**
@@ -72,7 +75,7 @@ public abstract class CSServletAC extends XHTMLServletAC  {
  * If request contains authenitcated user, adds auth="true" attribute to the first
  * rowset element of the XML. Otherwise the auth attribute value will be "false".
  */
-   protected final DataSourceIF userInfo(HttpServletRequest req, DataSourceIF dataSrc) {
+/*   protected final DataSourceIF userInfo(HttpServletRequest req, DataSourceIF dataSrc) {
       // add/remove 'auth' attribute to the generated XML
 
       //Logger.log("*************************** userInfo ");    
@@ -87,7 +90,7 @@ public abstract class CSServletAC extends XHTMLServletAC  {
       
       
       return dataSrc;
-   }
+   } */
 
   /**
   * Error xslt

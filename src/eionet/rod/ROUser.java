@@ -25,6 +25,9 @@ package eionet.rod;
 
 import com.tee.xmlserver.*;
 import java.sql.*;
+import java.util.Vector;
+
+import eionet.directory.DirectoryService;
 
 /**
  * <P>WebROD specific implementation of the <CODE>com.tee.xmlserver.AppUserIF</CODE> interface. 
@@ -39,6 +42,8 @@ public class ROUser implements AppUserIF {
    private String user = null;
    private String password = null;
    private DBPoolIF dbPool = null;
+
+   private String[] _roles = null;
    
    public ROUser() {
       dbPool = XDBApplication.getDBPool();
@@ -53,12 +58,18 @@ public class ROUser implements AppUserIF {
       if (Logger.enable(5))
          Logger.log("Authenticating user '" + userName + "'");
       //
-      Connection conn = null;
-      try {
-         conn = dbPool.getConnection(userName, userPws);
+      //Connection conn = null;
+      //if (conn == null)
+      //  conn = dbPool.getConnection();
 
-         if (conn == null)
-            return false;
+      try {
+         DirectoryService.sessionLogin(userName, userPws);
+         //KL021029
+         //conn = dbPool.getConnection(userName, userPws);
+         //conn = dbPool.getConnection();
+
+         /*if (conn == null)
+            return false; */
                
          // LOG
          if (Logger.enable(5))
@@ -69,12 +80,13 @@ public class ROUser implements AppUserIF {
          password = userPws;
                
       } catch (Exception e) {
+      
          Logger.log("User '" + userName + "' not authenticated", e);
-      } finally {
+      }/* finally {
          try {
             if (conn != null) conn.close();
-         } catch (SQLException e1) {}
-      }
+         } catch (SQLException e1) {} 
+      } */
       return authented;
    }
 /**
@@ -87,7 +99,16 @@ public class ROUser implements AppUserIF {
  *
  */
    public boolean isUserInRole(String role) {
-      return false;
+      boolean b = false;
+
+      if (_roles == null)
+        getUserRoles();
+        
+      for (int i =0; i< _roles.length; i++)
+        if ( _roles[i].equals(role))
+          b = true;
+          
+      return b;
    }
 /**
  *
@@ -99,14 +120,31 @@ public class ROUser implements AppUserIF {
  *
  */
    public Connection getConnection() {
-      return dbPool.getConnection(user, password);
+      //return dbPool.getConnection(user, password);
+      return dbPool.getConnection();
    }
 /**
  * Returns a string array of roles the user is linked to.
  * Note that the method returns newly constructed array, leaving internal role list unrevealed.
  */
    public String[] getUserRoles() {
-      return new String[]{};
+      //String[] roles;
+      if (_roles == null) {
+        try {
+          
+          Vector v = DirectoryService.getRoles(user);
+          String[] roles = new String[v.size()];
+          for ( int i=0; i< v.size(); i++)
+              _roles[i] = (String)v.elementAt(i);
+          
+          } catch ( Exception e ) {
+            //return empty String, no need for roles
+            _roles = new String[]{};
+          }
+       }
+     
+      //return new String[]{};
+      return _roles;
    }
 /**
  *
@@ -120,7 +158,8 @@ public class ROUser implements AppUserIF {
  *
  */
    public String toString() {
-      return user;
+      return (user == null ? "" : user );
+      //return user;
    }
 
 }

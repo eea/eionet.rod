@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServlet;
 import com.tee.xmlserver.Logger;
 import java.io.IOException;
+
 import eionet.rod.countrysrv.Extractor;
 
 public class Harvester extends ROEditServletAC {
@@ -38,6 +39,9 @@ public class Harvester extends ROEditServletAC {
       if (conn == null)
         throw new XSQLException(null, "Not authenticated user");
 
+    if  ( ! getAcl().checkPermission( user.getUserName(), "H" ))
+        throw new XSQLException(null, "Not authenticated user");
+
     StringBuffer s = new StringBuffer();
   s.append("<html>")
     .append("<script language = 'javascript'> function harvest( mode ) {")
@@ -50,10 +54,10 @@ public class Harvester extends ROEditServletAC {
       .append("<body bgcolor=\"#f0f0f0\">")
       .append("<form align='center' name=\"f\" method=\"POST\" action=\"harvester.jsv\">")
       .append("<b>Select data, you want to be harvested:</b>")
-      .append("<br>").append("<input width='200'style=\"width:200\"  type='button' onClick='harvest(0)' value='All'></input>")
+      .append("<br>").append("<input width='200'style=\"width:200\"  type='button' onClick='harvest(" + Extractor.ALL_DATA + ")' value='All'></input>")
       //.append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(1)' value='Activity details'></input>")      
-      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(2)' value='Deliveries'></input>")            
-      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(3)' value='Roles'></input>")                  
+      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(" + Extractor.DELIVERIES + ")' value='Deliveries'></input>")            
+      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(" + Extractor.ROLES + ")' value='Roles'></input>")                  
       //.append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(4)' value='Everything but roles'></input>")                        
       .append("</form>")
       .append("</body></html>");
@@ -81,12 +85,15 @@ protected void doPost(HttpServletRequest req, HttpServletResponse res)
 
         if (conn == null)
           throw new XSQLException(null, "Not authenticated user");
-
         else {
-
+ 
           //harvest
           //res.getWriter().write("Harvester starts. It may take several minutes to harvest");
           try {
+
+            if  ( ! getAcl().checkPermission( user.getUserName(), "H" )) 
+              throw new XSQLException(null, "Not authenticated user");
+          
             int mode = Integer.parseInt( req.getParameter("MODE") ); 
             Extractor.harvest(mode);
             res.getWriter().write("<b>Harvested!</b> See log for details");

@@ -28,6 +28,7 @@ import javax.servlet.http.*;
 
 import com.tee.xmlserver.*;
 import com.tee.util.*;
+import javax.servlet.ServletException;
 
 /**
  * <P>Reporting obligations editor servlet class.</P>
@@ -81,6 +82,15 @@ public class Reporting extends ROEditServletAC {
       Statement stmt  = null;
 
       String id = req.getParameter(ID_PARAM);
+
+//log(" ************** appDoGET");      
+/*java.util.Enumeration e = req.getParameterNames()      ;
+
+while (e.hasMoreElements())
+  log( (String)e.nextElement());
+*/
+//      checkPermissions(req);
+      
       if ( Util.nullString(id) )
          throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
 
@@ -94,10 +104,14 @@ public class Reporting extends ROEditServletAC {
       QueryStatementIF qrySpatial = null;
 
       try {
+
+
          AppUserIF user = getUser(req);
          conn = (user != null) ? user.getConnection() : null;
          if (conn == null)
             throw new XSQLException(null, "Not authenticated user");
+
+         checkPermissions(req);      
 
          try {
             stmt = conn.createStatement();
@@ -153,7 +167,19 @@ public class Reporting extends ROEditServletAC {
  */
    protected void appDoPost(HttpServletRequest req, HttpServletResponse res)
          throws XSQLException {
+
+
+      
       try {
+
+/*log(" ************** appDoPOST");      
+java.util.Enumeration e = req.getParameterNames()      ;
+
+while (e.hasMoreElements())
+  log( (String)e.nextElement());
+*/
+        checkPermissions(req);  
+      
          String location = "show.jsv?" + 
             ((curRecord != null) ?
                "id=" + curRecord + 
@@ -168,6 +194,8 @@ public class Reporting extends ROEditServletAC {
          res.sendRedirect(location);
       } catch(java.io.IOException e) {
          throw new XSQLException(e, "Error in redirection");
+     /* } catch(ServletException se) {
+         throw new XSQLException(se, "No permission to delete record"); */
       }
    }
 /**  
@@ -182,4 +210,34 @@ public class Reporting extends ROEditServletAC {
    private static final String SPATIALS =
       "T_SPATIAL_LNK.FK_SPATIAL_ID FROM T_SPATIAL_LNK WHERE T_SPATIAL_LNK.FK_RO_ID=";
 
+  private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
+    String mode;
+    
+    String userName = getUser(req).getUserName();
+    
+    String id = req.getParameter( ID_PARAM );
+    String upd = req.getParameter( FormHandlerIF.MODE_PARAM );
+
+    upd = (upd==null ? "" : upd);
+    id = (id==null ? "" : id); //not needed?
+    
+    if ( id.equals("-1"))
+      mode = "O";
+    else if ( upd.equals("D"))
+      mode = "X";
+    else
+      mode = "o";
+        
+    boolean b = false;
+    try {
+      b = getAcl().checkPermission( userName, mode );
+    } catch ( Exception e ) {
+      throw new XSQLException (e, "Error getting user rights ");
+    }
+
+    if (!b)
+      throw new XSQLException (null, "No permission to perform the action");
+
+    
+  }
 }

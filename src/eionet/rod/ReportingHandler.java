@@ -84,11 +84,35 @@ public class ReportingHandler extends ActivityHandler {
  */
    protected boolean sqlReady(SQLGenerator gen, String context) {
       // if error has occured in previous call, stop further processing
+    
+
       if (getError())
          return false;
 
       String tblName = gen.getTableName();
       int state = gen.getState();
+
+      String userName = this.user.getUserName();
+
+
+      boolean ins = false, upd =false, del=false;
+      try {
+        upd = servlet.getAcl().checkPermission(userName, "o");
+        del = servlet.getAcl().checkPermission(userName, "X");
+        ins = servlet.getAcl().checkPermission(userName, "O");      
+      } catch (Exception e ) {
+        System.out.println("============================= Error" + e.toString());  
+        return false;
+      }
+
+
+     /*if (state == INSERT_RECORD && !ins )
+        return false;
+      if (state == DELETE_RECORD && !del )
+        return false;
+      if (state == MODIFY_RECORD && !upd )
+        return false; */
+        
 
       if (tblName.equals("T_REPORTING")) {
          if (state != INSERT_RECORD) {
@@ -96,27 +120,46 @@ public class ReportingHandler extends ActivityHandler {
             id = gen.getFieldValue("PK_RO_ID");
             // delete all linked data and in delete mode also the self record
             boolean delSelf = (state == DELETE_RECORD);
+
+            if (delSelf && !del)
+              return false;
+
+            if(!upd)
+              return false;
+              
             DELETE_RO(id, delSelf);
 
             if (delSelf == true)
                return false; // everything is done, stop
          }
          else {
+
+            if (!ins)
+              return false;
+              
             gen.removeField("PK_RO_ID");
          }
          
          setDateValue(gen, "VALID_FROM");
+
          defaultProcessing(gen, null);
+          
          id = recordID;
          
          if (servlet != null)
             servlet.setCurrentID(id);
       }
       else if (tblName.equals("T_ISSUE_LNK")) {
-        issueCont.add(gen.clone());
+       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
+          issueCont.add(gen.clone());
+        else
+          return false;
       }
       else if (tblName.equals("T_SPATIAL_LNK")) {
-        spatialCont.add(gen.clone());
+       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
+          spatialCont.add(gen.clone());
+       else
+        return false;
       }
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing

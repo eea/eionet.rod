@@ -30,14 +30,34 @@ import com.tee.util.*;
 import com.tee.xmlserver.*;
 
 
-public class AddClientHandler extends SaveHandler {
+public class AddClientHandler extends ROHandler {
 
    public int setCommitLevel() {
       return AUTO_COMMIT;
    }
 
+   public AddClientHandler(ROEditServletAC servlet) {
+      super(servlet);
+   }
    protected boolean sqlReady(SQLGenerator gen, String context) {
+
+      //Logger.log(" GO !!!!!!!!!!!!!!! ");
+
+       String userName = this.user.getUserName();
+       boolean ins = false;
+       
+
+      try {
+        ins = servlet.getAcl().checkPermission(userName, "L");
+      } catch (Exception e ) {
+        return false;
+      }        
+
+      if (!ins)
+        return false;
+        
        gen.setState(INSERT_RECORD);
+
        defaultProcessing(gen, null);
        return !getError();
    }

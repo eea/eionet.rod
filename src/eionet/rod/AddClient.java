@@ -34,6 +34,7 @@ public class AddClient extends ROEditServletAC {
 //    protected String setXSLT(HttpServletRequest req) {
 //      return ADDCLIENT_XSL;
 //   }
+
     
     protected int setMode() {
         return FORM_HANDLER;
@@ -51,6 +52,6 @@ public class AddClient extends ROEditServletAC {
    }
    
    protected SaveHandler setDataHandler() {
-      return new AddClientHandler();
+      return new AddClientHandler(this);
    }
 }
