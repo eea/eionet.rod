@@ -52,13 +52,82 @@
 		<div style="margin-left:13">
 		<div class="head1">Disclaimer</div>
       <br/>
-      <table cellspacing="0" cellpadding="0" width="590" border="0">
-			<tr><td>
-				<p>The European Environment Agency accepts no responsibility or liability whatsoever with regard to the information on this site and the information does not necessarily reflect the official opinion of EEA or other European Communities bodies and institutions.</p>
-				<p>The material on this site is not necessarily comprehensive, complete, accurate or up to date and may contain links to external sites over which the EEA services have no control and for which the EEA assumes no responsibility. Neither the European Environment Agency nor any person or company acting on behalf of the Agency is responsible for the contents of this website and the use that may be made of it.</p> 
-				<p>Our goal is to keep this information timely and accurate. If errors are brought to our attention, we will try to correct them.</p>
-		</td></tr>
-		</table>
+<table cellspacing="0" cellpadding="0" width="590" border="0">
+<tr><td>
+<h2>Summary</h2>
+<p>The Reporting Obligations database is under development. The database
+exists, in part, because there is some uncertainty about the details of
+some reporting obligations that are themselves often under development
+and changing. Each record in the database has been quality assessed by
+the EEA and partners.</p>
+<p>The footer of each record displays quality information relating to
+each record.</p>
+<ul>
+<li>Last updated: The last time when a record was updated</li>
+<li>Next update:  The date when the next update is due</li>
+<li>Verified: The date on which the record was verified or quality
+assessed</li>
+</ul>
+<p>Records that are verified are accepted as correct until the regular
+update cycle date is reached. If this information is not displayed in the
+footer, then the record has not been verified or quality assessed. </p>
+<h2>Limitations</h2>
+<p>The database contains reporting obligations for Eionet dataflows as
+well as international reporting obligations for air, waste and water
+themes for EEA member countries. These themes correspond to around half
+of all environmental reporting obligations for member countries. Other
+themes are in the process of being added to the ROD.</p>
+<p>The April 2003 quality assessment identified the following omissions
+in the database that remain to be corrected:</p>
+<p>Air: directive 97/68 on emissions; directive 1999/94 on CO2 emissions;
+regulation 2037/2000 on ozone depleting substances. </p>
+<p>Water: directive 91/271 on urban wastewater treatment; four river
+conventions and the upcoming directive 98/83 on drinking water.</p>
+<p>Material in the ROD is not necessarily comprehensive, complete,
+accurate or up to date and contains links to external sites over which
+the EEA has no control. The information in the database is supplied as
+is. You use it at your own risk.</p>
+<p>Our goal is to keep the ROD timely and accurate. If errors are brought
+to our attention, we will correct them.</p>
+<hr/>
+<h2>ROD content management processes</h2>
+<h3>Quality assessment</h3>
+<p>Quality Assessment is a one-off process to check the current
+contents of ROD thematically. It was carried out in April of 2003. It
+confirmed that the contents (legislation, reporting obligations,
+reporting activities, links to guidelines and reporting organisations)
+are correct.</p>
+<h3>Updating</h3>
+<p>Updating is the regular process of reviewing the contents of the
+database to ensure that it is kept up-to-date. Updating is the review
+of legislation, reporting obligations, and reporting activities in
+ROD to check for information that is out-of-date or incorrect. This
+information is updated with the correct contents. Expert judgement is
+used to evaluate what the update cycle should be, i.e. when the contents
+should next be updated and this is noted for each record. It is also
+the process of identifying new reporting obligations that have been
+introduced since the database was last updated and need to be included
+in the database. These legislative references and reporting obligations
+are added to the database as part of updating.</p>
+<h3>Verification</h3>
+<p>Verification is a structured quality assurance process with an
+integrated feedback mechanism carried out by the EEA to quality control
+new coverage and new depth added to the database. Thematic experts carry
+out verification. Contents that are verified are accepted as correct
+until the regular update cycle date is reached.</p> <h3>Validation</h3>
+<p>Validation is a quality assurance carried out by the <i>owners</i> of
+information in the database in particular for non EEA / EIONET reporting
+obligations. Legislative authoritative bodies carry out validation for
+their own reporting obligations.</p>
+<h3>New coverage</h3>
+<p>ROD currently covers the air, water and waste themes. Adding an
+increased level of detail to one of these subjects or adding coverage
+for other themes is adding new coverage for ROD. New information added
+to ROD is subsequently verified by thematic experts and enters an update
+cycle.</p>
+</td></tr>
+</table>
+
 		<br/>
 		</div>
 		<xsl:call-template name="CommonFooter"/>
