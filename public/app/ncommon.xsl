@@ -52,10 +52,11 @@
 
 		<title><xsl:call-template name="PageTitle"/></title>
 		<link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen"/>
-		<link rel="stylesheet" type="text/css" href="layout-print.css"  media="print" />
+		<link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
+		<link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-		<script language="JavaScript" src="script/util.js"></script>
-		<script language="JavaScript">
+		<script type="text/javascript" src="script/util.js"></script>
+		<script type="text/javascript">
 					<![CDATA[
 <!--
 function showhelp(text) {
