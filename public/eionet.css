@@ -246,13 +246,15 @@ background-image: url('images/bgr_form_buttons.jpg');
 	width:92px;
 	height:13px;
 	padding: 0px 6px 0px 20px;
-	background: url('images/inactive.gif') no-repeat left top;
+	background: url('images/greybuttonred.gif') no-repeat left top;
 	border: none;
 	margin: 0px;
 }
 
 #globalnav li a:hover {
-	background: url('images/selected.gif') no-repeat left top;
+	background: url('images/greybuttonred.gif') no-repeat left top;
+	background-position: 0% -26px;
+
 }
 
 #globalnav form {
