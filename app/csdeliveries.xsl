@@ -4,7 +4,7 @@
 <xsl:include href="util.xsl"/>
 <xsl:template match="/">
 
-<html lang="en"><head><title>List of deliveries</title>
+<html lang="en"><head><title>Status of deliveries</title>
 	<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/><link type="text/css" rel="stylesheet" href="eionet.css"/>
 	<script language="JavaScript" src="script/util.js"></script>
 	<script language="JavaScript">
@@ -21,6 +21,9 @@
 
 <!-- general table for all the screen -->
 <xsl:variable name="allCountries"><xsl:value-of select="count(child::XmlData/RowSet[@Name='Dummy']/Row/T_DUMMY)"/></xsl:variable>
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet[@Name='Main']/@permissions"/>
+	</xsl:variable>
 
 
 
@@ -30,8 +33,6 @@
 		<td width="700">
 
 			<div style="margin-left:13">
-			<!--xsl:for-each select="XmlData/RowSet[@Name='RA']/Row"-->
-			<!--xsl:variable name="allCountries"><xsl:value-of select="count(child:://XmlData/RowSet[@Name='Dummy']/Row/T_DUMMY)"/></xsl:variable-->
 			<!-- header -->
 			<!-- quick fix ... show header tables only if 1st position FIX ME !! -->
 			<table width="700" border="0">
@@ -78,6 +79,9 @@
 			</xsl:choose>
 		</span>
 	</td></tr>
+	<xsl:if test="contains($permissions, ',/Admin/Harvest:v,')='true'">
+		<tr><td></td><td><i>last harvested: <xsl:value-of select="T_ACTIVITY/LAST_HARVESTED"/>&#160;</i></td></tr>
+	</xsl:if>
 	<tr><td></td><td>&#160;</td></tr>
 		<tr valign="top">
 			<td align="right"><span class="head0">Reporting activity:</span></td>
@@ -305,9 +309,8 @@
 <tr><td></td></tr>
 </table>
 
+<br/><br/><span class="Mainfont">&#160;&#160;&#160;&#160;Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.</span>
 <!--a href="javascript:close()">close window</a-->
-
-
 </body>
 </html>
 

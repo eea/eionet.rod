@@ -400,6 +400,12 @@ function openCirca(url){
 				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;mode=A</xsl:attribute>
 				<xsl:value-of select="T_ACTIVITY/TITLE"/>
 			</a>
+			<xsl:if test="T_SOURCE/SOURCE_CODE!=''">
+				(<a>
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+					<xsl:value-of select="T_SOURCE/SOURCE_CODE"/>
+				</a>)
+			</xsl:if>
 		</span>&#160;
 	</TD>
 

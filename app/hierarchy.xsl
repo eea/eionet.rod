@@ -69,27 +69,36 @@
 		<div style="margin-left:13">
 		<!-- page title -->
 	   <table cellspacing="7" width="600" border="0">
-		 <tr><td valign="top">
+		 <tr><td valign="top" width="78%">
 			<span class="head1">Legal instruments regarding reporting obligations</span></td>
 		<td align="right" valign="top">
-			<xsl:call-template name="Print"/>&#160;&#160;
-			<br/>
+			<xsl:call-template name="Print"/>
+			<br/><br/>
 			<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_HIERARCHY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 			<!--img src="images/help.png" alt="Help" onclick="javascript:alert('By clicking on a sub-section link, a legal instruments hierarchy for that sub-section is displayed (i.e. on this new page the clicked section will be a top level section). Clicking on the legal instrument link, a page with this legal instrument data is displayed.')"/-->
 			<br/>
+		</td></tr>
+		<tr><td>&#160;</td><td align="center">
+			<xsl:if test="$admin='true'">
+				<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
+				<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
+				<b><font color="#FFFFFF">Actions</font></b><br/><br/>
+			</xsl:if>
+
 		<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 			<a>
 				<xsl:attribute name="href">javascript:openActionTypeHistory('D','L')</xsl:attribute>
 				<img src="images/showdeleted.png" border="0" alt="Show history of deleted records"/>
 			</a>
+			<br/>
 		</xsl:if>
 
 		<xsl:if test="contains($permissions, ',/LI:i,')='true'">
-			<br/>
 			<a>
 				<xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
 				<img src="images/newinstrument.png" border="0" alt="Create a new legislative instrument"/>
 			</a>
+			<br/>
 		</xsl:if>
 
 		</td></tr></table>

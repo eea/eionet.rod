@@ -204,22 +204,26 @@
 			<tr>
 				<td colspan="6">
 					<table><tr valign="middle">
-						<td width="300" align="center"><xsl:apply-templates select="../SubSet[@Name='LnkParent']"/></td>
+						<td width="300" align="center">
+							<xsl:apply-templates select="//RowSet[@Name='SOURCE_CLASS']"/>
+						</td>
 						<td width="100" nowrap="true">
 							<table cellspacing="5">
 								<tr><td width="100" align="center">
 									<input type="button" width="80" style="width:80"
-										onclick="mvValues(lnkParent, parentLst, null)" 
+										onclick="mvValues(parentLst, lnkParent, null)" 
 										value="&#160;&#160;-&gt;&#160;&#160;"/>
 								</td></tr>
 								<tr><td width="100" align="center">
 									<input type="button" width="80" style="width:80"
-										onclick="mvValues(parentLst, lnkParent, null)" 
+										onclick="mvValues(lnkParent, parentLst, null)" 
 										value="&#160;&#160;&lt;-&#160;&#160;"/><br/>
 								</td></tr>
 							</table>
 						</td>
-						<td width="300" align="center"><xsl:apply-templates select="//RowSet[@Name='SOURCE_CLASS']"/></td>
+						<td width="300" align="center">
+							<xsl:apply-templates select="../SubSet[@Name='LnkParent']"/>
+						</td>
 					</tr></table>
 				</td>
 			</tr>

@@ -22,6 +22,15 @@
  * Original Code: Andre Karpistsenko (TietoEnator)
  * -->
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="CountryList">
+		<T_SPATIAL>
+			<PK_SPATIAL_ID/>
+			<SPATIAL_NAME/>
+			<SPATIAL_TYPE/>
+		</T_SPATIAL>
+		<xrs:Ordering>SPATIAL_NAME</xrs:Ordering>
+		<xrs:Constraint>SPATIAL_TYPE='C'</xrs:Constraint>
+	</xrs:RowSet>
 	<xrs:RowSet name="Client">
 		<T_CLIENT>
 			<PK_CLIENT_ID/>
@@ -71,6 +80,21 @@
 				<SPATIAL_TYPE/>
 			</T_SPATIAL>
 			<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
+			<xrs:Constraint>T_SPATIAL_LNK.VOLUNTARY!='Y'</xrs:Constraint>
+		</xrs:SubSet>
+		<xrs:SubSet name="VoluntaryCountries" relation="T_REPORTING.PK_RO_ID=T_SPATIAL_LNK.FK_RO_ID">
+			<T_SPATIAL_LNK>
+				<FK_SPATIAL_ID/>
+				<FK_RO_ID/>
+				<VOLUNTARY/>
+			</T_SPATIAL_LNK>
+			<T_SPATIAL relation="T_SPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID" reltype="inner">
+				<PK_SPATIAL_ID/>
+				<SPATIAL_NAME/>
+				<SPATIAL_TYPE/>
+			</T_SPATIAL>
+			<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
+			<xrs:Constraint>T_SPATIAL_LNK.VOLUNTARY='Y' AND T_SPATIAL.SPATIAL_TYPE='C'</xrs:Constraint>
 		</xrs:SubSet>
 		<xrs:SubSet name="CCClients" relation="T_REPORTING.PK_RO_ID=T_CLIENT_LNK.FK_OBJECT_ID">
 			<T_CLIENT_LNK>

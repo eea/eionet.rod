@@ -211,12 +211,18 @@ public class ReportingHandler extends ActivityHandler {
            SQLGenerator spatialGen = (SQLGenerator)spatialCont.get(i);
            String value = spatialGen.getFieldValue("FK_SPATIAL_ID");
 
-           spatialGen.setField("FK_SPATIAL_ID", getID(value));
            spatialGen.setField("FK_RO_ID", id);
+           if(value.indexOf(":") == -1) {
+             updateDB("DELETE FROM T_SPATIAL_LNK WHERE FK_RO_ID=" + id + " AND FK_SPATIAL_ID=" + getID(value));
+             spatialGen.setField("FK_SPATIAL_ID", getID(value));
+             spatialGen.setField("VOLUNTARY", "N");
+           }
+           else {
+             spatialGen.setField("FK_SPATIAL_ID", value.substring(value.indexOf(":")+1));
+             spatialGen.setField("VOLUNTARY", "Y");
+           }
 
            updateDB(spatialGen.insertStatement());
-
-           
          }
          spatialCont.clear();
       }

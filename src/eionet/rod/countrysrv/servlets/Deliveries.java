@@ -32,7 +32,7 @@ public class Deliveries extends CSServletAC {
 
     dataSrc.setParameters(queryPars);
       
-      return dataSrc;    
+      return  userInfo( params.getRequest() , dataSrc);    
   }
 
 }

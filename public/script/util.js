@@ -21,6 +21,18 @@
  * Original Code: Ander Tenno (TietoEnator)
  */
 
+
+function openHistory(ID,TYPE){
+
+	var url = "history.jsv?entity=" + TYPE + "&id=" + ID;
+	var name = "History";
+	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
+}
+
+
 //
 // Opens edit help window
 //

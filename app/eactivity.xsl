@@ -233,22 +233,26 @@
 			<tr>
 				<td colspan="4">
 					<table><tr valign="middle">
-						<td width="300" align="center"><xsl:apply-templates select="SubSet[@Name='LnkIssue']"/></td>
+						<td width="300" align="center">
+							<xsl:apply-templates select="//RowSet[@Name='ISSUE']"/>
+						</td>
 						<td width="100" nowrap="true">
 							<table cellspacing="5">
 								<tr><td width="100" align="center">
 									<input type="button" width="80" style="width:80" 
-										onclick="delValues(lnkIssue)" 
+										onclick="addValues(issueLst, lnkIssue, null)" 
 										value="&#160;&#160;-&gt;&#160;&#160;"/>
 								</td></tr>
 								<tr><td width="100" align="center">
 									<input type="button" width="80" style="width:80" 
-										onclick="addValues(issueLst, lnkIssue, null)" 
+										onclick="delValues(lnkIssue)" 
 										value="&#160;&#160;&lt;-&#160;&#160;"/>
 								</td></tr>
 							</table>
 						</td>
-						<td width="300" align="center"><xsl:apply-templates select="//RowSet[@Name='ISSUE']"/></td>
+						<td width="300" align="center">
+							<xsl:apply-templates select="SubSet[@Name='LnkIssue']"/>
+						</td>
 					</tr></table>
 				</td>
 			</tr>
@@ -260,22 +264,21 @@
 			<tr>
 				<td colspan="4">
 					<table><tr valign="middle">
-						<td width="300" align="center" valign="bottom"><xsl:apply-templates select="SubSet[@Name='LnkPar']"/></td>
+						<td width="300" align="center" valign="bottom">
+							<xsl:apply-templates select="//RowSet[@Name='PARAMETER']"/>
+						</td>
 						<td width="100" nowrap="true">
 							<table cellspacing="5">
 								<tr><td width="100" align="center">
 									<input type="button" width="80" style="width:80" 
-										onclick="delValues(lnkPar)" 
+										onclick="addValues(parLst, lnkPar, document.f.unittype.options[document.f.unittype.selectedIndex])" 
 										value="&#160;&#160;-&gt;&#160;&#160;"/>
 								</td></tr>
 								<tr><td width="100" align="center">
 									<input type="button" width="80" style="width:80" 
-										onclick="addValues(parLst, lnkPar, document.f.unittype.options[document.f.unittype.selectedIndex])" 
+										onclick="delValues(lnkPar)" 
 										value="&#160;&#160;&lt;-&#160;&#160;"/>
 								</td></tr>
-<!--								<tr><td width="100" align="center">
-									Unit<br/><input type="text" name="unit" size="7" maxlength="50" width="80" style="width:80"/>
-								</td></tr>-->
 								<tr><td width="100" align="center">
 									Unit type:<br/>
 									<select name="unittype"><option value=''/>
@@ -289,7 +292,9 @@
 								</td></tr>
 							</table>
 						</td>
-						<td width="300" align="left" valign="bottom"><xsl:apply-templates select="//RowSet[@Name='PARAMETER']"/></td>
+						<td width="300" align="left" valign="bottom">
+							<xsl:apply-templates select="SubSet[@Name='LnkPar']"/>
+						</td>
 					</tr></table>
 				</td>
 			</tr>

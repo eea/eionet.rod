@@ -14,16 +14,7 @@
 </head>
 <body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
 
-<!--table  cellspacing="0" cellpadding="0" border="0"><tr valign="top">
-	<td></td>
-
-	<td>
-		<div style="margin-left:13"-->
-
-<!--form action="rorabrowse.jsv" method="get" name="f">
-		<input value="A" name="mode" type="hidden"/>
-</form-->
-
+	<xsl:if test="XmlData/RowSet/Row/T_HISTORY/ITEM_ID != 0">
 	<table border="0" width="100%">
 		<tr>
 			<td width="60%" align="right">
@@ -45,7 +36,7 @@
 	 <td align="left" width="40%"><b> ID=<xsl:value-of select="XmlData/RowSet/Row/T_HISTORY/ITEM_ID"/> </b></td>
 	 </tr>
 	 </table>
-
+	</xsl:if>
 	 <br/>
 	 
 <table width="100%" cellspacing="3pts" border="1">
@@ -75,6 +66,9 @@
 	<xsl:when test="T_HISTORY/ACTION_TYPE='D'">
 		Delete
 	</xsl:when>
+	<xsl:when test="T_HISTORY/ACTION_TYPE='X'">
+		Execute
+	</xsl:when>
 	</xsl:choose>
 </td>
 <td>
@@ -87,14 +81,6 @@
 </tr>	
 </xsl:for-each>
 </table>
-
-  <!--/div>	</td>
-	</tr>
-<tr><td></td></tr>
-</table-->
-
-<!--a href="javascript:close()">close window</a-->
-
 
 </body>
 </html>

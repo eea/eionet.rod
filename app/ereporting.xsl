@@ -181,31 +181,29 @@
 			<tr>
 				<td colspan="4">
 					<table><tr valign="middle">
-						<td width="300" align="center" valign="bottom"><xsl:apply-templates select="SubSet[@Name='CCClients']"/></td>
+						<td width="300" align="center" valign="bottom">
+							<xsl:apply-templates select="//RowSet[@Name='Client']"/>
+						</td>
 						<td width="100" nowrap="true">
 							<table cellspacing="5">
 								<tr><td width="100" align="center">
 									<input type="button" width="80" style="width:80" 
-										onclick="delValues(lnkClients)" 
+ 										onclick="addFullValues(clientLst, lnkClients, null)" 
 										value="&#160;&#160;-&gt;&#160;&#160;"/>
 								</td></tr>
 								<tr><td width="100" align="center">
 									<input type="button" width="80" style="width:80" 
- 										onclick="addFullValues(clientLst, lnkClients, null)" 
+										onclick="delValues(lnkClients)" 
 										value="&#160;&#160;&lt;-&#160;&#160;"/>
 								</td></tr>
 							</table>
 						</td>
 						<td width="300" align="center" valign="bottom">
-							<!--xsl:apply-templates select="//RowSet[@Name='SpatialType']"/>
-							<br/-->
-							<xsl:apply-templates select="//RowSet[@Name='Client']"/>
+							<xsl:apply-templates select="SubSet[@Name='CCClients']"/>
 						</td>
 					</tr></table>
 				</td>
 			</tr>
-
-
 
 <!-- -->
 
@@ -256,29 +254,66 @@
 			<tr>
 				<td colspan="4">
 					<table><tr valign="middle">
-						<td width="300" align="center" valign="bottom"><xsl:apply-templates select="SubSet[@Name='LnkSpatial']"/></td>
-						<td width="100" nowrap="true">
-							<table cellspacing="5">
-								<tr><td width="100" align="center">
-									<input type="button" width="80" style="width:80" 
-										onclick="delValues(lnkSpatial)" 
-										value="&#160;&#160;-&gt;&#160;&#160;"/>
-								</td></tr>
-								<tr><td width="100" align="center">
-									<input type="button" width="80" style="width:80" 
-										onclick="addValues(spatialLst, lnkSpatial, null)" 
-										value="&#160;&#160;&lt;-&#160;&#160;"/>
-								</td></tr>
-							</table>
-						</td>
 						<td width="300" align="center" valign="bottom">
 							<xsl:apply-templates select="//RowSet[@Name='SpatialType']"/>
 							<br/>
 							<xsl:apply-templates select="//RowSet[@Name='SPATIAL']"/>
 						</td>
+						<td width="100" nowrap="true">
+							<table cellspacing="5">
+								<tr><td width="100" align="center">
+									<input type="button" width="80" style="width:80" 
+										onclick="addValues(spatialLst, lnkSpatial, null)" 
+										value="&#160;&#160;-&gt;&#160;&#160;"/>
+								</td></tr>
+								<tr><td width="100" align="center">
+									<input type="button" width="80" style="width:80" 
+										onclick="delValues(lnkSpatial)" 
+										value="&#160;&#160;&lt;-&#160;&#160;"/>
+								</td></tr>
+							</table>
+						</td>
+						<td width="300" align="center" valign="bottom">
+							<xsl:apply-templates select="SubSet[@Name='LnkSpatial']"/>
+						</td>
 					</tr></table>
 				</td>
 			</tr>
+
+<!-- -->
+			<tr valign="top">
+				<td nowrap="true" colspan="4"><span class="head0">Countries reporting voluntarily:
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_VOLUNTARYCOUNTRIES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</span></td>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<table><tr valign="middle">
+						<td width="300" align="center" valign="bottom">
+							<xsl:apply-templates select="//RowSet[@Name='CountryList']"/>
+						</td>
+						<td width="100" nowrap="true">
+							<table cellspacing="5">
+								<tr><td width="100" align="center">
+									<input type="button" width="80" style="width:80" 
+ 										onclick="addFullValues(countryLst, lnkVoluntaryCountries, null)" 
+										value="&#160;&#160;-&gt;&#160;&#160;"/>
+								</td></tr>
+								<tr><td width="100" align="center">
+									<input type="button" width="80" style="width:80" 
+										onclick="delValues(lnkVoluntaryCountries)" 
+										value="&#160;&#160;&lt;-&#160;&#160;"/>
+								</td></tr>
+							</table>
+						</td>
+						<td width="300" align="center" valign="bottom">
+							<xsl:apply-templates select="SubSet[@Name='VoluntaryCountries']"/>
+						</td>
+					</tr></table>
+				</td>
+			</tr>
+
+
 			</table>
 
 			<!-- Record management -->
@@ -341,6 +376,11 @@
 
 				inclSelect(lnkClients, clientLst);
 
+				var lnkVoluntaryCountries = document.f.elements["/XmlData/RowSet[@Name='Reporting']/Row/SubSet[@Name='VoluntaryCountries']/Row/T_SPATIAL_LNK/FK_SPATIAL_ID"].options;
+				var countryLst = document.f.country_list.options;
+
+				inclSelect(lnkVoluntaryCountries, countryLst);
+
 			</script>
 
 	</xsl:template> 
@@ -366,6 +406,20 @@
 					<xsl:value-of select="T_CLIENT_LNK/FK_OBJECT_ID"/>:<xsl:value-of select="T_CLIENT_LNK/FK_CLIENT_ID"/>
 				</xsl:attribute>
 				<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
+				</option>
+			</xsl:for-each>
+		</select>
+	</xsl:template>
+
+	<xsl:template match="SubSet[@Name='VoluntaryCountries']">
+		<select multiple="true" size="9" style="width:300"  width="300">
+			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='VoluntaryCountries']/@XPath"/>/Row/T_SPATIAL_LNK/FK_SPATIAL_ID</xsl:attribute>
+			<xsl:for-each select="Row">
+				<option>
+				<xsl:attribute name="value">
+					<xsl:value-of select="T_SPATIAL_LNK/FK_RO_ID"/>:<xsl:value-of select="T_SPATIAL_LNK/FK_SPATIAL_ID"/>
+				</xsl:attribute>
+				<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
 				</option>
 			</xsl:for-each>
 		</select>
@@ -429,6 +483,20 @@
 		</script-->		
 	</xsl:template>
 
-
+	<xsl:template match="RowSet[@Name='CountryList']">
+		<select multiple="true" size="9" name="country_list" style="width:300" width="300">
+			<xsl:for-each select="Row/T_SPATIAL">
+				<option>
+					<xsl:attribute name="value">
+						<xsl:value-of select="//XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/PK_RO_ID"/>:<xsl:value-of select="PK_SPATIAL_ID"/>
+					</xsl:attribute>
+					<xsl:value-of select="SPATIAL_NAME"/>
+				</option>
+			</xsl:for-each>
+		</select>
+		<!--script language="JavaScript">
+			fillMultilist('X',document.f.client_list)
+		</script-->		
+	</xsl:template>
 
 </xsl:stylesheet>

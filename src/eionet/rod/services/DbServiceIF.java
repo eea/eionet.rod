@@ -92,9 +92,10 @@ public interface DbServiceIF  {
   public String[][] getRespRoles() throws ServiceException;    
 
   /**
-  * Deltes data from all tables
+  * Deletes data from all tables
+  * @DEPRECATED
   */
-  public void dropTables(int mode) throws ServiceException;
+  //public void dropTables(int mode) throws ServiceException;
 
  /**
  * Saves countries
@@ -155,8 +156,9 @@ public interface DbServiceIF  {
 
  /**
  * Saves delivery
+ * @param countryMAp : HAShMap for holding country names and Id's
  */
-  public void saveDelivery(String raId, String countryId, Hashtable delivery ) throws ServiceException ;   
+  public void saveDeliveries(String raId, Vector deliveries, HashMap countryMap ) throws ServiceException ;   
 
  
   /**
@@ -223,7 +225,7 @@ public interface DbServiceIF  {
   * Stores to RA table country Ids for RAs have deliveries
   */
 
-  public void markDeliveries ( HashMap countryIds ) throws ServiceException;
+  //public void markDeliveries ( HashMap countryIds ) throws ServiceException;
 
   /**
   * Returns countries from the DB: PK_SPATIAL_ID, SPATIAL_NAME from T_SPATIAL
@@ -235,5 +237,20 @@ public interface DbServiceIF  {
   */
   public String getMaxROId() throws ServiceException;
   
+
+  public void backUpDeliveries() throws ServiceException;
+
+  /**
+  * Harvesting successful, remove backup
+  */
+  public void commitDeliveries() throws ServiceException;  
+
+  public void rollBackDeliveries (String raId ) throws ServiceException ;
+
+  public void commitRoles() throws ServiceException;  
+  public void backUpRoles() throws ServiceException;  
+  
 }
+
+
 

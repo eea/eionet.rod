@@ -10,7 +10,6 @@
 			<UPLOAD_DATE/>
 			<TYPE/>
 			<FORMAT/>
-			<CONTREG_URL/>
 			<COVERAGE/>
 		</T_DELIVERY>
 		<T_ACTIVITY relation="T_DELIVERY.FK_RA_ID=T_ACTIVITY.PK_RA_ID" reltype="inner">
@@ -63,6 +62,7 @@
 			<REPORT_FORMAT_URL/>
 			<RESPONSIBLE_ROLE/>
 			<FORMAT_NAME/>
+			<LAST_HARVESTED/>
 		</T_ACTIVITY>
 		<T_REPORTING relation="T_REPORTING.PK_RO_ID=T_ACTIVITY.FK_RO_ID" reltype="inner">
 			<PK_RO_ID/>

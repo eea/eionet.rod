@@ -362,13 +362,16 @@ function delObligation() {
 	</xsl:template>
 
 	<xsl:template match="//RowSet[@Name='Spatial']">
-		<xsl:for-each select="Row/T_SPATIAL">
-		<xsl:choose>
-			<xsl:when test="position()!=count(//RowSet[@Name='Spatial']/Row/T_SPATIAL)">
-				<xsl:value-of select="SPATIAL_NAME"/>, 
-			</xsl:when>
-			<xsl:otherwise><xsl:value-of select="SPATIAL_NAME"/></xsl:otherwise>
-		</xsl:choose>
+		<xsl:for-each select="Row">
+			<xsl:choose>
+				<xsl:when test="T_SPATIAL_LNK/VOLUNTARY='Y'">
+					<span title="Informal participation in the reporting obligation"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>*</span>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:if test="position()!=count(//RowSet[@Name='Spatial']/Row)">, </xsl:if>
 		</xsl:for-each>
 	</xsl:template>
 

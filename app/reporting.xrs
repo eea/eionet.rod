@@ -114,7 +114,9 @@
 		<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
 	</xrs:RowSet>
 	<xrs:RowSet name="Spatial">
-		<T_SPATIAL_LNK/>
+		<T_SPATIAL_LNK>
+			<VOLUNTARY/>
+		</T_SPATIAL_LNK>
 		<T_SPATIAL relation="T_SPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID">
 			<SPATIAL_NAME/>
 		</T_SPATIAL>

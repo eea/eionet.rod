@@ -36,6 +36,8 @@ public interface ExtractorConstants {
 
   public final String PROP_FILE = "rod";
   public final String LOG_FILE = "extractorlog.txt";
+
+  public final String SYSTEM_USER = "ROD - system";
   
   public final String ROD_SRV_NAME = "WebRODService";
   public final String ROD_GETCOUNTRIES_METHOD = "getCountries";  

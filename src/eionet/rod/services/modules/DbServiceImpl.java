@@ -129,20 +129,20 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       _executeUpdate(sql);
    }
 
-  private String getDeliveryId(String identifier) throws ServiceException {
+/*  private String getDeliveryId(String identifier) throws ServiceException {
     String deliveryId = _executeStringQuery("SELECT PK_DELIVERY_ID FROM " +
                      "T_DELIVERY WHERE DELIVERY_URL='" + identifier + "'")[0][0];
-    return deliveryId;
-  }
+    return deliveryId; 
+  }*/
 
-  private int getActivitiesCountInGroup(String groupId, String raId) throws ServiceException {
+/*  private int getActivitiesCountInGroup(String groupId, String raId) throws ServiceException {
     String sql = "SELECT COUNT(RA_ID) FROM T_GROUP_LNK WHERE FK_GROUP_ID=" + groupId + " AND RA_ID=" + raId;
     String[][] res = _executeStringQuery(sql);
     int count = Integer.parseInt(res[0][0]);
 
     return count;
 
-  }
+  } */
 
   public int getActivitiesCountInIssue( String issueId, String raId) throws ServiceException {
       String sqlq = "SELECT COUNT(RA_ID) FROM T_ISSUE_LNK WHERE FK_ISSUE_ID=" + issueId + " AND RA_ID=" + raId ;
@@ -153,7 +153,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   }
 
-    public int getDetailsId( int countryId, String raUrl) throws ServiceException {
+ /* public int getDetailsId( int countryId, String raUrl) throws ServiceException {
       String detailsIdStr[][] = _executeStringQuery("SELECT PK_DETAILS_ID FROM " +
                         "T_ACTIVITY_DETAILS WHERE FK_COUNTRY_ID=" + countryId + 
                         " AND RA_URL='" + raUrl + "'");
@@ -163,8 +163,9 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
     int detailsId = Integer.parseInt(detailsIdStr[0][0]);
     return detailsId;
-    }
-    public int getCountryId(String twoLetter ) throws ServiceException {
+    } */
+
+ /*   public int getCountryId(String twoLetter ) throws ServiceException {
       String[][] countryIdStr = _executeStringQuery("SELECT PK_COUNTRY_ID FROM " +
                               "T_COUNTRY WHERE COUNTRY_TWOLETTER='" + twoLetter + "'");
 
@@ -174,7 +175,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     int countryId = Integer.parseInt(countryIdStr[0][0]);                                        
     return countryId;
     
-    }
+    } */
 
 
 /**
@@ -358,11 +359,19 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return _executeStringQuery("SELECT DISTINCT RA_ID FROM T_ACTIVITY_DETAILS");
   }
 
+  /**
+  * Used by CS extractor 
+  */
   public String[][] getRaData() throws ServiceException {
+/*
     String sql = "SELECT a.PK_RA_ID, a.TITLE, s.PK_SPATIAL_ID, s.SPATIAL_NAME " + 
       " FROM T_ACTIVITY a, T_REPORTING r, T_SPATIAL_LNK sl, T_SPATIAL s " + 
       " WHERE a.FK_Ro_id = r.pk_ro_id and r.pk_ro_id = sl.fk_ro_id " + 
       " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND s.SPATIAL_TYPE='C';";
+*/
+
+    String sql = "SELECT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE " +
+      " FROM T_ACTIVITY a ORDER BY a.PK_RA_ID";
 
      return _executeStringQuery(sql);
   }  
@@ -373,7 +382,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   public String[][] getRespRoles() throws ServiceException {
     //return _executeStringQuery("SELECT RESPONSIBLE_ROLE FROM T_ACTIVITY_DETAILS");
-    String sql = "SELECT CONCAT(a.RESPONSIBLE_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo " + 
+    String sql = "SELECT DISTINCT CONCAT(a.RESPONSIBLE_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo " + 
       " FROM T_ACTIVITY a, T_SPATIAL s, T_REPORTING r, T_SPATIAL_LNK sl  " + 
       " WHERE  a.FK_RO_ID = r.PK_RO_ID AND sl.FK_RO_ID=r.PK_RO_ID " +
       " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND a.RESPONSIBLE_ROLE IS NOT NULL " +
@@ -381,46 +390,31 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
        " TRIM(s.SPATIAL_TWOLETTER) <> '' " ;
 
       String roles1[][] = _executeStringQuery(sql);
-      sql = "SELECT RESPONSIBLE_ROLE FROM T_ACTIVITY WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' " ;
+      sql = "SELECT DISTINCT RESPONSIBLE_ROLE FROM T_ACTIVITY WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' " ;
       String roles2[][] = _executeStringQuery(sql);
       int l = roles1.length + roles2.length;
       String[][] roles = new String[l][1];
 
-      for (int i=0; i<roles1.length; i++)
-        roles[i][0] = roles1[i][0];
-
       for (int i=0; i<roles2.length; i++)
-        roles[i+roles1.length][0] = roles2[i][0];
+        roles[i][0] = roles2[i][0];
+
+      for (int i=0; i<roles1.length; i++)
+        roles[i+roles2.length][0] = roles1[i][0];
       
       return roles;
   }
 
-  public void dropTables(int mode) throws ServiceException {
-  /*
-      _executeUpdate("DELETE FROM T_COUNTRY");
-      _executeUpdate("DELETE FROM T_GROUP");
-      _executeUpdate("DELETE FROM T_ISSUE");
-  */
-      /*if (mode == Extractor.ALL_DATA || mode == Extractor.ACTS || mode == Extractor.ACTS_DELIVERIES ) {
-        _executeUpdate("DELETE FROM T_ACTIVITY_DETAILS");
-        _executeUpdate("DELETE FROM T_DEADLINE");
-      }
-      */
-/*     
-      _executeUpdate("DELETE FROM T_GROUP_LNK");
-      _executeUpdate("DELETE FROM T_ISSUE_LNK");
-*/
+
+  /*public void dropTables(int mode) throws ServiceException {
       if (mode == Extractor.ALL_DATA || mode == Extractor.DELIVERIES  ) {
         _executeUpdate("DELETE FROM T_DELIVERY");
-        //_executeUpdate("DELETE FROM T_DELIVERY_LNK");
       }
     
       //_executeUpdate("DELETE FROM T_ORGANISATION");
       if (mode == Extractor.ALL_DATA || mode == Extractor.ROLES ) {
         _executeUpdate("DELETE FROM T_ROLE");
-      //_executeUpdate("DELETE FROM T_PERSON");
       }
-  }
+  } */
 
 
 /*
@@ -647,38 +641,58 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   
     /*if(role == null)
       return; */
+    //backup ->
 
-    String roleId = (String)role.get("ID");
-    String circaUrl = (String)role.get("URL");
-    String circaMembersUrl = (String)role.get("URL_MEMBERS");
-    String desc = (String)role.get("DESCRIPTION");
-    String mail = (String)role.get("MAIL");
+    String sql;
+    String roleId = (String)role.get("ID");        
+    //String sql = "UPDATE T_ROLE SET STATUS=0 WHERE ROLE_ID ='" + roleId + "'";    
+    //_executeUpdate(sql);
+
+    try {
+
+      String circaUrl = (String)role.get("URL");
+      String circaMembersUrl = (String)role.get("URL_MEMBERS");
+      String desc = (String)role.get("DESCRIPTION");
+      String mail = (String)role.get("MAIL");
 
 
-    if (roleId != null)    {
-      String sql = "DELETE FROM T_ROLE WHERE ROLE_ID ='" + roleId + "'";    
-      _executeUpdate(sql);
+      if (roleId != null)    {
+
+        //String sql = "DELETE FROM T_ROLE WHERE ROLE_ID ='" + roleId + "'";    
       
-      sql = "INSERT INTO T_ROLE SET ROLE_NAME='" + desc +
-                 "', ROLE_EMAIL='" + mail + "', ROLE_ID='" + roleId + "',  " + 
-                " ROLE_URL ='" + circaUrl + "'," +
-                " ROLE_MEMBERS_URL ='" + circaMembersUrl + "'";
-     _executeUpdate(sql);
+        sql = "INSERT INTO T_ROLE SET STATUS=1, LAST_HARVESTED=NOW(), ROLE_NAME='" + desc +
+                   "', ROLE_EMAIL='" + mail + "', ROLE_ID='" + roleId + "',  " + 
+                  " ROLE_URL ='" + circaUrl + "'," +
+                  " ROLE_MEMBERS_URL ='" + circaMembersUrl + "'";
+       _executeUpdate(sql);
      
+      }
+    } catch (Exception e ) {
+
+      //recover
+      sql = "DELETE FROM T_ROLE WHERE STATUS=1 AND ROLE_ID ='" + roleId + "'";    
+      _executeUpdate(sql);
+        
+      sql = "UPDATE T_ROLE SET STATUS=1 WHERE STATUS=0 AND ROLE_ID ='" + roleId + "'";    
+      _executeUpdate(sql);
+
     }
+
+    //we are lucky
+    //sql = "DELETE FROM T_ROLE WHERE STATUS=0 AND ROLE_ID ='" + roleId + "'";    
+    //_executeUpdate(sql);
 
   }
 
   /**
-  *
+  * Save all deliveries for this RA
   */
-   public void saveDelivery(String raId, String countryId, Hashtable delivery ) throws ServiceException {
+  public void saveDeliveries(String raId, Vector deliveries, HashMap cMap ) throws ServiceException {
 
-    if(delivery == null || delivery.size() == 0)
-      return;
-    //_log("delivery = " + delivery );
-    String crId = (String)(delivery.keys().nextElement());
-    Hashtable metaData = (Hashtable)delivery.get( crId );
+    //backUpDeliveries(raId);
+    
+    Vector cIds = new Vector();
+    String countryIds="";
 
     FileServiceIF fS = new FileServiceImpl();
 
@@ -688,37 +702,71 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     String identifierPred = fS.getStringProperty( fS.CONTREG_IDENTIFIER_PREDICATE );    
     String formatPred = fS.getStringProperty( fS.CONTREG_FORMAT_PREDICATE );
     String coveragePred = fS.getStringProperty( fS.CONTREG_COVERAGE_PREDICATE );        
-    
-    //Each hash contains Strings as Keys and Vectors as values
+    String countryPred = fS.getStringProperty( fS.COUNTRY_NAMESPACE );
 
-    String title = cnvVector( (Vector)metaData.get( titlePred ), "," );
-    String date = cnvVector( (Vector)metaData.get(datePred),",");
-    String identifier = cnvVector( (Vector)metaData.get( identifierPred ),",");
-    String type =  cnvVector( (Vector)metaData.get( typePred ),",");
-    String format = cnvVector( (Vector)metaData.get(formatPred ),",");
-    String coverage = cnvVector( (Vector)metaData.get(coveragePred )," ");
-    
-    String crURL = composeCrURL( crId );
 
-    String sql = "INSERT INTO T_DELIVERY SET TITLE='" + 
-                 ((title == null)? "" : title) + "', UPLOAD_DATE='" +
-                 ((date == null)? "" : date) + "', CONTREG_URL=\"" + 
-                 ((crURL == null)? "" : crURL) + "\", DELIVERY_URL='" +
-                 identifier + "', TYPE='" +
-                 ((type == null)? "" : type) + "', FORMAT='" +
-                 ((format == null)? "" : format) + "', COVERAGE='" +
-                 ((coverage == null)? "" : coverage) + "'," +
-                 " FK_SPATIAL_ID = " + countryId + ", " +
-                 " FK_RA_ID = " + raId + " ;" ;
+     for (int ii=0; ii<deliveries.size(); ii++){
 
-    _executeUpdate(sql);
+          //deliveryKEY:STRING(url), VALUE:HASH (metadata)
+       Hashtable delivery = (Hashtable)deliveries.elementAt(ii);
 
-    
-    //delivery_link
 
-    //String deliveryId = getDeliveryId( identifier );
-    //saveDeliveryLink( deliveryId, detailsId );
+      if(delivery != null && delivery.size() > 0)
+        try {    
+          //Hash contains only one member that's delivery data
+          String crId = (String)(delivery.keys().nextElement());
+          Hashtable metaData = (Hashtable)delivery.get( crId );
 
+        //Each hash contains Strings as Keys and Vectors as values
+
+        String title = cnvVector( (Vector)metaData.get( titlePred ), "," );
+        String date = cnvVector( (Vector)metaData.get(datePred),",");
+        String identifier = cnvVector( (Vector)metaData.get( identifierPred ),",");
+        String type =  cnvVector( (Vector)metaData.get( typePred ),",");
+        String format = cnvVector( (Vector)metaData.get(formatPred ),",");
+        String coverage = cnvVector( (Vector)metaData.get(coveragePred )," ");
+
+        String country = cnvVector((Vector)metaData.get(countryPred )," ");
+
+        //String crURL = composeCrURL( crId );
+
+        String countryId=getCountryId(country, cMap);
+
+        String sql = "INSERT INTO T_DELIVERY SET STATUS=1, " +
+                      " TITLE='" + 
+                     ((title == null)? "" : title) + "', UPLOAD_DATE='" +
+                     ((date == null)? "" : date) + "', DELIVERY_URL='" +
+                     identifier + "', TYPE='" +
+                     ((type == null)? "" : type) + "', FORMAT='" +
+                     ((format == null)? "" : format) + "', COVERAGE='" +
+                     ((coverage == null)? "" : coverage) + "'," +
+                     " FK_SPATIAL_ID = " + countryId + ", " +
+                     " FK_RA_ID = " + raId + " ;" ;
+
+        if (countryId!=null)
+          _executeUpdate(sql);
+        else
+          _log("!!! Delivery not saved, Country is not in T_SPATIAL " + country);
+          
+
+
+        if ( countryId != null && !cIds.contains(countryId))
+          cIds.add(countryId);
+
+
+      } catch (Exception e ) {
+        rollBackDeliveries(raId);
+        throw new ServiceException ("Harvesting deliveries for RA: " + raId + " failed with reason " + e.toString());
+      }
+
+    }
+
+       if (cIds.size() > 0)
+         countryIds="," + cnvVector(cIds,",") + "," ;
+       else
+        countryIds="";
+        
+       markCountries(raId, countryIds);      
 
    }  
 
@@ -730,12 +778,12 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     _executeUpdate(sql);
 }
 */
-  private String composeCrURL( String deliveryURL ){
+/*  private String composeCrURL( String deliveryURL ){
     deliveryURL = URLEncoder.encode( deliveryURL );
     String url = crUrlPref + "md5('" + deliveryURL + "')";
     
     return url;
-  }
+  } */
 
   private String cnvVector( Vector v, String separator ) {
 
@@ -1037,7 +1085,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
 
 
-  public void markDeliveries ( HashMap countryIds ) throws ServiceException {
+/*  public void markDeliveries ( HashMap countryIds ) throws ServiceException {
 
 
     
@@ -1053,7 +1101,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
     }
 
-  }    
+  }    */
 
    public String[][] getCountries() throws ServiceException {
       String sql = "SELECT PK_SPATIAL_ID, SPATIAL_NAME FROM T_SPATIAL WHERE SPATIAL_TYPE='C' ORDER BY SPATIAL_NAME ";
@@ -1066,4 +1114,79 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
       return s[0][0];
     }
+
+
+    private String getCountryId(String countryName, HashMap countryMap) throws ServiceException {
+
+      if (!countryMap.containsKey(countryName)) {
+        String sql = "SELECT PK_SPATIAL_ID FROM T_SPATIAL WHERE " +
+            " SPATIAL_TYPE='C' AND SPATIAL_NAME='" + countryName + "'";
+        
+        String [][] s = _executeStringQuery(sql);
+
+        if (s.length>0)
+          countryMap.put(countryName, s[0][0]);
+        else 
+          return null;
+        //return s[0][0];
+      }
+
+      return (String)(countryMap.get(countryName));
+      
+    }
+
+
+  public void commitDeliveries () throws ServiceException {
+       String sql = "DELETE FROM T_DELIVERY WHERE STATUS=0";
+      _executeUpdate(sql);
+  }
+
+  /**
+  * Harvesting for this RA OK, delete backed-up deliveries
+  * Update harvesting time in T_ACTIVITY TABLE
+  */
+  private void markCountries (String raId, String cIds ) throws ServiceException {
+
+      String sql = "UPDATE T_ACTIVITY SET LAST_HARVESTED=NOW(), FK_DELIVERY_COUNTRY_IDS = '" +
+        cIds + "' WHERE PK_RA_ID=" + raId;
+      _executeUpdate(sql);
+  
+
+  }
+
+  /**
+  * Backup deliveries for this RA
+  */
+  public void backUpDeliveries () throws ServiceException {
+      //String sql = "UPDATE T_DELIVERY SET STATUS=0 WHERE FK_RA_ID=" + raId;
+      String sql = "UPDATE T_DELIVERY SET STATUS=0";
+      _executeUpdate(sql);
+
+      
+  }
+
+  public void commitRoles () throws ServiceException {
+       String sql = "DELETE FROM T_ROLE WHERE STATUS=0";
+      _executeUpdate(sql);
+  }
+
+  public void backUpRoles () throws ServiceException {
+      //String sql = "UPDATE T_DELIVERY SET STATUS=0 WHERE FK_RA_ID=" + raId;
+      String sql = "UPDATE T_ROLE SET STATUS=0";
+      _executeUpdate(sql);
+      
+  }
+
+
+  /**
+  * Harvesting crashed, recover old deliveries
+  */
+  public void rollBackDeliveries (String raId ) throws ServiceException {
+      String sql = "DELETE FROM T_DELIVERY WHERE STATUS=1 AND FK_RA_ID=" + raId;
+      _executeUpdate(sql);
+
+      sql = "UPDATE T_DELIVERY SET STATUS=1 WHERE STATUS=0 AND FK_RA_ID=" + raId;
+      _executeUpdate(sql);
+  }
+  
  }

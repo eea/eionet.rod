@@ -41,14 +41,47 @@
 		<xsl:if test="$rora='B'">A</xsl:if>
 	</xsl:variable>
 
+	<!-- Character escaping quickfixes below; better solution should be sought -->
 
-		<xsl:variable name="sel_country">
-			<xsl:value-of select="substring-after(substring-after(/XmlData/xml-query-string, 'country='),'%3A')"/>
-		</xsl:variable>
+	<xsl:variable name="sel_country">
+		<xsl:choose>
+			<xsl:when test="substring-after(/XmlData/xml-query-string, 'ORD=')!='' or substring-after(/XmlData/xml-query-string, 'showfilters=')!='' or substring-after(/XmlData/xml-query-string, 'printmode=')!=''">
+				<xsl:value-of select="substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'country='),'%3A'),'&amp;')"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="substring-after(substring-after(/XmlData/xml-query-string, 'country='),'%3A')"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 
-		<xsl:variable name="sel_issue">
-			<xsl:value-of select=" translate( translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'env_issue='),'%3A'),'&amp;'),'+',' '), '%26', '&amp;') "/>
-		</xsl:variable>
+	<xsl:variable name="sel_issue">
+		<xsl:value-of select=" translate( translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'env_issue='),'%3A'),'&amp;'),'+',' '), '%26', '&amp;') "/>
+	</xsl:variable>
+
+	<xsl:variable name="sel_client">
+		<xsl:choose>
+			<xsl:when test="substring-after(/XmlData/xml-query-string, 'ORD=')!='' or substring-after(/XmlData/xml-query-string, 'showfilters=')!='' or substring-after(/XmlData/xml-query-string, 'printmode=')!=''">
+				<xsl:choose>
+					<xsl:when test="substring-after(/XmlData/xml-query-string, '%2C')!=''">
+						<xsl:value-of select="concat(substring-before(translate(translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'&amp;'),'+',' '), '%26', '&amp;'), '&amp;C'), ',', substring-after(translate(translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'&amp;'),'+',' '), '%26', '&amp;'), '&amp;C'))"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="translate(translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'&amp;'),'+',' '), '%26', '&amp;')"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="substring-after(/XmlData/xml-query-string, '%2C')!=''">
+						<xsl:value-of select="concat(substring-before(translate(translate(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'+',' '), '%26', '&amp;'), '&amp;C'), ',', substring-after(translate(translate(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'+',' '), '%26', '&amp;'), '&amp;C'))"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="translate(translate(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'+',' '), '%26', '&amp;')"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 
 	<xsl:template match="XmlData">
 	<script lang="Javascript">
@@ -105,9 +138,14 @@
 								<xsl:if test="$sel_country!=''">
 									: <xsl:value-of select="$sel_country"/>
 								</xsl:if>
+								<xsl:if test="$sel_client!=''">
+									: <xsl:value-of select="$sel_client"/>
+								</xsl:if>
 								<xsl:if test="$sel_issue!=''">
-									<xsl:if test="$sel_country=''">:</xsl:if>
-										[<xsl:value-of select="$sel_issue"/>]
+									<xsl:if test="$sel_country='' and $sel_client=''">:</xsl:if>
+										<xsl:if test="$sel_country!=$sel_issue and $sel_client!=$sel_issue"> <!-- Quickfix -->
+											[<xsl:value-of select="$sel_issue"/>]
+										</xsl:if>
 								</xsl:if>
 					<br/><br/>
 				</span>
