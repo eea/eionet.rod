@@ -114,13 +114,13 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2"><span class="head0">Deliveries:</span></td>
+					<td colspan="2"><span class="head0">Deadlines &amp; Deliveries:</span></td>
 				</tr>
 				<tr valign="center">
 					<td width="10"><img src="images/diamlil.gif"/></td>
 					<td width="590">
 						<a><xsl:attribute name="href">deliveries.jsv</xsl:attribute>
-						<span class="head0">All deliveries</span></a>
+						<span class="head0">Deadlines by country</span></a>
 					</td>
 				</tr>
 

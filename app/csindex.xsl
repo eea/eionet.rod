@@ -97,7 +97,7 @@ function openFeedback(){
   <img alt="" width="130" height="113" src="images/top1.jpg"/></td><td valign="top" width="20">
   <img alt="" src="images/top2.jpg" width="20" height="113"/></td><td valign="top" width="621"><table cellspacing="0" cellpadding="0" border="0"><tr><td>
     <img alt="" height="35" width="92" src="images/top3.jpg"/></td></tr><tr><td><table width="621" border="0"><tr><td width="618">
-  <span class="head2"><strong><font color="#006666">Country Services</font></strong></span><br/><span class="head0"><strong>
+  <span class="head2"><strong><font color="#006666">Reporting Obligations Database, ROD</font></strong></span><br/><span class="head0"><strong>
   <font color="#006666">Ver 1.0 beta. The database contents is under establishment</font></strong></span>
   </td><td width="50"> </td><td><img border="0" width="66" height="62" alt="" src="images/logo.jpg"/></td></tr></table></td></tr></table></td></tr></table><table  cellspacing="0" cellpadding="0" border="0"><tr valign="top">
   <td nowrap="" width="130" bgcolor="#747400"><p><center><table cellspacing="0" cellpadding="0" border="0"><tr><td align="center"><span class="head0">Contents</span></td></tr>
@@ -209,21 +209,21 @@ the contents by using the advanced search.
 
 <xsl:variable name="noOfCountries"><xsl:value-of select="count(child::XmlData/RowSet/Row/T_SPATIAL)"/></xsl:variable>
 <table><tr>
-<td width="200">
+<td width="200" valign="top">
 <xsl:for-each select="XmlData/RowSet/Row/T_SPATIAL">
 	<xsl:if test="position() &lt; $noOfCountries div 3">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
-<td width="200">
+<td width="200" valign="top">
 <xsl:for-each select="XmlData/RowSet/Row/T_SPATIAL">
 	<xsl:if test="position() &gt;= $noOfCountries div 3 and position() &lt; ($noOfCountries div 3) * 2">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
-<td width="200">
+<td width="200" valign="top">
 <xsl:for-each select="XmlData/RowSet/Row/T_SPATIAL">
 	<xsl:if test="position() &gt;= ($noOfCountries div 3) * 2">
 		<xsl:call-template name="COUNTRYNAME"/>
