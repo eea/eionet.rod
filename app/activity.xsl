@@ -86,25 +86,25 @@ function delActivity() {
           	<td width="600" background="images/bar_filled.jpg" height="25">
             <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
             	<tr>
-		         	<td valign="bottom" align="middle">
+		         	<td valign="bottom">
 							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
 						</td>
 		            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-		         	<td valign="bottom" align="middle">
+		         	<td valign="bottom">
 							<a href="index.html"><span class="barfont">ROD</span></a>
 						</td>
    	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom" align="middle">
+               	<td valign="bottom">
 							<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;mode=S</xsl:attribute>
 							<span class="barfont">Legal instrument</span></a>
 						</td>
    	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-      	         <td valign="bottom" align="middle" width="122">
+      	         <td valign="bottom">
 							<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=R</xsl:attribute>
 							<span class="barfont">Reporting obligation</span></a>
 						</td>
             	   <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom" align="middle"><span class="barfont">Reporting activity</span></td>
+               	<td valign="bottom"><span class="barfont">Reporting activity</span></td>
                 	<td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
 					</tr>
 				</table>

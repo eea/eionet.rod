@@ -196,7 +196,7 @@ function doSearch(){
 
 				
 		</script></head>
-<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
+<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0" background="images/eionet_background.jpg">
 <!-- main -->
 <table cellspacing="0" cellpadding="0" border="0"><tr>
   <td valign="top" bgcolor="#747400" width="130">
@@ -287,16 +287,19 @@ function doSearch(){
   </table>  
 
 
-  </td><td><table border="0" width="621" cellpadding="0" cellspacing="0"><tr><td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td><td height="25" background="images/bar_filled.jpg" width="600"><table border="0" background="" cellPadding="0" cellSpacing="0" height="8"><tr><td align="middle" valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td><td width="28" valign="bottom">
-    <img src="images/bar_hole.jpg" width="28" height="24"/></td><td align="middle" valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
+  </td><td><table border="0" width="621" cellpadding="0" cellspacing="0"><tr><td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td><td height="25" background="images/bar_filled.jpg" width="600">
+ <table border="0" background="" cellPadding="0" cellSpacing="0" height="8"><tr>
+  <td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
+  <td width="28" valign="bottom">
+    <img src="images/bar_hole.jpg" width="28" height="24"/></td>
+    <td valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
+    <td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
+    <td valign="bottom"><a href="deliveries.jsv"><span class="barfont">Deliveries</span></a></td>
 
-				<td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-				<td width="122"	align="middle" valign="bottom"><a href="deliveries.jsv"><span class="barfont">Deliveries</span></a></td>
-
-		<td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-		<td width="122" align="middle" valign="bottom"><span class="barfont"><!--a href="cssearch.html"-->Advanced Search<!--/a--></span></td>
-		<td width="28" valign="bottom"><img src="images/bar_dot.jpg" width="28" height="25"/></td><td width="2 10" align="right" valign="bottom"></td>
-		</tr></table></td></tr><tr><td></td></tr></table><div style="margin-left:13">
+    <td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
+    <td valign="bottom"><span class="barfont"><!--a href="cssearch.html"-->Advanced Search<!--/a--></span></td>
+    <td width="28" valign="bottom"><img src="images/bar_dot.jpg" width="28" height="25"/></td>
+   </tr></table></td></tr><tr><td></td></tr></table><div style="margin-left:13">
 		<form action="csmain" method="get" name="f">
 		<input value="TITLE" name="ORD" type="hidden"/>
 		<table width="600" border="0" cellspacing="10"><tr><td colspan="3">

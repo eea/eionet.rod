@@ -159,7 +159,7 @@ var picklist = new Array();
 				
 			</script>
 			</head>
-<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
+<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0" background="images/eionet_background.jpg">
 
 <!-- main table -->
 <table cellspacing="0" cellpadding="0" border="0">
@@ -288,14 +288,16 @@ var picklist = new Array();
 			<td height="25" background="images/bar_filled.jpg" width="600">
 	<!-- 4 -->
 	<table border="0" background="" cellPadding="0" cellSpacing="0" height="8">
-		<tr><td align="middle" valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
-				<td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-				<td align="middle" valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
-				<td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-				<td width="122"	align="middle" valign="bottom"><a href="deliveries.jsv"><span class="barfont">Deliveries</span></a></td>
-				<td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-				<td width="122"	align="middle" valign="bottom"><!--a href="csindex"--><span class="barfont">Reporting Overview</span><!--/a--></td>
-				<td width="28" valign="bottom"><img src="images/bar_dot.jpg" width="28" height="25"/></td><td width="2 10" align="right" valign="bottom"></td></tr>
+	    <tr>
+	    <td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
+	    <td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
+	    <td valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
+	    <td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
+	    <td valign="bottom"><a href="deliveries.jsv"><span class="barfont">Deliveries</span></a></td>
+	    <td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
+	    <td valign="bottom"><!--a href="csindex"--><span class="barfont">Reporting Overview</span><!--/a--></td>
+	    <td width="28" valign="bottom"><img src="images/bar_dot.jpg" width="28" height="25"/></td>
+	    </tr>
 	</table>
 	<!-- 4 -->
 	</td></tr><tr><td> </td></tr>

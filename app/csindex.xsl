@@ -150,11 +150,24 @@ var picklist = new Array();
   </tr-->
   </table>
   <p> </p>
-  </center></p></td><td><table border="0" width="621" cellpadding="0" cellspacing="0"><tr><td height="25" background="images/bar_filled.jpg" width="20" align="bottom"> </td><td height="25" background="images/bar_filled.jpg" width="600"><table border="0" background="" cellPadding="0" cellSpacing="0" height="8"><tr><td align="middle" valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td><td width="28" valign="bottom">
-    <img src="images/bar_hole.jpg" width="28" height="24"/></td><td align="middle" valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td><td width="28" valign="bottom">
-    <img src="images/bar_hole.jpg" width="28" height="24"/></td><td width="122" align="middle" valign="bottom">
-    <span class="barfont"><!--a href="csbrowse.html"-->Deliveries<!--/a--></span></td><td width="28" valign="bottom">
-    <img src="images/bar_dot.jpg" width="28" height="25"/></td><td width="210" align="right" valign="bottom"></td></tr></table></td></tr><tr><td> </td></tr></table><div style="margin-left:13"><form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form><div style="margin-left:20"><table cellspacing="7pts"></table></div>
+  </center></p></td><td>
+<table border="0" width="621" cellpadding="0" cellspacing="0">
+  <tr><td height="25" background="images/bar_filled.jpg" width="20" align="bottom"> </td><td height="25" background="images/bar_filled.jpg" width="600">
+  <table border="0" background="" cellPadding="0" cellSpacing="0" height="8">
+   <tr>
+    <td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
+    <td width="28" valign="bottom">
+    <img src="images/bar_hole.jpg" width="28" height="24"/></td>
+    <td valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
+    <td width="28" valign="bottom">
+    <img src="images/bar_hole.jpg" width="28" height="24"/></td>
+    <td valign="bottom"><span class="barfont"><!--a href="csbrowse.html"-->Deliveries<!--/a--></span></td>
+    <td width="28" valign="bottom"><img src="images/bar_dot.jpg" width="28" height="25"/></td>
+   </tr>
+  </table></td>
+  </tr><tr><td> </td></tr></table>
+  <div style="margin-left:13"><form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form><div style="margin-left:20"><table cellspacing="7pts"></table></div>
+
   <table width="600"><tr><td>
 
 <!-- p class="MsoNormal">
