@@ -68,7 +68,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
   protected static final String rdfNameSpace = "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" ";
   protected static final String rdfSNameSpace = "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" ";
 
-  protected static final String dcNs = " xmlns:dc=\"http://purl.org/dc/elements/1.1\" ";
+  protected static final String dcNs = " xmlns:dc=\"http://purl.org/dc/elements/1.1/\" ";
 
   public void init(  ServletConfig config ) throws ServletException {
 
