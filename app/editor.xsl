@@ -436,12 +436,12 @@ function warn(field, msg) {
 			<!-- MAIN table -->
 			<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
-			  <td width="130" bgcolor="#FFB655" valign="top"><img src="images/eionet1.jpg" height="113" width="130" alt=""/></td>
-			  <td width="20" valign="top"><img height="113" width="20" src="images/eionet2.jpg" alt=""/></td>
+			  <td width="130" bgcolor="#FFB655" valign="top"><img src="images/top1.jpg" height="113" width="130" alt=""/></td>
+			  <td width="20" valign="top"><img height="113" width="20" src="images/top2.jpg" alt=""/></td>
 			  <td width="621" valign="top"> 
 			    <table border="0" cellpadding="0" cellspacing="0">
 			    <tr>
-			      <td><img src="images/eionet3.jpg" width="92" height="35" alt=""/></td>
+			      <td><img src="images/top3.jpg" width="92" height="35" alt=""/></td>
 			    </tr>
 			    <tr>
 			      <td><table border="0" width="621">
