@@ -92,7 +92,7 @@
 			<br/>
 		</xsl:if>
 
-		<xsl:if test="contains($permissions, ',/LI:i,')='true'">
+		<xsl:if test="contains($permissions, ',/instruments:i,')='true'">
 			<a>
 				<xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
 				<img src="images/newinstrument.png" border="0" alt="Create a new legislative instrument"/>

@@ -44,7 +44,7 @@
 
 	<xsl:template match="RowSet[@Name='Source']/Row[position()=1]">
 		<!-- form for delete legislation action -->
-		<xsl:if test="contains($permissions, ',/LI:d,')='true'">
+		<xsl:if test="contains($permissions, ',/instruments:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
 function delLegislation() {
@@ -132,19 +132,19 @@ function delLegislation() {
 						<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
 						<b><font color="#FFFFFF">Actions</font></b><br/><br/>
 					</xsl:if>
-				<xsl:if test="contains($permissions, ',/RO:i,')='true'">
+				<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
 					<a><xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 					<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/></a><br/>
 				</xsl:if>
-				<xsl:if test="contains($permissions, ',/LI:i,')='true'">
+				<xsl:if test="contains($permissions, ',/instruments:i,')='true'">
 					<a><xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
 						<img src="images/newinstrument.png" alt="Create a new legislative instrument" border="0"/></a><br/>
 					</xsl:if>
-					<xsl:if test="contains($permissions, ',/LI:u,')='true'">
+					<xsl:if test="contains($permissions, ',/instruments:u,')='true'">
 						<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
 						<img src="images/editinstrument.png" alt="Edit this instrument" border="0"/></a><br/>
 						</xsl:if>
-					<xsl:if test="contains($permissions, ',/LI:d,')='true'">
+					<xsl:if test="contains($permissions, ',/instruments:d,')='true'">
 						<a href="javascript:delLegislation()"><img src="images/deleteinstrument.png" alt="Delete this instrument" border="0"/></a><br/>
 				</xsl:if>
 				<xsl:if test="contains($permissions, ',/Admin:v,')='true'">

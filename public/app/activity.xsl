@@ -62,7 +62,7 @@
 
 	<xsl:template match="RowSet[@Name='Activity']/Row">
 		<!-- form for delete activity action -->
-		<xsl:if test="contains($permissions, ',/RA:d,')='true'">
+		<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
 function delActivity() {
@@ -151,14 +151,14 @@ function delActivity() {
 						<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
 						<b><font color="#FFFFFF">Actions</font></b><br/><br/>
 					</xsl:if>
-					<xsl:if test="contains($permissions, ',/RA:i,')='true'">
+					<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 							<img src="images/newactivity.png" alt="Create a new reporting activity" border="0"/></a><br/>
 						</xsl:if>
-						<xsl:if test="contains($permissions, ',/RA:u,')='true'">
+						<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute><img src="images/editactivity.png" alt="Edit this activity" border="0"/></a><br/>
 						</xsl:if>
-						<xsl:if test="contains($permissions, ',/RA:d,')='true'">
+						<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
 						<a href="javascript:delActivity()"><img src="images/deleteactivity.png" alt="Delete this activity" border="0"/></a><br/>
 					</xsl:if>				
 					<xsl:if test="contains($permissions, ',/Admin:v,')='true'">

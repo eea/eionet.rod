@@ -62,7 +62,7 @@
 
 	<xsl:template match="RowSet[@Name='Reporting']/Row">
 		<!-- form for delete obligation action -->
-		<xsl:if test="contains($permissions, ',/RO:d,')='true'">
+		<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
 function delObligation() {
@@ -130,20 +130,20 @@ function delObligation() {
 						<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
 						<b><font color="#FFFFFF">Actions</font></b><br/><br/>
 					</xsl:if>
-					<xsl:if test="contains($permissions, ',/RO:i,')='true'">
+					<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
 						<a>
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
 						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/></a><br/>
-					</xsl:if>
-					<xsl:if test="contains($permissions, ',/RA:i,')='true'">
+					<!--/xsl:if>
+					<xsl:if test="contains($permissions, ',/obligations:i,')='true'"-->
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 							<img src="images/newactivity.png" alt="Create a new reporting activity" border="0"/></a><br/>
 					</xsl:if>
-					<xsl:if test="contains($permissions, ',/RO:u,')='true'">
+					<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
 						<a><xsl:attribute name="href">reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 							<img src="images/editobligation.png" alt="Edit this obligation" border="0"/></a><br/>
 					</xsl:if>
-					<xsl:if test="contains($permissions, ',/RO:d,')='true'">
+					<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
 						<a href="javascript:delObligation()"><img src="images/deleteobligation.png" alt="Delete this obligation" border="0"/></a><br/>
 					</xsl:if>				
 					<xsl:if test="contains($permissions, ',/Admin:v,')='true'">

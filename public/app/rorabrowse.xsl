@@ -145,7 +145,7 @@
 						<img src="images/showdeleted.png" alt="Show history of deleted records" border="0"/>
 					</a><br/>
 				</xsl:if>
-				<xsl:if test="contains($permissions, ',/RO:i,') and $showfilters=''">
+				<xsl:if test="contains($permissions, ',/obligations:i,') and $showfilters=''">
 					<a>
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
 						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/>

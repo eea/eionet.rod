@@ -38,9 +38,9 @@ import com.tee.xmlserver.*;
 
 public interface Constants {
 
-   public static final String ACL_RA_NAME="/RA";
-   public static final String ACL_RO_NAME="/RO";
-   public static final String ACL_LI_NAME="/LI";
+   public static final String ACL_RA_NAME="/obligations";
+   public static final String ACL_RO_NAME="/obligations";
+   public static final String ACL_LI_NAME="/instruments";
    public static final String ACL_ADMIN_NAME="/Admin";
    public static final String ACL_HARVEST_NAME="/Admin/Harvest";
    public static final String ACL_CLIENT_NAME="/Client";
