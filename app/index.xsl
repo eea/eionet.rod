@@ -65,7 +65,6 @@
 					<td width="10"><img src="images/diamlil.gif"/></td>
 					<td width="590"><a href="rorabrowse.jsv?mode=R"><span class="head0">All obligations</span></a></td>
 				</tr>
-<!--
 				<tr>
 					<td width="10"><img src="images/diamlil.gif"/></td>
 					<td width="590"><a><xsl:attribute name="href">
@@ -101,7 +100,6 @@
 								</xsl:attribute><span class="head0">Other requests</span>
 							</a></td>
 				</tr>
--->
 			</table></td>
 			<td valign="top"><table cellspacing="10" border="0">
 				<tr>
