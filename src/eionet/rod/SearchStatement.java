@@ -109,6 +109,7 @@ public class SearchStatement extends QueryStatement implements Constants {
          vFields.add(new FieldInfo("ALIAS", "T_SOURCE"));
          vFields.add(new FieldInfo("URL", "T_SOURCE"));
 		 vFields.add(new FieldInfo("CELEX_REF", "T_SOURCE"));
+		 vFields.add(new FieldInfo("SOURCE_CODE", "T_SOURCE"));
          vFields.add(new FieldInfo("FK_CLIENT_ID", "T_REPORTING")); //KL030213
       }
       else {
@@ -129,6 +130,7 @@ public class SearchStatement extends QueryStatement implements Constants {
          vFields.add(new FieldInfo("ALIAS", "T_SOURCE"));
          vFields.add(new FieldInfo("URL", "T_SOURCE"));
 		 vFields.add(new FieldInfo("CELEX_REF", "T_SOURCE"));
+		 vFields.add(new FieldInfo("SOURCE_CODE", "T_SOURCE"));
          vFields.add(new FieldInfo("FK_CLIENT_ID", "T_REPORTING")); //KL030213
       }
 
@@ -332,8 +334,11 @@ public class SearchStatement extends QueryStatement implements Constants {
       setTables(vTables);
       whereClause = constr.toString();
 
-      if (mode.equals(REPORTING_MODE))
-         orderClause = "T_REPORTING.ALIAS";
+      if (mode.equals(REPORTING_MODE)) {
+		 if(ord==null)
+			ord="T_REPORTING.ALIAS";
+         orderClause = ord;
+	}
       else {
          //orderClause = "T_ACTIVITY.TITLE";
 		 if(ord==null)

@@ -323,7 +323,7 @@
 				<TD><SPAN class="headsmall"><B><FONT title="Type of reporting activity" face="Verdana" color="#000000" size="1">Type</FONT></B></SPAN>
 				</TD>
 				<TD> <P align="right"><MAP name="FPMap4"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
-							href="javascript:setOrder('T_SOURCE.CELEX_REF DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_SOURCE.CELEX_REF')"/></MAP>
+							href="javascript:setOrder('T_SOURCE.SOURCE_CODE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_SOURCE.SOURCE_CODE')"/></MAP>
 							<IMG height="22"  src="images/arrows.gif" width="17" useMap="#FPMap4"  border="0"/></P>
 				</TD>
 			</TR>
@@ -478,7 +478,7 @@
 								</TD>
 								<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 									<SPAN class="head0n">
-											<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/CELEX_REF"/></FONT>
+											<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/SOURCE_CODE"/></FONT>
 									</SPAN>
 									&#160;
 								</TD>
