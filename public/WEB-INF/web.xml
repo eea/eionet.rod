@@ -89,6 +89,10 @@
 		<servlet-class>eionet.rod.LoginServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>countries_rdf</servlet-name>
+		<servlet-class>eionet.rod.rdf.Countries</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>activities_rdf</servlet-name>
 		<servlet-class>eionet.rod.rdf.Activities</servlet-class>
 	</servlet>
@@ -211,6 +215,10 @@
 	<servlet-mapping>
 		<servlet-name>activities_rdf</servlet-name>
 		<url-pattern>/activities</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>countries_rdf</servlet-name>
+		<url-pattern>/countries</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>issue_activities_rss</servlet-name>
