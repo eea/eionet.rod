@@ -70,7 +70,7 @@
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME/>
 		</T_CLIENT>
-		<xrs:Constraint>T_DELIVERY.FK_RA_ID=@ACT_DETAILS_ID AND T_DELIVERY.FK_SPATIAL_ID LIKE '@COUNTRY_ID'</xrs:Constraint>
+		<xrs:Constraint>T_DELIVERY.FK_RA_ID=@ACT_DETAILS_ID AND T_DELIVERY.FK_SPATIAL_ID LIKE @COUNTRY_ID</xrs:Constraint>
 		<xrs:Ordering>@ORD</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="RA">
@@ -115,6 +115,6 @@
 		<T_DUMMY>
 			<DUMMY/>
 		</T_DUMMY>
-		<xrs:Constraint>DUMMY='@COUNTRY_ID'</xrs:Constraint>
+		<xrs:Constraint>DUMMY=@COUNTRY_ID</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>

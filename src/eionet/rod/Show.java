@@ -143,7 +143,7 @@ public class Show extends ROServletAC {
       if ( Util.nullString(id) )
         throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
 
-        String[][] queryPars = {{"ID", id}};
+        String[][] queryPars = {{"ID", Util.strLiteral(id)}};
 
          String qrySrc;
          if (mode.equals(SOURCE_MODE))

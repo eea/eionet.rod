@@ -155,17 +155,17 @@ public class CSSearchStatement extends QueryStatement implements Constants {
       appendConstraint("TERMINATE='N'", "1");
 
       if (!Util.nullString(spatialId)) 
-        appendConstraint("PK_SPATIAL_ID=" + spatialId, "1");
+        appendConstraint("PK_SPATIAL_ID=" + Util.strLiteral(spatialId), "1");
         
 
       if (!Util.nullString(clientId) && !clientId.equals("0") )
-        appendConstraint("PK_CLIENT_ID=" + clientId, "1");
+        appendConstraint("PK_CLIENT_ID=" + Util.strLiteral(clientId), "1");
 
       if (!Util.nullString(issueId) && !issueId.equals("0")) {
         vTables.add(new TableInfo("T_RAISSUE_LNK", "T_OBLIGATION.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID", TableInfo.INNER_JOIN));
         vFields.add(new FieldInfo("FK_RA_ID", "T_RAISSUE_LNK"));        
         vFields.add(new FieldInfo("FK_ISSUE_ID", "T_RAISSUE_LNK"));                
-        appendConstraint("FK_ISSUE_ID=" + issueId, "1");
+        appendConstraint("FK_ISSUE_ID=" + Util.strLiteral(issueId), "1");
       }
 
 

@@ -68,7 +68,7 @@ public class Activity extends ROEditServletAC {
 
 
       // prepare data source
-      String[][] queryPars = {{"ID", id}, {"RID", rid}};   
+      String[][] queryPars = {{"ID", Util.strLiteral(id)}, {"RID", Util.strLiteral(rid)}};   
 
       HttpServletRequest req = params.getRequest();
       DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + E_ACTIVITY_QUERY, params.getRequest());

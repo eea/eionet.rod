@@ -29,6 +29,7 @@ import com.tee.xmlserver.Parameters;
 import com.tee.xmlserver.DataSourceIF;
 import com.tee.xmlserver.XSQLException;
 import com.tee.xmlserver.XMLSource;
+import com.tee.util.Util;
 import eionet.rod.ROServletAC;
 
 public class Deliveries extends ROServletAC { // CSServletAC {
@@ -46,7 +47,7 @@ public class Deliveries extends ROServletAC { // CSServletAC {
     if (ord==null)
       ord="T_SPATIAL.SPATIAL_NAME, T_DELIVERY.UPLOAD_DATE DESC";
     
-    String queryPars[][] = {{"ACT_DETAILS_ID", param}, {"COUNTRY_ID", param2}, {"ORD", ord}};
+    String queryPars[][] = {{"ACT_DETAILS_ID", Util.strLiteral(param)}, {"COUNTRY_ID", Util.strLiteral(param2)}, {"ORD", ord}};
 
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
     dataSrc.setParameters(queryPars);

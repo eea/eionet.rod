@@ -61,15 +61,15 @@ public class Main extends ROServletAC { // CSServletAC {
 
      String countryId = params.getParameter("COUNTRY_ID");
      queryPars[0][0]="COUNTRY_ID";
-     queryPars[0][1]=(Util.nullString(countryId) ? "0": countryId);
+     queryPars[0][1]=(Util.nullString(countryId) ? "0": Util.strLiteral(countryId));
 
      String issueId = params.getParameter("ISSUE_ID");
      queryPars[1][0]="ISSUE_ID";
-     queryPars[1][1]=(Util.nullString(issueId) ? "0": issueId);
+     queryPars[1][1]=(Util.nullString(issueId) ? "0": Util.strLiteral(issueId));
 
      String clientId = params.getParameter("CLIENT_ID");
      queryPars[2][0]="CLIENT_ID";
-     queryPars[2][1]=(Util.nullString(clientId) ? "0": clientId);
+     queryPars[2][1]=(Util.nullString(clientId) ? "0": Util.strLiteral(clientId));
           
     dataSrc.setParameters(queryPars);
     dataSrc.setQuery(new CSSearchStatement(params, false));

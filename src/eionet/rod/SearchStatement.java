@@ -161,7 +161,7 @@ public class SearchStatement extends QueryStatement implements Constants {
         vTables.add(new TableInfo("T_RAISSUE_LNK", "T_OBLIGATION.PK_RA_ID = T_RAISSUE_LNK.FK_RA_ID",
                         TableInfo.INNER_JOIN));
 
-        appendConstraint("T_RAISSUE_LNK.FK_ISSUE_ID=" + env_issue.id, "1");
+        appendConstraint("T_RAISSUE_LNK.FK_ISSUE_ID=" + Util.strLiteral(env_issue.id), "1");
         addAttribute("Environmental_issue_equals", env_issue.name);
         addAttribute("Environmental_issue_param", params.getParameter(ENV_ISSUE_FILTER));
       }
@@ -173,7 +173,7 @@ public class SearchStatement extends QueryStatement implements Constants {
            vTables.add(new TableInfo("T_RASPATIAL_LNK AS TCOUNTRY",
                        "T_OBLIGATION.PK_RA_ID = TCOUNTRY.FK_RA_ID",
                         TableInfo.INNER_JOIN));
-           appendConstraint("TCOUNTRY.FK_SPATIAL_ID=" + country.id, "1");
+           appendConstraint("TCOUNTRY.FK_SPATIAL_ID=" + Util.strLiteral(country.id), "1");
 
          addAttribute("Country_equals", country.name);
          addAttribute("Country_param", params.getParameter(COUNTRY_FILTER));
@@ -189,7 +189,7 @@ public class SearchStatement extends QueryStatement implements Constants {
            vTables.add(new TableInfo("T_RASPATIAL_LNK AS TRIVER",
                        "T_OBLIGATION.PK_RA_ID = TRIVER.FK_RA_ID",
                         TableInfo.INNER_JOIN));
-           appendConstraint("TRIVER.FK_SPATIAL_ID=" + river.id, "1");
+           appendConstraint("TRIVER.FK_SPATIAL_ID=" + Util.strLiteral(river.id), "1");
 
 
          addAttribute("River_equals", river.name);
@@ -202,7 +202,7 @@ public class SearchStatement extends QueryStatement implements Constants {
            vTables.add(new TableInfo("T_RASPATIAL_LNK AS TSEA",
                        "T_OBLIGATION.PK_RA_ID = TSEA.FK_RA_ID",
                         TableInfo.INNER_JOIN));
-           appendConstraint("TSEA.FK_SPATIAL_ID=" + sea.id, "1");
+           appendConstraint("TSEA.FK_SPATIAL_ID=" + Util.strLiteral(sea.id), "1");
 
          addAttribute("Sea_equals", sea.name);
       }
@@ -214,7 +214,7 @@ public class SearchStatement extends QueryStatement implements Constants {
            vTables.add(new TableInfo("T_RASPATIAL_LNK AS TLAKE",
                        "T_OBLIGATION.PK_RA_ID = TLAKE.FK_RA_ID",
                         TableInfo.INNER_JOIN));
-           appendConstraint("TLAKE.FK_SPATIAL_ID=" + lake.id, "1");
+           appendConstraint("TLAKE.FK_SPATIAL_ID=" + Util.strLiteral(lake.id), "1");
 
          addAttribute("Lake_or_reservoir_equals", lake.name);
       }
@@ -238,9 +238,9 @@ public class SearchStatement extends QueryStatement implements Constants {
                         TableInfo.INNER_JOIN));
 
            if(ccClients)
-             appendConstraint("T_CLIENT_LNK.STATUS='C' AND T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.FK_CLIENT_ID=" + client.id, "1");
+             appendConstraint("T_CLIENT_LNK.STATUS='C' AND T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.FK_CLIENT_ID=" + Util.strLiteral(client.id), "1");
           else
-              appendConstraint("T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.FK_CLIENT_ID=" + client.id, "1");
+              appendConstraint("T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.FK_CLIENT_ID=" + Util.strLiteral(client.id), "1");
 
         addAttribute("Reporting_client_equals", client.name);           
         addAttribute("Reporting_client_param", params.getParameter(CLIENT_FILTER));
