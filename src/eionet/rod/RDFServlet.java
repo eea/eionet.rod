@@ -99,7 +99,7 @@ public class RDFServlet extends BaseServletAC {
     s.append("</rdf:Property>");
     
     s.append("<rdfs:Class rdf:ID=\"Activity\">");
-    s.append("<rdf:value>Activity</rdf:value>");
+    s.append("<rdfs:label>Reporting Activity</rdfs:label>");
     s.append("</rdfs:Class>");
     
     Vector acts = WebRODService.getActivities();
