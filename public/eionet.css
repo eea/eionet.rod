@@ -17,14 +17,14 @@ font-style: normal;
 line-height: normal; 
 text-decoration: none; }
 
-.barfont {  font-family: Verdana, Arial, MS Sans Serif; 
+.barfont {  font-family: Verdana, Arial, "MS Sans Serif"; 
 font-size: 7pt; 
 font-style: normal; 
 line-height: normal; 
 text-decoration: none; }
 
 
-.smallfont {  font-family: Verdana, Arial, MS Sans Serif; 
+.smallfont {  font-family: Verdana, Arial, "MS Sans Serif"; 
 font-size: 9pt; 
 font-style: normal; 
 line-height: normal; 
@@ -100,9 +100,9 @@ line-height: normal;
 font-weight: bold;
 text-decoration: none }
 
-A:link { color: #003366 }
-A:visited { color: #990000 }
-A:active { color: #008080 } 
+a:link { color: #003366 }
+a:visited { color: #990000 }
+a:active { color: #008080 } 
 
 h1 { font-family: Verdana, Arial, Helvetica, sans-serif; 
 font-size: 16pt; 
@@ -139,14 +139,15 @@ line-height: normal;
 text-decoration: none; 
 }
 
-th {  font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 10pt;
-font-style: normal; 
-line-height: normal; 
-font-weight: bold; 
-color: #FFFFFF;
-background: #008080;
-text-decoration: none; }
+th {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	text-align: left;
+	text-decoration: none;
+}
 
 th a:link { color: #8080ff }
 th a:visited { color: #ff8080 }
@@ -277,3 +278,11 @@ background-image: url('images/bgr_form_buttons.jpg');
 #workarea {
 	margin-left:13px;
 }
+
+#pagefoot {
+	width: 600px;
+	padding: 1em 1em 1em 1em;
+        font-size: 0.8em;
+	text-align: center;
+}
+

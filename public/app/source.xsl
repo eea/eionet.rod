@@ -24,7 +24,7 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:include href="common.xsl"/>
+	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="src-id">
 		<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/PK_SOURCE_ID"/>
@@ -59,11 +59,6 @@ function delLegislation() {
 				</input>
 			</form>
 		</xsl:if>
-		<xsl:if test="$printmode='N'">
-			<table cellspacing="0" cellpadding="0" width="621" border="0">
-			<tr>
-         	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
-          	<td width="600" background="images/bar_filled.jpg" height="25">
 
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
@@ -73,44 +68,12 @@ function delLegislation() {
  <div class="breadcrumbtail">&#160;</div>
 </div>
 
-            <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
-            	<tr>
-               	<td valign="bottom">
-							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom">
-							<a href="index.html"><span class="barfont">ROD</span></a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom"><span class="barfont">Legislative instrument</span></td>
-   	            <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
-	               <td valign="bottom" align="right" width="240"></td>
-					</tr>
-				</table>
-			</td></tr>
-			<tr><td>&#160;</td></tr>
-		</table>
-		</xsl:if>
 
 		<!-- page -->
-		<div id="workarea">
-		<table width="610" border ="0">
-			<tr>
-				<td valign="top" width="76%">
-					<span class="head1">Details of legislative instrument</span>
-				</td>
-				<td align="right">
-					<table width="100%" border="0">
-					<tr>
-						<td><xsl:call-template name="Print"/>	</td>
-					</tr>
+		<div id="workarea" style="width:610px">
 					<xsl:if test="$printmode='N'">
-						<tr>
-							<td><xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
-						</tr>
-						<tr>
-							<td align="center">
+						<div style="float:right">
+							<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template><br/>
 								<xsl:if test="$admin='true'">
 									<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
 									<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
@@ -139,22 +102,15 @@ function delLegislation() {
 								<xsl:if test="$admin='true'">
 									<a href="javascript:openHelpList('LI')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
 								</xsl:if>
-							</td>
-						</tr>
+						</div>
 					</xsl:if>
-				</table>
-			</td>
-			</tr>
-		</table>
+					<h1>Details of legislative instrument</h1>
 
-		<table width="608" border="0">
-			<tr>
-			<td width="100%" style="border:1px solid #006666">
-				<table border="0" cellspacing="6" bgcolor="#FFFFFF">
+				<table width="608" cellspacing="6" bgcolor="#FFFFFF" style="border:1px solid #006666">
 					<tr valign="top">
-						<td width="25%">
-							<span class="head0">Classification</span>
-						</td>
+						<th width="25%">
+							Classification
+						</th>
 						<td>
 							<table cellpadding="0" cellspacing="0">
 								<xsl:apply-templates select="SubSet[@Name='Parents']"/>
@@ -331,9 +287,6 @@ function delLegislation() {
 					</xsl:if>
 				</xsl:for-each>
 				</table>
-			</td>
-			</tr>
-		</table>
 		</div>
 	</xsl:template>
 

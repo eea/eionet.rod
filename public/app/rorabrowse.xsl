@@ -23,7 +23,7 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:include href="common.xsl"/>
+	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="rora">
 		<xsl:value-of select="substring(substring-after(/XmlData/xml-query-string,'mode='),1,1)"/>
@@ -71,11 +71,6 @@
 	</script>
 
 	<!-- context bar -->
-	<xsl:if test="$printmode='N'">
-      <table cellspacing="0" cellpadding="0" width="621" border="0">
-			<tr>
-         	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25"> </td>
-          	<td width="600" background="images/bar_filled.jpg" height="25">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
@@ -91,56 +86,17 @@
  <div class="breadcrumbtail">&#160;</div>
 </div>
 
-            <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
-            	<tr>
-               	<td valign="bottom">
-							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom">
-							<a href="index.html"><span class="barfont">ROD</span></a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom">
-					<xsl:choose>
-					<xsl:when test="$rora='A' or $rora='B'">
-						<a href="rorabrowse.jsv?mode=A"><span class="barfont">Reporting obligations</span></a>
-					</xsl:when>
-					<xsl:otherwise>
-						<a href="rorabrowse.jsv?mode=R"><span class="barfont">Reporting obligation</span></a>
-					</xsl:otherwise>
-				</xsl:choose>
-			</td>
-          <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
-					</tr>
-				</table>
-			</td></tr>
-			<tr><td></td></tr>
-		</table>
-		</xsl:if>
 		<!-- page -->
 		<div id="workarea">
-
-		<br/>
-		<table cellspacing="0" border="0" width="602">
-			<tr valign="top">
-			<td width="76%">
-				<span class="head1">Reporting obligations<xsl:if test="$analysisMode!=''">: <xsl:value-of select="$analysisText"/>	</xsl:if>
+				<h1>Reporting obligations<xsl:if test="$analysisMode!=''">: <xsl:value-of select="$analysisText"/>	</xsl:if>
 								<xsl:if test="$sel_country!=''">: <xsl:value-of select="$sel_country"/></xsl:if>
 								<xsl:if test="$sel_client!=''">	: <xsl:value-of select="$sel_client"/></xsl:if>
 								<xsl:if test="$sel_issue!=''">
 									[<xsl:value-of select="$sel_issue"/>]
 								</xsl:if>
-					<br/><br/>
-				</span>
+				</h1>
 
-			</td>
-		<td>
 			<table width="100%">
-			<tr><td>
-				<xsl:call-template name="Print"/>
-			</td></tr>
-			<xsl:if test="$printmode='N'">
 			<tr>
 				<td align="center">
 				<xsl:if test="$admin='true'">
@@ -163,11 +119,7 @@
 				</xsl:if>
 			</td>
 			</tr>
-			</xsl:if>
 			</table>
-			</td>
-			</tr>
-		</table>
 
 <!-- Search filters -->
 		<xsl:choose>

@@ -73,12 +73,7 @@
 
 		<script language="JavaScript" src="script/util.js"></script>
 
-		<table>
-			<tr height="20"><td></td>
-			</tr>
-			<tr>
-				<td width="600" align="center">
-									<span class="barfont">
+		<div id="pagefoot">
 									<a href="javascript:history.back()">Back</a>
 									| <a href="mailto:rod@eea.eu.int">E-mail</a> 
 									| <a>
@@ -123,21 +118,11 @@
 												<xsl:call-template name="Feedback_URL"/>
 											</xsl:attribute>
 									Feedback </a>
-									</span>
-                  </td>
-
-									</tr>
-									<tr height="15"><td></td></tr>
-									<tr>
-									<td align="center">
-									<span class="barfont">
+									<br/>
                   <b><a href="http://www.eea.eu.int" target="_blank">European Environment Agency</a></b><br/>
                   Kgs. Nytorv 6, DK-1050 Copenhagen K, Denmark - Phone: +45 3336
                   7110
-									</span>
-									</td>
-            </tr>
-				</table>
+				</div>
 	</xsl:template>
 	<xsl:template name="Print">
 		<xsl:if test="$printmode='N'"><img src="images/printerfriendly.jpg" onclick="javascript:openPrintable()" border="0" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'"/></xsl:if>
