@@ -111,6 +111,11 @@ public class SearchStatement extends QueryStatement implements Constants {
       vFields.add(new FieldInfo("TITLE","T_OBLIGATION"));
       vFields.add(new FieldInfo("NEXT_REPORTING","T_OBLIGATION"));
       vFields.add(new FieldInfo("NEXT_DEADLINE","T_OBLIGATION"));
+
+      FieldInfo o1 = new FieldInfo("DEADLINE","T_OBLIGATION"); //EK050201
+      o1.setFieldExpr("IF(NEXT_DEADLINE IS NULL, NEXT_REPORTING, NEXT_DEADLINE) AS DEADLINE");
+      vFields.add(o1);
+
       vFields.add(new FieldInfo("FK_SOURCE_ID","T_OBLIGATION"));
       vFields.add(new FieldInfo("TERMINATE","T_OBLIGATION"));
       vFields.add(new FieldInfo("EEA_PRIMARY","T_OBLIGATION"));
@@ -155,6 +160,7 @@ public class SearchStatement extends QueryStatement implements Constants {
 
         appendConstraint("T_RAISSUE_LNK.FK_ISSUE_ID=" + env_issue.id, "1");
         addAttribute("Environmental_issue_equals", env_issue.name);
+        addAttribute("Environmental_issue_param", params.getParameter(ENV_ISSUE_FILTER));
       }
 
       if ( !Util.nullString(country.id) && !country.id.equals("-1") ) {
@@ -167,6 +173,7 @@ public class SearchStatement extends QueryStatement implements Constants {
            appendConstraint("TCOUNTRY.FK_SPATIAL_ID=" + country.id, "1");
 
          addAttribute("Country_equals", country.name);
+         addAttribute("Country_param", params.getParameter(COUNTRY_FILTER));
       }
 
       if ( !Util.nullString(river.id) && !river.id.equals("-1") ) {
@@ -233,6 +240,7 @@ public class SearchStatement extends QueryStatement implements Constants {
               appendConstraint("T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.FK_CLIENT_ID=" + client.id, "1");
 
         addAttribute("Reporting_client_equals", client.name);           
+        addAttribute("Reporting_client_param", params.getParameter(CLIENT_FILTER));
 
 
     }
