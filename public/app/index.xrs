@@ -46,14 +46,6 @@
 		</T_SPATIAL>
 		<xrs:Ordering>SPATIAL_NAME</xrs:Ordering>
 	</xrs:RowSet>
-	<xrs:RowSet name="ParamGroup">
-		<T_PARAM_GROUP>
-			<PK_GROUP_ID/>
-			<GROUP_NAME/>
-			<GROUP_TYPE/>
-		</T_PARAM_GROUP>
-		<xrs:Ordering>GROUP_NAME</xrs:Ordering>
-	</xrs:RowSet>
 	<xrs:RowSet name="GroupType">
 		<T_LOOKUP>
 			<C_VALUE/>

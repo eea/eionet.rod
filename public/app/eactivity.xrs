@@ -131,21 +131,6 @@
 			<xrs:Constraint>T_LOOKUP.CATEGORY='I'</xrs:Constraint>
 			<!--xrs:Ordering>T_LOOKUP.C_TERM</xrs:Ordering-->
 		</xrs:SubSet>
-		<xrs:SubSet name="LnkPar" relation="T_OBLIGATION.PK_RA_ID=T_PARAMETER_LNK.FK_RA_ID">
-			<T_PARAMETER_LNK>
-				<FK_PARAMETER_ID/>
-				<PARAMETER_UNIT/>
-			</T_PARAMETER_LNK>
-			<T_UNIT relation="T_UNIT.PK_UNIT_ID=T_PARAMETER_LNK.FK_UNIT_ID" reltype="outer">
-				<PK_UNIT_ID/>
-				<UNIT_NAME/>
-			</T_UNIT>
-			<T_PARAMETER relation="T_PARAMETER_LNK.FK_PARAMETER_ID=T_PARAMETER.PK_PARAMETER_ID" reltype="inner">
-				<PARAMETER_NAME/>
-				<FK_GROUP_ID/>
-			</T_PARAMETER>
-			<xrs:Ordering>T_PARAMETER.PARAMETER_NAME</xrs:Ordering>
-		</xrs:SubSet>
 		<xrs:SubSet name="LnkIssue" relation="T_OBLIGATION.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID">
 			<T_RAISSUE_LNK>
 				<FK_ISSUE_ID/>
@@ -229,14 +214,6 @@
 		</T_LOOKUP>
 		<xrs:Constraint>T_LOOKUP.CATEGORY='P'</xrs:Constraint>
 		<xrs:Ordering>C_TERM</xrs:Ordering>
-	</xrs:RowSet>
-	<xrs:RowSet name="ParamGroup">
-		<T_PARAM_GROUP>
-			<PK_GROUP_ID/>
-			<GROUP_NAME/>
-			<GROUP_TYPE/>
-		</T_PARAM_GROUP>
-		<xrs:Ordering>GROUP_NAME</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="LegalMoral" omitRow="true">
 		<T_LOOKUP>

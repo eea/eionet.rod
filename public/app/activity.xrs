@@ -142,21 +142,6 @@
 			</T_CLIENT>
 			<xrs:Constraint>STATUS="C" AND TYPE="A"</xrs:Constraint>
 		</xrs:SubSet>
-		<xrs:SubSet name="Parameter" distinct="true" relation="T_OBLIGATION.PK_RA_ID=T_PARAMETER_LNK.FK_RA_ID">
-			<T_PARAMETER_LNK>
-				<PARAMETER_UNIT/>
-			</T_PARAMETER_LNK>
-			<T_UNIT relation="T_UNIT.PK_UNIT_ID=T_PARAMETER_LNK.FK_UNIT_ID" reltype="outer">
-				<UNIT_NAME/>
-				<UNIT_HELP/>
-			</T_UNIT>
-			<T_PARAMETER relation="T_PARAMETER.PK_PARAMETER_ID=T_PARAMETER_LNK.FK_PARAMETER_ID">
-				<PK_PARAMETER_ID/>
-				<PARAMETER_NAME/>
-				<NEW/>
-			</T_PARAMETER>
-			<xrs:Ordering>T_PARAMETER.PARAMETER_NAME</xrs:Ordering>
-		</xrs:SubSet>
 	</xrs:RowSet>
 	<xrs:RowSet name="EnvIssue">
 		<T_RAISSUE_LNK/>
