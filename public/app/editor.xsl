@@ -31,15 +31,19 @@
 	<xsl:include href="util.xsl"/>
             
 	<xsl:template match="/">
-		<html>
+		<html lang="en">
 			<head>
 				<title><xsl:call-template name="PageTitle"/></title>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-				<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache"/>
-				<META HTTP-EQUIV="Expires" CONTENT="Tue, 01 Jan 1980 00:00:00 GMT"/>
-				<link href="eionet.css" rel="stylesheet" type="text/css"/>
-				<script language="JavaScript" src="script/util.js"></script>
-				<script language="JavaScript">
+				<meta http-equiv="Cache-Control" CONTENT="no-cache"/>
+				<meta http-equiv="Expires" CONTENT="Tue, 01 Jan 1980 00:00:00 GMT"/>
+				<link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen"/>
+				<link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
+				<link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
+				<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+				<script type="text/javascript" src="script/util.js"></script>
+				<script type="text/javascript">
 					<![CDATA[
 <!--
 			/*
@@ -741,47 +745,19 @@ function checkAndSave(first, freq, next, textrep, to, terminate, client) {
 					]]>
 			</script>
 		</head>
-		<body bgcolor="#f0f0f0" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0"
-			background="images/eionet_background.jpg" onUnload="checkStatus()">
+		<body onUnload="checkStatus()">
+        <div id="pagehead">
+            <div id="identification">
+                <a href="/" target="_blank" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a>
+                <div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
+                <div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
+            </div>
+</div> <!-- page head -->
 
-			<!-- MAIN table -->
-			<table border="0" cellpadding="0" cellspacing="0">
-			<tr>
-			  <td width="130" valign="top"><img src="images/top1.jpg" height="113" width="130" alt=""/></td>
-			  <td width="20" valign="top"><img height="113" width="20" src="images/top2.jpg" alt=""/></td>
-			  <td width="621" valign="top"> 
-			    <table border="0" cellpadding="0" cellspacing="0">
-			    <tr>
-			      <td><img src="images/top3.jpg" width="92" height="35" alt=""/></td>
-			    </tr>
-			    <tr>
-			      <td><table border="0" width="621">
-			          <tr>
-			            <td width="648">
-								<div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
-								<div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
-							</td>
-			            <td width="20">&#160;</td>
-			            <td><a href="/" target="_blank"><img src="images/logo.jpg" id="logo" alt="" height="62" width="66" border="0"/></a></td>
-			          </tr>
-			          </table>
-			          </td>
-			        </tr>
-			      </table>
-			    </td>
-			  </tr>
-			</table>
-
-			<table border="0">
-				<tr valign="top" width="95%"><td width="125" nowrap="nowrap">
 					<!-- Toolbar -->
-					<xsl:call-template name="LeftToolbar"><xsl:with-param name="admin">false<!--xsl:value-of select="$admin"/--></xsl:with-param></xsl:call-template>
-				</td>
-				<td width="15" nowrap="nowrap">&#160;</td>
-				<td>
+        <xsl:call-template name="LeftToolbar"><xsl:with-param name="admin">false<!--xsl:value-of select="$admin"/--></xsl:with-param></xsl:call-template>
+
 					<xsl:apply-templates select="XmlData"/>
-				</td>
-			</tr></table>
 			</body>
    	 </html>
 	</xsl:template>  

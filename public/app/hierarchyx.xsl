@@ -24,7 +24,7 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:include href="common.xsl"/>
+	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="permissions">
 		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
@@ -36,11 +36,6 @@
 
 	<xsl:template match="RowSet[@Name='Source hierarchy']/Row">
 	<!-- context bar -->
-      <table cellspacing="0" cellpadding="0" width="621" border="0">
-			<tr>
-         	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
-          	<td width="600" background="images/bar_filled.jpg" height="25">
-
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
@@ -53,29 +48,6 @@
  <div class="breadcrumbitemlast">Hierarchy</div>
  <div class="breadcrumbtail">&#160;</div>
 </div>
-
-            <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
-            	<tr>
-               	<td valign="bottom">
-							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom">
-							<a href="index.html"><span class="barfont">ROD</span></a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom">
-							<a>	<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
-								<span class="barfont">Legislative instruments</span>
-							</a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
-	               <td valign="bottom" align="right" width="2 10"></td>
-					</tr>
-				</table>
-			</td></tr>
-			<tr><td>&#160;</td></tr>
-		</table>
 
 		<!-- page -->
 		<div id="workarea">
@@ -125,7 +97,7 @@
 
 	<xsl:template match="SubSet[@Name='subClass']" mode="heading">
 		<xsl:if test="count(Row)>0">
-			<div style="margin-left:44">
+			<div style="margin-left:44px">
 				<xsl:for-each select="Row">
 					<table cellspacing="3">
 						<tr>
@@ -148,7 +120,7 @@
 
 	<xsl:template match="SubSet[@Name='subClass']" mode="normal">
 		<xsl:if test="count(Row)>0">
-			<div style="margin-left:44">
+			<div style="margin-left:44px">
 				<xsl:for-each select="Row">
 					<table cellspacing="3">
 						<tr>
@@ -170,7 +142,7 @@
 	</xsl:template>
 
 	<xsl:template match="SubSet[@Name='Source']"> 
-		<div style="margin-left:44">
+		<div style="margin-left:44px">
 			<table cellspacing="6">
 				<xsl:for-each select="Row">
 					<tr valign="top">
