@@ -895,7 +895,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   public  Vector getActivities(  ) throws ServiceException {
       //String sql = "SELECT PK_RA_ID, TITLE FROM T_ACTIVITY ";
-      String sql = "SELECT a.PK_RA_ID, s.PK_SOURCE_ID, a.TITLE as TITLE, " +
+      String sql = "SELECT a.PK_RA_ID, s.PK_SOURCE_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE, " +
         " IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE " +
         " FROM T_ACTIVITY a , T_SOURCE s WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " +
         " AND a.TERMINATE = 'N' ORDER BY SOURCE_TITLE, TITLE;";
@@ -968,7 +968,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   public String[][] getActivityDeadlines() throws ServiceException  {
 
-    String sql = "SELECT PK_RA_ID, TITLE, NEXT_DEADLINE, FK_RO_ID " +
+    String sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, FK_RO_ID " +
       " FROM T_ACTIVITY WHERE NEXT_DEADLINE IS NOT NULL AND " +
       "NEXT_DEADLINE > '0000-00-00'";
 
@@ -982,14 +982,14 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     String sql = "";
 
     if (ids!= null) {
-      sql = "SELECT DISTINCT r.PK_RO_ID, r.ALIAS, s.TITLE, r.FK_SOURCE_ID FROM " +
+      sql = "SELECT DISTINCT r.PK_RO_ID, REPLACE(r.ALIAS, '&', '&#038;') as ALIAS, REPLACE(s.TITLE, '&', '&#038;') AS TITLE, r.FK_SOURCE_ID FROM " +
         " T_REPORTING r, T_ACTIVITY a, T_SOURCE s, T_RAISSUE_LNK il WHERE " +
         " r.FK_SOURCE_ID = s.PK_SOURCE_ID AND r.PK_RO_ID = a.FK_RO_ID AND a.PK_RA_ID = il.FK_RA_ID ";
 
       sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
     }  
     else
-      sql = "SELECT r.PK_RO_ID, r.ALIAS, s.TITLE, r.FK_SOURCE_ID FROM T_REPORTING r, T_SOURCE s " +
+      sql = "SELECT r.PK_RO_ID, REPLACE(r.ALIAS, '&', '&#038;') AS  ALIAS, REPLACE(s.TITLE, '&', '&#038;') AS TITLE, r.FK_SOURCE_ID FROM T_REPORTING r, T_SOURCE s " +
         " WHERE r.FK_SOURCE_ID = s.PK_SOURCE_ID";
 
 
@@ -1003,14 +1003,14 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
    //if certain issues wanted make a join over ISSUE_LNK   table
    if (ids!= null) {
-    sql = "SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE, a.FK_RO_ID FROM " +
+    sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_RO_ID FROM " +
       " T_ACTIVITY a, T_RAISSUE_LNK il WHERE " +
       "  a.PK_RA_ID = il.FK_RA_ID ";
 
      sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
     }        
     else
-      sql = "SELECT PK_RA_ID, TITLE, NEXT_DEADLINE, FK_RO_ID FROM T_ACTIVITY a";
+      sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE, NEXT_DEADLINE, FK_RO_ID FROM T_ACTIVITY a";
 
     sql += " ORDER BY PK_RA_ID";
 
