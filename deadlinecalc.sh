@@ -9,7 +9,7 @@ java=/usr/lib/jvm/java/bin/java
 libpath=$rod/lib
 
 # !!!!!!!!!!!!!!!!! CHECK, if mysql JAR is correct !!!!!!!!!!!!!!
-cp=/var/lib/tomcat4/common/lib/mysql_uncomp.jar
+cp=/var/lib/tomcat4/common/lib/mysql-connector-java.jar
 
 cp=$cp:$libpath/rod.jar:$libpath/xmlserver.jar
 cp=$cp:$libpath/log4j.jar:$CLASSPATH
