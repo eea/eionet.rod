@@ -354,13 +354,11 @@
 					<td>&#160;</td><td style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0">&#160;</td>
 				</tr>
 				<tr>
-           <td>&#160;</td><td valign="middle" align="left" style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0" bgcolor="#FFFFFF"><b>Include terminated obligations</b></td>
-				</tr>
-				<tr><td>&#160;</td>
-					<td style="border-left: 1px solid #C0C0C0">
+           <td>&#160;</td><td valign="middle" align="left" style="border-left: 1px solid #C0C0C0" bgcolor="#FFFFFF">
 						<input type="checkbox"	name="terminated" value="Y">
 							<xsl:if test="$terminated='Y'"><xsl:attribute name="checked">checked</xsl:attribute></xsl:if>
 						</input>
+						<b><label for="terminated">Include terminated obligations</label></b>
 					</td>
 				</tr>
 		</table>

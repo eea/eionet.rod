@@ -95,7 +95,7 @@ Legislative instrument</a></div>
 	 
 <!-- oneCountry=0 one country, one country = 1 all countries -->
 <xsl:if test="T_OBLIGATION/PARAMETERS != ''">
-<table cellspacing="0" cellpadding="0" width="100%" border="1">
+<table border="1">
 
 <tr>
 	<th width="100%" style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-left: #008080 1px solid" valign="center" bgColor="#ffffff" align="left">
@@ -117,7 +117,7 @@ Legislative instrument</a></div>
 
 <xsl:if test="count(//RowSet[@Name='Activity']/Row/DDPARAM) > 0">
 <br/>
-<table cellspacing="0" cellpadding="0" width="100%" border="0">
+<table border="0">
 	<tr>
 		<th colspan="3" width="100%" style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="center" bgColor="#ffffff" align="left">
 			<span class="head0">&#160;Parameters from Data Dictionary</span>
