@@ -284,7 +284,7 @@ function delLegislation() {
 		<tr valign="top">
 			<td nowrap="true" width="10%"><span class="head0">Related instrument(s):</span></td>
 			<td colspan="3"><xsl:for-each select="Row/LSOURCE">
-				<a>	<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+				<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="ALIAS != ''">
 						<xsl:value-of select="ALIAS"/>

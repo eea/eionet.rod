@@ -51,9 +51,7 @@
 						</td>
    	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
                	<td valign="bottom" align="middle" width="122">
-							<a>	<xsl:attribute name="href">
-									show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=C
-								</xsl:attribute>
+							<a>	<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=C</xsl:attribute>
 								<span class="barfont">Legal instruments</span>
 							</a>
 						</td>
@@ -160,9 +158,7 @@
 					<xsl:choose>
 						<xsl:when test="T_SOURCE/URL!=''">
 							<a>
-								<xsl:attribute name="href">
-									<xsl:value-of select="T_SOURCE/URL"/>
-								</xsl:attribute>
+								<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/URL"/></xsl:attribute>
 								<xsl:attribute name="target">
 									_new
 								</xsl:attribute>
@@ -177,8 +173,7 @@
 					<xsl:if test="PARENT_SOURCE/PK_SOURCE_ID != ''">
 						<ul>
 						<span class="head0">Parent legal instrument:<br/></span>
-						<a><xsl:attribute name="href">show.jsv?id=
-							<xsl:value-of select="PARENT_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PARENT_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="PARENT_SOURCE/ALIAS != ''">
 								<xsl:value-of select="PARENT_SOURCE/ALIAS"/>

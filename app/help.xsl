@@ -46,12 +46,23 @@
 								document.forms[formName].elements[0].focus();
 						}
 					}
+					
+					<![CDATA[
+						function saveHelp() {
+//alert("1");
+							document.helpForm.submit();
+//alert("2");
+						//	window.close();
+						}
+					]]>
+
 				</script>
 			</head>
 			<body onLoad="setFocus('helpForm')">
 				<center>
 					<h3>Edit Help Text</h3>
-					<form onsubmit="javascript:window.close()" name="helpForm" method="post" action="help.jsv">
+					<!--form onsubmit="javascript:window.close()" name="helpForm" method="post" action="help.jsv"-->
+					<form name="helpForm" method="post" action="help.jsv">
 						<table width="100%">
 							<tr>
 								<td align="left">
@@ -85,6 +96,7 @@
 							<tr align="right">
 								<td colspan="2" align="right">
 									<input type="submit" value="&#160;&#160;&#160;&#160;OK&#160;&#160;&#160;&#160;"/>&#160;
+									<!--input type="button" onClick="javascript:saveHelp()" value="&#160;&#160;&#160;&#160;OK&#160;&#160;&#160;&#160;"/-->
 									<input type="button" onclick="javascript:window.close()" value="Cancel"/>
 								</td>
 							</tr>
