@@ -114,10 +114,7 @@
 								<xsl:if test="$sel_country!=''">: <xsl:value-of select="$sel_country"/></xsl:if>
 								<xsl:if test="$sel_client!=''">	: <xsl:value-of select="$sel_client"/></xsl:if>
 								<xsl:if test="$sel_issue!=''">
-									<xsl:if test="$sel_country='' and $sel_client=''">:</xsl:if>
-										<xsl:if test="$sel_country!=$sel_issue and $sel_client!=$sel_issue"> <!-- Quickfix -->
-											[<xsl:value-of select="$sel_issue"/>]
-										</xsl:if>
+									[<xsl:value-of select="$sel_issue"/>]
 								</xsl:if>
 					<br/><br/>
 				</span>
