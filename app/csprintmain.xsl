@@ -207,11 +207,12 @@ var picklist = new Array();
 <td width="100">
 		<font color="#999999">
 			<xsl:choose>
-					<xsl:when test="count(descendant::SubSet[@Name='Delivery']/Row) = 0 ">	
-						None
+					<xsl:when test="contains(T_ACTIVITY/FK_DELIVERY_COUNTRY_IDS, concat(',' , T_SPATIAL/PK_SPATIAL_ID , ',') )='true'">
+					<!--xsl:when test="count(descendant::SubSet[@Name='Delivery']/Row) = 0 "-->	
+						Exist
 					</xsl:when>
 					<xsl:otherwise>
-						Exist
+						None
 					</xsl:otherwise>
 			</xsl:choose>
 	</font>
