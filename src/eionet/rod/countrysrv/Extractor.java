@@ -211,7 +211,7 @@ public class Extractor implements ExtractorConstants {
     * Start extracting
     ***************************************************/
 
-
+/*
   if ( mode == ALL_DATA || mode == ACTS || mode == ACTS_DELIVERIES ) {    
     try {
       if(extractor.debugLog) 
@@ -246,6 +246,9 @@ public class Extractor implements ExtractorConstants {
       throw new ServiceException("Operation failed while saving act details / deadlines. The following error was reported:\n" + e.toString());
     }
   } //mode includes activities
+
+
+*/
   
     // Get delivery list from Content Registry and save it also
     if (mode == ALL_DATA || mode == DELIVERIES || mode == ACTS_DELIVERIES ) {   
@@ -268,7 +271,7 @@ public class Extractor implements ExtractorConstants {
 
     try {
       
-      //raData: 0: PK_DETAILS_ID, 1: RA_TITLE, 2: Country__Name
+      //raData: 0: PK_DETAILS_ID, 1: RA_TITLE, 2: Country_id, 3:Country_Name
       String[][] raData = csDb.getRaData();
 
       Hashtable attrs = new Hashtable();
@@ -279,17 +282,25 @@ public class Extractor implements ExtractorConstants {
       for(int i = 0; raData != null && i < raData.length; i++) {
 
         attrs.clear();
-        attrs.put( countryNs , raData[i][2] );
-        attrs.put( raNs , raData[i][1] );
+        attrs.put( countryNs , raData[i][3] ); //Country name
+        attrs.put( raNs , raData[i][1] );      // RA title
         //prms.clear();        
         prms.setElementAt(attrs, 0);
 
+//hack->
+        //Vector deliveries = null;
+//if ( raData[i][1].indexOf(':') != -1 )
         Vector deliveries = (Vector)crClient.getValue(CONTREG_GETENTRIES_METHOD, prms);
-    
+//else
+//        deliveries =new Vector();
+
+        log("Received " + deliveries.size() + "  deliveries to RA: " + raData[i][1] + " from " + raData[i][3] );
+        
         for (int ii=0; ii<deliveries.size(); ii++){
           //deliveryKEY:STRING(url), VALUE:HASH (metadata)
           Hashtable delivery = (Hashtable)deliveries.elementAt(ii);
-          csDb.saveDelivery( raData[i][0], delivery );
+          //PK_RA_ID, PK_SPATIAL_ID, delivery
+          csDb.saveDelivery( raData[i][0], raData[i][2], delivery );
         }
       }
 
@@ -310,7 +321,8 @@ public class Extractor implements ExtractorConstants {
       try {
         dirUrl = fileSrv.getStringProperty( FileServiceIF.DIRECTORY_SRV_URL);
       }  catch (Exception e) {
-        extractor.out.println("Directory service URL is not specified in the props file");
+        logger.error("Directory service URL is not specified in the props file");
+        //extractor.out.println("Directory service URL is not specified in the props file");
         //e.printStackTrace();
         extractor.exitApp(false); //return;
         throw new ServiceException("Error getting data fron Content Registry " + e.toString());        
@@ -320,7 +332,8 @@ public class Extractor implements ExtractorConstants {
         //dirUrl = fileSrv.getStringProperty( FileServiceIF.DIRECTORY_SRV_URL);
         ldap = ServiceClients.getServiceClient(DIRECTORY_SRV_NAME, dirUrl, remoteSrvType );
       }   catch (Exception e) {
-        extractor.out.println("Opening connection to directory service failed. The following error was reported:\n" + e.toString());
+        logger.error("Opening connection to directory service failed. The following error was reported:\n" + e.toString());
+        //extractor.out.println("Opening connection to directory service failed. The following error was reported:\n" + e.toString());
         e.printStackTrace();
         extractor.exitApp(false); //return;
         throw new ServiceException("Error getting data from Eionet Directory failed" + e.toString());        
@@ -350,8 +363,10 @@ public class Extractor implements ExtractorConstants {
           Hashtable role = null;
           try {
             role = (Hashtable)ldap.getValue(DIRECTORY_GETROLE_METHOD, prms );
+            log("Received role info for " + roleName + " from Directory");
           } catch (ServiceClientException rpce ) {
-            extractor.out.println("Error getting role " + roleName + " " + rpce.toString());          
+            logger.error("Error getting role " + roleName + " " + rpce.toString());
+            //extractor.out.println("Error getting role " + roleName + " " + rpce.toString());          
           } catch (Exception e ) {
             e.printStackTrace();
           }
@@ -362,7 +377,7 @@ public class Extractor implements ExtractorConstants {
       } // roles.next()
       
       if(extractor.debugLog) 
-        log("* Roles ");
+        log("* Roles OK");
         
     }  catch (Exception e) {
       log("Operation failed while filling the database from CIRCA Directory. The following error was reported:\n" + e.toString());
