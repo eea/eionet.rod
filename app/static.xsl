@@ -30,11 +30,12 @@
 	</xsl:template>
 
 	<xsl:template name="FirstHeading">
-		Reporting Obligations Database
+		Reporting Obligations Database, ROD
 	</xsl:template>
 
 	<xsl:template name="SecondHeading">
-		 Tracking obligations and performance for each country in Reporting
+		Ver 1.0 beta. The database content is under establishment
+<!--		Tracking obligations and performance for each country in Reporting -->
 	</xsl:template>
 
 	<xsl:template name="IntroductoryText">
