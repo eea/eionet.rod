@@ -28,6 +28,18 @@
 	<xsl:param name="req" select="'default value'"/>
 	<xsl:variable name="printmode" select="java:eionet.rod.RODUtil.getParameter($req, 'printmode')"/>
 
+	<xsl:template name="SpatialTemplate">
+		<xsl:param name="type" select="'Not selected'"/>
+		<xsl:param name="type2" select="'Not selected'"/>
+		<xsl:for-each select="RowSet[@Name='Spatial']/Row/T_SPATIAL[SPATIAL_TYPE=$type or SPATIAL_TYPE=$type2]">
+			<option>
+				<xsl:attribute name="value">
+					<xsl:value-of select="PK_SPATIAL_ID"/>:<xsl:value-of select="SPATIAL_NAME"/>
+				</xsl:attribute>
+			<xsl:value-of select="SPATIAL_NAME"/></option>
+		</xsl:for-each>
+	</xsl:template>
+
 	<xsl:template name="LIRORAFooter">
 		<xsl:param name="table"/>
 		<xsl:call-template name="FooterFrame">
