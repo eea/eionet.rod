@@ -40,6 +40,74 @@
 				<script language="JavaScript">
 					<![CDATA[
 <!--
+			/*
+			* selects multilist values based on the text value
+			* example: |a||c||d|, values a, c, d in multilist will be selected
+			*/
+			function selectMultilist(txtBox, lst) {
+				var s = txtBox.value;
+				for (i = 0; i < lst.length; ++i) {
+					txt=lst.options[i].value;
+					if(s.indexOf("|" + txt + "|")!=-1)
+						lst.options[i].selected=true;
+				}
+			}
+			function changeMulti(txt, lst) {
+				var str="";
+				for (i = 0; i < lst.length; ++i) {
+					if (lst[i].selected) 
+						str+="|" + lst.options[i].value+ "|";
+				}				
+				txt.value=str;
+
+			}
+
+			function addCl() {
+				document.forms["f"].silent.value=1;
+				save(null,true);	//silent save
+				openAddClientWin();
+				document.forms["f"].silent.value=0; 
+				}
+
+			function updIndicator(id, raId) {
+				document.forms["f"].silent.value=1;
+				save(null,true);
+				openPopup('indicator.jsv', 'id=' + id + '&amp;aid=' + raId);
+				document.forms["f"].silent.value=0;
+				}
+
+			function delIndicator(id, raId, srcId) {
+				document.forms["f"].silent.value=1;
+				save(null,true);
+				openPopup('indicator.jsv', 'dom-update-mode=D&amp;id=' + id + '&amp;aid=' + raId + '&amp;srcid=' + srcId);
+				document.forms["f"].silent.value=0; 
+			} 
+
+			function chkValue(chkBox, fldName) {
+				chkValue(chkBox, fldName, false);
+			}
+			/**
+			* changes fld value according to chkBox status
+			* changes fld value to 0 or 1
+			* if neg=true then the values are swapped
+			*/
+			function chkValue(chkBox, fldName, neg) {
+				var posV = "1";
+				var negV = "0";
+
+				if (neg) {
+					posV="0";
+					negV="1";
+				}
+				if (chkBox.checked)
+					fldName.value=posV;
+				else
+					fldName.value=negV;
+
+				changed();
+			}
+
+
 Net=1;
 if ((navigator.appName.substring(0,5) == "Netsc"
   && navigator.appVersion.charAt(0) > 2)
