@@ -787,9 +787,13 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       " WHERE PK_RA_ID = " + activityId; 
 
     String ret[][] = _executeStringQuery(sql );
- 
+
+    //_log ( "LENGTH = " + ret.length);
     if (ret.length == 1) 
       deadLine = ret[0][0] == null ? "" : ret[0][0] ;
+    //quick fix, has to be studied, why empty array is returned
+    else if ( ret.length == 0) 
+      deadLine = "";
     else
       throw new ServiceException("No such RA ID=" + activityId);
     //_log("RA= "+ activityId + " deadline= " + deadLine);      
