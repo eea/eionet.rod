@@ -10,6 +10,7 @@ libpath=$rod/WEB-INF/lib
 # !!!!!!!!!!!!!!!!! CHECK, if mysql JAR is correct !!!!!!!!!!!!!!
 cp=/prj/javaserv/mm.mysql.jdbc-1.2c/mysql_uncomp.jar
 
+cp=$cp:$libpath/jndi.jar
 cp=$cp:$libpath/eionet-dir.jar
 cp=$cp:$libpath/rod.jar:$libpath/xmlserver.jar:$libpath/xmlrpc.jar
 cp=$cp:$libpath/uit-client.jar:$libpath/log4j.jar:$CLASSPATH
@@ -21,7 +22,7 @@ else
 fi;
 
 
-if [  "$i" = "0" ] || [ "$i" = "1"  ] || [ "$i" = "2"] ; then
+if [ "$i" = "0" ] || [ "$i" = "1" ] || [ "$i" = "2" ] ; then
 	$java -cp $cp eionet.rod.countrysrv.Extractor $1        
 else
         echo "Usage: eionet.rod.countrysrv.Extractor {0|1|2} "
