@@ -295,8 +295,7 @@
 							<xsl:otherwise>
 								Obligation</xsl:otherwise></xsl:choose></a></span>
 						<b> from </b><i>
-						<a>	
-							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 							<xsl:choose>
 								<xsl:when test="T_SOURCE/ALIAS != ''">
 									<xsl:value-of select="T_SOURCE/ALIAS"/>
