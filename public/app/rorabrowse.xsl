@@ -25,10 +25,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="common.xsl"/>
 
-	<xsl:variable name="showfilters">
-		<xsl:value-of select="substring(substring-after(/XmlData/xml-query-string,'showfilters='),1,1)"/>
-	</xsl:variable>
-
 	<xsl:variable name="rora">
 		<xsl:value-of select="substring(substring-after(/XmlData/xml-query-string,'mode='),1,1)"/>
 	</xsl:variable>
@@ -60,6 +56,10 @@
 
 	<xsl:variable name="sel_client">
 		<xsl:value-of select="//RowSet[@Name='Search results']/@Reporting_client_equals" />
+	</xsl:variable>
+
+	<xsl:variable name="sortorder">
+		<xsl:value-of select="//RowSet[@Name='Search results']/@Sort_order" />
 	</xsl:variable>
 
 	<xsl:template match="XmlData">
@@ -129,29 +129,21 @@
 				<xsl:call-template name="Print"/>
 			</td></tr>
 			<xsl:if test="$printmode='N'">
-				<xsl:if test="$showfilters='' and $analysisMode=''">
-					<tr><td>
-					<a>
-						<xsl:attribute name="href">javascript:window.location.replace(window.location.href+'&amp;showfilters=1')</xsl:attribute>
-						<img src="images/but_advancedsearch.jpg" alt="" border="0"/>
-					</a><br/>
-				</td></tr>
-				</xsl:if>
 			<tr>
 				<td align="center">
-				<xsl:if test="$admin='true' and $showfilters=''">
+				<xsl:if test="$admin='true'">
 					<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
 					<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
 					<b><font color="#FFFFFF">Actions</font></b><br/><br/>
 				</xsl:if>
 
-				<xsl:if test="contains($permissions, ',/Admin:v,') and $showfilters=''">
+				<xsl:if test="contains($permissions, ',/Admin:v,')">
 					<a>
 						<xsl:attribute name="href">javascript:openActionTypeHistory("D","O' OR ITEM_TYPE='A" )</xsl:attribute>
 						<img src="images/showdeleted.png" alt="Show history of deleted records" border="0"/>
 					</a><br/>
 				</xsl:if>
-				<xsl:if test="contains($permissions, ',/obligations:i,') and $showfilters=''">
+				<xsl:if test="contains($permissions, ',/obligations:i,')">
 					<a>
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
 						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/>
@@ -167,24 +159,50 @@
 
 <!-- Search filters -->
 		<xsl:choose>
-			<xsl:when test="$showfilters='' or $printmode='Y'">
+			<xsl:when test="$printmode='Y'">
 			</xsl:when>
 		<xsl:otherwise>
 			<xsl:call-template name="RASearch"/>
 		</xsl:otherwise>
 		</xsl:choose>
 
+		<xsl:variable name="recCount">
+			<xsl:choose>
+				<xsl:when test="$analysisMode != ''">
+					<xsl:choose>
+						<xsl:when test="$analysisMode='C'"><xsl:value-of select="count(child::RowSet[@Name='Search results']/Row/T_OBLIGATION[EEA_CORE='1'])"/></xsl:when>
+						<xsl:when test="$analysisMode='P'"><xsl:value-of select="count(child::RowSet[@Name='Search results']/Row/T_OBLIGATION[EEA_PRIMARY='1'])"/></xsl:when>
+						<xsl:when test="$analysisMode='O'"><xsl:value-of select="count(child::RowSet[@Name='Search results']/Row/T_OBLIGATION[string-length(normalize-space(OVERLAP_URL)) > 0])"/></xsl:when>
+						<xsl:when test="$analysisMode='F'"><xsl:value-of select="count(child::RowSet[@Name='Search results']/Row/T_OBLIGATION[FLAGGED='1'])"/></xsl:when>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="count(child::RowSet[@Name='Search results']/Row/T_OBLIGATION) + count(child::RowSet[@Name='CCClients']/Row/T_OBLIGATION)"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div><br/>
+
 		<!-- header -->
 		<TABLE cellSpacing="0" cellPadding="5" width="600" border="0">
 
 		<TR>
 		<xsl:if test="$rora='A'">
-			<TD style="BORDER-TOP: #008080 1px solid;  BORDER-RIGHT: #c0c0c0 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="40%" bgColor="#ffffff">
+			<td style="BORDER-TOP: #008080 1px solid;  BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+						vAlign="center" width="3%" bgColor="#ffffff">&#160;</td>
+			<TD style="BORDER-TOP: #008080 1px solid;  BORDER-RIGHT: #C0C0C0 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+						vAlign="center" width="39%" bgColor="#ffffff">
 
 			<TABLE cellSpacing="0" width="100%" border="0">
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Title of the reporting obligation" face="Verdana" color="#000000" size="1">Reporting obligation</FONT></B></SPAN>
+				<TD><SPAN class="headsmall"><B>
+					<font title="Title of the reporting obligation" face="Verdana" size="1">
+						<xsl:call-template name="Sorter">
+							<xsl:with-param name="order"><xsl:value-of select="$sortorder"/></xsl:with-param><xsl:with-param name="field">T_OBLIGATION.TITLE</xsl:with-param>
+						</xsl:call-template>
+						Reporting obligation
+					</font>
+				</B></SPAN>
 				</TD>
 				<TD> <P align="right"><MAP name="FPMap1"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
 							href="javascript:setOrder('T_OBLIGATION.TITLE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_OBLIGATION.TITLE')"/></MAP>
@@ -196,12 +214,19 @@
 		</xsl:if>
 
 		<TD style="BORDER-RIGHT: #C0C0C0 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="40%" bgColor="#ffffff">
+						vAlign="center" width="39%" bgColor="#ffffff">
 
 				<TABLE cellSpacing="0" width="100%" border="0">
 					<TBODY>
 							<TR>
-								<TD><SPAN class="headsmall"><B><FONT title="Title of the Legislative instrument" face="Verdana" color="#000000" size="1">Legislative instrument</FONT></B></SPAN>
+								<TD><SPAN class="headsmall"><B>
+								<font title="Title of the Legislative instrument" face="Verdana" size="1">
+									<xsl:call-template name="Sorter">
+										<xsl:with-param name="order"><xsl:value-of select="$sortorder"/></xsl:with-param><xsl:with-param name="field">T_SOURCE.TITLE</xsl:with-param>
+									</xsl:call-template>
+									Legislative instrument
+								</font>
+								</B></SPAN>
 								</TD>
 								<TD> <P align="right"><MAP name="FPMap3"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
 											href="javascript:setOrder('T_SOURCE.TITLE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_SOURCE.TITLE')"/></MAP>
@@ -212,16 +237,23 @@
 					</TABLE>
 				</TD>
 				<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="20%" bgColor="#ffffff">
+						vAlign="center" width="19%" bgColor="#ffffff">
 
 						<TABLE cellSpacing="0" width="100%" border="0">
 						<TBODY>
 							<TR>
 								<TD>
-									<SPAN class="headsmall"><B><FONT title="Reference number" face="Verdana" color="#000000" size="1">Ref. nr</FONT></B></SPAN>
+									<SPAN class="headsmall"><B>
+									<font title="Reporting client" face="Verdana" size="1">
+										<xsl:call-template name="Sorter">
+											<xsl:with-param name="order"><xsl:value-of select="$sortorder"/></xsl:with-param><xsl:with-param name="field">T_CLIENT.CLIENT_ACRONYM</xsl:with-param>
+										</xsl:call-template>
+										Report to
+									</font>
+									</B></SPAN>
 								</TD>
 								<TD> <P align="right"><MAP name="FPMap4"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
-										href="javascript:setOrder('T_SOURCE.SOURCE_CODE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_SOURCE.SOURCE_CODE')"/></MAP>
+										href="javascript:setOrder('T_CLIENT.CLIENT_ACRONYM, T_CLIENT.CLIENT_NAME DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_CLIENT.CLIENT_ACRONYM, T_CLIENT.CLIENT_NAME')"/></MAP>
 									<IMG height="22"  src="images/arrows.gif" width="17" useMap="#FPMap4"  border="0"/></P>
 								</TD>
 							</TR>
@@ -229,6 +261,9 @@
 						</TABLE>
 					</TD>
 				</TR>
+				<tr>
+					<td colspan="4" style="background-color: white; border-left: #008080 1px solid; border-right: #008080 1px solid; border-bottom: #008080 1px solid;"><span class="headsmall">Sort by the columns using the arrows. Sorted column title is highlighted.</span></td>
+				</tr>
 
 				<xsl:apply-templates select="RowSet[@Name='Search results']"/>
 				<xsl:apply-templates select="RowSet[@Name='CCClients']"/>
@@ -257,11 +292,12 @@
 	<xsl:template match="Row">
 		<!--ra-->
 		<xsl:if test="$rora='A'">
-		<TD style="BORDER-LEFT: #008080 1px solid;  BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+		<td style="BORDER-LEFT: #008080 1px solid;  BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"><img src="images/diamlil.gif" alt=""/></td>
+		<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 			<SPAN class="head0n">
 				<A> 
 					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
-					<FONT face="Verdana" size="2">
+					<span class="rowitem">
 							<xsl:choose>
 								<xsl:when test="T_OBLIGATION/TITLE !=''">
 									<xsl:value-of select="T_OBLIGATION/TITLE"/>
@@ -270,8 +306,9 @@
 									Reporting Obligation
 								</xsl:otherwise>
 							</xsl:choose>
-					</FONT>
+					</span>
 				</A>
+				<xsl:if test="T_OBLIGATION/TERMINATE = 'Y'"><span class="smallfont" style="color:red"> [terminated]</span></xsl:if>
 			</SPAN>&#160;
 		</TD>
 		</xsl:if>
@@ -279,13 +316,23 @@
 			<SPAN class="head0n">
 				<A> 
 					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-					<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/TITLE"/></FONT>
+					<span class="rowitem"><xsl:value-of select="T_SOURCE/TITLE"/></span>
 				</A>
 			</SPAN>
 		</TD>
 		<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 			<SPAN class="head0n">
-					<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/SOURCE_CODE"/></FONT>
+					<span class="rowitem">
+					<a title="{T_CLIENT/CLIENT_NAME}"> 
+						<xsl:attribute name="href">javascript:openPopup('client.jsv','id=<xsl:value-of select="T_OBLIGATION/FK_CLIENT_ID"/>')</xsl:attribute>
+						<span class="rowitem">
+							<xsl:choose>
+								<xsl:when test="T_CLIENT/CLIENT_ACRONYM != ''"><xsl:value-of select="T_CLIENT/CLIENT_ACRONYM"/></xsl:when>
+								<xsl:otherwise><xsl:value-of select="T_CLIENT/CLIENT_NAME"/></xsl:otherwise>
+							</xsl:choose>
+						</span>
+					</a>
+					</span>
 			</SPAN>
 			&#160;
 		</TD>
@@ -361,11 +408,12 @@
 						<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
 					</xsl:attribute>
 					<xsl:if test="$rora='A'">
-					<TD style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+					<td style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"><img src="images/diamlil.gif" alt=""/></td>
+					<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 						<SPAN class="head0n">
 							<A> 
 								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
-								<FONT face="Verdana" size="2">
+								<span class="rowitem">
 										<xsl:choose>
 											<xsl:when test="T_OBLIGATION/TITLE !=''">
 												<xsl:value-of select="T_OBLIGATION/TITLE"/>
@@ -374,8 +422,9 @@
 												Reporting Obligation
 											</xsl:otherwise>
 										</xsl:choose>
-								</FONT>
+								</span>
 							</A>
+						<xsl:if test="T_OBLIGATION/TERMINATE = 'Y'"><span class="smallfont" style="color:red"> [terminated]</span></xsl:if>
 						</SPAN>&#160;
 					</TD>
 					</xsl:if>
@@ -383,13 +432,23 @@
 						<SPAN class="head0n">
 							<A> 
 								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-								<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/TITLE"/></FONT>
+								<span class="rowitem"><xsl:value-of select="T_SOURCE/TITLE"/></span>
 							</A>
 						</SPAN>
 					</TD>
 					<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 						<SPAN class="head0n">
-								<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/SOURCE_CODE"/></FONT>
+							<span class="rowitem">
+							<a title="{T_CLIENT/CLIENT_NAME}"> 
+								<xsl:attribute name="href">javascript:openPopup('client.jsv','id=<xsl:value-of select="T_OBLIGATION/FK_CLIENT_ID"/>')</xsl:attribute>
+								<span class="rowitem">
+									<xsl:choose>
+										<xsl:when test="T_CLIENT/CLIENT_ACRONYM != ''"><xsl:value-of select="T_CLIENT/CLIENT_ACRONYM"/></xsl:when>
+										<xsl:otherwise><xsl:value-of select="T_CLIENT/CLIENT_NAME"/></xsl:otherwise>
+									</xsl:choose>
+								</span>
+							</a>
+							</span>
 						</SPAN>
 						&#160;
 					</TD>

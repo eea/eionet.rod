@@ -251,8 +251,8 @@ function checkDate(field) {
 
 	var re = /([0-9]{2})\/([0-9]{2})\/([0-9]{4})/;
 	
-	if (!re.test(s)) {
-		warn(field, 'Date in format dd/mm/yyyy is expected.');
+	if (s.length != 10 || !re.test(s)) {
+		warn(field, 'Invalid date. Date needs to be in dd/mm/yyyy format.');
 		return false;
 	}
 
@@ -686,7 +686,7 @@ function checkDateSimple(field) {
 
 	var re = /([0-9]{2})\/([0-9]{2})\/([0-9]{4})/;
 	
-	if(!re.test(s)) {
+	if(s.length != 10 || !re.test(s)) {
 		alert("Invalid date format. Date needs to be in dd/mm/yyyy format.");
 		return false;
 	}
@@ -799,7 +799,7 @@ function checkAndSave(first, freq, next, textrep, to, terminate) {
 								</span></strong></font>
 							</td>
 			            <td width="20">&#160;</td>
-			            <td><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></td>
+			            <td><a href="http://www.eea.eu.int" target="_blank"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></a></td>
 			          </tr>
 			          </table>
 			          </td>

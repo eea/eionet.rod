@@ -10,6 +10,11 @@
 	<script language="JavaScript" src="script/util.js"></script>
 	</head>
 	<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
+
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
+	</xsl:variable>
+
 	<div style="margin-left:13">
 <br/>
 
@@ -28,20 +33,23 @@
 						</font>
 
 					</td>
-					<td width="70"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></td>
+					<td width="70"><a href="http://www.eea.eu.int" target="_blank"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></a></td>
 				</tr>
 			</table>
 
 	<!-- green line table -->
 	<table cellspacing="0" cellpadding="0" width="700" border="0">
-		<tr>
-				<td align="bottom" width="700" background="images/bar_filled.jpg" height="25">&#160;</td>
-		</tr>
+		<tr><td align="bottom" width="700" background="images/bar_filled.jpg" height="25">&#160;</td></tr>
 		<tr height="25"><td></td></tr>
 	</table>
 
 
 <table width="680" border="0">
+	<tr>
+		<td colspan="3" align="right" valign="top">
+			<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_SPATIALHISTORY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+		</td>
+	</tr>
 <tr>
 	<td width="3%"></td>
 	<td width="35%" valign="top" align="right"><span class="head1">Status of participation:</span></td>

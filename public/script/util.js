@@ -65,11 +65,16 @@ function openPopup(servletName, params) {
 
 
 	
-	var features = "location=no, menubar=yes, width=750, height=600, top=50, left=30, scrollbars=yes";
+	var features = "location=no, menubar=yes, width=750, height=600, top=50, left=30, resizable=yes, scrollbars=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 }
 
+function openWindow(windowName) {
+	var features = "";//"location=no, menubar=yes, width=750, height=600, top=50, left=30, resizable=yes, scrollbars=yes";
+	var w = window.open(windowName,"",features);
+	w.focus();
+}
 
 /*function openSpatialHist(ID) {
 
@@ -147,7 +152,7 @@ function openDeliveries(ACT_ID, COUNTRY_ID){
 */
 function openCirca(url){
 	var name = "CSCIRCA";
-	var features = "location=yes, menubar=yes, width=750, height=600, top=30, left=30, resizable=yes, SCROLLBARS=YES";
+	var features = "location=yes, menubar=yes, width=750, height=600, top=30, left=30, resizable=yes, scrollbars=yes";
 	var w = window.open( url, name, features);
 	w.focus();
 }

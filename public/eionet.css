@@ -131,6 +131,13 @@ font-style: normal;
 line-height: normal; 
 text-decoration: none; }
 
+.rowitem {
+font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size: 9pt; 
+font-style: normal; 
+line-height: normal; 
+text-decoration: none; 
+}
 
 th {  font-family: Verdana, Arial, Helvetica, sans-serif; 
 font-size: 10pt;
@@ -144,6 +151,10 @@ text-decoration: none; }
 th a:link { color: #8080ff }
 th a:visited { color: #ff8080 }
 th a:active { color: #ff8080 } 
+
+span.rowitem a:active { text-decoration: none } 
+span.rowitem a:link { text-decoration: none }
+span.rowitem a:visited { text-decoration: none }
 
 kbd { font-weight: bold }
 

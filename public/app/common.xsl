@@ -123,10 +123,26 @@ function Click(Target) {
  }
 }
 
+function ClickI(Target, c) {
+  if(window.location.href.indexOf('index.html') == -1) {
+     window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
+  }
+}
+
 function Over(Target) {
  if (Net != 1){
   gammel.src = document[Target].src;
   document[Target].src = over.src;
+ }
+}
+
+function OverI(Target, c) {
+ if (Net != 1){
+  if(window.location.href.indexOf('index.html') == -1) {
+	  c.style.cursor='hand';
+     gammel.src = document[Target].src;
+	  document[Target].src = over.src;
+  }
  }
 }
 
@@ -135,6 +151,16 @@ function Out(Target) {
   document[Target].src = gammel.src;
  }
 }
+
+function OutI(Target, c) {
+ if (Net != 1){
+  if(window.location.href.indexOf('index.html') == -1) {
+	  document[Target].src = gammel.src;
+	  c.style.cursor='default';
+  }
+ }
+}
+
 
 var browser = document.all ? 'E' : 'N';
 
@@ -190,7 +216,7 @@ function fillPicklist(type,list,text) {
 								</span></strong></font>
 							</td>
 			            <td width="20">&#160;</td>
-			            <td><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></td>
+			            <td><a href="http://www.eea.eu.int" target="_blank"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></a></td>
 			          </tr>
 			          </table>
 			          </td>
@@ -205,7 +231,9 @@ function fillPicklist(type,list,text) {
 				<tr valign="top">
 				<xsl:if test="not($printmode='Y')">
 				<td width="125" nowrap="true">
-					<xsl:call-template name="LeftToolbar"><xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param></xsl:call-template>
+					<xsl:call-template name="LeftToolbar">
+						<xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param>
+					</xsl:call-template>
 				</td>
 				</xsl:if>
 				<td>

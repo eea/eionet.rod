@@ -39,13 +39,13 @@
 	</xsl:template>
 
 	<xsl:template name="IntroductoryText">
-                This database contains records describing environmental reporting
-                obligations that countries have towards the EEA, European Commission
-                (DG Env) and international conventions. The reporting obligations arise
-                from numerous international legislative instruments and agreements. ROD
-                is part of the EEA's Reportnet suite of tools to streamline reporting
-                obligations and facilitate its work collecting, handling and presenting
-                environmental information.
+		<div class="head1">What is ROD?</div>
+		ROD is the EEA’s reporting obligations database. It contains records describing environmental reporting obligations that countries have towards international 				organisations. 	ROD is part of Reportnet. Reportnet is group of web applications and processes developed by the EEA to support international environmental reporting.
+		<br/><br/><div class="head1">What are reporting obligations?</div>
+		Reporting obligations are requirements to provide information agreed between countries and international bodies such as the EEA or international conventions. Reporting 		obligations provide the basis for most environmental information flows. 
+		<br/><br/><div class="head1">What does ROD cover?</div>
+		ROD includes all environmental reporting obligations that EEA member countries have towards DG environment, European marine conventions, Eurostat, OECD, UN, UNECE, as well 		as the EEA itself.
+		To learn more about ROD, the status of the contents and the intended users, please check out the <a href="text.jsv?mode=H">general help</a>. 
 	</xsl:template>
 
 	<xsl:template name="IntroductoryTitle">
@@ -64,7 +64,7 @@
 	**********
 	From this point further you may find database content sensitive parameters.
 	
-		The first ID is needed to parse legal instruments hierarchy from root;
+		The first ID is needed to parse legislative instruments hierarchy from root;
 		all others are needed to list different obligations by type  on index page.
 	
 	**********

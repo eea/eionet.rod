@@ -41,6 +41,20 @@
 		</xsl:for-each>
 	</xsl:template>
 
+	<xsl:template name="Sorter">
+		<xsl:param name="order"/>
+		<xsl:param name="field"/>
+		<xsl:param name="color" select="'#993300'"/>
+		<xsl:choose>
+			<xsl:when test="contains($order, $field)">
+				<xsl:attribute name="color"><xsl:value-of select="$color"/></xsl:attribute>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:attribute name="color">#000000</xsl:attribute>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
 	<xsl:template name="LIRORAFooter">
 		<xsl:param name="table"/>
 		<xsl:call-template name="FooterFrame">
@@ -127,7 +141,7 @@
 	</xsl:template>
 	<xsl:template name="Print">
 		<xsl:if test="$printmode='N'">
-			<img src="images/printerfriendly.jpg" onClick="javascript:openPrintable()" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'" />
+			<img src="images/printerfriendly.jpg" onClick="javascript:openPrintable()" border="0" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'" />
 		</xsl:if>
 	</xsl:template>
 
@@ -137,7 +151,7 @@
 		<xsl:param name="green">N</xsl:param>
 		<xsl:choose>
 			<xsl:when test="contains($green, 'Y')">
-				<map name="{$id}"><area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="Show help for this form"></area></map>
+				<map name="{$id}"><area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="Show help"></area></map>
 				<img src="images/but_questionmark.jpg" usemap="#{$id}" border="0"></img>
 			</xsl:when>
 			<xsl:otherwise>
@@ -182,27 +196,27 @@
 				<table border="0" cellpadding="0" cellspacing="0">
 				<tr><td align="right"><font color="#ffffff"><span class="head0">Contents</span></font></td></tr>
 				<tr><td align="right">
-					<a href="index.html" onMouseOver="Over('img3')" onMouseOut="Out('img3')" onClick="Click('img3')">
+					<span href="index.html" onMouseOver="OverI('img3', this)" onMouseOut="OutI('img3', this)" onClick="ClickI('img3', this);">
 						<img name="img3" src="images/off.gif" border="0" alt=""/>
 						<img src="images/button_rod.gif" border="0" width="84" height="13" alt="ROD Home"/>
-					</a>
+					</span>
 				</td></tr>
-				<tr><td align="right">
+				<!--tr><td align="right">
 					<a href="show.jsv?id=1&amp;mode=C" onMouseOver="Over('img0')" onMouseOut="Out('img0')" onClick="Click('img0')">
 						<img name="img0" src="images/off.gif" border="0" alt=""/>
 						<img src="images/button_legislation.gif" border="0" width="84" height="13" alt="Legislative Instruments"/>
+					</a>
+				</td></tr-->
+				<tr><td align="right">
+					<a href="deliveries.jsv" onMouseOver="Over('img8')" onMouseOut="Out('img8')" onClick="Click('img8')">
+						<img name="img8" src="images/off.gif" border="0" alt=""/>
+						<img src="images/button_cs.gif" border="0" width="84" height="13" alt="Country deadlines"/>
 					</a>
 				</td></tr>
 				<tr><td align="right">
 					<a href="rorabrowse.jsv?mode=A" onMouseOver="Over('img1')" onMouseOut="Out('img1')" onClick="Click('img1')">
 						<img name="img1" src="images/off.gif" border="0" alt=""/>
 						<img src="images/button_obligations.gif" border="0" width="84" height="13" alt="Reporting Obligations"/>
-					</a>
-				</td></tr>
-				<tr><td align="right">
-					<a href="deliveries.jsv" onMouseOver="Over('img8')" onMouseOut="Out('img8')" onClick="Click('img8')">
-						<img name="img8" src="images/off.gif" border="0" alt=""/>
-						<img src="images/button_cs.gif" border="0" width="84" height="13" alt="Deliveries"/>
 					</a>
 				</td></tr>
 				<tr><td align="right">
@@ -220,6 +234,29 @@
 						</a>
 					</td></tr>
 				</xsl:if>
+				<tr><td>&#160;</td></tr>
+				<tr><td>&#160;</td></tr>
+				<tr><td align="right"><font color="#ffffff">
+					<span class="head0" style="cursor:hand" onclick="javascript:openWindow('http://www.eionet.eu.int/reportnet.html')">Reportnet</span>
+				</font></td></tr>
+				<tr><td align="right">
+					<a href="http://cdr.eionet.eu.int/" onMouseOver="Over('img20')" onMouseOut="Out('img20')">
+						<img name="img20" src="images/off.gif" border="0" alt=""/>
+						<img src="images/dd_but_cdr.jpg" border="0" width="84" height="12" alt="Central Data Repository"/>
+					</a>
+				</td></tr>
+				<tr><td align="right">
+					<a href="http://dd.eionet.eu.int/" onMouseOver="Over('img21')" onMouseOut="Out('img21')">
+						<img name="img21" src="images/off.gif" border="0" alt=""/>
+						<img src="images/dd_but_dd.jpg" border="0" width="84" height="12" alt="Data Dictionary"/>
+					</a>
+				</td></tr>
+				<tr><td align="right">
+					<a href="http://cr.eionet.eu.int/" onMouseOver="Over('img22')" onMouseOut="Out('img22')">
+						<img name="img22" src="images/off.gif" border="0" alt=""/>
+						<img src="images/dd_but_cr.jpg" border="0" width="84" height="12" alt="Content Registry"/>
+					</a>
+				</td></tr>
 			</table>
 		</center></p>
 	</xsl:template>
@@ -297,27 +334,23 @@
 	<xsl:template name="RASearch">
 		<form name="x1" method="get" action="rorabrowse.jsv">
 		<input type="hidden" name="mode" value="A"></input>
-		<table  border="0" width="600" cellspacing="0" cellpadding="0"  style="border: 1 solid #008080">
+		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
 				 <tr>
-						<td width="48%" bgcolor="#FFFFFF" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
-							<b>Show reporting for an issue</b>
+						<td width="36%" bgcolor="#FFFFFF" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
+							<b>Show reporting obligations</b>
 						</td>
-						<td width="48%" bgcolor="#FFFFFF" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
+						<td width="59%" bgcolor="#FFFFFF" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
 							<b>For a country</b>
 						</td>
-						<td bgcolor="#FFFFFF" width="4%" align="center" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
+						<td bgcolor="#FFFFFF" align="center" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
 				</tr>
 				<tr>
 					<td rowspan="4" valign="top" style="border-right: 1 solid #C0C0C0">
-						<select width="280" name="env_issue" style="font-size: 8pt; color: #000000; width:280" height="20">
-								<option value="-1">All issues</option>
-								<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
-						</select>
 					</td>
 					<td style="border-left: 1 solid #C0C0C0">
-						<select name="country" style="color: #000000; font-size: 8pt; width:200" size="1">
+						<select name="country" style="color: #000000; font-size: 9pt; width:223" size="1">
 								<option value="-1">Any country</option>
 									<xsl:call-template name="SpatialTemplate">
 										<xsl:with-param name ="type">C</xsl:with-param>
@@ -325,17 +358,33 @@
 									</xsl:call-template>
             </select>
 					</td>
-					<td rowspan="4" valign="center" style="border-left: 1 solid #C0C0C0"><xsl:call-template name="go"/></td>
+					<td rowspan="7" valign="center" style="border-left: 1 solid #C0C0C0"><xsl:call-template name="go"/></td>
+				</tr>
+
+				<tr>
+					<td style="border-bottom: 1 solid #008080; border-left: 1 solid #C0C0C0">&#160;</td>
 				</tr>
 				<tr>
-					<td style="border-bottom: 1 solid #008080">&#160;</td>
-				</tr>
-				<tr>
-           <td valign="middle" align="left" style="border-bottom: 1 solid #008080" bgcolor="#FFFFFF"><b>For an organisation</b></td>
+           <td valign="middle" align="left" style="border-bottom: 1 solid #008080" bgcolor="#FFFFFF"><b>For an issue</b></td>
 				</tr>
 				<tr>
 					<td style="border-left: 1 solid #C0C0C0">
-								<select name="client" style="color: #000000; font-size: 8pt; width:280" size="1" width="280">
+							<select width="280" name="env_issue" style="font-size: 9pt; color: #000000; width:223" height="20">
+									<option value="-1">All issues</option>
+									<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
+							</select>
+						</td>
+				</tr>
+
+				<tr>
+					<td>&#160;</td><td style="border-bottom: 1 solid #008080; border-left: 1 solid #C0C0C0">&#160;</td>
+				</tr>
+				<tr>
+           <td>&#160;</td><td valign="middle" align="left" style="border-bottom: 1 solid #008080; border-left: 1 solid #C0C0C0" bgcolor="#FFFFFF"><b>For an organisation</b></td>
+				</tr>
+				<tr><td>&#160;</td>
+					<td style="border-left: 1 solid #C0C0C0">
+								<select name="client" style="color: #000000; font-size: 9pt; width:350" size="1" width="280">
 										<option value="-1">Any organisation</option>
 										<xsl:apply-templates select="RowSet[@Name='Client']"/>
 								</select>

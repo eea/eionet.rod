@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -22,7 +21,6 @@
  *
  * Original Code: Andre Karpistsenko (TietoEnator)
  * -->
-
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
 	<xrs:RowSet name="EnvIssue">
 		<T_ISSUE>
@@ -53,9 +51,9 @@
 		</T_OBLIGATION>
 		<T_CLIENT relation="T_OBLIGATION.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID" reltype="outer">
 			<PK_CLIENT_ID/>
-			<CLIENT_NAME expression="CONCAT(LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
+			<CLIENT_NAME expression="CONCAT( IF(CLIENT_ACRONYM != '', CONCAT(CLIENT_ACRONYM, ' - '), ''),  LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
 		</T_CLIENT>
 		<xrs:Constraint>T_OBLIGATION.FK_CLIENT_ID IS NOT NULL AND FK_CLIENT_ID!=0</xrs:Constraint>
-		<xrs:Ordering>CLIENT_NAME</xrs:Ordering>
+		<xrs:Ordering>CLIENT_ACRONYM, CLIENT_NAME</xrs:Ordering>
 	</xrs:RowSet>
 </xrs:XmlData>

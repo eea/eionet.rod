@@ -186,6 +186,8 @@ public class CSSearchStatement extends QueryStatement implements Constants {
 
        if(ord==null)
     		ord="T_OBLIGATION.TITLE";
+      
+       addAttribute("Sort_order", ord);
 
 		 orderClause = ord;
 

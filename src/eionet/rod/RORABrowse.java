@@ -63,7 +63,7 @@ public class RORABrowse extends ROServletAC {
       HttpServletRequest req = params.getRequest();
 
       DataSourceIF dataSrc = new DataSource();
-      String showfilter = params.getParameter(SHOWFILTER);
+      String showfilter = "1"; // params.getParameter(SHOWFILTER); // always active now
       if (showfilter != null)
         if (showfilter.equals("1")) {
           DataSourceIF XMLDataSrc = XMLSource.getXMLSource(PREFIX + RORABROWSE_QUERY, req);

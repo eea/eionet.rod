@@ -66,48 +66,44 @@
                     <td width="33%" bgcolor="#CBDCDC" valign="top">
                       <table border="0" width="100%" cellspacing="0" height="90">
                         <tr>
-                          <td width="100%" height="25" colspan="2"><span class="head0"><b>List</b></span></td>
+                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
+                          <td width="92%" height="25"><a href="deliveries.jsv">
+													<span class="head0n">Show country deadlines</span></a></td>
                         </tr>
                         <tr>
                           <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
                           <td width="92%" height="25"><a href="show.jsv?id=1&amp;mode=C">
-													<span class="head0n">All legislative instruments</span></a></td>
+													<span class="head0n">Navigate to reporting obligations via the Eur-lex legislative instrument categories</span></a></td>
                         </tr>
                         <tr>
                           <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
-                          <td width="92%" height="25"><a href="rorabrowse.jsv?mode=A">
-														<span class="head0n">All reporting obligations</span></a></td>
+                          <td width="92%" height="25"><a href="rorabrowse.jsv?mode=A&amp;anmode=P"><span class="head0n">Show Eionet Priority Data flows</span></a></td>
                         </tr>
                         <tr>
-                          <td width="8%" height="25"></td>
-                          <td width="92%" height="25"></td>
-                        </tr>
+                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
+                          <td width="92%" height="25"><a href="analysis.jsv"><span class="head0n">Show database statistics</span></a></td>
+ 								 </tr>
                       </table>
                     </td>
                     <td width="33%" bgcolor="#CBDCDC" valign="top">
+                      <!-- HTML from HAT will be inserted here later -->
                       <table border="0" width="100%" cellspacing="0" height="90">
-                        <tr>
-                          <td width="100%" colspan="2" height="25"><b>
-														<span class="head0">Rod tools</span></b></td>
-                        </tr>
-                        <tr>
-                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
-                          <td width="92%" height="25"><a href="deliveries.jsv">
-														<span class="head0n">Deadlines by country</span></a></td>
-                        </tr>
-                        <tr>
-                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
-                          <td width="92%" height="25"><a href="text.jsv?mode=H">
-															<!---xsl:attribute name="href">javascript:openViewHelp('HELP_GENERAL')</xsl:attribute-->
-															<span class="head0n">General help</span>
-														</a>
-														<!--xsl:call-template name="EditHelp"><xsl:with-param name="id">HELP_GENERAL</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template-->
-														</td>
-                        </tr>
-                        <tr>
-                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
-                          <td width="92%" height="25"><a href="analysis.jsv"><span class="head0n">Analysis</span></a></td>
-												</tr>
+								 <tr>
+									 <td width="100%" height="25" colspan="2">
+										<span class="head0"><b>Latest news:</b></span>
+									 </td>
+								 </tr>
+								 <tr>
+									 <td width="100%" height="25" colspan="2">
+										<span class="head0n">The 2004 ROD annual update has been completed for all obligations apart from air emissions and waste.</span>
+									 </td>
+								 </tr>
+								 <tr>
+									 <td width="100%" height="25" colspan="2">
+										<span class="head0n">Marine reporting obligations have now been included in ROD. 
+										Obligations for Helcom and OSPAR are in the process of being validated by the "report to" organisations.</span>
+									 </td>
+								 </tr>
                       </table>
                     </td>
                   </tr>

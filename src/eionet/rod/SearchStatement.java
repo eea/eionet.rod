@@ -128,6 +128,10 @@ public class SearchStatement extends QueryStatement implements Constants {
          
       vFields.add(new FieldInfo("FK_CLIENT_ID", "T_OBLIGATION")); //KL030213
 
+      vTables.add(new TableInfo("T_CLIENT", "T_CLIENT.PK_CLIENT_ID = T_OBLIGATION.FK_CLIENT_ID", TableInfo.OUTER_JOIN));
+      vFields.add(new FieldInfo("PK_CLIENT_ID", "T_CLIENT"));
+      vFields.add(new FieldInfo("CLIENT_NAME", "T_CLIENT"));
+      vFields.add(new FieldInfo("CLIENT_ACRONYM", "T_CLIENT"));
   
       _Pair env_issue, country, river, sea, lake, param_group, rotype, client;
       String source;
@@ -239,6 +243,8 @@ public class SearchStatement extends QueryStatement implements Constants {
 
        if(ord==null)
     		ord="T_OBLIGATION.TITLE";
+
+       addAttribute("Sort_order", ord);           
 
 		 orderClause = ord;
 

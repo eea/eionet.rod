@@ -43,7 +43,7 @@ public class SpatialHistory extends ROServletAC {
       DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, parameters.getRequest());
       dataSrc.setParameters(queryPars);
 
-      return dataSrc;
+      return userInfo( parameters.getRequest() , dataSrc);    
    }
    
    protected SaveHandler setDataHandler() {

@@ -7,23 +7,34 @@
 		<xsl:value-of select="//RowSet[position()=1]/@auth"/>
 	</xsl:variable>
 		
-		<xsl:variable name="sel_country">
-				<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'COUNTRY_ID='),'&amp;')"/>
-		</xsl:variable>
+	<xsl:variable name="sel_country">
+		<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'COUNTRY_ID='),'&amp;')"/>
+	</xsl:variable>
 
-		<xsl:variable name="sel_client">
-				<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'CLIENT_ID='),'&amp;')"/>
-		</xsl:variable>
+	<xsl:variable name="sel_client">
+		<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'CLIENT_ID='),'&amp;')"/>
+	</xsl:variable>
 
-		<xsl:variable name="sel_issue">
-			<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'ISSUE_ID='),'&amp;')"/>
-			<!--xsl:value-of select="translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'env_issue='),'%3A'),'&amp;'),'+',' ')"/-->
-		</xsl:variable>
+	<xsl:variable name="sel_issue">
+		<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'ISSUE_ID='),'&amp;')"/>
+		<!--xsl:value-of select="translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'env_issue='),'%3A'),'&amp;'),'+',' ')"/-->
+	</xsl:variable>
 
-		<xsl:variable name="sel_period">
-			<xsl:value-of select="substring-after(/XmlData/xml-query-string,'DEADLINES=')"/>
-		</xsl:variable>
+	<xsl:variable name="sel_period">
+		<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'DEADLINES='),'&amp;')"/>
+	</xsl:variable>
 
+	<xsl:variable name="sel_period_start">
+		<xsl:value-of select="substring-before(substring-after(/XmlData/xml-query-string,'DATE_1='),'&amp;')"/>
+	</xsl:variable>
+
+	<xsl:variable name="sel_period_end">
+		<xsl:value-of select="substring-after(/XmlData/xml-query-string,'DATE_2=')"/>
+	</xsl:variable>
+
+	<xsl:variable name="sortorder">
+		<xsl:value-of select="//RowSet[@Name='Main']/@Sort_order" />
+	</xsl:variable>
 
 <xsl:template match="XmlData">
 
@@ -90,6 +101,19 @@
 		<xsl:if test="$sel_issue!='0' and $sel_issue!=''">
 		 [<xsl:value-of select="//RowSet[@Name='IssueData']/Row/T_ISSUE/ISSUE_NAME"/>] 
  		</xsl:if>
+ 		
+		<xsl:if test="$sel_period!='0' and $sel_period!=''">
+			<xsl:if test="$sel_period='1'"> (Next month)</xsl:if>
+			<xsl:if test="$sel_period='2'"> (Next 3 months)</xsl:if>
+			<xsl:if test="$sel_period='3'"> (Next 6 months)</xsl:if>
+			<xsl:if test="$sel_period='4'"> (Previous months)</xsl:if>
+ 		</xsl:if>
+
+		<xsl:if test="$sel_period_start!='' and contains($sel_period_start, 'dd') = false and $sel_period_end!=''">
+			(<xsl:value-of select="concat(substring($sel_period_start, 1, 2), '/', substring($sel_period_start, 6, 2), '/', substring($sel_period_start, 11, 4))"/> - 
+			 <xsl:value-of select="concat(substring($sel_period_end, 1, 2), '/', substring($sel_period_end, 6, 2), '/', substring($sel_period_end, 11, 4))"/>)
+ 		</xsl:if>
+
 		<xsl:if test="$sel_client!='0' and $sel_client!='' ">
 		 <br/>for: <xsl:value-of select="//RowSet[@Name='ClientData']/Row/T_CLIENT/CLIENT_NAME"/>
  		</xsl:if>
@@ -131,13 +155,13 @@
 			</TR>
 			<TR>
 				<TD vAlign="center" style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #C0C0C0 1px solid; BORDER-BOTTOM: #008080 1px solid">
-					<SELECT style="FONT-SIZE: 8pt; WIDTH: 240px; COLOR: #000000; HEIGHT: 23px; BACKGROUND-COLOR: #ffffff"  size="1" name="ISSUE_ID" height="20">
+					<SELECT style="FONT-SIZE: 9pt; WIDTH: 240px; COLOR: #000000; HEIGHT: 23px; BACKGROUND-COLOR: #ffffff"  size="1" name="ISSUE_ID" height="20">
 										<OPTION value="0" selected="true">All issues</OPTION>
 										<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 					</SELECT>
 				</TD>
 				<TD vAlign="center" style="BORDER-BOTTOM: #008080 1px solid">
-					<SELECT style="FONT-SIZE: 8pt; WIDTH: 129px; COLOR: #000000; HEIGHT: 33px; BACKGROUND-COLOR: #ffffff" size="1" name="DEADLINES"> 
+					<SELECT style="FONT-SIZE: 9pt; WIDTH: 129px; COLOR: #000000; HEIGHT: 33px; BACKGROUND-COLOR: #ffffff" size="1" name="DEADLINES"> 
 						<OPTION value="0">
 							<xsl:if test="$sel_period='' or $sel_period='0'"> 
 								<xsl:attribute name="selected"/>
@@ -180,14 +204,26 @@
 	&#160;
 	<table width="777" cellspacing="0" border="0">
 
+	<xsl:variable name="recCount"><xsl:value-of select="count(child::RowSet[@Name='Main']/Row/T_OBLIGATION)"/></xsl:variable>
+	<div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div><br/>
+
 	<xsl:if test="count(child::RowSet[@Name='Main']/Row)!=0">
-	<TR>
-	<!-- country -->
-	<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="26%" bgColor="#ffffff">
+	<TR style="height:40px">
+	<td style="BORDER-LEFT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+						vAlign="center" width="2%" bgColor="#ffffff">&#160;</td>
+
+	<TD style="BORDER-RIGHT: #C0C0C0 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+						vAlign="center" width="25%" bgColor="#ffffff">
 
 		<TABLE cellSpacing="0" width="100%" border="0">
-			<TR><TD><SPAN class="headsmall"><B><FONT title="Reporting Obligation" face="Verdana" color="#000000" size="1">Reporting Obligation</FONT></B></SPAN></TD>
+			<TR><TD><SPAN class="headsmall"><B>
+			<font title="Reporting Obligation" face="Verdana" size="1">
+				<xsl:call-template name="Sorter">
+					<xsl:with-param name="order"><xsl:value-of select="$sortorder"/></xsl:with-param><xsl:with-param name="field">T_OBLIGATION.TITLE</xsl:with-param>
+				</xsl:call-template>
+				Reporting Obligation
+			</font>
+			</B></SPAN></TD>
   				<TD><P align="right"><MAP name="FPMap1"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('T_OBLIGATION.TITLE DESC')"/>
 								<AREA shape="RECT" alt="Sort A-Z"  coords="1,13,16,21" href="javascript:setOrder('T_OBLIGATION.TITLE')"/></MAP>
 								<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap1" border="0"/></P>
@@ -197,11 +233,18 @@
 
 	<!-- client -->
 	<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="15%" bgColor="#ffffff">
+						vAlign="center" width="14%" bgColor="#ffffff">
 
 		<TABLE cellSpacing="0" width="100%" border="0">
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Reporting client" face="Verdana" color="#000000" size="1">Reporting to</FONT></B></SPAN></TD>
+				<TD><SPAN class="headsmall"><B>
+				<font title="Reporting client" face="Verdana" size="1">
+					<xsl:call-template name="Sorter">
+						<xsl:with-param name="order"><xsl:value-of select="$sortorder"/></xsl:with-param><xsl:with-param name="field">CLIENT_DESCR</xsl:with-param>
+					</xsl:call-template>
+					Reporting to
+				</font>
+				</B></SPAN></TD>
 				<TD>
 						<P align="right">
 							<MAP name="FPMap2">
@@ -220,7 +263,14 @@
 
 		<TABLE cellSpacing="0" width="100%" border="0">
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Date of delivery" face="Verdana" color="#000000" size="1">Deadline</FONT></B></SPAN></TD>
+				<TD><SPAN class="headsmall"><B>
+				<font title="Date of delivery" face="Verdana" size="1">
+					<xsl:call-template name="Sorter">
+						<xsl:with-param name="order"><xsl:value-of select="$sortorder"/></xsl:with-param><xsl:with-param name="field">NEXT_DEADLINE</xsl:with-param>
+					</xsl:call-template>
+					Deadline
+				</font>
+				</B></SPAN></TD>
 				<TD>
 						<P align="right">
 							<MAP name="FPMap3">
@@ -239,7 +289,14 @@
 
 		<TABLE cellSpacing="0" width="100%" border="0">
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Next deadline" face="Verdana" color="#000000" size="1">Next DL</FONT></B></SPAN></TD>
+				<TD><SPAN class="headsmall"><B>
+				<font title="Next deadline" face="Verdana" size="1">
+					<xsl:call-template name="Sorter">
+						<xsl:with-param name="order"><xsl:value-of select="$sortorder"/></xsl:with-param><xsl:with-param name="field">DEADLINE2</xsl:with-param>
+					</xsl:call-template>
+					Next DL
+				</font>
+				</B></SPAN></TD>
 				<TD><P align="right"><MAP name="FPMap4"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('DEADLINE2 DESC')"/>
 						<AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('DEADLINE2')"/></MAP>
 						<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap4" border="0"/></P>
@@ -254,7 +311,14 @@
 
 		<TABLE cellSpacing="0" width="100%" border="0">
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Responsible person or role" face="Verdana" color="#000000" size="1">Responsible</FONT></B></SPAN></TD>
+				<TD><SPAN class="headsmall"><B>
+				<font title="Responsible person or role" face="Verdana" size="1">
+					<xsl:call-template name="Sorter">
+						<xsl:with-param name="order"><xsl:value-of select="$sortorder"/></xsl:with-param><xsl:with-param name="field">ROLE_DESCR</xsl:with-param>
+					</xsl:call-template>
+					Responsible
+				</font>
+				</B></SPAN></TD>
 				<TD><P align="right"><MAP name="FPMap5"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" href="javascript:setOrder('ROLE_DESCR DESC')"/>
 						<AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('ROLE_DESCR')"/></MAP>
 						<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap5" border="0"/></P>
@@ -281,7 +345,14 @@
 		vAlign="center" width="10%" bgColor="#ffffff">
 		<TABLE cellSpacing="0" width="100%" border="0">
 			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Date of delivery" face="Verdana" color="#000000" size="1">Country</FONT></B></SPAN></TD>
+				<TD><SPAN class="headsmall"><B>
+				<font face="Verdana" size="1">
+					<xsl:call-template name="Sorter">
+						<xsl:with-param name="order"><xsl:value-of select="$sortorder"/></xsl:with-param><xsl:with-param name="field">SPATIAL_NAME</xsl:with-param>
+					</xsl:call-template>
+					Country
+				</font>
+				</B></SPAN></TD>
 				<TD><P align="right"><MAP name="FPMap6"><AREA shape="RECT" alt="" coords="0,0,16,7" href="javascript:setOrder('SPATIAL_NAME DESC')"/>
 						<AREA shape="RECT" alt=""  coords="1,13,16,21" href="javascript:setOrder('SPATIAL_NAME')"/></MAP>
 						<IMG height="22" src="images/arrows.gif" width="17" useMap="#FPMap6" border="0"/></P>
@@ -289,8 +360,17 @@
 			</TR>
 		</TABLE>
 	</TD>
-
 	</xsl:if>
+
+	<tr style="height: 23px">
+		<td style="background-color: white; border-left: #008080 1px solid; border-right: #008080 1px solid; border-bottom: #008080 1px solid;">
+			<xsl:choose>
+				<xsl:when test="$sel_country='0' or $sel_country=''"><xsl:attribute name="colspan">8</xsl:attribute></xsl:when>
+				<xsl:otherwise><xsl:attribute name="colspan">7</xsl:attribute></xsl:otherwise>
+			</xsl:choose>
+			<span class="headsmall">&#160;Sort by the columns using the arrows. Sorted column title is highlighted.</span>
+		</td>
+	</tr>
 
 	<!-- END of header ROW -->
 	</TR>	
@@ -310,8 +390,10 @@
 				<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
 		</xsl:attribute>
 
-	<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top">
-		<span class="smallfont">
+	<td align="center" valign="middle" style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"><img src="images/diamlil.gif" alt=""/></td>
+	
+	<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top">
+		<span class="rowitem">
 			<a>
 				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;mode=A</xsl:attribute>
 				<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/TITLE"/></xsl:attribute>
@@ -331,7 +413,7 @@
 	</TD>
 
 	<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top">
-		<span class="smallfont">
+		<span class="rowitem">
 			<a>
 				<xsl:attribute name="href">javascript:openPopup('client.jsv', 'id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
 				<xsl:attribute name="title"><xsl:value-of select="T_CLIENT/CLIENT_NAME"/></xsl:attribute>
@@ -343,7 +425,7 @@
 		</span>&#160;
 	</TD>
 	<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top">
-		<span class="smallfont">
+		<span class="rowitem">
 			<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
 			<font>
 			<xsl:choose>
@@ -366,7 +448,7 @@
 		</span>&#160;
 	</TD>
 	<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top">
-		<span class="smallfont">
+		<span class="rowitem">
 				<xsl:if test="T_OBLIGATION/DEADLINE2 != '' ">	
 					<xsl:value-of select="T_OBLIGATION/DEADLINE2"/>
 				</xsl:if>
@@ -374,7 +456,7 @@
 	</TD>
 
 	<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top">
-		<span class="smallfont">
+		<span class="rowitem">
 			<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE != ''">
 				<xsl:choose>
 				<xsl:when test="RESPONSIBLE/ROLE_DESCR=''">
@@ -393,9 +475,9 @@
 								<xsl:with-param name="length">15</xsl:with-param>
 							</xsl:call-template>
 				</a>&#160;
-				<img src="images/details.jpg" alt="Additional details for logged-in users">
-					<xsl:attribute name="onClick">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-				</img>
+				<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
+					<img src="images/details.jpg" alt="Additional details for logged-in users" border="0"/>
+				</a>
 				</xsl:otherwise>
 				</xsl:choose>
 			</xsl:if>
@@ -408,7 +490,7 @@
 				<xsl:otherwise>BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid</xsl:otherwise>
 			</xsl:choose>
 		</xsl:attribute>
-		<span class="smallfont">
+		<span class="rowitem">
 			<xsl:choose>
 					<xsl:when test="contains(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS, concat(',' , T_SPATIAL/PK_SPATIAL_ID , ',') )='true'">
 						<a window="delivery">
@@ -424,7 +506,7 @@
 	</TD>
 	<xsl:if test="$sel_country='0' or $sel_country=''">
 	<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"  vAlign="top">
-		<span class="smallfont">
+		<span class="rowitem">
 				<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
 		</span>&#160;
 	</TD>
@@ -437,8 +519,6 @@
 	<tr><td colspan="6">
 		<br/>
 		
-		<xsl:variable name="recCount"><xsl:value-of select="count(child::RowSet[@Name='Main']/Row/T_OBLIGATION)"/></xsl:variable>
-		<b><xsl:value-of select="$recCount"/> record(s) returned</b>
 		<xsl:call-template name="CommonFooter"/>
 	</td></tr>
   </table>
