@@ -81,8 +81,7 @@ themes are in the process of being added to the ROD.</p>
 in the database that remain to be corrected:</p>
 <p>Air: directive 97/68 on emissions; directive 1999/94 on CO2 emissions;
 regulation 2037/2000 on ozone depleting substances. </p>
-<p>Water: directive 91/271 on urban wastewater treatment; four river
-conventions and the upcoming directive 98/83 on drinking water.</p>
+<p>Water: four river conventions.</p>
 <p>Material in the ROD is not necessarily comprehensive, complete,
 accurate or up to date and contains links to external sites over which
 the EEA has no control. The information in the database is supplied as
