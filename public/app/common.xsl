@@ -50,10 +50,11 @@
 		<meta name="Publisher" content="EEA, The European Environment Agency" />
 		<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
 
-				<title><xsl:call-template name="PageTitle"/></title>
-				<link href="eionet.css" rel="stylesheet" type="text/css"/>
-				<script language="JavaScript" src="script/util.js"></script>
-				<script language="JavaScript">
+		<title><xsl:call-template name="PageTitle"/></title>
+		<link href="eionet.css" rel="stylesheet" type="text/css"/>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<script language="JavaScript" src="script/util.js"></script>
+		<script language="JavaScript">
 					<![CDATA[
 <!--
 function showhelp(text) {
