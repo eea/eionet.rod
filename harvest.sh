@@ -14,7 +14,7 @@ cp=/var/lib/tomcat4/common/lib/mysql_uncomp.jar
 cp=$cp:$libpath/ldap.jar
 cp=$cp:$libpath/jndi.jar
 cp=$cp:$libpath/providerutil.jar
-cp=$cp:$libpath/eionet-dir.jar
+cp=$cp:$libpath/eionet-dir.jar:$libpath/uit-security.jar
 cp=$cp:$libpath/rod.jar:$libpath/xmlserver.jar:$libpath/xmlrpc.jar
 cp=$cp:$libpath/uit-client.jar:$libpath/log4j.jar:$CLASSPATH
 
@@ -31,8 +31,6 @@ else
         echo "Usage: eionet.rod.countrysrv.Extractor {0|1|2} "
 	echo "0:all data, 1:deliveries, 2:roles"
 fi;
-
-
 
 
 
