@@ -617,7 +617,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       
       String sql = "SELECT a.PK_RA_ID, s.PK_SOURCE_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE, " +
         " IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, a.LAST_UPDATE, " +
-        " CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&mode=A') AS details_uri, " +
+        " CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&mode=A') AS details_url, " +
         " CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri " +
         " FROM T_ACTIVITY a , T_SOURCE s " +
         " WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " +
