@@ -92,7 +92,7 @@ the EEA has no control. The information in the database is supplied as
 is. You use it at your own risk.</p>
 <p>Our goal is to keep the ROD timely and accurate. If errors are brought
 to our attention, we will correct them.</p>
-<hr>
+<hr/>
 
 <h2>ROD content management processes</h2>
 
