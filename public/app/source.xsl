@@ -106,7 +106,7 @@ function delLegislation() {
 					</xsl:if>
 					<h1>Details of legislative instrument</h1>
 
-				<table width="608" cellspacing="6" bgcolor="#FFFFFF" style="border:1px solid #006666">
+				<table width="100%" cellspacing="6" bgcolor="#FFFFFF" style="border:1px solid #006666">
 					<tr valign="top">
 						<th width="25%">
 							Classification
