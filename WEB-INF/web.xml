@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+
+ <display-name>AclAdmin</display-name>
+  <description>EIONET ACL ADMIN application</description>
+
+	 <context-param>
+      <param-name>application-name</param-name>
+      <param-value>acladmin</param-value>
+   </context-param>
+	 <context-param>
+      <param-name>log-level</param-name>
+      <param-value>9</param-value>
+   </context-param>
+	<servlet>
+		<servlet-name>applogin</servlet-name>
+		<servlet-class>eionet.acl.servlets.AppLogin</servlet-class>
+	</servlet>
+  <servlet>
+    <servlet-name>main</servlet-name>
+    <servlet-class>eionet.acl.servlets.Main</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>rpcrouter</servlet-name>
+    <servlet-class>com.tee.uit.servlets.XmlRpcRouter</servlet-class>
+  </servlet>
+	<servlet-mapping>
+    <servlet-name>applogin</servlet-name>
+    <url-pattern>/appLogin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>main</servlet-name>
+    <url-pattern>/main</url-pattern>
+  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>rpcrouter</servlet-name>
+		<url-pattern>/rpcrouter</url-pattern>
+	</servlet-mapping>
+
+</web-app>
