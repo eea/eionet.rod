@@ -25,6 +25,8 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="common.xsl"/>
+	<xsl:include href="util.xsl"/>
+
 
 	<xsl:variable name="src-id">
 		<xsl:value-of select="/XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/FK_SOURCE_ID"/>
@@ -52,12 +54,17 @@
 				<xsl:call-template name="nofound"/>
 			</xsl:otherwise>
 		</xsl:choose>
+
+			<!--a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=PR</xsl:attribute><xsl:attribute name="target">_new</xsl:attribute>Printable page.</a-->
+		<xsl:call-template name="LIRORAFooter">
+				<xsl:with-param name="table">RO</xsl:with-param>			
+		</xsl:call-template>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Reporting']/Row">
 		<!-- form for delete obligation action -->
 		<!--xsl:if test="$admin='true'"-->
-		<xsl:if test="contains($permissions, 'X')='true'">
+		<xsl:if test="contains($permissions, ',RO:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
 
@@ -132,52 +139,30 @@ function delObligation() {
 		<table cellspacing="7pts" width="600">
 			<tr><td width="82%" colspan="2">
 				<span class="head1">Details of reporting obligation</span>
-<!--
-			[
-				<xsl:choose>
-					<xsl:when test="T_REPORTING/RECOGNIZED = 'N'">
-						<span class="head0"><font color="red">Unrecognized</font></span>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:choose>
-							<xsl:when test="T_REPORTING/RECOGNIZED_DETAIL != ''">
-								<span class="head0"><xsl:value-of select="T_REPORTING/RECOGNIZED_DETAIL"/></span>
-							</xsl:when>
-							<xsl:otherwise>
--->
-<!--
-								<span class="head0"><xsl:call-template name="RecognizedDefault"/></span>
--->
-<!--
-								<span class="head0">Recognized</span>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:otherwise>
-				</xsl:choose>]
--->
+
+			<!-- DEBUG -->
+			<!--xsl:value-of select="$permissions"/-->
+
 			</td>
 				<td align="right" nowrap="true" rowspan="3">
-					<xsl:if test="contains($permissions, 'O')='true'">
+					<xsl:if test="contains($permissions, ',RO:i,')='true'">
 						<a>
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
-<!--
-						<xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
--->
 						<img src="images/newobligation.png" alt="Add a new reporting obligation" border="0"/></a><br/>
 					</xsl:if>
 					<!--xsl:if test="$admin='true'"-->
-					<xsl:if test="contains($permissions, 'A')='true'">
+					<xsl:if test="contains($permissions, ',RA:i,')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 							<img src="images/newactivity.png" alt="Add a new reporting activity" border="0"/></a><br/>
 					</xsl:if>
-					<xsl:if test="contains($permissions, 'o')='true'">
+					<xsl:if test="contains($permissions, ',RO:u,')='true'">
 						<a><xsl:attribute name="href">reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 							<img src="images/editobligation.png" alt="Edit reporting obligation" border="0"/></a><br/>
 					</xsl:if>
-					<xsl:if test="contains($permissions, 'X')='true'">
+					<xsl:if test="contains($permissions, ',RO:d,')='true'">
 						<a href="javascript:delObligation()"><img src="images/deleteobligation.png" alt="Delete reporting obligation" border="0"/></a><br/>
 					</xsl:if>				
-					<xsl:if test="contains($permissions, 'y')='true'">
+					<xsl:if test="contains($permissions, ',Admin:v,')='true'">
 					<a>
 					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ro-id"/>','O')</xsl:attribute>
 					<img src="images/showhistory.png" alt="Show history" border="0"/>
@@ -191,7 +176,7 @@ function delObligation() {
 			</tr>
 
 			<tr valign="top">
-				<td width="22%"><span class="head0">Alias name:</span></td>
+				<td width="22%"><span class="head0">Short name:</span></td>
 				<td width="60%">
 					<xsl:choose>
 						<xsl:when test="T_REPORTING/ALIAS != ''">
@@ -202,17 +187,18 @@ function delObligation() {
 						</xsl:otherwise>
 					</xsl:choose>
 				</td>
-
 			</tr>
+			<!-- Remove after moving this field to footer
 			<tr valign="top">
 				<td width="22%"><span class="head0">Document last modified:</span></td>
 				<td colspan="2">
 					<xsl:value-of select="T_REPORTING/LAST_UPDATE"/>
 				</td>
 			</tr>
+			-->
 			<tr valign="top">
-				<td width="22%"><span class="head0">Related legal instrument:</span></td>
-				<td colspan="2">
+				<td width="22%"><span class="head0">Parent legal instrument:</span></td>
+				<td width="60%">
 					<a>	<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 					<xsl:choose>
 						<xsl:when test="T_SOURCE/ALIAS != ''">
@@ -247,20 +233,33 @@ function delObligation() {
 					</xsl:choose>
 				</td>
 			</tr>
-			<tr valign="top">
-				<td width="22%"><span class="head0">Valid from:</span></td>
-				<td colspan="2">
-					<xsl:value-of select="T_REPORTING/VALID_FROM"/>
-				</td>
-			</tr>
-			<tr valign="top">
-				<td width="22%"><span class="head0">Linked environmental issues:</span></td>
+
+			<!-- =========================================================================== >
+			<							To replace issues withe RA issues, replace these 2 rows						 >
+			<  =========================================================================== -->
+
+			<!-- ========================================================================== -->
+
+			<!--tr valign="top">
+				<td width="22%"><span class="head0">Environmental issues:</span></td>
 				<td colspan="2">
 					<xsl:apply-templates select="//RowSet[@Name='EnvIssue']"/>
 				</td>
-			</tr>
+			</tr-->
+			
 			<tr valign="top">
-				<td width="22%"><span class="head0">Linked spatial attributes:</span></td>
+				<td width="22%"><span class="head0">Environmental issues:</span></td>
+				<td colspan="2">
+					<xsl:apply-templates select="//RowSet[@Name='EnvRaIssue']"/>
+				</td>
+			</tr>
+
+			<!-- ============================================================================-->
+			<!-- ============================================================================-->
+			<!-- ============================================================================-->
+
+			<tr valign="top">
+				<td width="22%"><span class="head0">Countries:</span></td>
 				<td colspan="2">
 					<xsl:apply-templates select="//RowSet[@Name='Spatial']"/>
 				</td>
@@ -286,17 +285,7 @@ function delObligation() {
 			</tr>
 			</xsl:if>
 
-			<!-- show history link KL 021127 -->
-			<!--xsl:if test="contains($permissions, 'y')='true'">
-			  <tr>
-				<td colspan="3">
-					<a>
-					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ro-id"/>','O')</xsl:attribute>
-					Show history
-					</a>
-				</td>
-				</tr>
-			</xsl:if-->
+
 <!--
 			<xsl:call-template name="RelatedInformation">
 				<xsl:with-param name="type">ER</xsl:with-param>
@@ -309,11 +298,11 @@ function delObligation() {
 
 
 			<tr><td colspan="3"><br/><hr/></td></tr>
-			<tr><td colspan="3">
+			<!--tr><td colspan="3">
 			Contents in this application are maintained by the EEA.
 			<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>&#160;
 			<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=PR</xsl:attribute><xsl:attribute name="target">_new</xsl:attribute>Printable page.</a>
-			</td></tr>
+			</td></tr-->
 		</table>
 		</div>
 	</xsl:template>
@@ -322,6 +311,16 @@ function delObligation() {
 		<xsl:for-each select="Row/T_ISSUE">
 		<xsl:choose>
 			<xsl:when test="position()!=count(//RowSet[@Name='EnvIssue']/Row/T_ISSUE)">
+				<xsl:value-of select="ISSUE_NAME"/>, 
+			</xsl:when>
+			<xsl:otherwise><xsl:value-of select="ISSUE_NAME"/></xsl:otherwise>
+		</xsl:choose></xsl:for-each>
+	</xsl:template>
+
+	<xsl:template match="//RowSet[@Name='EnvRaIssue']">
+		<xsl:for-each select="Row/T_ISSUE">
+		<xsl:choose>
+			<xsl:when test="position()!=count(//RowSet[@Name='EnvRaIssue']/Row/T_ISSUE)">
 				<xsl:value-of select="ISSUE_NAME"/>, 
 			</xsl:when>
 			<xsl:otherwise><xsl:value-of select="ISSUE_NAME"/></xsl:otherwise>

@@ -40,13 +40,12 @@
 	</xsl:variable>
 
 	<xsl:template match="XmlData">
-		<table cellspacing="7pts" width="700">
+		<table cellspacing="7pts" width="640">
 		<tr>
-			<td>
-				<span class="head1">Edit/Create Obligation
-					<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-<!--
-					<xsl:choose>
+			<td width="465">
+				<span class="head1">Edit/Create Obligation for
+					<br/>
+					<!--xsl:choose>
 						<xsl:when test="//RowSet[@Name='Reporting']/Row/T_REPORTING/ALIAS != ''">
 							<xsl:value-of select="//RowSet[@Name='Reporting']/Row/T_REPORTING/ALIAS"/>
 						</xsl:when>
@@ -54,7 +53,7 @@
 							Obligation
 						</xsl:otherwise>
 					</xsl:choose>
-					from
+					from-->
 					<xsl:choose>
 						<xsl:when test="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS != ''">
 							<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS"/>
@@ -63,38 +62,12 @@
 							<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/TITLE"/>
 						</xsl:otherwise>
 					</xsl:choose>
--->
 				</span>
 			</td>
+			<td>
+				<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+			</td>
 		</tr>
-		</table>
-		<table cellspacing="15pts">
-			<tr valign="top">
-				<td nowrap="true" width="142"><span class="head0">Obligation name:
-					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_NAME</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-				</span></td>
-				<td width="500">
-					<span class="head0">
-						<xsl:choose>
-							<xsl:when test="//RowSet[@Name='Reporting']/Row/T_REPORTING/ALIAS != ''">
-								<xsl:value-of select="//RowSet[@Name='Reporting']/Row/T_REPORTING/ALIAS"/>
-							</xsl:when>
-							<xsl:otherwise>
-								Obligation
-							</xsl:otherwise>
-						</xsl:choose>
-						from
-						<xsl:choose>
-							<xsl:when test="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS != ''">
-								<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/TITLE"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</span>
-				</td>
-			</tr>
 		</table>
 		<xsl:apply-templates select="RowSet[@Name='Reporting']/Row"/>
 	</xsl:template>
@@ -124,31 +97,7 @@
 		</input>
 		<table cellspacing="15pts">
 			<tr valign="top">
-				<td nowrap="true" width="124"><span class="head0">Recognized:
-					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_RECOGNIZED</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-				</span></td>
-				<td>
-					<select onChange="changed()"><xsl:attribute name="name"><xsl:value-of select="T_REPORTING/RECOGNIZED/@XPath"/></xsl:attribute>
-						<xsl:for-each select="//RowSet[@Name='YesNo']/T_LOOKUP">
-							<xsl:choose>
-								<xsl:when test="C_VALUE=//RowSet[@Name='Reporting']/Row/T_REPORTING/RECOGNIZED">
-									<option selected="true"><xsl:attribute name="value"><xsl:value-of select="C_VALUE"/></xsl:attribute>
-									<xsl:value-of select="C_TERM"/></option>
-								</xsl:when>
-								<xsl:otherwise>
-									<option><xsl:attribute name="value"><xsl:value-of select="C_VALUE"/></xsl:attribute>
-									<xsl:value-of select="C_TERM"/></option>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:for-each>
-					</select>
-				<input type="text" size="25" maxlength="100" onChange="changed()">
-					<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/RECOGNIZED_DETAIL/@XPath"/></xsl:attribute>
-					<xsl:attribute name="value"><xsl:value-of select="T_REPORTING/RECOGNIZED_DETAIL"/></xsl:attribute>
-				</input></td>
-			</tr>
-			<tr valign="top">
-				<td nowrap="true"><b>Alias name:
+				<td nowrap="true"><b>Short name:
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_ALIASNAME</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</b></td>
 				<td><input type="text" size="50" width="500" style="width:500" maxlength="255" onChange="changed()">
@@ -184,7 +133,7 @@
 					<!--xsl:attribute name="value"><xsl:value-of select="T_REPORTING/REPORT_TO"/></xsl:attribute-->
 				</select>
 
-		<xsl:if test="contains($permissions, 'H')='true'">
+		<xsl:if test="contains($permissions, ',Client:i,')='true'">
 
 	<map name="newClientMap">
 					<area alt="Add a new client" shape="rect" coords="0,0,25,25" href="javascript:openAddClientWin()"></area>
@@ -214,42 +163,24 @@
 					</select>
 				</td>
 			</tr>
-			<tr valign="middle">
-				<td nowrap="true" align="left"><b>Valid from:
-					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_VALIDFROM</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-				</b><br/>(dd/mm/yyyy)</td>
-				<td><input type="text" size="25" maxlength="100" onChange="changed()">
-					<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/VALID_FROM/@XPath"/></xsl:attribute>
-					<xsl:attribute name="value"><xsl:value-of select="T_REPORTING/VALID_FROM"/></xsl:attribute>
-				</input></td>
-			</tr>
-			<tr valign="top">
-				<td nowrap="true" colspan="4"><span class="head0">Environmental issues:
+<!-- KL 030214 ISSUES -->
+			<!--tr valign="top">
+				<td nowrap="true" colspan="4"><span class="head0">Environmental issues from Reporting Activities:
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_ENVIRONMENTALISSUES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</span></td>
 			</tr>
 			<tr>
 				<td colspan="4">
 					<table><tr valign="middle">
-						<td width="300" align="center"><xsl:apply-templates select="SubSet[@Name='LnkIssue']"/></td>
-						<td width="100" nowrap="true">
-							<table cellspacing="5">
-								<tr><td width="100" align="center">
-									<input type="button" width="80" style="width:80" 
-										onclick="delValues(lnkIssue)" 
-										value="&#160;&#160;-&gt;&#160;&#160;"/>
-								</td></tr>
-								<tr><td width="100" align="center">
-									<input type="button" width="80" style="width:80" 
-										onclick="addValues(issueLst, lnkIssue, null)" 
-										value="&#160;&#160;&lt;-&#160;&#160;"/>
-								</td></tr>
-							</table>
-						</td>
-						<td width="300" align="center"><xsl:apply-templates select="//RowSet[@Name='ISSUE']"/></td>
+						<td width="300" align="center"><xsl:apply-templates select="SubSet[@Name='LnkRaIssue']"/></td>
+						<td width="100" nowrap="true"></td>
+						<td width="300" align="center"></td>
 					</tr></table>
 				</td>
-			</tr>
+			</tr-->
+<!-- ISSUES -->
+
+
 			<tr valign="top">
 				<td nowrap="true" colspan="4"><span class="head0">Spatial coverage:
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_SPATIALCOVERAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
@@ -282,6 +213,46 @@
 				</td>
 			</tr>
 			</table>
+
+			<!-- Record management -->
+			<table width="720" border="0">
+				<tr>
+					<td nowrap="true" width="130"><i><b>Record management</b></i></td>
+					<td width="590"><hr/></td>
+				</tr>
+			</table>
+			<table cellspacing="15pts">
+			<tr valign="top">
+				<td nowrap="true" width="175"><span class="head0">Verified:</span>
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_RMVERIFIED</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+					<br/>(dd/mm/yyyy)
+				</td>
+				<td><input type="text" size="25" maxlength="100" onChange="checkDate(this)">
+					<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/RM_VERIFIED/@XPath"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="T_REPORTING/RM_VERIFIED"/></xsl:attribute>
+				</input></td>
+			</tr>
+			<tr valign="top">
+				<td nowrap="true" width="175"><span class="head0">Verified by:</span>
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_RMVERIFIEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</td>
+				<td><input type="text" size="25" maxlength="100" onChange="changed()">
+					<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/RM_VERIFIED_BY/@XPath"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="T_REPORTING/RM_VERIFIED_BY"/></xsl:attribute>
+				</input></td>
+			</tr>
+			<tr valign="top">
+				<td nowrap="true" width="175"><span class="head0">Next update due:</span>
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_RMNEXTUPDATEDUE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+					<br/>(dd/mm/yyyy)
+				</td>
+				<td><input type="text" size="25" maxlength="100" onChange="checkDate(this)">
+					<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/RM_NEXT_UPDATE/@XPath"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="T_REPORTING/RM_NEXT_UPDATE"/></xsl:attribute>
+				</input></td>
+			</tr>
+			</table>
+			
 			<hr width="700"/>
 			<div style="margin-left:20">
 				<table cellspacing="7"><tr>
@@ -297,33 +268,18 @@
 
 	inclSelect(lnkSpatial, spatialLst);
 
-	var lnkIssue = document.f.elements["/XmlData/RowSet[@Name='Reporting']/Row/SubSet[@Name='LnkIssue']/Row/T_ISSUE_LNK/FK_ISSUE_ID"].options;
-	var issueLst = document.f.issue_list.options;
-
-	inclSelect(lnkIssue, issueLst);
-
 		</script>
 
 	</xsl:template> 
-	
 
-	<xsl:template match="SubSet[@Name='LnkIssue']">
-		<select multiple="true" size="9" style="width:300"  width="300">
-			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='LnkIssue']/@XPath"/>/Row/T_ISSUE_LNK/FK_ISSUE_ID</xsl:attribute><xsl:for-each select="Row"><option>
-				<xsl:attribute name="value">
-					<xsl:value-of select="T_ISSUE_LNK/FK_ISSUE_ID"/>
-				</xsl:attribute>
+	<xsl:template match="SubSet[@Name='LnkRaIssue']">
+		<select size="9" style="width:300"  width="300">
+			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='LnkRaIssue']/@XPath"/>/Row/T_RAISSUE_LNK/FK_ISSUE_ID</xsl:attribute><xsl:for-each select="Row"><option>
+				<!--xsl:attribute name="value">
+					<xsl:value-of select="T_RAISSUE_LNK/FK_ISSUE_ID"/>
+				</xsl:attribute-->
 				<xsl:value-of select="T_ISSUE/ISSUE_NAME"/>
 				</option>
-			</xsl:for-each>
-		</select>
-	</xsl:template>
-
-	<xsl:template match="RowSet[@Name='ISSUE']">
-		<select multiple="true" size="9" name="issue_list" style="width:300" width="300">
-			<xsl:for-each select="T_ISSUE">
-				<option><xsl:attribute name="value"><xsl:value-of select="PK_ISSUE_ID"/></xsl:attribute>
-				<xsl:value-of select="ISSUE_NAME"/></option>
 			</xsl:for-each>
 		</select>
 	</xsl:template>

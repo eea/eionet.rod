@@ -25,6 +25,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="common.xsl"/>
+	<xsl:include href="util.xsl"/>
 
 	<xsl:variable name="src-id">
 		<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/PK_SOURCE_ID"/>
@@ -36,12 +37,15 @@
 
 	<xsl:template match="XmlData">
 		<xsl:apply-templates select="RowSet[@Name='Source']"/>
+		<xsl:call-template name="LIRORAFooter">
+			<xsl:with-param name="table">LI</xsl:with-param>			
+		</xsl:call-template>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Source']/Row[position()=1]">
 		<!-- form for delete legislation action -->
 		<!--xsl:if test="$admin='true'"-->
-		<xsl:if test="contains($permissions, 'X')='true'">
+		<xsl:if test="contains($permissions, ',LI:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
 function delLegislation() {
@@ -93,21 +97,23 @@ function delLegislation() {
 		<table cellspacing="7pts" width="600" border="0">
 			<tr>
 				<td colspan="2" nowrap="true"><span class="head0">Classification:</span></td>
-				<td align="right">
+				<!--td align="right">
 					<xsl:apply-templates select="SubSet[@Name='Obligation']"/>
-				</td>
+				</td-->
 				<!--xsl:if test="$admin='true'"-->
-				<xsl:if test="contains($permissions, 'O')='true'">
+				<xsl:if test="contains($permissions, ',RO:i,')='true'">
 					<td align="right">
 						<a><xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 						<img src="images/newobligation.png" alt="Add a new reporting obligation" border="0"/></a></td>
 				</xsl:if>
 			</tr>
+
 			<xsl:apply-templates select="SubSet[@Name='Parents']"/>
 		</table>
 
 		<table cellspacing="7pts" border="0" width="600">
 		<tr><td colspan="5"><hr/></td></tr>
+
 		<tr valign="top">
 			<td nowrap="true" width="10%"><span class="head0">Legal name:</span></td>
 			<td colspan="3">
@@ -128,18 +134,18 @@ function delLegislation() {
 			</td>
 			<td align="right" width="10%" rowspan="3" valign="top">
 				<!--xsl:if test="$admin='true'"-->
-				<xsl:if test="contains($permissions, 'S')='true'">
+				<xsl:if test="contains($permissions, ',LI:i,')='true'">
 					<a><xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
 						<img src="images/newinstrument.png" alt="Add a new legal instrument" border="0"/></a><br/>
 					</xsl:if>
-					<xsl:if test="contains($permissions, 's')='true'">
+					<xsl:if test="contains($permissions, ',LI:u,')='true'">
 						<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
 						<img src="images/editinstrument.png" alt="Edit legislation" border="0"/></a><br/>
 						</xsl:if>
-					<xsl:if test="contains($permissions, 'X')='true'">
+					<xsl:if test="contains($permissions, '.LI:d,')='true'">
 						<a href="javascript:delLegislation()"><img src="images/deleteinstrument.png" alt="Delete legislation" border="0"/></a><br/>
 				</xsl:if>
-				<xsl:if test="contains($permissions, 'y')='true'">
+				<xsl:if test="contains($permissions, ',Admin:v,')='true'">
 					<a>
 					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$src-id"/>', 'L')</xsl:attribute>
 					<img src="images/showhistory.png" alt="Show history" border="0"/></a><br/>
@@ -148,7 +154,7 @@ function delLegislation() {
 		</tr>
 		
 		<tr valign="top">
-			<td nowrap="true" width="10%"><span class="head0">Alias name:</span></td>
+			<td nowrap="true" width="10%"><span class="head0">Short name:</span></td>
 			<td colspan="3"><span class="head0"><xsl:value-of select="T_SOURCE/ALIAS"/></span></td>
 		</tr>
 
@@ -159,23 +165,23 @@ function delLegislation() {
 			<td nowrap="true"><span class="head0">Issued by:</span></td>
 			<td colspan="3">
 				<a>
-				<xsl:attribute name="href">javascript:openIssuer('<xsl:value-of select="T_ISSUER/PK_ISSUER_ID"/>')</xsl:attribute>
-				<xsl:value-of select="T_ISSUER/ISSUER_NAME"/>
+				<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
+				<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
 				</a>
-				<!--xsl:choose>
-					<xsl:when test="T_ISSUER/ISSUER_URL!=''">
-						<a>
-							<xsl:attribute name="href"><xsl:value-of select="T_ISSUER/ISSUER_URL"/></xsl:attribute>
-							<xsl:attribute name="target">
-								_new
-							</xsl:attribute>
-							<xsl:value-of select="T_ISSUER/ISSUER_NAME"/></a>
-					</xsl:when>
-					<xsl:otherwise>
-							<xsl:value-of select="T_ISSUER/ISSUER_NAME"/>
-					</xsl:otherwise>
-				</xsl:choose-->
 			</td>
+		</tr>
+		<tr valign="top">
+			<td nowrap="true"><span class="head0">Issued by URL:</span></td>
+			<td colspan="3">
+				<a>
+				<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/ISSUED_BY_URL"/></xsl:attribute>
+				<xsl:value-of select="T_SOURCE/ISSUED_BY_URL"/>
+				</a>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td nowrap="true"><span class="head0">CELEX number:</span></td>
+			<td colspan="3"><xsl:value-of select="T_SOURCE/CELEX_REF"/></td>
 		</tr>
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">Valid from:</span></td>
@@ -183,14 +189,20 @@ function delLegislation() {
 		</tr>
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">Abstract:</span></td>
-			<td>
-				<xsl:value-of select="T_SOURCE/ABSTRACT"/>
+			<td colspan="3"><xsl:value-of select="T_SOURCE/ABSTRACT"/></td>
+		</tr>
+
+					<!-- KL 030220 Obligations -->
+		<tr valign="top">
+			<td width="22%">
+				<span class="head0">Reporting obligations:</span><br/>
 			</td>
-			<td nowrap="true"><span class="head0">CELEX ref.:</span></td>
-			<td>
-				<xsl:value-of select="T_SOURCE/CELEX_REF"/>
+			<td colspan="2">
+				<xsl:apply-templates select="//SubSet[@Name='Obligation']"/>
 			</td>
 		</tr>
+
+
 	<!-- convention specific fields -->
 	<xsl:for-each select="SubSet[@Name='Parents']/Row/T_SOURCE_CLASS">
 	<xsl:if test="CLASS_NAME = 'Conventions'">
@@ -233,7 +245,37 @@ function delLegislation() {
 		</div>
 	</xsl:template>
 
-	<xsl:template match="SubSet[@Name='Obligation']">
+	<xsl:template match="//SubSet[@Name='Obligation']">
+		<xsl:if test="count(Row)>0">
+		<table width="100%" colspan="5" border="1">
+			<tr>
+				<td width="60%"><span class="head0">Title</span></td>
+				<!--td><span class="head0"></span></td-->
+			</tr>
+			<xsl:for-each select="Row/T_REPORTING">
+				<tr>
+					<td>
+					<a>	<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RO_ID"/>&amp;mode=R&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+						<xsl:choose>
+							<xsl:when test="ALIAS != ''">
+								<xsl:value-of select="ALIAS"/>
+							</xsl:when>
+							<xsl:otherwise>
+								Reporting obligation
+							</xsl:otherwise>
+						</xsl:choose>
+					</a>
+					</td>
+					<!--td></td-->
+				</tr>
+			</xsl:for-each>
+		</table>
+		</xsl:if>
+	</xsl:template>
+
+
+
+	<!--xsl:template match="SubSet[@Name='Obligation']">
 		<xsl:choose>
 			<xsl:when test="count(Row)>0">
 				<a><xsl:attribute name="href">rorabrowse.jsv?source=<xsl:value-of select="$src-id"/>&amp;mode=R</xsl:attribute>
@@ -241,7 +283,7 @@ function delLegislation() {
 			</xsl:when>
 			<xsl:otherwise><span class="head0">No reporting obligations</span></xsl:otherwise>
 		</xsl:choose>
-	</xsl:template>
+	</xsl:template-->
 
 	<xsl:template match="SubSet[@Name='Parents']">
 		<xsl:for-each select="Row/T_SOURCE_CLASS">

@@ -1,4 +1,4 @@
-package eionet.rod.countrysrv.servlets;
+package eionet.rod;
 
 import javax.servlet.ServletException;
 
@@ -11,21 +11,17 @@ import com.tee.xmlserver.DataSourceIF;
 import com.tee.xmlserver.XSQLException;
 import com.tee.xmlserver.XMLSource;
 
-public class Index extends CSServletAC {
+public class Analysis extends ROServletAC {
   protected String setXSLT(HttpServletRequest req) {
-      return "../app/csindex.xsl";
+      return "../app/analysis.xsl";
    }
 
   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
-    String querySource = "../app/csindex.xml";
-
-    HttpServletRequest req = params.getRequest();
-    DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, req);
-    //dataSrc.setParameters(queryPars);
-
+    String querySource = "../app/analysis.xrs";
+    //String param = params.getParameter(Constants.ID_PARAM);
+    //DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, req);
+    DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
     addMetaInfo(dataSrc);
-    
-      return userInfo( req, dataSrc);
+    return userInfo(params.getRequest(),dataSrc);
   }
-
 }

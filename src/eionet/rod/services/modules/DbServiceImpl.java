@@ -64,7 +64,7 @@ import java.util.HashMap;
  * @author  Kaido Laine
  * @version 1.0
  */
-public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
+public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   //private static String ANSI_DATE_FORMAT = "yyyy-MM-dd";
 	private static String ANSI_DATETIME_FORMAT = "yyyy-MM-dd hh:MM";
@@ -112,9 +112,14 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       return _executeStringQuery(sql);
    }
 
-   public void saveDeadline(String raId, String next) throws ServiceException {
-      String sql = "UPDATE T_ACTIVITY SET NEXT_DEADLINE='" + next + 
-                   "' WHERE PK_RA_ID=" + raId;
+   public void saveDeadline(String raId, String next, String next2) throws ServiceException {
+      String sql;
+      if(next2.length() > 0)
+         sql = "UPDATE T_ACTIVITY SET NEXT_DEADLINE='" + next + 
+               "', NEXT_DEADLINE2='" + next2 + "' WHERE PK_RA_ID=" + raId;
+      else
+         sql = "UPDATE T_ACTIVITY SET NEXT_DEADLINE='" + next + 
+               "', NEXT_DEADLINE2=NULL WHERE PK_RA_ID=" + raId;
       _executeUpdate(sql);
    }
 
@@ -646,12 +651,18 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
     String circaUrl = (String)role.get("URL");
     String desc = (String)role.get("DESCRIPTION");
     String mail = (String)role.get("MAIL");
-    
-    String sql = "INSERT INTO T_ROLE SET ROLE_NAME='" + desc +
+
+
+    if (roleId != null)    {
+      String sql = "DELETE FROM T_ROLE WHERE ROLE_ID ='" + roleId + "'";    
+      _executeUpdate(sql);
+      
+      sql = "INSERT INTO T_ROLE SET ROLE_NAME='" + desc +
                  "', ROLE_EMAIL='" + mail + "', ROLE_ID='" + roleId + "',  " + 
                 " ROLE_URL ='" + circaUrl + "'";
-    if (roleId != null)
-      _executeUpdate(sql);
+     _executeUpdate(sql);
+     
+    }
 
   }
 
@@ -957,24 +968,41 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
   *
   */
   public String[][] getIssueObligations(StringTokenizer ids) throws ServiceException {
-    String sql = "SELECT DISTINCT r.PK_RO_ID, r.ALIAS, s.TITLE, r.FK_SOURCE_ID FROM " +
-      " T_REPORTING r, T_SOURCE s, T_ISSUE_LNK il WHERE " +
-      " r.FK_SOURCE_ID = s.PK_SOURCE_ID AND r.PK_RO_ID = il.FK_RO_ID ";
+    String sql = "";
 
-      if(ids!=null)
-        sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
-        
+    if (ids!= null) {
+      sql = "SELECT DISTINCT r.PK_RO_ID, r.ALIAS, s.TITLE, r.FK_SOURCE_ID FROM " +
+        " T_REPORTING r, T_ACTIVITY a, T_SOURCE s, T_RAISSUE_LNK il WHERE " +
+        " r.FK_SOURCE_ID = s.PK_SOURCE_ID AND r.PK_RO_ID = a.FK_RO_ID AND a.PK_RA_ID = il.FK_RA_ID ";
+
+      sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
+    }  
+    else
+      sql = "SELECT r.PK_RO_ID, r.ALIAS, s.TITLE, r.FK_SOURCE_ID FROM T_REPORTING r, T_SOURCE s " +
+        " WHERE r.FK_SOURCE_ID = s.PK_SOURCE_ID";
+
+
+    sql += " ORDER BY PK_RO_ID ";
+    
     return _executeStringQuery(sql);
   }
 
  public String[][] getIssueActivities(StringTokenizer ids) throws ServiceException  {
-   String sql = "SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE, a.FK_RO_ID FROM " +
+   String sql = "";
+
+   //if certain issues wanted make a join over ISSUE_LNK   table
+   if (ids!= null) {
+    sql = "SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE, a.FK_RO_ID FROM " +
       " T_ACTIVITY a, T_RAISSUE_LNK il WHERE " +
       "  a.PK_RA_ID = il.FK_RA_ID ";
 
-      if(ids!=null)
-        sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
-        
+     sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
+    }        
+    else
+      sql = "SELECT PK_RA_ID, TITLE, NEXT_DEADLINE, FK_RO_ID FROM T_ACTIVITY a";
+
+    sql += " ORDER BY PK_RA_ID";
+
     return _executeStringQuery(sql);
  
  }
@@ -1015,5 +1043,10 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
     }
 
   }    
+
+   public String[][] getCountries() throws ServiceException {
+      String sql = "SELECT PK_SPATIAL_ID, SPATIAL_NAME FROM T_SPATIAL WHERE SPATIAL_TYPE='C' ORDER BY SPATIAL_NAME ";
+      return _executeStringQuery(sql);      
+   }
 
  }

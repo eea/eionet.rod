@@ -1,54 +1,45 @@
 <?xml version="1.0"?>
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
 	<xrs:RowSet name="Main">
- 		<T_ACTIVITY>
+		<T_ACTIVITY>
 			<PK_RA_ID/>
 			<TITLE/>
 			<RESPONSIBLE_ROLE/>
 			<DEADLINE expression="NEXT_DEADLINE AS DEADLINE"/>
+			<DEADLINE2 expression="NEXT_DEADLINE2 AS DEADLINE2"/>
 			<NEXT_REPORTING/>
 			<FK_DELIVERY_COUNTRY_IDS/>
 		</T_ACTIVITY>
-
-
 		<T_ROLE alias="RESPONSIBLE" relation="CONCAT(T_ACTIVITY.RESPONSIBLE_ROLE,'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=RESPONSIBLE.ROLE_ID" reltype="outer">
 			<ROLE_NAME/>
 			<ROLE_EMAIL/>
-			<ROLE_ID/>	
-			<ROLE_URL/>	
+			<ROLE_ID/>
+			<ROLE_URL/>
 		</T_ROLE>
-
 		<T_REPORTING relation="T_REPORTING.PK_RO_ID=T_ACTIVITY.FK_RO_ID">
 			<PK_RO_ID/>
 			<FK_CLIENT_ID/>
 		</T_REPORTING>
-
 		<T_CLIENT relation="T_REPORTING.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID" reltype="outer">
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME/>
-			<CLIENT_URL/>	
+			<CLIENT_URL/>
 		</T_CLIENT>
-
-		<T_SPATIAL_LNK relation="T_SPATIAL_LNK.FK_RO_ID=T_REPORTING.PK_RO_ID" >		
+		<T_SPATIAL_LNK relation="T_SPATIAL_LNK.FK_RO_ID=T_REPORTING.PK_RO_ID">
 			<FK_RO_ID/>
 			<FK_SPATIAL_ID/>
 		</T_SPATIAL_LNK>
-
-		<T_SPATIAL relation="T_SPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID" >
+		<T_SPATIAL relation="T_SPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID">
 			<PK_SPATIAL_ID/>
 			<SPATIAL_NAME/>
 			<SPATIAL_TWOLETTER/>
 		</T_SPATIAL>
-
 		<!--T_DELIVERY relation="T_ACTIVITY.PK_RA_ID=T_DELIVERY.FK_RA_ID AND T_DELIVERY.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID" reltype="outer">
 				<PK_DELIVERY_ID/>
 				<FK_SPATIAL_ID/>
 				<FK_RA_ID/>
 		</T_DELIVERY-->
 		<xrs:Constraint>PK_SPATIAL_ID like @COUNTRY_ID</xrs:Constraint>
-
-
-
 		<!--xrs:SubSet name="Delivery" relation="T_ACTIVITY.PK_RA_ID=T_DELIVERY.FK_RA_ID" >
 			<T_DELIVERY>
 				<PK_DELIVERY_ID/>
@@ -62,7 +53,6 @@
 			</T_DELIVERY>
 			<xrs:Constraint>FK_SPATIAL_ID like @COUNTRY_ID</xrs:Constraint>
 		</xrs:SubSet-->
-
 		<xrs:Ordering>@ORD</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="Dummy">

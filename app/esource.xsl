@@ -36,12 +36,13 @@
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Source']/Row/T_SOURCE">
-		<table width="700">
+		<table width="640">
 		<tr>
+			<td width="465">
+				<span class="head1" id="lblTitle">Edit/Create a Legal Instrument</span>
+			</td>
 			<td>
-				<span class="head1" id="lblTitle">Legal instrument:
-					<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-				</span>
+				<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 			</td>
 		</tr>
 		</table>
@@ -66,7 +67,7 @@
 		<table cellspacing="15pts" border="0" width="700">
 			<tr valign="middle">
 				<td width="160" nowrap="true" align="left"><b>Identification number:</b>
-					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ECENTRYINTOFORCE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_IDENTIFICATIONNUMBER</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
 				<td width="145">
 					<input type="text" size="13" maxlength="50" width="145" style="width:145" onChange="changed()">
@@ -74,16 +75,7 @@
 						<xsl:attribute name="value"><xsl:value-of select="SOURCE_CODE"/></xsl:attribute>
 					</input>
 				</td>
-				<td width="85" nowrap="true" align="left"><b>Type:</b>
-					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_TYPE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-				</td>
-				<td width="125" align="right">
-					<select width="125" style="width:125">
-						<xsl:attribute name="name"><xsl:value-of select="FK_TYPE_ID/@XPath"/></xsl:attribute>
-						<xsl:apply-templates select="//RowSet[@Name='Types']"/>
-					</select>
-				</td>
-				<td width="85" nowrap="true" align="left"><b>Draft:</b>
+				<td width="100" nowrap="true" align="left"><b>Draft:</b>
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_DRAFT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
 				<td width="50">
@@ -92,6 +84,8 @@
 						<xsl:apply-templates select="//RowSet[@Name='Yes/No']"/>
 					</select>
 				</td>
+				<td width="125">&#160;</td>
+				<td width="125">&#160;</td>
 			</tr>
 			<tr valign="top">
 				<td nowrap="true" width="160"><b>Legal name:</b>
@@ -102,7 +96,7 @@
 					<xsl:value-of select="TITLE"/></textarea></td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" width="160"><b>Alias name:</b>
+				<td nowrap="true" width="160"><b>Short name:</b>
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ALIASNAME</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
 				<td colspan="5"><textarea rows="4" cols="55" wrap="soft" width="570" style="width:570" onChange="changed()">
@@ -138,25 +132,26 @@
 					</input-->
 
 					<xsl:variable name="selIssuer">
-							<xsl:value-of select="FK_ISSUER_ID"/>
+							<xsl:value-of select="FK_CLIENT_ID"/>
 					</xsl:variable>
-				<select  width="500" style="width:500" maxlength="255" onChange="changed()">
-					<xsl:attribute name="name"><xsl:value-of select="FK_ISSUER_ID/@XPath"/></xsl:attribute>
+				<select  width="500" style="width:500" maxlength="255" onChange="changeIssuer(this)">
+					<xsl:attribute name="name"><xsl:value-of select="FK_CLIENT_ID/@XPath"/></xsl:attribute>
 						<option value=''></option>
 						<xsl:for-each select="//RowSet[@Name='Issuer']/Row">
 							<option>
 								<xsl:attribute name="value">
-									<xsl:value-of select="T_ISSUER/PK_ISSUER_ID"/>
+									<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>
 								</xsl:attribute>
-									<xsl:if test="T_ISSUER/PK_ISSUER_ID = $selIssuer">
+									<xsl:if test="T_CLIENT/PK_CLIENT_ID = $selIssuer">
 										<xsl:attribute name="selected">true</xsl:attribute>
 									</xsl:if>
-								<xsl:value-of select="T_ISSUER/ISSUER_NAME"/>
+								<xsl:attribute name="url"><xsl:value-of select="T_CLIENT/CLIENT_URL"/></xsl:attribute>
+								<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
 							</option>
 						</xsl:for-each>
 				</select>
 				<map name="newIssuerMap">
-					<area alt="Add a new issuer" shape="rect" coords="0,0,25,25" href="javascript:openAddIssuerWin()"></area>
+					<area alt="Add a new client" shape="rect" coords="0,0,25,25" href="javascript:openAddClientWin()"></area>
 				</map>
 				<img border="0" height="25" width="25" src="images/new.gif" usemap="#newIssuerMap"></img>
 				</td>
@@ -198,7 +193,7 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" colspan="6"><b>Classification (belongs to):</b>
+				<td nowrap="true" colspan="6"><b>Eurlex classification hierarchy:</b>
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_CLASSIFICATION</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
 			</tr>
@@ -254,7 +249,7 @@
 		</table>
 		<table width="720" border="0">
 			<tr>
-				<td nowrap="true" width="130"><i><b>Convention attributes</b></i></td>
+				<td nowrap="true" width="130"><i><b>Conventions</b></i></td>
 				<td width="590"><hr/></td>
 			</tr>
 		</table>
@@ -294,6 +289,46 @@
 				</input></td>
 			</tr>
 			</table>
+
+			<!-- Record management -->
+			<table width="720" border="0">
+				<tr>
+					<td nowrap="true" width="130"><i><b>Record management</b></i></td>
+					<td width="590"><hr/></td>
+				</tr>
+			</table>
+			<table cellspacing="15pts">
+			<tr valign="top">
+				<td nowrap="true" width="175"><span class="head0">Verified:</span>
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMVERIFIED</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+					<br/>(dd/mm/yyyy)
+				</td>
+				<td><input type="text" size="25" maxlength="100" onChange="checkDate(this)">
+					<xsl:attribute name="name"><xsl:value-of select="RM_VERIFIED/@XPath"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="RM_VERIFIED"/></xsl:attribute>
+				</input></td>
+			</tr>
+			<tr valign="top">
+				<td nowrap="true" width="175"><span class="head0">Verified by:</span>
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMVERIFIEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</td>
+				<td><input type="text" size="25" maxlength="100" onChange="changed()">
+					<xsl:attribute name="name"><xsl:value-of select="RM_VERIFIED_BY/@XPath"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="RM_VERIFIED_BY"/></xsl:attribute>
+				</input></td>
+			</tr>
+			<tr valign="top">
+				<td nowrap="true" width="175"><span class="head0">Next update due:</span>
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMNEXTUPDATEDUE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+					<br/>(dd/mm/yyyy)
+				</td>
+				<td><input type="text" size="25" maxlength="100" onChange="checkDate(this)">
+					<xsl:attribute name="name"><xsl:value-of select="RM_NEXT_UPDATE/@XPath"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="RM_NEXT_UPDATE"/></xsl:attribute>
+				</input></td>
+			</tr>
+			</table>
+
 			<hr width="700"/>
 			<div style="margin-left:20">
 				<table cellspacing="7"><tr>
@@ -307,7 +342,13 @@
 			</div>
 			</form>
 		<script language="JavaScript">
+			
 <![CDATA[
+
+function changeIssuer(oControl) {
+	document.f.elements["]]><xsl:value-of select='ISSUED_BY_URL/@XPath'/><![CDATA["].value=oControl.options[oControl.selectedIndex].url;
+	changed();
+}
 function add() {
 	var elem;
 	var i, j;
@@ -371,19 +412,6 @@ compField("legislation title", document.f.elements["/XmlData/RowSet[@Name='Sourc
 				<xsl:value-of select="substring(CLASS_NAME, 0, 40 - string-length(CLASSIFICATOR))"/></option>
 			</xsl:for-each>
 		</select>
-	</xsl:template>
-
-	<xsl:template match="RowSet[@Name='Types']">
-		<option/>
-		<xsl:for-each select="T_SOURCE_TYPE">
-			<option>
-				<xsl:attribute name="value"><xsl:value-of select="PK_TYPE_ID"/></xsl:attribute>
-				<xsl:if test="PK_TYPE_ID=//RowSet/Row/T_SOURCE/FK_TYPE_ID">
-					<xsl:attribute name="selected">true</xsl:attribute>
-				</xsl:if>
-				<xsl:value-of select="TYPE"/>
-			</option>
-		</xsl:for-each>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Sources']">

@@ -86,9 +86,20 @@ function openMetaData(url){
 
 	</table></form>
 
+	<xsl:variable name="allCountries"><xsl:value-of select="count(child::XmlData/RowSet[@Name='Dummy']/Row/T_DUMMY)"/></xsl:variable>
+
 	<table border="0" width="525">
 	<tr><td>
-   	<span class="head1">Reporting deliveries by <xsl:value-of select="XmlData/RowSet/Row/T_SPATIAL/SPATIAL_NAME"/></span>
+   	<span class="head1">Reporting deliveries by 
+		<xsl:choose>
+		<xsl:when test="$allCountries=0">
+			<xsl:value-of select="XmlData/RowSet/Row/T_SPATIAL/SPATIAL_NAME"/>
+		</xsl:when>
+		<xsl:otherwise>
+			all countries
+		</xsl:otherwise>
+		</xsl:choose>
+		</span>
 	</td></tr>
 		<tr><td>
 		<span class="head0"><a target="RA"> <!-- need to direct to another window ????? -->
@@ -100,7 +111,8 @@ function openMetaData(url){
 	 </table>
 	 <br/><div style="margin-left:20"><table cellspacing="7pts"></table></div>
 	 
-<table width="525" cellspacing="7pts">
+<table width="600" cellspacing="7pts">
+<!-- oneCountry=0 one country, one country = 1 all countries -->
 
 
 <tr>
@@ -108,10 +120,14 @@ function openMetaData(url){
 <td bgcolor="#646666" align="center" width="100"><span class="head0"><font color="#FFFFFF"><span lang="en-us">Date</span></font></span></td>
 <td bgcolor="#646666" align="center" width="70"><span class="head0"><font color="#FFFFFF">Format</font></span></td>
 <td bgcolor="#646666" align="center" width="100"><span class="head0"><font color="#FFFFFF">Metadata</font></span></td>
+<xsl:if test="$allCountries=1">
+	<td bgcolor="#646666" align="center" width="100"><span class="head0"><font color="#FFFFFF">Country</font></span></td>
+</xsl:if>
+
 <td width="*"></td>
 </tr>
 
-<xsl:for-each select="XmlData/RowSet/Row">
+<xsl:for-each select="XmlData/RowSet[@Name='Main']/Row">
 <tr>
 <!-- table row -->
 <td width="175">
@@ -135,6 +151,11 @@ function openMetaData(url){
 	</a>
 </td>
 <!-- end of table row -->
+<xsl:if test="$allCountries=1">
+<td>
+	<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
+</td>
+</xsl:if>
 <td width="*"></td>
 </tr>	
 </xsl:for-each>

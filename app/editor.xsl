@@ -55,12 +55,13 @@ if ((navigator.appName.substring(0,5) == "Netsc"
  gTarget = 'img1';
 }
 
-function openAddIssuerWin() {
+/*function openAddIssuerWin() {
 	window.open('addissuer.html','sInfo','height=338,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
-}
+} */
 
 function openAddClientWin() {
-	window.open('addclient.html','sInfo','height=338,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
+	//window.open('addclient.html','sInfo','height=338,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
+	window.open('addclient.jsp','sInfo','height=450,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
 }
 
 function Click(Target) {
@@ -432,11 +433,12 @@ function warn(field, msg) {
 	field.focus();
 }
 
-function changedReporting(first, freq, next, to, terminate) {
+function changedReporting(first, freq, next, to, terminate, next2) {
 	changed();
 
 	var utcMonth;
 	next.value = "";
+	next2.value = "";
 	terminate.value = "N";
 	
 	fiDate = checkDateSimple(first);
@@ -508,6 +510,21 @@ function changedReporting(first, freq, next, to, terminate) {
 		}
 	}
 	next.value = ddmmyyyyDate(repDate);
+	
+	// Deadline after the next
+	//
+	if(repDate.getUTCDate() < 28)
+		repDate.setUTCMonth(repDate.getUTCMonth() + fx);
+	else {
+		repDate.setUTCDate(repDate.getUTCDate() - 3);
+		repDate.setUTCMonth(repDate.getUTCMonth() + fx);
+		utcMonth = repDate.getUTCMonth();
+		while(utcMonth == repDate.getUTCMonth())
+			repDate.setUTCDate(repDate.getUTCDate() + 1);
+		repDate.setUTCDate(repDate.getUTCDate() - 1);
+	}
+	if(repDate.getTime() < toDat.getTime())
+		next2.value = ddmmyyyyDate(repDate);
 }
 
 function checkDateSimple(field) {
@@ -577,7 +594,7 @@ function ddmmyyyyDate(dat) {
 	return s;
 }
 
-function checkAndSave(first, freq, next, textrep, to) {
+function checkAndSave(first, freq, next, textrep, to, terminate) {
 	if(textrep.value.length == 0 && (first.value.length == 0 || to.value.length == 0 || freq.value.length == 0)) {
 		alert("Both Reporting Date (Text Format) and one or more of normal reporting date fields (First Reporting, Valid To, Reporting Frequency) are empty. One of them must be used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
 		return;
@@ -590,6 +607,14 @@ function checkAndSave(first, freq, next, textrep, to) {
 		alert("Unable to calculate next due date. Please make sure you have entered valid date (dd/mm/yyyy format) in First Reporting field and whole number (0 for non-repeating reporting) in Reporting Frequency in Months field.");
 		return;
 	}
+	
+	// Provide default if to value not given
+	//
+	if(to.value.length == 0) {
+		terminate.value = "N";
+		to.value = "31/12/9999";
+	}		
+
 	next.disabled = false;
 	save();
 }
@@ -614,16 +639,16 @@ function checkAndSave(first, freq, next, textrep, to) {
 			    <tr>
 			      <td><table border="0" width="621">
 			          <tr>
-			            <td width="618">
-								<font color="#006666" size="5" face="Arial"><strong><span class="head2">
+			            <td width="648">
+								<font color="#006666" face="Arial"><strong><span class="head2">
 									<xsl:call-template name="FirstHeading"/>
 								</span></strong></font>
 								<br/>
-								<font color="#006666" face="Arial" size="2"><strong><span class="head0">
+								<font color="#006666" size="2"><strong><span class="head0">
 									<xsl:call-template name="SecondHeading"/>
 								</span></strong></font>
 							</td>
-			            <td width="50">&#160;</td>
+			            <td width="20">&#160;</td>
 			            <td><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></td>
 			          </tr>
 			          </table>
@@ -637,71 +662,7 @@ function checkAndSave(first, freq, next, textrep, to) {
 			<table border="0">
 				<tr valign="top" width="95%"><td width="125" nowrap="true">
 					<!-- Toolbar -->
-					<p><center>
-						<table border="0" cellpadding="0" cellspacing="0">
-						<tr><td align="center"><span class="head0">Contents</span></td></tr>
-<!--
-						<tr><td align="right">
-							<a>	<xsl:attribute name="href">
-									show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=C
-								</xsl:attribute>
-								<xsl:attribute name="onMouseOver">
-									Over('img0')
-								</xsl:attribute>
-								<xsl:attribute name="onMouseOut">
-									Out('img0')
-								</xsl:attribute>
-								<img name="img0" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_legislation.gif" border="0" width="84" height="13" alt="Legislation"/>
-							</a>
-						</td></tr>
--->
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R" onMouseOver="Over('img1')" onMouseOut="Out('img1')" onClick="Click('img1')">
-								<img name="img1" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_obligations.gif" border="0" width="84" height="13" alt="Reporting Obligations"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=14,25,2,3,4,5,6,7,8,9,10,11,12,13:EU%20legislation%20obligations">
-								<img src="images/button_eulegislation_sub.gif" border="0" width="100" height="13" alt="EU legislation obligations"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=15:Conventions'%20obligations">
-								<img src="images/button_conventions_sub.gif" border="0" width="100" height="13" alt="Conventions obligations"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=21:EEA%20requests">
-								<img src="images/button_eearequests_sub.gif" border="0" width="100" height="13" alt="EEA requests"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=22:Eurostat%20requests">
-								<img src="images/button_eurostatrequests_sub.gif" border="0" width="100" height="13" alt="Eurostat requests"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=23:Other%20requests">
-								<img src="images/button_otherrequests_sub.gif" border="0" width="100" height="13" alt="Other requests"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=A" onMouseOver="Over('img2')" onMouseOut="Out('img2')" onClick="Click('img2')">
-								<img name="img2" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_activities.gif" border="0" width="84" height="13" alt="Reporting Activities"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="deliveries.jsv" onMouseOver="Over('img8')" onMouseOut="Out('img8')" onClick="Click('img8')">
-								<img name="img8" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_cs.gif" border="0" width="84" height="13" alt="Deliveries"/>
-							</a>
-						</td></tr>
-
-						</table>
-				</center></p>
+					<xsl:call-template name="LeftToolbar"><xsl:with-param name="admin">false<!--xsl:value-of select="$admin"/--></xsl:with-param></xsl:call-template>
 				</td>
 				<td width="15" nowrap="true">&#160;</td>
 				<td>

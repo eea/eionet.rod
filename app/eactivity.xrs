@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -22,7 +21,6 @@
  *
  * Original Code: Andre Karpistsenko (TietoEnator)
  * -->
-
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
 	<xrs:RowSet name="Source">
 		<T_REPORTING>
@@ -57,6 +55,10 @@
 			<RESPONSIBLE_ROLE/>
 			<DATE_COMMENTS/>
 			<NEXT_DEADLINE expression="IF(T_ACTIVITY.NEXT_DEADLINE, DATE_FORMAT(T_ACTIVITY.NEXT_DEADLINE, '%d/%m/%Y'), '') AS NEXT_DEADLINE"/>
+			<RM_NEXT_UPDATE expression="IF(T_ACTIVITY.RM_NEXT_UPDATE, DATE_FORMAT(T_ACTIVITY.RM_NEXT_UPDATE, '%d/%m/%Y'), '') AS RM_NEXT_UPDATE"/>
+			<RM_VERIFIED expression="IF(T_ACTIVITY.RM_VERIFIED, DATE_FORMAT(T_ACTIVITY.RM_VERIFIED, '%d/%m/%Y'), '') AS RM_VERIFIED"/>
+			<RM_VERIFIED_BY/>
+			<NEXT_DEADLINE2 expression="IF(T_ACTIVITY.NEXT_DEADLINE2, DATE_FORMAT(T_ACTIVITY.NEXT_DEADLINE2, '%d/%m/%Y'), '') AS NEXT_DEADLINE2"/>
 			<FIRST_REPORTING expression="IF(T_ACTIVITY.FIRST_REPORTING, DATE_FORMAT(T_ACTIVITY.FIRST_REPORTING, '%d/%m/%Y'), '') AS FIRST_REPORTING"/>
 			<REPORT_FREQ_MONTHS/>
 		</T_ACTIVITY>

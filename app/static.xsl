@@ -30,17 +30,20 @@
 	</xsl:template>
 
 	<xsl:template name="FirstHeading">
-		Reporting Obligations Database, ROD
+		Reporting Obligations Database (ROD)
 	</xsl:template>
 
 	<xsl:template name="SecondHeading">
-		The database content is under establishment
+		This site is part of the Reportnet
 <!--		Tracking obligations and performance for each country in Reporting -->
 	</xsl:template>
 
 	<xsl:template name="IntroductoryText">
-		 ROD holds records describing environmental reporting obligations that countries within the EEA and EIONET communities have towards the European Union and international conventions. The obligations shown here includes the requests that the EEA through its different collaborators have put forward to countries in order to be able to fulfil its work programme.<br/><br/>
-The obligations are leaning on different legal instruments like a convention protocol or EU legislation. The obligations are broken down so they can be found through different filters. The sorting possibilities can be used by clicking the buttons to the left or on the links below.
+		This database contains records describing environmental reporting obligations that countries 
+		have towards the EEA, EU and international conventions. The reporting obligations arise from 
+		numerous international legislative instruments and agreements. 
+		ROD is part of the EEA's Reportnet suite of tools to streamline reporting obligations and facilitate 
+		its work collecting, handling and presenting environmental information.	
 	</xsl:template>
 
 	<xsl:template name="IntroductoryTitle">
@@ -76,5 +79,9 @@ The obligations are leaning on different legal instruments like a convention pro
 	<xsl:template name="DB_EurostatRequest_ID">22</xsl:template>
 		
 	<xsl:template name="DB_OtherRequest_ID">23</xsl:template>
+
+	<xsl:template name="Feedback_URL">http://www.eionet.eu.int/software/rod/issues/add_issue_quick_html</xsl:template>
+
+	<xsl:template name="Disclaimer_URL">http://www.eea.eu.int/disclaimer</xsl:template>
 
 </xsl:stylesheet>

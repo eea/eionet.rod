@@ -138,11 +138,13 @@ _log("********************************");
 _log("querysource " + querySource);
 _log("********************************");
 */
-    DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
+    HttpServletRequest req = params.getRequest();
+    DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, req);
 
     dataSrc.setParameters(queryPars);
-
-    return dataSrc;    
+    addMetaInfo(dataSrc);
+    
+    return userInfo(req,dataSrc);    
   }
 
   /**

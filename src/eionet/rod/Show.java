@@ -103,22 +103,22 @@ public class Show extends ROServletAC {
       if ( Util.nullString(mode) )
          throw new GeneralException(null, "Missing parameter '" + MODE_PARAM + "'");
       
-      if (mode.equals(SOURCE_MODE))
+      if (mode.equals(SOURCE_MODE) || mode.equals(SOURCE_PRINT_MODE) )
          return PREFIX + SOURCE_XSL;
-      else if (mode.equals(HIERARCHY_MODE))
+      else if (mode.equals(HIERARCHY_MODE) || mode.equals(HIERARCHY_PRINT_MODE) )
          return PREFIX + HIERARCHY_XSL;
       else if (mode.equals(HIERARCHYX_MODE))
          return PREFIX + HIERARCHYX_XSL;
       else if (mode.equals(REPORTING_MODE))
          return PREFIX + REPORTING_XSL;
       else if (mode.equals(REPORTING_PRINT_MODE))
-         return PREFIX + REPORTING_PRINT_XSL;
+         return PREFIX + REPORTING_XSL; //REPORTING_PRINT_XSL;
       else if (mode.equals(REPORTING_PARAM_MODE))
          return PREFIX + REPORTING_PARAM_XSL;
       else if (mode.equals(ACTIVITY_MODE))
          return PREFIX + ACTIVITY_XSL;
       else if (mode.equals(ACTIVITY_PRINT_MODE))
-         return PREFIX + ACTIVITY_PRINT_XSL;
+         return PREFIX + ACTIVITY_XSL; //ACTIVITY_PRINT_XSL;
       else
          throw new GeneralException(null, "Unknown value for parameter '" + MODE_PARAM + "': " + mode);
    }
@@ -140,9 +140,9 @@ public class Show extends ROServletAC {
          String[][] queryPars = {{"ID", id}};
 
          String qrySrc;
-         if (mode.equals(SOURCE_MODE))
+         if (mode.equals(SOURCE_MODE) || mode.equals(SOURCE_PRINT_MODE) )
             qrySrc = PREFIX + SOURCE_QUERY;
-         else if (mode.equals(HIERARCHY_MODE) || mode.equals(HIERARCHYX_MODE))
+         else if (mode.equals(HIERARCHY_MODE) || mode.equals(HIERARCHYX_MODE) || mode.equals(HIERARCHY_PRINT_MODE) )
             qrySrc = PREFIX + HIERARCHY_QUERY;
          else if (mode.equals(REPORTING_MODE))
             qrySrc = PREFIX + REPORTING_QUERY;
@@ -161,6 +161,7 @@ public class Show extends ROServletAC {
          dataSrc = XMLSource.getXMLSource(qrySrc, req);
          dataSrc.setParameters(queryPars);
 
+      addMetaInfo(dataSrc);
       return userInfo(req, dataSrc);
    }
 }

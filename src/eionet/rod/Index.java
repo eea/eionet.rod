@@ -55,6 +55,7 @@ public class Index extends ROServletAC {
    protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
       HttpServletRequest req = params.getRequest();
       DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + INDEX_QUERY, req);
+      addMetaInfo(dataSrc);
       return userInfo(req, dataSrc);
    }
 }

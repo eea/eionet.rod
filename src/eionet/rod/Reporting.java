@@ -91,11 +91,9 @@ public class Reporting extends ROEditServletAC {
 
       String tmpName = Thread.currentThread().getName() + System.currentTimeMillis();
       tmpName = tmpName.replace('-', '_').toUpperCase();
-      String tmpIssueTbl = "I" + tmpName;
       String tmpSpatialTbl = "S" + tmpName;
 
       DataSourceIF dataSrc = null;
-      QueryStatementIF qryIssue = null;
       QueryStatementIF qrySpatial = null;
 
       try {
@@ -105,18 +103,15 @@ public class Reporting extends ROEditServletAC {
          conn = (user != null) ? user.getConnection() : null;
          if (conn == null)
             throw new XSQLException(null, "Not authenticated user");
-
+/*
 System.out.println("==================================================");
 System.out.println("= DOGET ");
 System.out.println("==================================================");
-
+*/
          //checkPermissions(req);      
 
          try {
             stmt = conn.createStatement();
-            if (Logger.enable(5))
-               Logger.log("Create temp table " + tmpIssueTbl);
-            stmt.execute(CREATE1 + tmpIssueTbl + CREATE2 + ISSUES + "-1");
             if (Logger.enable(5))
                Logger.log("Create temp table " + tmpSpatialTbl);
             stmt.execute(CREATE1 + tmpSpatialTbl + CREATE2 + SPATIALS + "-1");
@@ -125,8 +120,6 @@ System.out.println("==================================================");
             dataSrc = prepareDataSource(new Parameters(req));
 
             // parameters
-            qryIssue = new SubSelectStatement("ISSUE", tmpIssueTbl);
-            dataSrc.setQuery(qryIssue);
             qrySpatial = new SubSelectStatement("SPATIAL", "SPATIAL_TYPE", tmpSpatialTbl, "", "");
             dataSrc.setQuery(qrySpatial);
 
@@ -141,9 +134,6 @@ System.out.println("==================================================");
             try {
                if (stmt != null) {
                   if (Logger.enable(5))
-                     Logger.log("Drop temp table " + tmpIssueTbl);
-                  stmt.execute(DROP + tmpIssueTbl);
-                  if (Logger.enable(5))
                      Logger.log("Drop temp table " + tmpSpatialTbl);
                   stmt.execute(DROP + tmpSpatialTbl);
 
@@ -157,7 +147,6 @@ System.out.println("==================================================");
       } catch (XSQLException xe) {
          printError(xe, req, res);
       } finally {
-         if (qryIssue != null) dataSrc.unsetQuery(qryIssue);
          if (qrySpatial != null) dataSrc.unsetQuery(qrySpatial);
       }
    }
@@ -177,12 +166,12 @@ java.util.Enumeration e = req.getParameterNames()      ;
 while (e.hasMoreElements())
   log( (String)e.nextElement());
 */
-
+/*
 System.out.println("==================================================");
 System.out.println("= AppdOPOST ");
 System.out.println("==================================================");
-
-        checkPermissions(req);  
+*/
+        //checkPermissions(req);  
       
          String location = "show.jsv?" + 
             ((curRecord != null) ?
@@ -209,11 +198,9 @@ System.out.println("==================================================");
         return new ReportingHandler(this);
     }
 
-   private static final String ISSUES =
-      "T_ISSUE_LNK.FK_ISSUE_ID FROM T_ISSUE_LNK WHERE T_ISSUE_LNK.FK_RO_ID=";
    private static final String SPATIALS =
       "T_SPATIAL_LNK.FK_SPATIAL_ID FROM T_SPATIAL_LNK WHERE T_SPATIAL_LNK.FK_RO_ID=";
-
+/*
   private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
     String mode = null;
     
@@ -229,15 +216,18 @@ System.out.println("= UPD " + upd);
 System.out.println("==================================================");
     
     if ( upd.equals("A"))
-      mode = "O";
+      mode = Constants.ACL_INSERT_PERMISSION;
     else if ( upd.equals("D"))
-      mode = "X";
+      mode = Constants.ACL_DELETE_PERMISSION;
     else if ( upd.equals("U"))
-      mode = "o";
-        
+      mode = Constants.ACL_UPDATE_PERMISSION;
+System.out.println("==================================================");
+System.out.println("= MODE " + mode);
+System.out.println("==================================================");
+         
     boolean b = false;
     try {
-      b = getAcl().checkPermission( userName, mode );
+      b = getAcl(Constants.ACL_RO_NAME).checkPermission( userName, mode );
     } catch ( Exception e ) {
       throw new XSQLException (e, "Error getting user rights ");
     }
@@ -246,5 +236,5 @@ System.out.println("==================================================");
       throw new XSQLException (null, "No permission to perform the action, user = " + userName);
 
     
-  }
+  } */
 }

@@ -27,6 +27,7 @@ import java.sql.*;
 
 import com.tee.util.*;
 import com.tee.xmlserver.*;
+import com.tee.uit.security.AccessControlListIF;
 
 /**
  * <P>Handler to store WebROD legislative act data.</P>
@@ -87,9 +88,10 @@ public class SourceHandler extends ReportingHandler {
       String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
       try {
-        upd = servlet.getAcl().checkPermission(userName, "s");
-        del = servlet.getAcl().checkPermission(userName, "X");
-        ins = servlet.getAcl().checkPermission(userName, "S");      
+        AccessControlListIF acl = servlet.getAcl(Constants.ACL_LI_NAME);
+        upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
+        del = acl.checkPermission(userName, Constants.ACL_DELETE_PERMISSION);
+        ins = acl.checkPermission(userName, Constants.ACL_INSERT_PERMISSION);      
       } catch (Exception e ) {
         return false;
       }
@@ -136,6 +138,8 @@ System.out.println("============================= del " + del);
          setDateValue(gen, "VALID_FROM");
          setDateValue(gen, "EC_ACCESSION");
          setDateValue(gen, "EC_ENTRY_INTO_FORCE");
+         setDateValue(gen, "RM_NEXT_UPDATE");
+         setDateValue(gen, "RM_VERIFIED");
          defaultProcessing(gen, null);
          id = recordID;
 

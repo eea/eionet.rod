@@ -2,25 +2,25 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 <xsl:include href="common.xsl"/>
 <xsl:include href="util.xsl"/>
+
+<xsl:variable name="admin">
+	<xsl:value-of select="/XmlData/RowSet/@auth"/>
+</xsl:variable>
+
 <xsl:variable name="permissions">
 	<xsl:value-of select="/XmlData/RowSet/@permissions"/>
 </xsl:variable>
 
+<xsl:template match="XmlData">
 
-<xsl:template match="/">
-
-<html lang="en"><head><title>
-		Country Services
-	</title><META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/>
+<html lang="en"><head><title>Country Services</title>
+<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/>
 	<link type="text/css" rel="stylesheet" href="eionet.css"/>
 	<script language="JavaScript" src="script/util.js"></script>
 	<script language="JavaScript">
-	<![CDATA[
-	Net=1;
-	]]>
 
 <![CDATA[
-
+/*
 if ((navigator.appName.substring(0,5) == "Netsc"
   && navigator.appVersion.charAt(0) > 2)
   || (navigator.appName.substring(0,5) == "Micro"
@@ -35,16 +35,16 @@ if ((navigator.appName.substring(0,5) == "Netsc"
  out.src = "images/off.gif";
  
  gTarget = 'img1';
-}
+} */
 
-function showhelp(text) {
+/*function showhelp(text) {
 	if (text != '')
 		alert(text);
 	else
 		alert('No examples for this unit type!');
-}
+} */
 
-
+/*
 function Click(Target) {
  if (Net != 1){
 	  if (Target != gTarget) {
@@ -55,29 +55,31 @@ function Click(Target) {
   }
  }
 }
-
-
+*/
+/*
 
 var browser = document.all ? 'E' : 'N';
 
 var picklist = new Array();
-
+*/
 ]]>
 <![CDATA[
-
+/*
 function Out(Target) {
  if (Net != 1){
   document[Target].src = gammel.src;
  }
 }
-
+*/
+/*
 function Over(Target) {
  if (Net != 1){
   gammel.src = document[Target].src;
   document[Target].src = over.src;
  }
 }
-
+*/
+/*
 function fillPicklist(type,list,text) {
       var i,js;
 	for (i = list.length; i > 0; --i)
@@ -96,7 +98,7 @@ function fillPicklist(type,list,text) {
 	} 
 	list.options[0].selected = true;
 }
-
+*/
 
 function checkDate(oControl){
 	if ( checkDateFormat(oControl.value) == 1  )
@@ -196,141 +198,120 @@ function doSearch(){
 
 				
 		</script></head>
-<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0" background="images/eionet_background.jpg">
-<!-- main -->
-<table cellspacing="0" cellpadding="0" border="0"><tr>
-  <td valign="top" bgcolor="#747400" width="130">
-  <img alt="" width="130" height="113" src="images/top1.jpg"/></td><td valign="top" width="20">
-  <img alt="" src="images/top2.jpg" width="20" height="113"/></td><td valign="top" width="621">
-	<!-- 2 -->
-	<table cellspacing="0" cellpadding="0" border="0"><tr><td>
-    <img alt="" height="35" width="92" src="images/top3.jpg"/></td></tr><tr><td>
-		<!-- 3 -->
-		<table width="621" border="0"><tr><td width="618">
-		  <span class="head2"><strong><font color="#006666">Reporting Obligations Database, ROD</font></strong></span><font face="Arial" size="5" color="#006666"><strong><span class="head2">
-			</span></strong></font><br/><span class="head0"><strong>
-	  <font color="#006666">The database content is under establishment</font></strong></span>
-  </td><td width="50"></td><td><img border="0" width="66" height="62" alt="" src="images/logo.jpg"/></td></tr>
+<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
+
+<table border="0" width="600" cellpadding="0" cellspacing="0">
+<tr>
+	<td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td>
+	<td height="25" background="images/bar_filled.jpg" width="600">
+ 		 <table border="0" background="" cellPadding="0" cellSpacing="0" height="8">
+		 <tr>
+		  <td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
+		  <td width="28" valign="top">
+				<img src="images/bar_hole.jpg" width="28" height="24"/></td>
+				<td valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
+				<td width="28" valign="top"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
+				<td valign="bottom"><a href="deliveries.jsv"><span class="barfont">Deadlines</span></a></td>
+
+				<td width="28" valign="top"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
+				<td valign="bottom"><span class="barfont">Advanced Search</span></td>
+				<td width="28" valign="bottom"><img src="images/bar_dot.jpg" width="28" height="25"/></td>
+			 </tr>
+			</table>
+		 </td></tr><tr><td></td></tr>
 	</table>
-	<!-- 3 -->
-	</td></tr>
-	</table>
-	<!-- 2 -->
-	</td></tr>
-	</table>
-	<!-- main -->
-
-	<table  cellspacing="0" cellpadding="0" border="0">
-	<tr valign="top" height="500"> <td nowrap="" align="center" width="130" bgcolor="#747400">
-
-<table cellspacing="0" cellpadding="0" border="0"><tr><td align="center"><span class="head0">Contents</span></td></tr>
-  <!--tr>
-  <td align="right">
-  <a onMouseOver="
-									Over('img0')
-								" onMouseOut="
-									Out('img0')
-								" href="show.jsv?id=1&#038;mode=C">
-  <img alt="" border="0" src="images/off.gif" name="img0" width="16" height="13"/><img alt="Legislation" height="13" width="84" border="0" src="images/button_legislation.gif"/></a></td>
-  </tr-->
-  <tr>
-  <td align="right">
-  <a onClick="Click('img1')" onMouseOut="Out('img1')" onMouseOver="Over('img1')" href="rorabrowse.jsv?mode=R">
-    <img alt="" border="0" src="images/off.gif" name="img1" width="16" height="13"/>
-		<img alt="Reporting Obligations" height="13" width="84" border="0" src="images/button_obligations.gif"/></a></td>
-  </tr>
-
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=14,25,2,3,4,5,6,7,8,9,10,11,12,13:EU%20legislation%20obligations">
-								<img src="images/button_eulegislation_sub.gif" border="0" width="100" height="13" alt="EU legislation obligations"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=15:Conventions'%20obligations">
-								<img src="images/button_conventions_sub.gif" border="0" width="100" height="13" alt="Conventions obligations"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=21:EEA%20requests">
-								<img src="images/button_eearequests_sub.gif" border="0" width="100" height="13" alt="EEA requests"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=22:Eurostat%20requests">
-								<img src="images/button_eurostatrequests_sub.gif" border="0" width="100" height="13" alt="Eurostat requests"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=23:Other%20requests">
-								<img src="images/button_otherrequests_sub.gif" border="0" width="100" height="13" alt="Other requests"/>
-							</a>
-						</td></tr>
-
-
-  <tr>
-  <td align="right">
-  <a onClick="Click('img2')" onMouseOut="Out('img2')" onMouseOver="Over('img2')" href="rorabrowse.jsv?mode=A">
-    <img alt="" border="0" src="images/off.gif" name="img2" width="16" height="13"/>
-		<img alt="Reporting Activities" height="13" width="84" border="0" src="images/button_activities.gif"/></a></td>
-  </tr>
-  <tr>
-  <td align="right">
-  <a onClick="Click('img3')" onMouseOut="Out('img3')" onMouseOver="Over('img3')" href="deliveries.jsv">
-    <img alt="" border="0" src="images/off.gif" name="img3" width="16" height="13"/>
-		<img alt="Reported Data Sets" height="13" width="84" border="0" src="images/button_cs.gif"/></a></td>
-  </tr>
-  <!--tr>
-  <td align="right">
-  <a onClick="Click('img4')" onMouseOut="Out('img4')" onMouseOver="Over('img4')" href="http://www.eionet.eu.int/software/rod/issues/add_issue_quick_html">
-    <img alt="" border="0" src="images/off.gif" name="img4" width="16" height="13"/><img alt="Send feedback about the application" height="13" width="84" border="0" src="images/button_feedback.gif"/></a></td>
-  </tr-->
-  </table>  
+	 
+	 <div style="margin-left:13">
+		<form name="x1" method="get" action="csmain">
+		<table  width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
+				 <tr>
+						<td width="110" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
+						</td>
+						<td width="260" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
+						</td>
+						<td width="200" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For a country</span>
+						</td>
+						<td width="30" bgcolor="#FFFFFF"><!--img onclick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/-->
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSINDEX_SEARCH</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+						</td>
+				</tr>
+				<tr>
+           <td>
+						<span class="barfont">
+							Deadlines
+						</span>
+           </td>
+            <td style="border-left: 1 solid #C0C0C0">
+									<select name="ISSUE_ID" style="font-size: 8pt; color: #000000; width:240" height="20">
+											<option value="0">All issues</option>
+											<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
+                  </select>
+						</td>
+            <td style="border-left: 1 solid #C0C0C0">
+										<select name="COUNTRY_ID" style="color: #000000; font-size: 8pt; width:200" size="1">
+											<option value="0">Any country</option>
+											<xsl:call-template name="SpatialTemplate">
+												<xsl:with-param name ="type">C</xsl:with-param>
+												<xsl:with-param name ="type2"></xsl:with-param>
+											</xsl:call-template>
+                    </select>
+								</td>
+                <td>
+                   <input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 8pt; color: #000000; text-align: Center"/>
+								</td>
+					</tr>
+					<tr height="50">
+					<td style="border-left: 1 solid #C0C0C0">		
+					</td>
+					<td align="right" style="border-left: 1 solid #C0C0C0" >
+							<span class="smallfont">Next deadline: </span></td>
+									<td align="left"><span class="Mainfont"><input type="text" style="color: #000000; font-size: 10pt;" name="DATE_1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/><b> - </b></span>
+										<span class="smallfont"><font size="1"><input type="text" style="color: #000000; font-size: 10pt;" name="DATE_2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/></font></span>
+									</td>
+									<td></td>
+					</tr>
+		</table>
+		</form>
 
 
-  </td><td><table border="0" width="621" cellpadding="0" cellspacing="0"><tr><td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td><td height="25" background="images/bar_filled.jpg" width="600">
- <table border="0" background="" cellPadding="0" cellSpacing="0" height="8"><tr>
-  <td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
-  <td width="28" valign="bottom">
-    <img src="images/bar_hole.jpg" width="28" height="24"/></td>
-    <td valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
-    <td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-    <td valign="bottom"><a href="deliveries.jsv"><span class="barfont">Deliveries</span></a></td>
 
-    <td width="28" valign="bottom"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-    <td valign="bottom"><span class="barfont"><!--a href="cssearch.html"-->Advanced Search<!--/a--></span></td>
-    <td width="28" valign="bottom"><img src="images/bar_dot.jpg" width="28" height="25"/></td>
-   </tr></table></td></tr><tr><td></td></tr></table><div style="margin-left:13">
-		<form action="csmain" method="get" name="f">
+
+<!-- KL -->
+		<!--form action="csmain" method="get" name="f">
 		<input value="TITLE" name="ORD" type="hidden"/>
-		<table width="600" border="0" cellspacing="10"><tr><td colspan="3">
-  <span class="head0"><span lang="en-us">Reporting</span> deliveries selected by different 
-  filters: 
+		<table width="600" border="0" cellspacing="10">
+		<tr><td colspan="3">
+			<span class="head0"><span lang="en-us">Reporting</span> deliveries selected by different   filters: 
 		<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_CSSEARCH</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-  </span></td></tr>
-			<tr><td width="10">
-    <img src="images/diamlil.gif" width="8" height="9"/></td>
-		<td width="145">Countries
-			<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSSEARCH_COUNTRIES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+	  </span></td></tr>
+		<tr>
+		<td width="10">
+		  <img src="images/diamlil.gif" width="8" height="9"/>
 		</td>
-		<td>	<select name="COUNTRY_ID">
-			<option value="0">All countries </option>
-			<xsl:for-each select="XmlData/RowSet[@Name='Countries']/Row/T_SPATIAL">
-			<option>
-			<xsl:attribute name="value">
-				<xsl:value-of select="PK_SPATIAL_ID"/>
-			</xsl:attribute>
-			<xsl:value-of select="SPATIAL_NAME"/>
-			</option>
-			</xsl:for-each>
-		</select>		</td></tr>
-		<tr valign="center"><td width="10">
-
-		<img src="images/diamlil.gif" width="8" height="9"/></td><td width="200">Environmental issues
+		<td width="250">Countries
+				<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSSEARCH_COUNTRIES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+		</td>
+		<td width="340"><select name="COUNTRY_ID" style="width:200">
+				<option value="0">All countries </option>
+					<xsl:for-each select="RowSet[@Name='Countries']/Row/T_SPATIAL">
+				<option>
+				<xsl:attribute name="value">
+					<xsl:value-of select="PK_SPATIAL_ID"/>
+				</xsl:attribute>
+				<xsl:value-of select="SPATIAL_NAME"/>
+				</option>
+				</xsl:for-each>
+		</select>		
+		</td>
+		</tr>
+		<tr valign="center"><td>
+		<img src="images/diamlil.gif" width="8" height="9"/></td><td>Environmental issues
 			<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_ENVIRONMENTALISSUES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-		</td><td>
-		<select name="ISSUE_ID">
+		</td>
+		<td>
+		<select name="ISSUE_ID" style="width:300">
 			<option value="0">All issues</option>
-			<xsl:for-each select="XmlData/RowSet[@Name='Issues']/Row/T_ISSUE">
+			<xsl:for-each select="RowSet[@Name='Issues']/Row/T_ISSUE">
 			<option>
 			<xsl:attribute name="value">
 				<xsl:value-of select="PK_ISSUE_ID"/>
@@ -340,20 +321,6 @@ function doSearch(){
 			</xsl:for-each>
 		</select>
 		</td></tr>
-		<!--tr valign="center"><td width="10"></td><td width="200"> River runoff areas</td><td><select name="river">
-		<option>Choose a river</option>
-		</select></td></tr-->
-  <tr>
-    <td width="10"><!--img src="images/diamlil.gif" width="8" height="9"/--></td><td width="200">
-    <!--Specific parameters--></td><td>
-		
-</td>
-  </tr>
-	<!-- temporarily commented off until the deadline generating mechanism is not ready -->
-
-
-		<!--input type="hidden" name="DATE_1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
-		<input type="hidden" name="DATE_2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/-->
 
   <tr>
     <td width="10">
@@ -367,8 +334,32 @@ function doSearch(){
   </tr>
   <tr><td colspan="2"></td><td>
     <input value="Show selected reporting deliveries" onclick="doSearch()" style="width:300" type="button"/></td></tr></table>
-		</form><br/><div style="margin-left:20"><table cellspacing="7pts"></table></div>
-  </div></td></tr></table></body></html>
+		</form--><br/><div style="margin-left:20">
 
+		<table cellspacing="7pts"></table>
+		<xsl:call-template name="CommonFooter"/>		
+		</div>
+  </div></body></html>
 	</xsl:template>
+
+		<xsl:template name="SpatialTemplate">
+		<xsl:param name="type" select="'Not selected'"/>
+		<xsl:param name="type2" select="'Not selected'"/>
+		<xsl:for-each select="RowSet[@Name='Spatial']/Row/T_SPATIAL[SPATIAL_TYPE=$type or SPATIAL_TYPE=$type2]">
+			<option>
+				<xsl:attribute name="value">
+					<xsl:value-of select="PK_SPATIAL_ID"/>
+				</xsl:attribute>
+			<xsl:value-of select="SPATIAL_NAME"/></option>
+		</xsl:for-each>
+	</xsl:template>
+
+	<xsl:template match="RowSet[@Name='EnvIssue']">
+		<xsl:for-each select="Row/T_ISSUE">
+			<option><xsl:attribute name="value"><xsl:value-of select="PK_ISSUE_ID"/></xsl:attribute>
+			<xsl:value-of select="ISSUE_NAME"/></option>
+		</xsl:for-each>
+	</xsl:template>
+
+
 </xsl:stylesheet>

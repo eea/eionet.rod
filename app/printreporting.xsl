@@ -24,8 +24,8 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:include href="print.xsl"/>
-
+	<xsl:include href="common.xsl"/>
+	<xsl:include href="util.xsl"/>
 
 	<xsl:variable name="src-id">
 		<xsl:value-of select="/XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/FK_SOURCE_ID"/>
@@ -39,6 +39,11 @@
 		<xsl:value-of select="/XmlData/RowSet[@Name='Reporting']/@auth"/>
 	</xsl:variable>
 
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet[@Name='Reporting']/@permissions"/>
+	</xsl:variable>
+
+
 	<xsl:template match="XmlData">
 		<xsl:choose>
 			<xsl:when test="count(RowSet[@Name='Reporting']/Row)>0">
@@ -48,13 +53,90 @@
 				<xsl:call-template name="nofound"/>
 			</xsl:otherwise>
 		</xsl:choose>
+
+			<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=PR</xsl:attribute><xsl:attribute name="target">_new</xsl:attribute>Printable page.</a>
+		<xsl:call-template name="LIRORAFooter">
+				<xsl:with-param name="table">RO</xsl:with-param>			
+		</xsl:call-template>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Reporting']/Row">
 		<!-- form for delete obligation action -->
+		<!--xsl:if test="$admin='true'"-->
+		<xsl:if test="contains($permissions, ',RO:d,')='true'">
+			<script language="JavaScript">
+			<![CDATA[
+
+/*function openClient(ID){
+
+	var url = "client.jsv?id=" + ID;
+	var name = "Client";
+	var features = "location=no, menubar=no, width=500, height=400, top=100, left=200, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
+}*/
+
+/*function openHistory(ID,TYPE){
+	
+	var url = "history.jsv?entity=" + TYPE + "&id=" + ID;
+	var name = "History";
+	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
+} */
+
+
+function delObligation() {
+	if (confirm("Do you want to delete the reporting obligation and related reporting activities?"))
+		document.f.submit();
+}
+			]]>
+			</script>
+			<form name="f" method="POST" action="reporting.jsv">
+
+				<input type="hidden" name="dom-update-mode" value="D"/>
+				<input type="hidden" name="/XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/PK_RO_ID">
+					<xsl:attribute name="value"><xsl:value-of select="$ro-id"/></xsl:attribute>
+				</input>
+				<input type="hidden" name="/XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/FK_SOURCE_ID">
+					<xsl:attribute name="value"><xsl:value-of select="$src-id"/></xsl:attribute>
+				</input>
+			</form>
+		</xsl:if>
+
+      <table cellspacing="0" cellpadding="0" width="621" border="0">
+			<tr>
+         	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
+          	<td width="600" background="images/bar_filled.jpg" height="25">
+            <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
+            	<tr>
+		         	<td valign="bottom">
+							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
+						</td>
+		            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
+		         	<td valign="bottom">
+							<a href="index.html"><span class="barfont">ROD</span></a>
+						</td>
+   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
+               	<td valign="bottom">
+							<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;mode=S</xsl:attribute>
+							<span class="barfont">Legal instrument</span></a>
+						</td>
+   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
+      	         <td valign="bottom"><span class="barfont">Reporting obligation</span></td>
+            	   <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
+	               <td valign="bottom" align="right" width="120"></td>
+					</tr>
+				</table>
+			</td></tr>
+			<tr><td>&#160;</td></tr>
+		</table>
 		<!-- page -->
+		<div style="margin-left:13">
 		<table cellspacing="7pts" width="600">
-			<tr><td width="82%">
+			<tr><td width="82%" colspan="2">
 				<span class="head1">Details of reporting obligation</span>
 <!--
 			[
@@ -63,16 +145,63 @@
 						<span class="head0"><font color="red">Unrecognized</font></span>
 					</xsl:when>
 					<xsl:otherwise>
-						<span class="head0">Recognized</span>
+						<xsl:choose>
+							<xsl:when test="T_REPORTING/RECOGNIZED_DETAIL != ''">
+								<span class="head0"><xsl:value-of select="T_REPORTING/RECOGNIZED_DETAIL"/></span>
+							</xsl:when>
+							<xsl:otherwise>
+-->
+<!--
+								<span class="head0"><xsl:call-template name="RecognizedDefault"/></span>
+-->
+<!--
+								<span class="head0">Recognized</span>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:otherwise>
 				</xsl:choose>]
 -->
+
+			<!-- DEBUG -->
+			<!--xsl:value-of select="$permissions"/-->
+
 			</td>
+				<td align="right" nowrap="true" rowspan="3">
+					<xsl:if test="contains($permissions, ',RO:i,')='true'">
+						<a>
+						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
+<!--
+						<xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+-->
+						<img src="images/newobligation.png" alt="Add a new reporting obligation" border="0"/></a><br/>
+					</xsl:if>
+					<!--xsl:if test="$admin='true'"-->
+					<xsl:if test="contains($permissions, ',RA:i,')='true'">
+						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
+							<img src="images/newactivity.png" alt="Add a new reporting activity" border="0"/></a><br/>
+					</xsl:if>
+					<xsl:if test="contains($permissions, ',RO:u,')='true'">
+						<a><xsl:attribute name="href">reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+							<img src="images/editobligation.png" alt="Edit reporting obligation" border="0"/></a><br/>
+					</xsl:if>
+					<xsl:if test="contains($permissions, ',RO:d,')='true'">
+						<a href="javascript:delObligation()"><img src="images/deleteobligation.png" alt="Delete reporting obligation" border="0"/></a><br/>
+					</xsl:if>				
+					<xsl:if test="contains($permissions, ',Admin:v,')='true'">
+					<a>
+					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ro-id"/>','O')</xsl:attribute>
+					<img src="images/showhistory.png" alt="Show history" border="0"/>
+					</a>
+					</xsl:if>				
+				</td>
+
+
+
+<!-- -->			
 			</tr>
-		</table>
-		<table cellspacing="7pts" width="600" border="0">
+
 			<tr valign="top">
-				<td width="22%"><span class="head0">Alias name:</span></td>
+				<td width="22%"><span class="head0">Short name:</span></td>
 				<td width="60%">
 					<xsl:choose>
 						<xsl:when test="T_REPORTING/ALIAS != ''">
@@ -84,16 +213,19 @@
 					</xsl:choose>
 				</td>
 			</tr>
+			<!-- Remove after moving this field to footer
 			<tr valign="top">
 				<td width="22%"><span class="head0">Document last modified:</span></td>
 				<td colspan="2">
 					<xsl:value-of select="T_REPORTING/LAST_UPDATE"/>
 				</td>
 			</tr>
+			-->
 			<tr valign="top">
-				<td width="22%"><span class="head0">Related legal instrument:</span></td>
-				<td colspan="2"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-						<xsl:choose>
+				<td width="22%"><span class="head0">Parent legal instrument:</span></td>
+				<td width="60%">
+					<a>	<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+					<xsl:choose>
 						<xsl:when test="T_SOURCE/ALIAS != ''">
 							<xsl:value-of select="T_SOURCE/ALIAS"/>
 						</xsl:when>
@@ -107,8 +239,10 @@
 			<tr valign="top">
 				<td width="22%"><span class="head0">Report to:</span></td>
 				<td colspan="2">
-					<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
-					<!--xsl:value-of select="T_REPORTING/REPORT_TO"/-->
+					<a>
+						<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="T_REPORTING/FK_CLIENT_ID"/>')</xsl:attribute>
+						<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
+					</a>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -124,20 +258,33 @@
 					</xsl:choose>
 				</td>
 			</tr>
-			<tr valign="top">
-				<td width="22%"><span class="head0">Valid from:</span></td>
-				<td colspan="2">
-					<xsl:value-of select="T_REPORTING/VALID_FROM"/>
-				</td>
-			</tr>
-			<tr valign="top">
-				<td width="22%"><span class="head0">Linked environmental issues:</span></td>
+
+			<!-- =========================================================================== >
+			<							To replace issues withe RA issues, replace these 2 rows						 >
+			<  =========================================================================== -->
+
+			<!-- ========================================================================== -->
+
+			<!--tr valign="top">
+				<td width="22%"><span class="head0">Environmental issues:</span></td>
 				<td colspan="2">
 					<xsl:apply-templates select="//RowSet[@Name='EnvIssue']"/>
 				</td>
-			</tr>
+			</tr-->
+			
 			<tr valign="top">
-				<td width="22%"><span class="head0">Linked spatial attributes:</span></td>
+				<td width="22%"><span class="head0">Environmental issues:</span></td>
+				<td colspan="2">
+					<xsl:apply-templates select="//RowSet[@Name='EnvRaIssue']"/>
+				</td>
+			</tr>
+
+			<!-- ============================================================================-->
+			<!-- ============================================================================-->
+			<!-- ============================================================================-->
+
+			<tr valign="top">
+				<td width="22%"><span class="head0">Countries:</span></td>
 				<td colspan="2">
 					<xsl:apply-templates select="//RowSet[@Name='Spatial']"/>
 				</td>
@@ -154,13 +301,16 @@
 			<tr>
 				<td></td>
 				<td colspan="2">
-					<span class="head0"><a><xsl:attribute name="href">show.jsv?mode=ROP&amp;id=<xsl:value-of select="$ro-id"/></xsl:attribute>
-					<xsl:attribute name="target">_new</xsl:attribute>
+					<span class="head0"><a>
+						<xsl:attribute name="href">show.jsv?mode=ROP&amp;id=<xsl:value-of select="$ro-id"/></xsl:attribute>
+						<xsl:attribute name="target">_new</xsl:attribute>
 						Show all related parameters
 					</a></span>
 				</td>
 			</tr>
 			</xsl:if>
+
+
 <!--
 			<xsl:call-template name="RelatedInformation">
 				<xsl:with-param name="type">ER</xsl:with-param>
@@ -169,19 +319,33 @@
 				<xsl:with-param name="type">NS</xsl:with-param>
 			</xsl:call-template>
 -->
-			
+	
+
+
 			<tr><td colspan="3"><br/><hr/></td></tr>
-			<tr><td colspan="3">
+			<!--tr><td colspan="3">
 			Contents in this application are maintained by the EEA.
-			<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>
-			</td></tr>
+			<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>&#160;
+			<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=PR</xsl:attribute><xsl:attribute name="target">_new</xsl:attribute>Printable page.</a>
+			</td></tr-->
 		</table>
+		</div>
 	</xsl:template>
 
 	<xsl:template match="//RowSet[@Name='EnvIssue']">
 		<xsl:for-each select="Row/T_ISSUE">
 		<xsl:choose>
 			<xsl:when test="position()!=count(//RowSet[@Name='EnvIssue']/Row/T_ISSUE)">
+				<xsl:value-of select="ISSUE_NAME"/>, 
+			</xsl:when>
+			<xsl:otherwise><xsl:value-of select="ISSUE_NAME"/></xsl:otherwise>
+		</xsl:choose></xsl:for-each>
+	</xsl:template>
+
+	<xsl:template match="//RowSet[@Name='EnvRaIssue']">
+		<xsl:for-each select="Row/T_ISSUE">
+		<xsl:choose>
+			<xsl:when test="position()!=count(//RowSet[@Name='EnvRaIssue']/Row/T_ISSUE)">
 				<xsl:value-of select="ISSUE_NAME"/>, 
 			</xsl:when>
 			<xsl:otherwise><xsl:value-of select="ISSUE_NAME"/></xsl:otherwise>
@@ -208,7 +372,8 @@
 			</tr>
 			<xsl:for-each select="Row/T_ACTIVITY">
 				<tr>
-					<td><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
+					<td>
+					<a>	<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="TITLE != ''">
 								<xsl:value-of select="TITLE"/>

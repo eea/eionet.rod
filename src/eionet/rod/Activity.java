@@ -188,7 +188,7 @@ public class Activity extends ROEditServletAC {
    private static final String PARAMETERS =
       "T_PARAMETER_LNK.FK_PARAMETER_ID FROM T_PARAMETER_LNK WHERE T_PARAMETER_LNK.FK_RA_ID=";
 
-
+/*
   private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
     String mode = null;
     
@@ -202,22 +202,19 @@ public class Activity extends ROEditServletAC {
 
 
     if ( upd.equals("A"))
-      mode = "A";
+      mode = Constants.ACL_INSERT_PERMISSION;
     else if ( upd.equals("D"))
-      mode = "X";
+      mode = Constants.ACL_DELETE_PERMISSION;
     else if ( upd.equals("U"))
-      mode = "a";
+      mode = Constants.ACL_UPDATE_PERMISSION;
     
-/*    if ( id.equals("-1"))
-      mode = "A";
-    else if ( upd.equals("D"))
-      mode = "X";
-    else
-      mode = "a";*/
-        
+
+Logger.log("*****************************************");
+Logger.log("checkPermissions ");
+Logger.log("*****************************************");
     boolean b = false;
     try {
-      b = getAcl().checkPermission( userName, mode );
+      b = getAcl(Constants.ACL_RA_NAME).checkPermission( userName, mode );
     } catch ( Exception e ) {
       throw new XSQLException (e, "Error getting user rights ");
     }
@@ -226,5 +223,7 @@ public class Activity extends ROEditServletAC {
       throw new XSQLException (null, "No permission to perform the action");
     
   }
+
+  */
       
 }

@@ -23,7 +23,13 @@
  * Original Code: Andre Karpistsenko (TietoEnator)
  * -->
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:java="http://xml.apache.org/xslt/java" version="1.0">
+
+	<xsl:param name="req" select="'default value'"/>
+	<xsl:variable name="printmode" select="java:eionet.rod.RODUtil.getParameter($req, 'printmode')"/>
+
+	<!--xsl:variable name="mode">PR</xsl:variable-->
+
 	<xsl:variable name="admin">
 		<xsl:value-of select="//RowSet[position()=1]/@auth"/>
 	</xsl:variable>
@@ -71,12 +77,12 @@ function showhelp(text) {
 		alert('No examples for this unit type!');
 }
 
-function openCirca(url){
+/* function openCirca(url){
 	var name = "CSCIRCA";
 	var features = "location=yes, menubar=yes, width=750, height=600, top=30, left=30, resizable=yes, SCROLLBARS=YES";
 	var w = window.open( url, name, features);
 	w.focus();
-}
+} */
 
 function openActionTypeHistory(MODE,TYPE){
 
@@ -99,6 +105,8 @@ function openHistory(ID,TYPE){
 
 }
 
+
+/*
 function openIssuer(ID){
 
 	var url = "issuer.jsv?id=" + ID;
@@ -106,15 +114,15 @@ function openIssuer(ID){
 	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
 	var w = window.open(url,name,features);
 	w.focus();
-
 }
+*/
 
 
 function openClient(ID){
 
 	var url = "client.jsv?id=" + ID;
 	var name = "Client";
-	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var features = "location=no, menubar=no, width=640, height=600, top=50, left=200, scrollbars=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 
@@ -171,10 +179,12 @@ function fillPicklist(type,list,text) {
 				]]>
 			</script>
 		</head>
-		<body bgcolor="#f0f0f0" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0"
-			background="images/eionet_background.jpg">
+		<body bgcolor="#f0f0f0" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
+				<!--xsl:if test="not(starts-with($mode,'P'))"--><xsl:if test="not($printmode='Y')"><xsl:attribute name="background">images/eionet_background.jpg</xsl:attribute></xsl:if>
 
 			<!-- MAIN table -->
+			<!--xsl:if test="not(starts-with($mode,'P'))"-->
+			<xsl:if test="not($printmode='Y')">
 			<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
 			  <td width="130" bgcolor="#FFB655" valign="top"><img src="images/top1.jpg" height="113" width="130" alt=""/></td>
@@ -187,16 +197,16 @@ function fillPicklist(type,list,text) {
 			    <tr>
 			      <td><table border="0" width="621">
 			          <tr>
-			            <td width="618">
-								<font color="#006666" size="5" face="Arial"><strong><span class="head2">
+			            <td width="648">
+								<font color="#006666" face="Arial"><strong><span class="head2">
 									<xsl:call-template name="FirstHeading"/>
 								</span></strong></font>
 								<br/>
-								<font color="#006666" face="Arial" size="2"><strong><span class="head0">
+								<font color="#006666" size="2"><strong><span class="head0">
 									<xsl:call-template name="SecondHeading"/>
 								</span></strong></font>
 							</td>
-			            <td width="50">&#160;</td>
+			            <td width="20">&#160;</td>
 			            <td><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></td>
 			          </tr>
 			          </table>
@@ -206,76 +216,16 @@ function fillPicklist(type,list,text) {
 			    </td>
 			  </tr>
 			</table>
+			</xsl:if>
 
 			<table border="0">
-				<tr valign="top"><td width="125" nowrap="true">
-					<!-- Toolbar -->
-					<p><center>
-						<table border="0" cellpadding="0" cellspacing="0">
-						<tr><td align="center"><span class="head0">Contents</span></td></tr>
-<!--
-						<tr><td align="right">
-							<a>	<xsl:attribute name="href">
-									show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=C
-								</xsl:attribute>
-								<xsl:attribute name="onMouseOver">
-									Over('img0')
-								</xsl:attribute>
-								<xsl:attribute name="onMouseOut">
-									Out('img0')
-								</xsl:attribute>
-								<img name="img0" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_legislation.gif" border="0" width="84" height="13" alt="Legislation"/>
-							</a>
-						</td></tr>
--->
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R" onMouseOver="Over('img1')" onMouseOut="Out('img1')" onClick="Click('img1')">
-								<img name="img1" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_obligations.gif" border="0" width="84" height="13" alt="Reporting Obligations"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=14,25,2,3,4,5,6,7,8,9,10,11,12,13:EU%20legislation%20obligations">
-								<img src="images/button_eulegislation_sub.gif" border="0" width="100" height="13" alt="EU legislation obligations"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=15:Conventions'%20obligations">
-								<img src="images/button_conventions_sub.gif" border="0" width="100" height="13" alt="Conventions obligations"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=21:EEA%20requests">
-								<img src="images/button_eearequests_sub.gif" border="0" width="100" height="13" alt="EEA requests"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=22:Eurostat%20requests">
-								<img src="images/button_eurostatrequests_sub.gif" border="0" width="100" height="13" alt="Eurostat requests"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=R&amp;type=23:Other%20requests">
-								<img src="images/button_otherrequests_sub.gif" border="0" width="100" height="13" alt="Other requests"/>
-							</a>
-						</td></tr>
-						<tr><td align="right">
-							<a href="rorabrowse.jsv?mode=A" onMouseOver="Over('img2')" onMouseOut="Out('img2')" onClick="Click('img2')">
-								<img name="img2" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_activities.gif" border="0" width="84" height="13" alt="Reporting Activities"/>
-							</a>
-						</td></tr>
-
-						<tr><td align="right">
-							<a href="deliveries.jsv" onMouseOver="Over('img8')" onMouseOut="Out('img8')" onClick="Click('img8')">
-								<img name="img8" src="images/off.gif" border="0" alt=""/>
-								<img src="images/button_cs.gif" border="0" width="84" height="13" alt="Deliveries"/>
-							</a>
-						</td></tr>
-					</table>
-				</center></p>
+				<tr valign="top">
+				<!--xsl:if test="not(starts-with($mode,'P'))"-->
+				<xsl:if test="not($printmode='Y')">
+				<td width="125" nowrap="true">
+					<xsl:call-template name="LeftToolbar"><xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param></xsl:call-template>
 				</td>
+				</xsl:if>
 				<td>
 					<xsl:apply-templates select="XmlData"/>
 				</td>

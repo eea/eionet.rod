@@ -58,7 +58,7 @@ public class History extends ROServletAC {
  */
    protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
 
-      if  (!isAuthorized( params.getRequest() ))
+      if  (!isAuthorised( params.getRequest() ))
         throw new XSQLException(null, "Not authorized");
         
       String id = params.getParameter(ID_PARAM);
@@ -92,12 +92,12 @@ public class History extends ROServletAC {
       return dataSrc;
    }
 
- private boolean isAuthorized(HttpServletRequest req) throws XSQLException {
+ private boolean isAuthorised(HttpServletRequest req) throws XSQLException {
     boolean b = false;
      AppUserIF u = getUser(req);
       try {
       if (u != null) 
-          b = getAcl().checkPermission(u.getUserName(), "y");
+          b = getAcl(Constants.ACL_ADMIN_NAME).checkPermission(u.getUserName(), Constants.ACL_VIEW_PERMISSION);
       } catch ( SignOnException soe  )  {
         throw new XSQLException(soe, "Error getting permissions " + soe.toString());
       }

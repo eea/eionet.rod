@@ -139,9 +139,9 @@ public interface DbServiceIF  {
   public String[][] getDeadlines() throws ServiceException;  
 
  /**
- * Saves next deadline for given RA
+ * Saves next deadlines for given RA
  */
-  public void saveDeadline(String raId, String next) throws ServiceException ;
+  public void saveDeadline(String raId, String next, String next2) throws ServiceException ;
 
  /**
  * Saves next terminated value for given RA
@@ -224,6 +224,11 @@ public interface DbServiceIF  {
   */
 
   public void markDeliveries ( HashMap countryIds ) throws ServiceException;
+
+  /**
+  * Returns countries from the DB: PK_SPATIAL_ID, SPATIAL_NAME from T_SPATIAL
+  */
+  public String[][] getCountries() throws ServiceException;
   
 }
 

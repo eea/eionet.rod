@@ -37,6 +37,21 @@ import com.tee.xmlserver.*;
  */
 
 public interface Constants {
+
+   public static final String ACL_RA_NAME="RA";
+   public static final String ACL_RO_NAME="RO";
+   public static final String ACL_LI_NAME="LI";
+   public static final String ACL_ADMIN_NAME="Admin";
+   public static final String ACL_CLIENT_NAME="Client";
+   public static final String ACL_HELP_NAME="Helptext";
+   
+  public static final String ACL_VIEW_PERMISSION ="v";
+  public static final String ACL_INSERT_PERMISSION ="i";
+  public static final String ACL_UPDATE_PERMISSION ="u";   
+  public static final String ACL_DELETE_PERMISSION ="d";  
+  public static final String ACL_CONTROL_PERMISSION ="c";
+   
+   
 // index servlet constants
    public static final String INDEX_XSL = "index.xsl";
    public static final String INDEX_QUERY = "index.xrs";
@@ -69,8 +84,12 @@ public interface Constants {
    public static final String REPORTING_MODE = "R";
    public static final String REPORTING_PARAM_MODE = "ROP";
    public static final String ACTIVITY_MODE = "A";
+
+   public static final String HIERARCHY_PRINT_MODE = "PC";
    public static final String REPORTING_PRINT_MODE = "PR";
    public static final String ACTIVITY_PRINT_MODE = "PA";
+   public static final String SOURCE_PRINT_MODE = "PS";
+   
 
    // editor
    public static final String E_SOURCE_XSL = "esource.xsl";
@@ -95,6 +114,7 @@ public interface Constants {
    public static final String PARAM_GROUP_FILTER ="param_group";
    public static final String ROTYPE_FILTER ="type";
    public static final String SOURCE_FILTER ="source";
+   public static final String CLIENT_FILTER ="client";
 
 // Spatial attribute types
    public static final String SPATIAL_COUNTRY ="C";
@@ -107,4 +127,59 @@ public interface Constants {
   static final String ROD_URL_EVENTS ="rod.url.events";
   static final String ROD_URL_OBLIGATIONS ="rod.url.obligations";
   static final String ROD_URL_ACTIVITIES ="rod.url.activities";  
+
+  /**
+* Properties file name
+*/
+  
+  public static final String PROP_FILE = "rod";
+
+
+/**
+* Parameter in the props file for the domain of WebROD
+*/
+  public static final String ROD_URL_NS = "rod.url.namespace";
+/**
+*
+*/
+  public static final String ROD_URL_RO_NS = "rod.url.ro_namespace";
+  
+/**
+* Parameter in the props file for the domain of WebROD
+*/
+  public static final String ROD_URL_DOMAIN = "rod.url.domain";
+
+/**
+* Servlet name showing RA
+*/
+  public static final String URL_SERVLET = "show.jsv";
+/**
+* RA ID in Url
+*/
+  public static final String URL_ACTIVITY_ID = "id";
+
+/**
+* AID for RA in url
+*/
+  public static final String URL_ACTIVITY_AID = "aid";
+
+/**
+* Mode, for RA Mode=A in url
+*/
+
+  public static final String URL_ACTIVITY_AMODE = "mode=A";
+
+/**
+* Mode, for RA Mode=R in url
+*/
+
+  public static final String URL_ACTIVITY_RMODE = "mode=R";
+
+/**
+* FiledName for timestamp
+*/
+
+  public static final String TIMESTAMP_FILEDNAME = "LAST_UPDATE";
+
+
 }

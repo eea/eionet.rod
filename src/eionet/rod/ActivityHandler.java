@@ -31,6 +31,9 @@ import com.tee.xmlserver.*;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.DbServiceIF;
+import com.tee.uit.security.AccessControlListIF;
+import eionet.directory.DirectoryService;
+import eionet.directory.DirServiceException;
 
 /**
  * <P>Handler to store WebROD activity data.</P>
@@ -63,6 +66,11 @@ public class ActivityHandler extends ROHandler {
  */
    protected boolean sqlReady(SQLGenerator gen, String context) {
       // if error has occured in previous call, stop further processing
+
+      /*Logger.log("*********************************");      
+        Logger.log("handler");
+      */
+      
       if (getError())
          return false;
 
@@ -72,26 +80,47 @@ public class ActivityHandler extends ROHandler {
      String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
       try {
-        upd = servlet.getAcl().checkPermission(userName, "a");
-        del = servlet.getAcl().checkPermission(userName, "X");
-        ins = servlet.getAcl().checkPermission(userName, "A");      
+        AccessControlListIF acl = servlet.getAcl(Constants.ACL_RA_NAME);
+/*Logger.log("*********************************");      
+Logger.log("acl OK");*/
+
+        upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
+/*Logger.log("*********************************");      
+Logger.log("upd " + upd);*/
+        
+        //special case for delete, because user, having permission to delete RO or 
+        //LI must be able to delete RA's as well
+        del = acl.checkPermission(userName, Constants.ACL_DELETE_PERMISSION) || servlet.getAcl(Constants.ACL_RO_NAME).checkPermission(userName, Constants.ACL_DELETE_PERMISSION) || servlet.getAcl(Constants.ACL_LI_NAME).checkPermission(userName, Constants.ACL_DELETE_PERMISSION) ;
+        ins = acl.checkPermission(userName, Constants.ACL_INSERT_PERMISSION);
       } catch (Exception e ) {
         return false;
       }
 
 
-
+//Logger.log("state " + state);
       if (tblName.equals("T_ACTIVITY")) {
-
- 
-      
          if (state != INSERT_RECORD) {
 
-            if (!ins)
+            if (!upd)
               return false;
               
             gen.setPKField("PK_RA_ID");
             id = gen.getFieldValue("PK_RA_ID");
+
+            //Get role info from Directory and save in T_ROLE
+            //KL 030206
+            String roleId = gen.getFieldValue("RESPONSIBLE_ROLE");
+            if (!Util.nullString(roleId)) 
+              try {
+                Hashtable role = DirectoryService.getRole(roleId);
+                RODServices.getDbService().saveRole(role);
+              } catch (DirServiceException de ) {
+                Logger.log("Error getting role infor for: " + roleId);
+              } catch (ServiceException se ) {
+                Logger.log("Error saving role info for: " + roleId);
+              }
+
+              
             // delete all linked parameter records and in delete mode also the self record
             boolean delSelf = (state == DELETE_RECORD);
 
@@ -99,7 +128,7 @@ public class ActivityHandler extends ROHandler {
                 return false;
             else if (!upd)
               return false;
-              
+
             DELETE_ACTIVITY(id, delSelf);
 
             if (delSelf == true) {
@@ -108,6 +137,7 @@ public class ActivityHandler extends ROHandler {
             }
          }
          else {
+
 
             if (!ins)
               return false;
@@ -122,10 +152,14 @@ public class ActivityHandler extends ROHandler {
          setDateValue(gen, "VALID_TO");
          setDateValue(gen, "NEXT_DEADLINE");
          setDateValue(gen, "FIRST_REPORTING");
+         setDateValue(gen, "NEXT_DEADLINE2");
+         setDateValue(gen, "RM_NEXT_UPDATE");
+         setDateValue(gen, "RM_VERIFIED");
 
+//Logger.log("defaulktprocessing ->");
          defaultProcessing(gen, null);
          id = recordID;
-
+//Logger.log("defaulktprocessing ok");
         //log history
          // id = gen.getFieldValue("PK_RA_ID");
           //try {

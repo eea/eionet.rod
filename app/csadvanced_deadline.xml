@@ -8,6 +8,7 @@
 			<DEADLINE expression="NEXT_DEADLINE AS DEADLINE"/>
 			<NEXT_REPORTING/>
 			<FK_DELIVERY_COUNTRY_IDS/>
+			<DEADLINE2 expression="NEXT_DEADLINE2 AS DEADLINE2"/>
 		</T_ACTIVITY>
 		<xrs:Constraint>@DEADLINES</xrs:Constraint>
 

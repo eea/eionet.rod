@@ -30,6 +30,7 @@ import com.tee.util.*;
 import com.tee.xmlserver.*;
 
 import com.tee.uit.security.*;
+import java.util.HashMap;
 
 
 /**
@@ -47,7 +48,10 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
   private static final String APP_HOST = "127.0.0.1";
   private static final String APP_PORT = "80";
 
-  private static AccessControlListIF acl ;
+
+  private QueryStatementIF metaRA, metaRO, metaLI;
+  //private static AccessControlListIF acl ;
+  private static HashMap  acls ;
   
   public void appInit(){
         //log("****************************** appInit GO ");
@@ -83,21 +87,27 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
           log(" Error, getting ACL for webrod " + soe);
         } */
       //KL030127
-      if (acl==null)
-        initAcl();
+      if (acls==null)
+        initAcls();
         
     }
 
-  protected void resetAcl() {
-    acl=null;
+  protected void resetAcls() {
+    acls=null;
     //Logger.log("******************* ACL = null");    
   }
-  protected AccessControlListIF getAcl() throws SignOnException {
 
-    if (acl== null)
-      initAcl();
+ /* protected AccessControlListIF getAcl() throws SignOnException {
+    return null;
+  }  */
+  
+  protected AccessControlListIF getAcl(String name) throws SignOnException {
+    
+    if (acls== null)
+      initAcls();
       
-    return acl;
+    
+    return (AccessControlListIF)acls.get(name);
   }
   
 /**
@@ -138,10 +148,15 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
          if (u != null) {
             qry.addAttribute("auth", "true");
             //ACL
-            if ( acl != null) {
+
+            if ( acls == null)
+              initAcls();
+              
+            //if ( acls != null) {
               String prms = "";
               try {
-                 prms = acl.getPermissions( u.getUserName() ) ;
+                 //prms = acl.getPermissions( u.getUserName() ) ;
+                 prms=AccessController.getPermissions(u.getUserName());
               } catch (SignOnException soe ) {
                 prms = null;
 
@@ -150,7 +165,7 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
               if (prms != null)
                 qry.addAttribute("permissions", prms);
               //<- test acl
-            }
+            //}
           }
           else {
             qry.addAttribute("auth", "false");
@@ -161,16 +176,42 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
       return dataSrc;
    }
 
-   private void initAcl() {
+   private void initAcls() {
         try {
-          acl = AccessController.getAcl("webrod");
+          acls = AccessController.getAcls();
 /*
 log("******************************");          
 log("************* ACL initiated ");
 log("******************************"); */
          } catch (SignOnException soe ) {
-          log(" Error, getting ACL for webrod " + soe);
+          log(" Error, getting ACLs for webrod " + soe);
         }
 
+   }
+
+  /**
+  * Adds metainfo from T_SOURCE, T_ACTIVITY, T_REPORTING
+  */
+   protected void addMetaInfo(DataSourceIF dataSrc) {
+    //QueryStatementIF metaRA, metaRO, metaLI;
+    if (metaRA==null) {
+      metaRA = new MetaData("RAMetaInfo", "T_ACTIVITY");
+    }
+    
+     dataSrc.unsetQuery(metaRA);
+     dataSrc.setQuery(metaRA);
+
+    if (metaRO==null) {
+      metaRO = new MetaData("ROMetaInfo", "T_REPORTING");
+    }
+     dataSrc.unsetQuery(metaRO);
+     dataSrc.setQuery(metaRO);   
+    if (metaLI==null) {
+      metaLI = new MetaData("LIMetaInfo", "T_SOURCE");
+    }
+     dataSrc.unsetQuery(metaLI);
+     dataSrc.setQuery(metaLI);   
+
+     //dataSrc.setQuery(new MetaData("LIMetaInfo", "T_SOURCE"));        
    }
 }

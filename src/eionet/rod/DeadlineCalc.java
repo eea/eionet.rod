@@ -150,8 +150,26 @@ public class DeadlineCalc {
          String currStr = dFormat.format(currDate.getTime());
          String repStr = dFormat.format(repDate.getTime());
 
+         // Deadline after the next
+         //
+         if(day < 28)
+            repDate.add(Calendar.MONTH, freq);
+         else {
+            repDate.add(Calendar.DATE, -3);
+            repDate.add(Calendar.MONTH, freq);
+            m = repDate.get(Calendar.MONTH);
+            while(repDate.get(Calendar.MONTH) == m)
+               repDate.add(Calendar.DATE, 1);
+            repDate.add(Calendar.DATE, -1);
+         }
+         String repStr2;
+         if(repDate.after(toDate))
+            repStr2 = "";
+         else
+            repStr2 = dFormat.format(repDate.getTime());
+
          try {
-            db.saveDeadline(deadlines[i][0], repStr);
+            db.saveDeadline(deadlines[i][0], repStr, repStr2);
          }  
          catch (Exception e) {
             logger.error("Saving deadline to database failed. The following error was reported:\n" + e.toString());      

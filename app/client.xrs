@@ -8,8 +8,14 @@
 			<CLIENT_ACRONYM/>
 			<CLIENT_URL/>
 			<CLIENT_EMAIL/>
+			<POSTAL_CODE/>
+			<CITY/>
+			<FK_SPATIAL_ID/>
 			<DESCRIPTION/>
 		</T_CLIENT>
+		<T_SPATIAL relation="T_CLIENT.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID" reltype="outer">
+			<SPATIAL_NAME/>
+		</T_SPATIAL>
 		<xrs:Constraint>PK_CLIENT_ID=@ID</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>

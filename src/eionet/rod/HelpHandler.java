@@ -44,7 +44,7 @@ public class HelpHandler extends ROHandler {
       boolean isAuth = false;
 
       try {
-         isAuth = servlet.getAcl().checkPermission(userName, "h");
+         isAuth = servlet.getAcl(Constants.ACL_HELP_NAME).checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
       } 
       catch (Exception e) {
          return false;

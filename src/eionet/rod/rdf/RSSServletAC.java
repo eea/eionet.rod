@@ -9,10 +9,11 @@ import java.io.IOException;
 
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
-import eionet.rod.services.Config;
+//import eionet.rod.services.Config;
+import eionet.rod.Constants;
 
 
-public abstract class RSSServletAC extends RDFServletAC  {
+public abstract class RSSServletAC extends RDFServletAC implements Constants  {
 
   protected static final String eventsNs = " xmlns:ev=\"http://purl.org/rss/1.0/modules/event/\" ";
   protected static final String rssNs = " xmlns=\"http://purl.org/rss/1.0/\" "  ;
@@ -72,15 +73,15 @@ public abstract class RSSServletAC extends RDFServletAC  {
   }  */
 
  protected String getObligationUrl(String id, String aid){
-    String url = props.getString( Config.ROD_URL_DOMAIN) + "/" + Config.URL_SERVLET + "?" + 
-      Config.URL_ACTIVITY_ID + "=" + id + "&amp;" + Config.URL_ACTIVITY_AID + "=" + aid + "&amp;" +
-      Config.URL_ACTIVITY_RMODE;
+    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" + 
+      URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AID + "=" + aid + "&amp;" +
+      URL_ACTIVITY_RMODE;
     return url;
 }
  protected String getActivityUrl(String id, String aid){
-    String url = props.getString( Config.ROD_URL_DOMAIN) + "/" + Config.URL_SERVLET + "?" + 
-      Config.URL_ACTIVITY_ID + "=" + id + "&amp;" + Config.URL_ACTIVITY_AID + "=" + aid + "&amp;" +
-      Config.URL_ACTIVITY_AMODE;
+    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" + 
+      URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AID + "=" + aid + "&amp;" +
+      URL_ACTIVITY_AMODE;
     return url;
 //http://rod.eionet.eu.int/show.jsv?id=15&amp;aid=170&amp;mode=A    
  }

@@ -24,26 +24,48 @@ var browser = document.all ? 'E' : 'N';
 
 
 <br/><br/>
-<table width="400">
+<table width="500" border="0">
 
 		<tr height="30">
 			<td width="50"></td>
 			<td align="right" width="100"><b>Name:</b></td>
 			<td align="left" width="250"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/CLIENT_NAME"/></td>
-		</tr>
-		<tr height="30">
-			<td width="50"></td>
-			<td align="right" width="100"><b>Address:</b></td>
-			<td align="left" width="250"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/CLIENT_ADDRESS"/></td>
+			<td width="*"></td>
 		</tr>
 		<tr height="30">
 			<td width="50"></td>
 			<td align="right" width="100"><b>Acronym:</b></td>
 			<td align="left" width="250"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/CLIENT_ACRONYM"/></td>
+			<td width="*"></td>
 		</tr>
 		<tr height="30">
 			<td width="50"></td>
-			<td align="right" width="100"><b>URL:</b></td>
+			<td align="right" width="100"><b>Address:</b></td>
+			<td align="left" width="250"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/CLIENT_ADDRESS"/></td>
+			<td width="*"></td>
+		</tr>
+		<tr height="30">
+			<td width="50"></td>
+			<td align="right" width="100"><b>Postal code:</b></td>
+			<td align="left" width="250">
+				<table>
+				<tr>
+					<td width="90"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/POSTAL_CODE"/></td>
+					<td align="right"><b>City:</b></td>
+					<td align="left"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/CITY"/></td>
+				</tr>
+				</table>
+			</td>
+			<td width="*"></td>
+		</tr>
+		<tr height="30">
+			<td width="50"></td>
+			<td align="right" width="100"><b>City:</b></td>
+			<td align="left" width="250"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/CITY"/></td>
+		</tr>
+		<tr height="30">
+			<td width="50"></td>
+			<td align="right" width="100"><b>Homepage:</b></td>
 			<td align="left" width="250">
 				<xsl:if test="XmlData/RowSet/Row/T_CLIENT/CLIENT_URL != ''">
 				<a target="_new">

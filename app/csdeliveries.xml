@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
-	<xrs:RowSet>
+	<xrs:RowSet name="Main">
 		<T_DELIVERY>
 			<PK_DELIVERY_ID/>
 			<FK_RA_ID/>
@@ -21,8 +21,14 @@
 			<PK_SPATIAL_ID/>
 			<SPATIAL_NAME/>
 		</T_SPATIAL>
-		<xrs:Constraint>T_DELIVERY.FK_RA_ID=@ACT_DETAILS_ID AND T_DELIVERY.FK_SPATIAL_ID=@COUNTRY_ID</xrs:Constraint>
+		<xrs:Constraint>T_DELIVERY.FK_RA_ID=@ACT_DETAILS_ID AND T_DELIVERY.FK_SPATIAL_ID LIKE '@COUNTRY_ID'</xrs:Constraint>
 		<xrs:Ordering>T_DELIVERY.UPLOAD_DATE DESC</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="Dummy">
+		<T_DUMMY>
+			<DUMMY/>
+		</T_DUMMY>
+		<xrs:Constraint>DUMMY='@COUNTRY_ID'</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>
 	

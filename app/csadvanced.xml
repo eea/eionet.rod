@@ -7,6 +7,7 @@
 			<RESPONSIBLE_ROLE/>
 			<DEADLINE expression="NEXT_DEADLINE AS DEADLINE"/>
 			<NEXT_REPORTING/>
+			<DEADLINE2 expression="NEXT_DEADLINE2 AS DEADLINE2"/>
 			<FK_DELIVERY_COUNTRY_IDS/>
 		</T_ACTIVITY>
 		<xrs:Constraint>@DEADLINES</xrs:Constraint>
@@ -41,10 +42,10 @@
 		</T_SPATIAL>
 		<xrs:Constraint>PK_SPATIAL_ID like @COUNTRY_ID AND @DEADLINES</xrs:Constraint>
 
-		<T_ISSUE_LNK relation="T_ACTIVITY.FK_RO_ID=T_ISSUE_LNK.FK_RO_ID">
-			<FK_RO_ID/>
+		<T_RAISSUE_LNK relation="T_ACTIVITY.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID">
+			<FK_RA_ID/>
 			<FK_ISSUE_ID/>
-		</T_ISSUE_LNK>
+		</T_RAISSUE_LNK>
 		<xrs:Constraint>FK_ISSUE_ID=@ISSUE_ID</xrs:Constraint>
 
 		<!--xrs:SubSet name="Delivery" relation="T_ACTIVITY.PK_RA_ID=T_DELIVERY.FK_RA_ID" >

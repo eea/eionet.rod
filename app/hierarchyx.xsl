@@ -25,6 +25,11 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="common.xsl"/>
+	<xsl:include href="util.xsl"/>
+
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
+	</xsl:variable>
 
 	<xsl:template match="XmlData">
 		<xsl:apply-templates select="RowSet[@Name='Source hierarchy']"/>
@@ -64,10 +69,20 @@
 		<!-- page -->
 		<div style="margin-left:13">
 		<!-- page title -->
-	   <table cellspacing="7" border="0"><tr><td>
-			<span class="head1"><form>Select legal instrument to add reporting obligation to
-				<input type="button" style="width:150" onclick="javascript:alert('By clicking on a sub-section link, a legal instruments hierarchy for that sub-section is displayed (i.e. on this new page the clicked section will be a top level section). Clicking on the legal instrument link, a new reporting obligation is created for that legal instrument.')" value="Help"></input></form></span>
-		</td></tr></table>
+	   <table cellspacing="7" border="0">
+	   	<tr><td valign="top"><span class="head1">Select legal instrument to add reporting obligation to</span></td>
+			<td align="right" valign="top">
+			<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_HIERARCHY_ADD</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+			<!--img src="images/help.png" alt="Help" onclick="javascript:alert('By clicking on a sub-section link, a legal instruments hierarchy for that sub-section is displayed (i.e. on this new page the clicked section will be a top level section). Clicking on the legal instrument link, a page with this legal instrument data is displayed.')"/-->
+			<br/>
+			</td></tr>
+	   	<!--tr><td>
+			<span class="head1">
+				<form>Select legal instrument to add reporting obligation to
+					<input type="button" style="width:150" onclick="javascript:alert('By clicking on a sub-section link, a legal instruments hierarchy for that sub-section is displayed (i.e. on this new page the clicked section will be a top level section). Clicking on the legal instrument link, a new reporting obligation is created for that legal instrument.')" value="Help"></input>
+				</form>
+			</span></td></tr-->
+		</table>
 
 	   <table cellspacing="7" width="600" border="0"><tr><td>
 			<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!=''">
@@ -78,9 +93,9 @@
 					<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>&amp;mode=X</xsl:attribute>
 					<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span></a>
 				</xsl:when>
-				<xsl:otherwise>
+				<!--xsl:otherwise>
 					<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span>
-				</xsl:otherwise>
+				</xsl:otherwise-->
 			</xsl:choose>
 		</td></tr></table>
 		<xsl:choose>		

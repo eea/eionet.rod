@@ -24,6 +24,27 @@
  * -->
 
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="ROMetaInfo">
+		<T_REPORTING>
+			<PK_RO_ID expression="COUNT(PK_RO_ID) AS TOTAL_RO"/>
+			<!--LAST_UPDATE expression="DATE_FORMAT(MAX(LAST_UPDATE), '%d/%m/%Y') AS RO_UPDATE"/-->
+			<LAST_UPDATE expression="MAX(LAST_UPDATE) AS RO_UPDATE"/>
+		</T_REPORTING>
+	</xrs:RowSet>
+	<xrs:RowSet name="RAMetaInfo">
+		<T_ACTIVITY>
+			<PK_RA_ID expression="COUNT(PK_RA_ID) AS TOTAL_RA"/>
+			<!--LAST_UPDATE expression="DATE_FORMAT(MAX(LAST_UPDATE), '%d/%m/%Y') AS RA_UPDATE"/-->
+			<LAST_UPDATE expression="MAX(LAST_UPDATE) AS RA_UPDATE"/>
+		</T_ACTIVITY>
+	</xrs:RowSet>
+	<xrs:RowSet name="LIMetaInfo">
+		<T_SOURCE>
+			<PK_SOURCE_ID expression="COUNT(PK_SOURCE_ID) AS TOTAL_LI"/>
+			<!--LAST_UPDATE expression="DATE_FORMAT(MAX(LAST_UPDATE), '%d/%m/%Y') AS LI_UPDATE"/-->
+			<LAST_UPDATE expression="MAX(LAST_UPDATE) AS LI_UPDATE"/>
+		</T_SOURCE>
+	</xrs:RowSet>
 	<xrs:RowSet name="EnvIssue">
 		<T_ISSUE>
 			<PK_ISSUE_ID/>
@@ -54,5 +75,16 @@
 		</T_LOOKUP>
 		<xrs:Constraint>T_LOOKUP.CATEGORY='P'</xrs:Constraint>
 		<xrs:Ordering>C_TERM</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="Client" distinct="true">
+		<T_REPORTING>
+			<FK_CLIENT_ID/>
+		</T_REPORTING>
+		<T_CLIENT relation="T_REPORTING.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID" reltype="outer">
+			<PK_CLIENT_ID/>
+			<CLIENT_NAME expression="CONCAT(LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
+		</T_CLIENT>
+		<xrs:Constraint>T_REPORTING.FK_CLIENT_ID IS NOT NULL</xrs:Constraint>
+		<xrs:Ordering>CLIENT_NAME</xrs:Ordering>
 	</xrs:RowSet>
 </xrs:XmlData>

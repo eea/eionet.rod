@@ -23,6 +23,7 @@ public class Search extends ROServletAC { // was: CSServletAC, changed to be abl
     HttpServletRequest req = params.getRequest();
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
 
+    addMetaInfo(dataSrc);
     return userInfo(req, dataSrc);
   }
 

@@ -41,6 +41,7 @@ import java.util.Vector;
 import eionet.rod.services.ServiceException;
 import javax.servlet.ServletConfig;
 import com.tee.xmlserver.BaseServletAC;
+import eionet.rod.Constants;
 //import javax.servlet.ServletContext;
 //import java.net.MalformedURLException;
 //import com.tee.xmlserver.*;
@@ -56,7 +57,7 @@ import com.tee.xmlserver.BaseServletAC;
  * @author  Kaido Laine
  * @version 1.1
  */
-public abstract class RDFServletAC extends BaseServletAC {
+public abstract class RDFServletAC extends BaseServletAC implements Constants {
 
   //private String ns;
   protected String activitiesNamespace;
@@ -80,16 +81,16 @@ public abstract class RDFServletAC extends BaseServletAC {
   public void init(  ServletConfig config ) throws ServletException {
 
     try {
-        props = ResourceBundle.getBundle(eionet.rod.services.Config.PROP_FILE);
+        props = ResourceBundle.getBundle(PROP_FILE);
      } catch (MissingResourceException mre) {
-       throw new ServletException("Properties file " + eionet.rod.services.Config.PROP_FILE + ".properties not found");
+       throw new ServletException("Properties file " + PROP_FILE + ".properties not found");
      }
 
     if (activitiesNamespace == null)
-      activitiesNamespace = props.getString(eionet.rod.services.Config.ROD_URL_NS);
+      activitiesNamespace = props.getString(ROD_URL_NS);
 
     if (obligationsNamespace == null)
-      obligationsNamespace = props.getString(eionet.rod.services.Config.ROD_URL_RO_NS);
+      obligationsNamespace = props.getString(ROD_URL_RO_NS);
     
     //_log("host = " + domain);    
     super.init( config );

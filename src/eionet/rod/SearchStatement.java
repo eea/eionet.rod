@@ -107,6 +107,7 @@ public class SearchStatement extends QueryStatement implements Constants {
          vFields.add(new FieldInfo("TITLE", "T_SOURCE"));
          vFields.add(new FieldInfo("ALIAS", "T_SOURCE"));
          vFields.add(new FieldInfo("URL", "T_SOURCE"));
+         vFields.add(new FieldInfo("FK_CLIENT_ID", "T_REPORTING")); //KL030213
       }
       else {
          vTables.add(new TableInfo("T_ACTIVITY"));
@@ -124,9 +125,10 @@ public class SearchStatement extends QueryStatement implements Constants {
          vFields.add(new FieldInfo("TITLE", "T_SOURCE"));
          vFields.add(new FieldInfo("ALIAS", "T_SOURCE"));
          vFields.add(new FieldInfo("URL", "T_SOURCE"));
+         vFields.add(new FieldInfo("FK_CLIENT_ID", "T_REPORTING")); //KL030213
       }
 
-      _Pair env_issue, country, river, sea, lake, param_group, rotype;
+      _Pair env_issue, country, river, sea, lake, param_group, rotype, client;
       String source;
 
       env_issue = splitParam(params.getParameter(ENV_ISSUE_FILTER));
@@ -137,15 +139,25 @@ public class SearchStatement extends QueryStatement implements Constants {
       param_group = splitParam(params.getParameter(PARAM_GROUP_FILTER));
       rotype = splitParam(params.getParameter(ROTYPE_FILTER));
       source = params.getParameter(SOURCE_FILTER);
+      client = splitParam(params.getParameter(CLIENT_FILTER));      
 
       if ( !Util.nullString(env_issue.id) && !env_issue.id.equals("-1") ) {
-         if (mode.equals(REPORTING_MODE)) {
+/*         if (mode.equals(REPORTING_MODE)) {
            vTables.add(new TableInfo("T_ISSUE_LNK",
                        "T_REPORTING.PK_RO_ID = T_ISSUE_LNK.FK_RO_ID",
                         TableInfo.INNER_JOIN));
            appendConstraint("T_ISSUE_LNK.FK_ISSUE_ID=" + env_issue.id, "1");
-         } 
-         else {
+         }  */
+//         else {
+
+		if (mode.equals(REPORTING_MODE)) 
+           vTables.add(new TableInfo("T_ACTIVITY", "T_ACTIVITY.FK_RO_ID = T_REPORTING.PK_RO_ID", TableInfo.INNER_JOIN));
+	       //vTables.add(new TableInfo("T_ACTIVITY"));
+		   //vFields.add(new FieldInfo("PK_RA_ID","T_ACTIVITY"));
+		   //vFields.add(new FieldInfo("FK_RO_ID","T_ACTIVITY"));
+
+           //appendConstraint("T_ACTIVITY.FK_RO_ID=T_REPORTING.PK_RO_ID", "1");
+
            vTables.add(new TableInfo("T_RAISSUE_LNK",
                        "T_ACTIVITY.PK_RA_ID = T_RAISSUE_LNK.FK_RA_ID",
                         TableInfo.INNER_JOIN));
@@ -159,7 +171,7 @@ public class SearchStatement extends QueryStatement implements Constants {
                         TableInfo.INNER_JOIN));
            appendConstraint("T_ISSUE_LNK.FK_ISSUE_ID=" + env_issue.id, "1");
 */
-         }
+//         } 
 
          addAttribute("Environmental_issue_equals", env_issue.name);
       }
@@ -299,6 +311,18 @@ public class SearchStatement extends QueryStatement implements Constants {
            appendConstraint("T_REPORTING.FK_SOURCE_ID=" + source, "1");
 
       }
+   if ( !Util.nullString(client.id ) && !client.id.equals("-1") ) {
+         //if (mode.equals(REPORTING_MODE)) {
+        appendConstraint("T_REPORTING.FK_CLIENT_ID=" + client.id, "1");
+        addAttribute("Reporting_client_equals", client.name);           
+         //} 
+         /*else {
+           appendConstraint("T_REPORTING.FK_CLIENT_ID=" + client.id, "1");
+         }*/
+  }
+//
+
+      
 
       setFields(vFields);
       setTables(vTables);

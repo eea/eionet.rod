@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -22,7 +21,6 @@
  *
  * Original Code: Andre Karpistsenko (TietoEnator)
  * -->
-
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
 	<xrs:RowSet name="Reporting">
 		<T_REPORTING>
@@ -32,10 +30,10 @@
 			<LEGAL_MORAL/>
 			<!--REPORT_TO/-->
 			<FK_CLIENT_ID/>
-			<VALID_FROM expression="DATE_FORMAT(T_REPORTING.VALID_FROM, '%d/%m/%Y') AS VALID_FROM"/>
-			<RECOGNIZED/>
-			<RECOGNIZED_DETAIL/>
-			<LAST_UPDATE expression="DATE_FORMAT(LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
+			<LAST_UPDATE expression="DATE_FORMAT(T_REPORTING.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
+			<RM_NEXT_UPDATE expression="DATE_FORMAT(T_REPORTING.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE"/>
+			<RM_VERIFIED expression="DATE_FORMAT(T_REPORTING.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED"/>
+			<RM_VERIFIED_BY/>
 		</T_REPORTING>
 		<T_SOURCE relation="T_SOURCE.PK_SOURCE_ID = T_REPORTING.FK_SOURCE_ID" reltype="outer">
 			<PK_SOURCE_ID/>
@@ -65,7 +63,6 @@
 			</T_INFORMATION>
 		</xrs:SubSet>
 	</xrs:RowSet>
-
 	<xrs:RowSet name="Activity">
 		<T_ACTIVITY>
 			<PK_RA_ID/>
@@ -76,12 +73,20 @@
 			<REPORT_FREQ_MONTHS/>
 		</T_ACTIVITY>
 		<xrs:Ordering>NEXT_REPORTING</xrs:Ordering>
-	<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
+		<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
 	</xrs:RowSet>
-
 	<xrs:RowSet name="EnvIssue">
 		<T_ISSUE_LNK/>
 		<T_ISSUE relation="T_ISSUE_LNK.FK_ISSUE_ID=T_ISSUE.PK_ISSUE_ID">
+			<ISSUE_NAME/>
+		</T_ISSUE>
+		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
+		<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="EnvRaIssue" distinct="true">
+		<T_ACTIVITY/>
+		<T_RAISSUE_LNK relation="T_ACTIVITY.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID"/>
+		<T_ISSUE relation="T_RAISSUE_LNK.FK_ISSUE_ID=T_ISSUE.PK_ISSUE_ID">
 			<ISSUE_NAME/>
 		</T_ISSUE>
 		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
@@ -93,7 +98,6 @@
 			<SPATIAL_NAME/>
 		</T_SPATIAL>
 		<xrs:Ordering>SPATIAL_NAME</xrs:Ordering>
-	<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
+		<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>
-

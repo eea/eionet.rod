@@ -48,7 +48,7 @@ public class AddClientHandler extends ROHandler {
        
 
       try {
-        ins = servlet.getAcl().checkPermission(userName, "L");
+        ins = servlet.getAcl(Constants.ACL_CLIENT_NAME).checkPermission(userName, Constants.ACL_INSERT_PERMISSION);
       } catch (Exception e ) {
         return false;
       }        

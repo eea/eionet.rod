@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -36,12 +35,13 @@
             <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
             	<tr>
                	<td valign="bottom">
-							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
-						</td>
+									<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
+								</td>
    	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
                	<td valign="bottom"><span class="barfont">ROD</span></td>
    	            <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
-	               <td valign="bottom" align="right" width="360"></td>
+	              <td valign="bottom" align="right" width="360"></td>
+
 					</tr>
 				</table>
 			</td></tr>
@@ -49,15 +49,197 @@
 		</table>
 		<!-- page -->
 		<div style="margin-left:13">
-		<table width="600" cellspacing="7">
-			<tr valign="middle">
+
+		<table width="600" cellspacing="0" border="0">
+			<!--tr valign="middle">
 				<td colspan="2"><span class="head1"><xsl:call-template name="IntroductoryTitle"/></span></td>
-			</tr>
+			</tr-->
 			<tr>
-				<td colspan="2"><span class="head0"><xsl:call-template name="IntroductoryText"/></span></td>
+				<td valign="full" ><span class="head0n"><xsl:call-template name="IntroductoryText"/></span></td>
 			</tr>
 		</table>
-		<table cellspacing="10" border="0" width="600">
+		<br/>
+
+		<form name="x1" method="get" action="rorabrowse.jsv">
+		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
+				 <tr>
+						<td width="110" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
+						</td>
+						<td width="260" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
+						</td>
+						<td width="153" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For a country</span>
+						</td>
+						<td bgcolor="#FFFFFF" width="77" align="right">
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+						</td>
+						<!--td width="30" bgcolor="#FFFFFF"><img onclick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/>
+						</td-->
+				</tr>
+				 <tr>
+            <td>
+								<table border="0" width="100%" cellspacing="0" cellpadding="0">
+									<tr>
+										<td width="22" valign="middle"><input type="radio" value="R" checked="true" name="mode"/></td>
+										<td width="88" valign="middle"><span class="barfont">Obligations</span></td>
+									</tr>
+									<tr>
+										<td width="22" valign="middle"><input type="radio" value="A" name="mode"/></td>
+										<td width="88" valign="middle"><span class="barfont">Activities</span></td>
+									</tr>
+								</table>
+              </td>
+              <td style="border-left: 1 solid #C0C0C0">
+									<select name="env_issue" style="font-size: 8pt; color: #000000; width:240" height="20">
+											<option value="-1">All issues</option>
+											<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
+                  </select>
+							</td>
+              <td style="border-left: 1 solid #C0C0C0">
+										<select name="country" style="color: #000000; font-size: 8pt; width:200" size="1">
+											<option value="-1">Any country</option>
+											<xsl:call-template name="SpatialTemplate">
+												<xsl:with-param name ="type">C</xsl:with-param>
+												<xsl:with-param name ="type2"></xsl:with-param>
+											</xsl:call-template>
+                    </select>
+								</td>
+                <td>
+                   <input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 8pt; color: #000000; text-align: Center"/>
+								</td>
+					</tr>
+		</table>
+		</form>
+		<table width="600">
+				  <tr>
+             <td width="100%">
+		            <span class="head0">or</span>
+             </td>
+          </tr>
+		</table>
+
+		<form name="x2" method="get" action="rorabrowse.jsv">
+		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
+				 <tr>
+						<td width="110" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
+						</td>
+						<td width="260" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
+						</td>
+						<td width="153" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an organisation</span>
+						</td>
+						<td bgcolor="#FFFFFF" width="77" align="right">
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH2</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+						</td>
+						<!--td width="30" bgcolor="#FFFFFF"><img onClick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/>
+						</td-->
+				</tr>
+				 <tr>
+            <td>
+								<table border="0" width="100%" cellspacing="0" cellpadding="0">
+									<tr>
+										<td width="22" valign="middle"><input type="radio" value="R" checked="true" name="mode"/></td>
+										<td width="88" valign="middle"><span class="barfont">Obligations</span></td>
+									</tr>
+									<tr>
+										<td width="22" valign="middle"><input type="radio" value="A" name="mode"/></td>
+										<td width="88" valign="middle"><span class="barfont">Activities</span></td>
+									</tr>
+								</table>
+              </td>
+              <td style="border-left: 1 solid #C0C0C0">
+
+									<select name="env_issue" style="font-size: 8pt; color: #000000; width:240" height="20">
+											<option value="-1">All issues</option>
+											<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
+                    </select>
+
+							</td>
+              <td style="border-left: 1 solid #C0C0C0">
+										<select name="client" style="color: #000000; font-size: 8pt; width:200" size="1">
+												<option value="-1">Any organisation</option>
+												<xsl:apply-templates select="RowSet[@Name='Client']"/>
+		                </select>
+								</td>
+                <td>
+                   <input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 8pt; color: #000000; text-align: Center"/>
+								</td>
+					</tr>
+				</table>
+				</form> <!-- search form -->
+
+				<!--table width="600">
+				  <tr height="5">
+             <td width="100%"></td>
+          </tr>
+				</table-->
+				<table width="600">
+           <tr>
+              <td width="100%" colspan="4" style="border: 1 solid #006666">
+                <table border="0" width="100%" cellspacing="5" cellpadding="3">
+                  <tr>
+                    <td width="33%" bgcolor="#CBDCDC" valign="top">
+                      <table border="0" width="100%" cellspacing="0" height="90">
+                        <tr>
+                          <td width="100%" height="25" colspan="2"><span class="head0"><b>List</b></span></td>
+                        </tr>
+                        <tr>
+                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
+                          <td width="92%" height="25"><a href="show.jsv?id=1&amp;mode=C">
+													<span class="head0n">All legal instruments</span></a></td>
+                        </tr>
+                        <tr>
+                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
+                          <td width="92%" height="25"><a href="rorabrowse.jsv?mode=R">
+														<span class="head0n">All reporting obligations</span></a></td>
+                        </tr>
+                        <tr>
+                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
+                          <td width="92%" height="25"><a href="rorabrowse.jsv?mode=A">
+														<span class="head0n">All reporting activities</span></a></td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td width="33%" bgcolor="#CBDCDC" valign="top">
+                      <table border="0" width="100%" cellspacing="0" height="90">
+                        <tr>
+                          <td width="100%" colspan="2" height="25"><b>
+														<span class="head0">Rod tools</span></b></td>
+                        </tr>
+                        <tr>
+                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
+                          <td width="92%" height="25"><a href="deliveries.jsv">
+														<span class="head0n">Deadlines by country</span></a></td>
+                        </tr>
+                        <!--tr>
+                          <td width="8%" height="12"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
+                          <td width="92%" height="12"><a href="rorabrowse.jsv?mode=R&amp;type=14,25,2,3,4,5,6,7,8,9,10,11,12,13:EU%20legislation%20obligations">
+														<span class="head0n">Advanced search</span></a></td>
+                        </tr-->
+                        <tr>
+                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
+                          <td width="92%" height="25"><a>
+															<xsl:attribute name="href">javascript:openViewHelp('HELP_GENERAL')</xsl:attribute>
+															<span class="head0n">General help</span>
+														</a>
+														<xsl:call-template name="EditHelp"><xsl:with-param name="id">HELP_GENERAL</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+														</td>
+                        </tr>
+                        <tr>
+                          <td width="8%" height="25"><img border="0" src="images/diamlil.gif" width="8" height="9"/></td>
+                          <td width="92%" height="25"><a href="analysis.jsv"><span class="head0n">Analysis</span></a></td>
+												</tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+
+
+		</table>
+
+
+		<!--table cellspacing="10" border="0" width="600">
 			<tr><td><table cellspacing="10" border="0">
 				<tr>
 					<td colspan="2"><span class="head0">Reporting Obligations:</span></td>
@@ -110,7 +292,7 @@
 				<tr valign="center">
 					<td width="10"><img src="images/diamlil.gif"/></td>
 					<td width="590">
-						<a><xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=C</xsl:attribute>
+						<a><xsl:attribute name="href"></xsl:attribute>
 						<span class="head0">All instruments</span></a>
 					</td>
 				</tr>
@@ -130,10 +312,10 @@
 			<tr valign="center">
 				<td colspan="2"><hr/></td>
 			</tr>
-		</table>
+		</table-->
 
 <!-- Reporting obligation search filters -->
-		<form name="f" method="get" action="rorabrowse.jsv">
+		<!--form name="f" method="get" action="rorabrowse.jsv">
 		<input type="hidden" name="mode" value="R"/>
 		<table cellspacing="10" border="0" width="600">
 			<tr><td colspan="3">
@@ -198,14 +380,33 @@
 						<option value="-1">Choose a group</option>
 						<xsl:apply-templates select="RowSet[@Name='ParamGroup']"/>
 					</select>
+
 		<script language="JavaScript">
 			fillPicklist('C',document.f.param_group)
 		</script>
+
 				</td>
 			</tr>
+
+			<tr valign="center">
+				<td width="10"><img src="images/diamlil.gif"/></td>
+				<td width="245">Reporting Client
+					 <xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_REPORTINGCLIENT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</td>
+				<td>
+					<select name="client">
+						<option value="-1">Choose a client</option>
+
+							<xsl:apply-templates select="RowSet[@Name='Client']"/>
+
+					</select>
+				</td>
+			</tr>
+
+
 			<tr>
 				<td colspan="2"></td>
-				<!--td><input type="submit" style="width:300" value="Show selected reporting obligations"></input></td-->
+
 				<td><input type="button" style="width:300" onclick="javascript:document.f.mode.value = 'R';document.f.submit();" value="Show selected reporting obligations"></input></td>
 			</tr>
 			<tr>
@@ -213,21 +414,20 @@
 				<td><input type="button" style="width:300" onclick="javascript:document.f.mode.value = 'A';document.f.submit();" value="Show selected reporting activities"></input></td>
 			</tr>
 		</table>
-		</form>
+		</form-->
 
 <!-- -->
-		<table cellspacing="10" border="0" width="600">
-			<tr><td colspan="2"><hr/></td></tr>
-			<tr valign="center">
-				<td colspan="2"><br/><span class="head0">
+		<!--table cellspacing="10" border="0" width="600">
+		<tr valign="center">
+				<td align="center"><br/><span class="head0">
 					To date	<xsl:value-of select="RowSet[@Name='ROMetaInfo']/Row/T_REPORTING/TOTAL_RO"/>
 					reporting obligations and
 					<xsl:value-of select="RowSet[@Name='RAMetaInfo']/Row/T_ACTIVITY/TOTAL_RA"/>
 					activities are stored in the database.
 					Latest update of the database:
 					<xsl:choose>
-						<xsl:when test="RowSet[@Name='ROMetaInfo']/Row/T_REPORTING/RO_UPDATE
-							&gt; RowSet[@Name='RAMetaInfo']/Row/T_ACTIVITY/RA_UPDATE">
+						<xsl:when test="RowSet[@Name='ROMetaInfo']/Row/T_REPORTING/RO_UPDATE 
+							 & gt; RowSet[@Name='RAMetaInfo']/Row/T_ACTIVITY/RA_UPDATE">
 							<xsl:value-of select="RowSet[@Name='ROMetaInfo']/Row/T_REPORTING/RO_UPDATE"/>
 						</xsl:when>
 						<xsl:otherwise>
@@ -236,17 +436,29 @@
 					</xsl:choose>
 				<br/><br/>
 
-	<xsl:call-template name="Disclaimer"/>
+				<xsl:call-template name="Disclaimer"/>
+
 				</span></td>
 			</tr>
 
             <tr valign="center"><td colspan="2">
                     <span class="head0"><a href="javascript:history.back()">Back</a></span></td>
             </tr>
-		</table>
+		</table-->
+	
+		<xsl:call-template name="CommonFooter"/>
+
 		</div>
 		
 	</xsl:template>
+
+	<xsl:template match="RowSet[@Name='Client']">
+		<xsl:for-each select="Row/T_CLIENT">
+			<option><xsl:attribute name="value"><xsl:value-of select="PK_CLIENT_ID"/>:<xsl:value-of select="CLIENT_NAME"/></xsl:attribute>
+			<xsl:value-of select="CLIENT_NAME"/></option>
+		</xsl:for-each>
+	</xsl:template>
+
 
 	<xsl:template match="RowSet[@Name='EnvIssue']">
 		<xsl:for-each select="Row/T_ISSUE">

@@ -83,144 +83,132 @@
 					<tr><td colspan="3" align="right"><span class="head0">
 						<!--a href="javascript:window.location.replace(window.location.href+'&amp;showfilters=1')">Show filters</a-->
 						<a href="javascript:window.location.replace(window.location.href+'&amp;showfilters=1')"><img border="0" src="images/bb_advsearch.png"/></a>
-					</span>	</td></tr>
+					</span>
+					<xsl:if test="contains($permissions,',RO:i,')='true' and $rora='R'">
+						<br/>
+						<a>
+							<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
+							<img src="images/newobligation.png" alt="Add new Reporting obligation" border="0"/>
+						</a>
+					</xsl:if>
+					</td></tr>
 				</table>
 			</xsl:when>
 		<xsl:otherwise>
-			<form name="f" method="get" action="rorabrowse.jsv">
-			<xsl:choose>
-				<xsl:when test="$rora='A'">
-					<input type="hidden" name="mode" value="A"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<input type="hidden" name="mode" value="R"/>
-				</xsl:otherwise>
-			</xsl:choose>
-			<table cellspacing="10" border="0" width="600">
-				<tr><td colspan="3"><span class="head0">
-					<xsl:choose>
-						<xsl:when test="$rora='A'">
-							Reporting activities selected by different filters:
-						</xsl:when>
-						<xsl:otherwise>
-							Reporting obligations selected by different filters:
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RORA</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-				</span></td></tr>
-			<tr valign="center">
-				<td width="10"><img src="images/diamlil.gif"/></td>
-				<td width="245">Environmental issues
-					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_ENVIRONMENTALISSUES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-				</td>
-				<td>
-					<select name="env_issue">
-						<option value="-1">Choose an issue</option>
-						<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td width="10"><img src="images/diamlil.gif"/></td>
-				<td width="245">Spatial Coverage
-					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_SPATIALCOVERAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-				</td>
-				<td></td>
-			</tr>
-			<tr valign="center">
-				<td width="10"></td>
-				<td width="245">Countries</td>
-				<td>
-					<select name="country">
-						<option value="-1">Choose a country</option>
-						<xsl:call-template name="SpatialTemplate">
-							<xsl:with-param name="type">C</xsl:with-param>
-							<xsl:with-param name="type2"></xsl:with-param>
-						</xsl:call-template>
-					</select>
-				</td>
-			</tr>
-			<!--tr valign="center">
-				<td width="10"></td>
-				<td width="245">River runoff areas</td>
-				<td>
-					<select name="river">
-						<option value="-1">Choose a river</option>
-						<xsl:call-template name="SpatialTemplate">
-							<xsl:with-param name="type">R</xsl:with-param>
-							<xsl:with-param name="type2"></xsl:with-param>
-						</xsl:call-template>
-					</select>
-				</td>
-			</tr>
-			<tr valign="center">
-				<td width="10"></td>
-				<td width="245">Seas</td>
-				<td>
-					<select name="sea">
-						<option value="-1">Choose a sea</option>
-						<xsl:call-template name="SpatialTemplate">
-							<xsl:with-param name="type">S</xsl:with-param>
-							<xsl:with-param name="type2"></xsl:with-param>
-						</xsl:call-template>
-					</select>
-				</td>
-			</tr>
-			<tr valign="center">
-				<td width="10"></td>
-				<td width="245">Lakes and reservoirs</td>
-				<td>
-					<select name="lake">
-						<option value="-1">Choose a lake or reservoir</option>
-						<xsl:call-template name="SpatialTemplate">
-							<xsl:with-param name="type">L</xsl:with-param>
-							<xsl:with-param name="type2">O</xsl:with-param>
-						</xsl:call-template>1
-					</select>
-				</td>
-			</tr-->
-			<tr valign="center">
-				<td width="10"><img src="images/diamlil.gif"/></td>
-				<td width="245">Specific parameters
-					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_SPECIFICPARAMETERS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-				</td>
-				<td>
-		<script language="JavaScript">
-			<xsl:for-each select="RowSet[@Name='ParamGroup']/Row/T_PARAM_GROUP">
-			picklist.push("<xsl:value-of select="PK_GROUP_ID"/>:<xsl:value-of select="GROUP_NAME"/>:<xsl:value-of select="GROUP_TYPE"/>");
-			</xsl:for-each>	  
-		</script>
-					<select name="param_type" onchange="fillPicklist(this.options[this.selectedIndex].value,f.param_group)">
-						<xsl:for-each select="RowSet[@Name='GroupType']/Row/T_LOOKUP">
-							<option>
-								<xsl:attribute name="value">
-									<xsl:value-of select="C_VALUE"/>
-								</xsl:attribute>
-							<xsl:value-of select="C_TERM"/></option>
-						</xsl:for-each>
-					</select><br/>
-					<select name="param_group">
-						<option value="-1">Choose a group</option>
-						<xsl:apply-templates select="RowSet[@Name='ParamGroup']"/>
-					</select>
-		<script language="JavaScript">
-			fillPicklist('C',document.f.param_group)
-		</script>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2"></td>
-				<xsl:choose>
-					<xsl:when test="$rora='A'">
-						<td><input type="submit" value="Show selected reporting activities"></input></td>
-					</xsl:when>
-					<xsl:otherwise>
-						<td><input type="submit" value="Show selected reporting obligations"></input></td>
-					</xsl:otherwise>
-				</xsl:choose>
-			</tr>
+<!-- KL 030227 -->
+		<form name="x1" method="get" action="rorabrowse.jsv">
+		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
+				 <tr>
+						<td width="110" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
+						</td>
+						<td width="260" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
+						</td>
+						<td width="200" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For a country</span>
+						</td>
+						<td width="30" bgcolor="#FFFFFF">
+						<!--img onclick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/-->
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+						</td>
+				</tr>
+				<tr>
+           <td>
+								<input type="hidden" name="mode" size="3">
+									<xsl:attribute name="value">
+										<xsl:value-of select="$rora"/>
+									</xsl:attribute>
+								</input>
+								<span class="barfont">
+									<xsl:choose>
+										<xsl:when test="$rora='A'">
+											Activities
+										</xsl:when>
+										<xsl:otherwise>
+											Obligations
+										</xsl:otherwise>
+									</xsl:choose>
+								</span>
+            </td>
+            <td style="border-left: 1 solid #C0C0C0">
+									<select name="env_issue" style="font-size: 8pt; color: #000000; width:240" height="20">
+											<option value="-1">All issues</option>
+											<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
+                  </select>
+						</td>
+            <td style="border-left: 1 solid #C0C0C0">
+										<select name="country" style="color: #000000; font-size: 8pt; width:200" size="1">
+											<option value="-1">Any country</option>
+											<xsl:call-template name="SpatialTemplate">
+												<xsl:with-param name ="type">C</xsl:with-param>
+												<xsl:with-param name ="type2"></xsl:with-param>
+											</xsl:call-template>
+                    </select>
+								</td>
+                <td>
+                   <input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 8pt; color: #000000; text-align: Center"/>
+								</td>
+					</tr>
 		</table>
 		</form>
+	<table width="600">
+				  <tr>
+             <td width="100%">
+		            <span class="head0">or</span>
+             </td>
+          </tr>
+		</table>
+
+		<form name="x2" method="get" action="rorabrowse.jsv">
+		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
+				 <tr>
+						<td width="110" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
+						</td>
+						<td width="260" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
+						</td>
+						<td width="200" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an organisation</span>
+						</td>
+						<td width="30" bgcolor="#FFFFFF"><!--img onClick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/-->
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH2</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+						</td>
+				</tr>
+				 <tr>
+               <td>
+								<input type="hidden" name="mode" size="3">
+									<xsl:attribute name="value">
+										<xsl:value-of select="$rora"/>
+									</xsl:attribute>
+								</input>
+								<span class="barfont">
+									<xsl:choose>
+										<xsl:when test="$rora='A'">
+											Activities
+										</xsl:when>
+										<xsl:otherwise>
+											Obligations
+										</xsl:otherwise>
+									</xsl:choose>
+								</span>
+            </td>
+              <td style="border-left: 1 solid #C0C0C0">
+
+									<select name="env_issue" style="font-size: 8pt; color: #000000; width:240" height="20">
+											<option value="-1">All issues</option>
+											<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
+                    </select>
+
+							</td>
+              <td style="border-left: 1 solid #C0C0C0">
+										<select name="client" style="color: #000000; font-size: 8pt; width:200" size="1">
+												<option value="-1">Any organisation</option>
+												<xsl:apply-templates select="RowSet[@Name='Client']"/>
+		                </select>
+								</td>
+                <td>
+                   <input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 8pt; color: #000000; text-align: Center"/>
+								</td>
+					</tr>
+				</table>
+				</form> <!-- search form -->
+
 		</xsl:otherwise>
 		</xsl:choose>
 
@@ -236,7 +224,7 @@
 				</xsl:choose>
 		</td>
 		<td align="right">
-		<xsl:if test="contains($permissions, 'y')='true'">
+		<xsl:if test="contains($permissions, ',Admin:v,')='true'">
 			<a>
 				<xsl:attribute name="href">javascript:openActionTypeHistory('D','<xsl:value-of select="$historyMode"/>')</xsl:attribute>
 				<img src="images/showdeleted.png" alt="Show deleted" border="0"/>
@@ -252,6 +240,8 @@
 				
 		<xsl:apply-templates select="RowSet[@Name='Search results']"/>
 		</div>
+
+		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='EnvIssue']">
@@ -282,6 +272,14 @@
 			<xsl:value-of select="GROUP_NAME"/></option>
 		</xsl:for-each>
 	</xsl:template>
+
+	<xsl:template match="RowSet[@Name='Client']">
+		<xsl:for-each select="Row/T_CLIENT">
+			<option><xsl:attribute name="value"><xsl:value-of select="PK_CLIENT_ID"/>:<xsl:value-of select="CLIENT_NAME"/></xsl:attribute>
+			<xsl:value-of select="CLIENT_NAME"/></option>
+		</xsl:for-each>
+	</xsl:template>
+
 
 	<xsl:template match="RowSet[@Name='Search results']">
 <!-- RA search results -->
@@ -323,38 +321,6 @@
 												</xsl:otherwise>
 											</xsl:choose>
 											</a></i>						
-<!--
-						<xsl:choose>
-							<xsl:when test="T_SOURCE/URL!=''">
-								<a>	
-									<xsl:attribute name="href">
-										<xsl:value-of select="T_SOURCE/URL"/>
-									</xsl:attribute>
-									<xsl:attribute name="target">
-										_new
-									</xsl:attribute>
-								<xsl:choose>
-									<xsl:when test="T_SOURCE/ALIAS != ''">
-										<xsl:value-of select="T_SOURCE/ALIAS"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="T_SOURCE/TITLE"/>
-									</xsl:otherwise>
-								</xsl:choose>
-								</a>						
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:choose>
-									<xsl:when test="T_SOURCE/ALIAS != ''">
-										<xsl:value-of select="T_SOURCE/ALIAS"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="T_SOURCE/TITLE"/>
-									</xsl:otherwise>
-								</xsl:choose>
-							</xsl:otherwise>
-						</xsl:choose>
--->				
 						<br/>
 						</td>
 					</tr>
@@ -416,38 +382,6 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</a></i>						
-<!--
-						<xsl:choose>
-							<xsl:when test="T_SOURCE/URL!=''">
-								<a>	
-									<xsl:attribute name="href">
-										<xsl:value-of select="T_SOURCE/URL"/>
-									</xsl:attribute>
-									<xsl:attribute name="target">
-										_new
-									</xsl:attribute>
-								<xsl:choose>
-									<xsl:when test="T_SOURCE/ALIAS != ''">
-										<xsl:value-of select="T_SOURCE/ALIAS"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="T_SOURCE/TITLE"/>
-									</xsl:otherwise>
-								</xsl:choose>
-								</a>						
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:choose>
-									<xsl:when test="T_SOURCE/ALIAS != ''">
-										<xsl:value-of select="T_SOURCE/ALIAS"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="T_SOURCE/TITLE"/>
-									</xsl:otherwise>
-								</xsl:choose>
-							</xsl:otherwise>
-						</xsl:choose>				
--->
 						<br/>
 						</td>
 					</tr>
@@ -459,7 +393,6 @@
 		</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-
 	<xsl:template match="RowSet[@Name='Search results']/@*">
 		<xsl:if test="name(.)!='Name' and name(.)!='order' and name(.)!='auth'">
 			<tr><td>

@@ -28,11 +28,12 @@ import java.util.*;
 
 import com.tee.util.*;
 import com.tee.xmlserver.*;
+import com.tee.uit.security.AccessControlListIF;
 
 /**
  * <P>Handler to store WebROD obligation data.</P>
  *
- * <P>Database tables updated: T_REPORTING, T_ISSUE_LNK, T_SPATIAL_LNK. In case of delete also activities
+ * <P>Database tables updated: T_REPORTING, T_SPATIAL_LNK. In case of delete also activities
  * (and the related) data will be deleted.</P>
  *
  * @see ActivityHandler
@@ -42,15 +43,12 @@ import com.tee.xmlserver.*;
  */
 
 public class ReportingHandler extends ActivityHandler {
-   private Vector issueCont = new Vector();
    private Vector spatialCont = new Vector();
 
    protected final void DELETE_RO(String roID, boolean delSelf) {
       // cascade deleted related activitiess
       // delete linked spatial attributes
       updateDB("DELETE FROM T_SPATIAL_LNK WHERE FK_RO_ID=" + roID);
-      // delete linked environmental issues
-      updateDB("DELETE FROM T_ISSUE_LNK WHERE FK_RO_ID=" + roID);
 
       if (delSelf) {
       Statement stmt = null;
@@ -98,9 +96,14 @@ public class ReportingHandler extends ActivityHandler {
 
       boolean ins = false, upd =false, del=false;
       try {
-        upd = servlet.getAcl().checkPermission(userName, "o");
-        del = servlet.getAcl().checkPermission(userName, "X");
-        ins = servlet.getAcl().checkPermission(userName, "O");      
+        AccessControlListIF acl = servlet.getAcl(Constants.ACL_RO_NAME);
+        ins = acl.checkPermission(userName, Constants.ACL_INSERT_PERMISSION);              
+        upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
+
+
+        //permission to delete RO || LI
+        del = acl.checkPermission(userName, Constants.ACL_DELETE_PERMISSION) || servlet.getAcl(Constants.ACL_LI_NAME).checkPermission(userName, Constants.ACL_DELETE_PERMISSION);
+
       } catch (Exception e ) {
         System.out.println("============================= Error" + e.toString());  
         return false;
@@ -125,8 +128,6 @@ public class ReportingHandler extends ActivityHandler {
             if (delSelf && !del)
               return false;
 
-            if(!upd)
-              return false;
               
             DELETE_RO(id, delSelf);
 
@@ -134,6 +135,10 @@ public class ReportingHandler extends ActivityHandler {
                //logHistory(gen);
                return false; // everything is done, stop
             }
+
+            if(!upd)
+              return false;
+         
          }
          else {
 
@@ -143,8 +148,8 @@ public class ReportingHandler extends ActivityHandler {
             gen.removeField("PK_RO_ID");
          }
          
-         setDateValue(gen, "VALID_FROM");
-
+         setDateValue(gen, "RM_NEXT_UPDATE");
+         setDateValue(gen, "RM_VERIFIED");
          defaultProcessing(gen, null);
           
          id = recordID;
@@ -155,12 +160,6 @@ public class ReportingHandler extends ActivityHandler {
          if (servlet != null)
             servlet.setCurrentID(id);
       }
-      else if (tblName.equals("T_ISSUE_LNK")) {
-       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
-          issueCont.add(gen.clone());
-        else
-          return false;
-      }
       else if (tblName.equals("T_SPATIAL_LNK")) {
        if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
           spatialCont.add(gen.clone());
@@ -170,18 +169,6 @@ public class ReportingHandler extends ActivityHandler {
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing
 
-      if ( (id != null) && (!issueCont.isEmpty()) ) {
-         for (int i=0; i < issueCont.size(); i++) {
-           SQLGenerator issueGen = (SQLGenerator)issueCont.get(i);
-           String value = issueGen.getFieldValue("FK_ISSUE_ID");
-
-           issueGen.setField("FK_ISSUE_ID", getID(value));
-           issueGen.setField("FK_RO_ID", id);
-
-           updateDB(issueGen.insertStatement());
-         }
-         issueCont.clear();
-      }
       if ( (id != null) && (!spatialCont.isEmpty()) ) {
          for (int i=0; i < spatialCont.size(); i++) {
            SQLGenerator spatialGen = (SQLGenerator)spatialCont.get(i);

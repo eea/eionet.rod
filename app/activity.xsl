@@ -25,6 +25,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="common.xsl"/>
+	<xsl:include href="util.xsl"/>
 
 	<xsl:variable name="ra-id">
 		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/Row/T_ACTIVITY/PK_RA_ID"/>
@@ -55,12 +56,15 @@
 				<xsl:call-template name="nofound"/>
 			</xsl:otherwise>
 		</xsl:choose>
+		<xsl:call-template name="LIRORAFooter">
+			<xsl:with-param name="table">RA</xsl:with-param>			
+		</xsl:call-template>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Activity']/Row">
 		<!-- form for delete activity action -->
 		<!--xsl:if test="$admin='true'"-->
-		<xsl:if test="contains($permissions, 'X')='true'">
+		<xsl:if test="contains($permissions, ',RA:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
 function delActivity() {
@@ -118,7 +122,18 @@ function delActivity() {
 				<span class="head1">Details of reporting activity</span>
 			</td></tr>
 		</table>
-
+		<!--xsl:if test="T_ACTIVITY/FK_DELIVERY_COUNTRY_IDS != ''">
+			<table width="600">
+				<tr valign="top">
+					<td width="500">
+					</td>
+					<td>
+						<a><xsl:attribute name="href">javascript:openDeliveries('1','2')</xsl:attribute>
+							 <img src="images/bb_show_deliveries.png" alt="Add a new reporting activity" border="0"/></a>
+					</td>
+				</tr>
+			</table>
+		</xsl:if-->
 		<table cellspacing="7pts" width="600" border="0">
 			<tr valign="top">
 				<td width="22%"><span class="head0">Title:</span></td>
@@ -132,19 +147,26 @@ function delActivity() {
 						</xsl:otherwise>
 					</xsl:choose>
 				</td>
+<!-- DGB -->
+<!--xsl:value-of select="$permissions"/-->
 				<td align="right" nowrap="true" rowspan="3">
 					<!--xsl:if test="$admin='true'"-->
-					<xsl:if test="contains($permissions, 'A')='true'">
+					<xsl:if test="T_ACTIVITY/FK_DELIVERY_COUNTRY_IDS != ''">
+						<a><xsl:attribute name="href">javascript:openDeliveries('<xsl:value-of select="$ra-id"/>','%%')</xsl:attribute>
+							 <img src="images/bb_show_deliveries.png" alt="Show status of deliveries for this RA" border="0"/></a><br/>
+					</xsl:if>
+
+					<xsl:if test="contains($permissions, ',RA:i,')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 							<img src="images/newactivity.png" alt="Add a new reporting activity" border="0"/></a><br/>
 						</xsl:if>
-						<xsl:if test="contains($permissions, 'a')='true'">
+						<xsl:if test="contains($permissions, ',RA:u,')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute><img src="images/editactivity.png" alt="Edit reporting activity" border="0"/></a><br/>
 						</xsl:if>
-						<xsl:if test="contains($permissions, 'X')='true'">
+						<xsl:if test="contains($permissions, ',RA:d,')='true'">
 						<a href="javascript:delActivity()"><img src="images/deleteactivity.png" alt="Delete reporting activity" border="0"/></a><br/>
 					</xsl:if>				
-					<xsl:if test="contains($permissions, 'y')='true'">
+					<xsl:if test="contains($permissions, ',Admin:v,')='true'">
 					<a>
 					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ra-id"/>', 'A')</xsl:attribute>
 					<img src="images/showhistory.png" alt="Show history" border="0"/>
@@ -152,31 +174,17 @@ function delActivity() {
 					</xsl:if>				
 				</td>
 			</tr>
+			<!-- Remove after moving this field to footer
 			<tr valign="top">
 				<td width="22%"><span class="head0">Document last modifed:</span></td>
 				<td colspan="2">
 					<xsl:value-of select="T_ACTIVITY/LAST_UPDATE"/>
 				</td>
 			</tr>
+			-->
 			<tr valign="top">
-				<td width="22%"><span class="head0">Responsible for reporting (role prefix):</span></td>
-				<td colspan="2">
-					<xsl:choose>
-					<xsl:when test="T_ROLE/ROLE_NAME!=''">
-						<a>
-						<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_URL"/>')</xsl:attribute>
-						<xsl:value-of select="T_ROLE/ROLE_NAME"/>
-						</a>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="T_ACTIVITY/RESPONSIBLE_ROLE"/>
-					</xsl:otherwise>
-					</xsl:choose>
-				</td>
-			</tr>
-			<tr valign="top">
-				<td width="22%"><span class="head0">Related obligation:</span></td>
-				<td colspan="2">
+				<td width="22%"><span class="head0">Parent reporting obligation:</span></td>
+				<td width="60%">
 						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="T_REPORTING/ALIAS != ''">
@@ -221,7 +229,7 @@ function delActivity() {
 				</td>
 			</tr>
 			<tr valign="top">
-				<td width="22%"><span class="head0">First reporting:</span></td>
+				<td width="22%"><span class="head0">First report due:</span></td>
 				<td colspan="2">
 					<xsl:value-of select="T_ACTIVITY/FIRST_REPORTING"/>
 				</td>
@@ -259,7 +267,7 @@ function delActivity() {
 				</tr>
 			</xsl:if>
 			<tr valign="top">
-				<td width="22%"><span class="head0">Next reporting:</span></td>
+				<td width="22%"><span class="head0">Next report due:</span></td>
 				<td colspan="2">
 					<xsl:choose>
 						<!--xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
@@ -288,13 +296,32 @@ function delActivity() {
 				</td>
 			</tr>
 			<tr valign="top">
-				<td width="22%"><span class="head0">Linked environmental issues:</span></td>
+				<td width="22%"><span class="head0">Responsible for reporting (Eionet role):</span></td>
+				<td colspan="2">
+					<xsl:choose>
+					<xsl:when test="T_ROLE/ROLE_ID!=''">
+						<a>
+						<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_URL"/>')</xsl:attribute>
+						<xsl:attribute name="title"><xsl:value-of select="T_ROLE/ROLE_NAME"/></xsl:attribute>
+						<xsl:value-of select="T_ROLE/ROLE_ID"/>
+						</a>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:if test="T_ACTIVITY/RESPONSIBLE_ROLE != ''">
+							<font color="#ff0000"><b>Role '<xsl:value-of select="T_ACTIVITY/RESPONSIBLE_ROLE"/>' does not exist in the Directory!</b></font>
+						</xsl:if>
+					</xsl:otherwise>
+					</xsl:choose>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td width="22%"><span class="head0">Environmental issues:</span></td>
 				<td colspan="2">
 					<xsl:apply-templates select="//RowSet[@Name='EnvIssue']"/>
 				</td>
 			</tr>
 			<tr valign="top">
-				<td width="22%"><span class="head0">Related parameters:</span></td>
+				<td width="22%"><span class="head0">Reported parameters:</span></td>
 				<td colspan="2">
 					<xsl:apply-templates select="SubSet[@Name='Parameter']"/>
 				</td>
@@ -333,11 +360,11 @@ function delActivity() {
 				</td>
 			</tr>
 			<tr><td colspan="3"><br/><hr/></td></tr>
-			<tr><td colspan="3">
+			<!--tr><td colspan="3">
 			Contents in this application are maintained by the EEA.
 			<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/>&amp;mode=PA</xsl:attribute>
 				<xsl:attribute name="target">_new</xsl:attribute>Printable page.</a>&#160;<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>
-			</td></tr>
+			</td></tr-->
 		</table>
 		</div>
 	</xsl:template>

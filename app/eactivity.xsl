@@ -44,38 +44,33 @@
 	</xsl:variable>
 
 	<xsl:template match="XmlData">
-		<table cellspacing="7pts" width="700">
+		<table cellspacing="7pts" width="640">
 		<tr>
-			<td>
+			<td width="465">
 				<span class="head1">
-						<!--xsl:choose>
-							<xsl:when test="//RowSet[@Name='Activity']/Row/T_ACTIVITY/TITLE != ''">
-								<xsl:value-of select="//RowSet[@Name='Activity']/Row/T_ACTIVITY/TITLE"/>
-							</xsl:when>
-							<xsl:otherwise-->
-								Reporting Activity
-							<!--/xsl:otherwise>
-						</xsl:choose-->
-						for 
-						<xsl:choose>
-							<xsl:when test="//RowSet[@Name='Source']/Row/T_REPORTING/ALIAS != ''">
-								<xsl:value-of select="//RowSet[@Name='Source']/Row/T_REPORTING/ALIAS"/>
-							</xsl:when>
-							<xsl:otherwise>
-								Obligation
-							</xsl:otherwise>
-						</xsl:choose>
-						from
-						<xsl:choose>
-							<xsl:when test="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS != ''">
-								<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/TITLE"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RA</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+					Edit/Create Reporting Activity for 
+					<br/>
+					<xsl:choose>
+						<xsl:when test="//RowSet[@Name='Source']/Row/T_REPORTING/ALIAS != ''">
+							<xsl:value-of select="//RowSet[@Name='Source']/Row/T_REPORTING/ALIAS"/>
+						</xsl:when>
+						<xsl:otherwise>
+							Obligation
+						</xsl:otherwise>
+					</xsl:choose>
+					from
+					<xsl:choose>
+						<xsl:when test="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS != ''">
+							<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/TITLE"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</span>
+			</td>
+			<td>
+				<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RA</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 			</td>
 		</tr>
 		</table>
@@ -113,6 +108,10 @@
 			<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/TERMINATE/@XPath"/></xsl:attribute>
 			<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/TERMINATE"/></xsl:attribute>
 		</input>
+		<input type="hidden">
+			<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE2/@XPath"/></xsl:attribute>
+			<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE2"/></xsl:attribute>
+		</input>
 		<table cellspacing="15pts" border="0">
 			<tr valign="top">
 				<td nowrap="true" width="155"><span class="head0">Title:
@@ -126,7 +125,7 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" width="155"><span class="head0">Responsible for reporting:</span><br/>(role prefix)
+				<td nowrap="true" width="155"><span class="head0">Responsible for reporting:</span><br/>(Eionet role)
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RESPONSIBLEFORREPORTING</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
 				<td colspan="3">
@@ -137,11 +136,11 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" width="155"><span class="head0">First reporting:</span><br/>(dd/mm/yyyy)
+				<td nowrap="true" width="155"><span class="head0">First report due:</span><br/>(dd/mm/yyyy)
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDFROM</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
 				<td colspan="3">
-					<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/VALID_TO/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/TERMINATE/@XPath}"])'>
+					<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/VALID_TO/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/TERMINATE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE2/@XPath}"])'>
 						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/FIRST_REPORTING/@XPath"/></xsl:attribute>
 						<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/FIRST_REPORTING"/></xsl:attribute>
 					</input>
@@ -152,7 +151,7 @@
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_VALIDTO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
 				<td colspan="3">
-					<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/VALID_TO/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/TERMINATE/@XPath}"])'>
+					<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/VALID_TO/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/TERMINATE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE2/@XPath}"])'>
 						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/VALID_TO/@XPath"/></xsl:attribute>
 						<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/VALID_TO"/></xsl:attribute>
 					</input>
@@ -163,7 +162,7 @@
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_REPORTINGFREQUENCYINMONTHS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
 				<td colspan="3">
-					<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/VALID_TO/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/TERMINATE/@XPath}"])'>
+					<input type="text" size="30" onChange='changedReporting(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/VALID_TO/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/TERMINATE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE2/@XPath}"])'>
 						<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath"/></xsl:attribute>
 						<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/REPORT_FREQ_MONTHS"/></xsl:attribute>
 					</input>
@@ -348,10 +347,50 @@
 				</td>
 			</tr>
 			</table>
+
+			<!-- Record management -->
+			<table width="720" border="0">
+				<tr>
+					<td nowrap="true" width="130"><i><b>Record management</b></i></td>
+					<td width="590"><hr/></td>
+				</tr>
+			</table>
+			<table cellspacing="15pts">
+			<tr valign="top">
+				<td nowrap="true" width="175"><span class="head0">Verified:</span>
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RMVERIFIED</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+					<br/>(dd/mm/yyyy)
+				</td>
+				<td><input type="text" size="25" maxlength="100" onChange="checkDate(this)">
+					<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/RM_VERIFIED/@XPath"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/RM_VERIFIED"/></xsl:attribute>
+				</input></td>
+			</tr>
+			<tr valign="top">
+				<td nowrap="true" width="175"><span class="head0">Verified by:</span>
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RMVERIFIEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</td>
+				<td><input type="text" size="25" maxlength="100" onChange="changed()">
+					<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/RM_VERIFIED_BY/@XPath"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/RM_VERIFIED_BY"/></xsl:attribute>
+				</input></td>
+			</tr>
+			<tr valign="top">
+				<td nowrap="true" width="175"><span class="head0">Next update due:</span>
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_RMNEXTUPDATEDUE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+					<br/>(dd/mm/yyyy)
+				</td>
+				<td><input type="text" size="25" maxlength="100" onChange="checkDate(this)">
+					<xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/RM_NEXT_UPDATE/@XPath"/></xsl:attribute>
+					<xsl:attribute name="value"><xsl:value-of select="T_ACTIVITY/RM_NEXT_UPDATE"/></xsl:attribute>
+				</input></td>
+			</tr>
+			</table>
+
 			<hr width="700"/>
 			<div style="margin-left:20">
 				<table cellspacing="7"><tr>
-					<td><input type="button" onclick='checkAndSave(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/VALID_TO/@XPath}"])' value="Save changes" width="100" style="width:100"/></td>
+					<td><input type="button" onclick='checkAndSave(document.forms["f"].elements["{T_ACTIVITY/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/NEXT_REPORTING/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/VALID_TO/@XPath}"], document.forms["f"].elements["{T_ACTIVITY/TERMINATE/@XPath}"])' value="Save changes" width="100" style="width:100"/></td>
 			             <td><input type="button" onclick='history.back()' value="Exit"/></td>
 				</tr></table>
 			</div>
