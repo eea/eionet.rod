@@ -25,7 +25,6 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="common.xsl"/>
-	<xsl:include href="util.xsl"/>
 
 	<xsl:variable name="src-id">
 		<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/PK_SOURCE_ID"/>
@@ -189,6 +188,14 @@ function delLegislation() {
 					</tr>
 					<tr valign="top">
 						<td width="25%">
+							<span class="head0">Identification number</span>
+						</td>
+						<td>
+							<xsl:value-of select="T_SOURCE/SOURCE_CODE"/>						
+						</td>
+					</tr>
+					<tr valign="top">
+						<td width="25%">
 							<span class="head0">Issued by</span>
 						</td>
 						<td>
@@ -213,26 +220,10 @@ function delLegislation() {
 					<xsl:apply-templates select="SubSet[@Name='RelatedInstruments']"/>
 					<tr valign="top">
 						<td width="25%">
-							<span class="head0">DG Env review of reporting theme</span>
-						</td>
-						<td>
-							<xsl:value-of select="//RowSet[@Name='DGEnv']/Row/T_LOOKUP/C_TERM"/>
-						</td>
-					</tr>
-					<tr valign="top">
-						<td width="25%">
 							<span class="head0">Valid from</span>
 						</td>
 						<td>
 							<xsl:value-of select="T_SOURCE/VALID_FROM"/>
-						</td>
-					</tr>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">Geographic scope</span>
-						</td>
-						<td>
-							<xsl:value-of select="T_SOURCE/GEOGRAPHIC_SCOPE"/>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -245,6 +236,11 @@ function delLegislation() {
 					      </xsl:call-template>
 						</td>
 					</tr>
+					<tr>
+						<td bgcolor="#006666" colspan="3" valign="top" align="left">
+							<font color="#FFFFFF"><b>Reporting framework</b></font><br/>
+						</td>
+					</tr>
 					<tr valign="top">
 						<td width="25%">
 							<span class="head0">Reporting obligations</span>
@@ -253,13 +249,33 @@ function delLegislation() {
 							<xsl:apply-templates select="//SubSet[@Name='Obligation']"/>
 						</td>
 					</tr>
+					<xsl:if test="//RowSet[@Name='DGEnv']/Row/T_LOOKUP/C_TERM!=''">
+						<tr valign="top">
+							<td width="25%">
+								<span class="head0">DG Env review of reporting theme</span>
+							</td>
+							<td>
+								<xsl:value-of select="//RowSet[@Name='DGEnv']/Row/T_LOOKUP/C_TERM"/>
+							</td>
+						</tr>
+					</xsl:if>
+					<xsl:if test="T_SOURCE/GEOGRAPHIC_SCOPE!=''">
+						<tr valign="top">
+							<td width="25%">
+								<span class="head0">Geographic scope</span>
+							</td>
+							<td>
+								<xsl:value-of select="T_SOURCE/GEOGRAPHIC_SCOPE"/>
+							</td>
+						</tr>
+					</xsl:if>
 					<tr valign="top">
 						<td width="25%">
 							<span class="head0">Comments</span>
 						</td>
 						<td>
 				      	<xsl:call-template name="break">
-	   				   	<xsl:with-param name="text" select="T_SOURCE/COMMENT"/>
+   					   	<xsl:with-param name="text" select="T_SOURCE/COMMENT"/>
 					      </xsl:call-template>
 						</td>
 					</tr>

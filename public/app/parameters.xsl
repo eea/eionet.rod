@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 <xsl:include href="common.xsl"/>
-<xsl:include href="util.xsl"/>
+
 <xsl:template match="/">
 
 <html lang="en"><head><title>Parameters</title>
@@ -87,8 +87,26 @@
 		</tr>
 		<tr valign="top">
 			<td align="right"><span class="head0">Reporting guidelines:</span></td>
-			<td><a target="RA_guidelines"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
-				<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/></a></td>
+			<td>
+				<xsl:choose>
+					<xsl:when test="T_OBLIGATION/REPORT_FORMAT_URL!=''">
+						<a target="RA_guidelines">
+							<xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
+							<xsl:choose>
+								<xsl:when test="T_OBLIGATION/FORMAT_NAME!=''">
+									<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</a>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</td>
 		</tr>
 	</table>
 

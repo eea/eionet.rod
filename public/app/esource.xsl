@@ -25,7 +25,6 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="editor.xsl"/>
-	<xsl:include href="util.xsl"/>
 
 	<xsl:variable name="permissions">
 		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
@@ -223,14 +222,7 @@
 										<xsl:attribute name="value">
 											<xsl:value-of select="../T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>
 										</xsl:attribute>
-										<xsl:choose>
-											<xsl:when test="../PARENT/ALIAS != '' and ../PARENT/ALIAS != '...'">
-												<xsl:value-of select="../PARENT/ALIAS"/>
-											</xsl:when>
-											<xsl:otherwise>
-												<xsl:value-of select="../PARENT/TITLE"/>
-											</xsl:otherwise>
-										</xsl:choose>
+										<xsl:value-of select="../PARENT/TITLE"/>
 									</option>
 								</xsl:if>
 								<xsl:apply-templates select="//RowSet[@Name='Sources']"/>
@@ -593,14 +585,7 @@ compField("legislation title", document.f.elements["/XmlData/RowSet[@Name='Sourc
 		<xsl:for-each select="T_SOURCE">
 			<option>
 				<xsl:attribute name="value"><xsl:value-of select="PK_SOURCE_ID"/></xsl:attribute>
-				<xsl:choose>
-					<xsl:when test="ALIAS != '' and ../ALIAS != '...'">
-						<xsl:value-of select="ALIAS"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="TITLE"/>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:value-of select="TITLE"/>
 			</option>
 		</xsl:for-each>
 	</xsl:template>

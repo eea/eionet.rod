@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 <xsl:include href="common.xsl"/>
-<xsl:include href="util.xsl"/>
 
 <xsl:variable name="admin">
 	<xsl:value-of select="/XmlData/RowSet/@auth"/>
@@ -171,7 +170,7 @@ function submitSearchForm() {
             <td style="border-bottom: 1 solid #C0C0C0">
 										<select name="COUNTRY_ID" style="color: #000000; font-size: 8pt; width:200" size="1">
 											<option value="0">Any country</option>
-											<xsl:call-template name="SpatialTemplate">
+											<xsl:call-template name="SpatialTemplate2">
 												<xsl:with-param name ="type">C</xsl:with-param>
 												<xsl:with-param name ="type2"></xsl:with-param>
 											</xsl:call-template>
@@ -215,7 +214,7 @@ function submitSearchForm() {
   </div></body></html>
 	</xsl:template>
 
-		<xsl:template name="SpatialTemplate">
+		<xsl:template name="SpatialTemplate2">
 		<xsl:param name="type" select="'Not selected'"/>
 		<xsl:param name="type2" select="'Not selected'"/>
 		<xsl:for-each select="RowSet[@Name='Spatial']/Row/T_SPATIAL[SPATIAL_TYPE=$type or SPATIAL_TYPE=$type2]">

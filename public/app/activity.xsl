@@ -24,7 +24,6 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="common.xsl"/>
-	<xsl:include href="util.xsl"/>
 
 	<xsl:variable name="ra-id">
 		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/PK_RA_ID"/>

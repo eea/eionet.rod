@@ -24,6 +24,7 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:java="http://xml.apache.org/xslt/java" version="1.0">
+	<xsl:include href="static.xsl"/>
 
 	<xsl:param name="req" select="'default value'"/>
 	<xsl:variable name="printmode" select="java:eionet.rod.RODUtil.getParameter($req, 'printmode')"/>
@@ -205,8 +206,7 @@
 					</a>
 				</td></tr>
 				<tr><td align="right">
-					<!--a href="javascript:openViewHelp('HELP_GENERAL')" onMouseOver="Over('img5')" onMouseOut="Out('img5')" onClick="Click('img5')"-->
-					<a href="javascript:Out('img5'); openViewHelp('HELP_GENERAL')" onMouseOver="Over('img5')" onMouseOut="Out('img5')">
+					<a href="text.jsv?mode=H" onMouseOver="Over('img5')" onMouseOut="Out('img5')">
 						<img name="img5" src="images/off.gif" border="0" alt=""/>
 						<img src="images/button_help.gif" border="0" width="84" height="13" alt="General Help"/>
 					</a>

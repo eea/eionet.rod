@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 <xsl:include href="common.xsl"/>
-<xsl:include href="util.xsl"/>
+
 <xsl:template match="/">
 
 
@@ -41,7 +41,7 @@
 	</table>
 
 
-<table width="100%" border="0">
+<table width="680" border="0">
 <tr>
 	<td width="3%"></td>
 	<td width="35%" valign="top" align="right"><span class="head1">Status of participation:</span></td>
@@ -111,7 +111,7 @@
 			<xsl:value-of select="T_SPATIAL_HISTORY/END_DATE"/>
 		</xsl:when>
 		<xsl:otherwise>
-				...
+				present
 		</xsl:otherwise>
 	</xsl:choose>
 		</FONT></SPAN>

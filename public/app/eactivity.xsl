@@ -25,7 +25,6 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="editor.xsl"/>
-	<xsl:include href="util.xsl"/>
 
 	<!--xsl:variable name="ro-id">
 		<xsl:value-of select="//RowSet[@Name='Source']/Row/T_REPORTING/PK_RO_ID"/>

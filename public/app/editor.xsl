@@ -24,6 +24,8 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+	<xsl:include href="util.xsl"/>
+	
 	<xsl:output indent="yes"/>   
             
 	<xsl:template match="/">
@@ -752,6 +754,4 @@ function checkAndSave(first, freq, next, textrep, to, terminate) {
 			</body>
    	 </html>
 	</xsl:template>  
-
-	<xsl:include href="static.xsl"/>
 </xsl:stylesheet>

@@ -24,6 +24,7 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:java="http://xml.apache.org/xslt/java" version="1.0">
+	<xsl:include href="util.xsl"/>
 
 	<xsl:param name="req" select="'default value'"/>
 	<xsl:variable name="printmode" select="java:eionet.rod.RODUtil.getParameter($req, 'printmode')"/>
@@ -215,7 +216,6 @@ function fillPicklist(type,list,text) {
    	 </html>
 	</xsl:template>  
 
-
 	<xsl:template name="nofound">
 		<table cellspacing="7pts">
 			<tr height="40pts" valign="bottom">
@@ -228,7 +228,4 @@ function fillPicklist(type,list,text) {
 			</tr>
 		</table>
 	</xsl:template>
-	
-	<xsl:include href="static.xsl"/>
-	
 </xsl:stylesheet>
