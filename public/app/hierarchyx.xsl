@@ -40,6 +40,20 @@
 			<tr>
          	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
           	<td width="600" background="images/bar_filled.jpg" height="25">
+
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ <div class="breadcrumbitem">
+    <a><xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
+        Legislative instruments
+    </a>
+ </div>
+ <div class="breadcrumbitemlast">Hierarchy</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+
             <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
             	<tr>
                	<td valign="bottom">
@@ -64,7 +78,7 @@
 		</table>
 
 		<!-- page -->
-		<div style="margin-left:13">
+		<div id="workarea">
 		<!-- page title -->
 	   <table width="610" border="0">
 		 <tr><td valign="top" width="76%">

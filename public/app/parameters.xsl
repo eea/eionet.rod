@@ -27,7 +27,7 @@
 							</span></strong>
 						</font>
 					</td>
-					<td width="70"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></td>
+					<td width="70"><img src="images/logo.jpg" id="logo" alt="" height="62" width="66" border="0"/></td>
 				</tr>
 			</table>
 	<!-- green line table -->

@@ -133,7 +133,7 @@
 									<span class="barfont">
                   <b><a href="http://www.eea.eu.int" target="_blank">European Environment Agency</a></b><br/>
                   Kgs. Nytorv 6, DK-1050 Copenhagen K, Denmark - Phone: +45 3336
-                  7100
+                  7110
 									</span>
 									</td>
             </tr>

@@ -76,6 +76,21 @@
 			<tr>
          	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25"> </td>
           	<td width="600" background="images/bar_filled.jpg" height="25">
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+	<xsl:choose>
+	<xsl:when test="$rora='A' or $rora='B'">
+		<div class="breadcrumbitemlast">Reporting obligations</div>
+	</xsl:when>
+	<xsl:otherwise>
+		<div class="breadcrumbitemlast">Reporting obligation</div>
+	</xsl:otherwise>
+	</xsl:choose>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+
             <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
             	<tr>
                	<td valign="bottom">
@@ -104,7 +119,7 @@
 		</table>
 		</xsl:if>
 		<!-- page -->
-		<div style="margin-left:13">
+		<div id="workarea">
 
 		<br/>
 		<table cellspacing="0" border="0" width="602">
@@ -185,9 +200,9 @@
 
 		<TR>
 		<xsl:if test="$rora='A'">
-			<td style="BORDER-TOP: #008080 1px solid;  BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+			<td style="border-top: #008080 1px solid;  border-left: #008080 1px solid; border-bottom: #008080 1px solid" 
 						vAlign="center" width="3%" bgColor="#ffffff">&#160;</td>
-			<TD style="BORDER-TOP: #008080 1px solid;  BORDER-RIGHT: #C0C0C0 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+			<TD style="border-top: #008080 1px solid;  border-right: #C0C0C0 1px solid; border-bottom: #008080 1px solid" 
 						vAlign="center" width="39%" bgColor="#ffffff">
 
 			<TABLE cellspacing="0" width="100%" border="0">
@@ -210,7 +225,7 @@
 			</TD>
 		</xsl:if>
 
-		<TD style="BORDER-RIGHT: #C0C0C0 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+		<TD style="border-right: #C0C0C0 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid" 
 						vAlign="center" width="39%" bgColor="#ffffff">
 
 				<TABLE cellspacing="0" width="100%" border="0">
@@ -233,7 +248,7 @@
 						</TBODY>
 					</TABLE>
 				</TD>
-				<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+				<TD style="border-right: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid" 
 						vAlign="center" width="19%" bgColor="#ffffff">
 
 						<TABLE cellspacing="0" width="100%" border="0">
@@ -289,8 +304,8 @@
 	<xsl:template match="Row">
 		<!--ra-->
 		<xsl:if test="$rora='A'">
-		<td style="BORDER-LEFT: #008080 1px solid;  BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"><img src="images/diamlil.gif" alt=""/></td>
-		<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+		<td style="border-left: #008080 1px solid;  border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid"><img src="images/diamlil.gif" alt=""/></td>
+		<TD style="border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" vAlign="top">
 			<SPAN class="head0n">
 				<A> 
 					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
@@ -309,7 +324,7 @@
 			</SPAN>&#160;
 		</TD>
 		</xsl:if>
-		<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+		<TD style="border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" vAlign="top">
 			<SPAN class="head0n">
 				<A> 
 					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
@@ -317,7 +332,7 @@
 				</A>
 			</SPAN>
 		</TD>
-		<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+		<TD style="border-right: #008080 1px solid; border-bottom: #c0c0c0 1px solid" vAlign="top">
 			<SPAN class="head0n">
 					<span class="rowitem">
 					<a title="{T_CLIENT/CLIENT_NAME}"> 
@@ -395,7 +410,7 @@
 		<xsl:if test="count(Row) != 0">
 			<tr><td colspan="4">&#160;</td></tr>
 			<tr>
-				<td style="BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top" colspan="4">
+				<td style="border-bottom: #c0c0c0 1px solid" vAlign="top" colspan="4">
 					<span class="head1">Indirect reporting obligations</span>&#160;<br/>
 				</td>
 			</tr>
@@ -405,8 +420,8 @@
 						<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
 					</xsl:attribute>
 					<xsl:if test="$rora='A'">
-					<td style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid"><img src="images/diamlil.gif" alt=""/></td>
-					<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+					<td style="border-left: #008080 1px solid; border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid"><img src="images/diamlil.gif" alt=""/></td>
+					<TD style="border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" vAlign="top">
 						<SPAN class="head0n">
 							<A> 
 								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
@@ -425,7 +440,7 @@
 						</SPAN>&#160;
 					</TD>
 					</xsl:if>
-					<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+					<TD style="border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" vAlign="top">
 						<SPAN class="head0n">
 							<A> 
 								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
@@ -433,7 +448,7 @@
 							</A>
 						</SPAN>
 					</TD>
-					<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+					<TD style="border-right: #008080 1px solid; border-bottom: #c0c0c0 1px solid" vAlign="top">
 						<SPAN class="head0n">
 							<span class="rowitem">
 							<a title="{T_CLIENT/CLIENT_NAME}"> 

@@ -27,7 +27,7 @@
 		<td width="20"></td>
 		<td width="700">
 
-			<div style="margin-left:13">
+			<div id="workarea">
 			<!-- header -->
 			<!-- quick fix ... show header tables only if 1st position -->
 			<table width="700" border="0">
@@ -45,7 +45,7 @@
 						</font>
 
 					</td>
-					<td width="70"><a href="http://www.eea.eu.int" target="_blank"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></a></td>
+					<td width="70"><a href="http://www.eea.eu.int" target="_blank"><img src="images/logo.jpg" id="logo" alt="" height="62" width="66" border="0"/></a></td>
 				</tr>
 			</table>
 	<!-- green line table -->

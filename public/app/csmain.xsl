@@ -59,6 +59,16 @@
 	<tr>
 		<td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td>
 		<td height="25" background="images/bar_filled.jpg" width="600">
+
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ <div class="breadcrumbitem"><a href="deliveries.jsv">Deadlines</a></div>
+ <div class="breadcrumbitemlast">Country</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+
 			 <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
 			 <tr valign="top">
 				<td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
@@ -81,7 +91,7 @@
 	<tr valign="top" height="500">
 	<td>
 
-	<div style="margin-left:13">
+	<div id="workarea">
 	
 
 	<table border="0" width="98%">

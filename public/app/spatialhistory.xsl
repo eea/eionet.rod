@@ -16,7 +16,7 @@
 		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
 	</xsl:variable>
 
-	<div style="margin-left:13">
+	<div id="workarea">
 <br/>
 
 			<table width="700" border="0">
@@ -34,7 +34,7 @@
 						</font>
 
 					</td>
-					<td width="70"><img src="images/logo.jpg" alt="" height="62" width="66" border="0"/></td>
+					<td width="70"><img src="images/logo.jpg" id="logo" alt="" height="62" width="66" border="0"/></td>
 				</tr>
 			</table>
 

@@ -24,8 +24,8 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:java="http://xml.apache.org/xslt/java" version="1.0">
 	<!--xsl:output indent="yes"/-->   
-	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" omit-xml-declaration="yes"/>   
-	<!--xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd" omit-xml-declaration="yes"/-->   
+	<!--xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" omit-xml-declaration="yes"/-->
+	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd" omit-xml-declaration="yes"/>   
 
 	<xsl:include href="util.xsl"/>
 
@@ -51,7 +51,8 @@
 		<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
 
 		<title><xsl:call-template name="PageTitle"/></title>
-		<link href="eionet.css" rel="stylesheet" type="text/css"/>
+		<link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="layout-print.css"  media="print" />
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<script language="JavaScript" src="script/util.js"></script>
 		<script language="JavaScript">
@@ -123,52 +124,24 @@ function fillPicklist(type,list,text) {
 				]]>
 			</script>
 		</head>
-		<body bgcolor="#f0f0f0" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
-			<xsl:if test="not($printmode='Y')"><xsl:attribute name="background">images/eionet_background.jpg</xsl:attribute></xsl:if>
+		<body>
 
 			<!-- MAIN table -->
-			<xsl:if test="not($printmode='Y')">
-			<table border="0" cellpadding="0" cellspacing="0">
-			<tr>
-			  <td width="130" valign="top"><img src="images/top1.jpg" height="113" width="130" alt=""/></td>
-			  <td width="20" valign="top"><img height="113" width="20" src="images/top2.jpg" alt=""/></td>
-			  <td width="621" valign="top"> 
-			    <table border="0" cellpadding="0" cellspacing="0">
-			    <tr>
-			      <td><img src="images/top3.jpg" width="92" height="35" alt=""/></td>
-			    </tr>
-			    <tr>
-			      <td><table border="0" width="621">
-			          <tr>
-			            <td width="648">
+
+<div id="pagehead">
+ <div id="identification">
+  <a href="/" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a>
 								<div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
 								<div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
-							</td>
-			            <td width="20">&#160;</td>
-			            <td><a href="/" title="Frontpage of website"><img src="images/logo.jpg" id="logo" alt="Logo" height="62" width="66" border="0"/></a></td>
-			          </tr>
-			          </table>
-			          </td>
-			        </tr>
-			      </table>
-			    </td>
-			  </tr>
-			</table>
-			</xsl:if>
+ </div>
 
-			<table border="0">
-				<tr valign="top">
-				<xsl:if test="not($printmode='Y')">
-				<td width="125" nowrap="nowrap">
+
+</div> <!-- page head -->
+
 					<xsl:call-template name="LeftToolbar">
 						<xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param>
 					</xsl:call-template>
-				</td>
-				</xsl:if>
-				<td>
 					<xsl:apply-templates select="XmlData"/>
-				</td>
-			</tr></table>
 			</body>
    	 </html>
 	</xsl:template>  

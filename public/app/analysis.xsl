@@ -39,6 +39,14 @@
 				<tr>
 						<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
 							<td width="600" background="images/bar_filled.jpg" height="25">
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ <div class="breadcrumbitemlast">Analysis</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+
 							<table height="8" cellspacing="0" cellpadding="0" background="" border="0">
 								<tr>
 									<td valign="bottom">
@@ -57,7 +65,7 @@
 				<tr><td>&#160;</td></tr>
 			</table>
 		</xsl:if>
-		<div style="margin-left:13">
+		<div id="workarea">
 		<table width="97%" border="0">  
 			<tr>
 				<td width="70%" align="left"><div class="head1">Database Content Statistics</div></td>

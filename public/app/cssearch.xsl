@@ -129,6 +129,16 @@ function submitSearchForm() {
 <tr>
 	<td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td>
 	<td height="25" background="images/bar_filled.jpg" width="600">
+
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ <div class="breadcrumbitem"><a href="deliveries.jsv">Deadlines</a></div>
+ <div class="breadcrumbitemlast">Advanced search</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+
  		 <table border="0" background="" cellpadding="0" cellspacing="0" height="8">
 		 <tr>
 		  <td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
@@ -146,7 +156,7 @@ function submitSearchForm() {
 		 </td></tr><tr><td></td></tr>
 	</table>
 	 
-	 <div style="margin-left:13; margin-top:13">
+	 <div id="workarea" style="margin-top:13">
 		<form name="x1" method="get" action="csmain">
 		<table  width="600" cellspacing="0" cellpadding="2" style="border: 1px solid #008080">
 				 <tr height="25" style="border-bottom:1px solid #006666">
