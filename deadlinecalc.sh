@@ -2,13 +2,14 @@
 
 
 # !!!!!!!!!!!!!!!!!! ADJUST THESE !!!!!!!!!!!!!!!!!!
-rod=/prj/rod2
-java=/prj/javaserv/jdk1.2.2/bin/java
+rod=/prj/rod2/public
+cd $rod/WEB-INF/classes
+java=/usr/lib/jvm/java/bin/java
 
-libpath=$rod/public/WEB-INF/lib
+libpath=$rod/WEB-INF/lib
 
 # !!!!!!!!!!!!!!!!! CHECK, if mysql JAR is correct !!!!!!!!!!!!!!
-cp=/prj/javaserv/mm.mysql.jdbc-1.2c/mysql_uncomp.jar
+cp=/var/lib/tomcat4/common/lib/mysql_uncomp.jar
 
 
 cp=$cp:$libpath/rod.jar:$libpath/xmlserver.jar
