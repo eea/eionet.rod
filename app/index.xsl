@@ -113,9 +113,22 @@
 						<span class="head0">All instruments</span></a>
 					</td>
 				</tr>
+				<tr>
+					<td colspan="2"><span class="head0">Deliveries:</span></td>
+				</tr>
+				<tr valign="center">
+					<td width="10"><img src="images/diamlil.gif"/></td>
+					<td width="590">
+						<a><xsl:attribute name="href">deliveries.jsv</xsl:attribute>
+						<span class="head0">All deliveries</span></a>
+					</td>
+				</tr>
+
 				</table></td>
 			</tr>
-			<tr><td colspan="2"><hr/></td></tr>
+			<tr valign="center">
+				<td colspan="2"><hr/></td>
+			</tr>
 		</table>
 
 <!-- Reporting obligation search filters -->

@@ -296,14 +296,20 @@ var picklist = new Array();
 	</form>
 	<!-- 6 -->
 	<xsl:variable name="oneCountry"><xsl:value-of select="count(child::XmlData/RowSet[@Name='Dummy']/Row/T_DUMMY)"/></xsl:variable>
-	<table border="0" width="600" cellspacing="7">
-	<tr><td>
+	<table border="0">
+	<tr><td width="475">
     <span class="head1"><span lang="en-us">Reporting overview: </span>
 		<xsl:if test="$oneCountry=0">
 			<xsl:value-of select="XmlData/RowSet/Row/T_SPATIAL/SPATIAL_NAME"/>
 		</xsl:if>
-
-    </span><span class="head0">&#160;&#160;&#160;<a href="cssearch">[Advanced search]</a></span></td></tr>
+    </span>
+		</td><td width="*" align="right" valign="top">
+		<a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt="Advanced search"/></a><br/>
+		<!--span class="head0">&#160;&#160;&#160;
+			<a href="cssearch">[Advanced search]</a>
+			<a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt="Advanced search"/></a><br/>
+		</span-->
+		</td></tr>
 	</table>
 	<!-- 6 -->
 	<br/><div style="margin-left:20">

@@ -187,7 +187,7 @@ who was responsible for delivering, and to whom was the data set delivered.
   
 You can browse your national deliveries by choosing a country below or query
 the contents by using the advanced search.
-</td><td>
+</td><td valign="top" align="right">
 <a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt="Advanced search"/></a><br/>
 
 <!--a href="javascript:openHarvester()"><img border="0" src="images/bb_harvest.png"/></a-->
