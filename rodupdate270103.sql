@@ -1,0 +1,1 @@
+alter table T_ACTIVITY add FK_DELIVERY_COUNTRY_IDS varchar (255);
