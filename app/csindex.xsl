@@ -98,7 +98,7 @@ function openFeedback(){
   <img alt="" src="images/top2.jpg" width="20" height="113"/></td><td valign="top" width="621"><table cellspacing="0" cellpadding="0" border="0"><tr><td>
     <img alt="" height="35" width="92" src="images/top3.jpg"/></td></tr><tr><td><table width="621" border="0"><tr><td width="618">
   <span class="head2"><strong><font color="#006666">Country Services</font></strong></span><br/><span class="head0"><strong>
-  <font color="#006666">Prototype, v1.0</font></strong></span>
+  <font color="#006666">Ver 1.0 beta. The database contents is under establishment</font></strong></span>
   </td><td width="50"> </td><td><img border="0" width="66" height="62" alt="" src="images/logo.jpg"/></td></tr></table></td></tr></table></td></tr></table><table  cellspacing="0" cellpadding="0" border="0"><tr valign="top">
   <td nowrap="" width="130" bgcolor="#747400"><p><center><table cellspacing="0" cellpadding="0" border="0"><tr><td align="center"><span class="head0">Contents</span></td></tr>
   <!--tr>
@@ -165,7 +165,7 @@ function openFeedback(){
   <p class="MsoNormal"><span lang="EN-GB">
 This tool aims at facilitating EEA member countries to co-ordinate and to supervise their international reporting. It tells which country has to report what, when is the deadline, is the reported data set in ReportNet, who was responsible for delivering, and to whom was the data set delivered.<br/><br/>
 
-<b>This version of Country Services is a prototype application running at TietoEnator's environment with test-installations of ROD and Content Registry with test-databases. Please don't use the data for any other purpose than testing as it is not quality assured.</b><br/><br/> 
+<!--b>This version of Country Services is a prototype application running at TietoEnator's environment with test-installations of ROD and Content Registry with test-databases. Please don't use the data for any other purpose than testing as it is not quality assured.</b><br/><br/--> 
 
 <xsl:if test="$admin = 'true'">
 	<img onClick = "openHarvester()" width="25" height="25" src="images/doc.gif" alt="Harvest data from other services" border="0"/>&#160;<br/>
