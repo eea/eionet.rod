@@ -12,24 +12,26 @@
     <rdfs:label>Reporting Obligation</rdfs:label>
   </rdfs:Class>
 
+<!-- Also known as dataflow -->
   <rdf:Property rdf:ID='obligation'>
-    <rdf:value>Obligation name</rdf:value>
-    <rdfs:label>Obligation name</rdfs:label>
-    <rdfs:range rdf:resource='#Activity' />
+    <rdfs:label>Obligation</rdfs:label>
+    <rdfs:range rdf:resource='#Obligation' />
   </rdf:Property>
 
+<!-- A Delivery is the combination of an Envelope and its contents. -->
   <rdfs:Class rdf:ID="Delivery" rdfs:label="Reportnet Delivery"/>
+
   <rdfs:Class rdf:ID="Referral" rdfs:label="Repository Referral"/>
 
-    <rdfs:Class rdf:ID="Locality">
-      <rdfs:label>Locality</rdfs:label>
-      <rdfs:comment>This is a limited list of localities that deliver to the repository</rdfs:comment>
-    </rdfs:Class>
+  <rdfs:Class rdf:ID="Locality">
+    <rdfs:label>Locality</rdfs:label>
+    <rdfs:comment>This is a limited list of localities that deliver to the repository</rdfs:comment>
+  </rdfs:Class>
 
-    <rdf:Property rdf:ID="locality">
-      <rdfs:label>Locality</rdfs:label>
-      <rdfs:range rdf:resource="#Locality" />
-      <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/coverage" />
-    </rdf:Property>
+  <rdf:Property rdf:ID="locality">
+    <rdfs:label>Locality</rdfs:label>
+    <rdfs:range rdf:resource="#Locality" />
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/coverage" />
+  </rdf:Property>
 
 </rdf:RDF>
