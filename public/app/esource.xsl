@@ -246,7 +246,7 @@
 									<td width="240" align="center">
 										<xsl:apply-templates select="//RowSet[@Name='SOURCE_CLASS']"/>
 									</td>
-									<td width="100" nowrap="true">
+									<td width="100" nowrap="nowrap">
 										<table cellspacing="5">
 											<tr>
 												<td width="100" align="center">

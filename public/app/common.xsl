@@ -158,7 +158,7 @@ function fillPicklist(type,list,text) {
 			<table border="0">
 				<tr valign="top">
 				<xsl:if test="not($printmode='Y')">
-				<td width="125" nowrap="true">
+				<td width="125" nowrap="nowrap">
 					<xsl:call-template name="LeftToolbar">
 						<xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param>
 					</xsl:call-template>

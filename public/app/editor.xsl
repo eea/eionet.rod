@@ -767,11 +767,11 @@ function checkAndSave(first, freq, next, textrep, to, terminate) {
 			</table>
 
 			<table border="0">
-				<tr valign="top" width="95%"><td width="125" nowrap="true">
+				<tr valign="top" width="95%"><td width="125" nowrap="nowrap">
 					<!-- Toolbar -->
 					<xsl:call-template name="LeftToolbar"><xsl:with-param name="admin">false<!--xsl:value-of select="$admin"/--></xsl:with-param></xsl:call-template>
 				</td>
-				<td width="15" nowrap="true">&#160;</td>
+				<td width="15" nowrap="nowrap">&#160;</td>
 				<td>
 					<xsl:apply-templates select="XmlData"/>
 				</td>
