@@ -96,7 +96,7 @@
 								</xsl:if>
 				</h1>
 
-			<table width="100%">
+			<table style="float:right">
 			<tr>
 				<td align="center">
 				<xsl:if test="$admin='true'">
