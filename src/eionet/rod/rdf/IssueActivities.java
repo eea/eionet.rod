@@ -63,7 +63,7 @@ public class IssueActivities extends RSSServletAC {
     for (int i= 0; i< acts.length; i++){
       String pk = acts[i][0];
 
-      s.append("<rdf:li rdf:resource=\"").append(activitiesNamespace).append("/ra-")
+      s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/")
         .append(pk).append("\"/>");
   
     } 
@@ -75,7 +75,7 @@ public class IssueActivities extends RSSServletAC {
       String date = acts[i][2];
       String link = getActivityUrl(pk, acts[i][3] );
       
-      s.append( "<item rdf:about=\"").append(activitiesNamespace).append("/ra-")
+      s.append( "<item rdf:about=\"").append(obligationsNamespace).append("/")
         .append(pk).append("\">")
         .append("<title>").append(title).append("</title>")
         .append("<link>").append(link).append("</link>");

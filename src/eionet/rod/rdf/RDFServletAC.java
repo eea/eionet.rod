@@ -57,6 +57,7 @@ import eionet.rod.Constants;
 public abstract class RDFServletAC extends HttpServlet implements Constants {
 
   protected String activitiesNamespace;
+  
   protected String obligationsNamespace;
   protected String rodSchemaNamespace;
 

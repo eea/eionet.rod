@@ -57,7 +57,6 @@ public class Activities extends RDFServletAC {
 
   private static final String  actPropName = "activity";
 
-
   private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace +
     //"xmlns:eor=\"http://dublincore.org/2000/03/13/eor#\" " +
     "xmlns:dcterms='http://purl.org/dc/terms/'";
@@ -68,7 +67,7 @@ public class Activities extends RDFServletAC {
     StringBuffer s = new StringBuffer();
     s.append(rdfHeader);
     s.append("<rdf:RDF ")
-    .append(" xmlns=\"").append(activitiesNamespace).append("#\"")
+    //.append(" xmlns=\"").append(activitiesNamespace).append("#\"")
     .append(" xmlns:rod=\"").append(rodSchemaNamespace).append("#\"")
     .append(" ")
     .append(allNameSpaces)
@@ -84,7 +83,8 @@ public class Activities extends RDFServletAC {
       String title = (String)act.get("TITLE");
       String lastUpdate = (String)act.get("LAST_UPDATE");
 
-      s.append("<rod:Obligation rdf:ID=\"ra-").append(pk).append("\">")
+      //s.append("<rod:Obligation rdf:ID=\"ra-").append(pk).append("\">")
+      s.append("<rod:Obligation rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">")
         .append("<rdf:value>").append(title).append("</rdf:value>")
         .append("<rdfs:label>").append(title).append("</rdfs:label>")
         .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
