@@ -30,6 +30,13 @@ public class RODUtil {
    *  Dummy method for getting request parameter
    */
    public static String getParameter(HttpServletRequest req, String prmName) {
-      return req.getParameter(prmName);
+
+      
+      String p =  req.getParameter(prmName);
+      //strongly ugly and bad quick-fix
+      if ( prmName.equals("printmode") &&  ( p ==null || p.trim().equals("") ) )
+        p="N";
+      return p;
+      
    }
 }

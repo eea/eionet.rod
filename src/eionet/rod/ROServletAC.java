@@ -59,8 +59,8 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
       //log("****************************** appInit GO ");
       //log("************************ " + XDBApplication.getInstance( getServletContext() ).getServerInfo());
 
-        if (XDBApplication.getInstance( getServletContext() ).getServerInfo().indexOf("Tomcat") !=-1 )
-          PREFIX = "app/";
+        //if (XDBApplication.getInstance( getServletContext() ).getServerInfo().indexOf("Tomcat") !=-1 )
+      PREFIX = "app/";
           
           
         ServletContext ctx = getServletContext();
