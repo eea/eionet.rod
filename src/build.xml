@@ -13,7 +13,7 @@
 		    destdir='${classes.dir}' debug='on'
 		    classpath='../public/WEB-INF/lib/xmlserver.jar;
 		    ../public/WEB-INF/lib/uit-client.jar;
-		    ../public/WEB-INF/lib/servlet.jar;
+		    /var/lib/tomcat4/common/lib/[servletapi4].jar;
 		    ../public/WEB-INF/lib/log4j.jar;
 		    ../public/WEB-INF/lib/uit-security.jar;
 		    ../public/WEB-INF/lib/eionet-dir.jar' />
