@@ -102,6 +102,7 @@ public class Activities extends RDFServletAC {
       String repFormatUrl=(String)act.get("REPORT_FORMAT_URL");      
 
       String description=(String)act.get("DESCRIPTION");  
+      String eea_primary=(String)act.get("EEA_PRIMARY");  
 
       if (formatName.equals("") && !repFormatUrl.equals(""))
         formatName = repFormatUrl;
@@ -117,6 +118,7 @@ public class Activities extends RDFServletAC {
         .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
         .append("<dcterms:valid>").append(validSince).append("</dcterms:valid>")        
         .append("<rod:terminated>").append(terminated).append("</rod:terminated>")                
+        .append("<rod:eea_primary>").append(eea_primary).append("</rod:eea_primary>")  
         .append("<rod:comment>").append(comment).append("</rod:comment>")                
         .append("<rod:responsiblerole>").append(respRole).append("</rod:responsiblerole>")                
         .append("<rod:nextdeadline>").append(nextDeadline).append("</rod:nextdeadline>")                        
