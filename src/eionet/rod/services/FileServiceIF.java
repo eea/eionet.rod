@@ -63,6 +63,13 @@ public interface FileServiceIF  {
   public static final String REMOTE_SRV_TYPE = "remote.services.type";
 
 
+
+  /**
+  * RO namespace
+  */
+  public static final String RO_NAMESPACE = "rod.url.ro_namespace";
+
+
   /**
   * Namespace for RA titles
   */

@@ -59,6 +59,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
   protected String activitiesNamespace;
   
   protected String obligationsNamespace;
+  protected String instrumentsNamespace;
   protected String rodSchemaNamespace;
 
   protected static ResourceBundle props; 
@@ -66,6 +67,8 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
   protected static final String rdfHeader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
   protected static final String rdfNameSpace = "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" ";
   protected static final String rdfSNameSpace = "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" ";
+
+  protected static final String dcNs = " xmlns:dc=\"http://purl.org/dc/elements/1.1\" ";
 
   public void init(  ServletConfig config ) throws ServletException {
 
@@ -77,6 +80,13 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
     if (activitiesNamespace == null)
       activitiesNamespace = props.getString(ROD_URL_NS);
+
+    if (instrumentsNamespace == null)
+      try {
+        instrumentsNamespace = props.getString(ROD_LI_NS);
+      } catch (MissingResourceException mre ) {
+        rodSchemaNamespace="http://rod.eionet.eu.int/instruments/";
+      }
 
     if (obligationsNamespace == null)
       obligationsNamespace = props.getString(ROD_URL_RO_NS);

@@ -135,6 +135,11 @@ public interface Constants {
   
   public static final String PROP_FILE = "rod";
 
+/**
+* Parameter in the props file for LI namespace
+*/
+  public static final String ROD_LI_NS = "instruments.namespace";
+
 
 /**
 * Parameter in the props file for the domain of WebROD

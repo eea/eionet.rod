@@ -116,11 +116,16 @@ public interface DbServiceIF  {
 
  
   /**
-  * Activities
-  * @return array of hashes (PK_RA_ID, TITLE)
+  * Activities used in RDF
+  * @return array of hashes (PK_RA_ID, TITLE, etc)
   */
   public Vector getActivities(  ) throws ServiceException ;
 
+  /**
+  * Legal Instruments ARRAY of STRUCTs for RDF
+  * @return array of hashes
+  */
+  public Vector getInstruments() throws ServiceException ;
 
   /**
   * Logs record insert/update/delete history

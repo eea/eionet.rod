@@ -131,6 +131,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
 
   public int getActivitiesCountInIssue( String issueId, String raId) throws ServiceException {
+      
       String sqlq = "SELECT COUNT(RA_ID) FROM T_ISSUE_LNK WHERE FK_ISSUE_ID=" + issueId + " AND RA_ID=" + raId ;
       String[][] res = _executeStringQuery(sqlq);
       int cnt = Integer.parseInt(res[0][0]);
@@ -590,14 +591,28 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     _executeUpdate(sql);
   }
 
+
+  public  Vector getInstruments() throws ServiceException {
+    String sql = "SELECT s.PK_SOURCE_ID, s.TITLE, s.ALIAS, DATE_FORMAT(s.LAST_UPDATE, '%Y-%m-%d') AS LAST_UPDATE FROM T_SOURCE s ORDER BY s.ALIAS ";
+//DATE_FORMAT(last_update, "%Y-%m-%d") 
+    return  _getVectorOfHashes(sql);        
+  }
+  
  /**
 	* Returns all Reporting activities pk_id + title
   * used in RDF generating
+  * URL parameters hard-coded
 	*/
   public  Vector getActivities(  ) throws ServiceException {
+      //String rodDomain = "";
+      String roNs= RODServices.getFileService().getStringProperty( FileServiceIF.RO_NAMESPACE);    
+      
       String sql = "SELECT a.PK_RA_ID, s.PK_SOURCE_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE, " +
-        " IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, a.LAST_UPDATE " +
-        " FROM T_ACTIVITY a , T_SOURCE s WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " +
+        " IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, a.LAST_UPDATE, " +
+        " CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&mode=A') AS details_uri, " +
+        " CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri " +
+        " FROM T_ACTIVITY a , T_SOURCE s " +
+        " WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " +
         " AND a.TERMINATE = 'N' ORDER BY SOURCE_TITLE, TITLE;";
         
       return  _getVectorOfHashes(sql);
