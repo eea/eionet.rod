@@ -114,7 +114,10 @@ function delObligation() {
 								<span class="head0"><xsl:value-of select="T_REPORTING/RECOGNIZED_DETAIL"/></span>
 							</xsl:when>
 							<xsl:otherwise>
+<!--
 								<span class="head0"><xsl:call-template name="RecognizedDefault"/></span>
+-->
+								<span class="head0">Recognized</span>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:otherwise>
