@@ -124,7 +124,7 @@
 				</table>
 	</xsl:template>
 	<xsl:template name="Print">
-		<xsl:if test="$printmode !='Y'">
+		<xsl:if test="$printmode = 'N'">
 			<img src="images/printerfriendly.png" onClick="javascript:openPrintable()" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'" />
 		</xsl:if>
 	</xsl:template>
