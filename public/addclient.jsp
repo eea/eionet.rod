@@ -1,33 +1,27 @@
-<!--
-/**
- * The contents of this file are subject to the Mozilla Public
- * License Version 1.1 (the "License"); you may not use this file
- * except in compliance with the License. You may obtain a copy of
- * the License at http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
- * implied. See the License for the specific language governing
- * rights and limitations under the License.
- *
- * The Original Code is "EINRC-5 / WebROD Project".
- *
- * The Initial Developer of the Original Code is TietoEnator.
- * The Original Code code was developed for the European
- * Environment Agency (EEA) under the IDA/EINRC framework contract.
- *
- * Copyright (C) 2000-2002 by European Environment Agency.  All
- * Rights Reserved.
- *
- * Original Code: Ander Tenno (TietoEnator)
- */
- -->
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN" >
+
+
+<%@ page import="eionet.rod.services.RODServices" %>
+
+<%
+	//try {
+		String[][] countries = RODServices.getDbService().getCountries();
+//	} catch (Exception e) {
+		
+	//}
+%>
 
 <html>
 	<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 	<title>Add Client</title>
 	<link href="eionet.css" rel="stylesheet" type="text/css"></link>
 	<script language="JavaScript">
+
+		function doPost() {
+			document.clientForm.submit();
+			//alert(document.clientForm.elements["/XmlData/RowSet/Row/T_CLIENT/CLIENT_ACRONYM"].value);
+		}
 		// Sets focus on form's first element
 		//
 		function setFocus(formName) {
@@ -46,8 +40,8 @@
 	<body onLoad="setFocus('clientForm')" onUnload="window.opener.document.location.reload(true)">
 		<center>
 		<h2>Add Client Organisation</h2>
-		<form name="clientForm" method="post" action="addclient.jsv">
-			<table width='100%'>
+		<form name="clientForm" method="post" action="addclient.jsv" charset="iso-8859-1">
+			<table width='100%' border="0">
 				<tr>
 					<td align="right"><b>Name:&#160;</b></td>
 					<td align="left">
@@ -67,6 +61,31 @@
 					</td>
 				</tr>
 				<tr>
+					<td align="right"><b>Postal Code:&#160;</b></td>
+					<td align="left">
+						<table><tr>
+					<td align="left">
+						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/POSTAL_CODE" size="10" maxlength="255"></input>
+					</td>
+					<td align="right"><b>City:&#160;</b></td>
+					<td align="left">
+						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CITY" size="19" maxlength="255"></input>
+					</td>
+						</tr></table>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><b>Country:&#160;</b></td>
+					<td align="left" >
+						<select name="/XmlData/RowSet/Row/T_CLIENT/FK_SPATIAL_ID" width="40" style="width:263">
+							<option value="0" selected="true"></option>
+							<% for (int i=0; i< countries.length; i++) { %>
+								<option value="<%=countries[i][0]%>"><%=countries[i][1]%></option>
+							<% } %>
+						</select>
+					</td>
+				</tr>
+				<tr>
 					<td align="right"><b>Homepage:&#160;</b></td>
 					<td align="left">
 						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_URL" size="40" maxlength="255"></input>
@@ -79,7 +98,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right"><b>Add. info:&#160;</b></td>
+					<td align="right"><b>Comments:&#160;</b></td>
 					<td align="left">
 						<textarea name="/XmlData/RowSet/Row/T_CLIENT/DESCRIPTION" rows="4" cols="34"></textarea>
 					</td>
@@ -88,7 +107,7 @@
 			<table width="100%">		
 				<tr><td colspan="2">&#160;</td></tr>
 				<tr align="right">
-					<td colspan="2" align="right"><input type="submit" value="&#160;&#160;&#160;&#160;OK&#160;&#160;&#160;&#160;"/>
+					<td colspan="2" align="right"><input onclick="javascript:doPost()" type="button" value="&#160;&#160;&#160;&#160;OK&#160;&#160;&#160;&#160;"/>
 					<input type="button" onclick="javascript:window.close()" value="Cancel"/></td>
 				</tr>
 			</table>
