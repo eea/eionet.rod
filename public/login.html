@@ -5,24 +5,38 @@
 </head>
 
 <body bgcolor="#f0f0f0" onload="document.f.elements[0].focus()">
-<form name="f" id="LOGIN" method="POST" action="login_servlet">
+<!--form name="f" id="LOGIN" method="POST" action="login_servlet"-->
 <table width="200">
 	<tr><td colspan="2"><span class="head1">Administrator authorization</span></td></tr>
 	<tr><td>&nbsp;</td></tr>
 	<tr>
+	<form name="f" id="LOGIN" method="POST" action="login_servlet">
 		<td style="color:#999"><span class="Mainfont">User name:</span></td>
 		<td align="right"><input id="USERNAME" type="text" name="j_username" size="15" maxlength="50"width="200" style="width:200"/></td>
+
 	</tr>
 	<tr>
 		<td style="color:#999"><span class="Mainfont">Password:</span></td>
 		<td align="right"><input id="PASSWORD" type="password" name="j_password" size="15" maxlength="50" width="200" style="width:200"/></td>
+
 	</tr>
 	<tr><td>&nbsp;</td></tr>
 	<tr>
 		<td>&nbsp;</td>
-		<td><input type="submit" value="Authorize"/>&#160;&#160;<input type="reset" value="Clear"/></td>
+		<td>
+		<table>
+		<tr>
+		<td>
+		<input type="submit" value="Authorize"/></form></td>
+		<td><!--input type="reset" value="Clear"/--></td><td><form name="lo" method="POST" action="logout_servlet">
+			<input type="submit" value="Logout"/>
+		</form></td>
+		</tr>
+		</table>
+</td>
 	</tr>
 </table>
-</form>
+<!--/form-->
+
 </body>
 </html>
