@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+<!--
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of
+ * the License at http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * rights and limitations under the License.
+ *
+ * The Original Code is "EINRC-4 / WebROD Project".
+ *
+ * The Initial Developer of the Original Code is TietoEnator.
+ * The Original Code code was developed for the European
+ * Environment Agency (EEA) under the IDA/EINRC framework contract.
+ *
+ * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Rights Reserved.
+ *
+ * Original Code: Andre Karpistsenko (TietoEnator)
+ * -->
+
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="Reporting">
+		<T_REPORTING>
+			<PK_RO_ID/>
+			<FK_SOURCE_ID/>
+			<ALIAS/>
+			<LEGAL_MORAL/>
+			<REPORT_TO/>
+			<VALID_FROM expression="DATE_FORMAT(T_REPORTING.VALID_FROM, '%d/%m/%Y') AS VALID_FROM"/>
+			<RECOGNIZED/>
+			<RECOGNIZED_DETAIL/>
+			<LAST_UPDATE expression="DATE_FORMAT(LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
+		</T_REPORTING>
+		<T_SOURCE relation="T_SOURCE.PK_SOURCE_ID = T_REPORTING.FK_SOURCE_ID" reltype="outer">
+			<PK_SOURCE_ID/>
+			<TITLE/>
+			<ALIAS/>
+		</T_SOURCE>
+		<xrs:Constraint>PK_RO_ID=@ID</xrs:Constraint>
+		<xrs:SubSet name="Activity" relation="T_REPORTING.PK_RO_ID=T_ACTIVITY.FK_RO_ID">
+			<T_ACTIVITY>
+				<PK_RA_ID/>
+				<TITLE/>
+				<REPORT_FREQ/>
+				<REPORT_FREQ_DETAIL/>
+				<TERMINATE/>
+			</T_ACTIVITY>
+			<xrs:Ordering>NEXT_REPORTING</xrs:Ordering>
+		</xrs:SubSet>
+		<xrs:SubSet name="RelatedInformation" relation="T_REPORTING.PK_RO_ID=T_INFORMATION.FK_RO_ID">
+			<T_INFORMATION>
+				<INFORMATION_NAME/>
+				<INFORMATION_TYPE/>
+				<URL_CR/>
+			</T_INFORMATION>
+		</xrs:SubSet>
+	</xrs:RowSet>
+	<xrs:RowSet name="Activity">
+		<T_ACTIVITY>
+			<PK_RA_ID/>
+			<TITLE/>
+			<REPORT_FREQ/>
+			<REPORT_FREQ_DETAIL/>
+			<TERMINATE/>
+		</T_ACTIVITY>
+		<xrs:Ordering>NEXT_REPORTING</xrs:Ordering>
+	<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
+	</xrs:RowSet>
+
+	<xrs:RowSet name="EnvIssue">
+		<T_ISSUE_LNK/>
+		<T_ISSUE relation="T_ISSUE_LNK.FK_ISSUE_ID=T_ISSUE.PK_ISSUE_ID">
+			<ISSUE_NAME/>
+		</T_ISSUE>
+		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
+		<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="Spatial">
+		<T_SPATIAL_LNK/>
+		<T_SPATIAL relation="T_SPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID">
+			<SPATIAL_NAME/>
+		</T_SPATIAL>
+		<xrs:Ordering>SPATIAL_NAME</xrs:Ordering>
+	<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
+	</xrs:RowSet>
+</xrs:XmlData>
+

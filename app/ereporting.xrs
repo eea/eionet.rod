@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<!--
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of
+ * the License at http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * rights and limitations under the License.
+ *
+ * The Original Code is "EINRC-4 / WebROD Project".
+ *
+ * The Initial Developer of the Original Code is TietoEnator.
+ * The Original Code code was developed for the European
+ * Environment Agency (EEA) under the IDA/EINRC framework contract.
+ *
+ * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Rights Reserved.
+ *
+ * Original Code: Andre Karpistsenko (TietoEnator)
+ * -->
+
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="Source">
+		<T_SOURCE>
+			<PK_SOURCE_ID/>
+			<TITLE/>
+			<ALIAS/>
+		</T_SOURCE>
+		<xrs:Constraint>T_SOURCE.PK_SOURCE_ID=@SID</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="Reporting" skeleton="true">
+		<T_REPORTING PKField="PK_RO_ID">
+			<PK_RO_ID/>
+			<FK_SOURCE_ID/>
+			<ALIAS/>
+			<REPORT_TO/>
+			<LEGAL_MORAL/>
+			<VALID_FROM expression="IF(T_REPORTING.VALID_FROM, DATE_FORMAT(T_REPORTING.VALID_FROM, '%d/%m/%Y'), '') AS VALID_FROM"/>
+			<RECOGNIZED/>
+			<RECOGNIZED_DETAIL/>
+		</T_REPORTING>
+		<xrs:Constraint>T_REPORTING.PK_RO_ID=@ID</xrs:Constraint>
+		<xrs:SubSet name="LnkSpatial" relation="T_REPORTING.PK_RO_ID=T_SPATIAL_LNK.FK_RO_ID">
+			<T_SPATIAL_LNK>
+				<FK_SPATIAL_ID/>
+			</T_SPATIAL_LNK>
+			<T_SPATIAL relation="T_SPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID" reltype="inner">
+				<SPATIAL_NAME/>
+				<SPATIAL_TYPE/>
+			</T_SPATIAL>
+			<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
+		</xrs:SubSet>
+		<xrs:SubSet name="LnkIssue" relation="T_REPORTING.PK_RO_ID=T_ISSUE_LNK.FK_RO_ID">
+			<T_ISSUE_LNK>
+				<FK_ISSUE_ID/>
+			</T_ISSUE_LNK>
+			<T_ISSUE relation="T_ISSUE_LNK.FK_ISSUE_ID=T_ISSUE.PK_ISSUE_ID" reltype="inner">
+				<ISSUE_NAME/>
+			</T_ISSUE>
+			<xrs:Ordering>T_ISSUE.ISSUE_NAME</xrs:Ordering>
+		</xrs:SubSet>
+	</xrs:RowSet>
+	<xrs:RowSet name="YesNo" omitRow="true">
+		<T_LOOKUP>
+			<C_VALUE/>
+			<C_TERM/>
+		</T_LOOKUP>
+		<xrs:Constraint>T_LOOKUP.CATEGORY='1'</xrs:Constraint>
+		<xrs:Ordering>T_LOOKUP.C_TERM</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="LegalMoral" omitRow="true">
+		<T_LOOKUP>
+			<C_VALUE/>
+			<C_TERM/>
+		</T_LOOKUP>
+		<xrs:Constraint>T_LOOKUP.CATEGORY='2'</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="SpatialType" omitRow="true">
+		<T_LOOKUP>
+			<C_VALUE/>
+			<C_TERM/>
+		</T_LOOKUP>
+		<xrs:Constraint>T_LOOKUP.CATEGORY='ST'</xrs:Constraint>
+		<xrs:Ordering>T_LOOKUP.C_TERM</xrs:Ordering>
+	</xrs:RowSet>
+</xrs:XmlData>

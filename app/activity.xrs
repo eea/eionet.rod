@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<!--
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of
+ * the License at http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * rights and limitations under the License.
+ *
+ * The Original Code is "EINRC-4 / WebROD Project".
+ *
+ * The Initial Developer of the Original Code is TietoEnator.
+ * The Original Code code was developed for the European
+ * Environment Agency (EEA) under the IDA/EINRC framework contract.
+ *
+ * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Rights Reserved.
+ *
+ * Original Code: Andre Karpistsenko (TietoEnator)
+ * -->
+
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="Activity">
+		<T_ACTIVITY>
+			<PK_RA_ID/>
+			<FK_RO_ID/>
+			<VALID_SINCE expression="DATE_FORMAT(VALID_SINCE, '%d/%m/%Y') AS VALID_SINCE"/>
+			<VALID_SINCE expression="DATE_FORMAT(VALID_SINCE, '%Y') AS VALID_YEAR"/>
+			<TITLE/>
+			<FORMAT_NAME/>
+			<REPORT_FORMAT_URL/>
+			<REPORT_FREQ/>
+			<REPORT_FREQ_DETAIL/>
+			<REPORTING_FORMAT/>
+			<NEXT_REPORTING/>
+			<TERMINATE/>
+			<LAST_UPDATE expression="DATE_FORMAT(T_ACTIVITY.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
+			<COMMENT/>
+		</T_ACTIVITY>
+		<T_REPORTING relation="T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID" reltype="outer">
+			<PK_RO_ID/>
+			<ALIAS/>
+		</T_REPORTING>
+		<T_SOURCE relation="T_SOURCE.PK_SOURCE_ID = T_REPORTING.FK_SOURCE_ID" reltype="outer">
+			<PK_SOURCE_ID/>
+			<TITLE/>
+			<ALIAS/>
+		</T_SOURCE>
+		<xrs:Constraint>PK_RA_ID=@ID</xrs:Constraint>
+		<xrs:SubSet name="Parameter" distinct="true" relation="T_ACTIVITY.PK_RA_ID=T_PARAMETER_LNK.FK_RA_ID">
+			<T_PARAMETER_LNK>
+				<PARAMETER_UNIT/>
+			</T_PARAMETER_LNK>
+			<T_UNIT relation="T_UNIT.PK_UNIT_ID=T_PARAMETER_LNK.FK_UNIT_ID" reltype="outer">
+				<UNIT_NAME/>
+				<UNIT_HELP/>
+			</T_UNIT>
+			<T_PARAMETER relation="T_PARAMETER.PK_PARAMETER_ID=T_PARAMETER_LNK.FK_PARAMETER_ID">
+				<PK_PARAMETER_ID/>
+				<PARAMETER_NAME/>
+				<NEW/>
+			</T_PARAMETER>
+			<xrs:Ordering>T_PARAMETER.PARAMETER_NAME</xrs:Ordering>
+		</xrs:SubSet>
+	</xrs:RowSet>
+</xrs:XmlData>
