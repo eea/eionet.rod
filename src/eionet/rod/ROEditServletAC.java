@@ -28,6 +28,7 @@ import java.sql.*;
 import javax.servlet.http.*;
 
 import com.tee.xmlserver.*;
+import javax.servlet.ServletException;
 
 /**
  * <P>Common super-class for WebROD editor servlets.</P>
@@ -42,6 +43,12 @@ public abstract class ROEditServletAC extends ROServletAC {
 /**
  *
  */
+
+/*public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+   req.setCharacterEncoding("UTF-8");
+   super.service(req, res);
+
+}*/
    protected String setEncoding() {
       return "UTF-8";
    }

@@ -24,7 +24,10 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:variable name="permissions"/>
+<xsl:include href="util.xsl"/>
 <xsl:include href="static.xsl"/>
+
 <xsl:template match="/">
 
 <html lang="en">
@@ -117,7 +120,11 @@
 		<tr height="30" valign="top">
 			<td></td>
 			<td align="right"><b>Description:</b></td>
-			<td align="left"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/DESCRIPTION"/></td>
+			<td align="left">
+	      	<xsl:call-template name="break">
+	   	       <xsl:with-param name="text" select="XmlData/RowSet/Row/T_CLIENT/DESCRIPTION"/>
+		      </xsl:call-template>
+			</td>
 		</tr>
 </table>
 

@@ -89,7 +89,7 @@ function openActionTypeHistory(MODE,TYPE){
 }
 
 
-function openHistory(ID,TYPE){
+/*function openHistory(ID,TYPE){
 
 	var url = "history.jsv?entity=" + TYPE + "&id=" + ID;
 	var name = "History";
@@ -97,9 +97,10 @@ function openHistory(ID,TYPE){
 	var w = window.open(url,name,features);
 	w.focus();
 
-}
+} */
 
 
+/*
 function openClient(ID){
 
 	var url = "client.jsv?id=" + ID;
@@ -109,7 +110,7 @@ function openClient(ID){
 	w.focus();
 
 }
-
+*/
 function Click(Target) {
  if (Net != 1){
   if (Target != gTarget) {
@@ -183,7 +184,7 @@ function fillPicklist(type,list,text) {
 									<xsl:call-template name="FirstHeading"/>
 								</span></strong></font>
 								<br/>
-								<font color="#006666" size="2"><strong><span class="head0">
+								<font color="#669999" size="2"><strong><span class="head0">
 									<xsl:call-template name="SecondHeading"/>
 								</span></strong></font>
 							</td>

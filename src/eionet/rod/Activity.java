@@ -73,6 +73,7 @@ public class Activity extends ROEditServletAC {
       HttpServletRequest req = params.getRequest();
       DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + E_ACTIVITY_QUERY, params.getRequest());
       dataSrc.setParameters(queryPars);
+      //addMetaInfo(dataSrc);      
       
       return userInfo(req, dataSrc);
    }
@@ -90,10 +91,12 @@ public class Activity extends ROEditServletAC {
       
       String tmpName = Thread.currentThread().getName() + System.currentTimeMillis();
       tmpName = tmpName.replace('-', '_').toUpperCase();
+
       String tmpIssueTbl = "I" + tmpName;
       String tmpParTbl = "P" + tmpName;
 
       String tmpSpatialTbl = "S" + tmpName;
+      String tmpIndicatorTbl = "C" + tmpName;
 
       QueryStatementIF qrySpatial = null;
 
@@ -102,8 +105,12 @@ public class Activity extends ROEditServletAC {
       QueryStatementIF qryIssue = null;
       QueryStatementIF qryPars = null;
 
+      QueryStatementIF qryIndicators = null;
+
       try {
          AppUserIF user = getUser(req);
+
+
          conn = (user != null) ? user.getConnection() : null;
          if (conn == null)
             throw new XSQLException(null, "Not authenticated user");
@@ -124,19 +131,30 @@ public class Activity extends ROEditServletAC {
                Logger.log("Create temp table " + tmpSpatialTbl);
             stmt.execute(CREATE1 + tmpSpatialTbl + CREATE2 + SPATIALS + "-1");
 
+            /*
+            if (Logger.enable(5))
+               Logger.log("Create temp table " + tmpIndicatorTbl);
+            stmt.execute(CREATE1 + tmpIndicatorTbl + CREATE2 + INDICATORS + "-1");
+            */
+
             // prepare data source
             dataSrc = prepareDataSource(new Parameters(req));
 
-            // parameters
+            // issues
             qryIssue = new SubSelectStatement("ISSUE", tmpIssueTbl);
             dataSrc.setQuery(qryIssue);
+            
             qryPars = new SubSelectStatement("PARAMETER", "FK_GROUP_ID", tmpParTbl,"NEW=1");
             dataSrc.setQuery(qryPars);
             // spatials
             qrySpatial = new SubSelectStatement("SPATIAL", "SPATIAL_TYPE", tmpSpatialTbl, "", "");
             dataSrc.setQuery(qrySpatial);
 
-
+            //String tableName, String pkField, String fkField, String name1, String name2, String tmpTable
+            /*
+            qryIndicators = new SubSelectStatement("T_INDICATOR", "PK_INDICATOR_ID", "FK_RA_ID", "URL", "NAME", tmpIndicatorTbl); 
+            dataSrc.setQuery(qryIndicators);
+            */
 
             // call superclass to generate the page
             super.doGet(req, res);
@@ -159,6 +177,10 @@ public class Activity extends ROEditServletAC {
                      Logger.log("Drop temp table " + tmpSpatialTbl);
                   stmt.execute(DROP + tmpSpatialTbl);
 
+                  if (Logger.enable(5))
+                     Logger.log("Drop temp table " + tmpIndicatorTbl);
+                  stmt.execute(DROP + tmpIndicatorTbl);
+
 
                   stmt.close();
                }
@@ -178,22 +200,39 @@ public class Activity extends ROEditServletAC {
 /**
  *
  */
+
+ 
    protected void appDoPost(HttpServletRequest req, HttpServletResponse res)
          throws XSQLException {
       try {
+
+    		String reDirect=req.getParameter("silent");
+        reDirect=(reDirect==null ? "0" : reDirect);
+
+
          String location = "show.jsv?" +
             ((curRecord != null) ?
                "id=" + curRecord + 
-               "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_ACTIVITY/FK_RO_ID") +
+               "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID") +
                "&mode=A" :
-               "id=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_ACTIVITY/FK_RO_ID") +
-               "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_ACTIVITY/FK_SOURCE_ID") +
-               "&mode=R&page=0");
+               "id=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID") +
+               //req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID") +
+                "&mode=S") ; 
+               /*+ "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_ACTIVITY/FK_SOURCE_ID") +
+               "&mode=R&page=0") ; */
          // DBG         
          if (Logger.enable(5))
             Logger.log("Redirecting to " + location);
          //
-         res.sendRedirect(location);
+         //res.sendRedirect(location);
+
+         //if adding a new client we do a "silent" save, no redirecting
+    		 if (reDirect.equals("0"))
+	         res.sendRedirect(location);
+         else
+          res.sendRedirect("activity.jsv?id=" + curRecord + "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID") );
+
+         
       } catch(java.io.IOException e) {
          throw new XSQLException(e, "Error in redirection");
       }
@@ -212,6 +251,9 @@ public class Activity extends ROEditServletAC {
 
    private static final String SPATIALS =
       "T_RASPATIAL_LNK.FK_SPATIAL_ID FROM T_RASPATIAL_LNK WHERE T_RASPATIAL_LNK.FK_RA_ID=";
+
+   private static final String INDICATORS =
+      "FK_INDICATOR_ID FROM T_INDICATOR_LNK WHERE FK_RA_ID=";
 
       
 }

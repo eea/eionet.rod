@@ -34,9 +34,9 @@
 			<FORMAT/>
 			<COVERAGE/>
 		</T_DELIVERY>
-		<T_ACTIVITY relation="T_DELIVERY.FK_RA_ID=T_ACTIVITY.PK_RA_ID" reltype="inner">
+		<T_OBLIGATION relation="T_DELIVERY.FK_RA_ID=T_OBLIGATION.PK_RA_ID" reltype="inner">
 			<PK_RA_ID/>
-			<FK_RO_ID/>
+			<FK_SOURCE_ID/>
 			<TITLE/>
 			<REPORT_FREQ_MONTHS/>
 			<TERMINATE/>
@@ -44,18 +44,23 @@
 			<REPORT_FORMAT_URL/>
 			<RESPONSIBLE_ROLE/>
 			<FORMAT_NAME/>
-		</T_ACTIVITY>
-		<T_ROLE relation="CONCAT(T_ACTIVITY.RESPONSIBLE_ROLE,'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID" reltype="outer">
-			<ROLE_NAME/>
+		</T_OBLIGATION>
+		<T_SPATIAL relation="T_SPATIAL.PK_SPATIAL_ID=T_DELIVERY.FK_SPATIAL_ID" reltype="inner">
+			<PK_SPATIAL_ID/>
+			<SPATIAL_NAME/>
+			<SPATIAL_TWOLETTER/>
+		</T_SPATIAL>
+		<T_ROLE relation="CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID" reltype="outer">
+			<ROLE_DESCR expression="IF(PERSON != '', IF(INSTITUTE='', PERSON, CONCAT(PERSON, ' [', INSTITUTE, ']')), ROLE_NAME) AS ROLE_DESCR"/>
+			<!--ROLE_NAME/>
 			<ROLE_EMAIL/>
-			<ROLE_ID/>
+			<ROLE_ID/-->
 			<ROLE_URL/>
 			<ROLE_MEMBERS_URL/>
+			<!--PERSON/>
+			<INSTITUTE/-->
 		</T_ROLE>
-		<T_REPORTING relation="T_REPORTING.PK_RO_ID=T_ACTIVITY.FK_RO_ID" reltype="inner">
-			<PK_RO_ID/>
-		</T_REPORTING>
-		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_REPORTING.PK_RO_ID" reltype="outer">
+		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID" reltype="outer">
 			<FK_CLIENT_ID/>
 			<FK_OBJECT_ID/>
 			<STATUS/>
@@ -65,18 +70,13 @@
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME/>
 		</T_CLIENT>
-		<T_SPATIAL relation="T_SPATIAL.PK_SPATIAL_ID=T_DELIVERY.FK_SPATIAL_ID" reltype="outer">
-			<PK_SPATIAL_ID/>
-			<SPATIAL_NAME/>
-			<SPATIAL_TWOLETTER/>
-		</T_SPATIAL>
 		<xrs:Constraint>T_DELIVERY.FK_RA_ID=@ACT_DETAILS_ID AND T_DELIVERY.FK_SPATIAL_ID LIKE '@COUNTRY_ID'</xrs:Constraint>
 		<xrs:Ordering>@ORD</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="RA">
-		<T_ACTIVITY relation="T_DELIVERY.FK_RA_ID=T_ACTIVITY.PK_RA_ID" reltype="inner">
+		<T_OBLIGATION relation="T_DELIVERY.FK_RA_ID=T_OBLIGATION.PK_RA_ID" reltype="inner">
 			<PK_RA_ID/>
-			<FK_RO_ID/>
+			<FK_SOURCE_ID/>
 			<TITLE/>
 			<REPORT_FREQ_MONTHS/>
 			<TERMINATE/>
@@ -85,11 +85,8 @@
 			<RESPONSIBLE_ROLE/>
 			<FORMAT_NAME/>
 			<LAST_HARVESTED/>
-		</T_ACTIVITY>
-		<T_REPORTING relation="T_REPORTING.PK_RO_ID=T_ACTIVITY.FK_RO_ID" reltype="inner">
-			<PK_RO_ID/>
-		</T_REPORTING>
-		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_REPORTING.PK_RO_ID" reltype="outer">
+		</T_OBLIGATION>
+		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID" reltype="outer">
 			<FK_CLIENT_ID/>
 			<FK_OBJECT_ID/>
 			<STATUS/>
@@ -99,8 +96,8 @@
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME/>
 		</T_CLIENT>
-		<xrs:Constraint>T_ACTIVITY.PK_RA_ID=@ACT_DETAILS_ID</xrs:Constraint>
-		<xrs:SubSet name="CCClients" relation="T_REPORTING.PK_RO_ID=T_CLIENT_LNK.FK_OBJECT_ID">
+		<xrs:Constraint>T_OBLIGATION.PK_RA_ID=@ACT_DETAILS_ID</xrs:Constraint>
+		<xrs:SubSet name="CCClients" relation="T_OBLIGATION.PK_RA_ID=T_CLIENT_LNK.FK_OBJECT_ID">
 			<T_CLIENT_LNK>
 				<FK_CLIENT_ID/>
 				<FK_OBJECT_ID/>
@@ -111,7 +108,7 @@
 				<PK_CLIENT_ID/>
 				<CLIENT_NAME/>
 			</T_CLIENT>
-			<xrs:Constraint>STATUS="C" AND TYPE="R"</xrs:Constraint>
+			<xrs:Constraint>STATUS="C" AND TYPE="A"</xrs:Constraint>
 		</xrs:SubSet>
 	</xrs:RowSet>
 	<xrs:RowSet name="Dummy">

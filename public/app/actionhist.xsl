@@ -34,38 +34,6 @@ if ((navigator.appName.substring(0,5) == "Netsc"
  gTarget = 'img1';
 }
 
-function showhelp(text) {
-	if (text != '')
-		alert(text);
-	else
-		alert('No examples for this unit type!');
-}
-
-function Click(Target) {
- if (Net != 1){
-  if (Target != gTarget) {
-   document[Target].src = over.src;
-   document[gTarget].src = out.src;
-   gTarget = Target;
-   gammel.src = document[Target].src;
-  }
- }
-}
-
-function Over(Target) {
- if (Net != 1){
-  gammel.src = document[Target].src;
-  document[Target].src = over.src;
- }
-}
-
-function Out(Target) {
- if (Net != 1){
-  document[Target].src = gammel.src;
- }
-}
-
-
 var browser = document.all ? 'E' : 'N';
 
 var picklist = new Array();
@@ -73,13 +41,13 @@ var picklist = new Array();
 
 <![CDATA[
 
-function openHistory(ID,TYPE) {
-	document.location="history.jsv?entity=" + TYPE + "&id= " + ID;
-}
+	function openHistory(ID,TYPE) {
+		document.location="history.jsv?entity=" + TYPE + "&id= " + ID;
+	}
 
 ]]>
-			</script>
-			</head>
+</script>
+</head>
 <body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
 
 
@@ -104,10 +72,10 @@ function openHistory(ID,TYPE) {
 					Reporting obligation
 				</xsl:when>
 				<xsl:when test="$item-type='A'">
-					Reporting Activity
+					Reporting obligation
 				</xsl:when>
 				<xsl:when test="$item-type='L'">
-					Legal instrument
+					Legislative instrument
 				</xsl:when>
 			</xsl:choose>
 		</span>
@@ -115,64 +83,67 @@ function openHistory(ID,TYPE) {
 	 </tr>
 	 </table>
 	 <br/>
-	 
 
-<table width="100%" cellspacing="3pts" border="1">
+<div style="margin-left:2">
 
-
-<tr>
-<td bgcolor="#646666" align="center" width="10%"><span class="head0"><font color="#FFFFFF">Item ID</font></span></td>
-<td bgcolor="#646666" align="center" width="25%"><span class="head0"><font color="#FFFFFF"><span lang="en-us">Type</span></font></span></td>
-<td bgcolor="#646666" align="center" width="25%"><span class="head0"><font color="#FFFFFF"><span lang="en-us">Time</span></font></span></td>
-<td bgcolor="#646666" align="center" width="15%"><span class="head0"><font color="#FFFFFF">Action</font></span></td>
-<td bgcolor="#646666" align="center" width="25%"><span class="head0"><font color="#FFFFFF">User</font></span></td>
-</tr>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td style="border-right: 1 solid #008080; border-left: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080" bgcolor="#FFFFFF" align="center" width="15%"><span class="head0">Item ID</span></td>
+		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">Type</span></td>
+		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">Time</span></td>
+		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="15%"><span class="head0">Action</span></td>
+		<td style="border-right: 1 solid #008080; border-top: 1 solid #008080;border-bottom: 1 solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">User</span></td>
+	</tr>
 
 <xsl:for-each select="XmlData/RowSet/Row">
 <tr>
-<!-- table row -->
-<td>
-  <a title="Show the change record of this item">
-	<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="T_HISTORY/ITEM_ID"/>','<xsl:value-of select="T_HISTORY/ITEM_TYPE"/>')</xsl:attribute>
-	<xsl:value-of select="T_HISTORY/ITEM_ID"/>
-	</a>
-</td>
-<td>
-	<xsl:choose>
-	<xsl:when test="T_HISTORY/ITEM_TYPE='O'">
-		Reporting Obligation
-	</xsl:when>
-	<xsl:when test="T_HISTORY/ITEM_TYPE='A'">
-		Reporting Activity
-	</xsl:when>
-	<xsl:when test="T_HISTORY/ITEM_TYPE='L'">
-		Legal Instrument
-	</xsl:when>
-	</xsl:choose>
+	<xsl:attribute name="bgcolor">
+		<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
+	</xsl:attribute>
+	<td style="border-right: 1 solid #C0C0C0; border-left: 1 solid #008080; border-bottom: 1 solid #C0C0C0">
+		<a title="Show the change record of this item">
+		<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="T_HISTORY/ITEM_ID"/>','<xsl:value-of select="T_HISTORY/ITEM_TYPE"/>')</xsl:attribute>
+		<xsl:value-of select="T_HISTORY/ITEM_ID"/>
+		</a>
+	</td>
+	<td style="border-right: 1 solid #C0C0C0; border-bottom: 1 solid #C0C0C0">
+		<xsl:choose>
+		<xsl:when test="T_HISTORY/ITEM_TYPE='O'">
+			Reporting Obligation
+		</xsl:when>
+		<xsl:when test="T_HISTORY/ITEM_TYPE='A'">
+			Reporting Activity
+		</xsl:when>
+		<xsl:when test="T_HISTORY/ITEM_TYPE='L'">
+			Legislative Instrument
+		</xsl:when>
+		</xsl:choose>
 
-</td>
-<td align="center">
-	<xsl:value-of select="T_HISTORY/TIME_STAMP"/>
-</td>
-<td>
-	<xsl:choose>
-	<xsl:when test="T_HISTORY/ACTION_TYPE='I'">
-		Insert
-	</xsl:when>
-	<xsl:when test="T_HISTORY/ACTION_TYPE='U'">
-		Update
-	</xsl:when>
-	<xsl:when test="T_HISTORY/ACTION_TYPE='D'">
-		Delete
-	</xsl:when>
-	</xsl:choose>
-</td>
-<td>
-	<xsl:value-of select="T_HISTORY/USER"/>
-</td>
+	</td>
+	<td align="center" style="border-right: 1 solid #C0C0C0; border-bottom: 1 solid #C0C0C0">
+		<xsl:value-of select="T_HISTORY/TIME_STAMP"/>
+	</td>
+	<td style="border-right: 1 solid #C0C0C0; border-bottom: 1 solid #C0C0C0">
+		<xsl:choose>
+			<xsl:when test="T_HISTORY/ACTION_TYPE='I'">
+				Insert
+			</xsl:when>
+			<xsl:when test="T_HISTORY/ACTION_TYPE='U'">
+				Update
+			</xsl:when>
+			<xsl:when test="T_HISTORY/ACTION_TYPE='D'">
+				Delete
+			</xsl:when>
+		</xsl:choose>
+	</td>
+	<td style="border-right: 1 solid #008080; border-bottom: 1 solid #C0C0C0">
+		<xsl:value-of select="T_HISTORY/USER"/>
+	</td>
 </tr>	
 </xsl:for-each>
-  </table>
+</table>
+
+</div>
 
 </body>
 </html>

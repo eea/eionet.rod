@@ -57,6 +57,7 @@ public class HistoryLogger extends SaveHandler {
       logger.error("Error saving LI history " + se.toString());
     }
   }
+/*
   static void logObligationHistory(String id, String user, int state, String desc ) {
     try {  
       logHistory( DbServiceIF.RO_LOG_TYPE, id, user, state, desc);
@@ -64,7 +65,7 @@ public class HistoryLogger extends SaveHandler {
       logger.error("Error saving RO history " + se.toString());
     }
   }
-
+*/
   static void logSpatialHistory(String id, String spatialId, String voluntary) {
     try {
       db.logSpatialHistory(id, spatialId, voluntary);

@@ -26,6 +26,9 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:strip-space elements="HELP_TEXT"/>
+	<xsl:variable name="permissions"/>
+	<xsl:include href="util.xsl"/>
+
 	<xsl:template match="/">
 		<html>
 			<head>
@@ -41,14 +44,9 @@
 						<xsl:otherwise>&lt;No Title&gt;</xsl:otherwise>
 					</xsl:choose>
 				</h3>
-				<textarea rows="18" cols="55" style="border:none; background-color:#F0F0F0">
-					<xsl:choose>
-						<xsl:when test="XmlData/RowSet/Row/T_HELP/HELP_TEXT">
-							<xsl:value-of select="XmlData/RowSet/Row/T_HELP/HELP_TEXT"/>
-						</xsl:when>
-						<xsl:otherwise>&lt;No text&gt;</xsl:otherwise>
-					</xsl:choose>
-				</textarea>
+	      	<xsl:call-template name="break">
+	   	       <xsl:with-param name="text" select="XmlData/RowSet/Row/T_HELP/HELP_TEXT"/>
+		      </xsl:call-template>
 			</body>
 		</html>
 	</xsl:template>

@@ -25,12 +25,9 @@ else
 fi;
 
 
-if [ "$i" = "0" ] || [ "$i" = "1" ] || [ "$i" = "2" ] ; then
+if [ "$i" = "0" ] || [ "$i" = "1" ] || [ "$i" = "2" ] || [ "$i" = "3" ] ; then
 	$java -cp $cp eionet.rod.countrysrv.Extractor $1        
 else
-        echo "Usage: eionet.rod.countrysrv.Extractor {0|1|2} "
-	echo "0:all data, 1:deliveries, 2:roles"
+  echo "Usage: eionet.rod.countrysrv.Extractor {0|1|2|3} "
+	echo "0:all data, 1:deliveries, 2:roles, 3:parameters"
 fi;
-
-
-

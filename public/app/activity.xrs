@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -22,12 +21,11 @@
  *
  * Original Code: Andre Karpistsenko (TietoEnator)
  * -->
-
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
 	<xrs:RowSet name="Activity">
-		<T_ACTIVITY>
+		<T_OBLIGATION>
 			<PK_RA_ID/>
-			<FK_RO_ID/>
+			<FK_SOURCE_ID/>
 			<VALID_SINCE expression="DATE_FORMAT(VALID_SINCE, '%d/%m/%Y') AS VALID_SINCE"/>
 			<VALID_TO expression="DATE_FORMAT(VALID_TO, '%d/%m/%Y') AS VALID_TO"/>
 			<VALID_SINCE expression="DATE_FORMAT(VALID_SINCE, '%Y') AS VALID_YEAR"/>
@@ -36,40 +34,115 @@
 			<REPORT_FORMAT_URL/>
 			<REPORT_FREQ/>
 			<REPORT_FREQ_DETAIL/>
-			<REPORTING_FORMAT/>
+			<REPORTING_FORMAT expression="REPLACE(REPLACE(T_OBLIGATION.REPORTING_FORMAT, '\r\n', '\n'), '\r', '\n') AS REPORTING_FORMAT"/>
 			<NEXT_REPORTING/>
 			<DATE_COMMENTS/>
 			<TERMINATE/>
-			<LAST_UPDATE expression="DATE_FORMAT(T_ACTIVITY.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
-			<COMMENT/>
+			<LAST_UPDATE expression="DATE_FORMAT(T_OBLIGATION.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
+			<COMMENT expression="REPLACE(REPLACE(T_OBLIGATION.COMMENT, '\r\n', '\n'), '\r', '\n') AS COMMENT"/>
 			<RESPONSIBLE_ROLE/>
-			<NEXT_DEADLINE expression="IF(T_ACTIVITY.NEXT_DEADLINE, DATE_FORMAT(T_ACTIVITY.NEXT_DEADLINE, '%d/%m/%Y'), '') AS NEXT_DEADLINE"/>
-			<FIRST_REPORTING expression="IF(T_ACTIVITY.FIRST_REPORTING, DATE_FORMAT(T_ACTIVITY.FIRST_REPORTING, '%d/%m/%Y'), '') AS FIRST_REPORTING"/>
+			<NEXT_DEADLINE expression="IF(T_OBLIGATION.NEXT_DEADLINE, DATE_FORMAT(T_OBLIGATION.NEXT_DEADLINE, '%d/%m/%Y'), '') AS NEXT_DEADLINE"/>
+			<FIRST_REPORTING expression="IF(T_OBLIGATION.FIRST_REPORTING, DATE_FORMAT(T_OBLIGATION.FIRST_REPORTING, '%d/%m/%Y'), '') AS FIRST_REPORTING"/>
 			<REPORT_FREQ_MONTHS/>
 			<FK_DELIVERY_COUNTRY_IDS/>
-			<RM_NEXT_UPDATE expression="DATE_FORMAT(T_ACTIVITY.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE"/>
-			<RM_VERIFIED expression="DATE_FORMAT(T_ACTIVITY.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED"/>
+			<RM_NEXT_UPDATE expression="DATE_FORMAT(T_OBLIGATION.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE"/>
+			<RM_VERIFIED expression="DATE_FORMAT(T_OBLIGATION.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED"/>
 			<RM_VERIFIED_BY/>
 			<LOCATION_PTR/>
 			<LOCATION_INFO/>
-		</T_ACTIVITY>
-		<T_REPORTING relation="T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID" reltype="outer">
-			<PK_RO_ID/>
-			<ALIAS/>
-		</T_REPORTING>
-		<T_SOURCE relation="T_SOURCE.PK_SOURCE_ID = T_REPORTING.FK_SOURCE_ID" reltype="outer">
+			<FK_CLIENT_ID/>
+			<DESCRIPTION expression="REPLACE(REPLACE(T_OBLIGATION.DESCRIPTION, '\r\n', '\n'), '\r', '\n') AS DESCRIPTION"/>
+			<RESPONSIBLE_ROLE_SUF/>
+			<NATIONAL_CONTACT/>
+			<NATIONAL_CONTACT_URL/>
+			<COORDINATOR_ROLE/>
+			<COORDINATOR_ROLE_SUF/>
+			<COORDINATOR/>
+			<COORDINATOR_URL/>
+			<AUTHORITY/>
+			<EEA_PRIMARY/>
+			<PARAMETERS/>
+			<OVERLAP_URL/>
+			<EEA_CORE/>
+			<FLAGGED/>
+		</T_OBLIGATION>
+		<T_SOURCE relation="T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID" reltype="outer">
 			<PK_SOURCE_ID/>
 			<TITLE/>
 			<ALIAS/>
+			<CELEX_REF/>
+			<SOURCE_CODE/>
 		</T_SOURCE>
-		<T_ROLE relation="T_ROLE.ROLE_ID=T_ACTIVITY.RESPONSIBLE_ROLE" reltype="outer">
+		<T_ROLE alias="RESP_ROLE" relation="RESP_ROLE.ROLE_ID=T_OBLIGATION.RESPONSIBLE_ROLE" reltype="outer">
 			<ROLE_ID/>
 			<ROLE_NAME/>
 			<ROLE_URL/>
 			<ROLE_MEMBERS_URL/>
 		</T_ROLE>
+		<T_ROLE alias="COORD_ROLE" relation="COORD_ROLE.ROLE_ID=T_OBLIGATION.COORDINATOR_ROLE" reltype="outer">
+			<ROLE_ID/>
+			<ROLE_NAME/>
+			<ROLE_URL/>
+			<ROLE_MEMBERS_URL/>
+		</T_ROLE>
+		<T_LOOKUP relation="T_LOOKUP.C_VALUE=T_OBLIGATION.LEGAL_MORAL AND T_LOOKUP.CATEGORY='2'">
+			<C_VALUE/>
+			<C_TERM/>
+		</T_LOOKUP>
+		<!--T_INDICATOR relation="T_OBLIGATION.PK_RA_ID=T_INDICATOR.FK_RA_ID" reltype="outer">
+			<TITLE/>
+		</T_INDICATOR-->
+		<!-- main client! -->
+		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID" reltype="outer">
+			<FK_CLIENT_ID/>
+			<FK_OBJECT_ID/>
+			<STATUS/>
+			<TYPE/>
+		</T_CLIENT_LNK>
+		<T_CLIENT relation="T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID" reltype="outer">
+			<PK_CLIENT_ID/>
+			<CLIENT_NAME expression="CONCAT(LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
+		</T_CLIENT>
 		<xrs:Constraint>PK_RA_ID=@ID</xrs:Constraint>
-		<xrs:SubSet name="Parameter" distinct="true" relation="T_ACTIVITY.PK_RA_ID=T_PARAMETER_LNK.FK_RA_ID">
+		<xrs:SubSet name="Sibling" relation="T_SOURCE.PK_SOURCE_ID=T_OBLIGATION.FK_SOURCE_ID">
+			<T_OBLIGATION>
+				<PK_RA_ID/>
+				<FK_SOURCE_ID/>
+				<TITLE/>
+				<AUTHORITY/>
+			</T_OBLIGATION>
+			<xrs:Constraint>PK_RA_ID!=@ID</xrs:Constraint>
+			<xrs:Ordering>T_OBLIGATION.TITLE</xrs:Ordering>
+		</xrs:SubSet>
+		<xrs:SubSet name="Indicators" relation="T_OBLIGATION.PK_RA_ID=T_INDICATOR.FK_RA_ID">
+			<T_INDICATOR>
+				<PK_INDICATOR_ID/>
+			</T_INDICATOR>
+		</xrs:SubSet>
+		<xrs:SubSet name="InfoType" relation="T_OBLIGATION.PK_RA_ID=T_INFO_LNK.FK_RA_ID">
+			<T_INFO_LNK>
+				<FK_RA_ID/>
+				<FK_INFO_ID/>
+			</T_INFO_LNK>
+			<T_LOOKUP relation="T_LOOKUP.C_VALUE=T_INFO_LNK.FK_INFO_ID">
+				<C_TERM/>
+			</T_LOOKUP>
+			<xrs:Constraint>CATEGORY='I'</xrs:Constraint>
+		</xrs:SubSet>
+		<xrs:SubSet name="CCClients" relation="T_OBLIGATION.PK_RA_ID=T_CLIENT_LNK.FK_OBJECT_ID">
+			<T_CLIENT_LNK>
+				<FK_CLIENT_ID/>
+				<FK_OBJECT_ID/>
+				<STATUS/>
+				<TYPE/>
+			</T_CLIENT_LNK>
+			<T_CLIENT relation="T_CLIENT.PK_CLIENT_ID=T_CLIENT_LNK.FK_CLIENT_ID" reltype="inner">
+				<PK_CLIENT_ID/>
+				<CLIENT_NAME expression="CONCAT(LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
+			</T_CLIENT>
+			<xrs:Constraint>STATUS="C" AND TYPE="A"</xrs:Constraint>
+		</xrs:SubSet>
+		<xrs:SubSet name="Parameter" distinct="true" relation="T_OBLIGATION.PK_RA_ID=T_PARAMETER_LNK.FK_RA_ID">
 			<T_PARAMETER_LNK>
 				<PARAMETER_UNIT/>
 			</T_PARAMETER_LNK>
@@ -85,7 +158,6 @@
 			<xrs:Ordering>T_PARAMETER.PARAMETER_NAME</xrs:Ordering>
 		</xrs:SubSet>
 	</xrs:RowSet>
-
 	<xrs:RowSet name="EnvIssue">
 		<T_RAISSUE_LNK/>
 		<T_ISSUE relation="T_RAISSUE_LNK.FK_ISSUE_ID=T_ISSUE.PK_ISSUE_ID">

@@ -33,7 +33,7 @@
 			<POSTAL_CODE/>
 			<CITY/>
 			<FK_SPATIAL_ID/>
-			<DESCRIPTION/>
+			<DESCRIPTION expression="REPLACE(REPLACE(T_CLIENT.DESCRIPTION, '\r\n', '\n'), '\r', '\n') AS DESCRIPTION"/>
 		</T_CLIENT>
 		<T_SPATIAL relation="T_CLIENT.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID" reltype="outer">
 			<SPATIAL_NAME/>

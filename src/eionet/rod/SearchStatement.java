@@ -90,7 +90,7 @@ public class SearchStatement extends QueryStatement implements Constants {
      String mode = params.getParameter(MODE_PARAM);
      String ord = params.getParameter("ORD");
   
-      if (mode == null || (!mode.equals(REPORTING_MODE) && !mode.equals(ACTIVITY_MODE)))
+      if (mode == null ||  !mode.equals(ACTIVITY_MODE))
          throw new GeneralException(null, "Missing or invalid parameter '" + MODE_PARAM + "'");
 
       
@@ -102,28 +102,28 @@ public class SearchStatement extends QueryStatement implements Constants {
       vTables = new Vector();
 
 
-      vTables.add(new TableInfo("T_REPORTING")); //, "T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID", TableInfo.INNER_JOIN));
-      vFields.add(new FieldInfo("PK_RO_ID", "T_REPORTING"));
-      vFields.add(new FieldInfo("ALIAS", "T_REPORTING"));
+      vTables.add(new TableInfo("T_OBLIGATION")); //, "T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID", TableInfo.INNER_JOIN));
+      //vFields.add(new FieldInfo("PK_RO_ID", "T_REPORTING"));
 
-      vTables.add(new TableInfo("T_ACTIVITY", "T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID", TableInfo.OUTER_JOIN));
-      vFields.add(new FieldInfo("PK_RA_ID","T_ACTIVITY"));
-       vFields.add(new FieldInfo("TITLE","T_ACTIVITY"));
-       vFields.add(new FieldInfo("NEXT_REPORTING","T_ACTIVITY"));
-       vFields.add(new FieldInfo("NEXT_DEADLINE","T_ACTIVITY"));
-       vFields.add(new FieldInfo("FK_RO_ID","T_ACTIVITY"));
-       vFields.add(new FieldInfo("TERMINATE","T_ACTIVITY"));
-       vFields.add(new FieldInfo("TERMINATE","T_ACTIVITY")); //KL030609
+      //vTables.add(new TableInfo("T_ACTIVITY", "T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID", TableInfo.OUTER_JOIN));
+      //vFields.add(new FieldInfo("ALIAS", "T_OBLIGATION"));      
+      vFields.add(new FieldInfo("PK_RA_ID","T_OBLIGATION"));
+      vFields.add(new FieldInfo("TITLE","T_OBLIGATION"));
+      vFields.add(new FieldInfo("NEXT_REPORTING","T_OBLIGATION"));
+      vFields.add(new FieldInfo("NEXT_DEADLINE","T_OBLIGATION"));
+      vFields.add(new FieldInfo("FK_SOURCE_ID","T_OBLIGATION"));
+      vFields.add(new FieldInfo("TERMINATE","T_OBLIGATION"));
+      vFields.add(new FieldInfo("EEA_PRIMARY","T_OBLIGATION"));
          
-         vTables.add(new TableInfo("T_SOURCE", "T_SOURCE.PK_SOURCE_ID = T_REPORTING.FK_SOURCE_ID", TableInfo.OUTER_JOIN));
-         vFields.add(new FieldInfo("PK_SOURCE_ID", "T_SOURCE"));
-         vFields.add(new FieldInfo("TITLE", "T_SOURCE"));
-         vFields.add(new FieldInfo("ALIAS", "T_SOURCE"));
-         vFields.add(new FieldInfo("URL", "T_SOURCE"));
-         vFields.add(new FieldInfo("CELEX_REF", "T_SOURCE"));
-    		 vFields.add(new FieldInfo("SOURCE_CODE", "T_SOURCE"));
+      vTables.add(new TableInfo("T_SOURCE", "T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID", TableInfo.OUTER_JOIN));
+      vFields.add(new FieldInfo("PK_SOURCE_ID", "T_SOURCE"));
+      vFields.add(new FieldInfo("TITLE", "T_SOURCE"));
+      vFields.add(new FieldInfo("ALIAS", "T_SOURCE"));
+      vFields.add(new FieldInfo("URL", "T_SOURCE"));
+      vFields.add(new FieldInfo("CELEX_REF", "T_SOURCE"));
+      vFields.add(new FieldInfo("SOURCE_CODE", "T_SOURCE"));
          
-         vFields.add(new FieldInfo("FK_CLIENT_ID", "T_REPORTING")); //KL030213
+      vFields.add(new FieldInfo("FK_CLIENT_ID", "T_OBLIGATION")); //KL030213
 
   
       _Pair env_issue, country, river, sea, lake, param_group, rotype, client;
@@ -140,10 +140,10 @@ public class SearchStatement extends QueryStatement implements Constants {
       client = splitParam(params.getParameter(CLIENT_FILTER));      
 
       if ( !Util.nullString(env_issue.id) && !env_issue.id.equals("-1") ) {
-      	if (mode.equals(REPORTING_MODE)) 
-          vTables.add(new TableInfo("T_ACTIVITY", "T_ACTIVITY.FK_RO_ID = T_REPORTING.PK_RO_ID", TableInfo.INNER_JOIN));
+      	/*if (mode.equals(REPORTING_MODE)) 
+          vTables.add(new TableInfo("T_ACTIVITY", "T_ACTIVITY.FK_RO_ID = T_REPORTING.PK_RO_ID", TableInfo.INNER_JOIN)); */
 
-        vTables.add(new TableInfo("T_RAISSUE_LNK", "T_ACTIVITY.PK_RA_ID = T_RAISSUE_LNK.FK_RA_ID",
+        vTables.add(new TableInfo("T_RAISSUE_LNK", "T_OBLIGATION.PK_RA_ID = T_RAISSUE_LNK.FK_RA_ID",
                         TableInfo.INNER_JOIN));
 
         appendConstraint("T_RAISSUE_LNK.FK_ISSUE_ID=" + env_issue.id, "1");
@@ -151,11 +151,11 @@ public class SearchStatement extends QueryStatement implements Constants {
       }
 
       if ( !Util.nullString(country.id) && !country.id.equals("-1") ) {
-           vTables.add(new TableInfo("T_REPORTING AS TROCOUNTRY",
+           /*vTables.add(new TableInfo("T_REPORTING AS TROCOUNTRY",
                        "TROCOUNTRY.PK_RO_ID = T_ACTIVITY.FK_RO_ID",
-                        TableInfo.INNER_JOIN));
+                        TableInfo.INNER_JOIN)); */
            vTables.add(new TableInfo("T_RASPATIAL_LNK AS TCOUNTRY",
-                       "T_ACTIVITY.PK_RA_ID = TCOUNTRY.FK_RA_ID",
+                       "T_OBLIGATION.PK_RA_ID = TCOUNTRY.FK_RA_ID",
                         TableInfo.INNER_JOIN));
            appendConstraint("TCOUNTRY.FK_SPATIAL_ID=" + country.id, "1");
 
@@ -163,13 +163,14 @@ public class SearchStatement extends QueryStatement implements Constants {
       }
 
       if ( !Util.nullString(river.id) && !river.id.equals("-1") ) {
-           vTables.add(new TableInfo("T_REPORTING AS TRORIVER",
+
+          /* vTables.add(new TableInfo("T_REPORTING AS TRORIVER",
                        "TRORIVER.PK_RO_ID = T_ACTIVITY.FK_RO_ID",
                         TableInfo.INNER_JOIN));
-
+          */
 
            vTables.add(new TableInfo("T_RASPATIAL_LNK AS TRIVER",
-                       "T_ACTIVITY.PK_RA_ID = TRIVER.FK_RA_ID",
+                       "T_OBLIGATION.PK_RA_ID = TRIVER.FK_RA_ID",
                         TableInfo.INNER_JOIN));
            appendConstraint("TRIVER.FK_SPATIAL_ID=" + river.id, "1");
 
@@ -178,11 +179,11 @@ public class SearchStatement extends QueryStatement implements Constants {
       }
 
       if ( !Util.nullString(sea.id) && !sea.id.equals("-1") ) {
-           vTables.add(new TableInfo("T_REPORTING AS TROSEA",
+           /*vTables.add(new TableInfo("T_REPORTING AS TROSEA",
                        "TROSEA.PK_RO_ID = T_ACTIVITY.FK_RO_ID",
-                        TableInfo.INNER_JOIN));
+                        TableInfo.INNER_JOIN)); */
            vTables.add(new TableInfo("T_RASPATIAL_LNK AS TSEA",
-                       "T_ACTIVITY.PK_RA_ID = TSEA.FK_RA_ID",
+                       "T_OBLIGATION.PK_RA_ID = TSEA.FK_RA_ID",
                         TableInfo.INNER_JOIN));
            appendConstraint("TSEA.FK_SPATIAL_ID=" + sea.id, "1");
 
@@ -190,11 +191,11 @@ public class SearchStatement extends QueryStatement implements Constants {
       }
 
       if ( !Util.nullString(lake.id) && !lake.id.equals("-1") ) {
-           vTables.add(new TableInfo("T_REPORTING AS TROLAKE",
+           /*vTables.add(new TableInfo("T_REPORTING AS TROLAKE",
                        "TROLAKE.PK_RO_ID = T_ACTIVITY.FK_RO_ID",
-                        TableInfo.INNER_JOIN));
+                        TableInfo.INNER_JOIN)); */
            vTables.add(new TableInfo("T_RASPATIAL_LNK AS TLAKE",
-                       "T_ACTIVITY.PK_RA_ID = TLAKE.FK_RA_ID",
+                       "T_OBLIGATION.PK_RA_ID = TLAKE.FK_RA_ID",
                         TableInfo.INNER_JOIN));
            appendConstraint("TLAKE.FK_SPATIAL_ID=" + lake.id, "1");
 
@@ -203,7 +204,7 @@ public class SearchStatement extends QueryStatement implements Constants {
 
       if ( !Util.nullString(param_group.id) && !param_group.id.equals("-1") ) {
            vTables.add(new TableInfo("T_PARAMETER_LNK",
-                       "T_ACTIVITY.PK_RA_ID = T_PARAMETER_LNK.FK_RA_ID",
+                       "T_OBLGATION.PK_RA_ID = T_PARAMETER_LNK.FK_RA_ID",
                         TableInfo.INNER_JOIN));
            vTables.add(new TableInfo("T_PARAMETER",
                        "T_PARAMETER_LNK.FK_PARAMETER_ID = T_PARAMETER.PK_PARAMETER_ID",
@@ -215,13 +216,13 @@ public class SearchStatement extends QueryStatement implements Constants {
 
      if ( !Util.nullString(client.id ) && !client.id.equals("-1") ) {
             vTables.add(new TableInfo("T_CLIENT_LNK ",
-                       "T_REPORTING.PK_RO_ID = T_CLIENT_LNK.FK_OBJECT_ID",
+                       "T_OBLIGATION.PK_RA_ID = T_CLIENT_LNK.FK_OBJECT_ID",
                         TableInfo.INNER_JOIN));
 
            if(ccClients)
-             appendConstraint("T_CLIENT_LNK.STATUS='C' AND T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.FK_CLIENT_ID=" + client.id, "1");
+             appendConstraint("T_CLIENT_LNK.STATUS='C' AND T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.FK_CLIENT_ID=" + client.id, "1");
           else
-              appendConstraint("T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.FK_CLIENT_ID=" + client.id, "1");
+              appendConstraint("T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.FK_CLIENT_ID=" + client.id, "1");
 
         addAttribute("Reporting_client_equals", client.name);           
 
@@ -233,7 +234,7 @@ public class SearchStatement extends QueryStatement implements Constants {
       whereClause = constr.toString();
 
        if(ord==null)
-    		ord="T_ACTIVITY.TITLE";
+    		ord="T_OBLIGATION.TITLE";
 
 		 orderClause = ord;
 

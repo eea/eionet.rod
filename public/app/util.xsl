@@ -64,27 +64,18 @@
 									<xsl:when test="$type=0">
                   | Last updated: 
 										<xsl:call-template name="LastUpdated">
-											<xsl:with-param name="date1"><xsl:value-of select="RowSet[@Name='ROMetaInfo']/Row/T_REPORTING/LAST_UPDATE"/></xsl:with-param>
-											<xsl:with-param name="date2"><xsl:value-of select="RowSet[@Name='RAMetaInfo']/Row/T_ACTIVITY/LAST_UPDATE"/></xsl:with-param>
-											<xsl:with-param name="date3"><xsl:value-of select="RowSet[@Name='LIMetaInfo']/Row/T_SOURCE/LAST_UPDATE"/></xsl:with-param>
+											<xsl:with-param name="date1"><xsl:value-of select="RowSet[@Name='RAMetaInfo']/Row/T_OBLIGATION/LAST_UPDATE"/></xsl:with-param>
+											<xsl:with-param name="date2"><xsl:value-of select="RowSet[@Name='LIMetaInfo']/Row/T_SOURCE/LAST_UPDATE"/></xsl:with-param>
 										</xsl:call-template>
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:choose>
-											<xsl:when test="$type='RO'">
-												<xsl:call-template name="RM_Dates">
-													<xsl:with-param name="last_update"><xsl:value-of select="RowSet[@Name='Reporting']/Row/T_REPORTING/LAST_UPDATE"/></xsl:with-param>
-													<xsl:with-param name="next_update"><xsl:value-of select="RowSet[@Name='Reporting']/Row/T_REPORTING/RM_NEXT_UPDATE"/></xsl:with-param>
-													<xsl:with-param name="verified"><xsl:value-of select="RowSet[@Name='Reporting']/Row/T_REPORTING/RM_VERIFIED"/></xsl:with-param>
-													<xsl:with-param name="verified_by"><xsl:value-of select="RowSet[@Name='Reporting']/Row/T_REPORTING/RM_VERIFIED_BY"/></xsl:with-param>
-												</xsl:call-template>
-											</xsl:when>
 											<xsl:when test="$type='RA'">
 												<xsl:call-template name="RM_Dates">
-													<xsl:with-param name="last_update"><xsl:value-of select="RowSet[@Name='Activity']/Row/T_ACTIVITY/LAST_UPDATE"/></xsl:with-param>
-													<xsl:with-param name="next_update"><xsl:value-of select="RowSet[@Name='Activity']/Row/T_ACTIVITY/RM_NEXT_UPDATE"/></xsl:with-param>
-													<xsl:with-param name="verified"><xsl:value-of select="RowSet[@Name='Activity']/Row/T_ACTIVITY/RM_VERIFIED"/></xsl:with-param>
-													<xsl:with-param name="verified_by"><xsl:value-of select="RowSet[@Name='Activity']/Row/T_ACTIVITY/RM_VERIFIED_BY"/></xsl:with-param>
+													<xsl:with-param name="last_update"><xsl:value-of select="RowSet[@Name='Activity']/Row/T_OBLIGATION/LAST_UPDATE"/></xsl:with-param>
+													<xsl:with-param name="next_update"><xsl:value-of select="RowSet[@Name='Activity']/Row/T_OBLIGATION/RM_NEXT_UPDATE"/></xsl:with-param>
+													<xsl:with-param name="verified"><xsl:value-of select="RowSet[@Name='Activity']/Row/T_OBLIGATION/RM_VERIFIED"/></xsl:with-param>
+													<xsl:with-param name="verified_by"><xsl:value-of select="RowSet[@Name='Activity']/Row/T_OBLIGATION/RM_VERIFIED_BY"/></xsl:with-param>
 												</xsl:call-template>
 											</xsl:when>
 											<xsl:when test="$type='LI'">
@@ -123,7 +114,7 @@
 	</xsl:template>
 	<xsl:template name="Print">
 		<xsl:if test="$printmode='N'">
-			<img src="images/printerfriendly.png" onClick="javascript:openPrintable()" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'" />
+			<img src="images/printerfriendly.jpg" onClick="javascript:openPrintable()" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'" />
 		</xsl:if>
 	</xsl:template>
 
@@ -134,11 +125,11 @@
 		<xsl:choose>
 			<xsl:when test="contains($green, 'Y')">
 				<map name="{$id}"><area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="Show help for this form"></area></map>
-				<img src="images/gb_help.png" usemap="#{$id}" border="0"></img>
+				<img src="images/but_questionmark.jpg" usemap="#{$id}" border="0"></img>
 			</xsl:when>
 			<xsl:otherwise>
 				<map name="{$id}"><area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="Help for logged-in users"></area></map>
-				<img src="images/bb_help.png" usemap="#{$id}" border="0"></img>
+				<img src="images/but_questionmark_blue.jpg" usemap="#{$id}" border="0"></img>
 			</xsl:otherwise>
 		</xsl:choose>
 		<xsl:call-template name="EditHelp">
@@ -153,8 +144,7 @@
 		<map name="{$id}">
 			<area shape="rect" tabindex="-1" coords="0,0,120,17" href="javascript:openViewHelp('{$id}')" alt="Context sensitive help"></area>
 		</map>
-		<img src="images/bb_helpoverview.png" usemap="#{$id}" border="0"></img>
-		&#160;
+		<img src="images/pagehelp.jpg" usemap="#{$id}" border="0"></img>
 		<xsl:call-template name="EditHelp">
 			<xsl:with-param name="id"><xsl:value-of select="$id"/></xsl:with-param>
 			<xsl:with-param name="perm"><xsl:value-of select="$perm"/></xsl:with-param>
@@ -168,7 +158,7 @@
 			<map name="{$id}_Edit">
 				<area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openHelp('{$id}')" alt="Edit help text"></area>
 			</map>
-			<img src="images/bb_edithelp.png" usemap="#{$id}_Edit" border="0"></img>
+			<img src="images/checkmark.jpg" usemap="#{$id}_Edit" border="0"></img>
 		</xsl:if>
 	</xsl:template>
 
@@ -187,7 +177,7 @@
 				<tr><td align="right">
 					<a href="show.jsv?id=1&amp;mode=C" onMouseOver="Over('img0')" onMouseOut="Out('img0')" onClick="Click('img0')">
 						<img name="img0" src="images/off.gif" border="0" alt=""/>
-						<img src="images/button_legislation.gif" border="0" width="84" height="13" alt="Legal Instruments"/>
+						<img src="images/button_legislation.gif" border="0" width="84" height="13" alt="Legislative Instruments"/>
 					</a>
 				</td></tr>
 				<tr><td align="right">
@@ -239,9 +229,16 @@
 	<xsl:template name="LastUpdated">
 		<xsl:param name="date1"></xsl:param>
 		<xsl:param name="date2"></xsl:param>
-		<xsl:param name="date3"></xsl:param>
 		<a href="analysis.jsv">
 		<xsl:choose>
+			<xsl:when test="$date1>=$date2">
+				<xsl:value-of select="concat(substring($date1,7,2), '/', substring($date1,5,2), '/', substring($date1,3,2)) "/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat(substring($date2,7,2), '/', substring($date2,5,2), '/', substring($date2,3,2)) "/>
+			</xsl:otherwise>
+		</xsl:choose>
+		<!--xsl:choose>
 			<xsl:when test="$date1>=$date2 and $date1>=$date3">
 				<xsl:value-of select="concat(substring($date1,7,2), '/', substring($date1,5,2), '/', substring($date1,3,2)) "/>
 			</xsl:when>
@@ -251,28 +248,28 @@
 			<xsl:otherwise>
 				<xsl:value-of select="concat(substring($date3,7,2), '/', substring($date3,5,2), '/', substring($date3,3,2)) "/>
 			</xsl:otherwise>
-		</xsl:choose>
+		</xsl:choose-->
 		</a>
 	</xsl:template>
 
 	<xsl:template name="RAReportingFrequency">
 				<xsl:choose>
-							<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
+							<xsl:when test="T_OBLIGATION/TERMINATE = 'N'">
 								<xsl:choose>
-								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '0'">
+								<xsl:when test="T_OBLIGATION/REPORT_FREQ_MONTHS = '0'">
 									One time only
 								</xsl:when>
-								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '1'">
+								<xsl:when test="T_OBLIGATION/REPORT_FREQ_MONTHS = '1'">
 									Monthly
 								</xsl:when>
-								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '12'">
+								<xsl:when test="T_OBLIGATION/REPORT_FREQ_MONTHS = '12'">
 									Annually
 								</xsl:when>
-								<xsl:when test="string-length(T_ACTIVITY/NEXT_DEADLINE) = 0">
+								<xsl:when test="string-length(T_OBLIGATION/NEXT_DEADLINE) = 0">
 									&#160;
 								</xsl:when>
 								<xsl:otherwise>
-									Every <xsl:value-of select="T_ACTIVITY/REPORT_FREQ_MONTHS"/> months
+									Every <xsl:value-of select="T_OBLIGATION/REPORT_FREQ_MONTHS"/> months
 								</xsl:otherwise>
 								</xsl:choose>
 							</xsl:when>
@@ -281,5 +278,89 @@
 							</xsl:otherwise>
 						</xsl:choose>
 		</xsl:template>
+	<xsl:template name="go">
+		<input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 10pt; color: #000000; text-align: Center; background-color: #CBDCDC; font-weight: bold; border-left: 1 solid #008080; border-right: 2 solid #006666; border-top: 1 solid #008080; border-bottom: 2 solid #006666"></input>
+	</xsl:template>
 
+	<xsl:template name="RASearch">
+		<form name="x1" method="get" action="rorabrowse.jsv">
+		<input type="hidden" name="mode" value="A"></input>
+		<table  border="0" width="600" cellspacing="0" cellpadding="0"  style="border: 1 solid #008080">
+				 <tr>
+						<td width="48%" bgcolor="#FFFFFF" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
+							<b>Show reporting for an issue</b>
+						</td>
+						<td width="48%" bgcolor="#FFFFFF" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
+							<b>For a country</b>
+						</td>
+						<td bgcolor="#FFFFFF" width="4%" align="center" style="border-bottom: 1 solid #008080; border-right: 1 solid #C0C0C0">
+							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
+						</td>
+				</tr>
+				<tr>
+					<td rowspan="4" valign="top" style="border-right: 1 solid #C0C0C0">
+						<select width="280" name="env_issue" style="font-size: 8pt; color: #000000; width:280" height="20">
+								<option value="-1">All issues</option>
+								<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
+						</select>
+					</td>
+					<td style="border-left: 1 solid #C0C0C0">
+						<select name="country" style="color: #000000; font-size: 8pt; width:200" size="1">
+								<option value="-1">Any country</option>
+									<xsl:call-template name="SpatialTemplate">
+										<xsl:with-param name ="type">C</xsl:with-param>
+										<xsl:with-param name ="type2"></xsl:with-param>
+									</xsl:call-template>
+            </select>
+					</td>
+					<td rowspan="4" valign="center" style="border-left: 1 solid #C0C0C0"><xsl:call-template name="go"/></td>
+				</tr>
+				<tr>
+					<td style="border-bottom: 1 solid #008080">&#160;</td>
+				</tr>
+				<tr>
+           <td valign="middle" align="left" style="border-bottom: 1 solid #008080" bgcolor="#FFFFFF"><b>For an organisation</b></td>
+				</tr>
+				<tr>
+					<td style="border-left: 1 solid #C0C0C0">
+								<select name="client" style="color: #000000; font-size: 8pt; width:280" size="1" width="280">
+										<option value="-1">Any organisation</option>
+										<xsl:apply-templates select="RowSet[@Name='Client']"/>
+								</select>
+						</td>
+				</tr>
+
+		</table>
+		</form>
+	</xsl:template>
+	
+	<!-- Replaces line breaks with <br/> tags -->
+	<xsl:template name="break">
+   	<xsl:param name="text" select="."/>
+	   <xsl:choose>
+	   	<xsl:when test="contains($text, '&#xa;')">
+		      <xsl:value-of select="substring-before($text, '&#xa;')"/>
+   		   <br/>
+	      	<xsl:call-template name="break">
+	   	       <xsl:with-param name="text" select="substring-after($text, '&#xa;')"/>
+		      </xsl:call-template>
+	   	</xsl:when>
+	   	<xsl:otherwise>
+				<xsl:value-of select="$text"/>
+	   	</xsl:otherwise>
+   	</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="short">
+	   	<xsl:param name="text" select="."/>
+			<xsl:param name="length" select="."/>
+				<xsl:choose>						
+					<xsl:when test="string-length($text) &gt; $length">
+						<xsl:value-of select="substring($text,0,$length)"/>...
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$text"/>
+					</xsl:otherwise>
+				</xsl:choose>	
+	</xsl:template>
 </xsl:stylesheet>

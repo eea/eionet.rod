@@ -42,7 +42,7 @@ import com.tee.uit.security.AccessControlListIF;
  * @version 1.1
  */
 
-public class SourceHandler extends ReportingHandler {
+public class SourceHandler extends ActivityHandler {
 
    private void DELETE_SOURCE(String srcID, boolean delSelf, boolean updateMode) {
       if ( delSelf)
@@ -56,12 +56,12 @@ public class SourceHandler extends ReportingHandler {
          // cascade delete related reporting obligations
          Statement stmt = null;
          ResultSet rs = null;
-         String sqlStmt = "SELECT PK_RO_ID FROM T_REPORTING WHERE FK_SOURCE_ID=" + srcID;
+         String sqlStmt = "SELECT PK_RA_ID FROM T_OBLIGATION WHERE FK_SOURCE_ID=" + srcID;
          try {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sqlStmt);
             while (rs.next()) {
-               DELETE_RO(rs.getString(1), true);
+               DELETE_ACTIVITY(rs.getString(1), true);
             }
          } catch (SQLException e) {
             addErrorInfo(e, sqlStmt);

@@ -49,7 +49,7 @@ public  class WebRODService {
   if (dbSrv == null )
     dbSrv = RODServices.getDbService();
 
-    return dbSrv.getActivities();
+    return dbSrv.getActivities(true);
   }
 
   /**

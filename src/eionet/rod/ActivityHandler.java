@@ -1,4 +1,4 @@
-/**
+ /**
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
@@ -34,6 +34,7 @@ import eionet.rod.services.DbServiceIF;
 import com.tee.uit.security.AccessControlListIF;
 import eionet.directory.DirectoryService;
 import eionet.directory.DirServiceException;
+import eionet.rod.countrysrv.Extractor;
 
 /**
  * <P>Handler to store WebROD activity data.</P>
@@ -48,6 +49,10 @@ public class ActivityHandler extends ROHandler {
   private Vector issueCont = new Vector();
   private Vector paramCont = new Vector();
   private Vector spatialCont = new Vector();  
+  private Vector clientCont = new Vector();
+
+  private Extractor ext; //used for role handling
+  
   //private Vector spatialHistCont = new Vector();
 
 /**
@@ -56,27 +61,24 @@ public class ActivityHandler extends ROHandler {
    protected final void DELETE_ACTIVITY(String raID, boolean delSelf) {
       // delete linked environmental issues & parameters
       updateDB("DELETE FROM T_RAISSUE_LNK WHERE FK_RA_ID=" + raID);
-//??
       updateDB("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + raID);      
-      
       updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
+
+      updateDB("DELETE FROM T_INFO_LNK WHERE FK_RA_ID=" + raID);
+
+      // delete linked related information (eea reports, national submissions)
+      //at the moment T_INFORMATION is not used
+      //updateDB("DELETE FROM T_INFORMATION WHERE FK_RO_ID=" + raID);
+
+      //client_lnk
+      updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='A' AND FK_OBJECT_ID=" + raID);
+      
       updateDB("UPDATE T_SPATIAL_HISTORY SET END_DATE=NOW() WHERE " +
         " END_DATE IS NULL AND FK_RA_ID=" + raID);
 
-      /*try {
-        spatialHistCont=RODServices.getDbService().backupSpatialHistory(raID);
-      } catch (ServiceException se ) {
-        Logger.log("Error " + se.toString());
-      } */
-
-
-      
       if (delSelf) {
-
-         //KL031014
-         //updateDB("DELETE FROM T_SPATIAL_HISTORY WHERE FK_RA_ID=" + raID);
       
-         updateDB("DELETE FROM T_ACTIVITY WHERE PK_RA_ID=" + raID);
+         updateDB("DELETE FROM T_OBLIGATION WHERE PK_RA_ID=" + raID);
          HistoryLogger.logActivityHistory(raID,this.user.getUserName(), DELETE_RECORD, "");                       
       }
    }
@@ -110,7 +112,7 @@ public class ActivityHandler extends ROHandler {
 
 
       //Logger.log("state " + state);
-      if (tblName.equals("T_ACTIVITY")) {
+      if (tblName.equals("T_OBLIGATION")) {
          if (state != INSERT_RECORD) {
 
             if (!upd)
@@ -119,20 +121,24 @@ public class ActivityHandler extends ROHandler {
             gen.setPKField("PK_RA_ID");
             id = gen.getFieldValue("PK_RA_ID");
 
-            //Get role info from Directory and save in T_ROLE
-            //KL 030206
-            String roleId = gen.getFieldValue("RESPONSIBLE_ROLE");
-            if (!Util.nullString(roleId)) 
-              try {
-                Hashtable role = DirectoryService.getRole(roleId);
-                RODServices.getDbService().saveRole(role);
-              } catch (DirServiceException de ) {
-                Logger.log("Error getting role infor for: " + roleId);
-              } catch (ServiceException se ) {
-                Logger.log("Error saving role info for: " + roleId);
-              }
 
+            if (ext==null)
+              ext = new Extractor();
               
+            //Get role info from Directory and save in T_ROLE
+            String roleId = gen.getFieldValue("RESPONSIBLE_ROLE");
+            try {
+              ext.saveRole(roleId);
+              roleId = gen.getFieldValue("COORDINATOR_ROLE");              
+              ext.saveRole(roleId);              
+            } catch (Exception e ) {
+              //don't worry about the role saving if something wrong
+            }
+            
+
+
+            
+            
             // delete all linked parameter records and in delete mode also the self record
             boolean delSelf = (state == DELETE_RECORD);
 
@@ -168,8 +174,17 @@ public class ActivityHandler extends ROHandler {
          setDateValue(gen, "RM_VERIFIED");
          gen.setFieldExpr("LAST_UPDATE", "CURDATE()");
 
+System.out.println("===================== " + gen.updateStatement());
          defaultProcessing(gen, null);
          id = recordID;
+
+         String mainClientId=gen.getFieldValue("FK_CLIENT_ID");
+
+         //main client to T_CLIENT_LNK
+      	 if (state != DELETE_RECORD && !gen.getFieldValue("FK_CLIENT_ID").equals("0"))
+        		updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, STATUS, TYPE) " +
+              " VALUES ( " + gen.getFieldValue("FK_CLIENT_ID") + ", " + id +
+        			    ", 'M', 'A')");     
 
          HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
 
@@ -189,14 +204,13 @@ public class ActivityHandler extends ROHandler {
         return false;
       }
 
-      //KL 031015
-      /*else if (tblName.equals("T_SPATIAL_HISTORY")) {
-       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
-          spatialHistCont.add(gen.getFieldValue("FK_SPATIAL_ID"));
-       else
-        return false;
-      } */
 
+      else if (tblName.equals("T_CLIENT_LNK")) {
+         if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
+            clientCont.add(gen.clone());
+         else
+          return false;
+      }
 
       else if (tblName.equals("T_PARAMETER_LNK")) {
 
@@ -209,6 +223,15 @@ public class ActivityHandler extends ROHandler {
       }
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing
+
+      else if (tblName.equals("T_LOOKUP"))
+         return false; // no need for further processing
+
+
+      else if (tblName.equals("T_INFO_LNK")) {
+        processInfoType( id, gen.getFieldValue("FK_INFO_IDS") );
+      }
+         
 
 
     if ( (id != null) && (!spatialCont.isEmpty()) ) {
@@ -262,6 +285,22 @@ public class ActivityHandler extends ROHandler {
          }
          issueCont.clear();
       }
+
+      if ( (id != null) && (!clientCont.isEmpty()) ) {
+         for (int i=0; i < clientCont.size(); i++) {
+           SQLGenerator clientGen = (SQLGenerator)clientCont.get(i);
+           String value = clientGen.getFieldValue("FK_CLIENT_ID");
+
+           clientGen.setField("FK_CLIENT_ID", value.substring( value.indexOf(":") +1));
+           clientGen.setField("FK_OBJECT_ID", id);
+           clientGen.setField("STATUS", "C");
+           clientGen.setField("TYPE", "A");           
+
+           updateDB(clientGen.insertStatement());
+         }
+         clientCont.clear();
+      }
+      
       if ( (id != null) && (!paramCont.isEmpty()) ) {
          for (int i=0; i < paramCont.size(); i++) {
            SQLGenerator paramGen = (SQLGenerator)paramCont.get(i);
@@ -277,7 +316,6 @@ public class ActivityHandler extends ROHandler {
          paramCont.clear();
       }
 
-//System.out.println("============= FINAL SPATIALHISTCONT SIZE= " + spatialHistCont.size());         
       return true;
    }
 
@@ -288,4 +326,37 @@ public class ActivityHandler extends ROHandler {
    ActivityHandler(DBPoolIF dbPool, DBVendorIF dbVendor) {
       super(dbPool, dbVendor);
    }
+
+  private void processInfoType(String raId, String infoIds) {
+    StringTokenizer st = new StringTokenizer(infoIds, "|");
+    while (st.hasMoreTokens()) {
+      String infoId=st.nextToken();
+      String sql;
+      if (infoId.length()>0) {
+        sql="INSERT INTO T_INFO_LNK (FK_RA_ID, FK_INFO_ID) VALUES (" + raId + ", '" + infoId + "')";
+        //System.out.println("************** " + sql);
+        updateDB(sql);
+      }
+        
+    }
+  }
+
+  /**
+  * takes role info from DIR and saves if found
+  */
+/*   private void processRole(String roleId) {
+      if (!Util.nullString(roleId)) 
+        try {
+         //quick fix - improve the handling later: not sensible to back up ALL roles before saving 1
+          //RODServices.getDbService().backUpRoles();        
+          Hashtable role = DirectoryService.getRole(roleId);
+          RODServices.getDbService().saveRole(role,"","");
+          //RODServices.getDbService().commitRoles();
+        } catch (DirServiceException de ) {
+          Logger.log("Error getting role infor for: " + roleId);
+        } catch (ServiceException se ) {
+          Logger.log("Error saving role info for: " + roleId);
+        }
+
+   } */
 }

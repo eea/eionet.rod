@@ -24,22 +24,40 @@
  * -->
 
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
-	<xrs:RowSet name="ROAnalysis">
-		<T_REPORTING>
-			<PK_RO_ID expression="COUNT(PK_RO_ID) AS TOTAL_RO"/>
-			<LAST_UPDATE expression="DATE_FORMAT(MAX(LAST_UPDATE),  '%d/%m/%y')  AS RO_UPDATE"/>
-		</T_REPORTING>
-	</xrs:RowSet>
 	<xrs:RowSet name="RAAnalysis">
-		<T_ACTIVITY>
+		<T_OBLIGATION>
 			<PK_RA_ID expression="COUNT(PK_RA_ID) AS TOTAL_RA"/>
 			<LAST_UPDATE expression="DATE_FORMAT(MAX(LAST_UPDATE), '%d/%m/%y') AS RA_UPDATE"/>
-		</T_ACTIVITY>
+		</T_OBLIGATION>
 	</xrs:RowSet>
 	<xrs:RowSet name="LIAnalysis">
 		<T_SOURCE>
 			<PK_SOURCE_ID expression="COUNT(PK_SOURCE_ID) AS TOTAL_LI"/>
 			<LAST_UPDATE expression="DATE_FORMAT(MAX(LAST_UPDATE),  '%d/%m/%y') AS LI_UPDATE"/>
 		</T_SOURCE>
+	</xrs:RowSet>
+	<xrs:RowSet name="RAFlagged">
+		<T_OBLIGATION>
+			<PK_RA_ID expression="COUNT(PK_RA_ID) AS TOTAL_RA"/>
+		</T_OBLIGATION>
+		<xrs:Constraint>FLAGGED=1</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="RAOverLap">
+		<T_OBLIGATION>
+			<PK_RA_ID expression="COUNT(PK_RA_ID) AS TOTAL_RA"/>
+		</T_OBLIGATION>
+		<xrs:Constraint>OVERLAP_URL IS NOT NULL AND OVERLAP_URL != ''</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="RAEEAPriority">
+		<T_OBLIGATION>
+			<PK_RA_ID expression="COUNT(PK_RA_ID) AS TOTAL_RA"/>
+		</T_OBLIGATION>
+		<xrs:Constraint>EEA_PRIMARY=1</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="RACoreSet">
+		<T_OBLIGATION>
+			<PK_RA_ID expression="COUNT(PK_RA_ID) AS TOTAL_RA"/>
+		</T_OBLIGATION>
+		<xrs:Constraint>EEA_CORE=1</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>

@@ -61,7 +61,7 @@
 	</script>
 
 	<!-- context bar -->
-	
+	<xsl:if test="$printmode='N'">
       <table cellspacing="0" cellpadding="0" width="621" border="0">
 			<tr>
          	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25"> </td>
@@ -77,11 +77,8 @@
 						</td>
    	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
                	<td valign="bottom">
-				<xsl:choose>
-					<xsl:when test="$rora='A'">
-						<a href="rorabrowse.jsv?mode=A"><span class="barfont">Reporting obligations</span></a>
-					</xsl:when>
-					<xsl:when test="$rora='B'">
+					<xsl:choose>
+					<xsl:when test="$rora='A' or $rora='B'">
 						<a href="rorabrowse.jsv?mode=A"><span class="barfont">Reporting obligations</span></a>
 					</xsl:when>
 					<xsl:otherwise>
@@ -95,14 +92,14 @@
 			</td></tr>
 			<tr><td></td></tr>
 		</table>
-
+		</xsl:if>
 		<!-- page -->
 		<div style="margin-left:13">
 
 		<br/>
-		<table cellspacing="0" border="0" width="600">
-			<tr valign="bottom">
-			<td width="78%">
+		<table cellspacing="0" border="0" width="602">
+			<tr valign="top">
+			<td width="76%">
 				<span class="head1">Reporting obligations
 								<xsl:if test="$sel_country!=''">
 									: <xsl:value-of select="$sel_country"/>
@@ -121,23 +118,26 @@
 
 			</td>
 		<td>
-			<table>
+			<table width="100%">
 			<tr><td>
-				<xsl:call-template name="Print"/><br/>
+				<xsl:call-template name="Print"/>
+			</td></tr>
+			<xsl:if test="$printmode='N'">
 				<xsl:if test="$showfilters=''">
-					<br/>
+					<tr><td>
 					<a>
 						<xsl:attribute name="href">javascript:window.location.replace(window.location.href+'&amp;showfilters=1')</xsl:attribute>
-						<img src="images/bb_advsearch.png" alt="" border="0"/>
+						<img src="images/but_advancedsearch.jpg" alt="" border="0"/>
 					</a><br/>
+				</td></tr>
 				</xsl:if>
-			</td></tr>
-			<tr><td align="center">
-					<xsl:if test="$admin='true' and $showfilters=''">
-						<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
-						<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
-						<b><font color="#FFFFFF">Actions</font></b><br/><br/>
-					</xsl:if>
+			<tr>
+				<td align="center">
+				<xsl:if test="$admin='true' and $showfilters=''">
+					<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
+					<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
+					<b><font color="#FFFFFF">Actions</font></b><br/><br/>
+				</xsl:if>
 
 				<xsl:if test="contains($permissions, ',/Admin:v,') and $showfilters=''">
 					<a>
@@ -153,6 +153,7 @@
 				</xsl:if>
 			</td>
 			</tr>
+			</xsl:if>
 			</table>
 			</td>
 			</tr>
@@ -160,149 +161,36 @@
 
 <!-- Search filters -->
 		<xsl:choose>
-			<xsl:when test="$showfilters=''">
+			<xsl:when test="$showfilters='' or $printmode='Y'">
 			</xsl:when>
 		<xsl:otherwise>
-<!-- KL 030227  search form -->
-		<form name="x1" method="get" action="rorabrowse.jsv">
-		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
-				 <tr>
-						<td width="120" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
-						</td>
-						<td width="245" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
-						</td>
-						<td width="215" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For a country</span>
-						</td>
-						<td width="42" bgcolor="#FFFFFF" align="right">
-							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
-						</td>
-				</tr>
-				<tr>
-           <td>
-								<table>
-									<tr><td>
-										<input type="hidden" value="A" name="mode"/>
-										<span class="barfont">
-											Obligations
-										</span>
-										
-									</td></tr>
-								</table>
-            </td>
-            <td style="border-left: 1 solid #C0C0C0">
-									<select name="env_issue" style="font-size: 8pt; color: #000000; width:240" height="20">
-											<option value="-1">All issues</option>
-											<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
-                  </select>
-						</td>
-            <td style="border-left: 1 solid #C0C0C0">
-										<select name="country" style="color: #000000; font-size: 8pt; width:200" size="1">
-											<option value="-1">Any country</option>
-											<xsl:call-template name="SpatialTemplate">
-												<xsl:with-param name ="type">C</xsl:with-param>
-												<xsl:with-param name ="type2"></xsl:with-param>
-											</xsl:call-template>
-                    </select>
-								</td>
-                <td align="right">
-						<a>
-							<xsl:attribute name="href">javascript:document.forms["x1"].submit()</xsl:attribute>
-							<img src="images/go.png" alt="" border="0"/>
-						</a>
-					</td>
-					</tr>
-		</table>
-		</form>
-      <span class="head0">or</span>
-		<form name="x2" method="get" action="rorabrowse.jsv">
-		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1 solid #008080">
-				 <tr>
-						<td width="120" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">Show reporting:</span>
-						</td>
-						<td width="245" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an issue</span>
-						</td>
-						<td width="215" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For an organisation</span>
-						</td>
-						<td width="42" bgcolor="#FFFFFF" align="right"><!--img onClick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/-->
-						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH2</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
-						</td>
-				</tr>
-				 <tr>
-               <td>
-								<table>
-									<tr><td>
-										<input type="hidden" value="A" name="mode"/>
-										<span class="barfont">Obligations</span>
-									</td></tr>
-									<tr><td>
-									</td></tr>
-								</table>
-            </td>
-              <td style="border-left: 1 solid #C0C0C0">
-									<select name="env_issue" style="font-size: 8pt; color: #000000; width:240" height="20">
-										<option value="-1">All issues</option>
-										<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
-                  </select>
-							</td>
-              <td style="border-left: 1 solid #C0C0C0">
-										<select name="client" style="color: #000000; font-size: 8pt; width:200" size="1">
-											<option value="-1">Any organisation</option>
-											<xsl:apply-templates select="RowSet[@Name='Client']"/>
-		                </select>
-								</td>
-                <td align="right">
-						<a>
-							<xsl:attribute name="href">javascript:document.forms["x2"].submit()</xsl:attribute>
-							<img src="images/go.png" alt="" border="0"/>
-						</a>
-					</td>
-					</tr>
-				</table>
-				</form> <!-- search form -->
-
+			<xsl:call-template name="RASearch"/>
 		</xsl:otherwise>
 		</xsl:choose>
 
 		<!-- header -->
 		<TABLE cellSpacing="0" cellPadding="5" width="600" border="0">
-		<TBODY>
+
 		<TR>
 		<xsl:if test="$rora='A'">
-			<TD style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="172" bgColor="#ffffff">
+			<TD style="BORDER-TOP: #008080 1px solid;  BORDER-RIGHT: #c0c0c0 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+						vAlign="center" width="40%" bgColor="#ffffff">
 
 			<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
-			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Title of the reporting activity" face="Verdana" color="#000000" size="1">Reporting activity</FONT></B></SPAN>
-				</TD>
-				<TD> <P align="right"><MAP name="FPMap1"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
-							href="javascript:setOrder('T_ACTIVITY.TITLE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_ACTIVITY.TITLE')"/></MAP>
-							<IMG height="22"  src="images/arrows.gif" width="17" useMap="#FPMap1"  border="0"/></P>
-				</TD>
-			</TR>
-			</TBODY>
-			</TABLE>
-			</TD>
-		</xsl:if>
-		<TD style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="172" bgColor="#ffffff">
-
-			<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
 			<TR>
 				<TD><SPAN class="headsmall"><B><FONT title="Title of the reporting obligation" face="Verdana" color="#000000" size="1">Reporting obligation</FONT></B></SPAN>
 				</TD>
-				<TD> <P align="right"><MAP name="FPMap2"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
-							href="javascript:setOrder('T_REPORTING.ALIAS DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_REPORTING.ALIAS')"/></MAP>
-							<IMG height="22"  src="images/arrows.gif" width="17" useMap="#FPMap2"  border="0"/></P>
+				<TD> <P align="right"><MAP name="FPMap1"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
+							href="javascript:setOrder('T_OBLIGATION.TITLE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_OBLIGATION.TITLE')"/></MAP>
+							<IMG height="22"  src="images/arrows.gif" width="17" useMap="#FPMap1"  border="0"/></P>
 				</TD>
 			</TR>
-			</TBODY>
 			</TABLE>
 			</TD>
-		<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="172" bgColor="#ffffff">
+		</xsl:if>
+
+		<TD style="BORDER-RIGHT: #C0C0C0 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+						vAlign="center" width="40%" bgColor="#ffffff">
 
 				<TABLE cellSpacing="0" width="100%" border="0">
 					<TBODY>
@@ -318,7 +206,7 @@
 					</TABLE>
 				</TD>
 				<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="70" bgColor="#ffffff">
+						vAlign="center" width="20%" bgColor="#ffffff">
 
 						<TABLE cellSpacing="0" width="100%" border="0">
 						<TBODY>
@@ -338,7 +226,7 @@
 
 				<xsl:apply-templates select="RowSet[@Name='Search results']"/>
 				<xsl:apply-templates select="RowSet[@Name='CCClients']"/>
-			</TBODY>
+
 			</TABLE>
 		</div>
 
@@ -384,7 +272,6 @@
 
 
 	<xsl:template match="RowSet[@Name='Search results']">
-	<!-- RA search results -->
 			<xsl:choose>
 				<xsl:when test="count(Row)=0">			
 					<tr><td><xsl:call-template name="nofound"/></td></tr>
@@ -397,44 +284,24 @@
 							</xsl:attribute>
 							<!--ra-->
 							<xsl:if test="$rora='A'">
-							<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+							<TD style="BORDER-LEFT: #008080 1px solid;  BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 								<SPAN class="head0n">
-									<xsl:if test="T_ACTIVITY/PK_RA_ID !=''">
 									<A> 
-										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
+										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
 										<FONT face="Verdana" size="2">
 												<xsl:choose>
-													<xsl:when test="T_ACTIVITY/TITLE !=''">
-														<xsl:value-of select="T_ACTIVITY/TITLE"/>
+													<xsl:when test="T_OBLIGATION/TITLE !=''">
+														<xsl:value-of select="T_OBLIGATION/TITLE"/>
 													</xsl:when>
 													<xsl:otherwise>
-														Reporting Activity
+														Reporting Obligation
 													</xsl:otherwise>
 												</xsl:choose>
 										</FONT>
 									</A>
-									</xsl:if>
 								</SPAN>&#160;
 							</TD>
 							</xsl:if>
-							<!--ro-->
-							<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
-								<SPAN class="head0n">
-									<A> 
-										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
-										<FONT face="Verdana" size="2">
-												<xsl:choose>
-													<xsl:when test="T_REPORTING/ALIAS!=''">
-														<xsl:value-of select="T_REPORTING/ALIAS"/>
-													</xsl:when>
-													<xsl:otherwise>
-														Obligation
-													</xsl:otherwise>
-												</xsl:choose>
-										</FONT>
-									</A>
-								</SPAN>&#160;
-							</TD>
 							<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 								<SPAN class="head0n">
 									<A> 
@@ -443,7 +310,7 @@
 									</A>
 								</SPAN>
 							</TD>
-							<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+							<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 								<SPAN class="head0n">
 										<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/SOURCE_CODE"/></FONT>
 								</SPAN>
@@ -455,9 +322,7 @@
 				</xsl:choose>
 	</xsl:template>
 
-	<!-- KL 031027 -->
 	<xsl:template match="RowSet[@Name='CCClients']">
-		<!-- there are RA's that have the client as CC client -->
 		<xsl:if test="count(Row) != 0">
 			<tr><td colspan="4">&#160;</td></tr>
 			<tr>
@@ -470,46 +335,25 @@
 					<xsl:attribute name="bgColor">
 						<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
 					</xsl:attribute>
-					<!--ra-->
 					<xsl:if test="$rora='A'">
-					<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+					<TD style="BORDER-LEFT: #008080 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 						<SPAN class="head0n">
-							<xsl:if test="T_ACTIVITY/PK_RA_ID !=''">
 							<A> 
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
 								<FONT face="Verdana" size="2">
 										<xsl:choose>
-											<xsl:when test="T_ACTIVITY/TITLE !=''">
-												<xsl:value-of select="T_ACTIVITY/TITLE"/>
+											<xsl:when test="T_OBLIGATION/TITLE !=''">
+												<xsl:value-of select="T_OBLIGATION/TITLE"/>
 											</xsl:when>
 											<xsl:otherwise>
-												Reporting Activity
+												Reporting Obligation
 											</xsl:otherwise>
 										</xsl:choose>
 								</FONT>
 							</A>
-							</xsl:if>
 						</SPAN>&#160;
 					</TD>
 					</xsl:if>
-					<!--ro-->
-					<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
-						<SPAN class="head0n">
-							<A> 
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
-								<FONT face="Verdana" size="2">
-										<xsl:choose>
-											<xsl:when test="T_REPORTING/ALIAS!=''">
-												<xsl:value-of select="T_REPORTING/ALIAS"/>
-											</xsl:when>
-											<xsl:otherwise>
-												Obligation
-											</xsl:otherwise>
-										</xsl:choose>
-								</FONT>
-							</A>
-						</SPAN>&#160;
-					</TD>
 					<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 						<SPAN class="head0n">
 							<A> 
@@ -518,7 +362,7 @@
 							</A>
 						</SPAN>
 					</TD>
-					<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+					<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
 						<SPAN class="head0n">
 								<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/SOURCE_CODE"/></FONT>
 						</SPAN>

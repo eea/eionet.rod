@@ -65,34 +65,30 @@ public interface Constants {
    public static final String HIERARCHY_XSL = "hierarchy.xsl";
    public static final String HIERARCHY_QUERY  = "hierarchy.xrs";
    public static final String HIERARCHYX_XSL = "hierarchyx.xsl";
-   public static final String REPORTING_XSL = "reporting.xsl";
-   public static final String REPORTING_QUERY  = "reporting.xrs";
+
+   public static final String INDICATORS_XSL = "indicators.xsl";
+   public static final String INDICATORS_QUERY  = "indicators.xrs";
    public static final String ACTIVITY_XSL = "activity.xsl";
    public static final String ACTIVITY_QUERY  = "activity.xrs";
-   public static final String REPORTING_PARAM_XSL = "reportingparam.xsl";
-   public static final String REPORTING_PARAM_QUERY  = "reportingparam.xrs";
-   public static final String REPORTING_PRINT_XSL = "printreporting.xsl";
-   public static final String ACTIVITY_PRINT_XSL = "printactivity.xsl";
 
    public static final String HISTORY_QUERY = "history.xrs";
    public static final String HISTORY_XSL = "history.xsl";
    public static final String ACTION_HIST_XSL = "actionhist.xsl";
 
+   public static final String PARAMETERS_QUERY = "parameters.xrs";
+   public static final String PARAMETERS_XSL = "parameters.xsl";
+
    // show mode constants
    public static final String SOURCE_MODE = "S";
    public static final String HIERARCHY_MODE = "C";
    public static final String HIERARCHYX_MODE = "X";
-   public static final String REPORTING_MODE = "R";
-   public static final String REPORTING_PARAM_MODE = "ROP";
+   public static final String INDICATORS_MODE = "I";
    public static final String ACTIVITY_MODE = "A";
-
-   public static final String HIERARCHY_PRINT_MODE = "PC";
-   public static final String REPORTING_PRINT_MODE = "PR";
-   public static final String ACTIVITY_PRINT_MODE = "PA";
-   public static final String SOURCE_PRINT_MODE = "PS";
-   
+   public static final String PARAMETERS_MODE = "M";
 
    // editor
+   public static final String E_INDICATOR_XRS = "eindicator.xrs";
+   public static final String E_INDICATOR_XSL = "eindicator.xsl";   
    public static final String E_SOURCE_XSL = "esource.xsl";
    public static final String E_SOURCE_QUERY  = "esource.xrs";
    public static final String E_REPORTING_XSL = "ereporting.xsl";
@@ -126,7 +122,7 @@ public interface Constants {
 
   //Prop names
   static final String ROD_URL_EVENTS ="rod.url.events";
-  static final String ROD_URL_OBLIGATIONS ="rod.url.obligations";
+  //static final String ROD_URL_OBLIGATIONS ="rod.url.obligations";
   static final String ROD_URL_ACTIVITIES ="rod.url.activities";  
 
   /**

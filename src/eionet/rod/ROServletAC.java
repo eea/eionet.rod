@@ -118,7 +118,8 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
  *
  */
    protected String setEncoding() {
-      return "ISO-8859-1";
+      //return "ISO-8859-1";
+      return "UTF-8";
    }
 /**
  *
@@ -191,17 +192,20 @@ log("******************************"); */
    protected void addMetaInfo(DataSourceIF dataSrc) {
     //QueryStatementIF metaRA, metaRO, metaLI;
     if (metaRA==null) {
-      metaRA = new MetaData("RAMetaInfo", "T_ACTIVITY");
+      metaRA = new MetaData("RAMetaInfo", "T_OBLIGATION");
     }
     
      dataSrc.unsetQuery(metaRA);
      dataSrc.setQuery(metaRA);
 
+/*
     if (metaRO==null) {
       metaRO = new MetaData("ROMetaInfo", "T_REPORTING");
     }
      dataSrc.unsetQuery(metaRO);
      dataSrc.setQuery(metaRO);   
+
+    */
     if (metaLI==null) {
       metaLI = new MetaData("LIMetaInfo", "T_SOURCE");
     }

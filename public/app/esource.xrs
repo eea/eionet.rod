@@ -38,7 +38,7 @@
 			<PK_SOURCE_ID/>
 			<SOURCE_CODE/>
 			<DRAFT/>
-			<TITLE/>
+			<TITLE expression="REPLACE(REPLACE(T_SOURCE.TITLE, '\r\n', '\n'), '\r', '\n') AS TITLE"/>
 			<ALIAS/>
 			<CELEX_REF/>
 			<URL/>
@@ -46,17 +46,20 @@
 			<ISSUED_BY_URL/>
 			<SECRETARIAT/>
 			<SECRETARIAT_URL/>
-			<ABSTRACT/>
+			<ABSTRACT expression="REPLACE(REPLACE(T_SOURCE.ABSTRACT, '\r\n', '\n'), '\r', '\n') AS ABSTRACT"/>
 			<VALID_FROM expression="IF(T_SOURCE.VALID_FROM,	DATE_FORMAT(T_SOURCE.VALID_FROM,'%d/%m/%Y'), '') AS VALID_FROM"/>
 			<EC_ACCESSION expression="IF(T_SOURCE.EC_ACCESSION, DATE_FORMAT(T_SOURCE.EC_ACCESSION, '%d/%m/%Y'), '')	AS EC_ACCESSION"/>
 			<EC_ENTRY_INTO_FORCE expression="IF(T_SOURCE.EC_ENTRY_INTO_FORCE, DATE_FORMAT(T_SOURCE.EC_ENTRY_INTO_FORCE, '%d/%m/%Y'), '') AS	EC_ENTRY_INTO_FORCE"/>
 			<DRAFT/>
-			<COMMENT/>
+			<COMMENT expression="REPLACE(REPLACE(T_SOURCE.COMMENT, '\r\n', '\n'), '\r', '\n') AS COMMENT"/>
 			<FK_CLIENT_ID/>
 			<LAST_UPDATE/>
 			<RM_NEXT_UPDATE expression="IF(T_SOURCE.RM_NEXT_UPDATE, DATE_FORMAT(T_SOURCE.RM_NEXT_UPDATE, '%d/%m/%Y'), '') AS RM_NEXT_UPDATE"/>
 			<RM_VERIFIED expression="IF(T_SOURCE.RM_VERIFIED, DATE_FORMAT(T_SOURCE.RM_VERIFIED, '%d/%m/%Y'), '') AS RM_VERIFIED"/>
 			<RM_VERIFIED_BY/>
+			<RM_VALIDATED_BY/>
+			<GEOGRAPHIC_SCOPE/>
+			<DGENV_REVIEW/>
 		</T_SOURCE>
 		<T_CLIENT_LNK relation="T_CLIENT_LNK.FK_OBJECT_ID=T_SOURCE.PK_SOURCE_ID AND T_CLIENT_LNK.TYPE='S' AND T_CLIENT_LNK.STATUS='M'" reltype="outer">
 			<FK_CLIENT_ID/>
@@ -89,6 +92,14 @@
 			<C_TERM/>
 		</T_LOOKUP>
 		<xrs:Constraint>T_LOOKUP.CATEGORY='1'</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="DGEnv" omitRow="true">
+		<T_LOOKUP>
+			<C_VALUE/>
+			<C_TERM/>
+		</T_LOOKUP>
+		<xrs:Constraint>T_LOOKUP.CATEGORY='DGS'</xrs:Constraint>
+		<xrs:Ordering>C_TERM</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="Sources" omitRow="true">
 		<T_SOURCE>

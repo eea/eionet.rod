@@ -41,6 +41,9 @@ import java.util.Vector;
 import eionet.rod.services.ServiceException;
 import javax.servlet.ServletConfig;
 import com.tee.xmlserver.BaseServletAC;
+import eionet.rod.services.DbServiceIF;
+import eionet.rod.services.RODServices;
+
 
 /**
  * <P>Servlet URL: <CODE>rdf</CODE></P>
@@ -74,8 +77,9 @@ public class Activities extends RDFServletAC {
     .append(">");
 
 
-    WebRODService wSrv = new WebRODService();
-    Vector acts = wSrv.getActivities();
+    DbServiceIF wSrv = RODServices.getDbService();
+    //WebRODService wSrv = new WebRODService();
+    Vector acts = wSrv.getActivities(true);
     
     for (int i= 0; i< acts.size(); i++){
       Hashtable act = (Hashtable)acts.elementAt(i);

@@ -52,10 +52,8 @@
 						</td>
    	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
                	<td valign="bottom">
-							<a>	<xsl:attribute name="href">
-									show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X
-								</xsl:attribute>
-								<span class="barfont">Legal instruments</span>
+							<a>	<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
+								<span class="barfont">Legislative instruments</span>
 							</a>
 						</td>
    	            <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
@@ -69,25 +67,34 @@
 		<!-- page -->
 		<div style="margin-left:13">
 		<!-- page title -->
-	   <table cellspacing="7" border="0">
-	   	<tr><td valign="top"><span class="head1">Select legal instrument to add reporting obligation to</span></td>
-			<td align="right" valign="top">
+	   <table width="610" border="0">
+		 <tr><td valign="top" width="76%">
+			<span class="head1">Select legislative instrument to add reporting obligation to</span></td>
+		<td align="left" valign="top">
 			<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_HIERARCHY_ADD</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-			<br/>
-			</td></tr>
-		</table>
-
-	   <table cellspacing="7" width="600" border="0"><tr><td>
-			<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!=''">
-				<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASSIFICATOR"/></span>&#160;
-			</xsl:if>
-			<xsl:choose>		
-				<xsl:when test="T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
-					<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>&amp;mode=X</xsl:attribute>
-					<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span></a>
-				</xsl:when>
-			</xsl:choose>
 		</td></tr></table>
+
+	   <br/>
+	   <table cellspacing="4" cellpadding="0" width="606" style="border: 1 solid #006666" bgcolor="#FFFFFF"><tr><td>
+
+		<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!='' or T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
+		   <table cellspacing="6">
+		   	<tr>
+				   <td>
+						<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!=''">
+							<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASSIFICATOR"/></span>&#160;
+						</xsl:if>
+						<xsl:if test="T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">		
+							<a>
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>&amp;mode=X</xsl:attribute>
+								<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span>
+							</a>
+						</xsl:if>
+					</td>
+				</tr>
+			</table>
+		</xsl:if>
+
 		<xsl:choose>		
 			<xsl:when test="T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
 				<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
@@ -97,63 +104,80 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		<xsl:apply-templates select="SubSet[@Name='Source']"/>
+		
+		</td></tr></table>
+
 		</div>
 	</xsl:template>
 
 	<xsl:template match="SubSet[@Name='subClass']" mode="heading">
 		<xsl:if test="count(Row)>0">
-		<div style="margin-left:30">
-			<xsl:for-each select="Row">
-				<table cellspacing="3" border="0">
-					<tr><td width="10pts"><img src="images/diamlil.gif" vspace="4"/></td><td>
-						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;mode=X</xsl:attribute>
-						<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span></a>
-					</td></tr>
-				</table>
-				<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
-			</xsl:for-each>
-		</div>
+			<div style="margin-left:44">
+				<xsl:for-each select="Row">
+					<table cellspacing="3">
+						<tr>
+							<td width="10pts">
+								<img src="images/diamlil.gif" vspace="4"/>
+							</td>
+							<td>
+								<a>
+									<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;mode=X</xsl:attribute>
+									<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span>
+								</a>
+							</td>
+						</tr>
+					</table>
+					<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
+				</xsl:for-each>
+			</div>
 		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="SubSet[@Name='subClass']" mode="normal">
 		<xsl:if test="count(Row)>0">
-		<div style="margin-left:30">
-			<xsl:for-each select="Row">
-				<table cellspacing="3" border="0"><tr><td>
-					<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!=''">
-						<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASSIFICATOR"/>&#160;</span>
-					</xsl:if>
-					<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;mode=X</xsl:attribute>
-					<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span></a>
-				</td></tr></table>
-				<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
-			</xsl:for-each>
-		</div>
+			<div style="margin-left:44">
+				<xsl:for-each select="Row">
+					<table cellspacing="3">
+						<tr>
+							<td>
+								<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!=''">
+									<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASSIFICATOR"/>&#160;</span>
+								</xsl:if>
+								<a>
+									<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;mode=X</xsl:attribute>
+									<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span>
+								</a>
+							</td>
+						</tr>
+					</table>
+					<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
+				</xsl:for-each>
+			</div>
 		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="SubSet[@Name='Source']"> 
-		<div style="margin-left:30">
-			<table cellspacing="7pts" width="600">
-			<xsl:for-each select="Row">
-				<tr valign="top">
-					<td width="10"><img src="images/diamlil.gif" vspace="4"/></td>
-					<td colspan="2"><a>
-						<xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/></xsl:attribute>
-					<xsl:choose>
-						<xsl:when test="T_SOURCE/ALIAS != ''">
-							<xsl:value-of select="T_SOURCE/ALIAS"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="T_SOURCE/TITLE"/>
-						</xsl:otherwise>
-					</xsl:choose>
-					</a><br/>
-					</td>
-				</tr>
-
-			</xsl:for-each>
+		<div style="margin-left:44">
+			<table cellspacing="6">
+				<xsl:for-each select="Row">
+					<tr valign="top">
+						<td width="10"><img src="images/diamlil.gif" vspace="4"/></td>
+						<td colspan="2">
+							<a>
+								<xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/></xsl:attribute>
+								<xsl:choose>
+									<xsl:when test="T_SOURCE/ALIAS != ''">
+										<xsl:value-of select="T_SOURCE/ALIAS"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="T_SOURCE/TITLE"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</a>
+							<br/>
+						</td>
+					</tr>
+				</xsl:for-each>
 			</table>
 		</div>
 	</xsl:template>

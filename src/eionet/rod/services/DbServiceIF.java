@@ -85,7 +85,7 @@ public interface DbServiceIF  {
  /**
  * returns all responsible role ids from T_ACTIVITY_DETAILS
  */
-  public String[][] getRespRoles() throws ServiceException;    
+  public String[] getRespRoles() throws ServiceException;    
 
  /**
  * Returns deadline data in 2-dimensional array
@@ -106,7 +106,7 @@ public interface DbServiceIF  {
  /**
  * Saves roles
  */
-  public void saveRole(Hashtable role ) throws ServiceException ;
+  public void saveRole(Hashtable role, String person, String org) throws ServiceException ;
 
  /**
  * Saves delivery
@@ -117,9 +117,11 @@ public interface DbServiceIF  {
  
   /**
   * Activities used in RDF
+  * @param boolean terminated: false - only unterminated are returned
   * @return array of hashes (PK_RA_ID, TITLE, etc)
+  
   */
-  public Vector getActivities(  ) throws ServiceException ;
+  public Vector getActivities(boolean all) throws ServiceException ;
 
   /**
   * Legal Instruments ARRAY of STRUCTs for RDF
@@ -170,7 +172,7 @@ public interface DbServiceIF  {
   * @return String[][]  (0:PK_RO_ID, 1:ALIAS, 2:SOURCE.TITLE, 3:FK_SOURCE_ID)
   */
 
-  public String[][] getIssueObligations(StringTokenizer ids) throws ServiceException ;
+ // public String[][] getIssueObligations(StringTokenizer ids) throws ServiceException ;
 
   /**
   * Returns activities, corresponging to the issue ids, given as parameters
@@ -194,7 +196,7 @@ public interface DbServiceIF  {
   /**
   * Returns max PK_RO_ID
   */
-  public String getMaxROId() throws ServiceException;
+  //public String getMaxROId() throws ServiceException;
   
 
   public void backUpDeliveries() throws ServiceException;
@@ -214,7 +216,27 @@ public interface DbServiceIF  {
 
   //used in AddClient screen
   public String[][] getCountryIdPairs() throws ServiceException;
-  
+
+  /**
+  * All role IDs existing in T_ROLE tablke
+  */
+  public String[][] getRoleIds() throws ServiceException;
+
+  /**
+  * Saves person Full Name + institute name
+  * @params roleId, Full Name, organisation name
+  */
+  public void savePerson(String roleId, String fullName, String orgName) throws ServiceException;
+
+
+  /**
+  * Harvests parameters from link tables and stores in the TEXT field of T_OBLIGATION
+  * ONLY if the content of PARAMETERS is EMPTY
+  * @params raId
+  */
+  public void harvestParams(String raId) throws ServiceException;
+
+
 }
 
 

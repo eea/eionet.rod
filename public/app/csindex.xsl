@@ -37,6 +37,8 @@ var picklist = new Array();
 
 </script></head>
 <body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
+
+<xsl:if test="$printmode='N'">
 <table border="0" width="600" cellpadding="0" cellspacing="0">
 <tr>
 	<td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td>
@@ -54,22 +56,37 @@ var picklist = new Array();
 			</table>
 		 </td></tr><tr><td></td></tr>
 	</table>
-
+</xsl:if>
 <div style="margin-left:13"><form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form><div style="margin-left:20"><table cellspacing="7pts"></table></div>
 <table width="600">
 <tr><td>
 <table width="100%">
 <tr>
-	<td></td>
-	<td valign="top" align="right">
-		<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
-				<img alt="Harvest Reportnet meta-information" border="0" src="images/bb_harvest.png" onClick="javascript:openHarvester()"></img>
-		<br/>		<br/>
+	<td width="77%">&#160;</td>
+	<td align="right"><xsl:call-template name="Print"/>	</td>
+</tr>
+<xsl:if test="$printmode='N'">
+<tr>
+	<td width="77%">&#160;</td>
+	<td align="right">
+		<a href="cssearch"><img border="0" src="images/but_advancedsearch.jpg" alt=""/></a><br/><br/>
+	</td>
+</tr>
+<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
+	<tr>
+	<td width="77%">&#160;</td>
+		<td align="center">
+			<xsl:if test="$admin='true'">
+				<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
+				<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
+				<b><font color="#FFFFFF">Actions</font></b><br/><br/>
+			</xsl:if>
+			<img alt="Harvest Reportnet meta-information" border="0" src="images/bb_harvest.png" onClick="javascript:openHarvester()"></img>
+			<br/><br/>
+		</td>
+	</tr>
 </xsl:if>
-	<xsl:call-template name="Print"/><br/><br/>
-	<a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt=""/></a><br/><br/>
-
-</td></tr>
+</xsl:if>
 <tr><td valign="top" colspan="2"><div class="Mainfont" align="justify">
 This part of ROD helps countries co-ordinate and manage their international
 reporting obligations. It provides information about when countries have to
@@ -85,57 +102,56 @@ of ROD and CDR by using the advanced search.
 <table width="100%">
 
 <xsl:variable name="noOfCountries"><xsl:value-of select="count(child::RowSet[@Name='Members']/Row/T_SPATIAL)"/></xsl:variable>
-<table>
+<table cellspacing="0">
 <tr valign="top">
-	<td colspan="3"><b>EEA member countries </b><hr/></td>
+	<th align="left" colspan="3"><b>EEA member countries </b></th>
 </tr>
 <tr>
-<td width="200" valign="top">
+
+<td bgcolor="#FFFFFF" style="BORDER-LEFT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #C0C0C0 1px solid" width="200" valign="top">
 <xsl:for-each select="RowSet[@Name='Members']/Row/T_SPATIAL">
 	<xsl:if test="position() &lt; $noOfCountries div 3">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
-<td width="200" valign="top">
+<td bgcolor="#FFFFFF" style="BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #C0C0C0 1px solid" width="200" valign="top">
 <xsl:for-each select="RowSet[@Name='Members']/Row/T_SPATIAL">
 	<xsl:if test="position() &gt;= $noOfCountries div 3 and position() &lt; ($noOfCountries div 3) * 2">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
-<td width="200" valign="top">
-<xsl:for-each select="RowSet[@Name='Members']/Row/T_SPATIAL">
-	<xsl:if test="position() &gt;= ($noOfCountries div 3) * 2">
-		<xsl:call-template name="COUNTRYNAME"/>
-	</xsl:if>
-</xsl:for-each>
-
+<td bgcolor="#FFFFFF" style="BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #008080 1px solid" width="200" valign="top">
+	<xsl:for-each select="RowSet[@Name='Members']/Row/T_SPATIAL">
+		<xsl:if test="position() &gt;= ($noOfCountries div 3) * 2">
+			<xsl:call-template name="COUNTRYNAME"/>
+		</xsl:if>
+	</xsl:for-each>
 </td>
 </tr>
-</table>
 
 <xsl:variable name="noOfNMCountries"><xsl:value-of select="count(child::RowSet[@Name='NonMembers']/Row/T_SPATIAL)"/></xsl:variable>
-<table>
+
 <tr valign="top">
-	<td colspan="3"><b>Other countries </b><hr/></td>
+	<th colspan="3" align="left"><b>Other countries </b></th>
 </tr>
 <tr>
-<td width="200" valign="top">
+<td bgcolor="#FFFFFF" style="BORDER-LEFT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #C0C0C0 1px solid" width="200" valign="top">
 <xsl:for-each select="RowSet[@Name='NonMembers']/Row/T_SPATIAL">
 	<xsl:if test="position() &lt; $noOfNMCountries div 3">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
-<td width="200" valign="top">
+<td bgcolor="#FFFFFF" style="BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #C0C0C0 1px solid" width="200" valign="top">
 <xsl:for-each select="RowSet[@Name='NonMembers']/Row/T_SPATIAL">
 	<xsl:if test="position() &gt;= $noOfNMCountries div 3 and position() &lt; ($noOfNMCountries div 3) * 2">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
-<td width="200" valign="top">
+<td bgcolor="#FFFFFF" style="BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #008080 1px solid" width="200" valign="top">
 <xsl:for-each select="RowSet[@Name='NonMembers']/Row/T_SPATIAL">
 	<xsl:if test="position() &gt;= ($noOfNMCountries div 3) * 2">
 		<xsl:call-template name="COUNTRYNAME"/>
@@ -162,9 +178,9 @@ of ROD and CDR by using the advanced search.
 
 </xsl:template>
 <xsl:template name="COUNTRYNAME">
-		<img src="images/Folder_icon.gif" width="16" height="16"/>
-		<a><xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&#038;ORD=NEXT_DEADLINE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
-		<br/>
+	<img src="images/Folder_icon.gif"/>
+	<a><xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&#038;ORD=NEXT_DEADLINE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
+	<br/>
 </xsl:template>
 
 </xsl:stylesheet>

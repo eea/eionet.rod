@@ -61,11 +61,15 @@ public class Extractor implements ExtractorConstants {
   public static final    int DELIVERIES = 1;
   public static final    int ROLES = 2;
 
+  public static final    int PARAMS = 3;
+
   private static FileServiceIF fileSrv = null;
   boolean debugLog = true;
   private static PrintWriter out = null;
   private static LogServiceIF logger ;  
+  private  DbServiceIF csDb;
 
+  private static Extractor extractor;
 
 	// For debugLog: returns the current date and time (wrapped) as String
   //
@@ -73,7 +77,24 @@ public class Extractor implements ExtractorConstants {
   static { 
     logger = RODServices.getLogService();
   }
-  
+
+  public Extractor() {
+System.out.print("******************* constructor starts ");  
+    try {
+      if (csDb==null) {
+System.out.print("******************* go to get DB conn ");        
+        csDb = RODServices.getDbService();
+      }
+    }  catch (Exception e) {
+      //extractor.out.println("Opening connection to database failed. The following error was reported:\n" + e.toString());
+      log("Opening connection to database failed. The following error was reported:\n" + e.toString());      
+      e.printStackTrace();
+      exitApp(false); 
+      //throw new ServiceException("Opening connection to database failed." );
+    }
+    log("Db connection ok.");
+
+  }  
   public static void main(String[] args) {
     try {
       //logger = RODServices.getLogService();
@@ -90,9 +111,13 @@ public class Extractor implements ExtractorConstants {
       else
         type="0";
 
+
       int iType = Integer.valueOf(type).intValue();
-      
-      harvest(iType, userName);
+
+      if (extractor==null)
+        extractor=new Extractor();
+            
+      extractor.harvest(iType, userName);
 
     } catch (ServiceException se ) {
       logger.error(se.toString());
@@ -117,13 +142,13 @@ public class Extractor implements ExtractorConstants {
  /**
  * Extract the data
  */
-  public static void harvest( int mode, String userName ) throws ServiceException {
+  public void harvest( int mode, String userName ) throws ServiceException {
     // Initial set-up: create class; open the log file
     //mode, which data to harvest
     
     int remoteSrvType = SERVICE_CLIENT_TYPE;
     
-    DbServiceIF csDb;
+
     String logPath = null;
     String logfileName = null;
 
@@ -133,7 +158,7 @@ public class Extractor implements ExtractorConstants {
     ServiceClientIF ldap;
 
     //service urls
-    String crUrl, wrUrl, dirUrl;
+    String crUrl, wrUrl;
 
     //namespaces
     String raNs=null, countryNs=null;
@@ -143,18 +168,19 @@ public class Extractor implements ExtractorConstants {
     
     //KL 020423
     //Extractor extractor = new Extractor();
-    Extractor extractor = null;
+    //Extractor extractor = null;
 
     //logger = RODServices.getLogService();
 
     try {
-      extractor = new Extractor();
+      //extractor = new Extractor();
       fileSrv = RODServices.getFileService();      
 
       raNs = fileSrv.getStringProperty( FileServiceIF.RA_NAMESPACE );
       raIdPref = fileSrv.getStringProperty( FileServiceIF.RO_NAMESPACE );
       countryNs = fileSrv.getStringProperty( FileServiceIF.COUNTRY_NAMESPACE);
-      extractor.debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");     
+      //extractor.debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");     
+      debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");           
       
       try {
         remoteSrvType = fileSrv.getIntProperty( fileSrv.REMOTE_SRV_TYPE );
@@ -182,7 +208,7 @@ public class Extractor implements ExtractorConstants {
     //noncense, cannot write to the log file, if opening it does not succeed :)
     if (logfileName != null)
       try {
-        out = new PrintWriter(new FileWriter(logPath + logfileName, !extractor.debugLog), true);
+        out = new PrintWriter(new FileWriter(logPath + logfileName, !debugLog), true);
       } catch (java.io.IOException e) {
         //using default logger instead
         logger.warning("Unable to open log file for writing. using default. The following error was reported:\n" + e.toString());        
@@ -191,23 +217,16 @@ public class Extractor implements ExtractorConstants {
 
     // Start processing
     //extractor.out.println(extractor.cDT() + "Extractor v1.1 - processing... Please wait.");
-    log(extractor.cDT() + "Extractor v1.1 - processing... Please wait.");    
+    log(cDT() + "Extractor v1.1 - processing... Please wait.");    
     
     long a = System.currentTimeMillis();
 
     //DB connection
-    try {
-      csDb = RODServices.getDbService();
-    }  catch (Exception e) {
-      //extractor.out.println("Opening connection to database failed. The following error was reported:\n" + e.toString());
-      log("Opening connection to database failed. The following error was reported:\n" + e.toString());      
-      e.printStackTrace();
-      extractor.exitApp(false); 
-      throw new ServiceException("Opening connection to database failed." );
-    }
-    log("Db connection ok."); 
+
       
     String userFullName = userName;
+    String[][] raData;
+    
     if (!userName.equals(SYSTEM_USER))
       try {
         //userFullName = DirectoryService.getFullName(userName);
@@ -232,21 +251,20 @@ public class Extractor implements ExtractorConstants {
         crUrl =  fileSrv.getStringProperty( FileServiceIF.CONTREG_SRV_URL );
       }  catch (Exception e) {
          log("Opening connection to Content Registry failed. The following error was reported:\n" + e.toString());
-         extractor.exitApp(false); //return;         
+         exitApp(false); //return;         
          throw new ServiceException("No URL to ContReg service specified in the props file");        
       }      
       try {
-        //crUrl =  fileSrv.getStringProperty( FileServiceIF.CONTREG_SRV_URL );
         crClient = ServiceClients.getServiceClient(CONTREG_SRV_NAME, crUrl, remoteSrvType );
       }  catch (Exception e) {
         log("Opening connection to Content Registry failed. The following error was reported:\n" + e.toString());
         e.printStackTrace();
-        extractor.exitApp(false); //return;
+        exitApp(false); //return;
         throw new ServiceException("Error creating a client top ContReg service at: " + crUrl);
       }
 
     try {
-      String[][] raData = csDb.getRaData();
+      raData = csDb.getRaData();
 
       Hashtable attrs = new Hashtable();
       Vector prms = new Vector();
@@ -258,36 +276,28 @@ public class Extractor implements ExtractorConstants {
       
       for(int i = 0; raData != null && i < raData.length; i++) {
         attrs.clear();
-        //attrs.put( countryNs , raData[i][3] ); //Country name
-        //KL040303 
-        //use pref + RA_ID instead of RA name
-        //attrs.put( raNs , raData[i][1] );      // RA title
         attrs.put(raNs , raIdPref + "/" + raData[i][0]);      // PREFIX + RA ID
         prms.setElementAt(attrs, 0);
 
         try {
           Vector deliveries = (Vector)crClient.getValue(CONTREG_GETENTRIES_METHOD, prms);
           log("Received " + deliveries.size() + "  deliveries for RA: " + raData[i][1]);
-            csDb.saveDeliveries( raData[i][0], deliveries, cMap);
-          } catch (Exception se ) {
-            csDb.rollBackDeliveries(raData[i][0]);
-            log ("Error harvesintg deliveries for RA: " + raData[i][0] + " " + se.toString());
-          }
-
+          csDb.saveDeliveries( raData[i][0], deliveries, cMap);
+        } catch (Exception se ) {
+          csDb.rollBackDeliveries(raData[i][0]);
+          log ("Error harvesintg deliveries for RA: " + raData[i][0] + " " + se.toString());
+        }
       }
 
-      
       csDb.commitDeliveries();
       
-      //csDb.logHistory("H", "0",  DirectoryService.getFullName(userName), "X", actionText);
-
-      if(extractor.debugLog) 
+      if(debugLog) 
         log("* Deliveries OK");
         
     }  catch (Exception e) {
       log("Operation failed while filling the database from Content Registry. The following error was reported:\n" + e.toString());
       e.printStackTrace();
-      extractor.exitApp(false); //return;
+      exitApp(false); //return;
       throw new ServiceException("Error getting data from Content Registry " + e.toString());
     } 
    } // mode includes deliveries data
@@ -297,7 +307,7 @@ public class Extractor implements ExtractorConstants {
       actionText += " - roles ";
       try  {
         Set roleSet = new HashSet();
-        String[][] respRoles = csDb.getRespRoles();
+        String[] respRoles = csDb.getRespRoles();
 
       log("Found " + respRoles.length + " roles from database");      
         
@@ -305,7 +315,10 @@ public class Extractor implements ExtractorConstants {
       csDb.backUpRoles();
       
       for(int i = 0; i < respRoles.length; i++) {
-        String roleName =  respRoles[i][0]; 
+
+        saveRole(respRoles[i]);
+      
+        /*String roleName =  respRoles[i]; 
         if (roleName != null) {
           Hashtable role = null;
           try {
@@ -317,30 +330,82 @@ public class Extractor implements ExtractorConstants {
             e.printStackTrace();
           }
 
-          if (role != null)
-            csDb.saveRole(role);
-        }
+          if (role != null) {
+            String uid="";
+            String orgId="";
+            String orgName=orgId;
+            String fullName=uid;
+            Hashtable person = null;
+            Hashtable org = null;
+            
+            Vector occupants = (Vector)role.get("OCCUPANTS");
+            if (occupants != null && occupants.size() > 0 )
+              uid = (String)occupants.elementAt(0);
+            try {
+              person=DirectoryService.getPerson(uid);
+            } catch (DirServiceException dire) {
+              logger.error("Error getting person " + uid + " " + dire.toString());
+            } catch (Exception e) {
+               e.printStackTrace();        
+            }
+
+            if (person != null) {
+              fullName=(String)person.get("FULLNAME");
+              orgId=(String)person.get("ORG_ID");
+            }
+
+            try {
+              org =  DirectoryService.getOrganisation(orgId);
+              if (org!=null)
+                orgName=(String)org.get("NAME");
+            } catch (DirServiceException dire) {
+              logger.error("Error getting organisation" + orgId + " " + dire.toString());
+            } catch (Exception e) {
+               e.printStackTrace();        
+            }        
+
+            csDb.saveRole(role, fullName, orgName);
+          }
+          
+        }*/
       } // roles.next()
 
       csDb.commitRoles();
-      
-      if(extractor.debugLog) 
+    
+      if(debugLog) 
         log("* Roles OK");
-        
+
+      //persons + org name
+
     }  catch (Exception e) {
       log("Operation failed while filling the database from CIRCA Directory. The following error was reported:\n" + e.toString());
       e.printStackTrace();
-      extractor.exitApp(false); //return;
+      exitApp(false); //return;
       throw new ServiceException("Operation failed while filling the database from CIRCA Directory. The following error was reported:\n" + e.toString());
     }
   } // mode includes roles
+
+  if (mode == ALL_DATA || mode == PARAMS) {
+    actionText += " -parameters";
+
+    //duplicate query, fix me!
+    raData=csDb.getRaData();
+
+    for(int i = 0; raData != null && i < raData.length; i++) {
+      csDb.harvestParams(raData[i][0]);
+   }
+          
+    //DataDict client:
+    
+  }
+    
     csDb.logHistory("H", "0",  userFullName, "X", actionText);
     // End processing
     //
     long b = System.currentTimeMillis();    
     log(" ** Harvesting successful TOTAL TIME = " + (b-a));
 
-    extractor.exitApp(true);
+    exitApp(true);
   }
 
   private static void log(String s ) { 
@@ -349,5 +414,59 @@ public class Extractor implements ExtractorConstants {
     else
       out.println( s );
       
+  }
+
+  public  void saveRole(String roleId) throws ServiceException {
+    String roleName =  roleId;
+    if (roleName != null) {
+      Hashtable role = null;
+      try {
+        role = DirectoryService.getRole(roleName);
+        log("Received role info for " + roleName + " from Directory");
+      } catch (DirServiceException de ) {
+        logger.error("Error getting role " + roleName + " " + de.toString());
+      } catch (Exception e ) {
+        e.printStackTrace();
+      }
+
+      if (role != null) {
+        String uid="";
+        String orgId="";
+        String orgName=orgId;
+        String fullName=uid;
+        Hashtable person = null;
+        Hashtable org = null;
+            
+        Vector occupants = (Vector)role.get("OCCUPANTS");
+        if (occupants != null && occupants.size() > 0 )
+          uid = (String)occupants.elementAt(0);
+        try {
+          person=DirectoryService.getPerson(uid);
+        } catch (DirServiceException dire) {
+          logger.error("Error getting person " + uid + " " + dire.toString());
+        } catch (Exception e) {
+           e.printStackTrace();        
+        }
+
+        if (person != null) {
+          fullName=(String)person.get("FULLNAME");
+          orgId=(String)person.get("ORG_ID");
+        }
+
+        try {
+          org =  DirectoryService.getOrganisation(orgId);
+          if (org!=null)
+            orgName=(String)org.get("NAME");
+        } catch (DirServiceException dire) {
+          logger.error("Error getting organisation" + orgId + " " + dire.toString());
+        } catch (Exception e) {
+           e.printStackTrace();        
+        }        
+
+        csDb.saveRole(role, fullName, orgName);
+      }
+          
+    }
+
   }
 }

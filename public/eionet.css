@@ -1,8 +1,11 @@
-<!-- The Body settings -->
-BODY { background-color: #F0F0F0;
+<!-- the body settings{  }
+BODY { 
 font-family: Verdana, Arial, Helvetica, sans-serif; 
 font-size: 10pt; 
 } 
+
+pre { font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size: 10pt; } 
 
 table.box {
     background-color: #F0F0F0;
@@ -22,10 +25,10 @@ text-decoration: none; }
 
 
 .smallfont {  font-family: Verdana, Arial, MS Sans Serif; 
-font-size: 7pt; 
+font-size: 9pt; 
 font-style: normal; 
 line-height: normal; 
-font-weight: bold; 
+font-weight: normal; 
 text-decoration: none; }
 
 .title1 { font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -66,8 +69,17 @@ line-height: normal;
 font-weight: normal; 
 text-decoration: none; }
 
+.headgreen {  font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size: 13pt; 
+font-style: normal; 
+color: #006666;
+line-height: normal; 
+font-weight: bold; 
+text-decoration: none; }
+
 .head1 {  font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 12pt; 
+font-size: 13pt; 
+color:#006666;
 font-style: normal; 
 line-height: normal; 
 font-weight: bold; 
@@ -119,13 +131,14 @@ font-style: normal;
 line-height: normal; 
 text-decoration: none; }
 
+
 th {  font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 10pt; 
+font-size: 10pt;
 font-style: normal; 
 line-height: normal; 
 font-weight: bold; 
 color: #FFFFFF;
-background: #646666;
+background: #008080;
 text-decoration: none; }
 
 th a:link { color: #8080ff }
@@ -151,3 +164,9 @@ font-style: normal;
 line-height: normal; 
 font-weight: bold; 
 color: #ffffff }
+
+.btn { font-family:  Verdana, Arial, Helvetica, sans-serif;
+font-size: 10pt; 
+font-weight: bold;
+color: #000000;
+}

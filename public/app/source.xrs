@@ -26,22 +26,25 @@
 		<T_SOURCE PKField="PK_SOURCE_ID">
 			<PK_SOURCE_ID/>
 			<CELEX_REF/>
-			<TITLE/>
+			<TITLE expression="REPLACE(REPLACE(T_SOURCE.TITLE, '\r\n', '\n'), '\r', '\n') AS TITLE"/>
 			<ALIAS/>
 			<URL/>
 			<ISSUED_BY_URL/>
 			<ISSUED_BY_URL_LABEL expression="CONCAT(LEFT(ISSUED_BY_URL, 40), IF( LENGTH(ISSUED_BY_URL) &gt; 40 ,'...', '')   ) AS ISSUED_BY_URL_LABEL"/>
 			<SECRETARIAT/>
 			<SECRETARIAT_URL/>
-			<ABSTRACT/>
+			<ABSTRACT expression="REPLACE(REPLACE(T_SOURCE.ABSTRACT, '\r\n', '\n'), '\r', '\n') AS ABSTRACT"/>
 			<VALID_FROM expression="IF(T_SOURCE.VALID_FROM, DATE_FORMAT(T_SOURCE.VALID_FROM,'%d/%m/%Y'), '') AS VALID_FROM"/>
 			<EC_ACCESSION expression="IF(T_SOURCE.EC_ACCESSION, DATE_FORMAT(T_SOURCE.EC_ACCESSION,'%d/%m/%Y'), '') AS EC_ACCESSION"/>
 			<EC_ENTRY_INTO_FORCE expression="IF(T_SOURCE.EC_ENTRY_INTO_FORCE, DATE_FORMAT(T_SOURCE.EC_ENTRY_INTO_FORCE,'%d/%m/%Y'), '') AS EC_ENTRY_INTO_FORCE"/>
-			<COMMENT/>
+			<COMMENT expression="REPLACE(REPLACE(T_SOURCE.COMMENT, '\r\n', '\n'), '\r', '\n') AS COMMENT"/>
 			<LAST_UPDATE expression="DATE_FORMAT(T_SOURCE.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
 			<RM_NEXT_UPDATE expression="DATE_FORMAT(T_SOURCE.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE"/>
 			<RM_VERIFIED expression="DATE_FORMAT(T_SOURCE.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED"/>
 			<RM_VERIFIED_BY/>
+			<RM_VALIDATED_BY/>
+			<GEOGRAPHIC_SCOPE/>
+			<DGENV_REVIEW/>
 		</T_SOURCE>
 		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='S' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_SOURCE.PK_SOURCE_ID" reltype="outer">
 			<FK_CLIENT_ID/>
@@ -82,11 +85,18 @@
 			</T_SOURCE>
 			<xrs:Constraint>T_SOURCE_LNK.CHILD_TYPE='S' AND T_SOURCE_LNK.PARENT_TYPE='S'</xrs:Constraint>
 		</xrs:SubSet>
-		<xrs:SubSet name="Obligation" relation="T_SOURCE.PK_SOURCE_ID=T_REPORTING.FK_SOURCE_ID">
-			<T_REPORTING>
-				<PK_RO_ID/>
-				<ALIAS/>
-			</T_REPORTING>
+		<xrs:SubSet name="Obligation" relation="T_SOURCE.PK_SOURCE_ID=T_OBLIGATION.FK_SOURCE_ID">
+			<T_OBLIGATION>
+				<PK_RA_ID/>
+				<TITLE/>
+			</T_OBLIGATION>
 		</xrs:SubSet>
+	</xrs:RowSet>
+	<xrs:RowSet name="DGEnv">
+		<T_LOOKUP>
+			<C_TERM/>
+		</T_LOOKUP>
+		<T_SOURCE/>
+		<xrs:Constraint>T_SOURCE.PK_SOURCE_ID=@ID AND T_SOURCE.DGENV_REVIEW=T_LOOKUP.C_VALUE AND T_LOOKUP.CATEGORY='DGS'</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>

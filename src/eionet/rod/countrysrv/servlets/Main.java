@@ -161,7 +161,10 @@ public class Main extends CSServletAC {
 
       date2=cnvDate(date2);
       
-      queryPars[2][1] = "NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "'" ;
+      //if all deadlines we take text deadlines into accout as well otherwqise only date deadlines
+      //queryPars[2][1] = " (NEXT_DEADLINE IS NOT NULL OR NEXT_REPORTING != '') ";
+      queryPars[2][1] = "((NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "') OR NEXT_REPORTING != '') " ;
+      
       
       queryPars[3][0] = "ORD";
       queryPars[3][1] = order ;

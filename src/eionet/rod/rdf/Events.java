@@ -48,7 +48,7 @@ public class Events extends RSSServletAC {
     for (int i= 0; i< events.length; i++){
       String pk = events[i][0];
 
-      s.append("<rdf:li rdf:resource=\"").append(activitiesNamespace).append("/ra-")
+      s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/")
         .append(pk).append("\"/>");
   
     } 
@@ -56,11 +56,11 @@ public class Events extends RSSServletAC {
     addChannelEnd(s);
     for (int i= 0; i< events.length; i++){
       String pk = events[i][0];
-      String title = "Deadline for Reporting Activity: " + events[i][1];
+      String title = "Deadline for Reporting Obligation: " + events[i][1];
       String date = events[i][2];
       String link = getActivityUrl(pk, events[i][3] );
       
-      s.append( "<item rdf:about=\"").append(activitiesNamespace).append("/ra-")
+      s.append( "<item rdf:about=\"").append(obligationsNamespace).append("/")
         .append(pk).append("\">")
         .append("<title>").append(title).append("</title>")
         .append("<link>").append(link).append("</link>")

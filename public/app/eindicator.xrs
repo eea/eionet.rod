@@ -10,7 +10,7 @@
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
- * The Original Code is "EINRC-5 / ROD Project".
+ * The Original Code is "EINRC-7 / OPS Project".
  *
  * The Initial Developer of the Original Code is TietoEnator.
  * The Original Code code was developed for the European
@@ -19,14 +19,24 @@
  * Copyright (C) 2000-2002 by European Environment Agency.  All
  * Rights Reserved.
  *
- * Original Code: Ander Tenno (TietoEnator)
+ * Original Code: Kaido Laine (TietoEnator)
  * -->
-
-<!-- Dummy -->
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
-	<xrs:RowSet name="ROAnalysis">
-		<T_REPORTING>
-			<PK_RO_ID expression="COUNT(PK_RO_ID) AS TOTAL_RO"/>
-		</T_REPORTING>
+	<xrs:RowSet name="Activity">
+		<T_OBLIGATION>
+			<PK_RA_ID/>
+		</T_OBLIGATION>
+		<xrs:Constraint>PK_RA_ID=@RID</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="Indicator" skeleton="true">
+		<T_INDICATOR>
+			<PK_INDICATOR_ID/>
+			<FK_RA_ID/>
+			<NUMBER/>
+			<TITLE/>
+			<URL/>
+			<OWNER/>
+		</T_INDICATOR>
+		<xrs:Constraint>PK_INDICATOR_ID=@ID AND FK_RA_ID=@RID</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>

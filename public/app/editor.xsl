@@ -27,7 +27,7 @@
 	<xsl:output indent="yes"/>   
             
 	<xsl:template match="/">
-   	<html>
+		<html>
 			<head>
 				<title><xsl:call-template name="PageTitle"/></title>
 				<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=ISO-8859-1"/>
@@ -56,7 +56,7 @@ if ((navigator.appName.substring(0,5) == "Netsc"
 }
 
 function openAddClientWin() {
-	window.open('addclient.jsp','sInfo','height=450,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
+	window.open('addclient.jsp','sInfo','height=405,width=470,status=no,toolbar=no,scrollbars=no,resizable=yes,menubar=no,location=no');
 }
 
 function Click(Target) {
@@ -141,6 +141,7 @@ function save(text,silent) {
 		// check once more all values before sending to server
 		for (i = 0; i < document.f.length; ++i) {
 			elem = document.f.elements[i];
+			elem.disabled = false;
 
 			if (elem.type == 'text' && elem.onchange != null) {
 				var s = new String(elem.onchange);
@@ -723,7 +724,7 @@ function checkAndSave(first, freq, next, textrep, to, terminate) {
 									<xsl:call-template name="FirstHeading"/>
 								</span></strong></font>
 								<br/>
-								<font color="#006666" size="2"><strong><span class="head0">
+								<font color="#669999" size="2"><strong><span class="head0">
 									<xsl:call-template name="SecondHeading"/>
 								</span></strong></font>
 							</td>

@@ -35,14 +35,29 @@ import com.tee.xmlserver.DataSourceIF;
 import com.tee.xmlserver.XSQLException;
 import com.tee.xmlserver.XMLSource;
 
-public class Disclaimer extends ROServletAC {
+/**
+* Servlet for showing bigger texts: disclaimer, general help etc
+*/
+public class TxtServlet extends ROServletAC {
   protected String setXSLT(HttpServletRequest req) {
-      return  PREFIX + "disclaimer.xsl";
+
+    String mode=req.getParameter(MODE_PARAM);
+    String xslName="";
+    if (mode.equals("D"))
+      xslName="disclaimer.xsl";
+    else if (mode.equals("H"))
+      xslName="generalhelp.xsl";
+    else if (mode.equals("R"))
+      xslName="rdfhelp.xsl";
+
+
+    return  PREFIX + xslName;
+    
    }
 
   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
 
-    String querySource = PREFIX + "disclaimer.xrs";
+    String querySource = PREFIX + "dummy.xrs";
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
     addMetaInfo(dataSrc);
     return userInfo(params.getRequest(),dataSrc);

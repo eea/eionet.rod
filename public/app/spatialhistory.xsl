@@ -44,13 +44,14 @@
 <table width="100%" border="0">
 <tr>
 	<td width="3%"></td>
-	<td width="30%" align="right"><span class="head1">Status of participation:</span></td><td align="67%"></td>
+	<td width="35%" valign="top" align="right"><span class="head1">Status of participation:</span></td>
+	<td align="62%"></td>
 </tr>
 <tr>
 	<td></td>
-	<td align="right"><span class="head0">Reporting activitiy:</span></td><td><xsl:value-of select="/XmlData/RowSet/Row/T_ACTIVITY/TITLE"/></td>
+	<td align="right"><span class="head0">Reporting obligation:</span></td><td><xsl:value-of select="/XmlData/RowSet/Row/T_OBLIGATION/TITLE"/></td>
 </tr>
-<tr>
+<tr valign="top">
 	<td></td>
 	<td align="right"><span class="head0">Client organisation: </span></td><td><xsl:value-of select="/XmlData/RowSet/Row/T_CLIENT/CLIENT_NAME"/></td>
 </tr>
@@ -58,19 +59,22 @@
 <br/>
 <table width="680" cellspacing="0" border="0">
 	<tr>
-			<TD width="30%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+		<TD width="30%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" bgColor="#ffffff" align="left">
 					<span class="headsmall"><font title="Reporting country" face="Verdana" color="#000000" size="1">Country</font></span></TD>
-			<TD width="25%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+		<TD width="25%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" bgColor="#ffffff" align="left">
 				<span class="headsmall"><font title="Status" face="Verdana" color="#000000" size="1">Status</font></span></TD>
-			<TD width="45%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #008080 1px solid;"
+		<TD width="45%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #008080 1px solid;"
 						vAlign="center" bgColor="#ffffff" align="left">
 				<span class="head0"><font title="Period when the country participated in reporting" face="Verdana" color="#000000" size="1">Participation period</font></span></TD>
 	</tr>
 
 <xsl:for-each select="XmlData/RowSet/Row">
 <tr valign="top">
+		<xsl:attribute name="bgColor">
+				<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
+		</xsl:attribute>
 <td style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" 
        vAlign="top"><SPAN class="Mainfont">
 			 <FONT face="Verdana" size="2">
@@ -93,13 +97,12 @@
 <td style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" 
        vAlign="top"><SPAN class="Mainfont">
 			 <FONT face="Verdana" size="2">
-	From 
 	<xsl:choose>
 		<xsl:when test="T_SPATIAL_HISTORY/START_DATE='' or T_SPATIAL_HISTORY/START_DATE='00/00/0000'">
-			start of ROD (2003)
+			Prior to start of ROD (2003)
 		</xsl:when>
 		<xsl:otherwise>
-			<xsl:value-of select="T_SPATIAL_HISTORY/START_DATE"/>
+			From <xsl:value-of select="T_SPATIAL_HISTORY/START_DATE"/>
 		</xsl:otherwise>
 	</xsl:choose>
 	to 
@@ -108,7 +111,7 @@
 			<xsl:value-of select="T_SPATIAL_HISTORY/END_DATE"/>
 		</xsl:when>
 		<xsl:otherwise>
-				present
+				...
 		</xsl:otherwise>
 	</xsl:choose>
 		</FONT></SPAN>

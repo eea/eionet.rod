@@ -42,6 +42,7 @@ import eionet.rod.countrysrv.Extractor;
 
 public class Harvester extends ROEditServletAC {
 
+  private Extractor ext;
 
   public Harvester()  {
   }
@@ -60,15 +61,13 @@ public class Harvester extends ROEditServletAC {
       AppUserIF user = getUser(req);
       java.sql.Connection conn = (user != null) ? user.getConnection() : null;
 
-
-
       if (conn == null)
         throw new XSQLException(null, "Not authenticated user");
 
     if  ( ! getAcl(Constants.ACL_HARVEST_NAME).checkPermission( user.getUserName(), Constants.ACL_VIEW_PERMISSION ))
         throw new XSQLException(null, "Not authorized user");
 
-    StringBuffer s = new StringBuffer();
+  StringBuffer s = new StringBuffer();
   s.append("<html>")
     .append("<script language = 'javascript' src='script/util.js'></script>")
     .append("<script language = 'javascript'> function harvest( mode ) {")
@@ -81,10 +80,11 @@ public class Harvester extends ROEditServletAC {
       .append("<body bgcolor=\"#f0f0f0\">")
       .append("<a href=\"javascript:openHistory('0','H')\"><img src='images/showhistory.png' alt='Show harvesting history' border='0'/></a><br/>")
       .append("<form align='center' name=\"f\" method=\"POST\" action=\"harvester.jsv\">")
-      .append("<b>Select data, you want to be harvested:</b>")
-      .append("<br>").append("<input width='200'style=\"width:200\"  type='button' onClick='javascript:harvest(" + Extractor.ALL_DATA + ")' value='All'></input>")
-      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='javascript:harvest(" + Extractor.DELIVERIES + ")' value='Deliveries'></input>")            
-      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='javascript:harvest(" + Extractor.ROLES + ")' value='Roles'></input>")                  
+      .append("<b>Select data, you want to be harvested:</b><br/>")
+      .append("<input width='200'  type='button' onClick='javascript:harvest(0)' value='All' style=\"width: 200; background-image: url(\'images/bgr_form_buttons_wide.jpg\'); font-family: Verdana; font-size: 10pt; font-weight: bold\"></input>")
+      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='javascript:harvest(" + Extractor.DELIVERIES + ")' value='Deliveries' style=\"width: 200; background-image: url(\'images/bgr_form_buttons_wide.jpg\'); font-family: Verdana; font-size: 10pt; font-weight: bold\"></input>")            
+      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='javascript:harvest(" + Extractor.ROLES + ")' value='Roles' style=\"width: 200; background-image: url(\'images/bgr_form_buttons_wide.jpg\'); font-family: Verdana; font-size: 10pt; font-weight: bold\"></input>")                  
+      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='javascript:harvest(" + Extractor.PARAMS + ")' value='Parameters' style=\"width: 200; background-image: url(\'images/bgr_form_buttons_wide.jpg\'); font-family: Verdana; font-size: 10pt; font-weight: bold\"></input>")                  
       .append("</form>")
       .append("</body></html>");
 
@@ -121,7 +121,10 @@ protected void doPost(HttpServletRequest req, HttpServletResponse res)
               throw new XSQLException(null, "Not authenticated user");
           
             int mode = Integer.parseInt( req.getParameter("MODE") ); 
-            Extractor.harvest(mode, user.getUserName() );
+            if (ext==null)
+              ext = new Extractor();
+            
+            ext.harvest(mode, user.getUserName() );
             res.getWriter().write("<b>Harvested!</b> See log for details");
           } catch (Exception e ) {
              printError(e, res);

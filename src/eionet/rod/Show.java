@@ -89,7 +89,7 @@ public class Show extends ROServletAC {
  *
  */
    protected int setMode() {
-      if ( (mode.equals(REPORTING_MODE)) || (mode.equals(ACTIVITY_MODE)) )
+      if ( mode.equals(ACTIVITY_MODE))
          return URL_TRANSFER;
       else
          return SIMPLE;
@@ -102,23 +102,22 @@ public class Show extends ROServletAC {
       mode = req.getParameter(MODE_PARAM);
       if ( Util.nullString(mode) )
          throw new GeneralException(null, "Missing parameter '" + MODE_PARAM + "'");
-      
-      if (mode.equals(SOURCE_MODE) || mode.equals(SOURCE_PRINT_MODE) )
+
+//System.out.println("==================== mode " + mode);      
+
+      if (mode.equals(SOURCE_MODE)) // || mode.equals(SOURCE_PRINT_MODE) )
          return PREFIX + SOURCE_XSL;
-      else if (mode.equals(HIERARCHY_MODE) || mode.equals(HIERARCHY_PRINT_MODE) )
+      else if (mode.equals(HIERARCHY_MODE)) // || mode.equals(HIERARCHY_PRINT_MODE) )
          return PREFIX + HIERARCHY_XSL;
       else if (mode.equals(HIERARCHYX_MODE))
          return PREFIX + HIERARCHYX_XSL;
-      else if (mode.equals(REPORTING_MODE))
-         return PREFIX + REPORTING_XSL;
-      else if (mode.equals(REPORTING_PRINT_MODE))
-         return PREFIX + REPORTING_XSL; //REPORTING_PRINT_XSL;
-      else if (mode.equals(REPORTING_PARAM_MODE))
-         return PREFIX + REPORTING_PARAM_XSL;
       else if (mode.equals(ACTIVITY_MODE))
          return PREFIX + ACTIVITY_XSL;
-      else if (mode.equals(ACTIVITY_PRINT_MODE))
-         return PREFIX + ACTIVITY_XSL; //ACTIVITY_PRINT_XSL;
+      else if (mode.equals(INDICATORS_MODE))
+         return PREFIX + INDICATORS_XSL;
+      else if (mode.equals(PARAMETERS_MODE))
+         return PREFIX + PARAMETERS_XSL;
+
       else
          throw new GeneralException(null, "Unknown value for parameter '" + MODE_PARAM + "': " + mode);
    }
@@ -133,27 +132,23 @@ public class Show extends ROServletAC {
       DataSourceIF dataSrc = null;
       HttpServletRequest req = params.getRequest();
 
-         String id = params.getParameter(ID_PARAM);
-         if ( Util.nullString(id) )
-            throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
+      String id = params.getParameter(ID_PARAM);
+      if ( Util.nullString(id) )
+        throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
 
-         String[][] queryPars = {{"ID", id}};
+        String[][] queryPars = {{"ID", id}};
 
          String qrySrc;
-         if (mode.equals(SOURCE_MODE) || mode.equals(SOURCE_PRINT_MODE) )
+         if (mode.equals(SOURCE_MODE))
             qrySrc = PREFIX + SOURCE_QUERY;
-         else if (mode.equals(HIERARCHY_MODE) || mode.equals(HIERARCHYX_MODE) || mode.equals(HIERARCHY_PRINT_MODE) )
+         else if (mode.equals(HIERARCHY_MODE) || mode.equals(HIERARCHYX_MODE)) 
             qrySrc = PREFIX + HIERARCHY_QUERY;
-         else if (mode.equals(REPORTING_MODE))
-            qrySrc = PREFIX + REPORTING_QUERY;
-         else if (mode.equals(REPORTING_PRINT_MODE))
-            qrySrc = PREFIX + REPORTING_QUERY;
-         else if (mode.equals(REPORTING_PARAM_MODE))
-            qrySrc = PREFIX + REPORTING_PARAM_QUERY;
+         else if (mode.equals(INDICATORS_MODE))
+            qrySrc = PREFIX + INDICATORS_QUERY;
          else if (mode.equals(ACTIVITY_MODE))
             qrySrc = PREFIX + ACTIVITY_QUERY;
-         else if (mode.equals(ACTIVITY_PRINT_MODE))
-            qrySrc = PREFIX + ACTIVITY_QUERY;
+         else if (mode.equals(PARAMETERS_MODE)) 
+            qrySrc = PREFIX + PARAMETERS_QUERY;
          else
             throw new GeneralException(null, "Unknown value for parameter 'mode': " + mode);
 

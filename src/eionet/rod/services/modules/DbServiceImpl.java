@@ -57,6 +57,8 @@ import eionet.rod.services.LogServiceIF;
 import java.util.Set;
 import java.util.Iterator;
 import java.util.HashMap;
+import java.util.HashSet;
+//import eionet.directory.DirectoryService;
 
 /**
  * CountrySrv database methods implementation.
@@ -108,23 +110,23 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
    public String[][] getDeadlines() throws ServiceException {
       String sql = "SELECT PK_RA_ID, FIRST_REPORTING, REPORT_FREQ_MONTHS, VALID_TO, TERMINATE " +
-                   "FROM T_ACTIVITY WHERE FIRST_REPORTING > 0 AND VALID_TO > 0";
+                   "FROM T_OBLIGATION WHERE FIRST_REPORTING > 0 AND VALID_TO > 0";
       return _executeStringQuery(sql);
    }
 
    public void saveDeadline(String raId, String next, String next2) throws ServiceException {
       String sql;
       if(next2.length() > 0)
-         sql = "UPDATE T_ACTIVITY SET NEXT_DEADLINE='" + next + 
+         sql = "UPDATE T_OBLIGATION SET NEXT_DEADLINE='" + next + 
                "', NEXT_DEADLINE2='" + next2 + "' WHERE PK_RA_ID=" + raId;
       else
-         sql = "UPDATE T_ACTIVITY SET NEXT_DEADLINE='" + next + 
+         sql = "UPDATE T_OBLIGATION SET NEXT_DEADLINE='" + next + 
                "', NEXT_DEADLINE2=NULL WHERE PK_RA_ID=" + raId;
       _executeUpdate(sql);
    }
 
    public void saveTerminate(String raId, String terminated) throws ServiceException {
-      String sql = "UPDATE T_ACTIVITY SET TERMINATE='" + terminated + 
+      String sql = "UPDATE T_OBLIGATION SET TERMINATE='" + terminated + 
                    "' WHERE PK_RA_ID=" + raId;
       _executeUpdate(sql);
    }
@@ -313,9 +315,9 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   	logger.debug("*********** " + s);
   }
 
-  public String[][] getActivityIds() throws ServiceException {
+  /*public String[][] getActivityIds() throws ServiceException {
     return _executeStringQuery("SELECT DISTINCT RA_ID FROM T_ACTIVITY_DETAILS");
-  }
+  } */
 
   /**
   * Used by CS extractor 
@@ -323,37 +325,49 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   public String[][] getRaData() throws ServiceException {
 
     String sql = "SELECT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE " +
-      " FROM T_ACTIVITY a ORDER BY a.PK_RA_ID";
+      " FROM T_OBLIGATION a ORDER BY a.PK_RA_ID";
 
      return _executeStringQuery(sql);
   }  
 
-  public String[][] getRespRoles() throws ServiceException {
-
+  public String[] getRespRoles() throws ServiceException {
+    Set roles = new HashSet();
+    
+    //country roles with suf
     String sql = "SELECT DISTINCT CONCAT(a.RESPONSIBLE_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo " + 
-      " FROM T_ACTIVITY a, T_SPATIAL s,  T_RASPATIAL_LNK sl  " + 
-      " WHERE  sl.FK_RA_ID=a.PK_RA_ID " +
+      " FROM T_OBLIGATION a, T_SPATIAL s,  T_RASPATIAL_LNK sl  " + 
+      " WHERE  a.RESPONSIBLE_ROLE_SUF=1 AND sl.FK_RA_ID=a.PK_RA_ID " +
       " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND a.RESPONSIBLE_ROLE IS NOT NULL " +
       " AND a.RESPONSIBLE_ROLE <> '' AND s.SPATIAL_TYPE = 'C' AND s.SPATIAL_TWOLETTER IS NOT NULL AND " +
        " TRIM(s.SPATIAL_TWOLETTER) <> '' " ;
     
+      String r[][] = _executeStringQuery(sql);
+      addStringsToSet(roles,r);
+      sql = "SELECT DISTINCT RESPONSIBLE_ROLE FROM T_OBLIGATION WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' " ;
+      r = _executeStringQuery(sql);
+      addStringsToSet(roles,r);      
 
-      String roles1[][] = _executeStringQuery(sql);
-      sql = "SELECT DISTINCT RESPONSIBLE_ROLE FROM T_ACTIVITY WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' " ;
-      String roles2[][] = _executeStringQuery(sql);
-      int l = roles1.length + roles2.length;
-      String[][] roles = new String[l][1];
+    sql = "SELECT DISTINCT CONCAT(a.COORDINATOR_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER)) " + 
+      " FROM T_OBLIGATION a, T_SPATIAL s,  T_RASPATIAL_LNK sl  " + 
+      " WHERE  a.COORDINATOR_ROLE_SUF=1 AND sl.FK_RA_ID=a.PK_RA_ID " +
+      " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND a.COORDINATOR_ROLE IS NOT NULL " +
+      " AND a.COORDINATOR_ROLE <> '' AND s.SPATIAL_TYPE = 'C' AND s.SPATIAL_TWOLETTER IS NOT NULL AND " +
+       " TRIM(s.SPATIAL_TWOLETTER) <> '' " ;
+      r = _executeStringQuery(sql);
+      addStringsToSet(roles,r);      
 
-      for (int i=0; i<roles2.length; i++)
-        roles[i][0] = roles2[i][0];
+      sql = "SELECT DISTINCT COORDINATOR_ROLE FROM T_OBLIGATION WHERE COORDINATOR_ROLE IS NOT NULL AND COORDINATOR_ROLE <> '' " ;
+      r = _executeStringQuery(sql);
+      addStringsToSet(roles,r);      
 
-      for (int i=0; i<roles1.length; i++)
-        roles[i+roles2.length][0] = roles1[i][0];
       
-      return roles;
+      return (String[]) roles.toArray(new String[0]);
   }
 
-
+  private void addStringsToSet(Set set, String[][] str) {
+    for (int i=0; i<str.length;i++)
+      set.add(str[i][0]);
+  }
 
 // Takes in a raw date string and parses it to correct date string(s).
   // There are four types of date:
@@ -399,24 +413,51 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return dateHelper;
   }
 
+  public void savePerson(String roleId, String fullName, String orgName) throws ServiceException {
+    String sql="UPDATE T_ROLE SET PERSON=' " + strLit(fullName) + "', INSTITUTE ='" + strLit(orgName) + "' " +
+      " WHERE ROLE_ID='" + roleId + "'";
+    _executeUpdate(sql);
+    
+  }
 
-  public void saveRole(Hashtable role) throws ServiceException {
+  public String[][] getRoleIds() throws ServiceException {  
+    return _executeStringQuery("SELECT ROLE_ID, PERSON FROM T_ROLE");
+  }
+  
+  public void saveRole(Hashtable role, String person, String org) throws ServiceException {
     //backup ->
     String sql;
     String roleId = (String)role.get("ID");        
 
+
     try {
+
+      //DELETE OLD DATA
+      sql = "DELETE FROM T_ROLE WHERE ROLE_ID='" + roleId + "' AND STATUS=1";
+      _executeUpdate(sql);
+      
       String circaUrl = (String)role.get("URL");
       String circaMembersUrl = (String)role.get("URL_MEMBERS");
       String desc = (String)role.get("DESCRIPTION");
       String mail = (String)role.get("MAIL");
 
+      //Vector occupants = (Vector)role.get("OCCUPANTS");
 
+      //String person = "";
+
+      /*if (occupants != null && occupants.size() > 0 ) 
+        person = (String)occupants.elementAt(0);
+      */
       if (roleId != null)    {
-        sql = "INSERT INTO T_ROLE SET STATUS=1, LAST_HARVESTED=NOW(), ROLE_NAME='" + desc +
+
+        
+        sql = "INSERT INTO T_ROLE SET STATUS=1, LAST_HARVESTED=NOW(), ROLE_NAME='" + strLit(desc) +
                    "', ROLE_EMAIL='" + mail + "', ROLE_ID='" + roleId + "',  " + 
                   " ROLE_URL ='" + circaUrl + "'," +
-                  " ROLE_MEMBERS_URL ='" + circaMembersUrl + "'";
+                  " ROLE_MEMBERS_URL ='" + circaMembersUrl + "', " +
+                  " PERSON = '" + person + "'," +
+                  " INSTITUTE = '" + strLit(org) + "'";
+
        _executeUpdate(sql);
      
       }
@@ -611,17 +652,22 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   * used in RDF generating
   * URL parameters hard-coded
 	*/
-  public  Vector getActivities(  ) throws ServiceException {
+  public  Vector getActivities(boolean all) throws ServiceException {
       //String rodDomain = "";
       String roNs= RODServices.getFileService().getStringProperty( FileServiceIF.RO_NAMESPACE);    
       
       String sql = "SELECT a.PK_RA_ID, s.PK_SOURCE_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE, " +
         " IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, a.LAST_UPDATE, " +
-        " CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&mode=A') AS details_url, " +
-        " CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri " +
-        " FROM T_ACTIVITY a , T_SOURCE s " +
-        " WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " +
-        " AND a.TERMINATE = 'N' ORDER BY SOURCE_TITLE, TITLE;";
+        " CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&aid=', FK_SOURCE_ID, '&mode=A') AS details_url, " +
+        " CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri, " +
+        " IF (TERMINATE='Y', 1, 0) AS terminated "+
+        " FROM T_OBLIGATION a , T_SOURCE s " +
+        " WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " ;
+
+        if (!all)        
+         sql += " AND a.TERMINATE = 'N' ";
+
+        sql += " ORDER BY SOURCE_TITLE, TITLE;";
         
       return  _getVectorOfHashes(sql);
   }
@@ -681,8 +727,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   public String[][] getActivityDeadlines() throws ServiceException  {
 
-    String sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, FK_RO_ID " +
-      " FROM T_ACTIVITY WHERE NEXT_DEADLINE IS NOT NULL AND " +
+    String sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, FK_SOURCE_ID " +
+      " FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND " +
       "NEXT_DEADLINE > '0000-00-00'";
 
     return _executeStringQuery( sql);
@@ -691,6 +737,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   /**
   *
   */
+  //DEPRECATED
+/*
   public String[][] getIssueObligations(StringTokenizer ids) throws ServiceException {
     String sql = "";
 
@@ -709,21 +757,21 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     sql += " ORDER BY PK_RO_ID ";
     
     return _executeStringQuery(sql);
-  }
+  } */
 
  public String[][] getIssueActivities(StringTokenizer ids) throws ServiceException  {
    String sql = "";
 
    //if certain issues wanted make a join over ISSUE_LNK   table
    if (ids!= null) {
-    sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_RO_ID FROM " +
-      " T_ACTIVITY a, T_RAISSUE_LNK il WHERE " +
+    sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID FROM " +
+      " T_OBLIGATION a, T_RAISSUE_LNK il WHERE " +
       "  a.PK_RA_ID = il.FK_RA_ID ";
 
      sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
     }        
     else
-      sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE, NEXT_DEADLINE, FK_RO_ID FROM T_ACTIVITY a";
+      sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE, NEXT_DEADLINE, FK_SOURCE_ID FROM T_OBLIGATION a";
 
     sql += " ORDER BY PK_RA_ID";
 
@@ -732,7 +780,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
  }
   
  /**
- * buidls an addition to where clause, OR condition of field IDs, given in the param
+ * builds an addition to where clause, OR condition of field IDs, given in the param
  * 
  * example ids=[1,4,5], fldName=ITEM_ID
  * return ( ITEM_ID=1 OR ITEM_ID=4 OR ITEM_ID=5 )
@@ -768,14 +816,6 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       return _getVectorOfHashes(sql);
    }
 
-    public String getMaxROId() throws ServiceException {
-        String sql = "SELECT MAX(PK_RO_ID) FROM T_REPORTING";
-      String [][] s = _executeStringQuery(sql);
-
-      return s[0][0];
-    }
-
-
     private String getCountryId(String countryName, HashMap countryMap) throws ServiceException {
 
       if (!countryMap.containsKey(countryName)) {
@@ -807,7 +847,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   */
   private void markCountries (String raId, String cIds ) throws ServiceException {
 
-      String sql = "UPDATE T_ACTIVITY SET LAST_HARVESTED=NOW(), FK_DELIVERY_COUNTRY_IDS = '" +
+      String sql = "UPDATE T_OBLIGATION SET LAST_HARVESTED=NOW(), FK_DELIVERY_COUNTRY_IDS = '" +
         cIds + "' WHERE PK_RA_ID=" + raId;
       _executeUpdate(sql);
   
@@ -869,4 +909,36 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       sql="DELETE FROM T_SPATIAL_HISTORY WHERE START_DATE=END_DATE AND END_DATE=NOW()";
       _executeUpdate(sql);
   }  
+  public void harvestParams(String raId) throws ServiceException {
+    String sql="SELECT p.PARAMETER_NAME, u.UNIT_NAME FROM " + 
+      "T_PARAMETER p, T_PARAMETER_LNK pl LEFT OUTER JOIN T_UNIT u " +
+      " ON pl.FK_UNIT_ID=u.PK_UNIT_ID WHERE pl.FK_PARAMETER_ID=p.PK_PARAMETER_ID " +
+      " AND pl.FK_RA_ID="+ raId + " ORDER BY PARAMETER_NAME";
+
+    String p[][] = _executeStringQuery(sql)      ;
+
+    String prmName="";
+    String uName=""; //unit name
+    StringBuffer s = new StringBuffer();
+    
+    for (int i=0; i< p.length; i++) {
+      prmName=p[i][0];
+      uName=p[i][1];
+      s.append(prmName);  
+
+      if (!Util.nullString(uName))
+        s.append("(").append(uName).append(")");
+
+      s.append("\n");
+    }
+
+    if (s.length() > 0) {
+      sql="UPDATE T_OBLIGATION SET PARAMETERS='" + strLit(s.toString()) + "' WHERE (PARAMETERS IS NULL OR PARAMETERS='') " 
+        + " AND PK_RA_ID=" + raId;
+      
+      _executeUpdate(sql);
+    }
+
+  }
+
  }

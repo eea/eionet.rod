@@ -16,7 +16,20 @@
 	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 	<title>Add Client</title>
 	<link href="eionet.css" rel="stylesheet" type="text/css"></link>
+	<!--SCRIPT language="JavaScript" src="script/util.js"></SCRIPT-->
+
 	<script language="JavaScript">
+
+	//COPY+PASTE from util.js needs re-engineering in the future
+	function chkUrl(fld) {
+		var s = fld.value;
+		if ( s != "" &&  (s.substr(0,7) != "http://") && (s.substr(0,8) != "https://") && (s.substr(0,6) != "ftp://") )	{
+			fld.focus()
+			alert("Wrong URL format");
+			//fld.select();
+		}
+}
+
 
 		function doPost() {
 			document.clientForm.submit();
@@ -89,7 +102,7 @@
 				<tr>
 					<td align="right"><b>Homepage:&#160;</b></td>
 					<td align="left">
-						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_URL" size="40" maxlength="255"></input>
+						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_URL" size="40" maxlength="255" onchange="chkUrl(this)"></input>
 					</td>
 				</tr>
 				<tr>

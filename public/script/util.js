@@ -22,16 +22,66 @@
  */
 
 
-function openSpatialHist(ID) {
+//
+// Replaces some text in a string with other text
+//
+function replaceText(string,text,by) {
+  var strLength = string.length, txtLength = text.length;
+  if((strLength == 0) || (txtLength == 0)) 
+    return string;
 
-	var url = "spatialhistory.jsv?ID=" + ID;
-	var name = "History";
+  var i = string.indexOf(text);
+  if((!i) && (text != string.substring(0,txtLength))) 
+    return string;
+
+  if(i == -1) 
+    return string;
+
+  var newstr = string.substring(0,i) + by;
+  if(i+txtLength < strLength)
+    newstr += replace(string.substring(i+txtLength,strLength),text,by);
+  return newstr;
+}
+
+/**
+* checks if the entered value is a valid URL, resets the filed if not
+* quick hard-code - field is not selected - needs studying
+*/
+function chkUrl(fld) {
+	var s = fld.value;
+	if ( s != "" &&  (s.substr(0,7) != "http://") && (s.substr(0,8) != "https://") && (s.substr(0,6) != "ftp://") )	{
+		alert("Wrong URL format");
+	}
+}
+
+function openPopup(servletName, params) {
+	var url = servletName + "?" + params;
+	//alert(url);
+
+	var name = servletName;
+
+	if (servletName.indexOf(".") != -1)
+		name=servletName.substr(0, servletName.indexOf("."));
+
+
+	
 	var features = "location=no, menubar=yes, width=750, height=600, top=50, left=30, scrollbars=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 }
 
 
+/*function openSpatialHist(ID) {
+
+	var url = "spatialhistory.jsv?ID=" + ID;
+	var name = "History";
+	var features = "location=no, menubar=yes, width=750, height=600, top=50, left=30, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus(); 
+} */
+
+
+/*
 function openHistory(ID,TYPE){
 	var url = "history.jsv?entity=" + TYPE + "&id=" + ID;
 	var name = "History";
@@ -40,6 +90,7 @@ function openHistory(ID,TYPE){
 	w.focus();
 
 }
+*/
 
 
 //
@@ -59,7 +110,7 @@ function openHelp(ID){
 function openViewHelp(ID){
 	var url = "viewhelp.jsv?helpID=" + ID;
 	var name = "Help";
-	var features = "location=no, menubar=no, width=470, height=345, top=100, left=200, scrollbars=no";
+	var features = "location=no, menubar=no, width=470, height=345, top=100, left=200, scrollbars=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 }
@@ -67,7 +118,7 @@ function openViewHelp(ID){
 /**
 * Opens deliveries window
 */
-
+/*
 function openDeliveries(ACT_ID, COUNTRY_ID){
 
 	var url = "csdeliveries?ACT_DETAILS_ID=" + ACT_ID ; // + "&#038;mi6";
@@ -77,11 +128,11 @@ function openDeliveries(ACT_ID, COUNTRY_ID){
 	var w = window.open( url, name, features);
 	w.focus();
 }
-
+*/
 /**
 * opens client/issuer window
 */
-function openClient(ID){
+/*function openClient(ID){
 
 	var url = "client.jsv?id=" + ID;
 	var name = "Client";
@@ -89,7 +140,7 @@ function openClient(ID){
 	var w = window.open(url,name,features);
 	w.focus();
 
-}
+}*/
 
 /**
 * Link to Circa
@@ -109,18 +160,19 @@ function openCirca(url){
 		var value="";
 
 		i = url.indexOf(name + '=');
+
 		len = name.length + 1;
 
 		if (i > 0) {
-			beg = url.substring(i+len);
+			beg = url.substring(0,i+len);
 
-			sStr= url.substring(i);
+			sStr= url.substring(i+len);
 			j = sStr.indexOf('&');
 
 			if (j > 0)
-				value = url.substring(i+len,j);
+				value = sStr.substring(0,j);
 			else
-				value = url.substring(i+len);
+				value = sStr; //.substring(i+len);
 
 		}
 		else

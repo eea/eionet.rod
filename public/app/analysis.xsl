@@ -31,28 +31,29 @@
 	</xsl:variable>
 
 	<xsl:template match="XmlData">
+			<xsl:if test="$printmode='N'">
+				<table cellspacing="0" cellpadding="0" width="600" border="0">
+				<tr>
+						<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
+							<td width="600" background="images/bar_filled.jpg" height="25">
+							<table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
+								<tr>
+									<td valign="bottom">
+										<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
+									</td>
+									<td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
+									<td valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
+									<td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
+									<td valign="bottom"><span class="barfont">Analysis</span></td>
+									<td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
+									<td valign="bottom" align="right" width="360"></td>
 
-      <table cellspacing="0" cellpadding="0" width="600" border="0">
-			<tr>
-         	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
-          	<td width="600" background="images/bar_filled.jpg" height="25">
-            <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
-            	<tr>
-               	<td valign="bottom">
-									<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
-								</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom"><span class="barfont">Analysis</span></td>
-   	            <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
-	              <td valign="bottom" align="right" width="360"></td>
-
-					</tr>
-				</table>
-			</td></tr>
-			<tr><td>&#160;</td></tr>
-		</table>
+						</tr>
+					</table>
+				</td></tr>
+				<tr><td>&#160;</td></tr>
+			</table>
+		</xsl:if>
 		<div style="margin-left:13">
 		<table width="97%" border="0">  
 			<tr>
@@ -61,9 +62,28 @@
 			</tr>
 		</table>
 		<br/>
-		<xsl:value-of select="RowSet[@Name='RAAnalysis']/Row/T_ACTIVITY/TOTAL_RA"/> Reporting Activity records (last update: <xsl:value-of select="RowSet[@Name='RAAnalysis']/Row/T_ACTIVITY/RA_UPDATE"/>)<br/>
-		<xsl:value-of select="RowSet[@Name='ROAnalysis']/Row/T_REPORTING/TOTAL_RO"/> Reporting Obligation records (last update: <xsl:value-of select="RowSet[@Name='ROAnalysis']/Row/T_REPORTING/RO_UPDATE"/>)<br/>
-		<xsl:value-of select="RowSet[@Name='LIAnalysis']/Row/T_SOURCE/TOTAL_LI"/> Legal Instrument records (last update: <xsl:value-of select="RowSet[@Name='LIAnalysis']/Row/T_SOURCE/LI_UPDATE"/>)
+		<xsl:value-of select="RowSet[@Name='RAAnalysis']/Row/T_OBLIGATION/TOTAL_RA"/> Reporting Obligation records (last update: <xsl:value-of select="RowSet[@Name='RAAnalysis']/Row/T_OBLIGATION/RA_UPDATE"/>)<br/>
+		<xsl:value-of select="RowSet[@Name='LIAnalysis']/Row/T_SOURCE/TOTAL_LI"/> Legislative Instrument records (last update: <xsl:value-of select="RowSet[@Name='LIAnalysis']/Row/T_SOURCE/LI_UPDATE"/>)<br/>
+		<br/>
+		
+		<table cellpadding="5" cellspacing="0" width="584" style="border: #008080 1px solid">  
+			<tr>
+				<td width="93%" style="border-right: #c0c0c0 1px solid">Number of reporting obligations used for the EEA Core set of indicators</td>
+				<td align="right"><xsl:value-of select="RowSet[@Name='RACoreSet']/Row/T_OBLIGATION/TOTAL_RA"/></td>
+			</tr>
+			<tr bgcolor="#CBDCDC">
+				<td style="border-right: #c0c0c0 1px solid">Number of reporting obligations used for the EIONET Priority Data flows</td>
+				<td align="right"><xsl:value-of select="RowSet[@Name='RAEEAPriority']/Row/T_OBLIGATION/TOTAL_RA"/></td>
+			</tr>
+			<tr>
+				<td style="border-right: #c0c0c0 1px solid">Number of reporting obligations where the delivery process or content overlaps with another reporting obligation</td>
+				<td align="right"><xsl:value-of select="RowSet[@Name='RAOverLap']/Row/T_OBLIGATION/TOTAL_RA"/></td>
+			</tr>
+			<tr bgcolor="#CBDCDC">
+				<td style="border-right: #c0c0c0 1px solid">Number of reporting obligations flagged</td>
+				<td align="right"><xsl:value-of select="RowSet[@Name='RAFlagged']/Row/T_OBLIGATION/TOTAL_RA"/></td>
+			</tr>
+		</table>
 		</div>
 
 		<xsl:call-template name="CommonFooter"/>
