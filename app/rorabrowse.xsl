@@ -226,7 +226,7 @@
 		</xsl:choose>
 
 		<!-- page title -->
-		<table cellspacing="7" border="0" width="100%"><tr><td>
+		<table cellspacing="7" border="0" width="600"><tr><td>
 				<xsl:choose>
 					<xsl:when test="$rora='A'">
 						<span class="head1">Reporting activities</span>
