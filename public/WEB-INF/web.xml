@@ -41,7 +41,6 @@
 		<servlet-class>eionet.rod.Indicator</servlet-class>
 	</servlet>
 	<servlet>
-	<servlet>
 		<servlet-name>analysis</servlet-name>
 		<servlet-class>eionet.rod.Analysis</servlet-class>
 	</servlet>
