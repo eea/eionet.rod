@@ -7,7 +7,7 @@
   <target name="compile">
     <!-- Compile the java code from ${src} into ${build} -->
     <javac debug="on" deprecation="off" srcdir="${src}" destdir="${classes.dir}"
-		   classpath="../WEB-INF/lib/xmlserver.jar;../WEB-INF/lib/uit-client.jar;../WEB-INF/lib/servlet.jar"/>
+		   classpath="../WEB-INF/lib/xmlserver.jar;../WEB-INF/lib/uit-client.jar;../WEB-INF/lib/servlet.jar;../WEB-INF/lib/log4j.jar"/>
   </target>
 
 
