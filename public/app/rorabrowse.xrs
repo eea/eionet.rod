@@ -63,6 +63,6 @@
 		</T_CLIENT>
 		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID"/>
 		<T_OBLIGATION relation="T_OBLIGATION.PK_RA_ID=T_CLIENT_LNK.FK_OBJECT_ID"/>
-		<xrs:Ordering>CLIENT_ACRONYM, CLIENT_NAME</xrs:Ordering>
+		<xrs:Ordering>CLIENT_NAME</xrs:Ordering>
 	</xrs:RowSet>
 </xrs:XmlData>
