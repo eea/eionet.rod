@@ -28,6 +28,7 @@ import java.sql.*;
 import java.util.Vector;
 
 import eionet.directory.DirectoryService;
+import com.tee.uit.security.AuthMechanism;
 
 /**
  * <P>WebROD specific implementation of the <CODE>com.tee.xmlserver.AppUserIF</CODE> interface. 
@@ -60,8 +61,10 @@ public class ROUser implements AppUserIF {
          Logger.log("Authenticating user '" + userName + "'");
 
       try {
-         DirectoryService.sessionLogin(userName, userPws);
-         fullName = DirectoryService.getFullName(userName);
+         //DirectoryService.sessionLogin(userName, userPws);
+         AuthMechanism.sessionLogin(userName, userPws);
+         //fullName = DirectoryService.getFullName(userName);
+         fullName = AuthMechanism.getFullName(userName);
                
          // LOG
          if (Logger.enable(5))

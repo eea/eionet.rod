@@ -47,6 +47,8 @@ import eionet.rod.services.*;
 import eionet.directory.DirectoryService;
 import eionet.directory.DirServiceException;
 import java.util.HashMap;
+import com.tee.uit.security.AuthMechanism;
+import com.tee.uit.security.SignOnException;
 
 
 /**
@@ -204,10 +206,10 @@ public class Extractor implements ExtractorConstants {
     String userFullName = userName;
     if (!userName.equals(SYSTEM_USER))
       try {
-    
-        userFullName = DirectoryService.getFullName(userName);
-      } catch (DirServiceException de ) {
-        log("Error connectiong to DirService " + de.toString());
+        //userFullName = DirectoryService.getFullName(userName);
+        userFullName = AuthMechanism.getFullName(userName);
+      } catch (SignOnException se ) {
+        log("Error getting full name " + se.toString());
       }
     
     // Empty the database first

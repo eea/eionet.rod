@@ -31,6 +31,8 @@ import eionet.rod.services.ServiceException;
 import com.tee.xmlserver.SaveHandler;
 import eionet.directory.DirectoryService;
 import eionet.directory.DirServiceException;
+import com.tee.uit.security.AuthMechanism;
+import com.tee.uit.security.SignOnException;
 
 public class HistoryLogger extends SaveHandler {
   private static DbServiceIF db;
@@ -82,8 +84,9 @@ public class HistoryLogger extends SaveHandler {
     String action = getAction(state);
 
     try {
-      user = DirectoryService.getFullName(user);
-    } catch (DirServiceException dir) {
+      user = AuthMechanism.getFullName(user); //DirectoryService.getFullName(user);
+      
+    } catch (SignOnException sece) {
       RODServices.getLogService().warning("Error getting full name for " + user);
     }
 
