@@ -24,7 +24,7 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:include href="common.xsl"/>
+	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="permissions">
 		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
@@ -36,11 +36,6 @@
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Source hierarchy']/Row">
-	<xsl:if test="$printmode='N'">
-      <table cellspacing="0" cellpadding="0" width="621" border="0">
-			<tr>
-         	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
-          	<td width="600" background="images/bar_filled.jpg" height="25">
 
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
@@ -55,40 +50,11 @@
  <div class="breadcrumbtail">&#160;</div>
 </div>
 
-            <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
-            	<tr>
-               	<td valign="bottom">
-							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom">
-							<a href="index.html"><span class="barfont">ROD</span></a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom">
-							<a>	<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=C</xsl:attribute>
-								<span class="barfont">Legislative instruments</span>
-							</a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
-	               <td valign="bottom" align="right" width="2 10"></td>
-					</tr>
-				</table>
-			</td></tr>
-			<tr><td>&#160;</td></tr>
-		</table>
-		</xsl:if>
 		<!-- page -->
 		<div id="workarea">
 		<!-- page title -->
-	   <table width="610" border="0">
-		 <tr><td valign="top" width="76%">
-			<span class="head1">Legislative instruments</span><br/><span class="head0" style="font-size: 10pt">(Eur-lex categories)</span></td>
-		 <td align="left" valign="top">
-			<table width="100%" border="0">
-				<tr>
-					<td><xsl:call-template name="Print"/>	</td>
-				</tr>
+
+			<table width="150" border="0" style="float:right">
 				<xsl:if test="$printmode='N'">
 					<tr>
 						<td><xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_HIERARCHY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
@@ -118,12 +84,13 @@
 					</tr>
 				</xsl:if>
 			</table>
-			</td>
-			</tr>
-		</table>
+	   <h1>Legislative instruments</h1>
 
-	   <table cellspacing="4" cellpadding="0" width="606" style="border: 1px solid #006666" bgcolor="#FFFFFF"><tr><td>
+	   <table cellspacing="4" cellpadding="0" width="606" style="border: 1px solid #006666" bgcolor="#FFFFFF">
+		 <tr><td valign="top"><span class="head0" style="font-size: 10pt">(Eur-lex categories)</span></td>
 
+		 </tr>
+		 <tr><td>
 		<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!='' or T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
 		   <table cellspacing="6">
 		   	<tr>
@@ -159,7 +126,7 @@
 
 	<xsl:template match="SubSet[@Name='subClass']" mode="heading">
 		<xsl:if test="count(Row)>0">
-			<div style="margin-left:44">
+			<div style="margin-left:44px">
 				<xsl:for-each select="Row">
 					<table cellspacing="3">
 						<tr>
@@ -182,7 +149,7 @@
 
 	<xsl:template match="SubSet[@Name='subClass']" mode="normal">
 		<xsl:if test="count(Row)>0">
-			<div style="margin-left:44">
+			<div style="margin-left:44px">
 				<xsl:for-each select="Row">
 					<table cellspacing="3">
 						<tr>
@@ -204,7 +171,7 @@
 	</xsl:template>
 
 	<xsl:template match="SubSet[@Name='Source']"> 
-		<div style="margin-left:44">
+		<div style="margin-left:44px">
 			<table cellspacing="6">
 				<xsl:for-each select="Row">
 					<tr valign="top">
