@@ -170,26 +170,29 @@
 						<!--xsl:with-param name="class" select="'leftcell'"/-->
 						<xsl:with-param name="sorted" select="'T_OBLIGATION.TITLE'"/>
 						<xsl:with-param name="width" select="'40%'"/>
+						<xsl:with-param name="cur_sorted" select="$sortorder"/>
 					</xsl:call-template>
-	 
 				</xsl:if>
 				<xsl:call-template name="createSortable">
 					<xsl:with-param name="title" select="'Title of the Legislative instrument'"/>
 					<xsl:with-param name="text" select="'Legislative instrument'"/>
 					<xsl:with-param name="sorted" select="'T_SOURCE.TITLE'"/>
 					<xsl:with-param name="width" select="'40%'"/>
+					<xsl:with-param name="cur_sorted" select="$sortorder"/>
 				</xsl:call-template>
 				<xsl:call-template name="createSortable">
 					<xsl:with-param name="title" select="'Reporting client'"/>
 					<xsl:with-param name="text" select="'Report to'"/>
 					<xsl:with-param name="sorted" select="'T_CLIENT.CLIENT_NAME'"/>
 					<xsl:with-param name="width" select="'10%'"/>
+					<xsl:with-param name="cur_sorted" select="$sortorder"/>
 				</xsl:call-template>
 				<xsl:call-template name="createSortable">
 					<xsl:with-param name="title" select="'Date of delivery'"/>
 					<xsl:with-param name="text" select="'Deadline'"/>
 					<xsl:with-param name="sorted" select="'NEXT_REPORTING, NEXT_DEADLINE'"/>
 					<xsl:with-param name="width" select="'10%'"/>
+					<xsl:with-param name="cur_sorted" select="$sortorder"/>
 				</xsl:call-template>
 				</tr>
 			</thead>
@@ -451,66 +454,4 @@
 		
 		<xsl:value-of select="concat($uri, $anmode, $client, $country, $env_issue, $ORD)"/>
 	</xsl:template>
-<!-- EK 050203 template for creating sortable column headers for RORA table -->
-	<xsl:template name="createSortable">
-		<xsl:param name="title"/>
-		<xsl:param name="text"/>
-		<xsl:param name="sorted"/>
-		<xsl:param name="class"/>
-		<xsl:param name="width"/>
-		<xsl:variable name="def_sorted" select="'T_OBLIGATION.TITLE'"/>
-
-
-		<th scope="col">
-			<xsl:if test="string-length($class) &gt; 0"><xsl:attribute name="class"><xsl:value-of select="$class"/></xsl:attribute></xsl:if>
-			<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-			<xsl:choose>
-			<!-- the column is sorted A .. Z -->
-				<xsl:when test="contains($sortorder, $sorted) and contains($sortorder, 'DESC')=false">
-					<xsl:attribute name="title"><xsl:value-of select="$title"/> - Sorted A..Z - Click to reverse</xsl:attribute>
-					<a>
-						<xsl:attribute name="href">
-							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="concat($sorted, ' DESC') "/></xsl:call-template>
-						</xsl:attribute>
-						<xsl:value-of select="$text"/>
-						<img src="images/rodsortup.gif" width="12" height="12" alt=""/>				
-					</a>
-				</xsl:when>
-			<!-- the column is sorted Z...A -->
-				<xsl:when test="contains($sortorder, $sorted) and contains($sortorder, 'DESC')">
-					<xsl:attribute name="title"><xsl:value-of select="$title"/> - Sorted Z..A - Click to reverse</xsl:attribute>
-					<a>
-						<xsl:attribute name="href">
-							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="$sorted"/></xsl:call-template>
-						</xsl:attribute>
-						<xsl:value-of select="$text"/>
-						<img src="images/rodsortdown.gif" width="12" height="12" alt=""/>
-					</a>
-				</xsl:when>
-			<!-- default sorting -->
-				<xsl:when test="string-length($sortorder) = 0 and $sorted = $def_sorted">
-					<xsl:attribute name="title"><xsl:value-of select="$title"/> - Sorted A..Z - Click to reverse</xsl:attribute>
-					<a>
-						<xsl:attribute name="href">
-							<xsl:call-template name="createURL"><xsl:with-param name="sorter" select="concat($sorted, ' DESC') "/></xsl:call-template>
-						</xsl:attribute>
-						<xsl:value-of select="$text"/>
-						<img src="images/rodsortup.gif" width="12" height="12" alt=""/>				
-					</a>
-				</xsl:when>
-			<!-- sortable, but not sorted -->
-				<xsl:otherwise>
-					<xsl:attribute name="title"><xsl:value-of select="$title"/> - Sortable - Click to sort A..Z</xsl:attribute>
-					<a>
-						<xsl:attribute name="href">
-							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="$sorted"/></xsl:call-template>
-						</xsl:attribute>
-						<xsl:value-of select="$text"/>
-						<img src="images/sortnot.gif" width="12" height="12" alt=""/>
-					</a>
-				</xsl:otherwise>
-			</xsl:choose>
-		 </th>
-	</xsl:template>
-
 </xsl:stylesheet>

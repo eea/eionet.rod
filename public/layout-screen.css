@@ -508,5 +508,14 @@ kbd { font-weight: bold }
 tr.even td {
 	background-color: #cbdcdc;
 }
+.sortable th.notsorted{
+	font-family:  Verdana, sans-serif;
+	border: 2px outset #999;
+	text-decoration: none;
+	font-weight: bold;
+	color: black;
+	padding:1px 0.8em;
+	font-size: 1.0em;
+}
 
 } /* screen media */
