@@ -38,8 +38,6 @@
 
 <xsl:template match="XmlData">
 
-<html lang="en">
-<head><title>Country Services</title>
 <script language="JavaScript">
 
 <![CDATA[
@@ -55,8 +53,6 @@
 
 				
 </script>
-</head>
-<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
 
 <xsl:if test="$printmode='N'">
 	<table border="0" width="100%" cellpadding="0" cellspacing="0">
@@ -529,8 +525,6 @@
 </td></tr>
 </table>
 		
-	</body>
-	</html>
 
 </xsl:template>
 
