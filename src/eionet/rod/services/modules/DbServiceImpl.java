@@ -493,9 +493,9 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
                    "', TITLE='" + title + 
                    "', REPORT_TO='" + ((report_to.trim().length() == 0)? "" : report_to) + 
                    "', RESPONSIBLE_ROLE='" + ((resp_role.trim().length() == 0)? "" : resp_role) + 
-                   "', EXCHANGE_FORMAT='" + reporting_format + "', GUIDELINE_URL='" + 
-                   report_format_url + "', GUIDELINE_NAME='" + format_name + "', RO_TITLE='" + 
-                   alias + "', RO_URL='" + roUrl + "'";
+                   "', EXCHANGE_FORMAT='" + strLit(reporting_format) + "', GUIDELINE_URL='" + 
+                   report_format_url + "', GUIDELINE_NAME='" + strLit(format_name) + "', RO_TITLE='" + 
+                   strLit(alias) + "', RO_URL='" + roUrl + "'";
       _executeUpdate(sql);
     }
   }
@@ -811,6 +811,18 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
       return  _getVectorOfHashes(sql);
   }
 
+   private String strLit(String s ) {
+    int i  = 0;
+    while (i< s.length() ) {
+      if ( s.charAt(i) == '\''){
+        s = s.substring(0,i) + "'" + s.substring(i);
+        i++;
+        }
+      i++;
+    }
+    return s;
+      
+  }
 }
 
 
