@@ -45,6 +45,7 @@ public class DeadlineCalc {
 
    public static void main(String[] args) {
       DeadlineCalc dCalc = new DeadlineCalc();
+      SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
       DbServiceIF db;
       String[][] deadlines;
 
@@ -115,7 +116,11 @@ public class DeadlineCalc {
          //
          if(deadlines[i][2] == null)
             continue;
-         int freq = Integer.parseInt(deadlines[i][2]); 
+         int freq = Integer.parseInt(deadlines[i][2]);
+         // No point in updating if non-repeating
+         //
+         if(freq == 0)
+            continue;
          currDate.add(Calendar.DATE, -3 * freq);
          if(day < 28) {
             while(repDate.before(currDate) && repDate.before(toDate))
@@ -146,10 +151,20 @@ public class DeadlineCalc {
             }
          }
 
-         SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
          String currStr = dFormat.format(currDate.getTime());
          String repStr = dFormat.format(repDate.getTime());
 
+         // Update TERMINATE field
+         //
+         try {
+            if(repDate.before(currDate))
+               db.saveTerminate(deadlines[i][0], "Y");
+//               logger.info("Terminate!\t\t\t\t" + repStr + "\t" + plusStr + "\t" + currStr);
+         }  
+         catch (Exception e) {
+            logger.error("Saving TERMINATE value to database failed. The following error was reported:\n" + e.toString());      
+         }
+         
          // Deadline after the next
          //
          if(day < 28)
