@@ -166,9 +166,15 @@ kbd {
 }
 
 .notprintable {
-	display:none     
+	display:none;    
 }
 
-.sortable img {
+.sortable th img {
 	display: none;
 }
+
+/* IE doesn't use the THEAD and TFOOT tags properly by default when
+printing (ie: repeating those sections on every page for really long
+tables when printing). You can fix this through css like this: */
+thead { display: table-header-group; }
+tfoot { display: table-footer-group; }

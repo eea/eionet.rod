@@ -270,7 +270,7 @@
 	</xsl:template>
 
 	<xsl:template name="RASearch">
-		<form name="x1" method="get" action="rorabrowse.jsv">
+		<form name="x1" method="get" action="rorabrowse.jsv" class="notprintable">
 		<input type="hidden" name="mode" value="A"></input>
 		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1px solid #008080">
 				 <tr>

@@ -293,7 +293,7 @@
 					<xsl:when test="$analysisMode='C'">
 						<xsl:for-each select="Row[T_OBLIGATION/EEA_CORE='1']">
 							<tr>
-								<xsl:attribute name="bgColor"><xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if></xsl:attribute>
+								<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
 								<xsl:apply-templates select="."/>
 							</tr>
 						</xsl:for-each>
@@ -301,7 +301,7 @@
 					<xsl:when test="$analysisMode='P'">
 						<xsl:for-each select="Row[T_OBLIGATION/EEA_PRIMARY='1']">
 							<tr>
-								<xsl:attribute name="bgColor"><xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if></xsl:attribute>
+								<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
 								<xsl:apply-templates select="."/>
 							</tr>
 						</xsl:for-each>
@@ -309,7 +309,7 @@
 					<xsl:when test="$analysisMode='O'">
 						<xsl:for-each select="Row[string-length(normalize-space(T_OBLIGATION/OVERLAP_URL)) > 0]">
 							<tr>
-								<xsl:attribute name="bgColor"><xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if></xsl:attribute>
+								<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
 								<xsl:apply-templates select="."/>
 							</tr>
 						</xsl:for-each>
@@ -317,7 +317,7 @@
 					<xsl:when test="$analysisMode='F'">
 						<xsl:for-each select="Row[T_OBLIGATION/FLAGGED='1']">
 							<tr>
-								<xsl:attribute name="bgColor"><xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if></xsl:attribute>
+								<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
 								<xsl:apply-templates select="."/>
 							</tr>
 						</xsl:for-each>
@@ -332,7 +332,7 @@
 					<xsl:otherwise>
 						<xsl:for-each select="Row">
 							<tr>
-								<xsl:attribute name="bgColor"><xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if></xsl:attribute>
+								<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
 								<xsl:apply-templates select="."/>
 							</tr>
 						</xsl:for-each>
@@ -352,8 +352,8 @@
 			</tr>
 			<xsl:for-each select="Row">
 				<tr>
-					<xsl:attribute name="bgColor">
-						<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
+					<xsl:attribute name="class">
+						<xsl:if test="position() mod 2 = 0">even</xsl:if>
 					</xsl:attribute>
 					<xsl:if test="$rora='A'">
 					<!--td style="border-left: #008080 1px solid; border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid"><img src="images/diamlil.gif" alt=""/></td-->
@@ -461,7 +461,7 @@
 		<xsl:variable name="def_sorted" select="'T_OBLIGATION.TITLE'"/>
 
 
-		<th scope="col" align="center">
+		<th scope="col">
 			<xsl:if test="string-length($class) &gt; 0"><xsl:attribute name="class"><xsl:value-of select="$class"/></xsl:attribute></xsl:if>
 			<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 			<xsl:choose>
@@ -472,7 +472,7 @@
 						<xsl:attribute name="href">
 							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="concat($sorted, ' DESC') "/></xsl:call-template>
 						</xsl:attribute>
-						<xsl:value-of select="$text"/>&#160;
+						<xsl:value-of select="$text"/>
 						<img src="images/rodsortup.gif" width="12" height="12" alt=""/>				
 					</a>
 				</xsl:when>
@@ -483,7 +483,7 @@
 						<xsl:attribute name="href">
 							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="$sorted"/></xsl:call-template>
 						</xsl:attribute>
-						<xsl:value-of select="$text"/>&#160;
+						<xsl:value-of select="$text"/>
 						<img src="images/rodsortdown.gif" width="12" height="12" alt=""/>
 					</a>
 				</xsl:when>
@@ -494,7 +494,7 @@
 						<xsl:attribute name="href">
 							<xsl:call-template name="createURL"><xsl:with-param name="sorter" select="concat($sorted, ' DESC') "/></xsl:call-template>
 						</xsl:attribute>
-						<xsl:value-of select="$text"/>&#160;
+						<xsl:value-of select="$text"/>
 						<img src="images/rodsortup.gif" width="12" height="12" alt=""/>				
 					</a>
 				</xsl:when>
@@ -505,7 +505,7 @@
 						<xsl:attribute name="href">
 							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="$sorted"/></xsl:call-template>
 						</xsl:attribute>
-						<xsl:value-of select="$text"/>&#160;
+						<xsl:value-of select="$text"/>
 						<img src="images/sortnot.gif" width="12" height="12" alt=""/>
 					</a>
 				</xsl:otherwise>

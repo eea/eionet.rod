@@ -286,3 +286,7 @@ background-image: url('images/bgr_form_buttons.jpg');
 	text-align: center;
 }
 
+tr.even td {
+  background-color: #cbdcdc;
+}
+

@@ -500,7 +500,7 @@ kbd { font-weight: bold }
 	vertical-align: top;
 }
 .sortable a:link, .sortable a:visited, .sortable span {
-	font-family:  Verdana;
+	font-family:  Verdana, sans-serif;
 	display:block;
 	text-decoration: none;
 	font-weight: bold;
@@ -511,6 +511,9 @@ kbd { font-weight: bold }
 
 .sortable th a:hover {
 	color: #919191;
-	background: #E0E0E0	;
+	background: #E0E0E0;
 }
 
+tr.even td {
+	background-color: #cbdcdc;
+}
