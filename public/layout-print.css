@@ -165,6 +165,10 @@ kbd {
 	width : 155px;
 }
 
+.notprintable {
+	display:none     
+}
+
 .sortable img {
 	display: none;
 }
