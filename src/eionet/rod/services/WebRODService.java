@@ -24,6 +24,7 @@
 package eionet.rod.services;
 
 import java.util.Vector;
+import com.tee.uit.security.AppUser;
 //import java.util.Hashtable;
 
 /**
@@ -36,16 +37,24 @@ public  class WebRODService {
 
   private static DbServiceIF dbSrv;
 
+
+ public WebRODService() {}
+/*  public WebRODService(AppUser userCtx) {
+    //System.out.println("====================== name= " + userCtx.getUser());
+  } */
+  
   /**
 	* Returns Activity Ids and Titles
   * @return Vector (contains hashtables, one for each activity)
   * @throw ServiceException  
 	*/
-  public static Vector getActivities() throws ServiceException {
+//  public static Vector getActivities() throws ServiceException {
+  public Vector getActivities() throws ServiceException {
 
   if (dbSrv == null )
     dbSrv = RODServices.getDbService();
-    
+
+//System.out.println("====================== s= " + _s);    
     return dbSrv.getActivities();
   }
 

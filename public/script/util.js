@@ -52,7 +52,7 @@ function openDeliveries(ACT_ID, COUNTRY_ID){
 	var url = "csdeliveries?ACT_DETAILS_ID=" + ACT_ID ; // + "&#038;mi6";
 	url = url + "&COUNTRY_ID=" + escape(COUNTRY_ID);
 	var name = "CSDeliveries";
-	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var features = "location=no, menubar=no, width=700, height=400, top=100, left=200, scrollbars=yes";
 	var w = window.open( url, name, features);
 	w.focus();
 }

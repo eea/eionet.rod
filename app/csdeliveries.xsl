@@ -102,35 +102,31 @@ function openMetaData(url){
 		</span>
 	</td></tr>
 		<tr><td>
-		<span class="head0"><a target="RA"> <!-- need to direct to another window ????? -->
-		<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="XmlData/RowSet/Row/T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="XmlData/RowSet/Row/T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
-		<xsl:value-of select="XmlData/RowSet/Row/T_ACTIVITY/TITLE"/>
-		</a>
-		</span>
+		<span class="head0"><xsl:value-of select="XmlData/RowSet/Row/T_ACTIVITY/TITLE"/></span>
    </td></tr>
 	 </table>
-	 <br/><div style="margin-left:20"><table cellspacing="7pts"></table></div>
+	 <br/><div style="margin-left:20"></div>
 	 
-<table width="600" cellspacing="7pts">
+<table width="650" cellspacing="2pts">
 <!-- oneCountry=0 one country, one country = 1 all countries -->
 
 
 <tr>
-<td bgcolor="#646666" align="center" width="175"><span class="head0"><font color="#FFFFFF">Delivery</font></span></td>
+<td bgcolor="#646666" align="center" width="200"><span class="head0"><font color="#FFFFFF">Delivery</font></span></td>
 <td bgcolor="#646666" align="center" width="100"><span class="head0"><font color="#FFFFFF"><span lang="en-us">Date</span></font></span></td>
-<td bgcolor="#646666" align="center" width="70"><span class="head0"><font color="#FFFFFF">Format</font></span></td>
-<td bgcolor="#646666" align="center" width="100"><span class="head0"><font color="#FFFFFF">Metadata</font></span></td>
+<!--td bgcolor="#646666" align="center" width="70"><span class="head0"><font color="#FFFFFF">Format</font></span></td-->
+<td bgcolor="#646666" align="center" width="120"><span class="head0"><font color="#FFFFFF">Metadata</font></span></td>
 <xsl:if test="$allCountries=1">
-	<td bgcolor="#646666" align="center" width="100"><span class="head0"><font color="#FFFFFF">Country</font></span></td>
+	<td bgcolor="#646666" align="center" width="130"><span class="head0"><font color="#FFFFFF">Country</font></span></td>
 </xsl:if>
 
 <td width="*"></td>
 </tr>
 
 <xsl:for-each select="XmlData/RowSet[@Name='Main']/Row">
-<tr>
+<tr valign="top" height="20">
 <!-- table row -->
-<td width="175">
+<td>
 	<a target="RA">
 	<xsl:attribute name="href">
 		<xsl:value-of select="T_DELIVERY/DELIVERY_URL"/>
@@ -138,13 +134,20 @@ function openMetaData(url){
 	<xsl:value-of select="T_DELIVERY/TITLE"/>
 	</a>
 </td>
-<td align="center" width="100">
-	<xsl:value-of select="T_DELIVERY/UPLOAD_DATE"/>
+<td align="center">
+	<xsl:choose>
+	<xsl:when test="T_DELIVERY/UPLOAD_DATE != '0000-00-00'">
+		<xsl:value-of select="T_DELIVERY/UPLOAD_DATE"/>
+	</xsl:when>
+	<xsl:otherwise>
+		&lt;No date&gt;
+	</xsl:otherwise>
+	</xsl:choose>
 </td>
-<td width="70">
+<!--td width="70">
 	<xsl:value-of select="T_DELIVERY/FORMAT"/>
-</td>
-<td width="100">
+</td-->
+<td>
 	<a>
 	<xsl:attribute name="href">javascript:openMetaData("<xsl:value-of select='T_DELIVERY/CONTREG_URL'/>")</xsl:attribute>
 	Show metadata
@@ -156,7 +159,7 @@ function openMetaData(url){
 	<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
 </td>
 </xsl:if>
-<td width="*"></td>
+<td></td>
 </tr>	
 </xsl:for-each>
   </table>

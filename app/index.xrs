@@ -57,7 +57,7 @@
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME expression="CONCAT(LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
 		</T_CLIENT>
-		<xrs:Constraint>T_REPORTING.FK_CLIENT_ID IS NOT NULL</xrs:Constraint>
+		<xrs:Constraint>T_REPORTING.FK_CLIENT_ID IS NOT NULL AND FK_CLIENT_ID != 0</xrs:Constraint>
 		<xrs:Ordering>CLIENT_NAME</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="Spatial">

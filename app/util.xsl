@@ -52,7 +52,7 @@
 									<span class="barfont">
 									| <a href="javascript:history.back()">Back</a>
 									| <a href="mailto:rod@eea.eu.int">E-mail</a> 
-									| <a target="_new">
+									| <a>
 											<xsl:attribute name="href">
 												<xsl:call-template name="Disclaimer_URL"/>
 											</xsl:attribute>
@@ -196,7 +196,8 @@
 					</a>
 				</td></tr>
 				<tr><td align="right">
-					<a href="javascript:openViewHelp('HELP_GENERAL')" onMouseOver="Over('img5')" onMouseOut="Out('img5')" onClick="Click('img5')">
+					<!--a href="javascript:openViewHelp('HELP_GENERAL')" onMouseOver="Over('img5')" onMouseOut="Out('img5')" onClick="Click('img5')"-->
+					<a href="javascript:Out('img5'); openViewHelp('HELP_GENERAL')" onMouseOver="Over('img5')" onMouseOut="Out('img5')">
 						<img name="img5" src="images/off.gif" border="0" alt=""/>
 						<img src="images/button_help.gif" border="0" width="84" height="13" alt="General Help"/>
 					</a>
@@ -220,7 +221,9 @@
 		<xsl:param name="verified"></xsl:param>
 		<xsl:param name="verified_by"></xsl:param>
 			| Last updated: <xsl:value-of select="$last_update"/>
-			| Next update: <xsl:value-of select="$next_update"/>
+			<xsl:if test="$next_update !=''">
+				| Next update: <xsl:value-of select="$next_update"/>
+			</xsl:if>
 			<xsl:if test="$verified !=''">
 				| Verified: <xsl:value-of select="$verified"/>
 			</xsl:if>

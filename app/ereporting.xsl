@@ -136,9 +136,9 @@
 		<xsl:if test="contains($permissions, ',Client:i,')='true'">
 
 	<map name="newClientMap">
-					<area alt="Add a new client" shape="rect" coords="0,0,25,25" href="javascript:openAddClientWin()"></area>
+					<area alt="Add a new client" shape="rect" coords="0,0,75,25" href="javascript:openAddClientWin()"></area>
 				</map>
-				<img border="0" height="25" width="25" src="images/new.gif" usemap="#newClientMap"></img>
+				<img border="0" src="images/bb_new.png" usemap="#newClientMap"></img>
 		</xsl:if>
 				</td>
 			</tr>

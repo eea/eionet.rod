@@ -22,7 +22,7 @@
 			<SPATIAL_NAME/>
 		</T_SPATIAL>
 		<xrs:Constraint>T_DELIVERY.FK_RA_ID=@ACT_DETAILS_ID AND T_DELIVERY.FK_SPATIAL_ID LIKE '@COUNTRY_ID'</xrs:Constraint>
-		<xrs:Ordering>T_DELIVERY.UPLOAD_DATE DESC</xrs:Ordering>
+		<xrs:Ordering>T_SPATIAL.SPATIAL_NAME, T_DELIVERY.UPLOAD_DATE DESC</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="Dummy">
 		<T_DUMMY>

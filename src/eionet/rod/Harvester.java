@@ -55,10 +55,8 @@ public class Harvester extends ROEditServletAC {
       .append("<form align='center' name=\"f\" method=\"POST\" action=\"harvester.jsv\">")
       .append("<b>Select data, you want to be harvested:</b>")
       .append("<br>").append("<input width='200'style=\"width:200\"  type='button' onClick='harvest(" + Extractor.ALL_DATA + ")' value='All'></input>")
-      //.append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(1)' value='Activity details'></input>")      
       .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(" + Extractor.DELIVERIES + ")' value='Deliveries'></input>")            
       .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(" + Extractor.ROLES + ")' value='Roles'></input>")                  
-      //.append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(4)' value='Everything but roles'></input>")                        
       .append("</form>")
       .append("</body></html>");
 

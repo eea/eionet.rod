@@ -34,7 +34,7 @@
 	</xsl:template>
 
 	<xsl:template name="SecondHeading">
-		This site is part of the Reportnet
+		This service is part of Reportnet
 <!--		Tracking obligations and performance for each country in Reporting -->
 	</xsl:template>
 
@@ -82,6 +82,6 @@
 
 	<xsl:template name="Feedback_URL">http://www.eionet.eu.int/software/rod/issues/add_issue_quick_html</xsl:template>
 
-	<xsl:template name="Disclaimer_URL">http://www.eea.eu.int/disclaimer</xsl:template>
+	<xsl:template name="Disclaimer_URL">disclaimer.jsv</xsl:template>
 
 </xsl:stylesheet>

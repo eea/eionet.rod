@@ -110,8 +110,10 @@ public class Activities extends RDFServletAC {
     s.append("<rdfs:Class rdf:ID=\"Activity\">");
     s.append("<rdfs:label>Reporting Activity</rdfs:label>");
     s.append("</rdfs:Class>");
-    
-    Vector acts = WebRODService.getActivities();
+
+
+    WebRODService wSrv = new WebRODService();
+    Vector acts = wSrv.getActivities();
     
     for (int i= 0; i< acts.size(); i++){
       Hashtable act = (Hashtable)acts.elementAt(i);

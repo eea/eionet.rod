@@ -47,21 +47,19 @@ var browser = document.all ? 'E' : 'N';
 		<tr height="30">
 			<td width="50"></td>
 			<td align="right" width="100"><b>Postal code:</b></td>
-			<td align="left" width="250">
-				<table>
-				<tr>
-					<td width="90"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/POSTAL_CODE"/></td>
-					<td align="right"><b>City:</b></td>
-					<td align="left"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/CITY"/></td>
-				</tr>
-				</table>
-			</td>
+			<td align="left" width="250"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/POSTAL_CODE"/></td>
 			<td width="*"></td>
 		</tr>
 		<tr height="30">
 			<td width="50"></td>
 			<td align="right" width="100"><b>City:</b></td>
 			<td align="left" width="250"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/CITY"/></td>
+			<td width="*"></td>
+		</tr>
+		<tr height="30">
+			<td width="50"></td>
+			<td align="right" width="100"><b>Country:</b></td>
+			<td align="left" width="250"><xsl:value-of select="XmlData/RowSet/Row/T_SPATIAL/SPATIAL_NAME"/></td>
 		</tr>
 		<tr height="30">
 			<td width="50"></td>
@@ -77,7 +75,7 @@ var browser = document.all ? 'E' : 'N';
 				</xsl:if>
 			</td>
 		</tr>
-		<tr height="30">
+		<tr height="30" valign="top">
 			<td width="50"></td>
 			<td align="right" width="100"><b>Description:</b></td>
 			<td align="left" width="250"><xsl:value-of select="XmlData/RowSet/Row/T_CLIENT/DESCRIPTION"/></td>

@@ -122,7 +122,7 @@ function openClient(ID){
 
 	var url = "client.jsv?id=" + ID;
 	var name = "Client";
-	var features = "location=no, menubar=no, width=640, height=600, top=50, left=200, scrollbars=yes";
+	var features = "location=no, menubar=no, width=640, height=600, top=50, left=200, scrollbars=yes, resizable=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 
@@ -187,7 +187,7 @@ function fillPicklist(type,list,text) {
 			<xsl:if test="not($printmode='Y')">
 			<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
-			  <td width="130" bgcolor="#FFB655" valign="top"><img src="images/top1.jpg" height="113" width="130" alt=""/></td>
+			  <td width="130" valign="top"><img src="images/top1.jpg" height="113" width="130" alt=""/></td>
 			  <td width="20" valign="top"><img height="113" width="20" src="images/top2.jpg" alt=""/></td>
 			  <td width="621" valign="top"> 
 			    <table border="0" cellpadding="0" cellspacing="0">

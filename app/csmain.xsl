@@ -69,6 +69,7 @@ function Out(Target) {
 */
 <![CDATA[
 
+/*
 function openClient(ID){
 
 	var url = "client.jsv?id=" + ID;
@@ -78,6 +79,7 @@ function openClient(ID){
 	w.focus();
 
 }
+*/
 
 function openCirca(url){
 	//var url = "cspersons?ROLE=" + ROLE; //  + "&#038;mi6";

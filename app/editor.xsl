@@ -94,7 +94,7 @@ function checkStatus() {
 	if (isChanged) {
 		var mode = document.f.elements["dom-update-mode"];
 		if (mode == 'D') mode = 'U';
-		save("Do you want to save changes?");
+		save("Save data?");
 	}
 }
 var selects = new Array();
@@ -138,10 +138,8 @@ function save(text) {
 		
 	
 	if (text == null) {
-		text = (mode.value == 'U') ? "save modified data?" 
-											: ( (mode.value == 'A') ? "insert a new record?" 
-																			: "delete the current record (with all links)?");
-		text = "Do you want to " + text;
+		text = (mode.value != 'D' ? "Save data?" 	: "Delete record?");
+		//text = "Do you want to " + text;
 	}
 
 	if (confirm(text) == false)
