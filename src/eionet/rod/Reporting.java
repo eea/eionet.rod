@@ -67,18 +67,10 @@ public class Reporting extends ROEditServletAC {
       if ( Util.nullString(sid) )
          throw new GeneralException(null, "Missing parameter '" + AID_PARAM + "'");
 
-
-      //quick fix !! 
-      /*try {
-      if (id.equals("MAX"))
-        id=RODServices.getDbService().getMaxROId();
-      } catch (Exception e ) {
-        throw new XSQLException (e,"Error getting id=" + e.toString());
-      } */
         
       String[][] queryPars = {{"ID", id}, {"SID", sid}};   
 
-	  HttpServletRequest req = params.getRequest();
+  	  HttpServletRequest req = params.getRequest();
 
       DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + E_REPORTING_QUERY, params.getRequest());
       dataSrc.setParameters(queryPars);
@@ -113,28 +105,15 @@ public class Reporting extends ROEditServletAC {
          conn = (user != null) ? user.getConnection() : null;
          if (conn == null)
             throw new XSQLException(null, "Not authenticated user");
-			/*
-			System.out.println("==================================================");
-			System.out.println("= DOGET ");
-			System.out.println("==================================================");
-			*/
-
+	
          try {
             stmt = conn.createStatement();
-
-            /*if (Logger.enable(5))
-               Logger.log("Create temp table " + tmpSpatialTbl);
-            stmt.execute(CREATE1 + tmpSpatialTbl + CREATE2 + SPATIALS + "-1"); */
-
+  
             // prepare data source
             dataSrc = prepareDataSource(new Parameters(req));
 
             // parameters
-            /*
-            qrySpatial = new SubSelectStatement("SPATIAL", "SPATIAL_TYPE", tmpSpatialTbl, "", "");
-            dataSrc.setQuery(qrySpatial);
-            */
-
+  
             // call superclass to generate the page
             super.doGet(req, res);
 
@@ -143,25 +122,9 @@ public class Reporting extends ROEditServletAC {
             Logger.log(msg, sqle);
             throw new XSQLException(sqle, msg);
          } 
-         /*finally {
-            try {
-               if (stmt != null) {
-                  if (Logger.enable(5))
-                     Logger.log("Drop temp table " + tmpSpatialTbl);
-                  stmt.execute(DROP + tmpSpatialTbl);
-
-                  stmt.close();
-               }
-            } catch (SQLException e1) {
-            } finally {
-               try { if (conn != null) conn.close(); } catch (SQLException e2) {}
-            }
-         } */
       } catch (XSQLException xe) {
          printError(xe, req, res);
-      } /*finally {
-         if (qrySpatial != null) dataSrc.unsetQuery(qrySpatial);
-      } */
+      } 
    }
 /**
  *
@@ -169,28 +132,13 @@ public class Reporting extends ROEditServletAC {
    protected void appDoPost(HttpServletRequest req, HttpServletResponse res)
          throws XSQLException {
 
-
-      
       try {
 
-/*log(" ************** appDoPOST");      
-java.util.Enumeration e = req.getParameterNames()      ;
 
-while (e.hasMoreElements())
-  log( (String)e.nextElement());
-*/
-/*
-System.out.println("==================================================");
-System.out.println("= AppdOPOST ");
-System.out.println("==================================================");
-*/
-        //checkPermissions(req);  
-
-		String reDirect=req.getParameter("silent");
-		reDirect=(reDirect==null ? "0" : reDirect);
-
-      
-         String location = "show.jsv?" + 
+    		String reDirect=req.getParameter("silent");
+        reDirect=(reDirect==null ? "0" : reDirect);
+     
+        String location = "show.jsv?" + 
             ((curRecord != null) ?
                "id=" + curRecord + 
                "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/FK_SOURCE_ID") + 
@@ -198,14 +146,14 @@ System.out.println("==================================================");
                "id=" + req.getParameter("/XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/FK_SOURCE_ID") + 
                "&mode=S");
          // DBG         
-		//Logger.log("========== Redirecting to " + reDirect);
+        //Logger.log("========== Redirecting to " + reDirect);
          if (Logger.enable(5))
             Logger.log("Redirecting to " + location);
-         //
-		 if (reDirect.equals("0"))
+        
+    		 if (reDirect.equals("0"))
 	         res.sendRedirect(location);
-		 else
-		    res.sendRedirect("reporting.jsv?id=" + curRecord + "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/FK_SOURCE_ID") );
+         else
+          res.sendRedirect("reporting.jsv?id=" + curRecord + "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Reporting']/Row/T_REPORTING/FK_SOURCE_ID") );
 
       } catch(java.io.IOException e) {
          throw new XSQLException(e, "Error in redirection");
@@ -220,8 +168,6 @@ System.out.println("==================================================");
         return new ReportingHandler(this);
     }
 
-/*   private static final String SPATIALS =
-      "T_SPATIAL_LNK.FK_SPATIAL_ID FROM T_SPATIAL_LNK WHERE T_SPATIAL_LNK.FK_RO_ID=";
-  */
+
 
 }

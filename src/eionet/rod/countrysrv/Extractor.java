@@ -43,12 +43,10 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
 
-//import eionet.countrysrv.soap.*;
 import eionet.rod.services.*;
 import eionet.directory.DirectoryService;
 import eionet.directory.DirServiceException;
 import java.util.HashMap;
-//import java.util.ArrayList;
 
 
 /**
@@ -57,17 +55,14 @@ import java.util.HashMap;
 
 public class Extractor implements ExtractorConstants {
 
- public static final    int ALL_DATA = 0;
- public static final    int DELIVERIES = 1;
- public static final    int ROLES = 2;
- //public static final    int ACTS_DELIVERIES = 4;
+  public static final    int ALL_DATA = 0;
+  public static final    int DELIVERIES = 1;
+  public static final    int ROLES = 2;
 
   private static FileServiceIF fileSrv = null;
   boolean debugLog = true;
   private static PrintWriter out = null;
-
   private static LogServiceIF logger ;  
-
 
 
 	// For debugLog: returns the current date and time (wrapped) as String
@@ -117,9 +112,6 @@ public class Extractor implements ExtractorConstants {
   }
 
 
-/*  public static void harvest( ) throws ServiceException {
-    harvest( 0 );
-  } */
  /**
  * Extract the data
  */
@@ -218,10 +210,6 @@ public class Extractor implements ExtractorConstants {
         log("Error connectiong to DirService " + de.toString());
       }
     
-    /*if(extractor.debugLog) 
-      log("Db connection ok."); */
-      //extractor.out.println("Successfully opened connections to Content Registry, Directory, and CS DB.");
-
     // Empty the database first
     //DEPRECATED
     
@@ -304,21 +292,11 @@ public class Extractor implements ExtractorConstants {
 
       log("Found " + respRoles.length + " roles from database");      
         
-       /*for(int i = 0; respRoles != null && i < respRoles.length; i++) {
-            if(respRoles[i][0].length() > 0 && respRoles[i][0].charAt(0) != '-' )
-              roleSet.add(respRoles[i][0]); 
-        } */
-
-      //Iterator roles = roleSet.iterator();
-
-      //Vector prms = new Vector();
-      //prms.add(null);
       
-      //while(roles.hasNext()) {
       csDb.backUpRoles();
       
       for(int i = 0; i < respRoles.length; i++) {
-        String roleName =  respRoles[i][0]; // (String)(roles.next());
+        String roleName =  respRoles[i][0]; 
         if (roleName != null) {
           Hashtable role = null;
           try {
@@ -362,6 +340,5 @@ public class Extractor implements ExtractorConstants {
     else
       out.println( s );
       
-    //System.out.println("============= " + s); 
   }
 }

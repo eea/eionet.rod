@@ -75,10 +75,6 @@ public interface DbServiceIF  {
 
   public Connection getConnection() throws ServiceException;
 
- /**
- * returns RA IDs in an array
- */
-//  public String[][] getActivityIds() throws ServiceException;  
 
  /**
  * returns RA data in 2-dimensional array
@@ -90,48 +86,6 @@ public interface DbServiceIF  {
  * returns all responsible role ids from T_ACTIVITY_DETAILS
  */
   public String[][] getRespRoles() throws ServiceException;    
-
-  /**
-  * Deletes data from all tables
-  * @DEPRECATED
-  */
-  //public void dropTables(int mode) throws ServiceException;
-
- /**
- * Saves countries
- */
- // public void saveCountries( Vector countries ) throws ServiceException;
-
- /**
- * Saves parameter groups
- */
- // public void saveParamGroups(Vector paramGroups ) throws ServiceException ;  
-
- /**
- * Saves issues
- */
-//  public void saveIssues(Vector issues ) throws ServiceException ;    
-
- /**
- * Saves activity details
- */
-  //public void saveActivities(Vector activities ) throws ServiceException ;    
-
- /**
- * Saves param group links
- */
-//  public void saveParamGroupLinks( Vector prmGrpLinks ) throws ServiceException ;  
-
- /**
- * Saves issue links
- */
-//  public void saveIssueLinks( Vector issueLinks ) throws ServiceException ;  
-
- /**
- * Saves deadlines
- */
-//  public void saveDeadlines( String raId, String deadline) throws ServiceException ;     
-
 
  /**
  * Returns deadline data in 2-dimensional array
@@ -252,6 +206,9 @@ public interface DbServiceIF  {
 
  // public Vector backupSpatialHistory(String raId) throws ServiceException;  
   public void logSpatialHistory(String raId, String spatialId, String voluntary)   throws ServiceException;  
+
+  //used in AddClient screen
+  public String[][] getCountryIdPairs() throws ServiceException;
   
 }
 

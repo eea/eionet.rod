@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -22,7 +21,6 @@
  *
  * Original Code: Andre Karpistsenko (TietoEnator)
  * -->
-
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
 	<xrs:RowSet name="Source">
 		<T_SOURCE PKField="PK_SOURCE_ID">
@@ -31,7 +29,6 @@
 			<TITLE/>
 			<ALIAS/>
 			<URL/>
-			<!--ISSUED_BY/-->
 			<ISSUED_BY_URL/>
 			<ISSUED_BY_URL_LABEL expression="CONCAT(LEFT(ISSUED_BY_URL, 40), IF( LENGTH(ISSUED_BY_URL) &gt; 40 ,'...', '')   ) AS ISSUED_BY_URL_LABEL"/>
 			<SECRETARIAT/>
@@ -41,7 +38,6 @@
 			<EC_ACCESSION expression="IF(T_SOURCE.EC_ACCESSION, DATE_FORMAT(T_SOURCE.EC_ACCESSION,'%d/%m/%Y'), '') AS EC_ACCESSION"/>
 			<EC_ENTRY_INTO_FORCE expression="IF(T_SOURCE.EC_ENTRY_INTO_FORCE, DATE_FORMAT(T_SOURCE.EC_ENTRY_INTO_FORCE,'%d/%m/%Y'), '') AS EC_ENTRY_INTO_FORCE"/>
 			<COMMENT/>
-			<!--FK_CLIENT_ID/-->
 			<LAST_UPDATE expression="DATE_FORMAT(T_SOURCE.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
 			<RM_NEXT_UPDATE expression="DATE_FORMAT(T_SOURCE.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE"/>
 			<RM_VERIFIED expression="DATE_FORMAT(T_SOURCE.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED"/>
@@ -57,9 +53,8 @@
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME/>
 		</T_CLIENT>
-
 		<xrs:Constraint>T_SOURCE.PK_SOURCE_ID=@ID</xrs:Constraint>
-<!-- classification hierarchy-->
+		<!-- classification hierarchy-->
 		<xrs:SubSet name="Parents" relation="T_SOURCE.PK_SOURCE_ID = T_SOURCE_LNK.FK_SOURCE_CHILD_ID">
 			<T_SOURCE_LNK/>
 			<T_SOURCE_CLASS relation="T_SOURCE_LNK.FK_SOURCE_PARENT_ID = T_SOURCE_CLASS.PK_CLASS_ID" reltype="inner">
@@ -92,7 +87,6 @@
 				<PK_RO_ID/>
 				<ALIAS/>
 			</T_REPORTING>
-			<!--xrs:Limit offset="0" rows="1"/-->
 		</xrs:SubSet>
 	</xrs:RowSet>
 </xrs:XmlData>

@@ -39,13 +39,6 @@ private static LogServiceIF   _logSrv = null;
 private static DbServiceIF   _dbSrv = null;
 private static FileServiceIF   _fSrv = null;
 
-  /**
-  * Instance of DirectoryService
-  * @DEPRECATED
-  */
-	/*public static DirectoryServiceIF getDirectoryService() throws ServiceException {
-  	return new DirectoryServiceImpl();
-  } */
 
   /**
   * Instance of DbServiceIF
@@ -77,7 +70,6 @@ private static FileServiceIF   _fSrv = null;
         _logSrv = new Log4jLoggerImpl();
       } catch (Exception se) {
         _logSrv = new StderrLogger();
-        //_logSrv.error("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOGSERVICE ERROR " + se.toString());
       }
     }
     

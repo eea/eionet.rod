@@ -134,7 +134,6 @@ function delActivity() {
 					</xsl:choose>
 				</td>
 			<!-- DGB -->
-			<!--xsl:value-of select="$permissions"/-->
 				<td width="*" align="right" rowspan="3" >
 					<table width="100%">
 					<tr>

@@ -21,8 +21,6 @@
 		<xsl:value-of select="/XmlData/RowSet[@Name='Main']/@permissions"/>
 	</xsl:variable>
 
-
-
 <table cellspacing="0" cellpadding="0" border="0" width="720">
 	<tr height="30">
 		<td width="20"></td>
@@ -30,7 +28,7 @@
 
 			<div style="margin-left:13">
 			<!-- header -->
-			<!-- quick fix ... show header tables only if 1st position FIX ME !! -->
+			<!-- quick fix ... show header tables only if 1st position -->
 			<table width="700" border="0">
 				<tr>
 					<td width="20">&#160;</td>

@@ -1,4 +1,4 @@
-/*
+/**
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
@@ -20,7 +20,7 @@
  *
  * Original Code: Rando Valt (TietoEnator)
  *
- * $Id: Log4jLoggerImpl.java,v 1.3 2002/12/16 07:45:20 te-ee Exp $
+ * $Id: Log4jLoggerImpl.java,v 1.4 2003/11/21 13:31:24 te-ee Exp $
  */
 
 package eionet.rod.services.modules;
@@ -37,7 +37,7 @@ import eionet.rod.services.LogServiceIF;
  * Updates: <UL>15.02.02 log4j version</UL>
  *
  * @author  Rando Valt
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 
 public class Log4jLoggerImpl implements LogServiceIF {
@@ -56,7 +56,6 @@ public class Log4jLoggerImpl implements LogServiceIF {
  */
   public Log4jLoggerImpl() {
     logger = Category.getInstance("webrod");
-    //logger.debug("****************************************************** ");
   }
   
   private Priority convSeverity(int severity) {

@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ResourceBundle;
 import java.util.MissingResourceException;
 
-//import com.tee.util.*;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,11 +39,8 @@ import java.util.Hashtable;
 import java.util.Vector;
 import eionet.rod.services.ServiceException;
 import javax.servlet.ServletConfig;
-import com.tee.xmlserver.BaseServletAC;
+
 import eionet.rod.Constants;
-//import javax.servlet.ServletContext;
-//import java.net.MalformedURLException;
-//import com.tee.xmlserver.*;
 
 /**
  * <P>Servlet URL: <CODE>rdf</CODE></P>
@@ -57,26 +53,18 @@ import eionet.rod.Constants;
  * @author  Kaido Laine
  * @version 1.1
  */
-public abstract class RDFServletAC extends BaseServletAC implements Constants {
 
-  //private String ns;
+public abstract class RDFServletAC extends HttpServlet implements Constants {
+
   protected String activitiesNamespace;
   protected String obligationsNamespace;
+  protected String rodSchemaNamespace;
 
   protected static ResourceBundle props; 
   
   protected static final String rdfHeader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
-  //private static final String  actsSchema = "<eor:Schema rdf:about=\"\"><rdf:value>Activities schema</rdf:value></eor:Schema>";
-  //private static final String  actPropName = "activity";
-
-/*
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-  xmlns:ev="http://purl.org/rss/1.0/modules/event/"
-  xmlns="http://purl.org/rss/1.0/"  
-*/
-  protected static String rdfNameSpace = "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" ";
-  //private static String allNameSpaces =  rdfNameSpace +  "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" " +    "xmlns:eor=\"http://dublincore.org/2000/03/13/eor#\"" ;
-
+  protected static final String rdfNameSpace = "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" ";
+  protected static final String rdfSNameSpace = "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" ";
 
   public void init(  ServletConfig config ) throws ServletException {
 
@@ -91,57 +79,26 @@ public abstract class RDFServletAC extends BaseServletAC implements Constants {
 
     if (obligationsNamespace == null)
       obligationsNamespace = props.getString(ROD_URL_RO_NS);
-    
-    //_log("host = " + domain);    
-    super.init( config );
+
+    if (rodSchemaNamespace == null)
+      try {
+        rodSchemaNamespace=props.getString("schame.namespace");
+        //quite likely it will not change
+      } catch (MissingResourceException mre ) {
+        rodSchemaNamespace="http://rod.eionet.eu.int/schema.rdf";
+      }
+
   }
   protected abstract String generateRDF(HttpServletRequest req) throws ServiceException;
-/*  
-  private String generateRDF( ) throws ServiceException {
-    StringBuffer s = new StringBuffer();
-    s.append(rdfHeader);
-    s.append("<rdf:RDF ").append(allNameSpaces)
-    .append(" xmlns=\"").append(activitiesNamespace).append("#\"")
-    .append(">");
-
-    s.append(actsSchema);
-
-    s.append("<rdf:Property rdf:ID=\"").append( actPropName).append("\">");
-    s.append("<rdf:value>Activity name</rdf:value>");
-    s.append("<rdfs:label>Activity name</rdfs:label>");
-    s.append("<rdfs:range rdf:resource=\"#Activity\"/>");
-    s.append("</rdf:Property>");
-    
-    s.append("<rdfs:Class rdf:ID=\"Activity\">");
-    s.append("<rdfs:label>Reporting Activity</rdfs:label>");
-    s.append("</rdfs:Class>");
-    
-    Vector acts = WebRODService.getActivities();
-    
-    for (int i= 0; i< acts.size(); i++){
-      Hashtable act = (Hashtable)acts.elementAt(i);
-      String pk = (String)act.get("PK_RA_ID");
-      String title = (String)act.get("TITLE");
-
-      s.append("<Activity rdf:ID=\"ra-").append(pk).append("\">")
-        .append("<rdf:value>").append(title).append("</rdf:value>")
-        .append("<rdfs:label>").append(title).append("</rdfs:label>")      
-        .append("</Activity>");
-
-    }
-    
-    s.append("</rdf:RDF>");
-
-    return s.toString();
-
-  }   */
   
   public void doGet( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException {
+
     res.setContentType("text/xml");  
+
     try {
 
       String rdf = generateRDF(req);
-      
+     
       res.getWriter().write( rdf) ;      
     } catch (ServiceException se ) {
       throw new ServletException( "Error getting values for activities " + se.toString(), se);

@@ -58,20 +58,10 @@ public class ROUser implements AppUserIF {
       // LOG
       if (Logger.enable(5))
          Logger.log("Authenticating user '" + userName + "'");
-      //
-      //Connection conn = null;
-      //if (conn == null)
-      //  conn = dbPool.getConnection();
 
       try {
          DirectoryService.sessionLogin(userName, userPws);
          fullName = DirectoryService.getFullName(userName);
-         //KL021029
-         //conn = dbPool.getConnection(userName, userPws);
-         //conn = dbPool.getConnection();
-
-         /*if (conn == null)
-            return false; */
                
          // LOG
          if (Logger.enable(5))
@@ -84,11 +74,7 @@ public class ROUser implements AppUserIF {
       } catch (Exception e) {
       
          Logger.log("User '" + userName + "' not authenticated", e);
-      }/* finally {
-         try {
-            if (conn != null) conn.close();
-         } catch (SQLException e1) {} 
-      } */
+      }
       return authented;
    }
 /**
@@ -169,7 +155,6 @@ public class ROUser implements AppUserIF {
  */
    public String toString() {
       return (user == null ? "" : user );
-      //return user;
-   }
+    }
 
 }

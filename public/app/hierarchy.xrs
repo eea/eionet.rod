@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -22,7 +21,6 @@
  *
  * Original Code: Andre Karpistsenko (TietoEnator)
  * -->
-
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
 	<xrs:RowSet name="Source hierarchy">
 		<T_SOURCE_CLASS>

@@ -189,35 +189,6 @@ public class Source extends ROEditServletAC {
          throw new XSQLException(e, "Error in redirection");
       }
    }
-/*
-   private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
-    String mode = null;
-    
-    String userName = getUser(req).getUserName();
-//    String id = req.getParameter( ID_PARAM );
-    String upd = req.getParameter( FormHandlerIF.MODE_PARAM );
-
-    upd = (upd==null ? "" : upd);
-//    id = (id==null ? "" : id); //not needed?
-    if ( upd.equals("A"))
-      mode = Constants.ACL_INSERT_PERMISSION;
-    else if ( upd.equals("D"))
-      mode = Constants.ACL_DELETE_PERMISSION;
-    else if ( upd.equals("U"))
-      mode = Constants.ACL_UPDATE_PERMISSION;
-        
-    boolean b = false;
-    try {
-      b = getAcl(Constants.ACL_LI_NAME).checkPermission( userName, mode );
-    } catch ( Exception e ) {
-      throw new XSQLException (e, "Error getting user rights ");
-    }
-
-    if (!b)
-      throw new XSQLException (null, "No permission to perform the action");
-
-    
-  } */
    private static final String PARENTS =
       "T_SOURCE_LNK.FK_SOURCE_PARENT_ID FROM T_SOURCE_LNK WHERE T_SOURCE_LNK.CHILD_TYPE='S' AND T_SOURCE_LNK.FK_SOURCE_CHILD_ID=";
 }

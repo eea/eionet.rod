@@ -25,7 +25,6 @@ package eionet.rod.services;
 
 import java.util.Vector;
 import com.tee.uit.security.AppUser;
-//import java.util.Hashtable;
 
 /**
  * Container class for providing public services of WebROD
@@ -39,9 +38,6 @@ public  class WebRODService {
 
 
  public WebRODService() {}
-/*  public WebRODService(AppUser userCtx) {
-    //System.out.println("====================== name= " + userCtx.getUser());
-  } */
   
   /**
 	* Returns Activity Ids and Titles
@@ -65,7 +61,8 @@ public  class WebRODService {
 
     if (dbSrv == null )
       dbSrv = RODServices.getDbService();
-      return dbSrv.getCountries();
+
+    return dbSrv.getCountries();
   } 
 
 

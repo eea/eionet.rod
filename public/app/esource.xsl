@@ -47,11 +47,6 @@
 		</tr>
 		</table>
 		<form name="f" method="POST" action="source.jsv">
-<!--
-		<input type="hidden" name="xml-query-string">
-			<xsl:attribute name="value"><xsl:value-of select="/XmlData/xml-query-string"/></xsl:attribute>
-		</input>
--->
 		<input type="hidden" name="dom-update-mode">
 			<xsl:attribute name="value">
 				<xsl:choose>
@@ -128,11 +123,6 @@
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ISSUEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</td>
 				<td colspan="5">
-					<!--input type="text" size="56" maxsize="255" width="570" style="width:570" onChange="changed()">
-					<xsl:attribute name="name"><xsl:value-of select="ISSUED_BY/@XPath"/></xsl:attribute>
-					<xsl:attribute name="value"><xsl:value-of select="ISSUED_BY"/></xsl:attribute>
-					</input-->
-
 					<xsl:variable name="selIssuer">
 							<xsl:value-of select="../T_CLIENT_LNK/FK_CLIENT_ID"/>
 					</xsl:variable>
@@ -342,10 +332,6 @@
 				<table cellspacing="7"><tr>
 					<td><input type="button" onclick="save(null,false)" value="Save changes" width="100" style="width:100"/></td>
 			             <td><input type="button" onclick='history.back()' value="Exit"/></td>
-<!--					<td><input type="button" onclick="add()" value="New record" width="100" style="width:100"/></td>
-
-					<td><input type="button" onclick="del()" value="Delete" width="100" style="width:100"/></td>
--->
 				</tr></table>
 			</div>
 			</form>

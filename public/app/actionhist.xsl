@@ -126,7 +126,6 @@ function openHistory(ID,TYPE) {
 <td bgcolor="#646666" align="center" width="25%"><span class="head0"><font color="#FFFFFF"><span lang="en-us">Time</span></font></span></td>
 <td bgcolor="#646666" align="center" width="15%"><span class="head0"><font color="#FFFFFF">Action</font></span></td>
 <td bgcolor="#646666" align="center" width="25%"><span class="head0"><font color="#FFFFFF">User</font></span></td>
-<!--td bgcolor="#646666" align="center" width="*"><span class="head0"><font color="#FFFFFF">Description</font></span></td-->
 </tr>
 
 <xsl:for-each select="XmlData/RowSet/Row">

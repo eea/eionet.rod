@@ -132,10 +132,6 @@ var picklist = new Array();
 	<!-- main -->
 	<table  cellspacing="0" cellpadding="0" border="0">
 	<tr valign="top" height="500">
-  <!--td nowrap="" width="130" bgcolor="#747400">
-  <p/>
-	
-	</td-->
 	<td>
 	<div style="margin-left:13"><form action="rorabrowse.jsv" method="get" name="f">
 	
@@ -149,7 +145,7 @@ var picklist = new Array();
 			<xsl:value-of select="XmlData/RowSet/Row/T_SPATIAL/SPATIAL_NAME"/>
 		</xsl:if>
     </span>
-		<!--span class="head0">&#160;&#160;&#160;<a href="cssearch">[Advanced search]</a></span--></td></tr>
+		</td></tr>
 	</table>
 	<!-- 6 -->
 	<br/><div style="margin-left:20">
@@ -208,7 +204,6 @@ var picklist = new Array();
 		<font color="#999999">
 			<xsl:choose>
 					<xsl:when test="contains(T_ACTIVITY/FK_DELIVERY_COUNTRY_IDS, concat(',' , T_SPATIAL/PK_SPATIAL_ID , ',') )='true'">
-					<!--xsl:when test="count(descendant::SubSet[@Name='Delivery']/Row) = 0 "-->	
 						Exist
 					</xsl:when>
 					<xsl:otherwise>
@@ -228,42 +223,9 @@ var picklist = new Array();
 					<xsl:value-of select="T_ACTIVITY/DEADLINE"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<!--font color="#006666"-->
 					<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
-					<!--/font-->
 				</xsl:otherwise>
 			</xsl:choose>
-
-			<!-- check, where we are -->
-			<!--xsl:choose>
-			<xsl:when test="T_DEADLINE/DEADLINE != '' ">	
-				<xsl:value-of select="T_DEADLINE/DEADLINE"/>
-			</xsl:when>
-			<xsl:otherwise>
-			<xsl:choose>
-						<xsl:when test="count(descendant::SubSet[@Name='FutureDeadlines']/Row) = 0 ">	
-							<xsl:choose>
-									<xsl:when test="SubSet[@Name='PassedDeadlines']/Row/T_DEADLINE/DEADLINE =''">	
-											<xsl:value-of select="SubSet[@Name='PassedDeadlines']/Row/T_DEADLINE/DEADLINE_TEXT"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="SubSet[@Name='PassedDeadlines']/Row/T_DEADLINE/DEADLINE"/>
-									</xsl:otherwise>
-							</xsl:choose>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:choose>
-									<xsl:when test="SubSet[@Name='FutureDeadlines']/Row/T_DEADLINE/DEADLINE =''">	
-											<xsl:value-of select="SubSet[@Name='FutureDeadlines']/Row/T_DEADLINE/DEADLINE_TEXT"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="SubSet[@Name='FutureDeadlines']/Row/T_DEADLINE/DEADLINE"/>
-									</xsl:otherwise>
-							</xsl:choose>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:otherwise>
-			</xsl:choose-->
 	</td>
 	<xsl:if test="$oneCountry !=0">
 		<td width="*" align="left"><span lang="en-us"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/></span></td>
@@ -279,7 +241,7 @@ var picklist = new Array();
 		</xsl:attribute>
 		<br/><hr/><br/>
 		<b><!--Document last modified: no info for last modifying-->
-			Contents in this application is maintained by the EEA.
+			Contents in this application are maintained by the EEA.
 			</b>
 	</td></tr>
   </table>

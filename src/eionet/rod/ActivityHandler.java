@@ -218,17 +218,19 @@ public class ActivityHandler extends ROHandler {
 
            spatialGen.setField("FK_RA_ID", id);
 
-           String spatialId, voluntary;
+           String spatialId, voluntary; // spatialType;
 
            if(value.indexOf(":") == -1) {
              updateDB("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + id + " AND FK_SPATIAL_ID=" + getID(value));
              spatialId=getID(value);
+             //spatialType=getUnitID(value);
              voluntary="N";
 
            }
            else {
             voluntary="Y";
             spatialId=value.substring(value.indexOf(":")+1);
+            //spatialType="C";
            }
            spatialGen.setField("FK_SPATIAL_ID", spatialId);
            spatialGen.setField("VOLUNTARY", voluntary);
@@ -238,23 +240,9 @@ public class ActivityHandler extends ROHandler {
            updateDB(spatialGen.insertStatement());
 
             //handle history
+            //if (spatialType.equals("C"))
             HistoryLogger.logSpatialHistory(id, spatialId, voluntary);
 
-            /*try {
-              RODServices.getDbService().logSpatialHistory(id, spatialId, voluntary);
-              //spatialHistCont.remove(spatialId);
-            } catch (ServiceException se ) {
-              //FIX ME !!
-              Logger.log("Error handling history " + se.toString());
-            } */
-            
-            //new spatial, does not exist in history container yet
-            /*if (!spatialHistCont.contains(spatialId))
-              updateDB("INSERT INTO T_SPATIAL_HISTORY (FK_RA_ID, FK_SPATIAL_ID, START_DATE, END_DATE) " +
-                " VALUES( " + id + ", " + spatialId + ", '" + voluntary + "', NOW())");
-            else
-              spatialHistCont.remove(spatialId);
-            */
            
          }
 

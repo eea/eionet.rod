@@ -98,16 +98,6 @@
 			</T_ISSUE>
 			<xrs:Ordering>T_ISSUE.ISSUE_NAME</xrs:Ordering>
 		</xrs:SubSet>
-		<!-- KL 031013 -->
-		<!--xrs:SubSet name="SpatialHistory" relation="T_ACTIVITY.PK_RA_ID=T_SPATIAL_HISTORY.FK_RA_ID">
-			<T_SPATIAL_HISTORY>
-				<FK_SPATIAL_ID/>
-				<FK_RA_ID/>
-				<VOLUNTARY/>
-				<START_DATE/>
-				<END_DATE/>
-			</T_SPATIAL_HISTORY>
-		</xrs:SubSet-->
 		<xrs:SubSet name="LnkSpatial" relation="T_ACTIVITY.PK_RA_ID=T_RASPATIAL_LNK.FK_RA_ID">
 			<T_RASPATIAL_LNK>
 				<FK_SPATIAL_ID/>
@@ -133,7 +123,6 @@
 			<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
 			<xrs:Constraint>T_RASPATIAL_LNK.VOLUNTARY='Y' AND T_SPATIAL.SPATIAL_TYPE='C'</xrs:Constraint>
 		</xrs:SubSet>
-
 	</xrs:RowSet>
 	<xrs:RowSet name="YesNo" omitRow="true">
 		<T_LOOKUP>
@@ -174,7 +163,6 @@
 		</T_PARAM_GROUP>
 		<xrs:Ordering>GROUP_NAME</xrs:Ordering>
 	</xrs:RowSet>
-
 	<xrs:RowSet name="SpatialType" omitRow="true">
 		<T_LOOKUP>
 			<C_VALUE/>
@@ -183,5 +171,4 @@
 		<xrs:Constraint>T_LOOKUP.CATEGORY='ST'</xrs:Constraint>
 		<xrs:Ordering>T_LOOKUP.C_TERM</xrs:Ordering>
 	</xrs:RowSet>
-
 </xrs:XmlData>

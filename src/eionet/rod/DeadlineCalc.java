@@ -81,13 +81,8 @@ public class DeadlineCalc {
       }
       logger.info(deadlines.length + " deadlines found, updating...");      
       
-//      for(int i = 0; i < deadlines.length; i++)
-//         logger.info(deadlines[i][0] + "\t" + deadlines[i][1] + "\t" + deadlines[i][2] + 
-//                     "\t" + deadlines[i][3] + "\t" + deadlines[i][4]);
-//      logger.info("");
       
       // Update deadlines and save them back to the database
-      //
       for(int i = 0; i < deadlines.length; i++) {
          int m;
          int year = Integer.parseInt(deadlines[i][1].substring(0, 4));

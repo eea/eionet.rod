@@ -29,7 +29,6 @@
 			<head>
 				<title>Reporting Obligations Database</title>
 				<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=ISO-8859-1"/>
-				<!-- <link type="text/css" rel="stylesheet" href="http://www.eionet.eu.int/eionet.css"> -->
 				<link href="eionet.css" rel="stylesheet" type="text/css"/>
 		</head>
 		<body bgcolor="#f0f0f0" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
@@ -43,7 +42,6 @@
 			<tr>
 				<td bgcolor="#646666"><span class="head0"><font color="white">Nr</font></span></td>
 				<td bgcolor="#646666"><span class="head0"><font color="white">Parameter</font></span></td>
-				<!--td bgcolor="#646666"><span class="head0"><font color="white">Unit</font></span></td-->
 			</tr>
 			
 			<xsl:for-each select="//RowSet[@Name='ParameterGroup']/Row">
@@ -93,17 +91,6 @@
 				<td>
 					<xsl:value-of select="T_PARAMETER/PARAMETER_NAME"/>
 				</td>
-				<!--td>
-					<xsl:choose>
-						<xsl:when test="T_PARAMETER_LNK/PARAMETER_UNIT = ''">
-							<xsl:value-of select="T_UNIT/UNIT_NAME"/>
-							<xsl:if test="T_UNIT/UNIT_NAME=''"><b>&#160;?</b></xsl:if>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="T_PARAMETER_LNK/PARAMETER_UNIT"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</td-->
 			</tr>
 		</xsl:for-each>
 		</xsl:if>

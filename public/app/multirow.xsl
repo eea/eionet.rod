@@ -40,24 +40,4 @@
 			</xsl:for-each>
 		</tr>
 	</xsl:template>
-
-<!--
-	<xsl:template name="make-row">
-		<xsl:param name="cells" select="count(Row)"/>
-		<xsl:param name="cols" select="2"/>
-		<xsl:param name="start" select="1"/>
-		<xsl:param name="end" select="$start + $cols"/>
-
-		<tr valign="top">
-			<xsl:for-each select="Row[position() &gt;= $start and position() &lt; $end]">
-				<xsl:apply-templates select="."/>
-			</xsl:for-each>
-		</tr>
-		<xsl:if test="$end &lt;= $cells">
-			<xsl:call-template name="make-row">
-				<xsl:with-param name="start" select="$end"/>
-			</xsl:call-template>
-		</xsl:if>
-	</xsl:template>
--->
 </xsl:stylesheet>

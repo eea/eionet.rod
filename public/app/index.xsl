@@ -51,9 +51,6 @@
 		<div style="margin-left:13">
 
 		<table width="600" cellspacing="0" cellpadding="0" border="0">
-			<!--tr valign="middle">
-				<td colspan="2"><span class="head1"><xsl:call-template name="IntroductoryTitle"/></span></td>
-			</tr-->
 			<tr>
 				<td valign="full" ><span class="head0n"><xsl:call-template name="IntroductoryText"/></span></td>
 			</tr>
@@ -73,19 +70,17 @@
 						<td bgcolor="#FFFFFF" width="42" align="right">
 						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
-						<!--td width="30" bgcolor="#FFFFFF"><img onclick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/>
-						</td-->
 				</tr>
 				 <tr>
             <td>
 								<table border="0" width="100%" cellspacing="0" cellpadding="0">
 									<tr>
-										<td width="22" valign="middle"><!--input type="radio" value="R" checked="true" name="mode"/--></td>
+										<td width="22" valign="middle"></td>
 										<td width="88" valign="middle"><span class="barfont">Obligations</span></td>
 									</tr>
 									<tr>
 										<td width="22" valign="middle"><input type="hidden" value="A" name="mode"/></td>
-										<td width="88" valign="middle"><!--span class="barfont">Activities</span--></td>
+										<td width="88" valign="middle"></td>
 									</tr>
 								</table>
               </td>
@@ -126,19 +121,17 @@
 						<td bgcolor="#FFFFFF" width="42" align="right">
 						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH2</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
-						<!--td width="30" bgcolor="#FFFFFF"><img onClick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/>
-						</td-->
 				</tr>
 				 <tr>
             <td>
 								<table border="0" width="100%" cellspacing="0" cellpadding="0">
 									<tr>
-										<td width="22" valign="middle"><!--input type="radio" value="R" checked="true" name="mode"/--></td>
+										<td width="22" valign="middle"></td>
 										<td width="88" valign="middle"><span class="barfont">Obligations</span></td>
 									</tr>
 									<tr>
 										<td width="22" valign="middle"><input type="hidden" value="A" name="mode"/></td>
-										<td width="88" valign="middle"><!--span class="barfont">Activities</span--></td>
+										<td width="88" valign="middle"></td>
 									</tr>
 								</table>
               </td>
@@ -166,11 +159,6 @@
 				</table>
 				</form> <!-- search form -->
 
-				<!--table width="600">
-				  <tr height="5">
-             <td width="100%"></td>
-          </tr>
-				</table-->
 				<table width="600">
            <tr>
               <td width="100%" colspan="4" style="border: 1 solid #006666">
@@ -192,9 +180,8 @@
 														<span class="head0n">All reporting obligations</span></a></td>
                         </tr>
                         <tr>
-                          <td width="8%" height="25"><!--img border="0" src="images/diamlil.gif" width="8" height="9"/--></td>
-                          <td width="92%" height="25"><!--a href="rorabrowse.jsv?mode=A">
-														<span class="head0n">All reporting activities</span></a--></td>
+                          <td width="8%" height="25"></td>
+                          <td width="92%" height="25"></td>
                         </tr>
                       </table>
                     </td>
@@ -228,9 +215,6 @@
                 </table>
               </td>
             </tr>
-
-
-
 		</table>
 
 

@@ -66,13 +66,16 @@ public class RORABrowse extends ROServletAC {
       String showfilter = params.getParameter(SHOWFILTER);
       if (showfilter != null)
         if (showfilter.equals("1")) {
-        DataSourceIF XMLDataSrc = XMLSource.getXMLSource(PREFIX + RORABROWSE_QUERY, req);
-        Enumeration e = XMLDataSrc.getQueries();
-        while (e.hasMoreElements())
-          dataSrc.setQuery((QueryStatementIF)e.nextElement());
-      }
+          DataSourceIF XMLDataSrc = XMLSource.getXMLSource(PREFIX + RORABROWSE_QUERY, req);
+          Enumeration e = XMLDataSrc.getQueries();
+          while (e.hasMoreElements())
+            dataSrc.setQuery((QueryStatementIF)e.nextElement());
+        }
       dataSrc.setQuery(new SearchStatement(params, false));
-      dataSrc.setQuery(new SearchStatement(params, true));
+
+      //search by client, we add an extra dataset for "CC clients"
+      if (req.getParameter(CLIENT_FILTER) != null && !req.getParameter(CLIENT_FILTER).equals("-1"))
+        dataSrc.setQuery(new SearchStatement(params, true));
 
       addMetaInfo(dataSrc);
       //dataSrc.setQuery(new MetaData("RAMetaData", "T_ACTIVITY"));

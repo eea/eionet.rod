@@ -40,46 +40,16 @@
 		<xsl:if test="$rora='B'">A</xsl:if>
 	</xsl:variable>
 
-	<!-- Character escaping quickfixes below; better solution should be sought -->
-
 	<xsl:variable name="sel_country">
-		<xsl:choose>
-			<xsl:when test="substring-after(/XmlData/xml-query-string, 'ORD=')!='' or substring-after(/XmlData/xml-query-string, 'showfilters=')!='' or substring-after(/XmlData/xml-query-string, 'printmode=')!=''">
-				<xsl:value-of select="substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'country='),'%3A'),'&amp;')"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="substring-after(substring-after(/XmlData/xml-query-string, 'country='),'%3A')"/>
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:value-of select="//RowSet[@Name='Search results']/@Country_equals" />
 	</xsl:variable>
 
 	<xsl:variable name="sel_issue">
-		<xsl:value-of select=" translate( translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'env_issue='),'%3A'),'&amp;'),'+',' '), '%26', '&amp;') "/>
+		<xsl:value-of select="//RowSet[@Name='Search results']/@Environmental_issue_equals" />
 	</xsl:variable>
 
 	<xsl:variable name="sel_client">
-		<xsl:choose>
-			<xsl:when test="substring-after(/XmlData/xml-query-string, 'ORD=')!='' or substring-after(/XmlData/xml-query-string, 'showfilters=')!='' or substring-after(/XmlData/xml-query-string, 'printmode=')!=''">
-				<xsl:choose>
-					<xsl:when test="substring-after(/XmlData/xml-query-string, '%2C')!=''">
-						<xsl:value-of select="concat(substring-before(translate(translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'&amp;'),'+',' '), '%26', '&amp;'), '&amp;C'), ',', substring-after(translate(translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'&amp;'),'+',' '), '%26', '&amp;'), '&amp;C'))"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="translate(translate(substring-before(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'&amp;'),'+',' '), '%26', '&amp;')"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:choose>
-					<xsl:when test="substring-after(/XmlData/xml-query-string, '%2C')!=''">
-						<xsl:value-of select="concat(substring-before(translate(translate(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'+',' '), '%26', '&amp;'), '&amp;C'), ',', substring-after(translate(translate(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'+',' '), '%26', '&amp;'), '&amp;C'))"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="translate(translate(substring-after(substring-after(/XmlData/xml-query-string, 'client='),'%3A'),'+',' '), '%26', '&amp;')"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:value-of select="//RowSet[@Name='Search results']/@Reporting_client_equals" />
 	</xsl:variable>
 
 	<xsl:template match="XmlData">
@@ -217,8 +187,6 @@
 										</span>
 										
 									</td></tr>
-									<!--tr><td>
-									</td></tr-->
 								</table>
             </td>
             <td style="border-left: 1 solid #C0C0C0">
@@ -381,11 +349,6 @@
 		<xsl:for-each select="Row/T_ISSUE">
 			<option>
 				<xsl:attribute name="value"><xsl:value-of select="PK_ISSUE_ID"/>:<xsl:value-of select="ISSUE_NAME"/></xsl:attribute>
-				<!--xsl:attribute name="selected">
-					<xsl:if test="PK_ISSUE_ID=$sel_issue">
-						true
-					</xsl:if>
-				</xsl:attribute-->
 				<xsl:value-of select="ISSUE_NAME"/></option>
 		</xsl:for-each>
 	</xsl:template>
@@ -422,79 +385,74 @@
 
 	<xsl:template match="RowSet[@Name='Search results']">
 	<!-- RA search results -->
-		<!--xsl:choose-->
-			<!--xsl:when test="$rora='A'"-->
-				<xsl:choose>
-					<xsl:when test="count(Row)=0">			
-						<tr><td><xsl:call-template name="nofound"/></td></tr>
-					</xsl:when>
-					<xsl:otherwise>
-						<!--table cellspacing="0" width="600"-->
-							<xsl:for-each select="Row">
-							<TR>
-								<xsl:attribute name="bgColor">
-									<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
-								</xsl:attribute>
-								<!--ra-->
-								<xsl:if test="$rora='A'">
-								<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
-									<SPAN class="head0n">
-										<xsl:if test="T_ACTIVITY/PK_RA_ID !=''">
-										<A> 
-											<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
-											<FONT face="Verdana" size="2">
-													<xsl:choose>
-														<xsl:when test="T_ACTIVITY/TITLE !=''">
-															<xsl:value-of select="T_ACTIVITY/TITLE"/>
-														</xsl:when>
-														<xsl:otherwise>
-															Reporting Activity
-														</xsl:otherwise>
-													</xsl:choose>
-											</FONT>
-										</A>
-										</xsl:if>
-									</SPAN>&#160;
-								</TD>
-								</xsl:if>
-								<!--ro-->
-								<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
-									<SPAN class="head0n">
-										<A> 
-											<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
-											<FONT face="Verdana" size="2">
-													<xsl:choose>
-														<xsl:when test="T_REPORTING/ALIAS!=''">
-															<xsl:value-of select="T_REPORTING/ALIAS"/>
-														</xsl:when>
-														<xsl:otherwise>
-															Obligation
-														</xsl:otherwise>
-													</xsl:choose>
-											</FONT>
-										</A>
-									</SPAN>&#160;
-								</TD>
-								<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
-									<SPAN class="head0n">
-										<A> 
-											<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-											<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/TITLE"/></FONT>
-										</A>
-									</SPAN>
-								</TD>
-								<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
-									<SPAN class="head0n">
-											<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/SOURCE_CODE"/></FONT>
-									</SPAN>
-									&#160;
-								</TD>
-							</TR>
-							</xsl:for-each>
-							<!--/table-->
-						</xsl:otherwise>
-					</xsl:choose>
-
+			<xsl:choose>
+				<xsl:when test="count(Row)=0">			
+					<tr><td><xsl:call-template name="nofound"/></td></tr>
+				</xsl:when>
+				<xsl:otherwise>
+						<xsl:for-each select="Row">
+						<TR>
+							<xsl:attribute name="bgColor">
+								<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
+							</xsl:attribute>
+							<!--ra-->
+							<xsl:if test="$rora='A'">
+							<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+								<SPAN class="head0n">
+									<xsl:if test="T_ACTIVITY/PK_RA_ID !=''">
+									<A> 
+										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
+										<FONT face="Verdana" size="2">
+												<xsl:choose>
+													<xsl:when test="T_ACTIVITY/TITLE !=''">
+														<xsl:value-of select="T_ACTIVITY/TITLE"/>
+													</xsl:when>
+													<xsl:otherwise>
+														Reporting Activity
+													</xsl:otherwise>
+												</xsl:choose>
+										</FONT>
+									</A>
+									</xsl:if>
+								</SPAN>&#160;
+							</TD>
+							</xsl:if>
+							<!--ro-->
+							<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+								<SPAN class="head0n">
+									<A> 
+										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
+										<FONT face="Verdana" size="2">
+												<xsl:choose>
+													<xsl:when test="T_REPORTING/ALIAS!=''">
+														<xsl:value-of select="T_REPORTING/ALIAS"/>
+													</xsl:when>
+													<xsl:otherwise>
+														Obligation
+													</xsl:otherwise>
+												</xsl:choose>
+										</FONT>
+									</A>
+								</SPAN>&#160;
+							</TD>
+							<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+								<SPAN class="head0n">
+									<A> 
+										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+										<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/TITLE"/></FONT>
+									</A>
+								</SPAN>
+							</TD>
+							<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+								<SPAN class="head0n">
+										<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/SOURCE_CODE"/></FONT>
+								</SPAN>
+								&#160;
+							</TD>
+						</TR>
+						</xsl:for-each>
+					</xsl:otherwise>
+				</xsl:choose>
 	</xsl:template>
 
 	<!-- KL 031027 -->

@@ -49,42 +49,6 @@ public class ROCache implements AppCacheIF {
    public long tblLastModified(String tblName) {
       long ret = -1;
 
-    /*      
-      if (dbPool == null) {
-         dbPool = XDBApplication.getDBPool();
-      }
-
-      Connection dbCon = dbPool.getConnection();
-      
-      try {
-         Statement stmt = dbCon.createStatement();
-         // DBG
-         if (Logger.enable(5))
-            Logger.log("tblLastModified: " + sqlStmt + Util.strLiteral(tblName));
-         //
-         ResultSet rs = stmt.executeQuery(sqlStmt + Util.strLiteral(tblName));
-         // DBG
-         if (Logger.enable(5))
-            Logger.log("tblLastModified: executeQuery done");
-         //
-         
-         if (rs.next() == false) // if the resultset was empty
-            return ret;
-            
-         Date modTime = rs.getDate(1);
-         ret = modTime.getTime();
-         // DBG
-         if (Logger.enable(5))
-            Logger.log("tblLastModified: ret = " + ret);
-         //
-         rs.close();
-         stmt.close();
-         dbCon.close();
-      } catch (SQLException e) {
-         // we log the error, method returns true
-         Logger.log("EmsCache.isTblModified: quering database failed", e);
-      }
-*/      
       ret = 10;
       return ret; 
    }

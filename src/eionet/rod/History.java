@@ -78,11 +78,6 @@ public class History extends ROServletAC {
          secondParam = " ACTION_TYPE = '" + mode + "'";
          
          
-      /*String rid = params.getParameter(AID_PARAM);
-      if ( Util.nullString(rid) ) 
-         throw new GeneralException(null, "Missing parameter '" + AID_PARAM + "'");
-      */
-
       // prepare data source
       String[][] queryPars = {{"TYPE", "'" + item_type + "'" }, {"OTHER", secondParam}};   
 

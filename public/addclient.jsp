@@ -5,7 +5,7 @@
 
 <%
 	//try {
-		String[][] countries = RODServices.getDbService().getCountries();
+		String[][] countries = RODServices.getDbService().getCountryIdPairs();
 //	} catch (Exception e) {
 		
 	//}

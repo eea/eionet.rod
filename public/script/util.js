@@ -26,7 +26,7 @@ function openSpatialHist(ID) {
 
 	var url = "spatialhistory.jsv?ID=" + ID;
 	var name = "History";
-	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var features = "location=no, menubar=yes, width=750, height=600, top=50, left=30, scrollbars=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 }

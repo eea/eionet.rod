@@ -79,11 +79,6 @@
 
 	<xsl:template match="RowSet[@Name='Activity']/Row">
 		<form name="f" method="POST" action="activity.jsv">
-<!--
-		<input type="hidden" name="xml-query-string">
-			<xsl:attribute name="value"><xsl:value-of select="/XmlData/xml-query-string"/></xsl:attribute>
-		</input>
--->
 		<input type="hidden" name="dom-update-mode">
 			<xsl:attribute name="value">
 				<xsl:choose>
@@ -277,27 +272,6 @@
 			</tr>
 		<!-- SPATIAL END -->
 
-
-
-			<!--tr valign="top">
-				<td nowrap="true" width="155"><span class="head0">Terminated:</span></td>
-				<td colspan="3">
-					<select onChange="changed()"><xsl:attribute name="name"><xsl:value-of select="T_ACTIVITY/TERMINATE/@XPath"/></xsl:attribute>
-						<xsl:for-each select="//RowSet[@Name='YesNo']/T_LOOKUP">
-							<xsl:choose>
-								<xsl:when test="C_VALUE=//RowSet[@Name='Activity']/Row/T_ACTIVITY/TERMINATE">
-									<option selected="true"><xsl:attribute name="value"><xsl:value-of select="C_VALUE"/></xsl:attribute>
-									<xsl:value-of select="C_TERM"/></option>
-								</xsl:when>
-								<xsl:otherwise>
-									<option><xsl:attribute name="value"><xsl:value-of select="C_VALUE"/></xsl:attribute>
-									<xsl:value-of select="C_TERM"/></option>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:for-each>
-					</select>
-				</td>
-			</tr-->
 			<tr valign="top">
 				<td nowrap="true" colspan="4"><span class="head0">Environmental issues:
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_ENVIRONMENTALISSUES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
@@ -645,9 +619,6 @@
 				</option>
 			</xsl:for-each>
 		</select>
-		<!--script language="JavaScript">
-			fillMultilist('X',document.f.client_list)
-		</script-->		
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='SpatialType']">

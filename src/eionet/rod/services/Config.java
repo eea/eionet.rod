@@ -77,28 +77,5 @@ public interface Config {
   public static final String URL_ACTIVITY_RMODE = "mode=R";
 
 
-  
-/**
-* DB connection URL for DB connection
-*/
-//  public static final String DB_URL = "db.url";
-
-/**
-* DB driver 
-  */
-//  public static final String DB_DRV = "db.drv";
-
-/**
-* User PWD  for DB connection 
-*/
-//  public static final String DB_USER_PWD = "db.pwd";
-
-
-/**
-* User ID for DB connection 
-*/
-//  public static final String DB_USER_ID = "db.usr";
-
-
  
 }

@@ -54,8 +54,6 @@ public class DBPool implements DBPoolIF {
    private String dbPwd;
 
 
-
-
   /**
   * 
   */ 
@@ -79,20 +77,6 @@ public class DBPool implements DBPoolIF {
       }
    }
 
-   /*
-   private Connection _getAccessConnection() {
-
-      try {
-         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-         Connection cn= DriverManager.getConnection("jdbc:odbc:WFAccess", "", "");
-         
-         return cn;
-      } catch (Throwable t) {
-         t.printStackTrace();
-      }
-      return null;
-   }
-   */
    
    private Connection _getMySQLConnection(String user, String pass)  {
       if (user == null) {

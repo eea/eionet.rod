@@ -47,7 +47,7 @@ public class Main extends CSServletAC {
 
   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
     String querySource = "";
-//_log("1");    
+
     String queryPars[][]=null;
     String countryID = params.getParameter("COUNTRY_ID");
     String countryPar;
@@ -56,15 +56,12 @@ public class Main extends CSServletAC {
       countryPar = "'%%'";
     else
       countryPar = "'" + countryID + "'";
-//_log("2");          
+
     String order = params.getParameter("ORD");
 
-    //!!! 
     if (order == null)
       order = "NEXT_DEADLINE";
       
-    //int parCount = 1;
-
 
     boolean issue=false;
     boolean deadline =false;
@@ -86,8 +83,6 @@ public class Main extends CSServletAC {
     if ( (date1 !=null && !date1.equals("dd/mm/yyyy")) || (date2 !=null && !date2.equals("dd/mm/yyyy")) || dlCase != null )
       deadline=true;
 
-//_log("issue " + issue);
-//_log("deadline   " + deadline);
 
 
     if (!issue && !deadline) { //only country
@@ -165,12 +160,8 @@ public class Main extends CSServletAC {
         date2="31/12/9999";
 
       date2=cnvDate(date2);
-
-
       
       queryPars[2][1] = "NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "'" ;
-      //queryPars[2][1] = deadLineFld + " >= '" + date1 + "' AND " + deadLineFld + " <= '" + date2 + "' AND T_ACTIVITY.VALID_TO >= CURRENT_DATE " ;
-         
       
       queryPars[3][0] = "ORD";
       queryPars[3][1] = order ;
@@ -183,13 +174,6 @@ public class Main extends CSServletAC {
         querySource = PREFIX + "csadvanced_deadline.xml"; // only deadline
 
     }
-
-
-    
-    //String queryPars[][] = {{"COUNTRY_ID", countryID}};
-    //_log("********************************");
-    //_log("querysource " + querySource);
-    //_log("********************************");
 
     HttpServletRequest req = params.getRequest();
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, req);
@@ -204,13 +188,8 @@ public class Main extends CSServletAC {
   * dd/mm/yyyy -> yyyy-MM-dd
   */
   private String cnvDate(String date ){
-
-
-    //date = date.substring(6) + "-" + date.substring(3,5) + "-" + date.substring(0,2);
     date = date.substring(6) +  date.substring(3,5) +  date.substring(0,2);
-
     return date;
-
   }
   private String getDate(Calendar cal ) {
     String day = Integer.toString( cal.get( Calendar.DATE) );

@@ -1,3 +1,26 @@
+/**
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of
+ * the License at http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * rights and limitations under the License.
+ *
+ * The Original Code is "NaMod project".
+ *
+ * The Initial Developer of the Original Code is TietoEnator.
+ * The Original Code code was developed for the European
+ * Environment Agency (EEA) under the IDA/EINRC framework contract.
+ *
+ * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Rights Reserved.
+ *
+ * Original Code: Kaido Laine (TietoEnator)
+ */
+
 package eionet.rod.rdf;
 
 import eionet.rod.services.ServiceException;
@@ -8,9 +31,10 @@ import javax.servlet.http.HttpServletRequest;
 import eionet.rod.Constants;
 import java.util.StringTokenizer;
 
+/**
+* Obligations RSS
+*/
 public class IssueObligations extends RSSServletAC {
-
-  //private final String obligationsNs = "ooo";
 
   protected String generateRDF(HttpServletRequest req) throws ServiceException {
     StringBuffer s = new StringBuffer();
@@ -49,18 +73,11 @@ public class IssueObligations extends RSSServletAC {
       String title = obligations[i][1];      
       String description =obligations[i][2] ;      
       String link = getObligationUrl(pk, obligations[i][3] );      
-/*      
-      String title = "Deadline for Reporting Activity: " + events[i][1];
-      String date = events[i][2];
-      String link = getActivityUrl(pk, events[i][3] );
-*/      
       s.append( "<item rdf:about=\"").append(obligationsNamespace).append("/ro-")
         .append(pk).append("\">")
         .append("<title>").append(title).append("</title>")
         .append("<link>").append(link).append("</link>")
         .append("<description>").append(description).append("</description>");
-        //.append("<link>").append(link).append("</link>")
-        //.append("<ev:startdate>").append(date).append("</ev:startdate>");
 
       s.append("</item>");
     } 

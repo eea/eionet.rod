@@ -75,7 +75,6 @@
 			<xsl:call-template name="Print"/>
 			<br/><br/>
 			<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_HIERARCHY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-			<!--img src="images/help.png" alt="Help" onclick="javascript:alert('By clicking on a sub-section link, a legal instruments hierarchy for that sub-section is displayed (i.e. on this new page the clicked section will be a top level section). Clicking on the legal instrument link, a page with this legal instrument data is displayed.')"/-->
 			<br/>
 		</td></tr>
 		<tr><td>&#160;</td><td align="center">
@@ -113,7 +112,6 @@
 					<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span></a>
 				</xsl:when>
 				<xsl:otherwise>
-					<!--span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span-->
 				</xsl:otherwise>
 			</xsl:choose>
 		</td></tr></table>

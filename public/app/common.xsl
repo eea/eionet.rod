@@ -28,8 +28,6 @@
 	<xsl:param name="req" select="'default value'"/>
 	<xsl:variable name="printmode" select="java:eionet.rod.RODUtil.getParameter($req, 'printmode')"/>
 
-	<!--xsl:variable name="mode">PR</xsl:variable-->
-
 	<xsl:variable name="admin">
 		<xsl:value-of select="//RowSet[position()=1]/@auth"/>
 	</xsl:variable>
@@ -50,15 +48,10 @@
 
 				<title><xsl:call-template name="PageTitle"/></title>
 				<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=ISO-8859-1"/>
-				<!--<link type="text/css" rel="stylesheet" href="http://www.eionet.eu.int/eionet.css">-->
 				<link href="eionet.css" rel="stylesheet" type="text/css"/>
 				<script language="JavaScript" src="script/util.js"></script>
 				<script language="JavaScript">
 					<![CDATA[
-
-
-
-
 <!--
 Net=1;
 if ((navigator.appName.substring(0,5) == "Netsc"
@@ -169,7 +162,7 @@ function fillPicklist(type,list,text) {
 			</script>
 		</head>
 		<body bgcolor="#f0f0f0" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
-				<!--xsl:if test="not(starts-with($mode,'P'))"--><xsl:if test="not($printmode='Y')"><xsl:attribute name="background">images/eionet_background.jpg</xsl:attribute></xsl:if>
+			<xsl:if test="not($printmode='Y')"><xsl:attribute name="background">images/eionet_background.jpg</xsl:attribute></xsl:if>
 
 			<!-- MAIN table -->
 			<xsl:if test="not($printmode='Y')">

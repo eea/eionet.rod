@@ -114,29 +114,14 @@ public class ReportingHandler extends ActivityHandler {
       }
 
 
-     /*if (state == INSERT_RECORD && !ins )
-        return false;
-      if (state == DELETE_RECORD && !del )
-        return false;
-      if (state == MODIFY_RECORD && !upd )
-        return false; */
-        
-
       if (tblName.equals("T_REPORTING")) {
 
-		if (state != INSERT_RECORD) 
+  		if (state != INSERT_RECORD) 
 	        updateDB("DELETE FROM T_CLIENT_LNK WHERE FK_OBJECT_ID= " + gen.getFieldValue("PK_RO_ID")  + " AND " +
             " TYPE='R'");
 
 
-		  /*if (state != DELETE_RECORD && !gen.getFieldValue("FK_CLIENT_ID").equals("0"))
-	          updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, STATUS, TYPE) " +
-		        " VALUES ( " + gen.getFieldValue("FK_CLIENT_ID") + ", " + gen.getFieldValue("PK_RO_ID") +
-			    ", 'M', 'R')");            */
-
-
-
-         if (state != INSERT_RECORD) {
+      if (state != INSERT_RECORD) {
             gen.setPKField("PK_RO_ID");
             id = gen.getFieldValue("PK_RO_ID");
             // delete all linked data and in delete mode also the self record
@@ -173,29 +158,19 @@ public class ReportingHandler extends ActivityHandler {
          defaultProcessing(gen, null);
           
          id = recordID;
-		//Logger.log("================== ID=" + id);
-
-		 if (state != DELETE_RECORD && !gen.getFieldValue("FK_CLIENT_ID").equals("0"))
-			updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, STATUS, TYPE) " +
+  	 if (state != DELETE_RECORD && !gen.getFieldValue("FK_CLIENT_ID").equals("0"))
+    		updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, STATUS, TYPE) " +
 		        " VALUES ( " + gen.getFieldValue("FK_CLIENT_ID") + ", " + id +
 			    ", 'M', 'R')");     
 
         //log history
-        //HistoryLogger.logObligationHistory(id, this.user.getUserName(), state, gen.getFieldValue("ALIAS"));
         logHistory(gen);
          
          if (servlet != null)
             servlet.setCurrentID(id);
 
-
             
       }
-      /*else if (tblName.equals("T_SPATIAL_LNK")) {
-       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
-          spatialCont.add(gen.clone());
-       else
-        return false;
-      } */
       else if (tblName.equals("T_CLIENT_LNK")) {
         if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
           clientCont.add(gen.clone());
@@ -206,26 +181,6 @@ public class ReportingHandler extends ActivityHandler {
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing
 
-    /*  if ( (id != null) && (!spatialCont.isEmpty()) ) {
-         for (int i=0; i < spatialCont.size(); i++) {
-           SQLGenerator spatialGen = (SQLGenerator)spatialCont.get(i);
-           String value = spatialGen.getFieldValue("FK_SPATIAL_ID");
-
-           spatialGen.setField("FK_RO_ID", id);
-           if(value.indexOf(":") == -1) {
-             updateDB("DELETE FROM T_SPATIAL_LNK WHERE FK_RO_ID=" + id + " AND FK_SPATIAL_ID=" + getID(value));
-             spatialGen.setField("FK_SPATIAL_ID", getID(value));
-             spatialGen.setField("VOLUNTARY", "N");
-           }
-           else {
-             spatialGen.setField("FK_SPATIAL_ID", value.substring(value.indexOf(":")+1));
-             spatialGen.setField("VOLUNTARY", "Y");
-           }
-
-           updateDB(spatialGen.insertStatement());
-         }
-         spatialCont.clear();
-      } */
       //client lnk
       if ( (id != null) && (!clientCont.isEmpty()) ) {
       
@@ -238,7 +193,6 @@ public class ReportingHandler extends ActivityHandler {
            clientGen.setField("FK_OBJECT_ID", id);
            clientGen.setField("STATUS", "C");
            clientGen.setField("TYPE", "R");           
-            //System.out.println("================I: " + clientGen.insertStatement());
 
            updateDB(clientGen.insertStatement());
          }

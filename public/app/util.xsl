@@ -97,7 +97,6 @@
 											</xsl:when>
 
 										</xsl:choose>
-<!--											| Last updated: <xsl:value-of select="$last_update"/-->
 										
 									</xsl:otherwise>
 									</xsl:choose>
@@ -106,7 +105,6 @@
 												<xsl:call-template name="Feedback_URL"/>
 											</xsl:attribute>
 									Feedback </a>
-									<!--a href="javascript:openPrintable()">Printable Page</a-->
 									</span>
                   </td>
 
@@ -124,7 +122,7 @@
 				</table>
 	</xsl:template>
 	<xsl:template name="Print">
-		<xsl:if test="$printmode = 'N'">
+		<xsl:if test="$printmode='N'">
 			<img src="images/printerfriendly.png" onClick="javascript:openPrintable()" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'" />
 		</xsl:if>
 	</xsl:template>
@@ -198,12 +196,6 @@
 						<img src="images/button_obligations.gif" border="0" width="84" height="13" alt="Reporting Obligations"/>
 					</a>
 				</td></tr>
-				<!--tr><td align="right">
-					<a href="rorabrowse.jsv?mode=A" onMouseOver="Over('img4')" onMouseOut="Out('img4')" onClick="Click('img4')">
-						<img name="img4" src="images/off.gif" border="0" alt=""/>
-						<img src="images/button_activities.gif" border="0" width="84" height="13" alt="Reporting Activities"/>
-					</a>
-				</td></tr-->
 				<tr><td align="right">
 					<a href="deliveries.jsv" onMouseOver="Over('img8')" onMouseOut="Out('img8')" onClick="Click('img8')">
 						<img name="img8" src="images/off.gif" border="0" alt=""/>
@@ -248,7 +240,6 @@
 		<xsl:param name="date1"></xsl:param>
 		<xsl:param name="date2"></xsl:param>
 		<xsl:param name="date3"></xsl:param>
-		<!--xsl:variable name="date"/-->
 		<a href="analysis.jsv">
 		<xsl:choose>
 			<xsl:when test="$date1>=$date2 and $date1>=$date3">

@@ -69,31 +69,6 @@
 			<STATUS/>
 			<TYPE/>
 		</T_CLIENT_LNK>
-		<!--xrs:SubSet name="LnkSpatial" relation="T_REPORTING.PK_RO_ID=T_SPATIAL_LNK.FK_RO_ID">
-			<T_SPATIAL_LNK>
-				<FK_SPATIAL_ID/>
-			</T_SPATIAL_LNK>
-			<T_SPATIAL relation="T_SPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID" reltype="inner">
-				<SPATIAL_NAME/>
-				<SPATIAL_TYPE/>
-			</T_SPATIAL>
-			<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
-			<xrs:Constraint>T_SPATIAL_LNK.VOLUNTARY!='Y'</xrs:Constraint>
-		</xrs:SubSet>
-		<xrs:SubSet name="VoluntaryCountries" relation="T_REPORTING.PK_RO_ID=T_SPATIAL_LNK.FK_RO_ID">
-			<T_SPATIAL_LNK>
-				<FK_SPATIAL_ID/>
-				<FK_RO_ID/>
-				<VOLUNTARY/>
-			</T_SPATIAL_LNK>
-			<T_SPATIAL relation="T_SPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID" reltype="inner">
-				<PK_SPATIAL_ID/>
-				<SPATIAL_NAME/>
-				<SPATIAL_TYPE/>
-			</T_SPATIAL>
-			<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
-			<xrs:Constraint>T_SPATIAL_LNK.VOLUNTARY='Y' AND T_SPATIAL.SPATIAL_TYPE='C'</xrs:Constraint>
-		</xrs:SubSet-->
 		<xrs:SubSet name="CCClients" relation="T_REPORTING.PK_RO_ID=T_CLIENT_LNK.FK_OBJECT_ID">
 			<T_CLIENT_LNK>
 				<FK_CLIENT_ID/>

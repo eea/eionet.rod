@@ -44,7 +44,6 @@
 
 	<xsl:template match="RowSet[@Name='Source']/Row[position()=1]">
 		<!-- form for delete legislation action -->
-		<!--xsl:if test="$admin='true'"-->
 		<xsl:if test="contains($permissions, ',/LI:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
@@ -260,7 +259,6 @@ function delLegislation() {
 		<table width="100%" colspan="5" border="1">
 			<tr>
 				<td width="60%"><span class="head0">Title</span></td>
-				<!--td><span class="head0"></span></td-->
 			</tr>
 			<xsl:for-each select="Row/T_REPORTING">
 				<tr>
@@ -276,7 +274,6 @@ function delLegislation() {
 						</xsl:choose>
 					</a>
 					</td>
-					<!--td></td-->
 				</tr>
 			</xsl:for-each>
 		</table>

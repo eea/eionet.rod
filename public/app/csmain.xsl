@@ -58,7 +58,6 @@ function openCirca(url){
 <tr>
 	<td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td>
 	<td height="25" background="images/bar_filled.jpg" width="600">
- 		 <!--table border="1" background="" cellPadding="0" cellSpacing="0" height="8"-->
      <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
 		 <tr valign="top">
 		  <td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
@@ -75,8 +74,6 @@ function openCirca(url){
 			</table>
 		 </td></tr><tr><td></td></tr>
 	</table>
-
-
 
 	<!-- main -->
 	<table  cellspacing="0" cellpadding="0" border="0">
@@ -118,7 +115,6 @@ function openCirca(url){
 <table border="0"><tr>
 <TD width="771">
 
-<!--b>x:</b><xsl:value-of select="$selIssue"/-->
 	<input type="hidden" name="COUNTRY_ID">
 		<xsl:attribute name="value">
 				<xsl:value-of select="$sel_country"/>

@@ -55,10 +55,6 @@ if ((navigator.appName.substring(0,5) == "Netsc"
  gTarget = 'img1';
 }
 
-/*function openAddIssuerWin() {
-	window.open('addissuer.html','sInfo','height=338,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
-} */
-
 function openAddClientWin() {
 	window.open('addclient.jsp','sInfo','height=450,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
 }
@@ -113,18 +109,10 @@ function compField(txt, fld) {
 	compulsory[compulsory.length] = pair;
 }
 
-/*function save() {
-	//return save(null,true);
-} */
-
 function del() {
 	document.f.elements["dom-update-mode"].value="D";
 	save(null,false);
 }
-
-/*function save(txt) {
-	save(txt,true);
-} */
 
 function save(text,silent) {
 	var i, j;
@@ -176,7 +164,6 @@ function save(text,silent) {
 
 
 	document.f.submit();
-	//alert("submit ok");	
 	isChanged = false;
 
 	return true;
@@ -287,10 +274,6 @@ function mvValues(selFrom, selTo, unit) {
 		}
 	}
 	
-/*	if (unit != null) {
-		unit.value = '';
-	}*/
-
 	// remove from	
 	count = 0;
 	for (i = selected.length-1; i >= 0; --i) {

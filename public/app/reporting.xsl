@@ -65,28 +65,6 @@
 		<xsl:if test="contains($permissions, ',/RO:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
-
-/*function openClient(ID){
-
-	var url = "client.jsv?id=" + ID;
-	var name = "Client";
-	var features = "location=no, menubar=no, width=500, height=400, top=100, left=200, scrollbars=yes";
-	var w = window.open(url,name,features);
-	w.focus();
-
-}*/
-
-/*function openHistory(ID,TYPE){
-	
-	var url = "history.jsv?entity=" + TYPE + "&id=" + ID;
-	var name = "History";
-	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
-	var w = window.open(url,name,features);
-	w.focus();
-
-} */
-
-
 function delObligation() {
 	if (confirm("Do you want to delete the reporting obligation and related reporting activities?"))
 		document.f.submit();
@@ -227,17 +205,6 @@ function delObligation() {
 				<td width="22%"><span class="head0">Type:</span></td>
 				<td colspan="2">
 					<xsl:value-of select="T_LOOKUP/C_TERM"/>
-					<!--xsl:choose>
-						<xsl:when test="T_REPORTING/LEGAL_MORAL='L'">
-							Legal obligation
-						</xsl:when>
-						<xsl:when test="T_REPORTING/LEGAL_MORAL='M'">
-							Moral obligation
-						</xsl:when>
-						<xsl:when test="T_REPORTING/LEGAL_MORAL='V'">
-							Voluntary obligation
-						</xsl:when>
-					</xsl:choose-->
 				</td>
 			</tr>
 
