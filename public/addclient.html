@@ -1,0 +1,85 @@
+<!--
+/**
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of
+ * the License at http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * rights and limitations under the License.
+ *
+ * The Original Code is "EINRC-5 / WebROD Project".
+ *
+ * The Initial Developer of the Original Code is TietoEnator.
+ * The Original Code code was developed for the European
+ * Environment Agency (EEA) under the IDA/EINRC framework contract.
+ *
+ * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Rights Reserved.
+ *
+ * Original Code: Ander Tenno (TietoEnator)
+ */
+ -->
+
+<html>
+	<head>
+	<title>Add Client</title>
+	<link href="eionet.css" rel="stylesheet" type="text/css"></link>
+	</head>
+
+	<body onLoad="setFocus('clientForm')" onUnload="window.opener.document.location.reload(true)">
+		<center>
+		<h2>Add Client Organisation</h2>
+		<form name="clientForm" method="post" action="addclient.jsv">
+			<table width='100%'>
+				<tr>
+					<td align="right"><b>Name:</b></td>
+					<td align="left">
+						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_NAME" size="40" maxlength="255"></input>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><b>Acronym:</b></td>
+					<td align="left">
+						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_ACRONYM" size="40" maxlength="255"></input>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><b>Address:</b></td>
+					<td align="left">
+						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_ADDRESS" size="40" maxlength="255"></input>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><b>Homepage:</b>	</td>
+					<td align="left">
+						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_URL" size="40" maxlength="255"></input>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><b>Email:</b>	</td>
+					<td align="left">
+						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_EMAIL" size="40" maxlength="255"></input>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><b>Add. info:</b></td>
+					<td align="left">
+						<textarea name="/XmlData/RowSet/Row/T_CLIENT/DESCRIPTION" rows="4" cols="40"></textarea>
+					</td>
+				</tr>
+			</table>		
+			<table>		
+				<tr><td colspan="2"></td></tr>
+				<tr>
+					<td><input type="submit" value="OK"/>	</td>
+					<td><input type="reset" value="Cancel"/></td>
+				</tr>
+			</table>
+			<input type="hidden" name="dom-update-mode" value="I"></input>
+		</form>
+		</center>
+	</body>
+</html>
