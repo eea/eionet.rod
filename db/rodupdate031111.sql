@@ -1,0 +1,2 @@
+DELETE FROM T_LOOKUP WHERE C_TERM="Voluntary request" AND C_VALUE="V";
+INSERT INTO T_LOOKUP (C_TERM, CATEGORY, C_VALUE) VALUES ("Voluntary request", "2", "V");
