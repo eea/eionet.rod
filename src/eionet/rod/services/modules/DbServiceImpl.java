@@ -86,6 +86,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   private static String rodDomain;
 
+  private static String roNs;
+
   private DBPoolIF dbPool = null;
 
   private LogServiceIF logger;
@@ -288,6 +290,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       dbPsw = RODServices.getFileService().getStringProperty( FileServiceIF.DB_USER_PWD);
 
       rodDomain  = RODServices.getFileService().getStringProperty( ROD_URL_DOMAIN );
+      roNs= RODServices.getFileService().getStringProperty( FileServiceIF.RO_NAMESPACE);    
+      
 
       logger = RODServices.getLogService();
       
@@ -651,15 +655,32 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
     return  _getVectorOfHashes(sql);        
   }
-  
+
+
+  //XML-RPC
+  public  Vector getActivities() throws ServiceException {
+      String sql = "SELECT a.PK_RA_ID, s.PK_SOURCE_ID,  a.TITLE, " +
+        " IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, a.LAST_UPDATE, " +
+        " CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&aid=', FK_SOURCE_ID, '&mode=A') AS details_url, " +
+        " CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri, " +
+        " IF (TERMINATE='Y', 1, 0) AS 'terminated'" +
+        " FROM T_OBLIGATION a , T_SOURCE s " +
+        " WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " ;
+
+        //if (!all)        
+         //sql += " AND a.TERMINATE = 'N' ";
+
+        sql += " ORDER BY a.PK_RA_ID";
+        
+      return  _getVectorOfHashes(sql);
+
+  }
  /**
 	* Returns all Reporting activities pk_id + title
   * used in RDF generating
   * URL parameters hard-coded
 	*/
-  public  Vector getActivities(boolean all) throws ServiceException {
-      //String rodDomain = "";
-      String roNs= RODServices.getFileService().getStringProperty( FileServiceIF.RO_NAMESPACE);    
+  public  Vector getObligations() throws ServiceException {
       
       String sql = "SELECT a.PK_RA_ID, s.PK_SOURCE_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE, " +
         " IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, a.LAST_UPDATE, " +
@@ -677,8 +698,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
         " FROM T_OBLIGATION a , T_SOURCE s " +
         " WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " ;
 
-        if (!all)        
-         sql += " AND a.TERMINATE = 'N' ";
+        //if (!all)        
+         //sql += " AND a.TERMINATE = 'N' ";
 
         sql += " ORDER BY SOURCE_TITLE, TITLE;";
         

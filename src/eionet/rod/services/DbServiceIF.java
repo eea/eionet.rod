@@ -116,13 +116,17 @@ public interface DbServiceIF  {
 
  
   /**
-  * Activities used in RDF
-  * @param boolean terminated: false - only unterminated are returned
+  * Activities used in XML/RPC
   * @return array of hashes (PK_RA_ID, TITLE, etc)
   
   */
-  public Vector getActivities(boolean all) throws ServiceException ;
+  public Vector getActivities() throws ServiceException ;
 
+  /**
+  * obligations.rdf
+  */
+  public Vector getObligations() throws ServiceException ;
+  
   /**
   * Legal Instruments ARRAY of STRUCTs for RDF
   * @return array of hashes

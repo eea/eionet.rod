@@ -80,7 +80,7 @@ public class Activities extends RDFServletAC {
 
     DbServiceIF wSrv = RODServices.getDbService();
     //WebRODService wSrv = new WebRODService();
-    Vector acts = wSrv.getActivities(true);
+    Vector acts = wSrv.getObligations();
     
     for (int i= 0; i< acts.size(); i++){
       Hashtable act = (Hashtable)acts.elementAt(i);
