@@ -161,7 +161,7 @@ public class Extractor implements ExtractorConstants {
     String crUrl, wrUrl;
 
     //namespaces
-    String raNs=null, countryNs=null;
+    String raNs=null, countryNs=null, deliveryNs=null, predRdfType=null;
 
     //prefix for RA ID to get the data from CR KL040303
     String raIdPref=null;
@@ -179,6 +179,8 @@ public class Extractor implements ExtractorConstants {
       raNs = fileSrv.getStringProperty( FileServiceIF.RA_NAMESPACE );
       raIdPref = fileSrv.getStringProperty( FileServiceIF.RO_NAMESPACE );
       countryNs = fileSrv.getStringProperty( FileServiceIF.COUNTRY_NAMESPACE);
+      deliveryNs = fileSrv.getStringProperty( FileServiceIF.DELIVERY_NAMESPACE);
+      predRdfType = fileSrv.getStringProperty( FileServiceIF.PRED_RDF_TYPE);
       //extractor.debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");     
       debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");           
       
@@ -277,6 +279,7 @@ public class Extractor implements ExtractorConstants {
       for(int i = 0; raData != null && i < raData.length; i++) {
         attrs.clear();
         attrs.put(raNs , raIdPref + "/" + raData[i][0]);      // PREFIX + RA ID
+        attrs.put(predRdfType , deliveryNs);      // PREFIX + RA ID
         prms.setElementAt(attrs, 0);
 
         try {

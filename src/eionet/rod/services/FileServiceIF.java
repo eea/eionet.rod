@@ -86,6 +86,10 @@ public interface FileServiceIF  {
   */
   public static final String SPATIAL_NAMESPACE = "spatial.namespace";
 
+  /**
+  * Namespace for Delivery
+  */
+  public static final String DELIVERY_NAMESPACE = "delivery.namespace";
 
   /**
   * URL for ContReg service
@@ -123,6 +127,10 @@ public interface FileServiceIF  {
   */
   public static final String CONTREG_FORMAT_PREDICATE = "contreg.format.predicate";
 
+  /**
+  * Title Predicate for rdf type
+  */
+  public static final String PRED_RDF_TYPE = "pred.rdf-type";
 
   /**
   * Returns String type property from the properties file
