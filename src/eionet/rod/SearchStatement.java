@@ -115,6 +115,7 @@ public class SearchStatement extends QueryStatement implements Constants {
       FieldInfo o1 = new FieldInfo("DEADLINE","T_OBLIGATION"); //EK050201
       o1.setFieldExpr("IF(NEXT_DEADLINE IS NULL, NEXT_REPORTING, NEXT_DEADLINE) AS DEADLINE");
       vFields.add(o1);
+      vFields.add(new FieldInfo("FK_DELIVERY_COUNTRY_IDS","T_OBLIGATION"));//EK050211
 
       vFields.add(new FieldInfo("FK_SOURCE_ID","T_OBLIGATION"));
       vFields.add(new FieldInfo("TERMINATE","T_OBLIGATION"));

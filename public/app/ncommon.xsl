@@ -46,6 +46,43 @@
 
 	<xsl:template match="/">
    	<html lang="en">
+   		<xsl:call-template name="html_head"/>
+		<body>
+
+			<!-- MAIN table -->
+
+<div id="pagehead">
+ <div id="identification">
+  <a href="/" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a>
+								<div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
+								<div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
+ </div>
+
+
+</div> <!-- page head -->
+
+					<xsl:call-template name="LeftToolbar">
+						<xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param>
+						<xsl:with-param name="username"><xsl:value-of select="$username"/></xsl:with-param>
+					</xsl:call-template>
+					<xsl:apply-templates select="XmlData"/>
+			</body>
+   	 </html>
+	</xsl:template>  
+
+	<xsl:template name="nofound">
+		<table cellspacing="7pts">
+			<tr height="40pts" valign="bottom">
+				<td width="10pts">&#160;</td>
+				<td>No records found</td>
+			</tr>
+			<tr height="40pts" valign="bottom">
+				<td width="10pts">&#160;</td>
+				<td><a href="javascript:history.back()"><span class="Mainfont">[Back]</span></a></td>
+			</tr>
+		</table>
+	</xsl:template>
+	<xsl:template name="html_head">
 		<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="title" content="EEA - Reporting Obligations Database" />
@@ -129,39 +166,5 @@ function fillPicklist(type,list,text) {
 				]]>
 			</script>
 		</head>
-		<body>
-
-			<!-- MAIN table -->
-
-<div id="pagehead">
- <div id="identification">
-  <a href="/" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a>
-								<div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
-								<div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
- </div>
-
-
-</div> <!-- page head -->
-
-					<xsl:call-template name="LeftToolbar">
-						<xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param>
-						<xsl:with-param name="username"><xsl:value-of select="$username"/></xsl:with-param>
-					</xsl:call-template>
-					<xsl:apply-templates select="XmlData"/>
-			</body>
-   	 </html>
-	</xsl:template>  
-
-	<xsl:template name="nofound">
-		<table cellspacing="7pts">
-			<tr height="40pts" valign="bottom">
-				<td width="10pts">&#160;</td>
-				<td>No records found</td>
-			</tr>
-			<tr height="40pts" valign="bottom">
-				<td width="10pts">&#160;</td>
-				<td><a href="javascript:history.back()"><span class="Mainfont">[Back]</span></a></td>
-			</tr>
-		</table>
 	</xsl:template>
 </xsl:stylesheet>

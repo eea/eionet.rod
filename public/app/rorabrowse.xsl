@@ -194,6 +194,9 @@
 					<xsl:with-param name="width" select="'10%'"/>
 					<xsl:with-param name="cur_sorted" select="$sortorder"/>
 				</xsl:call-template>
+				<xsl:if test="$analysisMode='P'">
+					<th scope="col" class="notsorted" title="Show deliveries in the repository" width="8%">Deliveries</th>
+				</xsl:if>
 				</tr>
 			</thead>
 			<xsl:apply-templates select="RowSet[@Name='Search results']"/>
@@ -266,27 +269,44 @@
 			</SPAN>
 			&#160;
 		</td>
-	<td valign="top">
-		<span class="rowitem">
-			<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
-			<xsl:choose>
-			<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
-				<xsl:attribute name="style">color:#006666</xsl:attribute>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:attribute name="style">color:#000000</xsl:attribute>
-			</xsl:otherwise>			
-			</xsl:choose>
+		<td valign="top">
+			<span class="rowitem">
+				<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
+				<xsl:choose>
+				<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
+					<xsl:attribute name="style">color:#006666</xsl:attribute>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:attribute name="style">color:#000000</xsl:attribute>
+				</xsl:otherwise>			
+				</xsl:choose>
 
-			<xsl:call-template name="short">
-				<xsl:with-param name="text" select="T_OBLIGATION/DEADLINE"/>
-				<xsl:with-param name="length">10</xsl:with-param>
-			</xsl:call-template>
+				<xsl:call-template name="short">
+					<xsl:with-param name="text" select="T_OBLIGATION/DEADLINE"/>
+					<xsl:with-param name="length">10</xsl:with-param>
+				</xsl:call-template>
 			
-			<!--xsl:value-of select="T_OBLIGATION/DEADLINE"/-->
+				<!--xsl:value-of select="T_OBLIGATION/DEADLINE"/-->
 
-		</span>&#160;
-	</td>
+			</span>&#160;
+		</td>
+		<xsl:if test="$analysisMode='P'">
+			<td valign="top">
+				<span class="rowitem">
+					<xsl:choose>
+						<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
+							<a window="delivery">
+								<xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%')</xsl:attribute>
+							Show list
+							</a>
+						</xsl:when>
+						<xsl:otherwise>
+							None
+						</xsl:otherwise>
+					</xsl:choose>
+				</span>&#160;
+			</td>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Search results']">
@@ -420,6 +440,23 @@
 							</xsl:call-template>
 						</span>&#160;
 					</td>
+					<xsl:if test="$analysisMode='P'">
+						<td valign="top">
+							<span class="rowitem">
+								<xsl:choose>
+									<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
+										<a window="delivery">
+											<xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%')</xsl:attribute>
+										Show list
+										</a>
+									</xsl:when>
+									<xsl:otherwise>
+										None
+									</xsl:otherwise>
+								</xsl:choose>
+							</span>&#160;
+						</td>
+					</xsl:if>
 				</tr>
 				</xsl:for-each>
 			</xsl:if>

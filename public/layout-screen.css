@@ -517,5 +517,25 @@ tr.even td {
 	padding:1px 0.8em;
 	font-size: 1.0em;
 }
+/*
+ * Popups don't have left or right columns. Instead we
+ * indent the text a bit
+ */
+.popup {
+  margin:30px;
+  background-image: none;
+}
+
+.popuphead h1 {
+  color: #006666;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+.popuphead hr {
+   background-color: #99CDCB;
+   height: 15px;
+   border: none;
+}
 
 } /* screen media */
