@@ -37,18 +37,16 @@ var picklist = new Array();
  <div class="breadcrumbtail">&#160;</div>
 </div>
 
-<div id="workarea">
-<form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form><div style="margin-left:20"><table cellspacing="7pts"></table></div>
-<table width="600">
-<tr><td>
-<table width="100%">
-<tr>
-	<td width="77%">&#160;</td>
-	<td align="right"><a href="cssearch"><img border="0" src="images/but_advancedsearch.jpg" alt=""/></a><br/><br/></td>
-</tr>
+<div id="workarea" style="width:600px">
+<form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form>
+
+<div style="float:right">
+<table>
+	<tr>
+		<td align="right"><a href="cssearch"><img border="0" src="images/but_advancedsearch.jpg" alt=""/></a><br/><br/></td>
+	</tr>
 <xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
 	<tr>
-	<td width="77%">&#160;</td>
 		<td align="center">
 			<xsl:if test="$admin='true'">
 				<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
@@ -60,19 +58,18 @@ var picklist = new Array();
 		</td>
 	</tr>
 </xsl:if>
-<tr><td valign="top" colspan="2"><div class="Mainfont" align="justify">
+</table>
+</div>
+<h1>Country deadlines</h1>
+<p align="justify">
 This part of ROD helps countries co-ordinate and manage their international
 reporting obligations. It provides information about when countries have to
 report, who is responsible for reporting, and to which organisation the data
 set should be delivered. It is geared towards EEA member countries. You can
 browse national deliveries by choosing a country below or query the contents
 of ROD and CDR by using the advanced search. 
-<br/><br/>
-</div>
-</td>
-</tr></table>
+</p>
 
-<table width="100%">
 
 <xsl:variable name="noOfCountries"><xsl:value-of select="count(child::RowSet[@Name='Members']/Row/T_SPATIAL)"/></xsl:variable>
 <table cellspacing="0">
@@ -130,19 +127,14 @@ of ROD and CDR by using the advanced search.
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
-
-</td>
-</tr>
-</table>
-
-
-<xsl:call-template name="CommonFooter"/>
-</table>
-
-<br/>
 </td></tr>
 </table>
 </div>
+
+
+
+<xsl:call-template name="CommonFooter"/>
+
 
 
 

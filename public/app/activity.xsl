@@ -23,7 +23,7 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:include href="common.xsl"/>
+	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="ra-id">
 		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/PK_RA_ID"/>
@@ -79,12 +79,6 @@
 		</xsl:if>
 
 		<!-- navigation bar -->
-		<xsl:if test="$printmode='N'">
-      <table cellspacing="0" cellpadding="0" width="621" border="0">
-			<tr>
-         	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
-          	<td width="600" background="images/bar_filled.jpg" height="25">
-
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
@@ -95,104 +89,63 @@ Legislative instrument</a></div>
  <div class="breadcrumbtail">&#160;</div>
 </div>
 
-            <table height="8" cellspacing="0" cellpadding="0" background="" border="0">
-            	<tr>
-		         	<td valign="bottom">
-							<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
-						</td>
-		            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-		         	<td valign="bottom">
-							<a href="index.html"><span class="barfont">ROD</span></a>
-						</td>
-   	            <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom">
-							<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;mode=S</xsl:attribute>
-							<span class="barfont">Legislative instrument</span></a>
-						</td>
-            	   <td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-               	<td valign="bottom"><span class="barfont">Reporting obligation</span></td>
-                	<td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
-					</tr>
-				</table>
-			</td></tr>
-			<tr><td>&#160;</td></tr>
-		</table>
-		</xsl:if>
-
 		<div id="workarea">
-
-		<table width="610" border ="0">
-			<tr>
-				<td valign="top" width="76%">
-					<span class="headgreen">Reporting obligation for <xsl:value-of select="T_SOURCE/ALIAS"/> &#160; <xsl:value-of select="T_SOURCE/SOURCE_CODE"/> </span>
-				</td>
-				<td align="right">
-					<table width="100%" border="0">
+			<table width="150" style="float:right" class="notprintable" border="0">
+				<tr>
+					<td><xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RA</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
+				</tr>
+				<xsl:if test="count(//SubSet[@Name='Indicators']/Row) != 0 ">
+				<tr>
+					<td>
+					<a><xsl:attribute name="href">javascript:openPopup("show.jsv", "id=<xsl:value-of select='$ra-id'/>&amp;mode=I")</xsl:attribute>
+						<img src="images/indicators.jpg" alt="Show indicators" border="0"/></a><br/>
+					</td>
+				</tr>
+				</xsl:if>
+				<tr>
+					<td>
+					<a><xsl:attribute name="href">show.jsv?mode=M&amp;id=<xsl:value-of select="$ra-id"/></xsl:attribute>
+						<img src="images/parameters.jpg" alt="Show parameters" border="0"/></a><br/>
+					</td>
+				</tr>
+				<xsl:if test="T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != ''">
 					<tr>
 						<td>
-							<xsl:call-template name="Print"/>
+								<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="$ra-id"/>&amp;COUNTRY_ID=%%</xsl:attribute>
+								 <img src="images/statusofdeliveries.jpg" alt="Show the status of country deliveries" border="0"/></a><br/>
 						</td>
 					</tr>
-					<xsl:if test="$printmode='N'">
-						<tr>
-							<td><xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RA</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
-						</tr>
-						<xsl:if test="count(//SubSet[@Name='Indicators']/Row) != 0 ">
-						<tr>
-							<td>
-							<a><xsl:attribute name="href">javascript:openPopup("show.jsv", "id=<xsl:value-of select='$ra-id'/>&amp;mode=I")</xsl:attribute>
-								<img src="images/indicators.jpg" alt="Show indicators" border="0"/></a><br/>
-							</td>
-						</tr>
-						</xsl:if>
-						<tr>
-							<td>
-							<a><xsl:attribute name="href">show.jsv?mode=M&amp;id=<xsl:value-of select="$ra-id"/></xsl:attribute>
-								<img src="images/parameters.jpg" alt="Show parameters" border="0"/></a><br/>
-							</td>
-						</tr>
-						<xsl:if test="T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != ''">
-							<tr>
-								<td>
-										<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="$ra-id"/>&amp;COUNTRY_ID=%%</xsl:attribute>
-										 <img src="images/statusofdeliveries.jpg" alt="Show the status of country deliveries" border="0"/></a><br/>
-								</td>
-							</tr>
-						</xsl:if>
-						<tr><td align="center">
-							<xsl:if test="$admin='true' and $printmode='N'">
-								<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
-								<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
-								<b><font color="#FFFFFF">Actions</font></b><br/><br/>
-							</xsl:if>
-						<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
-							<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
-								<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/></a><br/>
-							</xsl:if>
-							<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
-								<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute><img src="images/editobligation.png" alt="Edit this obligation" border="0"/></a><br/>
-							</xsl:if>
+				</xsl:if>
+				<tr><td align="center">
+					<xsl:if test="$admin='true' and $printmode='N'">
+						<xsl:attribute name="style">float:right; border: 1px solid black; background-color:#a0a0a0</xsl:attribute>
+						<div style="font-weight:bold; color:white; text-align:center">Actions</div>
+					</xsl:if>
+				<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
+					<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/></a><br/>
+					</xsl:if>
+					<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute><img src="images/editobligation.png" alt="Edit this obligation" border="0"/></a><br/>
+					</xsl:if>
 
-							<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
-							<a href="javascript:delActivity()"><img src="images/deleteobligation.png" alt="Delete this obligation" border="0"/></a><br/>
-						</xsl:if>				
-						<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
-						<a>
-							<xsl:attribute name="href">javascript:openPopup('history.jsv', 'id=<xsl:value-of select="$ra-id"/>&amp;entity=A')</xsl:attribute>
-								<img src="images/showhistory.png" alt="Show history of changes" border="0"/>
-							</a><br/>
-						</xsl:if>				
-						<xsl:if test="$admin='true'">
-							<a href="javascript:openHelpList('RO')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
-						</xsl:if>
-						</td>
-						</tr>
-						</xsl:if><!-- printmode -->
-				</table>
-			</td>
-			</tr>
-		</table>
+					<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
+					<a href="javascript:delActivity()"><img src="images/deleteobligation.png" alt="Delete this obligation" border="0"/></a><br/>
+				</xsl:if>				
+				<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
+				<a>
+					<xsl:attribute name="href">javascript:openPopup('history.jsv', 'id=<xsl:value-of select="$ra-id"/>&amp;entity=A')</xsl:attribute>
+						<img src="images/showhistory.png" alt="Show history of changes" border="0"/>
+					</a><br/>
+				</xsl:if>				
+				<xsl:if test="$admin='true'">
+					<a href="javascript:openHelpList('RO')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
+				</xsl:if>
+				</td>
+				</tr>
+			</table>
 
+		<h1>Reporting obligation for <xsl:value-of select="T_SOURCE/ALIAS"/> &#160; <xsl:value-of select="T_SOURCE/SOURCE_CODE"/></h1>
 		<table width="600" border="0">
 			<tr>
 			<td width="100%" style="border:1px solid #006666">

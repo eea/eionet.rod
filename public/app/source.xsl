@@ -70,14 +70,14 @@ function delLegislation() {
 
 
 		<!-- page -->
-		<div id="workarea" style="width:610px">
+		<div id="workarea">
 					<xsl:if test="$printmode='N'">
+						<div style="float:right"><xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></div>
+						<br style="clear:right"/>
 						<div style="float:right">
-							<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template><br/>
 								<xsl:if test="$admin='true'">
-									<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
-									<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
-									<b><font color="#FFFFFF">Actions</font></b><br/><br/>
+									<xsl:attribute name="style">border: 1px solid black; background-color:#a0a0a0; float:right</xsl:attribute>
+									<div style="font-weight:bold; color:white; text-align:center">Actions</div>
 								</xsl:if>
 								<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
 									<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>

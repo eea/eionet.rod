@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-<xsl:include href="common.xsl"/>
+<xsl:include href="ncommon.xsl"/>
 
 <xsl:variable name="admin">
 	<xsl:value-of select="/XmlData/RowSet/@auth"/>
@@ -12,7 +12,6 @@
 
 <xsl:template match="XmlData">
 
-<html lang="en"><head><title>Country Services</title>
 	<script language="JavaScript">
 
 <![CDATA[
@@ -122,13 +121,8 @@ function submitSearchForm() {
 
 
 				
-		</script></head>
-<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
+		</script>
 
-<table border="0" width="600" cellpadding="0" cellspacing="0">
-<tr>
-	<td height="25" background="images/bar_filled.jpg" width="20" align="bottom"></td>
-	<td height="25" background="images/bar_filled.jpg" width="600">
 
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
@@ -139,24 +133,8 @@ function submitSearchForm() {
  <div class="breadcrumbtail">&#160;</div>
 </div>
 
- 		 <table border="0" background="" cellpadding="0" cellspacing="0" height="8">
-		 <tr>
-		  <td valign="bottom"><a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a></td>
-		  <td width="28" valign="top">
-				<img src="images/bar_hole.jpg" width="28" height="24"/></td>
-				<td valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
-				<td width="28" valign="top"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-				<td valign="bottom"><a href="deliveries.jsv"><span class="barfont">Deadlines</span></a></td>
-
-				<td width="28" valign="top"><img src="images/bar_hole.jpg" width="28" height="24"/></td>
-				<td valign="bottom"><span class="barfont">Advanced search</span></td>
-				<td width="28" valign="bottom"><img src="images/bar_dot.jpg" width="28" height="25"/></td>
-			 </tr>
-			</table>
-		 </td></tr><tr><td></td></tr>
-	</table>
-	 
-	 <div id="workarea" style="margin-top:13">
+	 <div id="workarea">
+		<h1>Advanced search</h1>
 		<form name="x1" method="get" action="csmain">
 		<table  width="600" cellspacing="0" cellpadding="2" style="border: 1px solid #008080">
 				 <tr height="25" style="border-bottom:1px solid #006666">
@@ -232,7 +210,7 @@ function submitSearchForm() {
 		<div style="margin-left:20">
 			<xsl:call-template name="CommonFooter"/>		
 		</div>
-  </div></body></html>
+  </div>
 	</xsl:template>
 
 	<xsl:template name="SpatialTemplate2">

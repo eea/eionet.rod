@@ -24,40 +24,48 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:include href="common.xsl"/>
+	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:template match="XmlData">
-		<div style="margin-left:20">
-		<span class="head1">Problem</span><br/><br/>
-		<table cellspacing="7pts" width="600">
-		<xsl:for-each select="Error">
+	<div class="breadcrumbtrail">
+	 <div class="breadcrumbhead">You are here:</div>
+	 <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+	 <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+	 <div class="breadcrumbitemlast">Problem</div>
+	 <div class="breadcrumbtail">&#160;</div>
+	</div>
+
+	<div id="workarea">
+	<h1>Problem</h1>
+	<table cellspacing="7pts" width="600">
+	<xsl:for-each select="Error">
+		<tr valign="top">
+			<td width="10pts"><img src="images/diamlil.gif" vspace="4"/></td>
+			<td colspan="2">
+				<b><xsl:value-of select="text()"/></b>
+			</td>
+		</tr>
+		<xsl:if test="@Reason != ''">
 			<tr valign="top">
-				<td width="10pts"><img src="images/diamlil.gif" vspace="4"/></td>
-				<td colspan="2">
-					<b><xsl:value-of select="text()"/></b>
+				<td width="10pts">&#160;</td>
+				<td width="10pts">&#160;</td>
+				<td>
+					<xsl:value-of select="@Reason"/>
+					<xsl:if test="Data != ''">
+						when executing <code><xsl:value-of select="Data"/></code>
+					</xsl:if>
 				</td>
 			</tr>
-			<xsl:if test="@Reason != ''">
-				<tr valign="top">
-					<td width="10pts">&#160;</td>
-					<td width="10pts">&#160;</td>
-					<td>
-						<xsl:value-of select="@Reason"/>
-						<xsl:if test="Data != ''">
-							when executing <code><xsl:value-of select="Data"/></code>
-						</xsl:if>
-					</td>
-				</tr>
-			</xsl:if>
-		</xsl:for-each>
-		</table>
-		<table cellspacing="7pts">
-			<tr height="40pts" valign="bottom">
-				<td width="10pts">&#160;</td>
-				<td><a href="javascript:history.back()"><span class="Mainfont">[Back]</span></a></td>
-			</tr>
-		</table>
-		</div>
+		</xsl:if>
+	</xsl:for-each>
+	</table>
+	<table cellspacing="7pts">
+		<tr height="40pts" valign="bottom">
+			<td width="10pts">&#160;</td>
+			<td><a href="javascript:history.back()"><span class="Mainfont">[Back]</span></a></td>
+		</tr>
+	</table>
+	</div>
 	</xsl:template>
 
 </xsl:stylesheet>
