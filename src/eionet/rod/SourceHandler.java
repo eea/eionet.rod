@@ -44,9 +44,10 @@ import com.tee.uit.security.AccessControlListIF;
 
 public class SourceHandler extends ReportingHandler {
 
-   private void DELETE_SOURCE(String srcID, boolean delSelf) {
+   private void DELETE_SOURCE(String srcID, boolean delSelf, boolean updateMode) {
       updateDB("DELETE FROM T_SOURCE_LNK WHERE CHILD_TYPE='S' AND FK_SOURCE_CHILD_ID=" + srcID);
-      updateDB("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + srcID);
+      if(!updateMode)
+         updateDB("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + srcID);
 
       if (delSelf) {
          // cascade delete related reporting obligations
@@ -122,7 +123,7 @@ System.out.println("============================= del " + del);
               return false;
 
             //if (!upd)              
-            DELETE_SOURCE(id, delSelf);
+            DELETE_SOURCE(id, delSelf, state == MODIFY_RECORD);
 
             if (delSelf == true) {
                //logHistory(gen);
