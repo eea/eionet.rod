@@ -133,14 +133,12 @@
 							</td>
 						</tr>
 						</xsl:if>
-						<xsl:if test="T_OBLIGATION/PARAMETERS != ''">
-							<tr>
-								<td>
-								<a><xsl:attribute name="href">javascript:openPopup("show.jsv", 'mode=M&amp;id=<xsl:value-of select="$ra-id"/>')</xsl:attribute>
-									<img src="images/parameters.jpg" alt="Show parameters" border="0"/></a><br/>
-								</td>
-							</tr>
-						</xsl:if>
+						<tr>
+							<td>
+							<a><xsl:attribute name="href">javascript:openPopup("show.jsv", 'mode=M&amp;id=<xsl:value-of select="$ra-id"/>')</xsl:attribute>
+								<img src="images/parameters.jpg" alt="Show parameters" border="0"/></a><br/>
+							</td>
+						</tr>
 						<xsl:if test="T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != ''">
 							<tr>
 								<td>

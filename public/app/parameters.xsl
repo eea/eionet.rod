@@ -113,7 +113,7 @@
 	<br/>
 	 
 <!-- oneCountry=0 one country, one country = 1 all countries -->
-
+<xsl:if test="T_OBLIGATION/PARAMETERS != ''">
 <TABLE cellspacing="0" cellpadding="0" width="700" border="1">
 
 <TR>
@@ -130,6 +130,7 @@
 </TR>
 
 </TABLE>
+</xsl:if>
 
 </xsl:for-each>
 
