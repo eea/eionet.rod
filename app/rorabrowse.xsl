@@ -38,7 +38,7 @@
 	<!-- context bar -->
       <table cellspacing="0" cellpadding="0" width="621" border="0">
 			<tr>
-         	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
+         	<td align="bottom" width="20" background="images/bar_filled.jpg" height="25"> </td>
           	<td width="600" background="images/bar_filled.jpg" height="25">
             <table height="8" cellSpacing="0" cellPadding="0" background="" border="0">
             	<tr>
@@ -65,7 +65,7 @@
 					</tr>
 				</table>
 			</td></tr>
-			<tr><td>&#160;</td></tr>
+			<tr><td> </td></tr>
 		</table>
 
 		<!-- page -->
@@ -243,6 +243,8 @@
 	</xsl:template>
 
 	<xsl:template name="SpatialTemplate">
+		<xsl:param name="type" select="'Not selected'"/>
+		<xsl:param name="type2" select="'Not selected'"/>
 		<xsl:for-each select="RowSet[@Name='Spatial']/Row/T_SPATIAL[SPATIAL_TYPE=$type or SPATIAL_TYPE=$type2]">
 			<option>
 				<xsl:attribute name="value">
@@ -277,10 +279,7 @@
 					<tr valign="top">
 						<td width="10"><img src="images/diamlil.gif" vspace="4"/></td>
 						<td colspan="2">
-						<span class="head0"><a><xsl:attribute name="href">
-						show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>
-						&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A
-						</xsl:attribute>
+							<span class="head0"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="T_ACTIVITY/TITLE != ''">
 								<xsl:value-of select="T_ACTIVITY/TITLE"/>
@@ -291,10 +290,7 @@
 						</xsl:choose>
 						</a></span>
 						for 
-						<a><xsl:attribute name="href">
-						show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>
-						&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>	&amp;mode=R
-						</xsl:attribute>
+						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="T_REPORTING/ALIAS != ''">
 								<xsl:value-of select="T_REPORTING/ALIAS"/>
@@ -305,6 +301,20 @@
 						</xsl:choose>
 						</a>
 						from
+						<a>	
+							<xsl:attribute name="href">
+								show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S
+							</xsl:attribute>
+							<xsl:choose>
+								<xsl:when test="T_SOURCE/ALIAS != ''">
+									<xsl:value-of select="T_SOURCE/ALIAS"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="T_SOURCE/TITLE"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</a>						
+<!--
 						<xsl:choose>
 							<xsl:when test="T_SOURCE/URL!=''">
 								<a>	
@@ -334,13 +344,14 @@
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:otherwise>
-						</xsl:choose>				
+						</xsl:choose>
+-->				
 						<br/>
 						</td>
 					</tr>
 					<xsl:if test="T_ACTIVITY/NEXT_REPORTING != '' or T_ACTIVITY/TERMINATE='Y'">
 					<tr><td/>
-						<td><span class="head0">Next reporting:</span>&#160;
+						<td><span class="head0">Next reporting:</span>&amp;
 							<xsl:choose>
 								<xsl:when test="T_ACTIVITY/TERMINATE  = 'N'">
 								<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
@@ -371,10 +382,7 @@
 					<tr valign="top">
 						<td width="10"><img src="images/diamlil.gif" vspace="4"/></td>
 						<td colspan="2">
-						<span class="head0"><a><xsl:attribute name="href">
-						show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>
-						&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>	&amp;mode=R
-						</xsl:attribute>
+						<span class="head0"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="T_REPORTING/ALIAS != ''">
 								<xsl:value-of select="T_REPORTING/ALIAS"/>
@@ -385,6 +393,20 @@
 						</xsl:choose>
 						</a></span>
 						from 
+						<a>	
+							<xsl:attribute name="href">
+								show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S
+							</xsl:attribute>
+							<xsl:choose>
+								<xsl:when test="T_SOURCE/ALIAS != ''">
+									<xsl:value-of select="T_SOURCE/ALIAS"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="T_SOURCE/TITLE"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</a>						
+<!--
 						<xsl:choose>
 							<xsl:when test="T_SOURCE/URL!=''">
 								<a>	
@@ -415,6 +437,7 @@
 								</xsl:choose>
 							</xsl:otherwise>
 						</xsl:choose>				
+-->
 						<br/>
 						</td>
 					</tr>
@@ -430,7 +453,7 @@
 	<xsl:template match="RowSet[@Name='Search results']/@*">
 		<xsl:if test="name(.)!='Name' and name(.)!='order' and name(.)!='auth'">
 			<tr><td>
-				<xsl:value-of select="translate(name(.),'_',' ')"/>&#160;<b><xsl:value-of select="."/></b>
+				<xsl:value-of select="translate(name(.),'_',' ')"/>&amp;<b><xsl:value-of select="."/></b>
 			</td></tr>
 		</xsl:if>
 	</xsl:template>
