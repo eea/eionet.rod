@@ -48,13 +48,11 @@ public  class WebRODService {
   * @return Vector (contains hashtables, one for each activity)
   * @throw ServiceException  
 	*/
-//  public static Vector getActivities() throws ServiceException {
   public Vector getActivities() throws ServiceException {
 
   if (dbSrv == null )
     dbSrv = RODServices.getDbService();
 
-//System.out.println("====================== s= " + _s);    
     return dbSrv.getActivities();
   }
 
@@ -63,73 +61,12 @@ public  class WebRODService {
   * @return Vector (contains hashtables, one for each record)
   * @throw ServiceException  
 	*/
-/*  public static Vector getCountries() throws ServiceException {
-    return DbService.getCountries();
-  } */
+  public Vector getCountries() throws ServiceException {
 
+    if (dbSrv == null )
+      dbSrv = RODServices.getDbService();
+      return dbSrv.getCountries();
+  } 
 
-  /**
-	* Returns deadline for this activity
-  * @return String
-  * @param String activity ID
-  * @throw ServiceException
-	*/
-/*  public static String getDeadline( String activityId) throws ServiceException {
-    return DbService.getDeadLine( activityId );
-    } */
-
-  /**
-	* Returns parameter groups
-  * @return Vector
-  * @throw ServiceException
-	*/
-/*  public static Vector getParamGroups( ) throws ServiceException {
-    return DbService.getParamGroups();
-  } */
-
-  /**
-	* Returns issue IDs and values
-  * @return Vector
-  * @throw ServiceException
-	*/
-/*  public static Vector getIssues( ) throws ServiceException {
-    return DbService.getIssues();
-  } */
-
-  /**
-	* Returns issue links
-  * Vector contains of one-dimensional String[] arrays
-  * 
-  * @param String activityID
-  * @return Vector
-  * @throw ServiceException
-	*/
-/*  public static Vector getIssueLinks( String activityID ) throws ServiceException {
-    return DbService.getIssueLinks(activityID);
-  } */
-
-  /**
-	* Returns group links
-  * Vector contains of one-dimensional String[] arrays
-  * 
-  * @param String activityID
-  * @return Vector
-  * @throw ServiceException
-	*/
-/*  public static Vector getGroupLinks( String activityID ) throws ServiceException {
-//    return RODServices.getDbService().getGroupLinks(activityID);
-    return DbService.getGroupLinks( activityID );
-    //return null;    
-  } */
-
-  /**
-	* Returns Activity data for each country
-  * @return Vector of Hashtables
-  * @throw ServiceException
-	*/
-/*  public static Vector getActivityDetails( ) throws ServiceException {
-    return DbService.getActivityDetails();
-  } */
 
 }
-

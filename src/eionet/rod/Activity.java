@@ -65,6 +65,8 @@ public class Activity extends ROEditServletAC {
       if ( Util.nullString(rid) ) 
          throw new GeneralException(null, "Missing parameter '" + AID_PARAM + "'");
 
+
+
       // prepare data source
       String[][] queryPars = {{"ID", id}, {"RID", rid}};   
 
@@ -91,6 +93,11 @@ public class Activity extends ROEditServletAC {
       String tmpIssueTbl = "I" + tmpName;
       String tmpParTbl = "P" + tmpName;
 
+      String tmpSpatialTbl = "S" + tmpName;
+
+      QueryStatementIF qrySpatial = null;
+
+//--
       DataSourceIF dataSrc = null;
       QueryStatementIF qryIssue = null;
       QueryStatementIF qryPars = null;
@@ -113,6 +120,10 @@ public class Activity extends ROEditServletAC {
                Logger.log("Create temp table " + tmpParTbl);
             stmt.execute(CREATE1 + tmpParTbl + CREATE2 + PARAMETERS + "-1");
 
+            if (Logger.enable(5))
+               Logger.log("Create temp table " + tmpSpatialTbl);
+            stmt.execute(CREATE1 + tmpSpatialTbl + CREATE2 + SPATIALS + "-1");
+
             // prepare data source
             dataSrc = prepareDataSource(new Parameters(req));
 
@@ -121,6 +132,11 @@ public class Activity extends ROEditServletAC {
             dataSrc.setQuery(qryIssue);
             qryPars = new SubSelectStatement("PARAMETER", "FK_GROUP_ID", tmpParTbl,"NEW=1");
             dataSrc.setQuery(qryPars);
+            // spatials
+            qrySpatial = new SubSelectStatement("SPATIAL", "SPATIAL_TYPE", tmpSpatialTbl, "", "");
+            dataSrc.setQuery(qrySpatial);
+
+
 
             // call superclass to generate the page
             super.doGet(req, res);
@@ -139,6 +155,11 @@ public class Activity extends ROEditServletAC {
                      Logger.log("Drop temp table " + tmpParTbl);
                   stmt.execute(DROP + tmpParTbl);
 
+                  if (Logger.enable(5))
+                     Logger.log("Drop temp table " + tmpSpatialTbl);
+                  stmt.execute(DROP + tmpSpatialTbl);
+
+
                   stmt.close();
                }
             } catch (SQLException e1) {
@@ -151,6 +172,7 @@ public class Activity extends ROEditServletAC {
       } finally {
          if (qryIssue != null) dataSrc.unsetQuery(qryIssue);
          if (qryPars != null) dataSrc.unsetQuery(qryPars);
+        if (qrySpatial != null) dataSrc.unsetQuery(qrySpatial);         
       }
    }
 /**
@@ -188,42 +210,8 @@ public class Activity extends ROEditServletAC {
    private static final String PARAMETERS =
       "T_PARAMETER_LNK.FK_PARAMETER_ID FROM T_PARAMETER_LNK WHERE T_PARAMETER_LNK.FK_RA_ID=";
 
-/*
-  private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
-    String mode = null;
-    
-    String userName = getUser(req).getUserName();
-    
-//    String id = req.getParameter( ID_PARAM );
-    String upd = req.getParameter( FormHandlerIF.MODE_PARAM );
+   private static final String SPATIALS =
+      "T_RASPATIAL_LNK.FK_SPATIAL_ID FROM T_RASPATIAL_LNK WHERE T_RASPATIAL_LNK.FK_RA_ID=";
 
-    upd = (upd==null ? "" : upd);
-//    id = (id==null ? "" : id); //not needed?
-
-
-    if ( upd.equals("A"))
-      mode = Constants.ACL_INSERT_PERMISSION;
-    else if ( upd.equals("D"))
-      mode = Constants.ACL_DELETE_PERMISSION;
-    else if ( upd.equals("U"))
-      mode = Constants.ACL_UPDATE_PERMISSION;
-    
-
-Logger.log("*****************************************");
-Logger.log("checkPermissions ");
-Logger.log("*****************************************");
-    boolean b = false;
-    try {
-      b = getAcl(Constants.ACL_RA_NAME).checkPermission( userName, mode );
-    } catch ( Exception e ) {
-      throw new XSQLException (e, "Error getting user rights ");
-    }
-
-    if (!b)
-      throw new XSQLException (null, "No permission to perform the action");
-    
-  }
-
-  */
       
 }

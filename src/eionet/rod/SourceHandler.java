@@ -137,9 +137,11 @@ public class SourceHandler extends ReportingHandler {
          defaultProcessing(gen, null);
          id = recordID;
 
+         String clientId=gen.getFieldValue("FK_CLIENT_ID");
 
-          updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, TYPE, STATUS) VALUES " +
-             " ( " + gen.getFieldValue("FK_CLIENT_ID") + "," + id + ", 'S', 'M')");
+          if ( clientId != null && !clientId.trim().equals(""))
+            updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, TYPE, STATUS) VALUES " +
+               " ( " + clientId + "," + id + ", 'S', 'M')");
 
 
         logHistory(gen);

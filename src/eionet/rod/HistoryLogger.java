@@ -39,7 +39,14 @@ public class HistoryLogger extends SaveHandler {
       logger.error("Error saving RO history " + se.toString());
     }
   }
-  
+
+  static void logSpatialHistory(String id, String spatialId, String voluntary) {
+    try {
+      db.logSpatialHistory(id, spatialId, voluntary);
+    } catch (ServiceException se ) {
+      logger.error("Error saving spatial link history " + se.toString());
+    }
+  }
   static void logActivityHistory(String id, String user, int state, String desc ) {
     try {  
       logHistory( DbServiceIF.RA_LOG_TYPE, id, user, state, desc);

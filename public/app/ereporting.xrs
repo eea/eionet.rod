@@ -56,7 +56,6 @@
 			<FK_SOURCE_ID/>
 			<FK_CLIENT_ID/>
 			<ALIAS/>
-			<!--REPORT_TO/-->
 			<LEGAL_MORAL/>
 			<LAST_UPDATE/>
 			<RM_NEXT_UPDATE expression="IF(T_REPORTING.RM_NEXT_UPDATE, DATE_FORMAT(T_REPORTING.RM_NEXT_UPDATE, '%d/%m/%Y'), '') AS RM_NEXT_UPDATE"/>
@@ -70,8 +69,7 @@
 			<STATUS/>
 			<TYPE/>
 		</T_CLIENT_LNK>
-		<!--xrs:Constraint>T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.STATUS='M' </xrs:Constraint-->
-		<xrs:SubSet name="LnkSpatial" relation="T_REPORTING.PK_RO_ID=T_SPATIAL_LNK.FK_RO_ID">
+		<!--xrs:SubSet name="LnkSpatial" relation="T_REPORTING.PK_RO_ID=T_SPATIAL_LNK.FK_RO_ID">
 			<T_SPATIAL_LNK>
 				<FK_SPATIAL_ID/>
 			</T_SPATIAL_LNK>
@@ -95,7 +93,7 @@
 			</T_SPATIAL>
 			<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
 			<xrs:Constraint>T_SPATIAL_LNK.VOLUNTARY='Y' AND T_SPATIAL.SPATIAL_TYPE='C'</xrs:Constraint>
-		</xrs:SubSet>
+		</xrs:SubSet-->
 		<xrs:SubSet name="CCClients" relation="T_REPORTING.PK_RO_ID=T_CLIENT_LNK.FK_OBJECT_ID">
 			<T_CLIENT_LNK>
 				<FK_CLIENT_ID/>

@@ -60,30 +60,15 @@ public class LoginServlet extends BaseServletAC {
    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
       String username = req.getParameter("j_username");
       String password = req.getParameter("j_password");
-
-
-
-      
-      //KL
-      /*if ( Util.nullString(username) || Util.nullString(password)) {
-        freeSession(req);
-        throw new ServletException("UserName or password cannot be emtpy");
-      } */
-
-      
+    
       AppUserIF user = XDBApplication.getAuthenticator();
-
-/*if (user == null)      
-Logger.log("******************* userAuth is null");      
-else
-Logger.log("******************* userAuth " + user.getUserName());*/
 
       if (user.authenticate(username, password) == true) {
          // store the authenticated user object to current session
          allocSession(req, user);
          // close current window
          //printPage(res, "<html><script>alert('Logged to WebROD as administrator')</script></html>");
-//!!!!!!!!!!!!!!!!!!! 
+
          String location = "index.html";
          //String location = "test.html";         
          // DBG
@@ -93,7 +78,6 @@ Logger.log("******************* userAuth " + user.getUserName());*/
       }
       else {
         //allocSession(req,user);
-
 
          String loginError = null;
          try {
@@ -109,79 +93,7 @@ Logger.log("******************* userAuth " + user.getUserName());*/
   
       }
 
-/*AppUserIF dbguser = getUser(req);
-if (user == null)      
-Logger.log("******************* AFTER login user = null");      
-else {
-  Logger.log("******************* AFTER LOGIN " + dbguser.getUserName());
-  Logger.log("******************* AFTER LOGIN auth " + dbguser.isAuthentic());
-} */
-
-      
     }
 
-/*
-    private void fSess(javax.servlet.http.HttpServletRequest servReq ) {
-      String aREMOTEUSER = "com.tee.xmlserver.user";
-      String aremoteUser = aREMOTEUSER + "/" +  "WebROD";
-     HttpSession httpSession = servReq.getSession(false);
 
-      if (httpSession != null) {
-         AppUserIF user = (AppUserIF)httpSession.getAttribute(aremoteUser);
-
-         if (user != null) {
-            Logger.log("*********** BAD 6")         ;
-            user.invalidate();
-Logger.log("*********** BAD 7")         ;            
-          } else
-Logger.log("*********** BAD 8")         ;                      
-
-if ( user== null)
-  Logger.log("*********** user is null" + user)         ;                      
-else
-  Logger.log("*********** user is not null" );
-  
-//Logger.log("*********** GU TOSTRING " + user.toString())         ;                      
-
-Logger.log( "***************************************************** ")         ;                      
-//Logger.log( user )         ;                      
-Logger.log("*********** user " + user)         ;                      
-
-         // DBG
-         if (Logger.enable(5))
-            Logger.log("freeSession: session=") ; //" + httpSession + " user=" + user);
-         //
-	      httpSession.invalidate();
-      }    
-    }
-
-   public final AppUserIF gU(HttpServletRequest servReq) {
-      AppUserIF user = null;
-Logger.log("************** GU 1");
-      String aREMOTEUSER = "com.tee.xmlserver.user";
-      String aremoteUser = aREMOTEUSER + "/" +  "WebROD";
-      
-      HttpSession httpSession = servReq.getSession(false);
-Logger.log("************** GU 2");      
-      if (httpSession != null)  {
-Logger.log("************** GU 3");      
-          user = (AppUserIF)httpSession.getAttribute(aremoteUser);
-Logger.log("************** GU 4");          
-      }    
-      // DBG
-      if (Logger.enable(5))
-         Logger.log("getUser: session=" + httpSession + " user=" + user + " isAuthentic=" + 
-                    (user != null && user.isAuthentic() ? "true" : "false"));
-      //
-      if (user != null) {
-Logger.log("************** GU 5");      
-         return user.isAuthentic() ? user : null;
-         
-        }
-      else  {
-Logger.log("************** GU 6");      
-         return null;
-   } 
-   }
-*/    
 }

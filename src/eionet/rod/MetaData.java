@@ -55,7 +55,9 @@ public class MetaData extends QueryStatement implements Constants {
     vFields=new Vector();
 
     FieldInfo fld  = new FieldInfo(TIMESTAMP_FILEDNAME, _tblName );
-    fld.setFieldExpr("MAX(" + TIMESTAMP_FILEDNAME + ") AS " + TIMESTAMP_FILEDNAME );
+	//KL030317 -> LAST_UPDATE -> DATE in T_ACTIVITY
+	//fld.setFieldExpr("MAX(" + TIMESTAMP_FILEDNAME + ") AS " + TIMESTAMP_FILEDNAME );
+	fld.setFieldExpr("DATE_FORMAT(MAX(" + TIMESTAMP_FILEDNAME + "), '%Y%m%d') AS " + TIMESTAMP_FILEDNAME );
     vFields.add( fld );
 
     setTables(vTables);

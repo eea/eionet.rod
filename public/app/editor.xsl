@@ -455,6 +455,7 @@ function delValues(selFrom) {
 
 var picklist = new Array();
 var multilist = new Array();
+var clist=new Array();
 
 function fillPicklist(type,list,text) {
       var i,js;
@@ -475,6 +476,27 @@ function fillPicklist(type,list,text) {
 	list.options[0] = null;
 	list.options[0].selected = true;
 }
+
+function fillclist(type,list,text) {
+      var i,js;
+	for (i = list.length; i > 0; --i)
+		list.options[i] = null;
+	list.options[0] = new Option("Choose a group","-1");
+	j = 1;
+	for (i = 0; i < clist.length; i++) {
+	  s = new String(clist[i]);
+	  pvalue = s.substring(0,s.indexOf(":"));
+	  ptext = s.substring(s.indexOf(":")+1,s.lastIndexOf(":"));
+	  ptype = s.substring(s.lastIndexOf(":")+1,s.lastIndexOf(":")+2);
+	  if (ptype.valueOf() == type) {
+	  	list.options[j] = new Option(ptext.valueOf(), pvalue.valueOf());
+	  	j++;
+	  }
+	} 
+	list.options[0] = null;
+	list.options[0].selected = true;
+}
+
 
 function fillMultilist(type,list,text) {
       var i,js;

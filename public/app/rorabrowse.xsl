@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -185,34 +184,6 @@
 			</td>
 			</tr>
 			</table>
-		<!--table border="1">
-			<tr><td>
-				<xsl:if test="contains($permissions, ',/Admin:v,') and $showfilters=''">
-					<a>
-						<xsl:attribute name="href">javascript:openActionTypeHistory('D','<xsl:value-of select="$historyMode"/>')</xsl:attribute>
-						<img src="images/showdeleted.png" alt="Show history of deleted records" border="0"/>
-					</a><br/>
-				</xsl:if>
-			</td></tr>
-			<tr><td>
-				<xsl:if test="$showfilters=''">
-					<a>
-						<xsl:attribute name="href">javascript:window.location.replace(window.location.href+'&amp;showfilters=1')</xsl:attribute>
-						<img src="images/bb_advsearch.png" alt="" border="0"/>
-					</a><br/>
-				</xsl:if>
-			</td></tr>
-			<tr><td>
-				<xsl:if test="contains($permissions, ',/RO:i,') and $showfilters=''">
-					<a>
-						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
-						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/>
-					</a>
-				</xsl:if>
-			</td></tr>
-			</table-->
-
-
 			</td>
 			</tr>
 		</table>
@@ -233,8 +204,7 @@
 						<td width="215" bgcolor="#FFFFFF" style="border-left: 1 solid #C0C0C0"><span class="smallfont">For a country</span>
 						</td>
 						<td width="42" bgcolor="#FFFFFF" align="right">
-						<!--img onclick="javascript:openViewHelp('HELP_SEARCH')" border="0" src="images/questionmark.jpg" width="13" height="13" alt="[ HELP ]"/-->
-						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
+							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
 				</tr>
 				<tr>
@@ -242,23 +212,13 @@
 								<table>
 									<tr><td>
 										<input type="hidden" value="A" name="mode"/>
-										<!--input type="radio" value="R" name="mode">
-												<xsl:if test="$rora='R'">
-												<xsl:attribute name="checked"/>
-												</xsl:if>
-										</input-->
 										<span class="barfont">
 											Obligations
 										</span>
 										
 									</td></tr>
-									<tr><td>
-										<!--input type="radio" value="A" name="mode">
-												<xsl:if test="$rora='A'">
-												<xsl:attribute name="checked"/>
-												</xsl:if>
-										</input--><!--span class="barfont">Activities</span-->
-								</td></tr>
+									<!--tr><td>
+									</td></tr-->
 								</table>
             </td>
             <td style="border-left: 1 solid #C0C0C0">
@@ -304,19 +264,10 @@
 								<table>
 									<tr><td>
 										<input type="hidden" value="A" name="mode"/>
-										<!--input type="radio" value="R" name="mode">
-												<xsl:if test="$rora='R'">
-												<xsl:attribute name="checked"/>
-												</xsl:if>
-										</input--><span class="barfont">Obligations</span>
+										<span class="barfont">Obligations</span>
 									</td></tr>
 									<tr><td>
-										<!--input type="radio" value="A" name="mode">
-												<xsl:if test="$rora='A'">
-												<xsl:attribute name="checked"/>
-												</xsl:if>
-										</input><span class="barfont">Activities</span-->
-								</td></tr>
+									</td></tr>
 								</table>
             </td>
               <td style="border-left: 1 solid #C0C0C0">
@@ -348,7 +299,6 @@
 		<TABLE cellSpacing="0" cellPadding="5" width="600" border="0">
 		<TBODY>
 		<TR>
-	    <!--TD width="20"></TD-->
 		<xsl:if test="$rora='A'">
 			<TD style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" width="172" bgColor="#ffffff">
@@ -386,96 +336,42 @@
 		<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" width="172" bgColor="#ffffff">
 
-			<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
-			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Title of the Legislative instrument" face="Verdana" color="#000000" size="1">Legislative instrument</FONT></B></SPAN>
+				<TABLE cellSpacing="0" width="100%" border="0">
+					<TBODY>
+							<TR>
+								<TD><SPAN class="headsmall"><B><FONT title="Title of the Legislative instrument" face="Verdana" color="#000000" size="1">Legislative instrument</FONT></B></SPAN>
+								</TD>
+								<TD> <P align="right"><MAP name="FPMap3"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
+											href="javascript:setOrder('T_SOURCE.TITLE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_SOURCE.TITLE')"/></MAP>
+											<IMG height="22"  src="images/arrows.gif" width="17" useMap="#FPMap3"  border="0"/></P>
+								</TD>
+							</TR>
+						</TBODY>
+					</TABLE>
 				</TD>
-				<TD> <P align="right"><MAP name="FPMap3"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
-							href="javascript:setOrder('T_SOURCE.TITLE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_SOURCE.TITLE')"/></MAP>
-							<IMG height="22"  src="images/arrows.gif" width="17" useMap="#FPMap3"  border="0"/></P>
-				</TD>
-			</TR>
-			</TBODY>
-			</TABLE>
-			</TD>
-		<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+				<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
 						vAlign="center" width="70" bgColor="#ffffff">
 
-			<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
-			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Reference number" face="Verdana" color="#000000" size="1">Ref. nr</FONT></B></SPAN>
-				</TD>
-				<TD> <P align="right"><MAP name="FPMap4"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
-							href="javascript:setOrder('T_SOURCE.SOURCE_CODE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_SOURCE.SOURCE_CODE')"/></MAP>
-							<IMG height="22"  src="images/arrows.gif" width="17" useMap="#FPMap4"  border="0"/></P>
-				</TD>
-			</TR>
+						<TABLE cellSpacing="0" width="100%" border="0">
+						<TBODY>
+							<TR>
+								<TD>
+									<SPAN class="headsmall"><B><FONT title="Reference number" face="Verdana" color="#000000" size="1">Ref. nr</FONT></B></SPAN>
+								</TD>
+								<TD> <P align="right"><MAP name="FPMap4"><AREA shape="RECT" alt="Sort Z-A" coords="0,0,16,7" 
+										href="javascript:setOrder('T_SOURCE.SOURCE_CODE DESC')"/><AREA shape="RECT" alt="Sort A-Z" coords="1,13,16,21" href="javascript:setOrder('T_SOURCE.SOURCE_CODE')"/></MAP>
+									<IMG height="22"  src="images/arrows.gif" width="17" useMap="#FPMap4"  border="0"/></P>
+								</TD>
+							</TR>
+						</TBODY>
+						</TABLE>
+					</TD>
+				</TR>
+
+				<xsl:apply-templates select="RowSet[@Name='Search results']"/>
+				<xsl:apply-templates select="RowSet[@Name='CCClients']"/>
 			</TBODY>
 			</TABLE>
-			</TD>
-		<!--xsl:if test="$rora='A'">
-		<TD style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
-						vAlign="center" width="80" bgColor="#ffffff">
-
-			<TABLE cellSpacing="0" width="100%" border="0">
-			<TBODY>
-			<TR>
-				<TD><SPAN class="headsmall"><B><FONT title="Deadline of the reporting activity" face="Verdana" color="#000000" size="1">Deadline</FONT></B></SPAN>
-				</TD>
-				<TD> <P align="right"><MAP name="FPMap5"><AREA shape="RECT" alt="Sort 99-0" coords="0,0,16,7" 
-							href="javascript:setOrder('T_ACTIVITY.NEXT_DEADLINE DESC')"/><AREA shape="RECT" alt="Sort 0-99" coords="1,13,16,21" href="javascript:setOrder('T_ACTIVITY.NEXT_DEADLINE')"/></MAP>
-							<IMG height="22"  src="images/arrows.gif" width="17" useMap="#FPMap5"  border="0"/></P>
-				</TD>
-			</TR>
-			</TBODY>
-			</TABLE>
-			</TD>
-		</xsl:if-->
-
-		</TR>
-		<!--TR>
-			<TD colspan="5">
-			</TD>
-		</TR-->
-		<xsl:apply-templates select="RowSet[@Name='Search results']"/>
-		</TBODY>
-		</TABLE>
-		<!-- table heading table -->
-
-
-
-		<!-- page title -->
-		<!--table cellspacing="7" border="0" width="600"><tr><td>
-				<xsl:choose>
-					<xsl:when test="$rora='A'">
-						<span class="head1">Reporting activities</span>
-					</xsl:when>
-					<xsl:otherwise>
-						<span class="head1">Reporting obligations</span>
-					</xsl:otherwise>
-				</xsl:choose>
-		</td>
-		<td align="right">
-		<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
-			<a>
-				<xsl:attribute name="href">javascript:openActionTypeHistory('D','<xsl:value-of select="$historyMode"/>')</xsl:attribute>
-				<img src="images/showdeleted.png" alt="Show deleted" border="0"/>
-			</a><br/>
-		</xsl:if>
-		</td></tr>
-		</table-->
-		<!-- page title -->
-
-
-		<div style="margin-left:20">
-		<!--table cellspacing="7pts">
-			<xsl:apply-templates select="RowSet[@Name='Search results']/@*"/>
-		</table-->
-		</div>
-			
-		<!--xsl:apply-templates select="RowSet[@Name='Old Search results']"/-->
 		</div>
 
 		<xsl:call-template name="CommonFooter"/>
@@ -599,9 +495,83 @@
 						</xsl:otherwise>
 					</xsl:choose>
 
-
-
 	</xsl:template>
+
+	<!-- KL 031027 -->
+	<xsl:template match="RowSet[@Name='CCClients']">
+		<!-- there are RA's that have the client as CC client -->
+		<xsl:if test="count(Row) != 0">
+			<tr><td colspan="4">&#160;</td></tr>
+			<tr>
+				<td style="BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top" colspan="4">
+					<span class="head1">Indirect reporting obligations</span>&#160;<br/>
+				</td>
+			</tr>
+			<xsl:for-each select="Row">
+				<TR>
+					<xsl:attribute name="bgColor">
+						<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
+					</xsl:attribute>
+					<!--ra-->
+					<xsl:if test="$rora='A'">
+					<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+						<SPAN class="head0n">
+							<xsl:if test="T_ACTIVITY/PK_RA_ID !=''">
+							<A> 
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
+								<FONT face="Verdana" size="2">
+										<xsl:choose>
+											<xsl:when test="T_ACTIVITY/TITLE !=''">
+												<xsl:value-of select="T_ACTIVITY/TITLE"/>
+											</xsl:when>
+											<xsl:otherwise>
+												Reporting Activity
+											</xsl:otherwise>
+										</xsl:choose>
+								</FONT>
+							</A>
+							</xsl:if>
+						</SPAN>&#160;
+					</TD>
+					</xsl:if>
+					<!--ro-->
+					<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+						<SPAN class="head0n">
+							<A> 
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
+								<FONT face="Verdana" size="2">
+										<xsl:choose>
+											<xsl:when test="T_REPORTING/ALIAS!=''">
+												<xsl:value-of select="T_REPORTING/ALIAS"/>
+											</xsl:when>
+											<xsl:otherwise>
+												Obligation
+											</xsl:otherwise>
+										</xsl:choose>
+								</FONT>
+							</A>
+						</SPAN>&#160;
+					</TD>
+					<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+						<SPAN class="head0n">
+							<A> 
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+								<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/TITLE"/></FONT>
+							</A>
+						</SPAN>
+					</TD>
+					<TD style="BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" vAlign="top">
+						<SPAN class="head0n">
+								<FONT face="Verdana" size="2"><xsl:value-of select="T_SOURCE/SOURCE_CODE"/></FONT>
+						</SPAN>
+						&#160;
+					</TD>
+				</TR>
+				</xsl:for-each>
+			</xsl:if>
+	</xsl:template>
+	<!-- KL 031027 -->
+
 
 	<xsl:template match="RowSet[@Name='Search results']/@*">
 		<xsl:if test="name(.)!='Name' and name(.)!='order' and name(.)!='auth'">

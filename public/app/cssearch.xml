@@ -6,7 +6,6 @@
 			<SPATIAL_NAME/>
 			<SPATIAL_TYPE/>
 		</T_SPATIAL>
-		<!--xrs:Constraint>T_SPATIAL.SPATIAL_TYPE='C'</xrs:Constraint-->
 		<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="EnvIssue">

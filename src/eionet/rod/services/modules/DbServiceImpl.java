@@ -76,7 +76,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   private int _driverType = MYSQL;
 
   // parameters to create DB connection
-  private String crUrlPref;
+  //private String crUrlPref;
   private String dbUrl;
   private String dbDriver;
   private String dbUser;
@@ -322,7 +322,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
       rodDomain  = RODServices.getFileService().getStringProperty( ROD_URL_DOMAIN );
 
-      crUrlPref = RODServices.getFileService().getStringProperty( FileServiceIF.CR_URL_PREFIX);
+      //crUrlPref = RODServices.getFileService().getStringProperty( FileServiceIF.CR_URL_PREFIX);
 
       logger = RODServices.getLogService();
       
@@ -363,12 +363,6 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   * Used by CS extractor 
   */
   public String[][] getRaData() throws ServiceException {
-/*
-    String sql = "SELECT a.PK_RA_ID, a.TITLE, s.PK_SPATIAL_ID, s.SPATIAL_NAME " + 
-      " FROM T_ACTIVITY a, T_REPORTING r, T_SPATIAL_LNK sl, T_SPATIAL s " + 
-      " WHERE a.FK_Ro_id = r.pk_ro_id and r.pk_ro_id = sl.fk_ro_id " + 
-      " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND s.SPATIAL_TYPE='C';";
-*/
 
     String sql = "SELECT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE " +
       " FROM T_ACTIVITY a ORDER BY a.PK_RA_ID";
@@ -382,12 +376,21 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   public String[][] getRespRoles() throws ServiceException {
     //return _executeStringQuery("SELECT RESPONSIBLE_ROLE FROM T_ACTIVITY_DETAILS");
-    String sql = "SELECT DISTINCT CONCAT(a.RESPONSIBLE_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo " + 
+    /*String sql = "SELECT DISTINCT CONCAT(a.RESPONSIBLE_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo " + 
       " FROM T_ACTIVITY a, T_SPATIAL s, T_REPORTING r, T_SPATIAL_LNK sl  " + 
       " WHERE  a.FK_RO_ID = r.PK_RO_ID AND sl.FK_RO_ID=r.PK_RO_ID " +
       " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND a.RESPONSIBLE_ROLE IS NOT NULL " +
       " AND a.RESPONSIBLE_ROLE <> '' AND s.SPATIAL_TYPE = 'C' AND s.SPATIAL_TWOLETTER IS NOT NULL AND " +
        " TRIM(s.SPATIAL_TWOLETTER) <> '' " ;
+    */
+
+    String sql = "SELECT DISTINCT CONCAT(a.RESPONSIBLE_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo " + 
+      " FROM T_ACTIVITY a, T_SPATIAL s,  T_RASPATIAL_LNK sl  " + 
+      " WHERE  sl.FK_RA_ID=a.PK_RA_ID " +
+      " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND a.RESPONSIBLE_ROLE IS NOT NULL " +
+      " AND a.RESPONSIBLE_ROLE <> '' AND s.SPATIAL_TYPE = 'C' AND s.SPATIAL_TWOLETTER IS NOT NULL AND " +
+       " TRIM(s.SPATIAL_TWOLETTER) <> '' " ;
+    
 
       String roles1[][] = _executeStringQuery(sql);
       sql = "SELECT DISTINCT RESPONSIBLE_ROLE FROM T_ACTIVITY WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' " ;
@@ -804,38 +807,6 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return s.toString();
   }
 
-
- /**
-	* Returns all Reporting activities
-	*/
-/*
-  public Vector getActivityDetails(  ) throws ServiceException {
-
-  //_log("*********** HAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
-    String sql = "SELECT PK_RA_ID, A.FK_RO_ID, FK_SPATIAL_ID, CONCAT(RESPONSIBLE_ROLE, '-',  LOWER(S.SPATIAL_TWOLETTER)) AS RESPONSIBLE_ROLE, " + 
-      " CONCAT('" + rodDomain + "/" + URL_SERVLET + "?" + URL_ACTIVITY_ID + "=" + "', PK_RA_ID, " + 
-      "'&" + URL_ACTIVITY_AID + "=', A.FK_RO_ID, '&" + URL_ACTIVITY_AMODE + "') AS RA_URL, IF(A.TITLE='','Activity', A.TITLE) AS TITLE, " +
-      " C.CLIENT_NAME, " + 
-      " REPORTING_FORMAT, " +
-      " REPORT_FORMAT_URL, FORMAT_NAME, IF(R.ALIAS='', 'Obligation', R.ALIAS) AS ALIAS, " +
-      " CONCAT('" + rodDomain + "/" + URL_SERVLET + "?" + URL_ACTIVITY_ID + "=" + "', A.FK_RO_ID, '&" + URL_ACTIVITY_AID + "='" +
-      " , A.FK_SOURCE_ID, '&" + URL_ACTIVITY_RMODE + "') AS RO_URL " +
-      " FROM T_ACTIVITY A, T_SPATIAL_LNK SL, T_SPATIAL S, T_REPORTING R LEFT OUTER JOIN T_CLIENT C ON R.FK_CLIENT_ID = C.PK_CLIENT_ID  " +
-      " WHERE A.FK_RO_ID = R.PK_RO_ID AND SL.FK_RO_ID = R.PK_RO_ID AND S.PK_SPATIAL_ID = SL.FK_SPATIAL_ID " ;
-
-    //_log("*********** SQL = " + sql);
-
-      Vector ret = null;
-
-      //_log("SQL="+ sql)      ;
-
-      ret = _getVectorOfHashes(sql);
-
-      return ret;          
-  }
-
-*/
  /**
  * returns result as vector of String arrays
  */
@@ -1103,9 +1074,12 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   }    */
 
-   public String[][] getCountries() throws ServiceException {
-      String sql = "SELECT PK_SPATIAL_ID, SPATIAL_NAME FROM T_SPATIAL WHERE SPATIAL_TYPE='C' ORDER BY SPATIAL_NAME ";
-      return _executeStringQuery(sql);      
+   public Vector getCountries() throws ServiceException {
+      String spatialNs= RODServices.getFileService().getStringProperty( FileServiceIF.SPATIAL_NAMESPACE);    
+      String sql = "SELECT CONCAT('" + spatialNs +"', PK_SPATIAL_ID) AS uri, SPATIAL_NAME AS name, UPPER(SPATIAL_TWOLETTER) AS iso " +
+        " FROM T_SPATIAL WHERE SPATIAL_TYPE='C' ORDER BY SPATIAL_NAME ";
+      
+      return _getVectorOfHashes(sql);
    }
 
     public String getMaxROId() throws ServiceException {
@@ -1188,5 +1162,35 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       sql = "UPDATE T_DELIVERY SET STATUS=1 WHERE STATUS=0 AND FK_RA_ID=" + raId;
       _executeUpdate(sql);
   }
-  
+
+  /*public Vector backupSpatialHistory(String raId) throws ServiceException {
+    String sql="SELECT FK_SPATIAL_ID FROM T_SPATIAL_HISTORY WHERE FK_RA_ID=" + raId;
+    String s[][]=_executeStringQuery(sql);
+    Vector v=new Vector();
+    for (int i=0; i<s.length;i++)
+      v.add(s[i][0]);
+    return v;
+  }*/
+  public void logSpatialHistory(String raId, String spatialId, String voluntary)   throws ServiceException {
+      //STATUS field in T_SPATIAL_HISTORY
+      //0-in progress, 1-active, 2-history
+      String sql="SELECT * FROM T_SPATIAL_HISTORY WHERE END_DATE=NOW() AND FK_RA_ID = " + raId + " AND " +
+        " FK_SPATIAL_ID= " + spatialId;
+
+      String s[][]=_executeStringQuery(sql);
+
+      if (s.length==0) {
+        sql="INSERT INTO T_SPATIAL_HISTORY (FK_RA_ID, FK_SPATIAL_ID, VOLUNTARY, START_DATE) " +
+          " VALUES(" + raId + ", " + spatialId + ", '" + voluntary + "', NOW())";
+
+      }
+      else
+        sql="UPDATE T_SPATIAL_HISTORY SET END_DATE=NULL WHERE END_DATE=NOW() " +
+          "AND VOLUNTARY='" + voluntary + "' AND FK_RA_ID=" + raId + " AND " +
+          " FK_SPATIAL_ID="  + spatialId;
+
+      _executeUpdate(sql);
+
+       
+  }  
  }

@@ -55,7 +55,6 @@
 			</xsl:otherwise>
 		</xsl:choose>
 
-			<!--a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=PR</xsl:attribute><xsl:attribute name="target">_new</xsl:attribute>Printable page.</a-->
 		<xsl:call-template name="LIRORAFooter">
 				<xsl:with-param name="table">RO</xsl:with-param>			
 		</xsl:call-template>
@@ -63,7 +62,6 @@
 
 	<xsl:template match="RowSet[@Name='Reporting']/Row">
 		<!-- form for delete obligation action -->
-		<!--xsl:if test="$admin='true'"-->
 		<xsl:if test="contains($permissions, ',/RO:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
@@ -159,7 +157,6 @@ function delObligation() {
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
 						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/></a><br/>
 					</xsl:if>
-					<!--xsl:if test="$admin='true'"-->
 					<xsl:if test="contains($permissions, ',/RA:i,')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 							<img src="images/newactivity.png" alt="Create a new reporting activity" border="0"/></a><br/>
@@ -181,10 +178,6 @@ function delObligation() {
 						</tr>
 					</table>
 				</td>
-
-			
-
-<!-- -->			
 			</tr>
 
 			<tr valign="top">
@@ -200,14 +193,6 @@ function delObligation() {
 					</xsl:choose>
 				</td>
 			</tr>
-			<!-- Remove after moving this field to footer
-			<tr valign="top">
-				<td width="22%"><span class="head0">Document last modified:</span></td>
-				<td colspan="2">
-					<xsl:value-of select="T_REPORTING/LAST_UPDATE"/>
-				</td>
-			</tr>
-			-->
 			<tr valign="top">
 				<td width="22%"><span class="head0">Parent legal instrument:</span></td>
 				<td width="60%">
@@ -241,41 +226,27 @@ function delObligation() {
 			<tr valign="top">
 				<td width="22%"><span class="head0">Type:</span></td>
 				<td colspan="2">
-					<xsl:choose>
+					<xsl:value-of select="T_LOOKUP/C_TERM"/>
+					<!--xsl:choose>
 						<xsl:when test="T_REPORTING/LEGAL_MORAL='L'">
 							Legal obligation
 						</xsl:when>
 						<xsl:when test="T_REPORTING/LEGAL_MORAL='M'">
 							Moral obligation
 						</xsl:when>
-					</xsl:choose>
+						<xsl:when test="T_REPORTING/LEGAL_MORAL='V'">
+							Voluntary obligation
+						</xsl:when>
+					</xsl:choose-->
 				</td>
 			</tr>
 
-			<!-- =========================================================================== >
-			<							To replace issues withe RA issues, replace these 2 rows						 >
-			<  =========================================================================== -->
-
-			<!-- ========================================================================== -->
-
-			<!--tr valign="top">
-				<td width="22%"><span class="head0">Environmental issues:</span></td>
-				<td colspan="2">
-					<xsl:apply-templates select="//RowSet[@Name='EnvIssue']"/>
-				</td>
-			</tr-->
-			
 			<tr valign="top">
 				<td width="22%"><span class="head0">Environmental issues:</span></td>
 				<td colspan="2">
 					<xsl:apply-templates select="//RowSet[@Name='EnvRaIssue']"/>
 				</td>
 			</tr>
-
-			<!-- ============================================================================-->
-			<!-- ============================================================================-->
-			<!-- ============================================================================-->
-
 			<tr valign="top">
 				<td width="22%"><span class="head0">Countries:</span></td>
 				<td colspan="2">
@@ -302,51 +273,23 @@ function delObligation() {
 				</td>
 			</tr>
 			</xsl:if>
-
-
-<!--
-			<xsl:call-template name="RelatedInformation">
-				<xsl:with-param name="type">ER</xsl:with-param>
-			</xsl:call-template>
-			<xsl:call-template name="RelatedInformation">
-				<xsl:with-param name="type">NS</xsl:with-param>
-			</xsl:call-template>
--->
-	
-
-
 			<tr><td colspan="3"><br/><hr/></td></tr>
-			<!--tr><td colspan="3">
-			Contents in this application are maintained by the EEA.
-			<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>&#160;
-			<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=PR</xsl:attribute><xsl:attribute name="target">_new</xsl:attribute>Printable page.</a>
-			</td></tr-->
 		</table>
 		</div>
 	</xsl:template>
 
-	<!--xsl:template match="//RowSet[@Name='EnvIssue']">
-		<xsl:for-each select="Row/T_ISSUE">
-		<xsl:choose>
-			<xsl:when test="position()!=count(//RowSet[@Name='EnvIssue']/Row/T_ISSUE)">
-				<xsl:value-of select="ISSUE_NAME"/>, 
-			</xsl:when>
-			<xsl:otherwise><xsl:value-of select="ISSUE_NAME"/></xsl:otherwise>
-		</xsl:choose></xsl:for-each>
-	</xsl:template-->
-
 	<xsl:template name="OtherClients">
 		<table cellpadding="0" cellspacing="0">
-		<xsl:for-each select="SubSet[@Name='CCClients']/Row/T_CLIENT">
-			<tr>
-				<td>
-					<a>
-						<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="PK_CLIENT_ID"/>')</xsl:attribute>
-						<xsl:value-of select="CLIENT_NAME"/>
-					</a>
-				</td>
-			</tr>
-		</xsl:for-each>
+			<xsl:for-each select="SubSet[@Name='CCClients']/Row/T_CLIENT">
+				<tr>
+					<td>
+						<a>
+							<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="PK_CLIENT_ID"/>')</xsl:attribute>
+							<xsl:value-of select="CLIENT_NAME"/>
+						</a>
+					</td>
+				</tr>
+			</xsl:for-each>
 		</table>
 	</xsl:template>
 
@@ -364,7 +307,7 @@ function delObligation() {
 	<xsl:template match="//RowSet[@Name='Spatial']">
 		<xsl:for-each select="Row">
 			<xsl:choose>
-				<xsl:when test="T_SPATIAL_LNK/VOLUNTARY='Y'">
+				<xsl:when test="T_RASPATIAL_LNK/VOLUNTARY='Y'">
 					<span title="Informal participation in the reporting obligation"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>*</span>
 				</xsl:when>
 				<xsl:otherwise>
@@ -399,7 +342,6 @@ function delObligation() {
 					<td>
 						<xsl:choose>
 							<xsl:when test="TERMINATE = 'N'">
-								<!--xsl:value-of select="T_ACTIVITY/REPORT_FREQ"/>&#160;<xsl:value-of select="T_ACTIVITY/REPORT_FREQ_DETAIL"/-->
 								<xsl:choose>
 								<xsl:when test="REPORT_FREQ_MONTHS = '0'">
 									One time only
@@ -431,7 +373,6 @@ function delObligation() {
 
 	<xsl:template name="RelatedInformation">
 		<xsl:param name="type" select="'Not selected'"/>
-		<!--<xsl:if test="count(Row)>0">-->
 			<tr></tr>
 			<tr>
 				<td colspan="3"><span class="head0">
@@ -450,6 +391,5 @@ function delObligation() {
 					</a>				
 				</td></tr>
 			</xsl:for-each>
-		<!--</xsl:if>-->
 	</xsl:template>
 </xsl:stylesheet>

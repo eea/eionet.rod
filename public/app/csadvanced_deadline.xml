@@ -34,11 +34,11 @@
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME/>
 		</T_CLIENT>
-		<T_SPATIAL_LNK relation="T_SPATIAL_LNK.FK_RO_ID=T_REPORTING.PK_RO_ID">
-			<FK_RO_ID/>
+		<T_RASPATIAL_LNK relation="T_RASPATIAL_LNK.FK_RA_ID=T_ACTIVITY.PK_RA_ID">
+			<FK_RA_ID/>
 			<FK_SPATIAL_ID/>
-		</T_SPATIAL_LNK>
-		<T_SPATIAL relation="T_SPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID">
+		</T_RASPATIAL_LNK>
+		<T_SPATIAL relation="T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID">
 			<PK_SPATIAL_ID/>
 			<SPATIAL_NAME/>
 			<SPATIAL_TWOLETTER/>
@@ -48,19 +48,6 @@
 			<PK_SOURCE_ID/>
 			<SOURCE_CODE/>
 		</T_SOURCE>
-		<!--xrs:SubSet name="Delivery" relation="T_ACTIVITY.PK_RA_ID=T_DELIVERY.FK_RA_ID" >
-			<T_DELIVERY>
-				<PK_DELIVERY_ID/>
-				<FK_SPATIAL_ID/>
-				<FK_RA_ID/>
-				<TITLE/>
-				<DELIVERY_URL/>
-				<UPLOAD_DATE/>
-				<TYPE/>
-				<FORMAT/>
-			</T_DELIVERY>
-			<xrs:Constraint>FK_SPATIAL_ID like @COUNTRY_ID</xrs:Constraint>
-		</xrs:SubSet-->
 		<xrs:Ordering>@ORD</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="EnvIssue">

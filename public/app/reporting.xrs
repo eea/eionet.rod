@@ -28,8 +28,6 @@
 			<FK_SOURCE_ID/>
 			<ALIAS/>
 			<LEGAL_MORAL/>
-			<!--REPORT_TO/-->
-			<!--FK_CLIENT_ID/-->
 			<LAST_UPDATE expression="DATE_FORMAT(T_REPORTING.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
 			<RM_NEXT_UPDATE expression="DATE_FORMAT(T_REPORTING.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE"/>
 			<RM_VERIFIED expression="DATE_FORMAT(T_REPORTING.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED"/>
@@ -40,6 +38,10 @@
 			<TITLE/>
 			<ALIAS/>
 		</T_SOURCE>
+		<T_LOOKUP relation="T_LOOKUP.C_VALUE=T_REPORTING.LEGAL_MORAL AND T_LOOKUP.CATEGORY='2'">
+			<C_VALUE/>
+			<C_TERM/>
+		</T_LOOKUP>
 		<!-- main client! -->
 		<T_CLIENT_LNK relation="T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_REPORTING.PK_RO_ID" reltype="outer">
 			<FK_CLIENT_ID/>
@@ -47,7 +49,6 @@
 			<STATUS/>
 			<TYPE/>
 		</T_CLIENT_LNK>
-		<!--xrs:Constraint>T_CLIENT_LNK.TYPE='R' AND T_CLIENT_LNK.STATUS='M'</xrs:Constraint-->
 		<T_CLIENT relation="T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID" reltype="outer">
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME/>
@@ -96,14 +97,6 @@
 		<xrs:Ordering>NEXT_REPORTING</xrs:Ordering>
 		<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
 	</xrs:RowSet>
-	<!--xrs:RowSet name="EnvIssue">
-		<T_ISSUE_LNK/>
-		<T_ISSUE relation="T_ISSUE_LNK.FK_ISSUE_ID=T_ISSUE.PK_ISSUE_ID">
-			<ISSUE_NAME/>
-		</T_ISSUE>
-		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
-		<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
-	</xrs:RowSet-->
 	<xrs:RowSet name="EnvRaIssue" distinct="true">
 		<T_ACTIVITY/>
 		<T_RAISSUE_LNK relation="T_ACTIVITY.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID"/>
@@ -113,11 +106,12 @@
 		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
 		<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>
 	</xrs:RowSet>
-	<xrs:RowSet name="Spatial">
-		<T_SPATIAL_LNK>
+	<xrs:RowSet name="Spatial" distinct="true">
+		<T_ACTIVITY/>
+		<T_RASPATIAL_LNK relation="T_ACTIVITY.PK_RA_ID=T_RASPATIAL_LNK.FK_RA_ID">
 			<VOLUNTARY/>
-		</T_SPATIAL_LNK>
-		<T_SPATIAL relation="T_SPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID">
+		</T_RASPATIAL_LNK>
+		<T_SPATIAL relation="T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID">
 			<SPATIAL_NAME/>
 		</T_SPATIAL>
 		<xrs:Ordering>SPATIAL_NAME</xrs:Ordering>

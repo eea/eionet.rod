@@ -46,30 +46,10 @@
 		<script language="JScript">
 				<![CDATA[
 			function addCl() {
-				//quick fix!  KL 030619
-				//we redirect back to edit mode after save
-				//var loc =document.location;
-				//var lll=loc;
-				//var id="]]><xsl:value-of select='$ro-id'/><![CDATA[";
-
-				//alert("id" + id);
-
 				document.forms["f"].silent.value=1;
-
-				/*if (id=="") {
-					//iPos=loc.toString().indexOf("id=-1");
-					//lll=loc.toString().substring(0, iPos) + "id=MAX" + loc.toString().substring(iPos + 5);
-					document.forms["f"].silent.value=1;
-					//alert(lll);
-				} */
-				
 				save(null,true);
-				
 				openAddClientWin();
-				//document.location=lll;
 				document.forms["f"].silent.value=0;
-				//document.location=lll;
-				//alert(loc);
 				}
 		]]>
 		</script>
@@ -101,30 +81,23 @@
 	<xsl:template match="RowSet[@Name='Reporting']/Row">
 		<!--form name="f" method="POST" action="reporting.jsv"-->
 		<form name="f" method="POST" action="reporting.jsv">
-			<!--xsl:attribute name="action">reporting.jsv?id=<xsl:value-of select='$ro-id'/>&amp;aid=<xsl:value-of select='$src-id'/></xsl:attribute-->
-<!--
-		<input type="hidden" name="xml-query-string">
-			<xsl:attribute name="value"><xsl:value-of select="/XmlData/xml-query-string"/></xsl:attribute>
-		</input>
--->
-		<input type="hidden" name="silent" value="0"/>
-
-		<input type="hidden" name="dom-update-mode">
-			<xsl:attribute name="value">
-				<xsl:choose>
-					<xsl:when test="../../RowSet[@skeleton='1']">A</xsl:when>
-					<xsl:otherwise>U</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
-		</input>
-		<input type="hidden">
-			<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/PK_RO_ID/@XPath"/></xsl:attribute>
-			<xsl:attribute name="value"><xsl:value-of select="$ro-id"/></xsl:attribute>
-		</input>
-		<input type="hidden">
-			<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/FK_SOURCE_ID/@XPath"/></xsl:attribute>
-			<xsl:attribute name="value"><xsl:value-of select="$src-id"/></xsl:attribute>
-		</input>
+			<input type="hidden" name="silent" value="0"/>
+				<input type="hidden" name="dom-update-mode">
+				<xsl:attribute name="value">
+					<xsl:choose>
+						<xsl:when test="../../RowSet[@skeleton='1']">A</xsl:when>
+						<xsl:otherwise>U</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+			</input>
+			<input type="hidden">
+				<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/PK_RO_ID/@XPath"/></xsl:attribute>
+				<xsl:attribute name="value"><xsl:value-of select="$ro-id"/></xsl:attribute>
+			</input>
+			<input type="hidden">
+				<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/FK_SOURCE_ID/@XPath"/></xsl:attribute>
+				<xsl:attribute name="value"><xsl:value-of select="$src-id"/></xsl:attribute>
+			</input>
 		<table cellspacing="15pts">
 			<tr valign="top">
 				<td nowrap="true"><b>Short name:
@@ -246,7 +219,7 @@
 <!-- ISSUES -->
 
 
-			<tr valign="top">
+			<!--tr valign="top">
 				<td nowrap="true" colspan="4"><span class="head0">Spatial coverage:
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_SPATIALCOVERAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</span></td>
@@ -278,15 +251,15 @@
 						</td>
 					</tr></table>
 				</td>
-			</tr>
+			</tr-->
 
 <!-- -->
-			<tr valign="top">
+			<!--tr valign="top">
 				<td nowrap="true" colspan="4"><span class="head0">Countries reporting voluntarily:
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_VOLUNTARYCOUNTRIES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</span></td>
-			</tr>
-			<tr>
+			</tr-->
+			<!--tr>
 				<td colspan="4">
 					<table><tr valign="middle">
 						<td width="300" align="center" valign="bottom">
@@ -311,7 +284,7 @@
 						</td>
 					</tr></table>
 				</td>
-			</tr>
+			</tr-->
 
 
 			</table>
@@ -365,21 +338,20 @@
 			</form>
 			<script language="JavaScript">
 
-				var lnkSpatial = document.f.elements["/XmlData/RowSet[@Name='Reporting']/Row/SubSet[@Name='LnkSpatial']/Row/T_SPATIAL_LNK/FK_SPATIAL_ID"].options;
-				var spatialLst = document.f.spatial_list.options;
+				//var lnkSpatial = document.f.elements["/XmlData/RowSet[@Name='Reporting']/Row/SubSet[@Name='LnkSpatial']/Row/T_SPATIAL_LNK/FK_SPATIAL_ID"].options;
+				//var spatialLst = document.f.spatial_list.options;
 
-
-				inclSelect(lnkSpatial, spatialLst);
+				//inclSelect(lnkSpatial, spatialLst);
 
 				var lnkClients = document.f.elements["/XmlData/RowSet[@Name='Reporting']/Row/SubSet[@Name='CCClients']/Row/T_CLIENT_LNK/FK_CLIENT_ID"].options;
 				var clientLst = document.f.client_list.options;
 
 				inclSelect(lnkClients, clientLst);
 
-				var lnkVoluntaryCountries = document.f.elements["/XmlData/RowSet[@Name='Reporting']/Row/SubSet[@Name='VoluntaryCountries']/Row/T_SPATIAL_LNK/FK_SPATIAL_ID"].options;
-				var countryLst = document.f.country_list.options;
+				//var lnkVoluntaryCountries = document.f.elements["/XmlData/RowSet[@Name='Reporting']/Row/SubSet[@Name='VoluntaryCountries']/Row/T_SPATIAL_LNK/FK_SPATIAL_ID"].options;
+				//var countryLst = document.f.country_list.options;
 
-				inclSelect(lnkVoluntaryCountries, countryLst);
+				//inclSelect(lnkVoluntaryCountries, countryLst);
 
 			</script>
 
@@ -411,7 +383,7 @@
 		</select>
 	</xsl:template>
 
-	<xsl:template match="SubSet[@Name='VoluntaryCountries']">
+	<!--xsl:template match="SubSet[@Name='VoluntaryCountries']">
 		<select multiple="true" size="9" style="width:300"  width="300">
 			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='VoluntaryCountries']/@XPath"/>/Row/T_SPATIAL_LNK/FK_SPATIAL_ID</xsl:attribute>
 			<xsl:for-each select="Row">
@@ -423,9 +395,9 @@
 				</option>
 			</xsl:for-each>
 		</select>
-	</xsl:template>
+	</xsl:template-->
 
-	<xsl:template match="SubSet[@Name='LnkSpatial']">
+	<!--xsl:template match="SubSet[@Name='LnkSpatial']">
 		<select multiple="true" size="9" style="width:300"  width="300">
 			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='LnkSpatial']/@XPath"/>/Row/T_SPATIAL_LNK/FK_SPATIAL_ID</xsl:attribute><xsl:for-each select="Row"><option>
 				<xsl:attribute name="value">
@@ -435,9 +407,9 @@
 				</option>
 			</xsl:for-each>
 		</select>
-	</xsl:template>
+	</xsl:template-->
 
-	<xsl:template match="RowSet[@Name='SpatialType']">
+	<!--xsl:template match="RowSet[@Name='SpatialType']">
 		<select name="spatial_type" onchange="fillPicklist(this.options[this.selectedIndex].value,document.f.spatial_list);">
 			<xsl:for-each select="T_LOOKUP">
 				<option>
@@ -447,9 +419,9 @@
 				<xsl:value-of select="C_TERM"/></option>
 			</xsl:for-each>
 		</select>
-	</xsl:template>
+	</xsl:template-->
 
-	<xsl:template match="RowSet[@Name='SPATIAL']">
+	<!--xsl:template match="RowSet[@Name='SPATIAL']">
 		<script language="JavaScript">
 
 			<xsl:for-each select="T_SPATIAL">
@@ -465,7 +437,7 @@
 		<script language="JavaScript">
 			fillPicklist('C',document.f.spatial_list)
 		</script>		
-	</xsl:template>
+	</xsl:template-->
 
 	<xsl:template match="RowSet[@Name='Client']">
 		<select multiple="true" size="9" name="client_list" style="width:300" width="300">

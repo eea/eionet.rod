@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet>
+			<T_SPATIAL_HISTORY>
+				<FK_RA_ID/>
+				<FK_SPATIAL_ID/>
+				<VOLUNTARY/>
+				<START_DATE/>
+				<END_DATE/>
+			</T_SPATIAL_HISTORY>
+			<T_SPATIAL relation="T_SPATIAL.PK_SPATIAL_ID=T_SPATIAL_HISTORY.FK_SPATIAL_ID">
+				<PK_SPATIAL_ID/>
+				<SPATIAL_NAME/>
+			</T_SPATIAL>
+			<T_ACTIVITY relation="T_ACTIVITY.PK_RA_ID=T_SPATIAL_HISTORY.FK_RA_ID">
+				<TITLE/>
+			</T_ACTIVITY>
+		<xrs:Constraint>FK_RA_ID=@ID</xrs:Constraint>
+		<xrs:Ordering>START_DATE, SPATIAL_NAME</xrs:Ordering>
+	</xrs:RowSet>
+</xrs:XmlData>
+	

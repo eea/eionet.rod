@@ -44,7 +44,7 @@ public interface FileServiceIF  {
   /**
   * Prefix for generating ContReg urls for details' page
   */
-  public static final String CR_URL_PREFIX = "contreg.url.prefix";
+  //public static final String CR_URL_PREFIX = "contreg.url.prefix";
   
   /**
   * DB driver 
@@ -77,15 +77,21 @@ public interface FileServiceIF  {
   */
   public static final String COUNTRY_NAMESPACE = "country.namespace";
 
+
+  /**
+  * Namespace for T_SPATIAL
+  */
+  public static final String SPATIAL_NAMESPACE = "spatial.namespace";
+
   /**
   * URL for EIONET Directory Service
   */
-  public static final String DIRECTORY_SRV_URL = "directory.service.url";
+  //public static final String DIRECTORY_SRV_URL = "directory.service.url";
 
   /**
   * URL for WebROD service
   */
-  public static final String WEBROD_SRV_URL = "webrod.service.url";
+  //public static final String WEBROD_SRV_URL = "webrod.service.url";
 
   /**
   * URL for ContReg service

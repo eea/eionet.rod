@@ -39,20 +39,20 @@ public interface ExtractorConstants {
 
   public final String SYSTEM_USER = "ROD - system";
   
-  public final String ROD_SRV_NAME = "WebRODService";
-  public final String ROD_GETCOUNTRIES_METHOD = "getCountries";  
-  public final String ROD_GETACTIVITIES_METHOD = "getActivityDetails";  
-  public final String ROD_GETISSUES_METHOD = "getIssues";  
-  public final String ROD_GETPARAMGROUPS_METHOD = "getParamGroups";  
-  public final String ROD_GETISSUELINKS_METHOD = "getIssueLinks";  
-  public final String ROD_GETGROUPLINKS_METHOD = "getGroupLinks";    
-  public final String ROD_GETDEADLINE_METHOD = "getDeadline";    
+  //public final String ROD_SRV_NAME = "WebRODService";
+  //public final String ROD_GETCOUNTRIES_METHOD = "getCountries";  
+  //public final String ROD_GETACTIVITIES_METHOD = "getActivityDetails";  
+  //public final String ROD_GETISSUES_METHOD = "getIssues";  
+  //public final String ROD_GETPARAMGROUPS_METHOD = "getParamGroups";  
+  //public final String ROD_GETISSUELINKS_METHOD = "getIssueLinks";  
+  //public final String ROD_GETGROUPLINKS_METHOD = "getGroupLinks";    
+  //public final String ROD_GETDEADLINE_METHOD = "getDeadline";    
 
   public final String CONTREG_SRV_NAME = "ContRegService";
   public final String CONTREG_GETENTRIES_METHOD = "getEntries";    
 
-  public final String DIRECTORY_SRV_NAME = "DirectoryService";
-  public final String DIRECTORY_GETROLE_METHOD = "getRole";  
+  //public final String DIRECTORY_SRV_NAME = "DirectoryService";
+  //public final String DIRECTORY_GETROLE_METHOD = "getRole";  
 
 
 }

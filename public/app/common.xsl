@@ -84,12 +84,6 @@ function showhelp(text) {
 		alert('No examples for this unit type!');
 }
 
-/* function openCirca(url){
-	var name = "CSCIRCA";
-	var features = "location=yes, menubar=yes, width=750, height=600, top=30, left=30, resizable=yes, SCROLLBARS=YES";
-	var w = window.open( url, name, features);
-	w.focus();
-} */
 
 function openActionTypeHistory(MODE,TYPE){
 
@@ -111,18 +105,6 @@ function openHistory(ID,TYPE){
 	w.focus();
 
 }
-
-
-/*
-function openIssuer(ID){
-
-	var url = "issuer.jsv?id=" + ID;
-	var name = "Issuer";
-	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
-	var w = window.open(url,name,features);
-	w.focus();
-}
-*/
 
 
 function openClient(ID){
@@ -190,7 +172,6 @@ function fillPicklist(type,list,text) {
 				<!--xsl:if test="not(starts-with($mode,'P'))"--><xsl:if test="not($printmode='Y')"><xsl:attribute name="background">images/eionet_background.jpg</xsl:attribute></xsl:if>
 
 			<!-- MAIN table -->
-			<!--xsl:if test="not(starts-with($mode,'P'))"-->
 			<xsl:if test="not($printmode='Y')">
 			<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
@@ -227,7 +208,6 @@ function fillPicklist(type,list,text) {
 
 			<table border="0">
 				<tr valign="top">
-				<!--xsl:if test="not(starts-with($mode,'P'))"-->
 				<xsl:if test="not($printmode='Y')">
 				<td width="125" nowrap="true">
 					<xsl:call-template name="LeftToolbar"><xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param></xsl:call-template>

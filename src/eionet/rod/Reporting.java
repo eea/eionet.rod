@@ -88,7 +88,7 @@ public class Reporting extends ROEditServletAC {
 /**
  *
  */
-   protected void doGet(HttpServletRequest req, HttpServletResponse res) 
+   protected void xdoGet(HttpServletRequest req, HttpServletResponse res) 
          throws javax.servlet.ServletException, java.io.IOException {
       Connection conn = null;
       Statement stmt  = null;
@@ -101,10 +101,10 @@ public class Reporting extends ROEditServletAC {
 
       String tmpName = Thread.currentThread().getName() + System.currentTimeMillis();
       tmpName = tmpName.replace('-', '_').toUpperCase();
-      String tmpSpatialTbl = "S" + tmpName;
+      //String tmpSpatialTbl = "S" + tmpName;
 
       DataSourceIF dataSrc = null;
-      QueryStatementIF qrySpatial = null;
+      //QueryStatementIF qrySpatial = null;
 
       try {
 
@@ -121,16 +121,19 @@ public class Reporting extends ROEditServletAC {
 
          try {
             stmt = conn.createStatement();
-            if (Logger.enable(5))
+
+            /*if (Logger.enable(5))
                Logger.log("Create temp table " + tmpSpatialTbl);
-            stmt.execute(CREATE1 + tmpSpatialTbl + CREATE2 + SPATIALS + "-1");
+            stmt.execute(CREATE1 + tmpSpatialTbl + CREATE2 + SPATIALS + "-1"); */
 
             // prepare data source
             dataSrc = prepareDataSource(new Parameters(req));
 
             // parameters
+            /*
             qrySpatial = new SubSelectStatement("SPATIAL", "SPATIAL_TYPE", tmpSpatialTbl, "", "");
             dataSrc.setQuery(qrySpatial);
+            */
 
             // call superclass to generate the page
             super.doGet(req, res);
@@ -139,7 +142,8 @@ public class Reporting extends ROEditServletAC {
             String msg = "Creating a temporary table failed";
             Logger.log(msg, sqle);
             throw new XSQLException(sqle, msg);
-         } finally {
+         } 
+         /*finally {
             try {
                if (stmt != null) {
                   if (Logger.enable(5))
@@ -152,12 +156,12 @@ public class Reporting extends ROEditServletAC {
             } finally {
                try { if (conn != null) conn.close(); } catch (SQLException e2) {}
             }
-         }
+         } */
       } catch (XSQLException xe) {
          printError(xe, req, res);
-      } finally {
+      } /*finally {
          if (qrySpatial != null) dataSrc.unsetQuery(qrySpatial);
-      }
+      } */
    }
 /**
  *
@@ -216,7 +220,8 @@ System.out.println("==================================================");
         return new ReportingHandler(this);
     }
 
-   private static final String SPATIALS =
+/*   private static final String SPATIALS =
       "T_SPATIAL_LNK.FK_SPATIAL_ID FROM T_SPATIAL_LNK WHERE T_SPATIAL_LNK.FK_RO_ID=";
+  */
 
 }

@@ -34,8 +34,6 @@
 
 
 function openCirca(url){
-	//var url = "cspersons?ROLE=" + ROLE; //  + "&#038;mi6";
-	//alert(url);
 	var name = "CSCIRCA";
 	var features = "location=yes, menubar=yes, width=750, height=600, top=30, left=50, resizable=yes, SCROLLBARS=YES";
 	var w = window.open( url, name, features);
@@ -45,7 +43,6 @@ function openCirca(url){
 
 	function setOrder(fld) {
 		changeParamInString(document.URL,'ORD',fld)
-		//alert(fld);
 	}
 
 
@@ -80,36 +77,6 @@ function openCirca(url){
 	</table>
 
 
-<!--map name="sortClient">
-<area shape="rect" coords="0,0, 12,7" href="javascript:changeParamInString(document.URL,'ORD','CLIENT_NAME')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 24,7" href="javascript:changeParamInString(document.URL,'ORD','CLIENT_NAME DESC')" alt="Click to sort in descending order" />
-</map>
-
-
-<map name="sortTitle">
-<area shape="rect" coords="0,0, 12,7" href="javascript:changeParamInString(document.URL,'ORD','TITLE')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 24,7" href="javascript:changeParamInString(document.URL,'ORD','TITLE DESC')" alt="Click to sort in descending order" />
-</map>
-
-<map name="sortDeadline">
-<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL,'ORD','DEADLINE')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL,'ORD','DEADLINE DESC')" alt="Click to sort in descending order" />
-</map>
-
-<map name="sortDeadline2">
-<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL,'ORD','DEADLINE2')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL,'ORD','DEADLINE2 DESC')" alt="Click to sort in descending order" />
-</map>
-
-<map name="sortCountry">
-<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL,'ORD','SPATIAL_NAME')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL,'ORD','SPATIAL_NAME DESC')" alt="Click to sort in descending order" />
-</map>
-
-<map name="sortRole">
-<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL,'ORD','ROLE_NAME')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL,'ORD','ROLE_NAME DESC')" alt="Click to sort in descending order" />
-</map-->
 
 	<!-- main -->
 	<table  cellspacing="0" cellpadding="0" border="0">
@@ -128,17 +95,10 @@ function openCirca(url){
 	</form>
 	<!-- 6 -->
 	<xsl:variable name="oneCountry"><xsl:value-of select="count(child::RowSet[@Name='Dummy']/Row/T_DUMMY)"/></xsl:variable>
-	<!--xsl:variable name="oneIssue"><xsl:value-of select="count(child::RowSet[@Name='Main']/Row/T_RAISSUE_LNK)"/></xsl:variable>
-	<xsl:variable name="selIssue">
-	<xsl:if test="$oneIssue &gt; 0">
-		<xsl:value-of select="RowSet[@Name='Main']/Row/T_RAISSUE_LNK/FK_ISSUE_ID"/>
-	</xsl:if>
-	</xsl:variable-->
 	<table border="0" width="98%">
 	<tr><td width="90%">
     <span class="head1"><span lang="en-us">Reporting overview: </span>
 		<xsl:if test="$oneCountry=0">
-			<!--xsl:value-of select="RowSet/Row/T_SPATIAL/SPATIAL_NAME"/-->
 			<xsl:value-of select="//RowSet[@Name='CountryData']/Row/T_SPATIAL/SPATIAL_NAME"/>
 		</xsl:if>
 		<xsl:if test="$sel_issue!='' and $sel_issue != '0'">
@@ -162,12 +122,6 @@ function openCirca(url){
 	<input type="hidden" name="COUNTRY_ID">
 		<xsl:attribute name="value">
 				<xsl:value-of select="$sel_country"/>
-			<!--xsl:choose>
-			<xsl:when test="$oneCountry=0 and RowSet/Row/T_SPATIAL/PK_SPATIAL_ID != '' ">
-				<xsl:value-of select="RowSet/Row/T_SPATIAL/PK_SPATIAL_ID"/>
-			</xsl:when>
-			<xsl:otherwise>0</xsl:otherwise>
-			</xsl:choose-->
 		</xsl:attribute>
 	</input>
 <TABLE cellSpacing="0" cellPadding="3" width="100%" border="0">
@@ -177,7 +131,6 @@ function openCirca(url){
 			<TD vAlign="center" width="7%" bgColor="#ffffff" style="BORDER-RIGHT: #008080 1px solid; BORDER-TOP: #008080 1px solid;">
 				<P align="right">
 				<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSMAIN1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
-				<!--IMG height="16" alt="[ HELP ]" src="images/help_green.png" width="16" border="0"/--> 
 				</P>
 			</TD>
 			<TD vAlign="top" align="right" width="41%" rowspan="2">
@@ -356,37 +309,14 @@ function openCirca(url){
 	<!-- END of header ROW -->
 	</TR>	
 	</xsl:if>
-	<!--tr>
-				<td bgcolor="#646666" align="center" width="147"><span class="headsmall" title="Local organisation, responsible for reporting"><font color="#FFFFFF">Responsible </font><IMG name="updown" border="0" src="images/updown.gif" usemap="#sortRole"></IMG></span></td>
-				<td bgcolor="#646666" align="center" width="147"><font color="#FFFFFF"><span class="headsmall" title="Organisation to report to">Reporting to <IMG name="updown" border="0" src="images/updown.gif" usemap="#sortClient"></IMG></span></font></td>
-				<td bgcolor="#646666" align="center" width="100"><span class="headsmall" title="List of deliveries for the given RA"><font color="#FFFFFF">Deliveries</font></span></td>
-				<td bgcolor="#646666" align="center" width="180"><span class="headsmall"><font color="#FFFFFF" title="Title of the reporting activity">Reporting Activity <IMG name="updown" border="0" src="images/updown.gif" usemap="#sortTitle"></IMG></font></span></td>
-			  <td bgcolor="#646666" align="center" width="140">
-				<p align="center"/><span class="headsmall" title="Deadline for reporting">
-			  <font color="#FFFFFF">Deadline
-						<IMG name="sort" border="0" src="images/updown.gif" usemap="#sortDeadline"></IMG>
-					</font></span>
-				</td>
-			  <td bgcolor="#646666" align="center" width="140">
-				<p align="center"/><span class="headsmall" title="Next deadline for reporting">
-			  <font color="#FFFFFF">Next DL
-						<IMG name="sort" border="0" src="images/updown.gif" usemap="#sortDeadline2"></IMG>
-					</font></span>
-				</td>
-				<xsl:if test="$oneCountry !=0">
-				  <td bgcolor="#646666" align="center" width="*"><span class="headsmall"><font color="#FFFFFF">Country <IMG name="updown" border="0" src="images/updown.gif" usemap="#sortCountry"></IMG></font></span></td>
-				</xsl:if>
-				
-	  </tr-->
-
 
 	<xsl:if test="count(child::RowSet[@Name='Main']/Row)=0">
 		<b>No deliveries match the search criteria</b>
 	</xsl:if>
 
 	<xsl:if test="count(child::RowSet[@Name='Main']/Row)!=0">
-	<!-- table row start -->
 
+<!-- table row start -->
 <xsl:for-each select="RowSet[@Name='Main']/Row">
 
   <tr valign="top">
@@ -481,82 +411,6 @@ function openCirca(url){
 		</span>&#160;
 	</TD>
 	</xsl:if>
-<!--td>
-<font color="#646666">
-
-	<xsl:if test="T_ACTIVITY/RESPONSIBLE_ROLE != ''">
-			<xsl:choose>
-			<xsl:when test="RESPONSIBLE/ROLE_NAME=''">
-				<xsl:value-of select="T_ACTIVITY/RESPONSIBLE_ROLE"/>-<xsl:value-of select="T_SPATIAL/SPATIAL_TWOLETTER"/>
-			</xsl:when>
-			<xsl:otherwise>
-			<a>
-			<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_URL"/>')</xsl:attribute>
-				<xsl:value-of select="RESPONSIBLE/ROLE_NAME"/>
-			</a>
-			<img src="images/button_role.png" alt="Log in to CIRCA and see all the information">
-				<xsl:attribute name="onClick">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-			</img>
-			</xsl:otherwise>
-			</xsl:choose>
-	</xsl:if>
-
-	</font>
-</td-->
-<!--td width="10">
-<img src="images/diamlil.gif" width="8" height="9"/>
-</td-->
-<!--td><font color="#646666">
-		<a>
-		<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
-		<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
-		</a>
-		</font>
-</td-->
-<!--td>
-		<font color="#999999">
-			<xsl:choose>
-		
-					<xsl:when test="contains(T_ACTIVITY/FK_DELIVERY_COUNTRY_IDS, concat(',' , T_SPATIAL/PK_SPATIAL_ID , ',') )='true'">
-						<a window="delivery">
-						<xsl:attribute name="href">javascript:openDeliveries(<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>,<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>)</xsl:attribute>
-							Show list
-						</a>
-					</xsl:when>
-					<xsl:otherwise>
-							None
-					</xsl:otherwise>
-			</xsl:choose>
-	</font>
-</td-->
-<!--td>
-	<span class="head0">
-		<a>
-			<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;mode=A</xsl:attribute>
-			<xsl:value-of select="T_ACTIVITY/TITLE"/>
-		</a>
-		</span>
-</td-->
-<!--td align="center">
-			<xsl:choose>
-				<xsl:when test="T_ACTIVITY/DEADLINE != '' ">	
-					<xsl:value-of select="T_ACTIVITY/DEADLINE"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<font color="#006666">
-					<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
-					</font>
-				</xsl:otherwise>
-			</xsl:choose>
-</td-->
-		   <!--td width="140" align="center">
-				<xsl:if test="T_ACTIVITY/DEADLINE2 != '' ">	
-					<xsl:value-of select="T_ACTIVITY/DEADLINE2"/>
-				</xsl:if>
-			</td-->
-	<!--xsl:if test="$oneCountry !=0">
-		<td width="*" align="left"><span lang="en-us"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/></span></td>
-	</xsl:if-->
   </tr>
 </xsl:for-each>
 

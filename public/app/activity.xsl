@@ -62,7 +62,6 @@
 
 	<xsl:template match="RowSet[@Name='Activity']/Row">
 		<!-- form for delete activity action -->
-		<!--xsl:if test="$admin='true'"-->
 		<xsl:if test="contains($permissions, ',/RA:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
@@ -260,6 +259,15 @@ function delActivity() {
 					<xsl:value-of select="T_ACTIVITY/DATE_COMMENTS"/>
 				</td>
 			</tr>
+			<!-- kl 031013 -->
+			<tr valign="top">
+				<td width="22%"><span class="head0">Countries:</span></td>
+				<td colspan="2">
+					<xsl:apply-templates select="//RowSet[@Name='Spatial']"/>
+				</td>
+			</tr>
+
+
 			<tr valign="top">
 				<td width="22%"><span class="head0">National Reporting contacts:</span></td>
 				<td colspan="2">
@@ -326,6 +334,24 @@ function delActivity() {
 					</xsl:if>
 				</td>
 			</tr>
+
+			<tr valign="top">
+				<td width="22%"><span class="head0">URL to repository:</span></td>
+				<td colspan="2">
+					<a>	<xsl:attribute name="href"><xsl:value-of select="T_ACTIVITY/LOCATION_PTR"/></xsl:attribute>
+					<xsl:choose>
+						<xsl:when test="T_ACTIVITY/LOCATION_INFO != ''">								
+							<xsl:value-of select="T_ACTIVITY/LOCATION_INFO"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="T_ACTIVITY/LOCATION_PTR"/>
+						</xsl:otherwise>
+					</xsl:choose>
+					</a>
+				</td>
+			</tr>
+
+
 			<tr valign="top">
 				<td width="22%"><span class="head0">Comments:</span></td>
 				<td colspan="2">
@@ -333,14 +359,35 @@ function delActivity() {
 				</td>
 			</tr>
 			<tr><td colspan="3"><br/><hr/></td></tr>
-			<!--tr><td colspan="3">
-			Contents in this application are maintained by the EEA.
-			<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/>&amp;mode=PA</xsl:attribute>
-				<xsl:attribute name="target">_new</xsl:attribute>Printable page.</a>&#160;<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>
-			</td></tr-->
 		</table>
 		</div>
 	</xsl:template>
+
+	<xsl:template match="//RowSet[@Name='Spatial']">
+		<table>
+			<tr>
+				<td>
+					<xsl:for-each select="Row">
+						<xsl:choose>
+							<xsl:when test="T_RASPATIAL_LNK/VOLUNTARY='Y'">
+								<span title="Informal participation in the reporting activity"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>*</span>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=count(//RowSet[@Name='Spatial']/Row)">, </xsl:if>
+					</xsl:for-each>
+				</td>
+				<td  valign="top">
+					<img src="images/button_spatial.png" alt="Details for countries' joining history">
+						<xsl:attribute name="onClick">javascript:openSpatialHist('<xsl:value-of select="$ra-id"/>')</xsl:attribute>
+					</img>
+				</td>
+			</tr>
+			</table>
+	</xsl:template>
+
 
 	<xsl:template match="//RowSet[@Name='EnvIssue']">
 		<xsl:for-each select="Row/T_ISSUE">
@@ -358,9 +405,6 @@ function delActivity() {
 			<tr>
 				<td bgcolor="#646666"><span class="head0"><font color="white">Nr</font></span></td>
 				<td bgcolor="#646666"><span class="head0"><font color="white">Parameter</font></span></td>
-<!--
-				<td bgcolor="#646666"><span class="head0"><font color="white">Unit type</font></span></td>
--->
 			</tr>
 			<xsl:for-each select="Row">
 				<tr>
@@ -370,19 +414,6 @@ function delActivity() {
 					<td>
 						<xsl:value-of select="T_PARAMETER/PARAMETER_NAME"/>
 					</td>
-<!--
-					<td>
-						<xsl:choose>
-							<xsl:when test="T_PARAMETER_LNK/PARAMETER_UNIT = ''">
-								<xsl:value-of select="T_UNIT/UNIT_NAME"/>
-								<xsl:if test="T_UNIT/UNIT_NAME=''"><b>&#160;?</b></xsl:if>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="T_PARAMETER_LNK/PARAMETER_UNIT"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</td>
--->
 				</tr>
 			</xsl:for-each>
 		</table>

@@ -8,15 +8,11 @@
 	<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/><link type="text/css" rel="stylesheet" href="eionet.css"/>
 	<script language="JavaScript" src="script/util.js"></script>
 	<script language="JavaScript">
-					
-
-	function setOrder(fld) {
-		changeParamInString(document.URL,'ORD',fld)
-	}
-
-
-			</script>
-			</head>
+			function setOrder(fld) {
+				changeParamInString(document.URL,'ORD',fld)
+			}
+	</script>
+	</head>
 <body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
 
 <!-- general table for all the screen -->
@@ -304,20 +300,13 @@
 <!--/xsl:for-each-->
 
   </div>	
-</td>
+	</td>
 	</tr>
 <tr><td></td></tr>
 </table>
-
 <br/><br/><span class="Mainfont">&#160;&#160;&#160;&#160;Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.</span>
-<!--a href="javascript:close()">close window</a-->
 </body>
 </html>
 
 </xsl:template>
-<!--xsl:template match="XmlData/RowSet[@Name='Main']/Row">
-		<xsl:if test="position()=1">  
-			<xsl:call-template name="RAReportingFrequency"/>
-		</xsl:if>
-</xsl:template-->
 </xsl:stylesheet>

@@ -43,13 +43,13 @@ import com.tee.uit.security.AccessControlListIF;
  */
 
 public class ReportingHandler extends ActivityHandler {
-   private Vector spatialCont = new Vector();
+   //private Vector spatialCont = new Vector();
    private Vector clientCont = new Vector();
 
    protected final void DELETE_RO(String roID, boolean delSelf) {
       // cascade deleted related activitiess
       // delete linked spatial attributes
-      updateDB("DELETE FROM T_SPATIAL_LNK WHERE FK_RO_ID=" + roID);
+      //updateDB("DELETE FROM T_SPATIAL_LNK WHERE FK_RO_ID=" + roID);
 
       if (delSelf) {
       Statement stmt = null;
@@ -190,12 +190,12 @@ public class ReportingHandler extends ActivityHandler {
 
             
       }
-      else if (tblName.equals("T_SPATIAL_LNK")) {
+      /*else if (tblName.equals("T_SPATIAL_LNK")) {
        if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
           spatialCont.add(gen.clone());
        else
         return false;
-      }
+      } */
       else if (tblName.equals("T_CLIENT_LNK")) {
         if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
           clientCont.add(gen.clone());
@@ -206,7 +206,7 @@ public class ReportingHandler extends ActivityHandler {
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing
 
-      if ( (id != null) && (!spatialCont.isEmpty()) ) {
+    /*  if ( (id != null) && (!spatialCont.isEmpty()) ) {
          for (int i=0; i < spatialCont.size(); i++) {
            SQLGenerator spatialGen = (SQLGenerator)spatialCont.get(i);
            String value = spatialGen.getFieldValue("FK_SPATIAL_ID");
@@ -225,7 +225,7 @@ public class ReportingHandler extends ActivityHandler {
            updateDB(spatialGen.insertStatement());
          }
          spatialCont.clear();
-      }
+      } */
       //client lnk
       if ( (id != null) && (!clientCont.isEmpty()) ) {
       

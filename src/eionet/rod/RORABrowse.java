@@ -71,7 +71,8 @@ public class RORABrowse extends ROServletAC {
         while (e.hasMoreElements())
           dataSrc.setQuery((QueryStatementIF)e.nextElement());
       }
-      dataSrc.setQuery(new SearchStatement(params));
+      dataSrc.setQuery(new SearchStatement(params, false));
+      dataSrc.setQuery(new SearchStatement(params, true));
 
       addMetaInfo(dataSrc);
       //dataSrc.setQuery(new MetaData("RAMetaData", "T_ACTIVITY"));

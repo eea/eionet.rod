@@ -63,9 +63,6 @@ var picklist = new Array();
 	<td></td>
 	<td valign="top" align="right">
 		<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
-				<!--map name="openHarvesterMap">
-					<area alt="Harvest Reportnet meta-information" shape="rect" coords="0,0,120,17" href="javascript:openHarvester()"></area>
-				</map-->
 				<img alt="Harvest Reportnet meta-information" border="0" src="images/bb_harvest.png" onClick="javascript:openHarvester()"></img>
 		<br/>		<br/>
 </xsl:if>
@@ -153,13 +150,10 @@ of ROD and CDR by using the advanced search.
 <xsl:call-template name="CommonFooter"/>
 </table>
 
-	<br/>
-
-	</td></tr>
-	</table>
-  </div>
-	<!--/td></tr>
-	</table-->
+<br/>
+</td></tr>
+</table>
+</div>
 
 	</body>
 	</html>

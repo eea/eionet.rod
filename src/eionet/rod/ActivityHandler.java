@@ -47,6 +47,8 @@ import eionet.directory.DirServiceException;
 public class ActivityHandler extends ROHandler {
   private Vector issueCont = new Vector();
   private Vector paramCont = new Vector();
+  private Vector spatialCont = new Vector();  
+  //private Vector spatialHistCont = new Vector();
 
 /**
  * Deletes activity related data and if delSelf is true, also the activity itself.
@@ -54,9 +56,26 @@ public class ActivityHandler extends ROHandler {
    protected final void DELETE_ACTIVITY(String raID, boolean delSelf) {
       // delete linked environmental issues & parameters
       updateDB("DELETE FROM T_RAISSUE_LNK WHERE FK_RA_ID=" + raID);
+//??
+      updateDB("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + raID);      
+      
       updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
+      updateDB("UPDATE T_SPATIAL_HISTORY SET END_DATE=NOW() WHERE " +
+        " END_DATE IS NULL AND FK_RA_ID=" + raID);
 
+      /*try {
+        spatialHistCont=RODServices.getDbService().backupSpatialHistory(raID);
+      } catch (ServiceException se ) {
+        Logger.log("Error " + se.toString());
+      } */
+
+
+      
       if (delSelf) {
+
+         //KL031014
+         //updateDB("DELETE FROM T_SPATIAL_HISTORY WHERE FK_RA_ID=" + raID);
+      
          updateDB("DELETE FROM T_ACTIVITY WHERE PK_RA_ID=" + raID);
          HistoryLogger.logActivityHistory(raID,this.user.getUserName(), DELETE_RECORD, "");                       
       }
@@ -67,9 +86,6 @@ public class ActivityHandler extends ROHandler {
    protected boolean sqlReady(SQLGenerator gen, String context) {
       // if error has occured in previous call, stop further processing
 
-      /*Logger.log("*********************************");      
-        Logger.log("handler");
-      */
       
       if (getError())
          return false;
@@ -81,12 +97,8 @@ public class ActivityHandler extends ROHandler {
       boolean ins = false, upd =false, del=false;
       try {
         AccessControlListIF acl = servlet.getAcl(Constants.ACL_RA_NAME);
-/*Logger.log("*********************************");      
-Logger.log("acl OK");*/
 
         upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
-/*Logger.log("*********************************");      
-Logger.log("upd " + upd);*/
         
         //special case for delete, because user, having permission to delete RO or 
         //LI must be able to delete RA's as well
@@ -97,7 +109,7 @@ Logger.log("upd " + upd);*/
       }
 
 
-//Logger.log("state " + state);
+      //Logger.log("state " + state);
       if (tblName.equals("T_ACTIVITY")) {
          if (state != INSERT_RECORD) {
 
@@ -131,10 +143,9 @@ Logger.log("upd " + upd);*/
 
             DELETE_ACTIVITY(id, delSelf);
 
-            if (delSelf == true) {
-              //HistoryLogger.logActivityHistory(id,this.user.getUserName(), DELETE_RECORD, gen.getFieldValue("TITLE"));              
+            if (delSelf == true) 
                return false; // everything is done, log + stop
-            }
+           
          }
          else {
 
@@ -155,20 +166,12 @@ Logger.log("upd " + upd);*/
          setDateValue(gen, "NEXT_DEADLINE2");
          setDateValue(gen, "RM_NEXT_UPDATE");
          setDateValue(gen, "RM_VERIFIED");
+         gen.setFieldExpr("LAST_UPDATE", "CURDATE()");
 
-//Logger.log("defaulktprocessing ->");
          defaultProcessing(gen, null);
          id = recordID;
-//Logger.log("defaulktprocessing ok");
-        //log history
-         // id = gen.getFieldValue("PK_RA_ID");
-          //try {
-          HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
-          //} catch (Exception e ) {
-          //  return false;
-          //}
-         //<-log history
 
+         HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
 
          if (servlet != null)
             servlet.setCurrentID(id);
@@ -179,6 +182,22 @@ Logger.log("upd " + upd);*/
         else
           return false;
       }
+      else if (tblName.equals("T_RASPATIAL_LNK")) {
+       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
+          spatialCont.add(gen.clone());
+       else
+        return false;
+      }
+
+      //KL 031015
+      /*else if (tblName.equals("T_SPATIAL_HISTORY")) {
+       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
+          spatialHistCont.add(gen.getFieldValue("FK_SPATIAL_ID"));
+       else
+        return false;
+      } */
+
+
       else if (tblName.equals("T_PARAMETER_LNK")) {
 
         //check 
@@ -190,6 +209,58 @@ Logger.log("upd " + upd);*/
       }
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing
+
+
+    if ( (id != null) && (!spatialCont.isEmpty()) ) {
+         for (int i=0; i < spatialCont.size(); i++) {
+           SQLGenerator spatialGen = (SQLGenerator)spatialCont.get(i);
+           String value = spatialGen.getFieldValue("FK_SPATIAL_ID");
+
+           spatialGen.setField("FK_RA_ID", id);
+
+           String spatialId, voluntary;
+
+           if(value.indexOf(":") == -1) {
+             updateDB("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + id + " AND FK_SPATIAL_ID=" + getID(value));
+             spatialId=getID(value);
+             voluntary="N";
+
+           }
+           else {
+            voluntary="Y";
+            spatialId=value.substring(value.indexOf(":")+1);
+           }
+           spatialGen.setField("FK_SPATIAL_ID", spatialId);
+           spatialGen.setField("VOLUNTARY", voluntary);
+  
+          //System.out.println("SQL=" + spatialGen.insertStatement());
+
+           updateDB(spatialGen.insertStatement());
+
+            //handle history
+            HistoryLogger.logSpatialHistory(id, spatialId, voluntary);
+
+            /*try {
+              RODServices.getDbService().logSpatialHistory(id, spatialId, voluntary);
+              //spatialHistCont.remove(spatialId);
+            } catch (ServiceException se ) {
+              //FIX ME !!
+              Logger.log("Error handling history " + se.toString());
+            } */
+            
+            //new spatial, does not exist in history container yet
+            /*if (!spatialHistCont.contains(spatialId))
+              updateDB("INSERT INTO T_SPATIAL_HISTORY (FK_RA_ID, FK_SPATIAL_ID, START_DATE, END_DATE) " +
+                " VALUES( " + id + ", " + spatialId + ", '" + voluntary + "', NOW())");
+            else
+              spatialHistCont.remove(spatialId);
+            */
+           
+         }
+
+         spatialCont.clear();
+
+      }
 
       if ( (id != null) && (!issueCont.isEmpty()) ) {
          for (int i=0; i < issueCont.size(); i++) {
@@ -217,6 +288,8 @@ Logger.log("upd " + upd);*/
          }
          paramCont.clear();
       }
+
+//System.out.println("============= FINAL SPATIALHISTCONT SIZE= " + spatialHistCont.size());         
       return true;
    }
 

@@ -50,6 +50,8 @@
 			<RM_NEXT_UPDATE expression="DATE_FORMAT(T_ACTIVITY.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE"/>
 			<RM_VERIFIED expression="DATE_FORMAT(T_ACTIVITY.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED"/>
 			<RM_VERIFIED_BY/>
+			<LOCATION_PTR/>
+			<LOCATION_INFO/>
 		</T_ACTIVITY>
 		<T_REPORTING relation="T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID" reltype="outer">
 			<PK_RO_ID/>
@@ -91,5 +93,15 @@
 		</T_ISSUE>
 		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
 		<xrs:Constraint>T_RAISSUE_LNK.FK_RA_ID=@ID</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="Spatial">
+		<T_RASPATIAL_LNK>
+			<VOLUNTARY/>
+		</T_RASPATIAL_LNK>
+		<T_SPATIAL relation="T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID">
+			<SPATIAL_NAME/>
+		</T_SPATIAL>
+		<xrs:Ordering>SPATIAL_NAME</xrs:Ordering>
+		<xrs:Constraint>FK_RA_ID=@ID</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>

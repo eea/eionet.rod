@@ -161,7 +161,7 @@ function delLegislation() {
 		
 		<tr valign="top">
 			<td nowrap="true" width="10%"><span class="head0">Short name:</span></td>
-			<td><xsl:value-of select="T_SOURCE/ALIAS"/></td>
+			<td width="50%"><xsl:value-of select="T_SOURCE/ALIAS"/></td>
 		</tr>
 
 		<xsl:apply-templates select="SubSet[@Name='Origin']"/>
@@ -172,8 +172,8 @@ function delLegislation() {
 		<xsl:apply-templates select="SubSet[@Name='RelatedInstruments']"/>
 
 		<tr valign="top">
-			<td nowrap="true"><span class="head0">Issued by:</span></td>
-			<td>
+			<td nowrap="true" width="10%"><span class="head0">Issued by:</span></td>
+			<td width="50%">
 				<a>
 				<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
 				<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
@@ -181,7 +181,7 @@ function delLegislation() {
 			</td>
 		</tr>
 		<tr valign="top">
-			<td nowrap="true"><span class="head0">Issued by URL:</span></td>
+			<td nowrap="true" width="10%"><span class="head0">Issued by URL:</span></td>
 			<td colspan="2">
 				<a href="_new">
 				<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/ISSUED_BY_URL"/></xsl:attribute>
@@ -302,7 +302,7 @@ function delLegislation() {
 	<xsl:template match="SubSet[@Name='Origin']/Row/LSOURCE">
 		<tr valign="top">
 			<td width="10%"><span class="head0">Parent legal instrument:</span></td>
-			<td><a>
+			<td width="50%"><a>
 				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="ALIAS != ''">
@@ -320,7 +320,7 @@ function delLegislation() {
 		<xsl:if test="count(Row)>0">
 		<tr valign="top">
 			<td nowrap="true" width="10%"><span class="head0">Related instrument(s):</span></td>
-			<td colspan="3"><xsl:for-each select="Row/LSOURCE">
+			<td width="50%"><xsl:for-each select="Row/LSOURCE">
 				<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="ALIAS != ''">

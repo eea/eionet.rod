@@ -7,13 +7,12 @@
 	<META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/><link type="text/css" rel="stylesheet" href="eionet.css"/>
 	<script language="JavaScript">
 					
-Net=1;
+		Net=1;
 
-var browser = document.all ? 'E' : 'N';
+		var	browser = document.all ? 'E' : 'N';
 
-
-			</script>
-			</head>
+	</script>
+</head>
 <body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
 <br/>
 <!-- main header table -->
@@ -110,6 +109,5 @@ var browser = document.all ? 'E' : 'N';
 
 </body>
 </html>
-
 </xsl:template>
 </xsl:stylesheet>
