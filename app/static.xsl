@@ -80,7 +80,7 @@
 		
 	<xsl:template name="DB_OtherRequest_ID">23</xsl:template>
 
-	<xsl:template name="Feedback_URL">http://www.eionet.eu.int/software/rod/issues/add_issue_quick_html</xsl:template>
+	<xsl:template name="Feedback_URL">http://www.eionet.eu.int/software/rod/issues/add_issue_html</xsl:template>
 
 	<xsl:template name="Disclaimer_URL">disclaimer.jsv</xsl:template>
 
