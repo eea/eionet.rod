@@ -83,11 +83,14 @@ public class Activities extends RDFServletAC {
       String title = (String)act.get("TITLE");
       String lastUpdate = (String)act.get("LAST_UPDATE");
 
+      String liId = (String)act.get("PK_SOURCE_ID");
+
       //s.append("<rod:Obligation rdf:ID=\"ra-").append(pk).append("\">")
       s.append("<rod:Obligation rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">")
         .append("<rdf:value>").append(title).append("</rdf:value>")
         .append("<rdfs:label>").append(title).append("</rdfs:label>")
         .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
+        .append("<rod:instrument rdf:resource=\"" + instrumentsNamespace + liId + "\"/>")
         .append("</rod:Obligation>");
 
     }
