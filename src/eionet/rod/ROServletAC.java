@@ -59,11 +59,14 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
       //log("****************************** appInit GO ");
       //log("************************ " + XDBApplication.getInstance( getServletContext() ).getServerInfo());
 
-        //if (XDBApplication.getInstance( getServletContext() ).getServerInfo().indexOf("Tomcat") !=-1 )
-      PREFIX = "app/";
-          
-          
         ServletContext ctx = getServletContext();
+
+        //if (XDBApplication.getInstance( getServletContext() ).getServerInfo().indexOf("Tomcat") !=-1 )
+      if(Util.nullString(ctx.getInitParameter("app-path")))
+         PREFIX = "app/";
+      else
+         PREFIX = ctx.getInitParameter("app-path");
+      
         StringBuffer urlPrefix = new StringBuffer("http://");
 
         if (Util.nullString(ctx.getInitParameter("app-host")))
