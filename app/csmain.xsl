@@ -3,6 +3,7 @@
 <xsl:include href="common.xsl"/>
 
 
+
 <xsl:template match="/">
 
 <html lang="en"><head><title>Country Services</title>
@@ -59,11 +60,23 @@ function Out(Target) {
  }
 }
 
+<![CDATA[
+
+function openClient(ID){
+
+	var url = "client.jsv?id=" + ID;
+	var name = "Client";
+	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
+}
+
 function openCirca(url){
 	//var url = "cspersons?ROLE=" + ROLE; //  + "&#038;mi6";
 	//alert(url);
 	var name = "CSCIRCA";
-	var features = "location=yes, menubar=yes, width=750, height=600, top=30, left=50, resizable=yes, SCROLLABLE=YES";
+	var features = "location=yes, menubar=yes, width=750, height=600, top=30, left=50, resizable=yes, SCROLLBARS=YES";
 	var w = window.open( url, name, features);
 	w.focus();
 
@@ -96,10 +109,9 @@ function openPersons(ROLE){
 	//var o = window.showModalDialog() ; 
 }
 function openDeliveries(ACT_ID, COUNTRY_ID){
-	//alert("actID = " + ACT_ID);
+
 	var url = "csdeliveries?ACT_DETAILS_ID=" + ACT_ID ; // + "&#038;mi6";
-	url = url + "&amp;COUNTRY_ID=" + COUNTRY_ID;
-	//alert(url);
+	url = url + "&COUNTRY_ID=" + COUNTRY_ID;
 	var name = "CSDeliveries";
 	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
 	var w = window.open( url, name, features);
@@ -108,7 +120,7 @@ function openDeliveries(ACT_ID, COUNTRY_ID){
 }
 
 
-<![CDATA[
+
 
 	function changeParamInString(sUrl, sName, sValue){
 		var  i, j,  sBeg, sEnd, sStr;
@@ -172,8 +184,8 @@ var picklist = new Array();
 </map>
 
 <map name="sortDeadline">
-<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL,'ORD','NEXT_DEADLINE_PLUS')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL,'ORD','NEXT_DEADLINE_PLUS DESC')" alt="Click to sort in descending order" />
+<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL,'ORD','DEADLINE')" alt="Click to sort in ascending order" />
+<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL,'ORD','DEADLINE DESC')" alt="Click to sort in descending order" />
 </map>
 
 <map name="sortCountry">
@@ -388,7 +400,10 @@ var picklist = new Array();
 <img src="images/diamlil.gif" width="8" height="9"/>
 </td-->
 <td width="147"><font color="#646666">
+		<a>
+		<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
 		<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
+		</a>
 		</font>
 </td>
 <td width="100">
@@ -399,7 +414,7 @@ var picklist = new Array();
 					</xsl:when>
 					<xsl:otherwise>
 						<a window="delivery">
-						<xsl:attribute name="href">javascript:openDeliveries(<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>, <xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>)</xsl:attribute>
+						<xsl:attribute name="href">javascript:openDeliveries(<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>,<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>)</xsl:attribute>
 							Show list
 						</a>
 					</xsl:otherwise>

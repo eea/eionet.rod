@@ -28,6 +28,9 @@ import java.util.*;
 
 import com.tee.util.*;
 import com.tee.xmlserver.*;
+import eionet.rod.services.RODServices;
+import eionet.rod.services.ServiceException;
+import eionet.rod.services.DbServiceIF;
 
 /**
  * <P>Handler to store WebROD activity data.</P>
@@ -39,16 +42,21 @@ import com.tee.xmlserver.*;
  */
 
 public class ActivityHandler extends ROHandler {
+  private Vector issueCont = new Vector();
   private Vector paramCont = new Vector();
 
 /**
  * Deletes activity related data and if delSelf is true, also the activity itself.
  */
    protected final void DELETE_ACTIVITY(String raID, boolean delSelf) {
+      // delete linked environmental issues & parameters
+      updateDB("DELETE FROM T_RAISSUE_LNK WHERE FK_RA_ID=" + raID);
       updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
 
-      if (delSelf)
+      if (delSelf) {
          updateDB("DELETE FROM T_ACTIVITY WHERE PK_RA_ID=" + raID);
+         HistoryLogger.logActivityHistory(raID,this.user.getUserName(), DELETE_RECORD, "");                       
+      }
    }
 /**
  *
@@ -74,6 +82,9 @@ public class ActivityHandler extends ROHandler {
 
 
       if (tblName.equals("T_ACTIVITY")) {
+
+ 
+      
          if (state != INSERT_RECORD) {
 
             if (!ins)
@@ -91,8 +102,10 @@ public class ActivityHandler extends ROHandler {
               
             DELETE_ACTIVITY(id, delSelf);
 
-            if (delSelf == true)
-               return false; // everything is done, stop
+            if (delSelf == true) {
+              //HistoryLogger.logActivityHistory(id,this.user.getUserName(), DELETE_RECORD, gen.getFieldValue("TITLE"));              
+               return false; // everything is done, log + stop
+            }
          }
          else {
 
@@ -106,15 +119,31 @@ public class ActivityHandler extends ROHandler {
          if(months.trim().length() == 0)
             gen.setFieldExpr("REPORT_FREQ_MONTHS", "NULL");
          setDateValue(gen, "VALID_SINCE");
+         setDateValue(gen, "VALID_TO");
          setDateValue(gen, "NEXT_DEADLINE");
-         setDateValue(gen, "NEXT_DEADLINE_PLUS");
          setDateValue(gen, "FIRST_REPORTING");
 
          defaultProcessing(gen, null);
          id = recordID;
 
+        //log history
+         // id = gen.getFieldValue("PK_RA_ID");
+          //try {
+          HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
+          //} catch (Exception e ) {
+          //  return false;
+          //}
+         //<-log history
+
+
          if (servlet != null)
             servlet.setCurrentID(id);
+      }
+      else if (tblName.equals("T_RAISSUE_LNK")) {
+       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
+          issueCont.add(gen.clone());
+        else
+          return false;
       }
       else if (tblName.equals("T_PARAMETER_LNK")) {
 
@@ -128,6 +157,18 @@ public class ActivityHandler extends ROHandler {
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing
 
+      if ( (id != null) && (!issueCont.isEmpty()) ) {
+         for (int i=0; i < issueCont.size(); i++) {
+           SQLGenerator issueGen = (SQLGenerator)issueCont.get(i);
+           String value = issueGen.getFieldValue("FK_ISSUE_ID");
+
+           issueGen.setField("FK_ISSUE_ID", getID(value));
+           issueGen.setField("FK_RA_ID", id);
+
+           updateDB(issueGen.insertStatement());
+         }
+         issueCont.clear();
+      }
       if ( (id != null) && (!paramCont.isEmpty()) ) {
          for (int i=0; i < paramCont.size(); i++) {
            SQLGenerator paramGen = (SQLGenerator)paramCont.get(i);

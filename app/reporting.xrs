@@ -65,6 +65,7 @@
 			</T_INFORMATION>
 		</xrs:SubSet>
 	</xrs:RowSet>
+
 	<xrs:RowSet name="Activity">
 		<T_ACTIVITY>
 			<PK_RA_ID/>
@@ -72,6 +73,7 @@
 			<REPORT_FREQ/>
 			<REPORT_FREQ_DETAIL/>
 			<TERMINATE/>
+			<REPORT_FREQ_MONTHS/>
 		</T_ACTIVITY>
 		<xrs:Ordering>NEXT_REPORTING</xrs:Ordering>
 	<xrs:Constraint>FK_RO_ID=@ID</xrs:Constraint>

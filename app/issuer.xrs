@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet>
+		<T_ISSUER>
+			<PK_ISSUER_ID/>
+			<ISSUER_NAME/>
+			<ISSUER_ADDRESS/>
+			<ISSUER_ACRONYM/>
+			<ISSUER_URL/>
+			<ISSUER_EMAIL/>
+			<DESCRIPTION/>
+		</T_ISSUER>
+		<xrs:Constraint>PK_ISSUER_ID=@ID</xrs:Constraint>
+	</xrs:RowSet>
+</xrs:XmlData>
+	

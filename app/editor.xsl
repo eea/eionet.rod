@@ -34,6 +34,7 @@
 				<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache"/>
 				<META HTTP-EQUIV="Expires" CONTENT="Tue, 01 Jan 1980 00:00:00 GMT"/>
 				<link href="eionet.css" rel="stylesheet" type="text/css"/>
+				<script language="JavaScript" src="script/util.js"></script>
 				<script language="JavaScript">
 					<![CDATA[
 <!--
@@ -52,6 +53,10 @@ if ((navigator.appName.substring(0,5) == "Netsc"
  out.src = "images/off.gif";
  
  gTarget = 'img1';
+}
+
+function openAddIssuerWin() {
+	window.open('addissuer.html','sInfo','height=338,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
 }
 
 function openAddClientWin() {
@@ -427,22 +432,37 @@ function warn(field, msg) {
 	field.focus();
 }
 
-var dx;
-var mx;
-var yx;
-var fx;
-function changedReporting(first, freq, next, nextplus) {
+function changedReporting(first, freq, next, to, terminate) {
 	changed();
 
+	var utcMonth;
 	next.value = "";
-	nextplus.value = "";
+	terminate.value = "N";
 	
-	// Check that all fields have valid values
+	fiDate = checkDateSimple(first);
+	toDate = checkDateSimple(to);
+	fx = checkNumberSimple(freq);
+	
+	// Check that date fields have valid values
 	//
-	if(!(checkDateSimple(first) && checkNumberSimple(freq)))
+	if(fiDate == false || toDate == false)
 		return;
 
-	// If non-repeating, use First Reporting for Next Reporting
+	// Calculate value for TERMINATE
+	//
+	var currDate = new Date();
+	currDate.setUTCMinutes(currDate.getUTCMinutes() - currDate.getTimezoneOffset());
+	var toDat = new Date(toDate.yx, parseInt(toDate.mx, 10)-1, toDate.dx, 23, 59, 59);
+	toDat.setUTCMinutes(toDat.getUTCMinutes() - toDat.getTimezoneOffset());
+	if(currDate.getTime() > toDat.getTime())
+		terminate.value = "Y";
+
+	// Check that frequency field has valid value
+	//
+	if(fx == -1)
+		return;
+	
+	// If non-repeating, use Valid From for Next Due Date
 	//
 	if(fx == 0) {
 		next.value = first.value;
@@ -451,29 +471,42 @@ function changedReporting(first, freq, next, nextplus) {
 	
 	// Repeating date
 	//
-	var currDate = new Date();
 	currDate.setUTCDate(currDate.getUTCDate() - (fx * 3));  // Buffer
-	var repDate = new Date(yx, parseInt(mx, 10)-1, dx, 20);
-	
-	if(dx < 28)
-		while(repDate.getTime() < currDate.getTime())
+	var repDate = new Date(fiDate.yx, parseInt(fiDate.mx, 10)-1, fiDate.dx, 20);
+	repDate.setUTCMinutes(repDate.getUTCMinutes() - repDate.getTimezoneOffset());
+	if(fiDate.dx < 28) {
+		while(repDate.getTime() < currDate.getTime() && repDate.getTime() < toDat.getTime())
 			repDate.setUTCMonth(repDate.getUTCMonth() + fx);
+		if(repDate.getTime() > toDat.getTime())
+			repDate.setUTCMonth(repDate.getUTCMonth() - fx);
+	}
 	else {
 		repDate.setUTCDate(repDate.getUTCDate() - 3);
-		while(repDate.getTime() < currDate.getTime())
+		while(repDate.getTime() < currDate.getTime() && repDate.getTime() < toDat.getTime())
 			repDate.setUTCMonth(repDate.getUTCMonth() + fx);
-		var utcMonth = repDate.getUTCMonth();
+		if(repDate.getTime() > toDat.getTime())
+			repDate.setUTCMonth(repDate.getUTCMonth() - fx);
+		var rewindDate = new Date(repDate.getTime()); // Save for check below
+		utcMonth = repDate.getUTCMonth();
 		while(utcMonth == repDate.getUTCMonth())
 			repDate.setUTCDate(repDate.getUTCDate() + 1);
 		repDate.setUTCDate(repDate.getUTCDate() - 1);
+		// If we went over Valid To date, rewind and repeat
+		//
+		if(repDate.getTime() > toDat.getTime()) {
+			repDate.setTime(rewindDate.getTime());
+			repDate.setUTCMonth(repDate.getUTCMonth() - fx);
+			utcMonth = repDate.getUTCMonth();
+			while(utcMonth == repDate.getUTCMonth())
+				repDate.setUTCDate(repDate.getUTCDate() + 1);
+			repDate.setUTCDate(repDate.getUTCDate() - 1);
+		}
 	}
-	var plusDate = new Date(repDate.getTime());
-	plusDate.setUTCDate(plusDate.getUTCDate() + (fx * 3));
-	nextplus.value = ddmmyyyyDate(plusDate);
 	next.value = ddmmyyyyDate(repDate);
 }
 
 function checkDateSimple(field) {
+	rVal = new Object;
 	var s = field.value;
 	
 	if(s.length == 0)
@@ -486,38 +519,38 @@ function checkDateSimple(field) {
 		return false;
 	}
 
-	dx = RegExp.$1;
-	mx = RegExp.$2;
-	yx = RegExp.$3;
+	rVal.dx = RegExp.$1;
+	rVal.mx = RegExp.$2;
+	rVal.yx = RegExp.$3;
 
-	if(mx < 1 || mx > 12) {
+	if(rVal.mx < 1 || rVal.mx > 12) {
 		alert("Invalid date.");
 		return false;
 	}
-	else if ((dx < 1) || 
-				((mx == 1 || mx == 3 || mx == 5 || mx == 7 || mx == 8 || mx == 10 || mx == 12) && dx > 31) ||
-				((mx == 4 || mx == 6 || mx == 9 || mx == 11) && dx > 30) ||
-				(mx == 2 && dx > 29)) {
+	else if ((rVal.dx < 1) || 
+				((rVal.mx == 1 || rVal.mx == 3 || rVal.mx == 5 || rVal.mx == 7 || rVal.mx == 8 || rVal.mx == 10 || rVal.mx == 12) && rVal.dx > 31) ||
+				((rVal.mx == 4 || rVal.mx == 6 || rVal.mx == 9 || rVal.mx == 11) && rVal.dx > 30) ||
+				(rVal.mx == 2 && rVal.dx > 29)) {
 		alert("Invalid date.");
 		return false;
 	}
 
-	return true;
+	return rVal;
 }
 
 function checkNumberSimple(field) {
 	var s = field.value;
 	
 	if(s.length == 0)
-		return false; 
+		return -1; 
 	
-	fx = parseInt(field.value);
+	var fx = parseInt(field.value);
 	if(isNaN(fx) || fx < 0) {
-		alert("Invalid frequency. Positive, whole number expected.");
-		return false;
+		alert("Invalid reporting frequency. Positive, whole number expected.");
+		return -1;
 	}
 
-	return true;
+	return fx;
 }
 
 function ddmmyyyyDate(dat) {
@@ -539,17 +572,17 @@ function ddmmyyyyDate(dat) {
 	return s;
 }
 
-function checkAndSave(first, freq, next, textrep) {
-	if(textrep.value.length == 0 && first.value.length == 0 && freq.value.length == 0 && next.value.length == 0) {
-		alert("Both Reporting Date (Text Format) and normal reporting date fields (First Reporting, Frequency, and Next Reporting) are empty. One of them must be used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave normal fields empty.");
+function checkAndSave(first, freq, next, textrep, to) {
+	if(textrep.value.length == 0 && (first.value.length == 0 || to.value.length == 0 || freq.value.length == 0)) {
+		alert("Both Reporting Date (Text Format) and one or more of normal reporting date fields (Valid From, Valid To, Reporting Frequency) are empty. One of them must be used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
 		return;
 	}
-	else if(textrep.value.length != 0 && (first.value.length != 0 || freq.value.length != 0 || next.value.length != 0)) {
-		alert("Both Reporting Date (Text Format) and normal reporting date fields (First Reporting, Frequency, and Next Reporting) are used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave normal fields empty.");
+	else if(textrep.value.length != 0 && next.value.length != 0) {
+		alert("Both Reporting Date (Text Format) and normal reporting date fields (Valid From, Valid To, Reporting Frequency) are used. If you are entering reporting date using date and frequency fields, please leave Reporting Date (Text Format) field empty. If you would like to use the text-based field, leave Reporting Frequency field empty.");
 		return;
 	}
-	else if(next.value.length == 0 && (first.value.length != 0 || freq.value.length != 0)) {
-		alert("Unable to calculate next reporting date. Please make sure you have entered valid date (dd/mm/yyyy format) in First Reporting field and whole number (0 for non-repeating reporting) in Reporting Frequency in Months field.");
+	else if(next.value.length == 0 && first.value.length != 0 && to.value.length != 0 && freq.value.length != 0) {
+		alert("Unable to calculate next due date. Please make sure you have entered valid date (dd/mm/yyyy format) in Valid From field and whole number (0 for non-repeating reporting) in Reporting Frequency in Months field.");
 		return;
 	}
 	next.disabled = false;

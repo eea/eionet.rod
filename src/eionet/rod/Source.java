@@ -99,7 +99,7 @@ public class Source extends ROEditServletAC {
          if (conn == null)
             throw new XSQLException(null, "Not authenticated user");
 
-        checkPermissions(req);
+        //checkPermissions(req);
         
          try {
             stmt = conn.createStatement();
@@ -190,20 +190,27 @@ public class Source extends ROEditServletAC {
    }
 
    private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
-    String mode;
+    String mode = null;
     
     String userName = getUser(req).getUserName();
-    String id = req.getParameter( ID_PARAM );
+//    String id = req.getParameter( ID_PARAM );
     String upd = req.getParameter( FormHandlerIF.MODE_PARAM );
 
     upd = (upd==null ? "" : upd);
-    id = (id==null ? "" : id); //not needed?
-    
+//    id = (id==null ? "" : id); //not needed?
+/*    
     if ( id.equals("-1"))
       mode = "S";
     else if ( upd.equals("D"))
       mode = "X";
     else
+      mode = "s";
+*/
+    if ( upd.equals("A"))
+      mode = "S";
+    else if ( upd.equals("D"))
+      mode = "X";
+    else if ( upd.equals("U"))
       mode = "s";
         
     boolean b = false;

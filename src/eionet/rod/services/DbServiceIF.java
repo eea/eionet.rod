@@ -24,6 +24,7 @@
 package eionet.rod.services;
 
 import java.util.Hashtable;
+import java.util.StringTokenizer;
 import java.util.Vector;
 import java.sql.Connection;
 
@@ -36,6 +37,35 @@ import java.sql.Connection;
  */
 public interface DbServiceIF  {
 
+  /**
+  * Type for RO in HISTORY table
+  */
+  public static final String RO_LOG_TYPE = "O";
+
+  /**
+  * Type for RA in HISTORY table
+  */
+  public static final String RA_LOG_TYPE = "A";
+
+  /**
+  * Type for LI in HISTORY table
+  */
+  public static final String LI_LOG_TYPE = "L";
+
+  /**
+  * Action type for UPDATE statements in HISTORY table
+  */
+  public static final String UPDATE_ACTION_TYPE = "U";
+
+  /**
+  * Action type for DELETE statements in HISTORY table
+  */
+  public static final String DELETE_ACTION_TYPE = "D";
+
+  /**
+  * Action type for INSERT statements in HISTORY table
+  */
+  public static final String INSERT_ACTION_TYPE = "I";
 /**
  * Creates a connection to the database
  * @return java.sql.Connection
@@ -102,15 +132,19 @@ public interface DbServiceIF  {
 
  /**
  * Returns deadline data in 2-dimensional array
- * 0-PK_RA_ID, 1-FIRST_REPORTING, 2-REPORT_FREQ_MONTHS, 3-NEXT_DEADLINE, 4-NEXT_DEADLINE_PLUS
+ * 0-PK_RA_ID, 1-FIRST_REPORTING, 2-REPORT_FREQ_MONTHS, 3-VALID_TO, 4-TERMINATE
  */
   public String[][] getDeadlines() throws ServiceException;  
 
  /**
- * Saves deadline
- * 0-PK_RA_ID, 1-NEXT_DEADLINE, 2-NEXT_DEADLINE_PLUS
+ * Saves next deadline for given RA
  */
-  public void saveDeadline(String raId, String next, String nextPlus) throws ServiceException ;
+  public void saveDeadline(String raId, String next) throws ServiceException ;
+
+ /**
+ * Saves next terminated value for given RA
+ */
+  public void saveTerminate(String raId, String terminated) throws ServiceException ;
 
  /**
  * Saves roles
@@ -122,21 +156,66 @@ public interface DbServiceIF  {
  */
   public void saveDelivery(String raId, String countryId, Hashtable delivery ) throws ServiceException ;   
 
- /**
- * Get Activity details
- */
-  //public Vector getActivityDetails() throws ServiceException ;   
-  /**
-  * Deadline of the activity 
-  */
-  //public String getDeadLine( String activityId) throws ServiceException ;
-
-
+ 
   /**
   * Activities
   * @return array of hashes (PK_RA_ID, TITLE)
   */
   public Vector getActivities(  ) throws ServiceException ;
+
+
+  /**
+  * Logs record insert/update/delete history
+  * @param String itemType
+  * @param String itemId
+  * @param String userName
+  * @param String actionType  
+  * @param String description  
+  */
+  
+  public void logHistory(String itemType, String itemId, String userName, String actionType, String description) throws ServiceException ;   
+
+
+  /**
+  * Returns the change history of the item
+  * @param String itemType
+  * @param String itemId
+  * @return String[][]  (0:log_time, 1:action_type, 2:user, 3:description)
+  */
+
+  public String[][] getItemHistory(String itemType, String itemId) throws ServiceException ;
+
+
+  /**
+  * Returns deleted items of this type
+  * @param String itemType
+  * @return String[][]  (0:ITEM_ID, 1:LOG_TIME, 2:USER )
+  */
+
+  public String[][] getDeletedItems(String itemType) throws ServiceException ;
+
+  /**
+  * Returns next deadlines of activities
+  * Activities, not having a deadline are not returned
+  * @return String[][]  (0:PK_RA_ID, 1:TITLE, 2:NEXT_REPORTING, 3:FK_RO_ID)
+  */
+
+  public String[][] getActivityDeadlines() throws ServiceException ;
+
+  /**
+  * Returns obligations, corresponging to the issue ids, given as parameters
+  * @return String[][]  (0:PK_RO_ID, 1:ALIAS, 2:SOURCE.TITLE, 3:FK_SOURCE_ID)
+  */
+
+  public String[][] getIssueObligations(StringTokenizer ids) throws ServiceException ;
+
+  /**
+  * Returns activities, corresponging to the issue ids, given as parameters
+  * @return String[][]  (0:PK_RO_ID, 1:ALIAS, 2:SOURCE.TITLE, 3:FK_SOURCE_ID)
+  */
+
+  public String[][] getIssueActivities(StringTokenizer ids) throws ServiceException ;
+
   
 }
 

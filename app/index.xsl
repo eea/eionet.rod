@@ -25,6 +25,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="common.xsl"/>
+	<xsl:include href="util.xsl"/>
 
 	<xsl:template match="XmlData">
 	<!-- context bar -->
@@ -135,12 +136,17 @@
 		<form name="f" method="get" action="rorabrowse.jsv">
 		<input type="hidden" name="mode" value="R"/>
 		<table cellspacing="10" border="0" width="600">
-			<tr><td colspan="3"><span class="head0">Reporting obligations/activities selected by different filters:</span>
+			<tr><td colspan="3">
+				<span class="head0">Reporting obligations/activities selected by different filters:
+					<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_MAIN</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</span>
 				</td>
 			</tr>
 			<tr valign="center">
 				<td width="10"><img src="images/diamlil.gif"/></td>
-				<td width="200">Environmental issues</td>
+				<td width="245">Environmental issues
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_ENVIRONMENTALISSUES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</td>
 				<td>
 					<select name="env_issue">
 						<option value="-1">Choose an issue</option>
@@ -150,12 +156,14 @@
 			</tr>
 			<tr>
 				<td width="10"><img src="images/diamlil.gif"/></td>
-				<td width="200">Spatial Coverage</td>
+				<td width="245">Spatial Coverage
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_SPATIALCOVERAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</td>
 				<td></td>
 			</tr>
 			<tr valign="center">
 				<td width="10"></td>
-				<td width="200">Countries</td>
+				<td width="245">Countries</td>
 				<td>
 					<select name="country">
 						<option value="-1">Choose a country</option>
@@ -168,7 +176,9 @@
 			</tr>
 			<tr valign="center">
 				<td width="10"><img src="images/diamlil.gif"/></td>
-				<td width="200">Specific parameters</td>
+				<td width="245">Specific parameters
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_SPECIFICPARAMETERS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</td>
 				<td>
 		<script language="JavaScript">
 			<xsl:for-each select="RowSet[@Name='ParamGroup']/Row/T_PARAM_GROUP">
@@ -195,17 +205,12 @@
 			</tr>
 			<tr>
 				<td colspan="2"></td>
-				<td><input type="submit" style="width:300" value="Show selected reporting obligations"></input></td>
+				<!--td><input type="submit" style="width:300" value="Show selected reporting obligations"></input></td-->
+				<td><input type="button" style="width:300" onclick="javascript:document.f.mode.value = 'R';document.f.submit();" value="Show selected reporting obligations"></input></td>
 			</tr>
 			<tr>
 				<td colspan="2"></td>
 				<td><input type="button" style="width:300" onclick="javascript:document.f.mode.value = 'A';document.f.submit();" value="Show selected reporting activities"></input></td>
-			</tr>
-			<tr>
-				<td colspan="2"></td>
-				<td><input type="button" style="width:150" onclick="javascript:alert('The content of the database can be browsed by clicking the links of categorized obligations and activities. It is also possible to browse ROs and RAs by choosing between different filters which specify the documents that are going to be displayed. At the bottom of the screen the number of reporting obligations, -activities and the date of the latest update is shown.\n\n 
-Each page in WebROD has a Navigation Bar on the left side of the screen where user can navigate to legislations (categorized by type and according to EUR-LEX), environmental issues, obligations and activities.')" value="General Help"></input>
-				<input type="button" style="width:150" onclick="javascript:alert('It is possible to use six different categories to filter obligations or activities. By choosing values from more than one list box all filters are concatenated by using logical AND operator (for example: Environmental issue=Air and Country=Denmark will give all obligations/activities that Denmark has to fulfill in the issues concerning Air.\n\nThere are two types of parameters - chemicals, and species - which can be accessed by choosing the relevant value from the small list box.')" value="Search Help"></input></td>
 			</tr>
 		</table>
 		</form>

@@ -28,6 +28,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.StringTokenizer;
+import java.util.ArrayList;
 
 import java.util.Vector;
 import java.util.Hashtable;
@@ -103,18 +104,22 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
   }
 
    public String[][] getDeadlines() throws ServiceException {
-      String sql = "SELECT PK_RA_ID, FIRST_REPORTING, REPORT_FREQ_MONTHS, NEXT_DEADLINE, NEXT_DEADLINE_PLUS " +
-                   "FROM T_ACTIVITY WHERE REPORT_FREQ_MONTHS > 0"; // Only date-based repeating deadlines
+      String sql = "SELECT PK_RA_ID, FIRST_REPORTING, REPORT_FREQ_MONTHS, VALID_TO, TERMINATE " +
+                   "FROM T_ACTIVITY WHERE FIRST_REPORTING > 0 AND VALID_TO > 0";
       return _executeStringQuery(sql);
    }
 
-   public void saveDeadline(String raId, String next, String nextPlus) throws ServiceException {
+   public void saveDeadline(String raId, String next) throws ServiceException {
       String sql = "UPDATE T_ACTIVITY SET NEXT_DEADLINE='" + next + 
-                   "', NEXT_DEADLINE_PLUS='" + nextPlus + 
                    "' WHERE PK_RA_ID=" + raId;
       _executeUpdate(sql);
    }
 
+   public void saveTerminate(String raId, String terminated) throws ServiceException {
+      String sql = "UPDATE T_ACTIVITY SET TERMINATE='" + terminated + 
+                   "' WHERE PK_RA_ID=" + raId;
+      _executeUpdate(sql);
+   }
 
   private String getDeliveryId(String identifier) throws ServiceException {
     String deliveryId = _executeStringQuery("SELECT PK_DELIVERY_ID FROM " +
@@ -299,7 +304,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
 * Creates new DbServiceImpl object
 */
   public DbServiceImpl() throws ServiceException {
-
+      //!!! FIX ME in the future!!!
+      //if there is a servlet contecxt, take the DbPool from the XDBApplication
       dbUrl = RODServices.getFileService().getStringProperty( FileServiceIF.DB_URL);
       dbDriver = RODServices.getFileService().getStringProperty( FileServiceIF.DB_DRV);
       dbUser = RODServices.getFileService().getStringProperty( FileServiceIF.DB_USER_ID);
@@ -359,13 +365,25 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
 
   public String[][] getRespRoles() throws ServiceException {
     //return _executeStringQuery("SELECT RESPONSIBLE_ROLE FROM T_ACTIVITY_DETAILS");
-    String sql = "SELECT CONCAT(a.RESPONSIBLE_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER))  " + 
+    String sql = "SELECT CONCAT(a.RESPONSIBLE_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo " + 
       " FROM T_ACTIVITY a, T_SPATIAL s, T_REPORTING r, T_SPATIAL_LNK sl  " + 
       " WHERE  a.FK_RO_ID = r.PK_RO_ID AND sl.FK_RO_ID=r.PK_RO_ID " +
       " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND a.RESPONSIBLE_ROLE IS NOT NULL " +
-      " AND a.RESPONSIBLE_ROLE <> '' AND s.SPATIAL_TYPE = 'C';" ;
+      " AND a.RESPONSIBLE_ROLE <> '' AND s.SPATIAL_TYPE = 'C' ";
 
-      return _executeStringQuery(sql);
+      String roles1[][] = _executeStringQuery(sql);
+      sql = "SELECT RESPONSIBLE_ROLE FROM T_ACTIVITY WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' " ;
+      String roles2[][] = _executeStringQuery(sql);
+      int l = roles1.length + roles2.length;
+      String[][] roles = new String[l][1];
+
+      for (int i=0; i<roles1.length; i++)
+        roles[i][0] = roles1[i][0];
+
+      for (int i=0; i<roles2.length; i++)
+        roles[i+roles1.length][0] = roles2[i][0];
+      
+      return roles;
   }
 
   public void dropTables(int mode) throws ServiceException {
@@ -805,6 +823,21 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
   }
 
 
+/**
+*
+*/
+
+  public void logHistory(String itemType, String itemId, String userName, String actionType, String description) throws ServiceException {
+    String time = currentDate();
+    
+    String sql = "INSERT INTO T_HISTORY ( ITEM_ID,  ITEM_TYPE, 	ACTION_TYPE, 	LOG_TIME, USER, DESCRIPTION ) " +
+      " VALUES (" + itemId + ", '" + itemType + "', '" + actionType + "', '" + time + "', '" + userName + "', '" +
+      (description == null ? "" : description) +   "')";     
+
+
+    _executeUpdate(sql);
+  }
+
  /**
 	* Returns deadline for this activity
   * @return  Vector
@@ -856,6 +889,108 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.services.Config {
     return s;
       
   }
+
+  /**
+   *	Returns the current date in ANSI-DATETIME FORMAT
+   * @author KL 011105
+   */
+  private String currentDate() throws ServiceException {
+    String dateFormat="yyyy-MM-dd HH:mm:ss";
+    java.util.Date dt = new java.util.Date();
+    Date dt2 = new Date(dt.getTime());
+    String curDate="" ;//= dt2.toString(); //objToStr(dt2, ANSI_DATETIME_FORMAT);
+
+    //String str = obj.toString();
+    //String type = obj.getClass().getName();
+    
+    try {
+//      if (type.equals(PARM_TYPE_DATE)) {
+        SimpleDateFormat   sdf = new SimpleDateFormat(dateFormat);
+        curDate = sdf.format(dt2);
+//      }
+    } catch (Exception e) {
+      throw new ServiceException("Getting today's date failed");
+    }
+    return curDate;
+  }
+
+  /**
+  *
+  */
+  public String[][] getItemHistory(String itemType, String itemId) throws ServiceException {
+
+/*ACTION_TYPE CHAR(1),
+	LOG_TIME DATE,
+	USER VARCHAR(100),
+	DESCRIPTION TEXT */
+    String sql = " SELECT LOG_TIME, ACTION_TYPE, USER, DESCRIPTION FROM T_HISTORY WHERE ITEM_TYPE = '" + itemType +
+      "' AND ITEM_ID = " + itemId + " ORDER BY LOG_TIME ";
+    String s[][] = _executeStringQuery(sql);
+
+    return s;
+  }
+
+  /**
+  *
+  */
+  public String[][] getDeletedItems(String itemType) throws ServiceException {
+    String sql = "SELECT ITEM_ID, LOG_TIME, USER FROM T_HISTORY WHERE " + 
+      " ACTION_TYPE = '" + DELETE_ACTION_TYPE + "' AND ITEM_TYPE = '" + itemType + "'";
+
+    return _executeStringQuery(sql);
+  }
+
+  public String[][] getActivityDeadlines() throws ServiceException  {
+
+    String sql = "SELECT PK_RA_ID, TITLE, NEXT_DEADLINE, FK_RO_ID " +
+      " FROM T_ACTIVITY WHERE NEXT_DEADLINE IS NOT NULL AND " +
+      "NEXT_DEADLINE > '0000-00-00'";
+
+    return _executeStringQuery( sql);
+  }
+
+  /**
+  *
+  */
+  public String[][] getIssueObligations(StringTokenizer ids) throws ServiceException {
+    String sql = "SELECT DISTINCT r.PK_RO_ID, r.ALIAS, s.TITLE, r.FK_SOURCE_ID FROM " +
+      " T_REPORTING r, T_SOURCE s, T_ISSUE_LNK il WHERE " +
+      " r.FK_SOURCE_ID = s.PK_SOURCE_ID AND r.PK_RO_ID = il.FK_RO_ID ";
+
+      if(ids!=null)
+        sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
+        
+    return _executeStringQuery(sql);
+  }
+
+ public String[][] getIssueActivities(StringTokenizer ids) throws ServiceException  {
+   String sql = "SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE, a.FK_RO_ID FROM " +
+      " T_ACTIVITY a, T_RAISSUE_LNK il WHERE " +
+      "  a.PK_RA_ID = il.FK_RA_ID ";
+
+      if(ids!=null)
+        sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
+        
+    return _executeStringQuery(sql);
+ 
+ }
+  
+ /**
+ * buidls an addition to where clause, OR condition of field IDs, given in the param
+ * 
+ * example ids=[1,4,5], fldName=ITEM_ID
+ * return ( ITEM_ID=1 OR ITEM_ID=4 OR ITEM_ID=5 )
+ */
+ private String getWhereClause(String fldName, StringTokenizer ids ) {
+    StringBuffer s = new StringBuffer();
+    s.append(" (");
+    while (ids.hasMoreTokens()) {
+      s.append(fldName).append("=").append(ids.nextToken()).append(" OR ");
+    }
+    s.delete( s.length() -4, s.length() )          ;
+    s.append(" ) ");
+    return s.toString();
+ }
 }
 
 

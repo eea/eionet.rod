@@ -28,6 +28,10 @@
 		<xsl:value-of select="//RowSet[position()=1]/@auth"/>
 	</xsl:variable>
 
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
+	</xsl:variable>
+
 	<xsl:template match="/">
    	<html lang="en">
 			<head>
@@ -35,8 +39,13 @@
 				<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=ISO-8859-1"/>
 				<!--<link type="text/css" rel="stylesheet" href="http://www.eionet.eu.int/eionet.css">-->
 				<link href="eionet.css" rel="stylesheet" type="text/css"/>
+				<script language="JavaScript" src="script/util.js"></script>
 				<script language="JavaScript">
 					<![CDATA[
+
+
+
+
 <!--
 Net=1;
 if ((navigator.appName.substring(0,5) == "Netsc"
@@ -60,6 +69,55 @@ function showhelp(text) {
 		alert(text);
 	else
 		alert('No examples for this unit type!');
+}
+
+function openCirca(url){
+	var name = "CSCIRCA";
+	var features = "location=yes, menubar=yes, width=750, height=600, top=30, left=30, resizable=yes, SCROLLBARS=YES";
+	var w = window.open( url, name, features);
+	w.focus();
+}
+
+function openActionTypeHistory(MODE,TYPE){
+
+	var url = "history.jsv?entity=" + TYPE + "&mode=" + MODE;
+	var name = "History";
+	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
+}
+
+
+function openHistory(ID,TYPE){
+
+	var url = "history.jsv?entity=" + TYPE + "&id=" + ID;
+	var name = "History";
+	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
+}
+
+function openIssuer(ID){
+
+	var url = "issuer.jsv?id=" + ID;
+	var name = "Issuer";
+	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
+}
+
+
+function openClient(ID){
+
+	var url = "client.jsv?id=" + ID;
+	var name = "Client";
+	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
 }
 
 function Click(Target) {

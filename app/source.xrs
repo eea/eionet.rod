@@ -40,7 +40,13 @@
 			<EC_ACCESSION expression="IF(T_SOURCE.EC_ACCESSION, DATE_FORMAT(T_SOURCE.EC_ACCESSION,'%d/%m/%Y'), '') AS EC_ACCESSION"/>
 			<EC_ENTRY_INTO_FORCE expression="IF(T_SOURCE.EC_ENTRY_INTO_FORCE, DATE_FORMAT(T_SOURCE.EC_ENTRY_INTO_FORCE,'%d/%m/%Y'), '') AS EC_ENTRY_INTO_FORCE"/>
 			<COMMENT/>
+			<FK_ISSUER_ID/>
 		</T_SOURCE>
+		<T_ISSUER relation="T_ISSUER.PK_ISSUER_ID=T_SOURCE.FK_ISSUER_ID" reltype="outer">
+			<PK_ISSUER_ID/>
+			<ISSUER_NAME/>
+			<ISSUER_URL/>
+		</T_ISSUER>
 		<xrs:Constraint>T_SOURCE.PK_SOURCE_ID=@ID</xrs:Constraint>
 <!-- classification hierarchy-->
 		<xrs:SubSet name="Parents" relation="T_SOURCE.PK_SOURCE_ID = T_SOURCE_LNK.FK_SOURCE_CHILD_ID">

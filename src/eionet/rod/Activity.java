@@ -68,10 +68,11 @@ public class Activity extends ROEditServletAC {
       // prepare data source
       String[][] queryPars = {{"ID", id}, {"RID", rid}};   
 
+      HttpServletRequest req = params.getRequest();
       DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + E_ACTIVITY_QUERY, params.getRequest());
       dataSrc.setParameters(queryPars);
       
-      return dataSrc;
+      return userInfo(req, dataSrc);
    }
 /**
  *
@@ -87,9 +88,11 @@ public class Activity extends ROEditServletAC {
       
       String tmpName = Thread.currentThread().getName() + System.currentTimeMillis();
       tmpName = tmpName.replace('-', '_').toUpperCase();
+      String tmpIssueTbl = "I" + tmpName;
       String tmpParTbl = "P" + tmpName;
 
       DataSourceIF dataSrc = null;
+      QueryStatementIF qryIssue = null;
       QueryStatementIF qryPars = null;
 
       try {
@@ -98,11 +101,14 @@ public class Activity extends ROEditServletAC {
          if (conn == null)
             throw new XSQLException(null, "Not authenticated user");
 
-         checkPermissions(req);      
+         //checkPermissions(req);      
          
          try {
             stmt = conn.createStatement();
 
+            if (Logger.enable(5))
+               Logger.log("Create temp table " + tmpIssueTbl);
+            stmt.execute(CREATE1 + tmpIssueTbl + CREATE2 + ISSUES + "-1");
             if (Logger.enable(5))
                Logger.log("Create temp table " + tmpParTbl);
             stmt.execute(CREATE1 + tmpParTbl + CREATE2 + PARAMETERS + "-1");
@@ -111,6 +117,8 @@ public class Activity extends ROEditServletAC {
             dataSrc = prepareDataSource(new Parameters(req));
 
             // parameters
+            qryIssue = new SubSelectStatement("ISSUE", tmpIssueTbl);
+            dataSrc.setQuery(qryIssue);
             qryPars = new SubSelectStatement("PARAMETER", "FK_GROUP_ID", tmpParTbl,"NEW=1");
             dataSrc.setQuery(qryPars);
 
@@ -125,6 +133,9 @@ public class Activity extends ROEditServletAC {
             try {
                if (stmt != null) {
                   if (Logger.enable(5))
+                     Logger.log("Drop temp table " + tmpIssueTbl);
+                  stmt.execute(DROP + tmpIssueTbl);
+                  if (Logger.enable(5))
                      Logger.log("Drop temp table " + tmpParTbl);
                   stmt.execute(DROP + tmpParTbl);
 
@@ -138,6 +149,7 @@ public class Activity extends ROEditServletAC {
       } catch (XSQLException xe) {
          printError(xe, req, res);
       } finally {
+         if (qryIssue != null) dataSrc.unsetQuery(qryIssue);
          if (qryPars != null) dataSrc.unsetQuery(qryPars);
       }
    }
@@ -171,27 +183,37 @@ public class Activity extends ROEditServletAC {
       return new ActivityHandler(this);
    }
    
+   private static final String ISSUES =
+      "T_RAISSUE_LNK.FK_ISSUE_ID FROM T_RAISSUE_LNK WHERE T_RAISSUE_LNK.FK_RA_ID=";
    private static final String PARAMETERS =
       "T_PARAMETER_LNK.FK_PARAMETER_ID FROM T_PARAMETER_LNK WHERE T_PARAMETER_LNK.FK_RA_ID=";
 
 
   private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
-    String mode;
+    String mode = null;
     
     String userName = getUser(req).getUserName();
     
-    String id = req.getParameter( ID_PARAM );
+//    String id = req.getParameter( ID_PARAM );
     String upd = req.getParameter( FormHandlerIF.MODE_PARAM );
 
     upd = (upd==null ? "" : upd);
-    id = (id==null ? "" : id); //not needed?
+//    id = (id==null ? "" : id); //not needed?
+
+
+    if ( upd.equals("A"))
+      mode = "A";
+    else if ( upd.equals("D"))
+      mode = "X";
+    else if ( upd.equals("U"))
+      mode = "a";
     
-    if ( id.equals("-1"))
+/*    if ( id.equals("-1"))
       mode = "A";
     else if ( upd.equals("D"))
       mode = "X";
     else
-      mode = "a";
+      mode = "a";*/
         
     boolean b = false;
     try {

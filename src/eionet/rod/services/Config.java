@@ -40,7 +40,11 @@ public interface Config {
 * Parameter in the props file for the domain of WebROD
 */
   public static final String ROD_URL_NS = "rod.url.namespace";
-
+/**
+*
+*/
+  public static final String ROD_URL_RO_NS = "rod.url.ro_namespace";
+  
 /**
 * Parameter in the props file for the domain of WebROD
 */

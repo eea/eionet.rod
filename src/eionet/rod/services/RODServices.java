@@ -36,6 +36,9 @@ public class RODServices  {
 
 
 private static LogServiceIF   _logSrv = null;
+private static DbServiceIF   _dbSrv = null;
+private static FileServiceIF   _fSrv = null;
+
   /**
   * Instance of DirectoryService
   * @DEPRECATED
@@ -48,14 +51,19 @@ private static LogServiceIF   _logSrv = null;
   * Instance of DbServiceIF
   */
 	public static DbServiceIF getDbService() throws ServiceException {
-  	return new DbServiceImpl();
+    if ( _dbSrv == null)
+      _dbSrv = new DbServiceImpl();
+  	return _dbSrv; //new DbServiceImpl();
   }
 
   /**
   * Instance of FileServiceIF (reads from props file)
   */
  	public static FileServiceIF getFileService() throws ServiceException {
-  	return new FileServiceImpl();
+    if ( _fSrv == null)
+      _fSrv = new FileServiceImpl();
+
+  	return _fSrv; //new FileServiceImpl();
   }
 
 
@@ -69,7 +77,7 @@ private static LogServiceIF   _logSrv = null;
         _logSrv = new Log4jLoggerImpl();
       } catch (Exception se) {
         _logSrv = new StderrLogger();
-        _logSrv.error("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOGSERVICE ERROR " + se.toString());
+        //_logSrv.error("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOGSERVICE ERROR " + se.toString());
       }
     }
     

@@ -26,6 +26,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="common.xsl"/>
 
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
+	</xsl:variable>
+
 	<xsl:template match="XmlData">
 		<xsl:apply-templates select="RowSet[@Name='Source hierarchy']"/>
 	</xsl:template>
@@ -68,6 +72,14 @@
 			<span class="head1"><form>Legal instruments regarding reporting obligations
 				<input type="button" style="width:150" onclick="javascript:alert('By clicking on a sub-section link, a legal instruments hierarchy for that sub-section is displayed (i.e. on this new page the clicked section will be a top level section). Clicking on the legal instrument link, a page with this legal instrument data is displayed.')" value="Help"></input></form></span>
 		</td></tr></table>
+
+		<xsl:if test="contains($permissions, 'y')='true'">
+			<b><a>
+				<xsl:attribute name="href">javascript:openActionTypeHistory('D','L')</xsl:attribute>
+				Show deleted legal instruments
+			</a></b>
+			<br/><br/>
+		</xsl:if>
 
 	   <table cellspacing="7" width="600" border="0"><tr><td>
 			<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!=''">

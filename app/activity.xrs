@@ -29,6 +29,7 @@
 			<PK_RA_ID/>
 			<FK_RO_ID/>
 			<VALID_SINCE expression="DATE_FORMAT(VALID_SINCE, '%d/%m/%Y') AS VALID_SINCE"/>
+			<VALID_TO expression="DATE_FORMAT(VALID_TO, '%d/%m/%Y') AS VALID_TO"/>
 			<VALID_SINCE expression="DATE_FORMAT(VALID_SINCE, '%Y') AS VALID_YEAR"/>
 			<TITLE/>
 			<FORMAT_NAME/>
@@ -37,6 +38,7 @@
 			<REPORT_FREQ_DETAIL/>
 			<REPORTING_FORMAT/>
 			<NEXT_REPORTING/>
+			<DATE_COMMENTS/>
 			<TERMINATE/>
 			<LAST_UPDATE expression="DATE_FORMAT(T_ACTIVITY.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE"/>
 			<COMMENT/>
@@ -54,6 +56,11 @@
 			<TITLE/>
 			<ALIAS/>
 		</T_SOURCE>
+		<T_ROLE relation="T_ROLE.ROLE_ID=T_ACTIVITY.RESPONSIBLE_ROLE" reltype="outer">
+			<ROLE_ID/>
+			<ROLE_NAME/>
+			<ROLE_URL/>
+		</T_ROLE>
 		<xrs:Constraint>PK_RA_ID=@ID</xrs:Constraint>
 		<xrs:SubSet name="Parameter" distinct="true" relation="T_ACTIVITY.PK_RA_ID=T_PARAMETER_LNK.FK_RA_ID">
 			<T_PARAMETER_LNK>
@@ -70,5 +77,14 @@
 			</T_PARAMETER>
 			<xrs:Ordering>T_PARAMETER.PARAMETER_NAME</xrs:Ordering>
 		</xrs:SubSet>
+	</xrs:RowSet>
+
+	<xrs:RowSet name="EnvIssue">
+		<T_RAISSUE_LNK/>
+		<T_ISSUE relation="T_RAISSUE_LNK.FK_ISSUE_ID=T_ISSUE.PK_ISSUE_ID">
+			<ISSUE_NAME/>
+		</T_ISSUE>
+		<xrs:Ordering>ISSUE_NAME</xrs:Ordering>
+		<xrs:Constraint>T_RAISSUE_LNK.FK_RA_ID=@ID</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>

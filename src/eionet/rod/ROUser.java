@@ -42,7 +42,8 @@ public class ROUser implements AppUserIF {
    private String user = null;
    private String password = null;
    private DBPoolIF dbPool = null;
-
+   private String fullName = null;
+   
    private String[] _roles = null;
    
    public ROUser() {
@@ -64,6 +65,7 @@ public class ROUser implements AppUserIF {
 
       try {
          DirectoryService.sessionLogin(userName, userPws);
+         fullName = DirectoryService.getFullName(userName);
          //KL021029
          //conn = dbPool.getConnection(userName, userPws);
          //conn = dbPool.getConnection();
@@ -110,6 +112,14 @@ public class ROUser implements AppUserIF {
           
       return b;
    }
+
+/**
+* FullName
+*/
+   public String getFullName() {
+      return fullName;
+   }
+
 /**
  *
  */

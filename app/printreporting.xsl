@@ -107,7 +107,8 @@
 			<tr valign="top">
 				<td width="22%"><span class="head0">Report to:</span></td>
 				<td colspan="2">
-					<xsl:value-of select="T_REPORTING/REPORT_TO"/>
+					<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
+					<!--xsl:value-of select="T_REPORTING/REPORT_TO"/-->
 				</td>
 			</tr>
 			<tr valign="top">
@@ -221,7 +222,24 @@
 					<td>
 						<xsl:choose>
 							<xsl:when test="TERMINATE = 'N'">
-								<xsl:value-of select="REPORT_FREQ"/>&#160;<xsl:value-of select="REPORT_FREQ_DETAIL"/>
+								<!--xsl:value-of select="T_ACTIVITY/REPORT_FREQ"/>&#160;<xsl:value-of select="T_ACTIVITY/REPORT_FREQ_DETAIL"/-->
+								<xsl:choose>
+								<xsl:when test="REPORT_FREQ_MONTHS = '0'">
+									One time only
+								</xsl:when>
+								<xsl:when test="REPORT_FREQ_MONTHS = '1'">
+									Monthly
+								</xsl:when>
+								<xsl:when test="REPORT_FREQ_MONTHS = '12'">
+									Annually
+								</xsl:when>
+								<xsl:when test="string-length(REPORT_FREQ_MONTHS) > 0">
+									Every <xsl:value-of select="REPORT_FREQ_MONTHS"/> months
+								</xsl:when>
+								<xsl:otherwise>
+									See activity
+								</xsl:otherwise>
+								</xsl:choose>
 							</xsl:when>
 							<xsl:otherwise>
 								<font color="red">terminated</font>

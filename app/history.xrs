@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="History">
+		<T_HISTORY>
+			<PK_HISTORY_ID/>
+			<ITEM_ID/>
+			<ITEM_TYPE/>
+			<ACTION_TYPE/>
+			<USER/>
+			<DESCRIPTION/>
+			<TIME_STAMP expression="DATE_FORMAT(LOG_TIME, '%d/%m/%Y %H:%i') AS TIME_STAMP"/>
+		</T_HISTORY>
+		<xrs:Constraint>ITEM_TYPE=@TYPE AND @OTHER</xrs:Constraint>
+		<xrs:Ordering>LOG_TIME</xrs:Ordering>
+	</xrs:RowSet>
+</xrs:XmlData>
+

@@ -94,7 +94,10 @@
 			<tr valign="top">
 				<td width="22%"><span class="head0">Related obligation:</span></td>
 				<td colspan="2">
-						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
+						<a><xsl:attribute name="href">
+						show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>
+						&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>	&amp;mode=R
+						</xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="T_REPORTING/ALIAS != ''">
 								<xsl:value-of select="T_REPORTING/ALIAS"/>
@@ -138,11 +141,59 @@
 				</td>
 			</tr>
 			<tr valign="top">
+				<td width="22%"><span class="head0">Valid from:</span></td>
+				<td colspan="2">
+					<xsl:value-of select="T_ACTIVITY/FIRST_REPORTING"/>
+				</td>
+			</tr>
+			<xsl:if test="string-length(T_ACTIVITY/NEXT_REPORTING) = 0">
+				<tr valign="top">
+					<td width="22%"><span class="head0">Reporting frequency:</span></td>
+					<td colspan="2">
+							<xsl:choose>
+							<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
+								<!--xsl:value-of select="T_ACTIVITY/REPORT_FREQ"/>&#160;<xsl:value-of select="T_ACTIVITY/REPORT_FREQ_DETAIL"/-->
+								<xsl:choose>
+								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '0'">
+									One time only
+								</xsl:when>
+								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '1'">
+									Monthly
+								</xsl:when>
+								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '12'">
+									Annually
+								</xsl:when>
+								<xsl:when test="string-length(T_ACTIVITY/NEXT_DEADLINE) = 0">
+									&#160;
+								</xsl:when>
+								<xsl:otherwise>
+									Every <xsl:value-of select="T_ACTIVITY/REPORT_FREQ_MONTHS"/> months
+								</xsl:otherwise>
+								</xsl:choose>
+							</xsl:when>
+							<xsl:otherwise>
+								<font color="red">terminated</font>
+							</xsl:otherwise>
+						</xsl:choose>
+					</td>
+				</tr>
+			</xsl:if>
+			<tr valign="top">
 				<td width="22%"><span class="head0">Next reporting:</span></td>
 				<td colspan="2">
 					<xsl:choose>
-						<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
+						<!--xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
 						<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
+						</xsl:when-->
+						<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
+							<xsl:choose>
+							<xsl:when test="string-length(T_ACTIVITY/NEXT_REPORTING) = 0">
+								<xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
+							</xsl:otherwise>
+							</xsl:choose>
 						</xsl:when>
 						<xsl:otherwise>
 							<font color="red">terminated</font>
@@ -151,16 +202,15 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td width="22%"><span class="head0">Reporting frequency:</span></td>
+				<td width="22%"><span class="head0">Date comments:</span></td>
 				<td colspan="2">
-						<xsl:choose>
-						<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
-							<xsl:value-of select="T_ACTIVITY/REPORT_FREQ"/>&#160;<xsl:value-of select="T_ACTIVITY/REPORT_FREQ_DETAIL"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<font color="red">terminated</font>
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:value-of select="T_ACTIVITY/DATE_COMMENTS"/>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td width="22%"><span class="head0">Linked environmental issues:</span></td>
+				<td colspan="2">
+					<xsl:apply-templates select="//RowSet[@Name='EnvIssue']"/>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -208,6 +258,16 @@
 			<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>
 			</td></tr>
 		</table>
+	</xsl:template>
+
+	<xsl:template match="//RowSet[@Name='EnvIssue']">
+		<xsl:for-each select="Row/T_ISSUE">
+		<xsl:choose>
+			<xsl:when test="position()!=count(//RowSet[@Name='EnvIssue']/Row/T_ISSUE)">
+				<xsl:value-of select="ISSUE_NAME"/>, 
+			</xsl:when>
+			<xsl:otherwise><xsl:value-of select="ISSUE_NAME"/></xsl:otherwise>
+		</xsl:choose></xsl:for-each>
 	</xsl:template>
 
 	<xsl:template match="SubSet[@Name='Parameter']">

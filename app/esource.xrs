@@ -24,6 +24,17 @@
  * -->
 
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="Issuer">
+		<T_ISSUER>
+			<PK_ISSUER_ID/>
+			<ISSUER_NAME/>
+			<ISSUER_ADDRESS/>
+			<ISSUER_ACRONYM/>
+			<ISSUER_URL/>
+			<ISSUER_EMAIL/>
+		</T_ISSUER>
+		<xrs:Ordering>ISSUER_NAME</xrs:Ordering>
+	</xrs:RowSet>
 	<xrs:RowSet name="Source" skeleton="true">
 		<T_SOURCE PKField="PK_SOURCE_ID">
 			<PK_SOURCE_ID/>
@@ -44,6 +55,7 @@
 			<EC_ENTRY_INTO_FORCE expression="IF(T_SOURCE.EC_ENTRY_INTO_FORCE, DATE_FORMAT(T_SOURCE.EC_ENTRY_INTO_FORCE, '%d/%m/%Y'), '') AS	EC_ENTRY_INTO_FORCE"/>
 			<DRAFT/>
 			<COMMENT/>
+			<FK_ISSUER_ID/>
 		</T_SOURCE>
 		<T_SOURCE_LNK relation="T_SOURCE.PK_SOURCE_ID=T_SOURCE_LNK.FK_SOURCE_CHILD_ID AND T_SOURCE_LNK.CHILD_TYPE='S' AND T_SOURCE_LNK.PARENT_TYPE='S'"	reltype="outer">
 			<FK_SOURCE_PARENT_ID/>

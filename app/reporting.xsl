@@ -60,6 +60,28 @@
 		<xsl:if test="contains($permissions, 'X')='true'">
 			<script language="JavaScript">
 			<![CDATA[
+
+/*function openClient(ID){
+
+	var url = "client.jsv?id=" + ID;
+	var name = "Client";
+	var features = "location=no, menubar=no, width=500, height=400, top=100, left=200, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
+}*/
+
+/*function openHistory(ID,TYPE){
+	
+	var url = "history.jsv?entity=" + TYPE + "&id=" + ID;
+	var name = "History";
+	var features = "location=no, menubar=no, width=640, height=400, top=100, left=200, scrollbars=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+
+} */
+
+
 function delObligation() {
 	if (confirm("Do you want to delete the reporting obligation and related reporting activities?"))
 		document.f.submit();
@@ -134,9 +156,8 @@ function delObligation() {
 				</xsl:choose>]
 -->
 			</td>
-			<td align="right" nowrap="true" rowspan="3">
+				<td align="right" nowrap="true" rowspan="3">
 					<xsl:if test="contains($permissions, 'O')='true'">
-					<!--xsl:if test="$admin='true'"-->
 						<a>
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
 <!--
@@ -154,12 +175,15 @@ function delObligation() {
 							<img src="images/editobligation.png" alt="Edit reporting obligation" border="0"/></a><br/>
 						</xsl:if>
 						<xsl:if test="contains($permissions, 'X')='true'">
-						<a href="javascript:delObligation()"><img src="images/deleteobligation.png" alt="Delete reporting obligation" border="0"/><br/>
-						</a>
+						<a href="javascript:delObligation()"><img src="images/deleteobligation.png" alt="Delete reporting obligation" border="0"/></a><br/>
 					</xsl:if>				
 				</td>
 
+
+
+<!-- -->			
 			</tr>
+
 			<tr valign="top">
 				<td width="22%"><span class="head0">Alias name:</span></td>
 				<td width="60%">
@@ -172,6 +196,7 @@ function delObligation() {
 						</xsl:otherwise>
 					</xsl:choose>
 				</td>
+
 			</tr>
 			<tr valign="top">
 				<td width="22%"><span class="head0">Document last modified:</span></td>
@@ -197,8 +222,10 @@ function delObligation() {
 			<tr valign="top">
 				<td width="22%"><span class="head0">Report to:</span></td>
 				<td colspan="2">
-					<!--xsl:value-of select="T_REPORTING/REPORT_TO"/-->
-					<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
+					<a>
+						<xsl:attribute name="href">javascript:openClient('<xsl:value-of select="T_REPORTING/FK_CLIENT_ID"/>')</xsl:attribute>
+						<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
+					</a>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -234,7 +261,7 @@ function delObligation() {
 			</tr>
 			<tr valign="top">
 				<td width="22%">
-					<span class="head0">Reporting activities:</span>
+					<span class="head0">Reporting activities:</span><br/>
 				</td>
 				<td colspan="2">
 					<xsl:apply-templates select="//RowSet[@Name='Activity']"/>
@@ -252,6 +279,18 @@ function delObligation() {
 				</td>
 			</tr>
 			</xsl:if>
+
+			<!-- show history link KL 021127 -->
+			<xsl:if test="contains($permissions, 'y')='true'">
+			  <tr>
+				<td colspan="3">
+					<a>
+					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ro-id"/>','O')</xsl:attribute>
+					Show history
+					</a>
+				</td>
+				</tr>
+			</xsl:if>
 <!--
 			<xsl:call-template name="RelatedInformation">
 				<xsl:with-param name="type">ER</xsl:with-param>
@@ -260,7 +299,9 @@ function delObligation() {
 				<xsl:with-param name="type">NS</xsl:with-param>
 			</xsl:call-template>
 -->
-			
+	
+
+
 			<tr><td colspan="3"><br/><hr/></td></tr>
 			<tr><td colspan="3">
 			Contents in this application are maintained by the EEA.
@@ -316,7 +357,24 @@ function delObligation() {
 					<td>
 						<xsl:choose>
 							<xsl:when test="TERMINATE = 'N'">
-								<xsl:value-of select="REPORT_FREQ"/>&#160;<xsl:value-of select="REPORT_FREQ_DETAIL"/>
+								<!--xsl:value-of select="T_ACTIVITY/REPORT_FREQ"/>&#160;<xsl:value-of select="T_ACTIVITY/REPORT_FREQ_DETAIL"/-->
+								<xsl:choose>
+								<xsl:when test="REPORT_FREQ_MONTHS = '0'">
+									One time only
+								</xsl:when>
+								<xsl:when test="REPORT_FREQ_MONTHS = '1'">
+									Monthly
+								</xsl:when>
+								<xsl:when test="REPORT_FREQ_MONTHS = '12'">
+									Annually
+								</xsl:when>
+								<xsl:when test="string-length(REPORT_FREQ_MONTHS) > 0">
+									Every <xsl:value-of select="REPORT_FREQ_MONTHS"/> months
+								</xsl:when>
+								<xsl:otherwise>
+									See activity
+								</xsl:otherwise>
+								</xsl:choose>
 							</xsl:when>
 							<xsl:otherwise>
 								<font color="red">terminated</font>

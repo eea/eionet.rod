@@ -25,6 +25,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="common.xsl"/>
+	<xsl:include href="util.xsl"/>
 
 	<xsl:variable name="showfilters">
 		<xsl:value-of select="substring(substring-after(/XmlData/xml-query-string,'showfilters='),1,1)"/>
@@ -33,7 +34,12 @@
 	<xsl:variable name="rora">
 		<xsl:value-of select="substring(substring-after(/XmlData/xml-query-string,'mode='),1,1)"/>
 	</xsl:variable>
-		
+
+	<xsl:variable name="historyMode">
+		<xsl:if test="$rora='R'">O</xsl:if>
+		<xsl:if test="$rora='A'">A</xsl:if>
+	</xsl:variable>
+
 	<xsl:template match="XmlData">
 	<!-- context bar -->
       <table cellspacing="0" cellpadding="0" width="621" border="0">
@@ -101,10 +107,13 @@
 							Reporting obligations selected by different filters:
 						</xsl:otherwise>
 					</xsl:choose>
+					<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RORA</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				</span></td></tr>
 			<tr valign="center">
 				<td width="10"><img src="images/diamlil.gif"/></td>
-				<td width="200">Environmental issues</td>
+				<td width="245">Environmental issues
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_ENVIRONMENTALISSUES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</td>
 				<td>
 					<select name="env_issue">
 						<option value="-1">Choose an issue</option>
@@ -114,12 +123,14 @@
 			</tr>
 			<tr>
 				<td width="10"><img src="images/diamlil.gif"/></td>
-				<td width="200">Spatial Coverage</td>
+				<td width="245">Spatial Coverage
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_SPATIALCOVERAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</td>
 				<td></td>
 			</tr>
 			<tr valign="center">
 				<td width="10"></td>
-				<td width="200">Countries</td>
+				<td width="245">Countries</td>
 				<td>
 					<select name="country">
 						<option value="-1">Choose a country</option>
@@ -130,9 +141,9 @@
 					</select>
 				</td>
 			</tr>
-			<tr valign="center">
+			<!--tr valign="center">
 				<td width="10"></td>
-				<td width="200">River runoff areas</td>
+				<td width="245">River runoff areas</td>
 				<td>
 					<select name="river">
 						<option value="-1">Choose a river</option>
@@ -145,7 +156,7 @@
 			</tr>
 			<tr valign="center">
 				<td width="10"></td>
-				<td width="200">Seas</td>
+				<td width="245">Seas</td>
 				<td>
 					<select name="sea">
 						<option value="-1">Choose a sea</option>
@@ -158,7 +169,7 @@
 			</tr>
 			<tr valign="center">
 				<td width="10"></td>
-				<td width="200">Lakes and reservoirs</td>
+				<td width="245">Lakes and reservoirs</td>
 				<td>
 					<select name="lake">
 						<option value="-1">Choose a lake or reservoir</option>
@@ -168,10 +179,12 @@
 						</xsl:call-template>1
 					</select>
 				</td>
-			</tr>
+			</tr-->
 			<tr valign="center">
 				<td width="10"><img src="images/diamlil.gif"/></td>
-				<td width="200">Specific parameters</td>
+				<td width="245">Specific parameters
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_SPECIFICPARAMETERS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</td>
 				<td>
 		<script language="JavaScript">
 			<xsl:for-each select="RowSet[@Name='ParamGroup']/Row/T_PARAM_GROUP">
@@ -224,6 +237,21 @@
 				</xsl:choose>
 		</td></tr></table>
 		<br/>
+		<xsl:if test="contains($permissions, 'y')='true'">
+			<b><a>
+				<xsl:attribute name="href">javascript:openActionTypeHistory('D','<xsl:value-of select="$historyMode"/>')</xsl:attribute>
+				Show deleted 
+				<xsl:choose>
+					<xsl:when test="$rora='A'">
+						reporting activities
+					</xsl:when>
+					<xsl:otherwise>
+						reporting obligations
+					</xsl:otherwise>
+			</xsl:choose>
+			</a></b>
+			<br/>			<br/>
+		</xsl:if>
 		<div style="margin-left:20">
 		<!--table cellspacing="7pts">
 			<xsl:apply-templates select="RowSet[@Name='Search results']/@*"/>
@@ -338,15 +366,22 @@
 						<br/>
 						</td>
 					</tr>
-					<xsl:if test="T_ACTIVITY/NEXT_REPORTING != '' or T_ACTIVITY/TERMINATE='Y'">
+					<xsl:if test="T_ACTIVITY/NEXT_REPORTING != '' or T_ACTIVITY/NEXT_DEADLINE != '' or T_ACTIVITY/TERMINATE='Y'">
 					<tr><td/>
 						<td><span class="head0">Next reporting: </span> 
 							<xsl:choose>
-								<xsl:when test="T_ACTIVITY/TERMINATE  = 'N'">
-								<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
+								<xsl:when test="T_ACTIVITY/TERMINATE  = 'Y'">
+									<font color="red">terminated</font>
 								</xsl:when>
 								<xsl:otherwise>
-									<font color="red">terminated</font>
+									<xsl:choose>
+										<xsl:when test="T_ACTIVITY/NEXT_DEADLINE != ''">
+											<xsl:value-of select="T_ACTIVITY/NEXT_DEADLINE"/>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of select="T_ACTIVITY/NEXT_REPORTING"/>
+										</xsl:otherwise>
+									</xsl:choose>
 								</xsl:otherwise>
 							</xsl:choose>
 						</td>

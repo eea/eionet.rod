@@ -43,10 +43,11 @@
 			<tr>
 				<td bgcolor="#646666"><span class="head0"><font color="white">Nr</font></span></td>
 				<td bgcolor="#646666"><span class="head0"><font color="white">Parameter</font></span></td>
-				<td bgcolor="#646666"><span class="head0"><font color="white">Unit</font></span></td>
+				<!--td bgcolor="#646666"><span class="head0"><font color="white">Unit</font></span></td-->
 			</tr>
 			
 			<xsl:for-each select="//RowSet[@Name='ParameterGroup']/Row">
+
 			<xsl:call-template name="GroupParameters">
 				<xsl:with-param name="groupid"><xsl:value-of select="T_PARAM_GROUP/PK_GROUP_ID"/></xsl:with-param>
 				<xsl:with-param name="groupname"><xsl:value-of select="T_PARAM_GROUP/GROUP_NAME"/></xsl:with-param>
@@ -74,6 +75,10 @@
 	</xsl:template>  
 
 	<xsl:template name="GroupParameters">
+		
+		<xsl:param name="groupid" select="'Not selected'"/>
+		<xsl:param name="groupname" select="'Not selected'"/>
+
 		<xsl:if test="count(//RowSet[@Name='Parameter']/Row/T_PARAMETER[FK_GROUP_ID=$groupid]) > 0">
 			<tr><td colspan="3" bgcolor="#646666"><span class="head0"><font color="white">
 				<xsl:value-of select="$groupname"/>
@@ -88,7 +93,7 @@
 				<td>
 					<xsl:value-of select="T_PARAMETER/PARAMETER_NAME"/>
 				</td>
-				<td>
+				<!--td>
 					<xsl:choose>
 						<xsl:when test="T_PARAMETER_LNK/PARAMETER_UNIT = ''">
 							<xsl:value-of select="T_UNIT/UNIT_NAME"/>
@@ -98,7 +103,7 @@
 							<xsl:value-of select="T_PARAMETER_LNK/PARAMETER_UNIT"/>
 						</xsl:otherwise>
 					</xsl:choose>
-				</td>
+				</td-->
 			</tr>
 		</xsl:for-each>
 		</xsl:if>

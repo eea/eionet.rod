@@ -58,6 +58,10 @@ public interface Constants {
    public static final String REPORTING_PRINT_XSL = "printreporting.xsl";
    public static final String ACTIVITY_PRINT_XSL = "printactivity.xsl";
 
+   public static final String HISTORY_QUERY = "history.xrs";
+   public static final String HISTORY_XSL = "history.xsl";
+   public static final String ACTION_HIST_XSL = "actionhist.xsl";
+
    // show mode constants
    public static final String SOURCE_MODE = "S";
    public static final String HIERARCHY_MODE = "C";
@@ -99,4 +103,8 @@ public interface Constants {
    public static final String SPATIAL_LAKE ="L";
    public static final String SPATIAL_RESERVOIR ="O";
 
+  //Prop names
+  static final String ROD_URL_EVENTS ="rod.url.events";
+  static final String ROD_URL_OBLIGATIONS ="rod.url.obligations";
+  static final String ROD_URL_ACTIVITIES ="rod.url.activities";  
 }

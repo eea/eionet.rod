@@ -68,10 +68,12 @@ public class Reporting extends ROEditServletAC {
 
       String[][] queryPars = {{"ID", id}, {"SID", sid}};   
 
+	  HttpServletRequest req = params.getRequest();
+
       DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + E_REPORTING_QUERY, params.getRequest());
       dataSrc.setParameters(queryPars);
        
-      return dataSrc;
+      return userInfo(req, dataSrc);
    }
 /**
  *
@@ -83,13 +85,6 @@ public class Reporting extends ROEditServletAC {
 
       String id = req.getParameter(ID_PARAM);
 
-//log(" ************** appDoGET");      
-/*java.util.Enumeration e = req.getParameterNames()      ;
-
-while (e.hasMoreElements())
-  log( (String)e.nextElement());
-*/
-//      checkPermissions(req);
       
       if ( Util.nullString(id) )
          throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
@@ -111,7 +106,11 @@ while (e.hasMoreElements())
          if (conn == null)
             throw new XSQLException(null, "Not authenticated user");
 
-         checkPermissions(req);      
+System.out.println("==================================================");
+System.out.println("= DOGET ");
+System.out.println("==================================================");
+
+         //checkPermissions(req);      
 
          try {
             stmt = conn.createStatement();
@@ -178,6 +177,11 @@ java.util.Enumeration e = req.getParameterNames()      ;
 while (e.hasMoreElements())
   log( (String)e.nextElement());
 */
+
+System.out.println("==================================================");
+System.out.println("= AppdOPOST ");
+System.out.println("==================================================");
+
         checkPermissions(req);  
       
          String location = "show.jsv?" + 
@@ -211,21 +215,24 @@ while (e.hasMoreElements())
       "T_SPATIAL_LNK.FK_SPATIAL_ID FROM T_SPATIAL_LNK WHERE T_SPATIAL_LNK.FK_RO_ID=";
 
   private void checkPermissions ( HttpServletRequest req  ) throws XSQLException {
-    String mode;
+    String mode = null;
     
     String userName = getUser(req).getUserName();
     
-    String id = req.getParameter( ID_PARAM );
+    //String id = req.getParameter( ID_PARAM );
     String upd = req.getParameter( FormHandlerIF.MODE_PARAM );
-
     upd = (upd==null ? "" : upd);
-    id = (id==null ? "" : id); //not needed?
+    //id = (id==null ? "" : id); //not needed?
+
+System.out.println("==================================================");
+System.out.println("= UPD " + upd);
+System.out.println("==================================================");
     
-    if ( id.equals("-1"))
+    if ( upd.equals("A"))
       mode = "O";
     else if ( upd.equals("D"))
       mode = "X";
-    else
+    else if ( upd.equals("U"))
       mode = "o";
         
     boolean b = false;
@@ -236,7 +243,7 @@ while (e.hasMoreElements())
     }
 
     if (!b)
-      throw new XSQLException (null, "No permission to perform the action");
+      throw new XSQLException (null, "No permission to perform the action, user = " + userName);
 
     
   }

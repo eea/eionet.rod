@@ -25,6 +25,11 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="editor.xsl"/>
+	<xsl:include href="util.xsl"/>
+
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
+	</xsl:variable>
 
 	<xsl:variable name="ro-id">
 		<xsl:value-of select="//RowSet[@Name='Reporting']/Row/T_REPORTING/PK_RO_ID"/>
@@ -39,6 +44,7 @@
 		<tr>
 			<td>
 				<span class="head1">Edit/Create Obligation
+					<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 <!--
 					<xsl:choose>
 						<xsl:when test="//RowSet[@Name='Reporting']/Row/T_REPORTING/ALIAS != ''">
@@ -64,7 +70,9 @@
 		</table>
 		<table cellspacing="15pts">
 			<tr valign="top">
-				<td nowrap="true" width="134"><span class="head0">Obligation name:</span></td>
+				<td nowrap="true" width="142"><span class="head0">Obligation name:
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_NAME</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</span></td>
 				<td width="500">
 					<span class="head0">
 						<xsl:choose>
@@ -116,7 +124,9 @@
 		</input>
 		<table cellspacing="15pts">
 			<tr valign="top">
-				<td nowrap="true" width="120"><span class="head0">Recognized:</span></td>
+				<td nowrap="true" width="124"><span class="head0">Recognized:
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_RECOGNIZED</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</span></td>
 				<td>
 					<select onChange="changed()"><xsl:attribute name="name"><xsl:value-of select="T_REPORTING/RECOGNIZED/@XPath"/></xsl:attribute>
 						<xsl:for-each select="//RowSet[@Name='YesNo']/T_LOOKUP">
@@ -138,14 +148,18 @@
 				</input></td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true"><b>Alias name:</b></td>
+				<td nowrap="true"><b>Alias name:
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_ALIASNAME</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</b></td>
 				<td><input type="text" size="50" width="500" style="width:500" maxlength="255" onChange="changed()">
 					<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/ALIAS/@XPath"/></xsl:attribute>
 					<xsl:attribute name="value"><xsl:value-of select="T_REPORTING/ALIAS"/></xsl:attribute>
 				</input></td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true"><b>Report to:</b></td>
+				<td nowrap="true"><b>Report to:
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_REPORTTO</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</b></td>
 				<!--td><input type="text" size="50" width="500" style="width:500" maxlength="255" onChange="changed()">
 					<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/REPORT_TO/@XPath"/></xsl:attribute>
 					<xsl:attribute name="value"><xsl:value-of select="T_REPORTING/REPORT_TO"/></xsl:attribute>
@@ -169,14 +183,20 @@
 						</xsl:for-each>
 					<!--xsl:attribute name="value"><xsl:value-of select="T_REPORTING/REPORT_TO"/></xsl:attribute-->
 				</select>
-				<map name="newClientMap">
+
+		<xsl:if test="contains($permissions, 'H')='true'">
+
+	<map name="newClientMap">
 					<area alt="Add a new client" shape="rect" coords="0,0,25,25" href="javascript:openAddClientWin()"></area>
 				</map>
 				<img border="0" height="25" width="25" src="images/new.gif" usemap="#newClientMap"></img>
+		</xsl:if>
 				</td>
 			</tr>
 			<tr valign="middle">
-				<td nowrap="true" align="left"><b>Obligation type:</b></td>
+				<td nowrap="true" align="left"><b>Obligation type:
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_OBLIGATIONTYPE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</b></td>
 				<td>
 					<select onChange="changed()"><xsl:attribute name="name"><xsl:value-of select="T_REPORTING/LEGAL_MORAL/@XPath"/></xsl:attribute>
 						<xsl:for-each select="//RowSet[@Name='LegalMoral']/T_LOOKUP">
@@ -195,14 +215,18 @@
 				</td>
 			</tr>
 			<tr valign="middle">
-				<td nowrap="true" align="left"><b>Valid from:</b><br/>(dd/mm/yyyy)</td>
+				<td nowrap="true" align="left"><b>Valid from:
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_VALIDFROM</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</b><br/>(dd/mm/yyyy)</td>
 				<td><input type="text" size="25" maxlength="100" onChange="changed()">
 					<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/VALID_FROM/@XPath"/></xsl:attribute>
 					<xsl:attribute name="value"><xsl:value-of select="T_REPORTING/VALID_FROM"/></xsl:attribute>
 				</input></td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" colspan="4"><span class="head0">Environmental issues:</span></td>
+				<td nowrap="true" colspan="4"><span class="head0">Environmental issues:
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_ENVIRONMENTALISSUES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</span></td>
 			</tr>
 			<tr>
 				<td colspan="4">
@@ -227,7 +251,9 @@
 				</td>
 			</tr>
 			<tr valign="top">
-				<td nowrap="true" colspan="4"><span class="head0">Spatial coverage:</span></td>
+				<td nowrap="true" colspan="4"><span class="head0">Spatial coverage:
+					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_SPATIALCOVERAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+				</span></td>
 			</tr>
 			<tr>
 				<td colspan="4">

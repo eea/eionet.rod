@@ -20,7 +20,7 @@
  *
  * Original Code: Rando Valt (TietoEnator)
  *
- * $Id: Log4jLoggerImpl.java,v 1.2 2002/11/25 09:42:38 te-ee Exp $
+ * $Id: Log4jLoggerImpl.java,v 1.3 2002/12/16 07:45:20 te-ee Exp $
  */
 
 package eionet.rod.services.modules;
@@ -37,7 +37,7 @@ import eionet.rod.services.LogServiceIF;
  * Updates: <UL>15.02.02 log4j version</UL>
  *
  * @author  Rando Valt
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
 public class Log4jLoggerImpl implements LogServiceIF {
@@ -56,6 +56,7 @@ public class Log4jLoggerImpl implements LogServiceIF {
  */
   public Log4jLoggerImpl() {
     logger = Category.getInstance("webrod");
+    //logger.debug("****************************************************** ");
   }
   
   private Priority convSeverity(int severity) {

@@ -76,6 +76,7 @@ public class ReportingHandler extends ActivityHandler {
       updateDB("DELETE FROM T_INFORMATION WHERE FK_RO_ID=" + roID);
       // delete reporting obligation itself
       updateDB("DELETE FROM T_REPORTING WHERE PK_RO_ID=" + roID);
+      HistoryLogger.logObligationHistory(roID,this.user.getUserName(), DELETE_RECORD, ""); 
       }
    }
 
@@ -129,8 +130,10 @@ public class ReportingHandler extends ActivityHandler {
               
             DELETE_RO(id, delSelf);
 
-            if (delSelf == true)
+            if (delSelf == true) {
+               //logHistory(gen);
                return false; // everything is done, stop
+            }
          }
          else {
 
@@ -145,6 +148,9 @@ public class ReportingHandler extends ActivityHandler {
          defaultProcessing(gen, null);
           
          id = recordID;
+        //log history
+        //HistoryLogger.logObligationHistory(id, this.user.getUserName(), state, gen.getFieldValue("ALIAS"));
+        logHistory(gen);
          
          if (servlet != null)
             servlet.setCurrentID(id);
@@ -197,5 +203,9 @@ public class ReportingHandler extends ActivityHandler {
    // constructor for testing
    ReportingHandler(DBPoolIF dbPool, DBVendorIF dbVendor) {
       super(dbPool, dbVendor);
+   }
+
+   private void logHistory(SQLGenerator gen ) {
+    HistoryLogger.logObligationHistory(id, this.user.getUserName(), gen.getState(), gen.getFieldValue("ALIAS"));   
    }
 }

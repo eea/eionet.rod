@@ -70,6 +70,7 @@ public class SourceHandler extends ReportingHandler {
          }
          // delete legislative act itself
          updateDB("DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=" + srcID);
+         HistoryLogger.logLegisgationHistory(srcID,this.user.getUserName(), DELETE_RECORD, "");          
       }
    }
 /**
@@ -99,13 +100,13 @@ public class SourceHandler extends ReportingHandler {
         return false;
       if (state == MODIFY_RECORD && !upd )
         return false;  */
-
+/*
 System.out.println("============================= SOURCE HANDLER ========");
 System.out.println("============================= state " + state );
 System.out.println("============================= ins " + ins);
 System.out.println("============================= upd " + upd);
 System.out.println("============================= del " + del);
-
+*/
 
       if (tblName.equals("T_SOURCE")) {
          if (state != INSERT_RECORD) {
@@ -121,8 +122,10 @@ System.out.println("============================= del " + del);
             //if (!upd)              
             DELETE_SOURCE(id, delSelf);
 
-            if (delSelf == true)
+            if (delSelf == true) {
+               //logHistory(gen);
                return false; // everything is done, stop
+            }
          }
          else {
               if (!ins)
@@ -136,6 +139,8 @@ System.out.println("============================= del " + del);
          defaultProcessing(gen, null);
          id = recordID;
 
+        logHistory(gen);
+          
          if (servlet != null)
             servlet.setCurrentID(id);
       } 
@@ -169,4 +174,9 @@ System.out.println("============================= del " + del);
    SourceHandler(DBPoolIF dbPool, DBVendorIF dbVendor) {
       super(dbPool, dbVendor);
    }
+
+   private void logHistory(SQLGenerator gen ) {
+      HistoryLogger.logLegisgationHistory(id, this.user.getUserName(), gen.getState(), gen.getFieldValue("TITLE"));   
+   }
+   
 }

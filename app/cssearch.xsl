@@ -1,12 +1,19 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 <xsl:include href="common.xsl"/>
+<xsl:include href="util.xsl"/>
+<xsl:variable name="permissions">
+	<xsl:value-of select="/XmlData/RowSet/@permissions"/>
+</xsl:variable>
+
+
 <xsl:template match="/">
 
 <html lang="en"><head><title>
 		Country Services
 	</title><META CONTENT="text/html; CHARSET=ISO-8859-1" HTTP-EQUIV="Content-Type"/>
 	<link type="text/css" rel="stylesheet" href="eionet.css"/>
+	<script language="JavaScript" src="script/util.js"></script>
 	<script language="JavaScript">
 	<![CDATA[
 	Net=1;
@@ -303,10 +310,14 @@ function doSearch(){
 		<input value="TITLE" name="ORD" type="hidden"/>
 		<table width="600" border="0" cellspacing="10"><tr><td colspan="3">
   <span class="head0"><span lang="en-us">Reporting</span> deliveries selected by different 
-  filters: </span></td></tr>
+  filters: 
+		<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_CSSEARCH</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+  </span></td></tr>
 			<tr><td width="10">
     <img src="images/diamlil.gif" width="8" height="9"/></td>
-		<td width="100">Countries</td>
+		<td width="145">Countries
+			<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSSEARCH_COUNTRIES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+		</td>
 		<td>	<select name="COUNTRY_ID">
 			<option value="0">All countries </option>
 			<xsl:for-each select="XmlData/RowSet[@Name='Countries']/Row/T_SPATIAL">
@@ -320,7 +331,9 @@ function doSearch(){
 		</select>		</td></tr>
 		<tr valign="center"><td width="10">
 
-		<img src="images/diamlil.gif" width="8" height="9"/></td><td width="200">Environmental issues</td><td>
+		<img src="images/diamlil.gif" width="8" height="9"/></td><td width="200">Environmental issues
+			<xsl:call-template name="Help"><xsl:with-param name="id">HELP_MAIN_ENVIRONMENTALISSUES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+		</td><td>
 		<select name="ISSUE_ID">
 			<option value="0">All issues</option>
 			<xsl:for-each select="XmlData/RowSet[@Name='Issues']/Row/T_ISSUE">
@@ -351,7 +364,9 @@ function doSearch(){
   <tr>
     <td width="10">
   <img src="images/diamlil.gif" width="8" height="9"/></td>
-	<td width="200">Next deadline</td><td>
+	<td width="200">Next deadline
+		<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSSEARCH_NEXTDEADLINE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+	</td><td>
 		<input type="text" name="DATE_1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/><b> - </b>	
 		<input type="text" name="DATE_2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
 		</td>

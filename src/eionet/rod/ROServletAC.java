@@ -90,7 +90,7 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
   protected void resetAcl() {
     acl=null;
   }
-  protected AccessControlListIF getAcl() {
+  protected AccessControlListIF getAcl() throws SignOnException {
 
     if (acl== null)
       initAcl();
@@ -142,14 +142,18 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
                  prms = acl.getPermissions( u.getUserName() ) ;
               } catch (SignOnException soe ) {
                 prms = null;
+
+                //throw new Exception ("");
               }
               if (prms != null)
                 qry.addAttribute("permissions", prms);
               //<- test acl
             }
           }
-          else
+          else {
             qry.addAttribute("auth", "false");
+            qry.addAttribute("permissions", "");
+          }
       }
       
       return dataSrc;
@@ -159,7 +163,7 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
         try {
           acl = AccessController.getAcl("webrod");
           //log("************* ACL OK");
-        } catch (SignOnException soe ) {
+         } catch (SignOnException soe ) {
           log(" Error, getting ACL for webrod " + soe);
         }
 

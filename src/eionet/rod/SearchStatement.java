@@ -88,7 +88,7 @@ public class SearchStatement extends QueryStatement implements Constants {
 
    SearchStatement(Parameters params) {
       String mode = params.getParameter(MODE_PARAM);
-      if (mode == null && !mode.equals(REPORTING_MODE) && !mode.equals(ACTIVITY_MODE))
+      if (mode == null || (!mode.equals(REPORTING_MODE) && !mode.equals(ACTIVITY_MODE)))
          throw new GeneralException(null, "Missing or invalid parameter '" + MODE_PARAM + "'");
 
       queryName = "Search results";
@@ -113,6 +113,7 @@ public class SearchStatement extends QueryStatement implements Constants {
          vFields.add(new FieldInfo("PK_RA_ID","T_ACTIVITY"));
          vFields.add(new FieldInfo("TITLE","T_ACTIVITY"));
          vFields.add(new FieldInfo("NEXT_REPORTING","T_ACTIVITY"));
+         vFields.add(new FieldInfo("NEXT_DEADLINE","T_ACTIVITY"));
          vFields.add(new FieldInfo("FK_RO_ID","T_ACTIVITY"));
          vFields.add(new FieldInfo("TERMINATE","T_ACTIVITY"));
          vTables.add(new TableInfo("T_REPORTING", "T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID", TableInfo.INNER_JOIN));
@@ -143,7 +144,13 @@ public class SearchStatement extends QueryStatement implements Constants {
                        "T_REPORTING.PK_RO_ID = T_ISSUE_LNK.FK_RO_ID",
                         TableInfo.INNER_JOIN));
            appendConstraint("T_ISSUE_LNK.FK_ISSUE_ID=" + env_issue.id, "1");
-         } else {
+         } 
+         else {
+           vTables.add(new TableInfo("T_RAISSUE_LNK",
+                       "T_ACTIVITY.PK_RA_ID = T_RAISSUE_LNK.FK_RA_ID",
+                        TableInfo.INNER_JOIN));
+           appendConstraint("T_RAISSUE_LNK.FK_ISSUE_ID=" + env_issue.id, "1");
+/*
            vTables.add(new TableInfo("T_REPORTING AS TROENVISSUE",
                        "TROENVISSUE.PK_RO_ID = T_ACTIVITY.FK_RO_ID",
                         TableInfo.INNER_JOIN));
@@ -151,6 +158,7 @@ public class SearchStatement extends QueryStatement implements Constants {
                        "TROENVISSUE.PK_RO_ID = T_ISSUE_LNK.FK_RO_ID",
                         TableInfo.INNER_JOIN));
            appendConstraint("T_ISSUE_LNK.FK_ISSUE_ID=" + env_issue.id, "1");
+*/
          }
 
          addAttribute("Environmental_issue_equals", env_issue.name);

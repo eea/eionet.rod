@@ -114,9 +114,7 @@ function delLegislation() {
 				<xsl:choose>
 					<xsl:when test="T_SOURCE/URL!=''">
 						<a>
-							<xsl:attribute name="href">
-								<xsl:value-of select="T_SOURCE/URL"/>
-							</xsl:attribute>
+							<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/URL"/></xsl:attribute>
 							<xsl:attribute name="target">
 								_new
 							</xsl:attribute>
@@ -155,21 +153,23 @@ function delLegislation() {
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">Issued by:</span></td>
 			<td colspan="3">
-				<xsl:choose>
-					<xsl:when test="T_SOURCE/ISSUED_BY_URL!=''">
+				<a>
+				<xsl:attribute name="href">javascript:openIssuer('<xsl:value-of select="T_ISSUER/PK_ISSUER_ID"/>')</xsl:attribute>
+				<xsl:value-of select="T_ISSUER/ISSUER_NAME"/>
+				</a>
+				<!--xsl:choose>
+					<xsl:when test="T_ISSUER/ISSUER_URL!=''">
 						<a>
-							<xsl:attribute name="href">
-								<xsl:value-of select="T_SOURCE/ISSUED_BY_URL"/>
-							</xsl:attribute>
+							<xsl:attribute name="href"><xsl:value-of select="T_ISSUER/ISSUER_URL"/></xsl:attribute>
 							<xsl:attribute name="target">
 								_new
 							</xsl:attribute>
-							<xsl:value-of select="T_SOURCE/ISSUED_BY"/></a>
+							<xsl:value-of select="T_ISSUER/ISSUER_NAME"/></a>
 					</xsl:when>
 					<xsl:otherwise>
-							<xsl:value-of select="T_SOURCE/ISSUED_BY"/>
+							<xsl:value-of select="T_ISSUER/ISSUER_NAME"/>
 					</xsl:otherwise>
-				</xsl:choose>
+				</xsl:choose-->
 			</td>
 		</tr>
 		<tr valign="top">
@@ -197,13 +197,11 @@ function delLegislation() {
 		</tr>
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">Convention secretariat (C):</span></td>
-			<td>
+			<td colspan="5">
 				<xsl:choose>
 					<xsl:when test="//RowSet[@Name='Source']/Row[position()=1]/T_SOURCE/SECRETARIAT_URL!=''">
 						<a>
-							<xsl:attribute name="href">
-								<xsl:value-of select="//RowSet[@Name='Source']/Row[position()=1]/T_SOURCE/SECRETARIAT_URL"/>
-								</xsl:attribute>
+							<xsl:attribute name="href"><xsl:value-of select="//RowSet[@Name='Source']/Row[position()=1]/T_SOURCE/SECRETARIAT_URL"/></xsl:attribute>
 							<xsl:attribute name="target">
 								_new
 							</xsl:attribute>
@@ -221,10 +219,21 @@ function delLegislation() {
 		<tr><td colspan="5"><hr/></td></tr>
 		<tr valign="top">
 			<td nowrap="true"><span class="head0">Comment:</span></td>
-			<td colspan="3">
+			<td colspan="5">
 				<xsl:value-of select="T_SOURCE/COMMENT"/>
 			</td>
 		</tr>
+		<!-- show history link KL 021127 -->
+			<xsl:if test="contains($permissions, 'y')='true'">
+			  <tr>
+				<td colspan="3">
+					<a>
+					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$src-id"/>', 'L')</xsl:attribute>
+					<b>Show history</b>
+					</a>
+				</td>
+				</tr>
+			</xsl:if>
 		</table>
 		</div>
 	</xsl:template>
@@ -257,9 +266,7 @@ function delLegislation() {
 		<tr valign="top">
 			<td nowrap="true" width="10%"><span class="head0">Parent legal instrument:</span></td>
 			<td colspan="3"><a>
-				<xsl:attribute name="href">
-					show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S
-				</xsl:attribute>
+				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="ALIAS != ''">
 						<xsl:value-of select="ALIAS"/>
@@ -277,9 +284,7 @@ function delLegislation() {
 		<tr valign="top">
 			<td nowrap="true" width="10%"><span class="head0">Related instrument(s):</span></td>
 			<td colspan="3"><xsl:for-each select="Row/LSOURCE">
-				<a>	<xsl:attribute name="href">
-					show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S
-				</xsl:attribute>
+				<a>	<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="ALIAS != ''">
 						<xsl:value-of select="ALIAS"/>

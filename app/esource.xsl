@@ -26,6 +26,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="editor.xsl"/>
 
+	<!--xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
+	</xsl:variable-->
+
 	<xsl:template match="XmlData">
 		<xsl:apply-templates select="RowSet[@Name='Source']/Row/T_SOURCE"/>
 	</xsl:template>
@@ -108,10 +112,35 @@
 			</tr>
 			<tr valign="top">
 				<td nowrap="true"><b>Issued by:</b></td>
-				<td colspan="5"><input type="text" size="56" maxsize="255" width="570" style="width:570" onChange="changed()">
+				<td colspan="5">
+					<!--input type="text" size="56" maxsize="255" width="570" style="width:570" onChange="changed()">
 					<xsl:attribute name="name"><xsl:value-of select="ISSUED_BY/@XPath"/></xsl:attribute>
 					<xsl:attribute name="value"><xsl:value-of select="ISSUED_BY"/></xsl:attribute>
-				</input></td>
+					</input-->
+
+					<xsl:variable name="selIssuer">
+							<xsl:value-of select="FK_ISSUER_ID"/>
+					</xsl:variable>
+				<select  width="500" style="width:500" maxlength="255" onChange="changed()">
+					<xsl:attribute name="name"><xsl:value-of select="FK_ISSUER_ID/@XPath"/></xsl:attribute>
+						<option value=''></option>
+						<xsl:for-each select="//RowSet[@Name='Issuer']/Row">
+							<option>
+								<xsl:attribute name="value">
+									<xsl:value-of select="T_ISSUER/PK_ISSUER_ID"/>
+								</xsl:attribute>
+									<xsl:if test="T_ISSUER/PK_ISSUER_ID = $selIssuer">
+										<xsl:attribute name="selected">true</xsl:attribute>
+									</xsl:if>
+								<xsl:value-of select="T_ISSUER/ISSUER_NAME"/>
+							</option>
+						</xsl:for-each>
+				</select>
+				<map name="newIssuerMap">
+					<area alt="Add a new issuer" shape="rect" coords="0,0,25,25" href="javascript:openAddIssuerWin()"></area>
+				</map>
+				<img border="0" height="25" width="25" src="images/new.gif" usemap="#newIssuerMap"></img>
+				</td>
 			</tr>
 			<tr valign="top">
 				<td nowrap="true"><b>URL to issuer:</b></td>
