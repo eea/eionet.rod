@@ -137,7 +137,7 @@ function delLegislation() {
 						<img src="images/editinstrument.png" alt="Edit legislation" border="0"/></a><br/>
 						</xsl:if>
 					<xsl:if test="contains($permissions, 'X')='true'">
-						<a href="javascript:delLegislation()"><img src="images/deletelegislation.png" alt="Delete legislation" border="0"/></a><br/>
+						<a href="javascript:delLegislation()"><img src="images/deleteinstrument.png" alt="Delete legislation" border="0"/></a><br/>
 				</xsl:if>
 				<xsl:if test="contains($permissions, 'y')='true'">
 					<a>

@@ -235,23 +235,16 @@
 						<span class="head1">Reporting obligations</span>
 					</xsl:otherwise>
 				</xsl:choose>
-		</td></tr></table>
-		<br/>
+		</td></tr>
+		<tr><td align="right">
 		<xsl:if test="contains($permissions, 'y')='true'">
-			<b><a>
+			<a>
 				<xsl:attribute name="href">javascript:openActionTypeHistory('D','<xsl:value-of select="$historyMode"/>')</xsl:attribute>
-				Show deleted 
-				<xsl:choose>
-					<xsl:when test="$rora='A'">
-						reporting activities
-					</xsl:when>
-					<xsl:otherwise>
-						reporting obligations
-					</xsl:otherwise>
-			</xsl:choose>
-			</a></b>
-			<br/>			<br/>
+				<img src="images/showdeleted.png" alt="Show deleted" border="0"/>
+			</a><br/>
 		</xsl:if>
+		</td></tr>
+		</table>
 		<div style="margin-left:20">
 		<!--table cellspacing="7pts">
 			<xsl:apply-templates select="RowSet[@Name='Search results']/@*"/>

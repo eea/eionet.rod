@@ -142,7 +142,7 @@ function delActivity() {
 						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute><img src="images/editactivity.png" alt="Edit reporting activity" border="0"/></a><br/>
 						</xsl:if>
 						<xsl:if test="contains($permissions, 'X')='true'">
-						<a href="javascript:delActivity()"><img src="images/delactivity.png" alt="Delete reporting activity" border="0"/></a><br/>
+						<a href="javascript:delActivity()"><img src="images/deleteactivity.png" alt="Delete reporting activity" border="0"/></a><br/>
 					</xsl:if>				
 					<xsl:if test="contains($permissions, 'y')='true'">
 					<a>
