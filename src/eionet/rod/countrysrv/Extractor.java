@@ -79,10 +79,10 @@ public class Extractor implements ExtractorConstants {
   }
 
   public Extractor() {
-System.out.print("******************* constructor starts ");  
+
     try {
       if (csDb==null) {
-System.out.print("******************* go to get DB conn ");        
+
         csDb = RODServices.getDbService();
       }
     }  catch (Exception e) {
