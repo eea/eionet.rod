@@ -64,7 +64,7 @@ var picklist = new Array();
 
 function openMetaData(url){
 	//var url = document.URL + "&#038;MODE=PR";
-	alert(url);
+	//alert(url);
 	var name = "CSMetaData";
 	var features = "location=no, menubar=yes, width=780, height=550, top=100, left=200, scrollbars=yes";
 	var w = window.open( url, name, features);
