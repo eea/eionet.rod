@@ -23,7 +23,7 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:include href="common.xsl"/>
+	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="admin">
 		<xsl:value-of select="//RowSet/@auth"/>
@@ -34,11 +34,6 @@
 	</xsl:variable>
 
 	<xsl:template match="XmlData">
-			<xsl:if test="$printmode='N'">
-				<table cellspacing="0" cellpadding="0" width="600" border="0">
-				<tr>
-						<td align="bottom" width="20" background="images/bar_filled.jpg" height="25">&#160;</td>
-							<td width="600" background="images/bar_filled.jpg" height="25">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
@@ -46,33 +41,9 @@
  <div class="breadcrumbitemlast">Analysis</div>
  <div class="breadcrumbtail">&#160;</div>
 </div>
-
-							<table height="8" cellspacing="0" cellpadding="0" background="" border="0">
-								<tr>
-									<td valign="bottom">
-										<a href="http://www.eionet.eu.int/"><span class="barfont">EIONET</span></a>
-									</td>
-									<td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-									<td valign="bottom"><a href="index.html"><span class="barfont">ROD</span></a></td>
-									<td valign="bottom" width="28"><img src="images/bar_hole.jpg"/></td>
-									<td valign="bottom"><span class="barfont">Analysis</span></td>
-									<td valign="bottom" width="28"><img src="images/bar_dot.jpg"/></td>
-									<td valign="bottom" align="right" width="360"></td>
-
-						</tr>
-					</table>
-				</td></tr>
-				<tr><td>&#160;</td></tr>
-			</table>
-		</xsl:if>
 		<div id="workarea">
-		<table width="97%" border="0">  
-			<tr>
-				<td width="70%" align="left"><div class="head1">Database Content Statistics</div></td>
-				<td width="30%" align="right"><xsl:call-template name="Print"/></td>
-			</tr>
-		</table>
-		<br/>
+			<h1>Database Content Statistics</h1>
+
 		<xsl:value-of select="RowSet[@Name='RAAnalysis']/Row/T_OBLIGATION/TOTAL_RA"/> Reporting Obligation records (last update: <xsl:value-of select="RowSet[@Name='RAAnalysis']/Row/T_OBLIGATION/RA_UPDATE"/>)<br/>
 		<xsl:value-of select="RowSet[@Name='LIAnalysis']/Row/T_SOURCE/TOTAL_LI"/> Legislative Instrument records (last update: <xsl:value-of select="RowSet[@Name='LIAnalysis']/Row/T_SOURCE/LI_UPDATE"/>)<br/>
 		<br/>

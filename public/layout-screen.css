@@ -105,7 +105,7 @@ body {
 	height:13px;
 	line-height: 100%;
 	vertical-align: bottom;
-	color:#ffffff;
+	color: white;
 	border: none;
 	margin: 0px;
 	white-space: nowrap;
@@ -114,7 +114,7 @@ body {
 	display:block;
 	font-weight: bold;
 	text-decoration: none;
-	color:#ffffff;
+	color: white;
 	width:80px;
 	height:13px;
 	padding: 0px 6px 0px 20px;
@@ -135,7 +135,7 @@ body {
 
 #operations {
 	float: right;
-	margin: 20px 0px 0px 15px;  /* T   R   B   L */
+	margin: 20px 0px 0px 15px;
 }
 
 #operations ul {
@@ -148,7 +148,7 @@ body {
 	font-size:.75em;
 	font-family: AvenirLight, sans-serif;
 	font-weight: bold;
-	color: #ffffff;
+	color: white;
 	line-height: 100%;
 	white-space: nowrap;
 }
@@ -157,9 +157,9 @@ body {
 	display:block;
 	font-weight: bold;
 	text-decoration: none;
-	color: #ffffff;
+	color: white;
 	background: url('images/emptybluebutton.png') no-repeat;
-	padding: 4px 0px 0px 9px;   /* T   R   B   L */
+	padding: 4px 0px 0px 9px;
 	width: 111px;
 	height: 17px;
 }
@@ -341,9 +341,6 @@ th a:active { color: #ff8080 }
 	width : 155px;
 }
 
-pre { font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 10pt; } 
-
 table.box {
     background-color: #F0F0F0;
 }
@@ -418,20 +415,24 @@ text-decoration: none; }
 	text-decoration: none;
 }
 
-.head1w {  font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 12pt; 
-font-style: normal; 
-line-height: normal; 
-font-weight: bold; 
-color: #FFFFFF;
-text-decoration: none; }
+.head1w {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 12pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	color: white;
+	text-decoration: none;
+}
 
-.head2 { font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 18pt; 
-font-style: normal; 
-line-height: normal; 
-font-weight: bold;
-text-decoration: none }
+.head2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 18pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold;
+	text-decoration: none
+}
 
 a:link { color: #003366 }
 a:visited { color: #990000 }
@@ -439,11 +440,11 @@ a:active { color: #008080 }
 
 
 .rowitem {
-font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 9pt; 
-font-style: normal; 
-line-height: normal; 
-text-decoration: none; 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-style: normal; 
+	line-height: normal; 
+	text-decoration: none; 
 }
 
 
@@ -453,27 +454,60 @@ span.rowitem a:visited { text-decoration: none }
 
 kbd { font-weight: bold }
 
-.step1 {  font-family:  Verdana, Arial, Helvetica, sans-serif; 
-font-size: 13px; 
-font-style: normal; 
-font-weight: bold; 
-color: #FFFFFF; 
-text-decoration: none}
+.step1 {
+	font-family:  Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 13px; 
+	font-style: normal; 
+	font-weight: bold; 
+	color: white; 
+	text-decoration: none
+}
 
-.step2 {  font-family:  Verdana, Arial, Helvetica, sans-serif; 
-font-size: 12px;  
-color: #000000 }
+.step2 {
+	font-family:  Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 12px;  
+	color: black;
+}
 
-.step3 {  font-family:  Verdana, Arial, Helvetica, sans-serif; 
-font-size: 12px;  
-font-style: normal; 
-line-height: normal; 
-font-weight: bold; 
-color: #ffffff }
+.step3 {
+	font-family:  Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 12px;  
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	color: white;
+}
 
-.btn { font-family:  Verdana, Arial, Helvetica, sans-serif;
-font-size: 10pt; 
-font-weight: bold;
-color: #000000;
-background-image: url('images/bgr_form_buttons.jpg');
+.btn {
+	font-family:  Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt; 
+	font-weight: bold;
+	color: black;
+	background-image: url('images/bgr_form_buttons.jpg');
+}
+
+/* Sortable columns in tables */
+.sortable {
+	font-size: 0.9em;
+	line-height:normal;
+}
+.sortable th {
+	background: #ccc;
+	border: 2px outset #999;
+	margin:0;
+	padding:0;
+	white-space: nowrap;
+	vertical-align: top;
+}
+.sortable a:link, .sortable a:visited, .sortable span {
+	display:block;
+	text-decoration: none;
+	font-weight: normal;
+	color: black;
+	padding:1px 0.5em;
+}
+
+.sortable th a:hover {
+	color:white;
+	background: #aaa;
 }
