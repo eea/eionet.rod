@@ -62,10 +62,8 @@ exists, in part, because there is some uncertainty about the details of
 some reporting obligations that are themselves often under development
 and changing. Each record in the database has been quality assessed by
 the EEA and partners.</p>
-
 <p>The footer of each record displays quality information relating to
 each record.</p>
-
 <ul>
 <li>Last updated: The last time when a record was updated</li>
 <li>Next update:  The date when the next update is due</li>
@@ -86,15 +84,15 @@ of all environmental reporting obligations for member countries. Other
 themes are in the process of being added to the ROD.</p>
 <p>The April 2003 quality assessment identified the following omissions
 in the database that remain to be corrected:</p>
-<p>Air: regulation 2037/2000 on ozone depleting substances.</p>
-<p>Water: four river conventions.</p>
+<p>Regulation 2037/2000 on ozone depleting substances.</p>
+<p>Eurostat/OECD Joint questionnaire.</p>
 <p>Material in the ROD is not necessarily comprehensive, complete,
 accurate or up to date and contains links to external sites over which
 the EEA has no control. The information in the database is supplied as
 is. You use it at your own risk.</p>
 <p>Our goal is to keep the ROD timely and accurate. If errors are brought
 to our attention, we will correct them.</p>
-<hr/>
+<hr>
 
 <h2>ROD content management processes</h2>
 
@@ -119,14 +117,15 @@ the process of identifying new reporting obligations that have been
 introduced since the database was last updated and need to be included
 in the database. These legislative references and reporting obligations
 are added to the database as part of updating.</p>
-
 <h3>Verification</h3>
-
 <p>Verification is a structured quality assurance process with an
 integrated feedback mechanism carried out by the EEA to quality control
 new coverage and new depth added to the database. Thematic experts carry
 out verification. Contents that are verified are accepted as correct
-until the regular update cycle date is reached.</p> <h3>Validation</h3>
+until the regular update cycle date is reached.</p>
+
+<h3>Validation</h3>
+
 <p>Validation is a quality assurance carried out by the <i>owners</i> of
 information in the database in particular for non EEA / EIONET reporting
 obligations. Legislative authoritative bodies carry out validation for
@@ -139,6 +138,7 @@ increased level of detail to one of these subjects or adding coverage
 for other themes is adding new coverage for ROD. New information added
 to ROD is subsequently verified by thematic experts and enters an update
 cycle.</p>
+
 </td></tr>
 </table>
 
