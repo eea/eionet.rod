@@ -131,10 +131,7 @@ function delActivity() {
 					<xsl:if test="$admin='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 							<img src="images/new.gif" alt="Add a new reporting activity" border="0"/></a>
-						<a><xsl:attribute name="href">
-								activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/>
-							</xsl:attribute>
-							<img src="images/open.gif" alt="Edit reporting activity" border="0"/></a>&#160;
+						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute><img src="images/open.gif" alt="Edit reporting activity" border="0"/></a>&#160;
 						<a href="javascript:delActivity()"><img src="images/del.gif" alt="Delete reporting activity" border="0"/>
 						</a>
 					</xsl:if>				
@@ -155,10 +152,7 @@ function delActivity() {
 			<tr valign="top">
 				<td width="22%"><span class="head0">Related obligation:</span></td>
 				<td colspan="2">
-						<a><xsl:attribute name="href">
-						show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>
-						&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>	&amp;mode=R
-						</xsl:attribute>
+						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="T_REPORTING/ALIAS != ''">
 								<xsl:value-of select="T_REPORTING/ALIAS"/>
@@ -269,10 +263,8 @@ function delActivity() {
 			<tr><td colspan="3"><br/><hr/></td></tr>
 			<tr><td colspan="3">
 			Contents in this application are maintained by the EEA.
-			<a><xsl:attribute name="href">
-				show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/>&amp;mode=PA
-			</xsl:attribute><xsl:attribute name="target">_new</xsl:attribute>Printable page.</a>&#160;
-			<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>
+			<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/>&amp;mode=PA</xsl:attribute>
+				<xsl:attribute name="target">_new</xsl:attribute>Printable page.</a>&#160;<a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>Feedback.</a>
 			</td></tr>
 		</table>
 		</div>

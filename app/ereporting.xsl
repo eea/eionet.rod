@@ -169,7 +169,10 @@
 						</xsl:for-each>
 					<!--xsl:attribute name="value"><xsl:value-of select="T_REPORTING/REPORT_TO"/></xsl:attribute-->
 				</select>
-					<!--a href="client.jsv"><img border="0" alt="Add a new client" src="images/new.gif"></img></a-->
+				<map name="newClientMap">
+					<area alt="Add a new client" shape="rect" coords="0,0,25,25" href="javascript:openAddClientWin()"></area>
+				</map>
+				<img border="0" height="25" width="25" src="images/new.gif" usemap="#newClientMap"></img>
 				</td>
 			</tr>
 			<tr valign="middle">

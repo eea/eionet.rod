@@ -54,6 +54,10 @@ if ((navigator.appName.substring(0,5) == "Netsc"
  gTarget = 'img1';
 }
 
+function openAddClientWin() {
+	window.open('addclient.html','sInfo','height=338,width=420,status=no,toolbar=no,scrollbars=yes,resizable=yes,menubar=no,location=no');
+}
+
 function Click(Target) {
  if (Net != 1){
   if (Target != gTarget) {

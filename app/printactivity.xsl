@@ -94,10 +94,7 @@
 			<tr valign="top">
 				<td width="22%"><span class="head0">Related obligation:</span></td>
 				<td colspan="2">
-						<a><xsl:attribute name="href">
-						show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>
-						&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>	&amp;mode=R
-						</xsl:attribute>
+						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="T_REPORTING/ALIAS != ''">
 								<xsl:value-of select="T_REPORTING/ALIAS"/>
