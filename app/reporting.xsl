@@ -149,7 +149,7 @@ function delObligation() {
 							<img src="images/editobligation.png" alt="Edit reporting obligation" border="0"/></a><br/>
 						</xsl:if>
 						<xsl:if test="contains($permissions, 'X')='true'">
-						<a href="javascript:delObligation()"><img src="images/deleteobligation.gif" alt="Delete reporting obligation" border="0"/><br/>
+						<a href="javascript:delObligation()"><img src="images/deleteobligation.png" alt="Delete reporting obligation" border="0"/><br/>
 						</a>
 					</xsl:if>				
 				</td>
