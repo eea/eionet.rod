@@ -118,8 +118,8 @@ System.out.println("============================= del " + del);
             if (delSelf && !del)
               return false;
 
-            if (!upd)              
-              DELETE_SOURCE(id, delSelf);
+            //if (!upd)              
+            DELETE_SOURCE(id, delSelf);
 
             if (delSelf == true)
                return false; // everything is done, stop
