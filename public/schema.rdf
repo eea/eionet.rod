@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rdf:RDF xmlns='http://rod.eionet.eu.int/schema#'
+         xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:eor='http://dublincore.org/2000/03/13/eor#'
+         xmlns:rdfs='http://www.w3.org/2000/01/rdf-schema#'>
+
+  <eor:Schema rdf:about=''>
+    <rdf:value>Activities schema</rdf:value>
+  </eor:Schema>
+
+  <rdf:Property rdf:ID='activity'>
+    <rdf:value>Activity name</rdf:value>
+    <rdfs:label>Activity name</rdfs:label>
+    <rdfs:range rdf:resource='#Activity' />
+  </rdf:Property>
+
+  <rdfs:Class rdf:ID='Activity'>
+    <rdfs:label>Reporting Activity</rdfs:label>
+  </rdfs:Class>
+
+<!-- Locality classes here -->
+</rdf:RDF>
