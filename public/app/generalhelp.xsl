@@ -55,9 +55,54 @@
 <table cellspacing="0" cellpadding="0" width="590" border="0">
 <tr><td>
 
-<h2>Help</h2>
 
-<p>The general help text will come here</p>
+<p>This database contains information describing reporting obligations that countries have towards international organisations for air, waste, water, biodiversity and EEA priority data flows. These themes have been quality assessed.</p>
+<br/>
+<p>The database has 3 functions:</p>
+<br/>
+*to assist in the analysis of member countries reporting obligation's burden;<br/>
+* to support member countries in planning and fulfilling reporting obligations;<br/>
+* to assist in streamlining the flow of data to the EEA and other international organisations.<br/>
+<br/>
+<hr/>
+
+The database covers EEA member countries as well as countries included in the following groupings:<br/>
+* Central and eastern European Countries (CEEC)<br/>
+* Eastern Europe, Caucasus and Central Asia (EECCA)<br/>
+* Countries participating in the Desertification Information System for the Mediterranean (DISMED)<br/>
+<hr/>
+
+<p>The ROD database contains records at 3 levels. The top level is the legislative instrument (LI) level. 
+Underneath this level is a summary reporting obligation (RO) level and then the reporting activity (RA) level. 
+A legal instrument record is the legal basis for one or more reporting obligations.
+</p>
+
+<p>The Reporting obligation record is a summary display 
+presenting information from both the RA, RO and LI levels in the database.
+</p>
+
+<p>
+Reporting obligation is taken to mean:<br/>
+Any requirement to provide specified information to (or to "inform") the secretariat, coordinating body or governing body of the instrument, or their representatives, whether or not there is a prescribed format or fixed frequency, or whether or not the word "report" is used. 
+</p>
+
+<p>ROD focuses on environmental reporting for EEA member countries to international organisations. 
+Coverage extends to pan European reporting.
+</p>
+
+<p>
+Excluded from ROD are non-environmental reporting, requirements for proposals or the seeking of permits, 
+requirements for specific actions to be taken (as opposed to reporting on actions taken), 
+and administrative processes such as notifications of contact points, instances of issuance/withdrawal of 
+permits (rather than reports that summarise permits issued), notifications of legal transposition and 
+implementation measures.
+</p>
+
+<p>Reporting activity level corresponds crudely to data or information deliveries that arise 
+from a reporting obligation. It is in this view that the details of reporting obligation requirements 
+are shown. In particular, the focus is on dates (when deliveries are due) and the thematic issues covered. 
+It is proposed to merge the RO and RA level in the near future.
+</p>
 
 <p><a href="text.jsv?mode=R">RSS XML/RPC data extraction help</a></p>
 
