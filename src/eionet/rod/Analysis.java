@@ -13,11 +13,11 @@ import com.tee.xmlserver.XMLSource;
 
 public class Analysis extends ROServletAC {
   protected String setXSLT(HttpServletRequest req) {
-      return "../app/analysis.xsl";
+      return PREFIX + "analysis.xsl";
    }
 
   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
-    String querySource = "../app/analysis.xrs";
+    String querySource = PREFIX + "analysis.xrs";
     //String param = params.getParameter(Constants.ID_PARAM);
     //DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, req);
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());

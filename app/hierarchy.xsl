@@ -74,14 +74,14 @@
 			<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_HIERARCHY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 			<!--img src="images/help.png" alt="Help" onclick="javascript:alert('By clicking on a sub-section link, a legal instruments hierarchy for that sub-section is displayed (i.e. on this new page the clicked section will be a top level section). Clicking on the legal instrument link, a page with this legal instrument data is displayed.')"/-->
 			<br/>
-		<xsl:if test="contains($permissions, ',Admin:v,')='true'">
+		<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 			<a>
 				<xsl:attribute name="href">javascript:openActionTypeHistory('D','L')</xsl:attribute>
 				<img src="images/showdeleted.png" border="0" alt="Show deleted legal instruments"/>
 			</a>
 		</xsl:if>
 
-		<xsl:if test="contains($permissions, ',LI:i,')='true'">
+		<xsl:if test="contains($permissions, ',/LI:i,')='true'">
 			<br/>
 			<a>
 				<xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>

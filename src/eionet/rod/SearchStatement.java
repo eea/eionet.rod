@@ -88,6 +88,7 @@ public class SearchStatement extends QueryStatement implements Constants {
 
    SearchStatement(Parameters params) {
       String mode = params.getParameter(MODE_PARAM);
+	  String ord = params.getParameter("ORD");
       if (mode == null || (!mode.equals(REPORTING_MODE) && !mode.equals(ACTIVITY_MODE)))
          throw new GeneralException(null, "Missing or invalid parameter '" + MODE_PARAM + "'");
 
@@ -107,6 +108,7 @@ public class SearchStatement extends QueryStatement implements Constants {
          vFields.add(new FieldInfo("TITLE", "T_SOURCE"));
          vFields.add(new FieldInfo("ALIAS", "T_SOURCE"));
          vFields.add(new FieldInfo("URL", "T_SOURCE"));
+		 vFields.add(new FieldInfo("CELEX_REF", "T_SOURCE"));
          vFields.add(new FieldInfo("FK_CLIENT_ID", "T_REPORTING")); //KL030213
       }
       else {
@@ -117,6 +119,7 @@ public class SearchStatement extends QueryStatement implements Constants {
          vFields.add(new FieldInfo("NEXT_DEADLINE","T_ACTIVITY"));
          vFields.add(new FieldInfo("FK_RO_ID","T_ACTIVITY"));
          vFields.add(new FieldInfo("TERMINATE","T_ACTIVITY"));
+		 vFields.add(new FieldInfo("TERMINATE","T_ACTIVITY")); //KL030609
          vTables.add(new TableInfo("T_REPORTING", "T_REPORTING.PK_RO_ID = T_ACTIVITY.FK_RO_ID", TableInfo.INNER_JOIN));
          vFields.add(new FieldInfo("PK_RO_ID", "T_REPORTING"));
          vFields.add(new FieldInfo("ALIAS", "T_REPORTING"));
@@ -125,6 +128,7 @@ public class SearchStatement extends QueryStatement implements Constants {
          vFields.add(new FieldInfo("TITLE", "T_SOURCE"));
          vFields.add(new FieldInfo("ALIAS", "T_SOURCE"));
          vFields.add(new FieldInfo("URL", "T_SOURCE"));
+		 vFields.add(new FieldInfo("CELEX_REF", "T_SOURCE"));
          vFields.add(new FieldInfo("FK_CLIENT_ID", "T_REPORTING")); //KL030213
       }
 
@@ -330,8 +334,13 @@ public class SearchStatement extends QueryStatement implements Constants {
 
       if (mode.equals(REPORTING_MODE))
          orderClause = "T_REPORTING.ALIAS";
-      else
-         orderClause = "T_ACTIVITY.TITLE";
+      else {
+         //orderClause = "T_ACTIVITY.TITLE";
+		 if(ord==null)
+			ord="T_ACTIVITY.TITLE";
+		 orderClause = ord;
+		 //System.out.println("=============== ORDER IS " + orderClause);
+ 	  }
 
    }
 

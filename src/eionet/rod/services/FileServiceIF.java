@@ -94,6 +94,11 @@ public interface FileServiceIF  {
 
 
   /**
+  * Coverage Predicate for ContReg service
+  */
+  public static final String CONTREG_COVERAGE_PREDICATE = "contreg.coverage.predicate";
+
+  /**
   * Title Predicate for ContReg service
   */
   public static final String CONTREG_TITLE_PREDICATE = "contreg.title.predicate";

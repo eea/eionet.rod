@@ -64,7 +64,7 @@
 	<xsl:template match="RowSet[@Name='Activity']/Row">
 		<!-- form for delete activity action -->
 		<!--xsl:if test="$admin='true'"-->
-		<xsl:if test="contains($permissions, ',RA:d,')='true'">
+		<xsl:if test="contains($permissions, ',/RA:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
 function delActivity() {
@@ -156,17 +156,17 @@ function delActivity() {
 							 <img src="images/bb_show_deliveries.png" alt="Show status of deliveries for this RA" border="0"/></a><br/>
 					</xsl:if>
 
-					<xsl:if test="contains($permissions, ',RA:i,')='true'">
+					<xsl:if test="contains($permissions, ',/RA:i,')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
 							<img src="images/newactivity.png" alt="Add a new reporting activity" border="0"/></a><br/>
 						</xsl:if>
-						<xsl:if test="contains($permissions, ',RA:u,')='true'">
+						<xsl:if test="contains($permissions, ',/RA:u,')='true'">
 						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute><img src="images/editactivity.png" alt="Edit reporting activity" border="0"/></a><br/>
 						</xsl:if>
-						<xsl:if test="contains($permissions, ',RA:d,')='true'">
+						<xsl:if test="contains($permissions, ',/RA:d,')='true'">
 						<a href="javascript:delActivity()"><img src="images/deleteactivity.png" alt="Delete reporting activity" border="0"/></a><br/>
 					</xsl:if>				
-					<xsl:if test="contains($permissions, ',Admin:v,')='true'">
+					<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 					<a>
 					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$ra-id"/>', 'A')</xsl:attribute>
 					<img src="images/showhistory.png" alt="Show history" border="0"/>
@@ -238,9 +238,8 @@ function delActivity() {
 				<tr valign="top">
 					<td width="22%"><span class="head0">Reporting frequency:</span></td>
 					<td colspan="2">
-							<xsl:choose>
+							<!--xsl:choose>
 							<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
-								<!--xsl:value-of select="T_ACTIVITY/REPORT_FREQ"/>&#160;<xsl:value-of select="T_ACTIVITY/REPORT_FREQ_DETAIL"/-->
 								<xsl:choose>
 								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '0'">
 									One time only
@@ -262,7 +261,8 @@ function delActivity() {
 							<xsl:otherwise>
 								<font color="red">terminated</font>
 							</xsl:otherwise>
-						</xsl:choose>
+						</xsl:choose--> 
+						<xsl:call-template name="RAReportingFrequency"/>
 					</td>
 				</tr>
 			</xsl:if>
@@ -301,10 +301,15 @@ function delActivity() {
 					<xsl:choose>
 					<xsl:when test="T_ROLE/ROLE_ID!=''">
 						<a>
-						<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_URL"/>')</xsl:attribute>
-						<xsl:attribute name="title"><xsl:value-of select="T_ROLE/ROLE_NAME"/></xsl:attribute>
-						<xsl:value-of select="T_ROLE/ROLE_ID"/>
+							<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_URL"/>')</xsl:attribute>
+							<xsl:attribute name="title"><xsl:value-of select="T_ROLE/ROLE_NAME"/></xsl:attribute>
+							<xsl:value-of select="T_ROLE/ROLE_ID"/>
 						</a>
+						&#160; <img src="images/button_role.gif" alt="Log to CIRCA and see role information for members">
+							<xsl:attribute name="onClick">
+								javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_MEMBERS_URL"/>')
+							</xsl:attribute>
+						</img>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:if test="T_ACTIVITY/RESPONSIBLE_ROLE != ''">

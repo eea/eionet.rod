@@ -13,11 +13,14 @@ import com.tee.xmlserver.XMLSource;
 
 public class Disclaimer extends ROServletAC {
   protected String setXSLT(HttpServletRequest req) {
-      return "../app/disclaimer.xsl";
+      return  PREFIX + "disclaimer.xsl";
    }
 
   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
-    String querySource = "../app/disclaimer.xrs";
+
+com.tee.xmlserver.Logger.log("============== PREFIX " + PREFIX);
+
+    String querySource = PREFIX + "disclaimer.xrs";
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
     addMetaInfo(dataSrc);
     return userInfo(params.getRequest(),dataSrc);

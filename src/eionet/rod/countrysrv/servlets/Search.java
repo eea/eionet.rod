@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 public class Search extends ROServletAC { // was: CSServletAC, changed to be able to use ACL
 
   protected String setXSLT(HttpServletRequest req) {
-      return "../app/cssearch.xsl";
+      return PREFIX + "cssearch.xsl";
    }
 
   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
-    String querySource = "../app/cssearch.xml";
+    String querySource = PREFIX + "cssearch.xml";
     HttpServletRequest req = params.getRequest();
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
 

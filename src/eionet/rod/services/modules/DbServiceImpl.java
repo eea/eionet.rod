@@ -649,6 +649,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
     String roleId = (String)role.get("ID");
     String circaUrl = (String)role.get("URL");
+    String circaMembersUrl = (String)role.get("URL_MEMBERS");
     String desc = (String)role.get("DESCRIPTION");
     String mail = (String)role.get("MAIL");
 
@@ -659,7 +660,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       
       sql = "INSERT INTO T_ROLE SET ROLE_NAME='" + desc +
                  "', ROLE_EMAIL='" + mail + "', ROLE_ID='" + roleId + "',  " + 
-                " ROLE_URL ='" + circaUrl + "'";
+                " ROLE_URL ='" + circaUrl + "'," +
+                " ROLE_MEMBERS_URL ='" + circaMembersUrl + "'";
      _executeUpdate(sql);
      
     }
@@ -683,15 +685,17 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     String typePred = fS.getStringProperty( fS.CONTREG_TYPE_PREDICATE );    
     String datePred = fS.getStringProperty( fS.CONTREG_DATE_PREDICATE );    
     String identifierPred = fS.getStringProperty( fS.CONTREG_IDENTIFIER_PREDICATE );    
-    String formatPred = fS.getStringProperty( fS.CONTREG_FORMAT_PREDICATE );    
+    String formatPred = fS.getStringProperty( fS.CONTREG_FORMAT_PREDICATE );
+    String coveragePred = fS.getStringProperty( fS.CONTREG_COVERAGE_PREDICATE );        
     
     //Each hash contains Strings as Keys and Vectors as values
 
-    String title = cnvVector( (Vector)metaData.get( titlePred ) );
-    String date = cnvVector( (Vector)metaData.get(datePred));
-    String identifier = cnvVector( (Vector)metaData.get( identifierPred ));
-    String type =  cnvVector( (Vector)metaData.get( typePred ));
-    String format = cnvVector( (Vector)metaData.get(formatPred ));
+    String title = cnvVector( (Vector)metaData.get( titlePred ), "," );
+    String date = cnvVector( (Vector)metaData.get(datePred),",");
+    String identifier = cnvVector( (Vector)metaData.get( identifierPred ),",");
+    String type =  cnvVector( (Vector)metaData.get( typePred ),",");
+    String format = cnvVector( (Vector)metaData.get(formatPred ),",");
+    String coverage = cnvVector( (Vector)metaData.get(coveragePred )," ");
     
     String crURL = composeCrURL( crId );
 
@@ -701,7 +705,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                  ((crURL == null)? "" : crURL) + "\", DELIVERY_URL='" +
                  identifier + "', TYPE='" +
                  ((type == null)? "" : type) + "', FORMAT='" +
-                 ((format == null)? "" : format) + "'," +
+                 ((format == null)? "" : format) + "', COVERAGE='" +
+                 ((coverage == null)? "" : coverage) + "'," +
                  " FK_SPATIAL_ID = " + countryId + ", " +
                  " FK_RA_ID = " + raId + " ;" ;
 
@@ -731,7 +736,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return url;
   }
 
-  private String cnvVector( Vector v ) {
+  private String cnvVector( Vector v, String separator ) {
 
     //quick fix
     if (v == null)
@@ -743,7 +748,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       if (v.elementAt(i) != null) {
         s.append((String)v.elementAt(i));
         if (i < v.size() -1 )
-          s.append (",");
+          s.append (separator);
       }
     }    
 

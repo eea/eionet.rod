@@ -64,6 +64,7 @@
 			<ROLE_ID/>
 			<ROLE_NAME/>
 			<ROLE_URL/>
+			<ROLE_MEMBERS_URL/>
 		</T_ROLE>
 		<xrs:Constraint>PK_RA_ID=@ID</xrs:Constraint>
 		<xrs:SubSet name="Parameter" distinct="true" relation="T_ACTIVITY.PK_RA_ID=T_PARAMETER_LNK.FK_RA_ID">

@@ -43,6 +43,7 @@ import java.util.HashMap;
 public abstract class ROServletAC extends XHTMLServletAC implements Constants {
 
   public static String PREFIX = "../app/";
+  //public static String PREFIX; // = "app/";
   
   private static final String CTXT  = "/webrod/app/";
   private static final String APP_HOST = "127.0.0.1";
@@ -54,7 +55,15 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
   private static HashMap  acls ;
   
   public void appInit(){
-        //log("****************************** appInit GO ");
+  
+log("****************************** appInit GO ");
+
+log("************************ " + XDBApplication.getInstance( getServletContext() ).getServerInfo());
+
+        if (XDBApplication.getInstance( getServletContext() ).getServerInfo().indexOf("Tomcat") !=-1 )
+          PREFIX = "app/";
+          
+          
         ServletContext ctx = getServletContext();
         StringBuffer urlPrefix = new StringBuffer("http://");
 
@@ -78,14 +87,7 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
             //PREFIX = urlPrefix.append(CTXT).toString();
         }
 
-        //KL021029-> Access Control List for ROD
-/*        try {
-        
-          acl = AccessController.getAcl("webrod");
-          //log("************* ACL OK");
-        } catch (SignOnException soe ) {
-          log(" Error, getting ACL for webrod " + soe);
-        } */
+       
       //KL030127
       if (acls==null)
         initAcls();
@@ -94,12 +96,8 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
 
   protected void resetAcls() {
     acls=null;
-    //Logger.log("******************* ACL = null");    
   }
 
- /* protected AccessControlListIF getAcl() throws SignOnException {
-    return null;
-  }  */
   
   protected AccessControlListIF getAcl(String name) throws SignOnException {
     
@@ -145,32 +143,31 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
       if (e != null) {
          QueryStatementIF qry = (QueryStatementIF)e.nextElement();
          AppUserIF u = getUser(req);
-         if (u != null) {
+         if (u != null) 
             qry.addAttribute("auth", "true");
+         else
+            qry.addAttribute("auth", "false");
             //ACL
 
-            if ( acls == null)
-              initAcls();
+          if ( acls == null)
+            initAcls();
               
-            //if ( acls != null) {
-              String prms = "";
-              try {
-                 //prms = acl.getPermissions( u.getUserName() ) ;
-                 prms=AccessController.getPermissions(u.getUserName());
-              } catch (SignOnException soe ) {
-                prms = null;
+          //if ( acls != null) {
+            String prms = "";
+            try {
+               //prms = acl.getPermissions( u.getUserName() ) ;
+               String uName = (u==null ? "" : u.getUserName() );
+               prms=AccessController.getPermissions(uName);
+            } catch (SignOnException soe ) {
+              prms = null;
 
-                //throw new Exception ("");
-              }
-              if (prms != null)
-                qry.addAttribute("permissions", prms);
+              //throw new Exception ("");
+            }
+
+            if (prms != null)
+              qry.addAttribute("permissions", prms);
               //<- test acl
             //}
-          }
-          else {
-            qry.addAttribute("auth", "false");
-            qry.addAttribute("permissions", "");
-          }
       }
       
       return dataSrc;

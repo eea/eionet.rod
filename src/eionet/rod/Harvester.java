@@ -39,7 +39,7 @@ public class Harvester extends ROEditServletAC {
       if (conn == null)
         throw new XSQLException(null, "Not authenticated user");
 
-    if  ( ! getAcl(Constants.ACL_ADMIN_NAME).checkPermission( user.getUserName(), Constants.ACL_VIEW_PERMISSION ))
+    if  ( ! getAcl(Constants.ACL_HARVEST_NAME).checkPermission( user.getUserName(), Constants.ACL_VIEW_PERMISSION ))
         throw new XSQLException(null, "Not authorized user");
 
     StringBuffer s = new StringBuffer();
@@ -88,7 +88,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse res)
           //harvest
           //res.getWriter().write("Harvester starts. It may take several minutes to harvest");
           try {
-            if  ( ! getAcl(Constants.ACL_ADMIN_NAME).checkPermission( user.getUserName(), Constants.ACL_UPDATE_PERMISSION ))
+            if  ( ! getAcl(Constants.ACL_HARVEST_NAME).checkPermission( user.getUserName(), Constants.ACL_UPDATE_PERMISSION ))
               throw new XSQLException(null, "Not authenticated user");
           
             int mode = Integer.parseInt( req.getParameter("MODE") ); 

@@ -31,7 +31,7 @@ import com.tee.xmlserver.*;
 
 public class Help extends ROEditServletAC {
    protected String setXSLT(HttpServletRequest req) {
-      return "../app/help.xsl";
+      return PREFIX + "help.xsl";
    }
     
    protected int setMode() {
@@ -39,7 +39,7 @@ public class Help extends ROEditServletAC {
    }
    
    protected DataSourceIF prepareDataSource(Parameters parameters){
-      String querySource = "../app/help.xrs";
+      String querySource = PREFIX + "help.xrs";
       String queryPars[][] = {{"ID", parameters.getParameter("helpID")}};
 
       DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, parameters.getRequest());

@@ -249,4 +249,31 @@
 		</a>
 	</xsl:template>
 
+	<xsl:template name="RAReportingFrequency">
+				<xsl:choose>
+							<xsl:when test="T_ACTIVITY/TERMINATE = 'N'">
+								<xsl:choose>
+								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '0'">
+									One time only
+								</xsl:when>
+								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '1'">
+									Monthly
+								</xsl:when>
+								<xsl:when test="T_ACTIVITY/REPORT_FREQ_MONTHS = '12'">
+									Annually
+								</xsl:when>
+								<xsl:when test="string-length(T_ACTIVITY/NEXT_DEADLINE) = 0">
+									&#160;
+								</xsl:when>
+								<xsl:otherwise>
+									Every <xsl:value-of select="T_ACTIVITY/REPORT_FREQ_MONTHS"/> months
+								</xsl:otherwise>
+								</xsl:choose>
+							</xsl:when>
+							<xsl:otherwise>
+								<font color="red">terminated</font>
+							</xsl:otherwise>
+						</xsl:choose>
+		</xsl:template>
+
 </xsl:stylesheet>

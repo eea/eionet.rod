@@ -228,45 +228,6 @@ public class Extractor implements ExtractorConstants {
     /***************************************************
     * Start extracting
     ***************************************************/
-
-/*
-  if ( mode == ALL_DATA || mode == ACTS || mode == ACTS_DELIVERIES ) {    
-    try {
-      if(extractor.debugLog) 
-        log("Filling the database with new data:");
-
-      Vector prms = new Vector();
-      Vector acts = csDb.getActivityDetails();
-
-      csDb.saveActivities(acts );
-
-      if(extractor.debugLog) 
-          log("* Activity details saved");
-
-      // deadlines
-      String[][] raIds = csDb.getActivityIds();
-      prms.add(null);
-      for(int i = 0; raIds != null && i < raIds.length; i++) {
-          prms.set(0, raIds[i][0] );
-
-          String deadLine = csDb.getDeadLine( raIds[i][0] );
-          csDb.saveDeadlines( raIds[i][0], deadLine );
-      }
-
-      if(extractor.debugLog) 
-        log("* Deadlines OK");
-        
-     }  catch (Exception e) {
-      //extractor.out.println("Operation failed while filling the database from WebROD. The following error was reported:\n" + e.toString());
-      log("Operation failed while saving act details / deadlines. The following error was reported:\n" + e.toString());      
-      e.printStackTrace();
-      extractor.exitApp(false); //return;
-      throw new ServiceException("Operation failed while saving act details / deadlines. The following error was reported:\n" + e.toString());
-    }
-  } //mode includes activities
-
-
-*/
   
     // Get delivery list from Content Registry and save it also
     if (mode == ALL_DATA || mode == DELIVERIES  ) {   

@@ -82,7 +82,7 @@ Logger.log("******************* userAuth " + user.getUserName());*/
          // store the authenticated user object to current session
          allocSession(req, user);
          // close current window
-         printPage(res, "<html><script>alert('Logged to WebROD as administrator')</script></html>");
+         //printPage(res, "<html><script>alert('Logged to WebROD as administrator')</script></html>");
 //!!!!!!!!!!!!!!!!!!! 
          String location = "index.html";
          //String location = "test.html";         

@@ -96,7 +96,7 @@ public abstract class CSServletAC extends ROServletAC {
   * Error xslt
   */
    protected String setErrorXSLT() {
-      return "" + "../app/error.xsl";
+      return PREFIX + "error.xsl";
    }
     
 }

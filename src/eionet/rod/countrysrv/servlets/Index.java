@@ -13,11 +13,11 @@ import com.tee.xmlserver.XMLSource;
 
 public class Index extends CSServletAC {
   protected String setXSLT(HttpServletRequest req) {
-      return "../app/csindex.xsl";
+      return PREFIX + "csindex.xsl";
    }
 
   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
-    String querySource = "../app/csindex.xml";
+    String querySource = PREFIX + "csindex.xml";
 
     HttpServletRequest req = params.getRequest();
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, req);

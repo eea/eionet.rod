@@ -13,16 +13,20 @@ import com.tee.xmlserver.XMLSource;
 
 public class Deliveries extends CSServletAC {
   protected String setXSLT(HttpServletRequest req) {
-      return "../app/csdeliveries.xsl";
+      return PREFIX + "csdeliveries.xsl";
    }
 
   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
-    String querySource = "../app/csdeliveries.xml";
+    String querySource = PREFIX + "csdeliveries.xml";
 
     String param = params.getParameter("ACT_DETAILS_ID");
     String param2 = params.getParameter("COUNTRY_ID");
+    String ord = params.getParameter("ORD");
+
+    if (ord==null)
+      ord="T_SPATIAL.SPATIAL_NAME, T_DELIVERY.UPLOAD_DATE DESC";
     
-    String queryPars[][] = {{"ACT_DETAILS_ID", param}, {"COUNTRY_ID", param2}};
+    String queryPars[][] = {{"ACT_DETAILS_ID", param}, {"COUNTRY_ID", param2}, {"ORD", ord}};
 
     DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
 

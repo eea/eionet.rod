@@ -52,7 +52,7 @@ function openDeliveries(ACT_ID, COUNTRY_ID){
 	var url = "csdeliveries?ACT_DETAILS_ID=" + ACT_ID ; // + "&#038;mi6";
 	url = url + "&COUNTRY_ID=" + escape(COUNTRY_ID);
 	var name = "CSDeliveries";
-	var features = "location=no, menubar=no, width=700, height=400, top=100, left=200, scrollbars=yes";
+	var features = "location=no, menubar=no, width=950, height=500, top=50, left=30, scrollbars=yes";
 	var w = window.open( url, name, features);
 	w.focus();
 }
@@ -150,3 +150,35 @@ function openPrintable() {
 	//	window.open(url);
 
 }
+
+	function changeParamInString(sUrl, sName, sValue){
+		var  i, j,  sBeg, sEnd, sStr;
+		
+		i = sUrl.indexOf(sName + '=');
+		if (i > 0) {
+			sBeg=sUrl.substr(0, i); 
+			sStr=sUrl.substr(i);
+			j = sStr.indexOf('&');
+			if (j > 0)
+			   sEnd = sStr.substr(j);
+			else
+			   sEnd= '';
+
+			sUrl=sBeg + sName + '=' + sValue + sEnd ;
+
+			}
+		else
+			{
+
+			j = sUrl.indexOf('?');
+			if (j>0)
+				sUrl = sUrl + '&' + sName + '=' + sValue;
+			else
+				sUrl = sUrl + '?' + sName + '=' + sValue;
+			}
+		redirect(sUrl);
+		}
+
+	function redirect(url){
+		document.location=url;
+	}

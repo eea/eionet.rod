@@ -133,7 +133,7 @@
 					<!--xsl:attribute name="value"><xsl:value-of select="T_REPORTING/REPORT_TO"/></xsl:attribute-->
 				</select>
 
-		<xsl:if test="contains($permissions, ',Client:i,')='true'">
+		<xsl:if test="contains($permissions, ',/Client:i,')='true'">
 
 	<map name="newClientMap">
 					<area alt="Add a new client" shape="rect" coords="0,0,75,25" href="javascript:openAddClientWin()"></area>

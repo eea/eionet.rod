@@ -11,18 +11,41 @@
 			<TYPE/>
 			<FORMAT/>
 			<CONTREG_URL/>
+			<COVERAGE/>
 		</T_DELIVERY>
 		<T_ACTIVITY relation="T_DELIVERY.FK_RA_ID=T_ACTIVITY.PK_RA_ID" reltype="inner">
 			<PK_RA_ID/>
 			<FK_RO_ID/>
 			<TITLE/>
+			<REPORT_FREQ_MONTHS/>
+			<TERMINATE/>
+			<NEXT_DEADLINE/>
+			<REPORT_FORMAT_URL/>
+			<RESPONSIBLE_ROLE/>
+			<FORMAT_NAME/>
 		</T_ACTIVITY>
+		<T_ROLE relation="CONCAT(T_ACTIVITY.RESPONSIBLE_ROLE,'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID" reltype="outer">
+			<ROLE_NAME/>
+			<ROLE_EMAIL/>
+			<ROLE_ID/>
+			<ROLE_URL/>
+			<ROLE_MEMBERS_URL/>
+		</T_ROLE>
+		<T_REPORTING relation="T_REPORTING.PK_RO_ID=T_ACTIVITY.FK_RO_ID" reltype="inner">
+			<FK_CLIENT_ID/>
+		</T_REPORTING>
+		<T_CLIENT relation="T_REPORTING.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID" reltype="outer">
+			<PK_CLIENT_ID/>
+			<CLIENT_NAME/>
+		</T_CLIENT>
 		<T_SPATIAL relation="T_SPATIAL.PK_SPATIAL_ID=T_DELIVERY.FK_SPATIAL_ID" reltype="outer">
 			<PK_SPATIAL_ID/>
 			<SPATIAL_NAME/>
+			<SPATIAL_TWOLETTER/>
 		</T_SPATIAL>
 		<xrs:Constraint>T_DELIVERY.FK_RA_ID=@ACT_DETAILS_ID AND T_DELIVERY.FK_SPATIAL_ID LIKE '@COUNTRY_ID'</xrs:Constraint>
-		<xrs:Ordering>T_SPATIAL.SPATIAL_NAME, T_DELIVERY.UPLOAD_DATE DESC</xrs:Ordering>
+		<!--xrs:Ordering>T_SPATIAL.SPATIAL_NAME, T_DELIVERY.UPLOAD_DATE DESC</xrs:Ordering-->
+		<xrs:Ordering>@ORD</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="Dummy">
 		<T_DUMMY>

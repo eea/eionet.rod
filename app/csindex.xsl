@@ -60,7 +60,7 @@ var picklist = new Array();
 <table width="100%">
 <tr><td></td><td valign="top" align="right">
 <a href="cssearch"><img border="0" src="images/bb_advsearch.png" alt="Advanced search"/></a><br/><br/>
-<xsl:if test="contains($permissions, ',Admin:u,')='true'">
+<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
 				<map name="openHarvesterMap">
 					<area alt="Harvest data from other services" shape="rect" coords="0,0,120,17" href="javascript:openHarvester()"></area>
 				</map>

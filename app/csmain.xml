@@ -15,6 +15,7 @@
 			<ROLE_EMAIL/>
 			<ROLE_ID/>
 			<ROLE_URL/>
+			<ROLE_MEMBERS_URL/>
 		</T_ROLE>
 		<T_REPORTING relation="T_REPORTING.PK_RO_ID=T_ACTIVITY.FK_RO_ID">
 			<PK_RO_ID/>
@@ -54,6 +55,13 @@
 			<xrs:Constraint>FK_SPATIAL_ID like @COUNTRY_ID</xrs:Constraint>
 		</xrs:SubSet-->
 		<xrs:Ordering>@ORD</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="EnvIssue">
+		<T_ISSUE>
+			<PK_ISSUE_ID/>
+			<ISSUE_NAME/>
+		</T_ISSUE>
+		<xrs:Ordering>T_ISSUE.ISSUE_NAME</xrs:Ordering>
 	</xrs:RowSet>
 	<xrs:RowSet name="Dummy">
 		<T_DUMMY>

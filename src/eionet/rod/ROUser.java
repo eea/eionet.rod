@@ -34,7 +34,7 @@ import eionet.directory.DirectoryService;
  * Uses database to authenticate users.</P>
  *
  * @author  Rando Valt
- * @version
+ * @version 1.0
  */
 
 public class ROUser implements AppUserIF {

@@ -45,7 +45,7 @@
 	<xsl:template match="RowSet[@Name='Source']/Row[position()=1]">
 		<!-- form for delete legislation action -->
 		<!--xsl:if test="$admin='true'"-->
-		<xsl:if test="contains($permissions, ',LI:d,')='true'">
+		<xsl:if test="contains($permissions, ',/LI:d,')='true'">
 			<script language="JavaScript">
 			<![CDATA[
 function delLegislation() {
@@ -101,7 +101,7 @@ function delLegislation() {
 					<xsl:apply-templates select="SubSet[@Name='Obligation']"/>
 				</td-->
 				<!--xsl:if test="$admin='true'"-->
-				<xsl:if test="contains($permissions, ',RO:i,')='true'">
+				<xsl:if test="contains($permissions, ',/RO:i,')='true'">
 					<td align="right">
 						<a><xsl:attribute name="href">reporting.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 						<img src="images/newobligation.png" alt="Add a new reporting obligation" border="0"/></a></td>
@@ -134,18 +134,18 @@ function delLegislation() {
 			</td>
 			<td align="right" width="10%" rowspan="3" valign="top">
 				<!--xsl:if test="$admin='true'"-->
-				<xsl:if test="contains($permissions, ',LI:i,')='true'">
+				<xsl:if test="contains($permissions, ',/LI:i,')='true'">
 					<a><xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
 						<img src="images/newinstrument.png" alt="Add a new legal instrument" border="0"/></a><br/>
 					</xsl:if>
-					<xsl:if test="contains($permissions, ',LI:u,')='true'">
+					<xsl:if test="contains($permissions, ',/LI:u,')='true'">
 						<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
 						<img src="images/editinstrument.png" alt="Edit legislation" border="0"/></a><br/>
 						</xsl:if>
-					<xsl:if test="contains($permissions, '.LI:d,')='true'">
+					<xsl:if test="contains($permissions, './LI:d,')='true'">
 						<a href="javascript:delLegislation()"><img src="images/deleteinstrument.png" alt="Delete legislation" border="0"/></a><br/>
 				</xsl:if>
-				<xsl:if test="contains($permissions, ',Admin:v,')='true'">
+				<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 					<a>
 					<xsl:attribute name="href">javascript:openHistory('<xsl:value-of select="$src-id"/>', 'L')</xsl:attribute>
 					<img src="images/showhistory.png" alt="Show history" border="0"/></a><br/>
