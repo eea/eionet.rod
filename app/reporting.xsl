@@ -144,6 +144,11 @@ function delObligation() {
 -->
 						<img src="images/newobligation.png" alt="Add a new reporting obligation" border="0"/></a><br/>
 					</xsl:if>
+					<!--xsl:if test="$admin='true'"-->
+					<xsl:if test="contains($permissions, 'A')='true'">
+						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
+							<img src="images/newactivity.png" alt="Add a new reporting activity" border="0"/></a><br/>
+					</xsl:if>
 					<xsl:if test="contains($permissions, 'o')='true'">
 						<a><xsl:attribute name="href">reporting.jsv?id=<xsl:value-of select="$ro-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 							<img src="images/editobligation.png" alt="Edit reporting obligation" border="0"/></a><br/>
@@ -229,12 +234,7 @@ function delObligation() {
 			</tr>
 			<tr valign="top">
 				<td width="22%">
-					<span class="head0">Reporting activities:</span><br/>
-					<!--xsl:if test="$admin='true'"-->
-					<xsl:if test="contains($permissions, 'A')='true'">
-						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$ro-id"/></xsl:attribute>
-							<img src="images/new.gif" alt="Add a new reporting activity" border="0"/></a>
-					</xsl:if>
+					<span class="head0">Reporting activities:</span>
 				</td>
 				<td colspan="2">
 					<xsl:apply-templates select="//RowSet[@Name='Activity']"/>
