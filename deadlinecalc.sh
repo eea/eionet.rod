@@ -2,7 +2,7 @@
 
 
 # !!!!!!!!!!!!!!!!!! ADJUST THESE !!!!!!!!!!!!!!!!!!
-rod=/prj/webrod
+rod=/prj/rod2
 java=/prj/javaserv/jdk1.2.2/bin/java
 
 libpath=$rod/WEB-INF/lib
