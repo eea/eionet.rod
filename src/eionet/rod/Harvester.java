@@ -40,7 +40,7 @@ public class Harvester extends ROEditServletAC {
         throw new XSQLException(null, "Not authenticated user");
 
     if  ( ! getAcl().checkPermission( user.getUserName(), "H" ))
-        throw new XSQLException(null, "Not authenticated user");
+        throw new XSQLException(null, "Not authorized user");
 
     StringBuffer s = new StringBuffer();
   s.append("<html>")

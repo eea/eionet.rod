@@ -51,4 +51,8 @@ public class Help extends ROEditServletAC {
    protected SaveHandler setDataHandler() {
       return new HelpHandler(this);
    }
+
+  protected void appDoPost(HttpServletRequest req, HttpServletResponse res) throws XSQLException {
+    printPage(res, "<html><script>window.close()</script></html>");
+   }
 }

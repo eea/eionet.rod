@@ -89,6 +89,7 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
 
   protected void resetAcl() {
     acl=null;
+Logger.log("******************* ACL = null");    
   }
   protected AccessControlListIF getAcl() throws SignOnException {
 
@@ -162,7 +163,9 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
    private void initAcl() {
         try {
           acl = AccessController.getAcl("webrod");
-          //log("************* ACL OK");
+log("******************************");          
+log("************* ACL initiated ");
+log("******************************"); 
          } catch (SignOnException soe ) {
           log(" Error, getting ACL for webrod " + soe);
         }
