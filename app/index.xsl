@@ -67,38 +67,32 @@
 				</tr>
 				<tr>
 					<td width="10"><img src="images/diamlil.gif"/></td>
-					<td width="590"><a><xsl:attribute name="href">
-									rorabrowse.jsv?mode=R&amp;type=<xsl:call-template name="DB_EUObligation_ID"/>:EU legislation obligations
-								</xsl:attribute><span class="head0">EU legislation obligations</span>
-							</a></td>
+					<td width="590"><a><xsl:attribute name="href">rorabrowse.jsv?mode=R&amp;type=<xsl:call-template name="DB_EUObligation_ID"/>:EU legislation obligations</xsl:attribute><span class="head0">EU legislation obligations</span></a>
+					</td>
 				</tr>
 				<tr>
 					<td width="10"><img src="images/diamlil.gif"/></td>
-					<td width="590"><a><xsl:attribute name="href">
-									rorabrowse.jsv?mode=R&amp;type=<xsl:call-template name="DB_ConventionObligation_ID"/>:Conventions' obligations
-								</xsl:attribute><span class="head0">Conventions' obligations</span>
-							</a></td>
+					<td width="590">
+						<a><xsl:attribute name="href">rorabrowse.jsv?mode=R&amp;type=<xsl:call-template name="DB_ConventionObligation_ID"/>:Conventions' obligations</xsl:attribute><span class="head0">Conventions' obligations</span></a>
+					</td>
 				</tr>
 				<tr>
 					<td width="10"><img src="images/diamlil.gif"/></td>
-					<td width="590"><a><xsl:attribute name="href">
-									rorabrowse.jsv?mode=R&amp;type=<xsl:call-template name="DB_EEARequest_ID"/>:EEA requests
-								</xsl:attribute><span class="head0">EEA requests</span>
-							</a></td>
+					<td width="590">
+						<a><xsl:attribute name="href">rorabrowse.jsv?mode=R&amp;type=<xsl:call-template name="DB_EEARequest_ID"/>:EEA requests</xsl:attribute><span class="head0">EEA requests</span></a>
+					</td>
 				</tr>
 				<tr>
 					<td width="10"><img src="images/diamlil.gif"/></td>
-					<td width="590"><a><xsl:attribute name="href">
-									rorabrowse.jsv?mode=R&amp;type=<xsl:call-template name="DB_EurostatRequest_ID"/>:Eurostat requests
-								</xsl:attribute><span class="head0">Eurostat requests</span>
-							</a></td>
+					<td width="590">
+						<a><xsl:attribute name="href">rorabrowse.jsv?mode=R&amp;type=<xsl:call-template name="DB_EurostatRequest_ID"/>:Eurostat requests</xsl:attribute><span class="head0">Eurostat requests</span></a>
+					</td>
 				</tr>
 				<tr>
 					<td width="10"><img src="images/diamlil.gif"/></td>
-					<td width="590"><a><xsl:attribute name="href">
-									rorabrowse.jsv?mode=R&amp;type=<xsl:call-template name="DB_OtherRequest_ID"/>:Other requests
-								</xsl:attribute><span class="head0">Other requests</span>
-							</a></td>
+					<td width="590">
+						<a><xsl:attribute name="href">rorabrowse.jsv?mode=R&amp;type=<xsl:call-template name="DB_OtherRequest_ID"/>:Other requests</xsl:attribute><span class="head0">Other requests</span></a>
+					</td>
 				</tr>
 			</table></td>
 			<td valign="top"><table cellspacing="10" border="0">
@@ -153,53 +147,12 @@
 					<select name="country">
 						<option value="-1">Choose a country</option>
 						<xsl:call-template name="SpatialTemplate">
-							<xsl:with-param name="type">C</xsl:with-param>
-							<xsl:with-param name="type2"></xsl:with-param>
+							<xsl:with-param name ="type">C</xsl:with-param>
+							<xsl:with-param name ="type2"></xsl:with-param>
 						</xsl:call-template>
 					</select>
 				</td>
 			</tr>
-<!--
-			<tr valign="center">
-				<td width="10"></td>
-				<td width="200">River runoff areas</td>
-				<td>
-					<select name="river">
-						<option value="-1">Choose a river</option>
-						<xsl:call-template name="SpatialTemplate">
-							<xsl:with-param name="type">R</xsl:with-param>
-							<xsl:with-param name="type2"></xsl:with-param>
-						</xsl:call-template>
-					</select>
-				</td>
-			</tr>
-			<tr valign="center">
-				<td width="10"></td>
-				<td width="200">Seas</td>
-				<td>
-					<select name="sea">
-						<option value="-1">Choose a sea</option>
-						<xsl:call-template name="SpatialTemplate">
-							<xsl:with-param name="type">S</xsl:with-param>
-							<xsl:with-param name="type2"></xsl:with-param>
-						</xsl:call-template>
-					</select>
-				</td>
-			</tr>
-			<tr valign="center">
-				<td width="10"></td>
-				<td width="200">Reservoirs</td>
-				<td>
-					<select name="lake">
-						<option value="-1">Choose a lake or reservoir</option>
-						<xsl:call-template name="SpatialTemplate">
-							<xsl:with-param name="type">L</xsl:with-param>
-							<xsl:with-param name="type2">O</xsl:with-param>
-						</xsl:call-template>
-					</select>
-				</td>
-			</tr>
--->
 			<tr valign="center">
 				<td width="10"><img src="images/diamlil.gif"/></td>
 				<td width="200">Specific parameters</td>
@@ -285,6 +238,8 @@ Each page in WebROD has a Navigation Bar on the left side of the screen where us
 	</xsl:template>
 
 	<xsl:template name="SpatialTemplate">
+		<xsl:param name="type" select="'Not selected'"/>
+		<xsl:param name="type2" select="'Not selected'"/>
 		<xsl:for-each select="RowSet[@Name='Spatial']/Row/T_SPATIAL[SPATIAL_TYPE=$type or SPATIAL_TYPE=$type2]">
 			<option>
 				<xsl:attribute name="value">

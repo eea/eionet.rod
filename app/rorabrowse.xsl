@@ -166,7 +166,7 @@
 						<xsl:call-template name="SpatialTemplate">
 							<xsl:with-param name="type">L</xsl:with-param>
 							<xsl:with-param name="type2">O</xsl:with-param>
-						</xsl:call-template>
+						</xsl:call-template>1
 					</select>
 				</td>
 			</tr>
@@ -285,7 +285,8 @@
 								<xsl:value-of select="T_ACTIVITY/TITLE"/>
 							</xsl:when>
 							<xsl:otherwise>
-								Reporting Activity</xsl:otherwise>	</xsl:choose></a></span>
+								Reporting Activity</xsl:otherwise>	
+						</xsl:choose></a></span>
 						<b> for </b>
 						<span class="head0n"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
 						<xsl:choose>
@@ -295,9 +296,7 @@
 								Obligation</xsl:otherwise></xsl:choose></a></span>
 						<b> from </b><i>
 						<a>	
-							<xsl:attribute name="href">
-								show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S
-							</xsl:attribute>
+							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 							<xsl:choose>
 								<xsl:when test="T_SOURCE/ALIAS != ''">
 									<xsl:value-of select="T_SOURCE/ALIAS"/>
@@ -384,9 +383,7 @@
 						</span>
 						<b> from </b><i>
 						<a>	
-							<xsl:attribute name="href">
-								show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S
-							</xsl:attribute>
+							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 							<xsl:choose>
 								<xsl:when test="T_SOURCE/ALIAS != ''">
 									<xsl:value-of select="T_SOURCE/ALIAS"/>

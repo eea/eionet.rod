@@ -146,10 +146,31 @@
 			</tr>
 			<tr valign="top">
 				<td nowrap="true"><b>Report to:</b></td>
-				<td><input type="text" size="50" width="500" style="width:500" maxlength="255" onChange="changed()">
+				<!--td><input type="text" size="50" width="500" style="width:500" maxlength="255" onChange="changed()">
 					<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/REPORT_TO/@XPath"/></xsl:attribute>
 					<xsl:attribute name="value"><xsl:value-of select="T_REPORTING/REPORT_TO"/></xsl:attribute>
-				</input></td>
+				</input></td-->
+				<td><select  width="500" style="width:500" maxlength="255" onChange="changed()">
+					<xsl:variable name="selClient">
+							<xsl:value-of select="T_REPORTING/FK_CLIENT_ID"/>
+					</xsl:variable>
+					<xsl:attribute name="name"><xsl:value-of select="T_REPORTING/FK_CLIENT_ID/@XPath"/></xsl:attribute>
+						<option value=''></option>
+						<xsl:for-each select="//RowSet[@Name='Client']/Row">
+							<option>
+								<xsl:attribute name="value">
+									<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>
+								</xsl:attribute>
+									<xsl:if test="T_CLIENT/PK_CLIENT_ID = $selClient">
+										<xsl:attribute name="selected">true</xsl:attribute>
+									</xsl:if>
+								<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
+							</option>
+						</xsl:for-each>
+					<!--xsl:attribute name="value"><xsl:value-of select="T_REPORTING/REPORT_TO"/></xsl:attribute-->
+				</select>
+					<!--a href="client.jsv"><img border="0" alt="Add a new client" src="images/new.gif"></img></a-->
+				</td>
 			</tr>
 			<tr valign="middle">
 				<td nowrap="true" align="left"><b>Obligation type:</b></td>

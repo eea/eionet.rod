@@ -24,6 +24,17 @@
  * -->
 
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
+	<xrs:RowSet name="Client">
+		<T_CLIENT>
+			<PK_CLIENT_ID/>
+			<CLIENT_NAME/>
+			<CLIENT_ADDRESS/>
+			<CLIENT_ACRONYM/>
+			<CLIENT_URL/>
+			<CLIENT_EMAIL/>
+		</T_CLIENT>
+		<xrs:Ordering>CLIENT_NAME</xrs:Ordering>
+	</xrs:RowSet>
 	<xrs:RowSet name="Source">
 		<T_SOURCE>
 			<PK_SOURCE_ID/>
@@ -36,8 +47,9 @@
 		<T_REPORTING PKField="PK_RO_ID">
 			<PK_RO_ID/>
 			<FK_SOURCE_ID/>
+			<FK_CLIENT_ID/>
 			<ALIAS/>
-			<REPORT_TO/>
+			<!--REPORT_TO/-->
 			<LEGAL_MORAL/>
 			<VALID_FROM expression="IF(T_REPORTING.VALID_FROM, DATE_FORMAT(T_REPORTING.VALID_FROM, '%d/%m/%Y'), '') AS VALID_FROM"/>
 			<RECOGNIZED/>

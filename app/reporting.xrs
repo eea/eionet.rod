@@ -30,7 +30,8 @@
 			<FK_SOURCE_ID/>
 			<ALIAS/>
 			<LEGAL_MORAL/>
-			<REPORT_TO/>
+			<!--REPORT_TO/-->
+			<FK_CLIENT_ID/>
 			<VALID_FROM expression="DATE_FORMAT(T_REPORTING.VALID_FROM, '%d/%m/%Y') AS VALID_FROM"/>
 			<RECOGNIZED/>
 			<RECOGNIZED_DETAIL/>
@@ -41,6 +42,10 @@
 			<TITLE/>
 			<ALIAS/>
 		</T_SOURCE>
+		<T_CLIENT relation="T_CLIENT.PK_CLIENT_ID = T_REPORTING.FK_CLIENT_ID" reltype="outer">
+			<PK_CLIENT_ID/>
+			<CLIENT_NAME/>
+		</T_CLIENT>
 		<xrs:Constraint>PK_RO_ID=@ID</xrs:Constraint>
 		<xrs:SubSet name="Activity" relation="T_REPORTING.PK_RO_ID=T_ACTIVITY.FK_RO_ID">
 			<T_ACTIVITY>

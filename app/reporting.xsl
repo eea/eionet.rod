@@ -181,7 +181,8 @@ function delObligation() {
 			<tr valign="top">
 				<td width="22%"><span class="head0">Report to:</span></td>
 				<td colspan="2">
-					<xsl:value-of select="T_REPORTING/REPORT_TO"/>
+					<!--xsl:value-of select="T_REPORTING/REPORT_TO"/-->
+					<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
 				</td>
 			</tr>
 			<tr valign="top">
