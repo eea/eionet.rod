@@ -396,7 +396,7 @@ var picklist = new Array();
 					</xsl:when>
 					<xsl:otherwise>
 						<a window="delivery">
-						<xsl:attribute name="href">javascript:openDeliveries(<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>, <xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>  )</xsl:attribute>
+						<xsl:attribute name="href">javascript:openDeliveries(<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>, <xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>)</xsl:attribute>
 							Show list
 						</a>
 					</xsl:otherwise>

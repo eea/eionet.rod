@@ -7,6 +7,11 @@
 	</xsl:variable>
 
 
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
+	</xsl:variable>
+
+
 <xsl:template match="/">
 
 <html lang="en"><head><title>Country Services</title>
@@ -167,7 +172,7 @@ function openFeedback(){
 <span lang="EN-GB">
 This tool aims at facilitating EEA member countries to co-ordinate and to supervise their international reporting. It tells which country has to report what, when is the deadline, is the reported data set in ReportNet, who was responsible for delivering, and to whom was the data set delivered.<br/><br/>
 
-<xsl:if test="$admin = 'true'">
+<xsl:if test="contains($permissions, 'H')='true'">
 				<map name="openHarvesterMap">
 					<area alt="Harvest data from other services" shape="rect" coords="0,0,20,20" href="javascript:openHarvester()"></area>
 				</map>
