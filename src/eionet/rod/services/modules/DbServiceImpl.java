@@ -377,7 +377,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       " FROM T_ACTIVITY a, T_SPATIAL s, T_REPORTING r, T_SPATIAL_LNK sl  " + 
       " WHERE  a.FK_RO_ID = r.PK_RO_ID AND sl.FK_RO_ID=r.PK_RO_ID " +
       " AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID AND a.RESPONSIBLE_ROLE IS NOT NULL " +
-      " AND a.RESPONSIBLE_ROLE <> '' AND s.SPATIAL_TYPE = 'C' ";
+      " AND a.RESPONSIBLE_ROLE <> '' AND s.SPATIAL_TYPE = 'C' AND s.SPATIAL_TWOLETTER IS NOT NULL AND " +
+       " TRIM(s.SPATIAL_TWOLETTER) <> '' " ;
 
       String roles1[][] = _executeStringQuery(sql);
       sql = "SELECT RESPONSIBLE_ROLE FROM T_ACTIVITY WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' " ;
