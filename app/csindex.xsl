@@ -168,7 +168,12 @@ This tool aims at facilitating EEA member countries to co-ordinate and to superv
 <!--b>This version of Country Services is a prototype application running at TietoEnator's environment with test-installations of ROD and Content Registry with test-databases. Please don't use the data for any other purpose than testing as it is not quality assured.</b><br/><br/--> 
 
 <xsl:if test="$admin = 'true'">
-	<img onClick = "openHarvester()" width="25" height="25" src="images/doc.gif" alt="Harvest data from other services" border="0"/>&#160;<br/>
+				<map name="openHarvesterMap">
+					<area alt="Harvest data from other services" shape="rect" coords="0,0,20,20" href="javascript:openHarvester()"></area>
+				</map>
+				<img border="0" height="25" width="25" src="images/doc.gif" usemap="#openHarvesterMap"></img>
+		<!--img onClick = "openHarvester()" width="25" height="25" src="images/doc.gif" alt="Harvest data from other services" border="0"/-->
+		&#160;<br/>
 </xsl:if>
 
 </span>You can browse your national deliveries by choosing a country below or query the contents by using the advanced search.<br/><br/>

@@ -110,8 +110,9 @@ function openDeliveries(ACT_ID){
 
 	function changeParamInString(sUrl, sName, sValue){
 		var  i, j,  sBeg, sEnd, sStr;
-
-		sValue=escape(sValue);
+		
+		//KL 021009 -> in some reason does not work anymore :(
+		//sValue=escape(sValue);
 
 		i = sUrl.indexOf(sName + '=');
 		if (i > 0) {
@@ -158,18 +159,18 @@ var picklist = new Array();
 <table cellspacing="0" cellpadding="0" border="0">
 
 <map name="sortTitle">
-<area shape="rect" coords="0,0, 12,7" href="javascript:changeParamInString(document.URL, 'ORD', 'TITLE')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 24,7" href="javascript:changeParamInString(document.URL, 'ORD', 'TITLE DESC')" alt="Click to sort in descending order" />
+<area shape="rect" coords="0,0, 12,7" href="javascript:changeParamInString(document.URL,'ORD','TITLE')" alt="Click to sort in ascending order" />
+<area shape="rect" coords="12,0, 24,7" href="javascript:changeParamInString(document.URL,'ORD','TITLE DESC')" alt="Click to sort in descending order" />
 </map>
 
 <map name="sortDeadline">
-<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL, 'ORD', 'DEADLINE')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL, 'ORD', 'DEADLINE DESC')" alt="Click to sort in descending order" />
+<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL,'ORD','DEADLINE')" alt="Click to sort in ascending order" />
+<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL,'ORD','DEADLINE DESC')" alt="Click to sort in descending order" />
 </map>
 
 <map name="sortCountry">
-<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL, 'ORD', 'SPATIAL_NAME')" alt="Click to sort in ascending order" />
-<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL, 'ORD', 'SPATIAL_NAME DESC')" alt="Click to sort in descending order" />
+<area shape="rect" coords="0,0, 11,5" href="javascript:changeParamInString(document.URL,'ORD','SPATIAL_NAME')" alt="Click to sort in ascending order" />
+<area shape="rect" coords="12,0, 23,5" href="javascript:changeParamInString(document.URL,'ORD','SPATIAL_NAME DESC')" alt="Click to sort in descending order" />
 </map>
 
 

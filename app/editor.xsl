@@ -525,14 +525,13 @@ function warn(field, msg) {
 								<img src="images/button_activities.gif" border="0" width="84" height="13" alt="Reporting Activities"/>
 							</a>
 						</td></tr>
-<!--
 						<tr><td align="right">
-							<a href="/countrysrv/public/csindex" onMouseOver="Over('img8')" onMouseOut="Out('img8')" onClick="Click('img8')">
+							<a href="deliveries.jsv" onMouseOver="Over('img8')" onMouseOut="Out('img8')" onClick="Click('img8')">
 								<img name="img8" src="images/off.gif" border="0" alt=""/>
 								<img src="images/button_cs.gif" border="0" width="84" height="13" alt="Deliveries"/>
 							</a>
 						</td></tr>
--->
+
 						</table>
 				</center></p>
 				</td>
