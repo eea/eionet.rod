@@ -9,7 +9,7 @@
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
- * The Original Code is "EINRC-4 / WebROD Project".
+ * The Original Code is "EINRC-5 / WebROD Project".
  *
  * The Initial Developer of the Original Code is TietoEnator.
  * The Original Code code was developed for the European
@@ -18,43 +18,27 @@
  * Copyright (C) 2000-2002 by European Environment Agency.  All
  * Rights Reserved.
  *
- * Original Code: Andre Karpistsenko (TietoEnator)
+ * Original Code: Ander Tenno (TietoEnator)
  */
 
 package eionet.rod;
 
+import java.io.*;
 import javax.servlet.http.*;
 
 import com.tee.util.*;
 import com.tee.xmlserver.*;
 
-/**
- * <P>Main page servlet class.</P>
- *
- * <P>Servlet URL: <CODE>index.html</CODE></P>
- *
- * <P>Database tables involved: T_REPORTING, 	T_ACTIVITY, T_ISSUE, T_SPATIAL, T_PARAM_GROUP, T_LOOKUP</P>
- *
- * <P>XSL file used: <CODE>index.xsl</CODE><BR>
- * Query file used: <CODE>index.xrs</CODE></P>
- *
- * @author  Rando Valt, Andre Karpistsenko
- * @version 1.1
- */
 
-public class Index extends ROServletAC {
-/**
- *
- */
-   protected String setXSLT(HttpServletRequest req) {
-      return PREFIX + INDEX_XSL;        
+public class AddClientHandler extends SaveHandler {
+
+   public int setCommitLevel() {
+      return AUTO_COMMIT;
    }
-/**
- *
- */
-   protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
-      HttpServletRequest req = params.getRequest();
-      DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + INDEX_QUERY, req);
-      return userInfo(req, dataSrc);
+
+   protected boolean sqlReady(SQLGenerator gen, String context) {
+       gen.setState(INSERT_RECORD);
+       defaultProcessing(gen, null);
+       return !getError();
    }
 }

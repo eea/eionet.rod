@@ -38,7 +38,9 @@ import com.tee.xmlserver.*;
  */
 
 public abstract class ROServletAC extends XHTMLServletAC implements Constants {
-  public static String PREFIX = "";
+
+  public static String PREFIX = "../app/";
+  
   private static final String CTXT  = "/webrod/app/";
   private static final String APP_HOST = "127.0.0.1";
   private static final String APP_PORT = "80";
@@ -62,10 +64,10 @@ public abstract class ROServletAC extends XHTMLServletAC implements Constants {
         if (!Util.nullString(appCtxt)){
             if (!appCtxt.startsWith("/")) appCtxt = "/" + appCtxt;
             if (!appCtxt.endsWith("/")) appCtxt = appCtxt + "/";
-            PREFIX = urlPrefix.append(appCtxt).toString();
+            //PREFIX = urlPrefix.append(appCtxt).toString();
         }
         else{
-            PREFIX = urlPrefix.append(CTXT).toString();
+            //PREFIX = urlPrefix.append(CTXT).toString();
         }
     }
 
