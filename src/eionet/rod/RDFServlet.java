@@ -98,7 +98,7 @@ public class RDFServlet extends BaseServletAC {
     s.append("<rdfs:range rdf:resource=\"#Activity\"/>");
     s.append("</rdf:Property>");
     
-    s.append("<rdfs:Class rdf:ID=\"Activity\"">);
+    s.append("<rdfs:Class rdf:ID=\"Activity\">");
     s.append("<rdf:value>Activity</rdf:value>");
     s.append("</rdfs:Class>");
     

@@ -69,45 +69,31 @@ class DbService implements Config {
 
   private static DBPoolIF dbPool ;
 
-  private DbService() throws ServiceException {}
+  private DbService() throws ServiceException {  }
 
   
-  static   {
+  static  {
   //_log("*** static ");  
     if (props == null)
-     try {
+//     try {
         props = ResourceBundle.getBundle(Config.PROP_FILE);
-     } catch (MissingResourceException mre) {
-       throw new ServiceException("Properties file " + PROP_FILE + ".properties not found");
-     }
+//     } catch (MissingResourceException mre) {
+//       throw new ServiceException("Properties file " + PROP_FILE + ".properties not found");
+//     }
 
     if (domain == null)
       domain = props.getString(Config.ROD_URL_DOMAIN);
 
-    /*
-    if (dbUser == null)
-      dbUser = props.getString(Config.DB_USER_ID);
-
-    if (dbPsw == null)
-      dbPsw = props.getString(Config.DB_USER_PWD);
-    
-    if (dbUrl == null)
-      dbUrl = props.getString(Config.DB_URL);
-      
-    if (dbDriver == null)
-      dbDriver = props.getString(Config.DB_DRV);
-    */
-
-     try {
+//     try {
         if (dbPool == null)
           dbPool = XDBApplication.getInstance().getDBPool();
          //dbPool = new DBPool( dbUrl, dbDriver, dbUser, dbPsw ) ; 
         //_log("DBPool OK");         
-     } catch(Exception e ){
-       throw new ServiceException("Error getting DBPool: " + e.toString());
-     }
+//     } catch(Exception e ){
+//       throw new ServiceException("Error getting DBPool: " + e.toString());
+//     }
 
-  }
+  } 
 
   /**
 	* Returns all Reporting activities
