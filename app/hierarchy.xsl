@@ -66,18 +66,17 @@
 		<!-- page -->
 		<div style="margin-left:13">
 		<!-- page title -->
-	   <table cellspacing="7" border="0"><tr><td>
-			<span class="head1"><form>Legal instruments regarding reporting obligations
-				<input type="button" style="width:150" onclick="javascript:alert('By clicking on a sub-section link, a legal instruments hierarchy for that sub-section is displayed (i.e. on this new page the clicked section will be a top level section). Clicking on the legal instrument link, a page with this legal instrument data is displayed.')" value="Help"></input></form></span>
-		</td></tr></table>
-
+	   <table cellspacing="7" width="600" border="0"><tr><td valign="top">
+			<span class="head1">Legal instruments regarding reporting obligations</span></td>
+		<td align="right" valign="top">
+			<img src="images/help.png" alt="Help" onclick="javascript:alert('By clicking on a sub-section link, a legal instruments hierarchy for that sub-section is displayed (i.e. on this new page the clicked section will be a top level section). Clicking on the legal instrument link, a page with this legal instrument data is displayed.')"/><br/>
 		<xsl:if test="contains($permissions, 'y')='true'">
-			<b><a>
+			<a>
 				<xsl:attribute name="href">javascript:openActionTypeHistory('D','L')</xsl:attribute>
-				Show deleted legal instruments
-			</a></b>
-			<br/><br/>
+				<img src="images/showdeleted.png" border="0" alt="Show deleted legal instruments"/>
+			</a>
 		</xsl:if>
+		</td></tr></table>
 
 	   <table cellspacing="7" width="600" border="0"><tr><td>
 			<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!=''">
