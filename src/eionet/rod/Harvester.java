@@ -51,10 +51,10 @@ public class Harvester extends ROEditServletAC {
       .append("<form align='center' name=\"f\" method=\"POST\" action=\"harvester.jsv\">")
       .append("<b>Select data, you want to be harvested:</b>")
       .append("<br>").append("<input width='200'style=\"width:200\"  type='button' onClick='harvest(0)' value='All'></input>")
-      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(1)' value='Activity details'></input>")      
+      //.append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(1)' value='Activity details'></input>")      
       .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(2)' value='Deliveries'></input>")            
       .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(3)' value='Roles'></input>")                  
-      .append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(4)' value='Everything but roles'></input>")                        
+      //.append("<br>").append("<input width='200'style=\"width:200\" type='button' onClick='harvest(4)' value='Everything but roles'></input>")                        
       .append("</form>")
       .append("</body></html>");
 
