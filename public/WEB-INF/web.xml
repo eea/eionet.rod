@@ -53,6 +53,10 @@
 		<servlet-class>eionet.rod.ViewHelp</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>helplist</servlet-name>
+		<servlet-class>eionet.rod.HelpList</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>help</servlet-name>
 		<servlet-class>eionet.rod.Help</servlet-class>
 	</servlet>
@@ -183,6 +187,10 @@
 	<servlet-mapping>
 		<servlet-name>help</servlet-name>
 		<url-pattern>/help.jsv</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>helplist</servlet-name>
+		<url-pattern>/helplist.jsv</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>client</servlet-name>
