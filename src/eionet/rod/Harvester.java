@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServlet;
 import com.tee.xmlserver.Logger;
 import java.io.IOException;
-import eionet.rod.countrysrv.services.Extractor;
+import eionet.rod.countrysrv.Extractor;
 
 public class Harvester extends ROEditServletAC {
 
@@ -108,7 +108,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse res)
     res.getWriter().write("<html><body bgcolor=\"#f0f0f0\">");
     res.getWriter().write("<b>Error:</b><br>");
     res.getWriter().write(e.toString());
-    e.printStackTrace( res.getWriter() );
+    //e.printStackTrace( res.getWriter() );
     res.getWriter().write("</body></html>");
   } 
 }
