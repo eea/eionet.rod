@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./services.xsd">
+	<Service Name="DirectoryService" Provider="eionet.directory.DirectoryService">
+	<Methods>
+			<Method Name="getRoleMail">
+				<Parameters>
+					<Parameter Name="roleId" Type="STRING"/>
+				</Parameters>
+				<Value Type="STRING"/>
+			</Method>
+			<Method Name="getRoleUrl">
+				<Parameters>
+					<Parameter Name="roleId" Type="STRING"/>
+				</Parameters>
+				<Value Type="STRING"/>
+			</Method>
+			<Method Name="getRole">
+				<Parameters>
+					<Parameter Name="roleID" Type="STRING"/>
+				</Parameters>
+				<Value Type="STRUCT">
+					<Struct>
+						<Element Name="ID" Type="STRING"/>
+						<Element Name="NAME" Type="STRING"/>
+						<Element Name="MAIL" Type="STRING"/>
+						<Element Name="DESCRIPTION" Type="STRING"/>
+						<Element Name="URL" Type="STRING"/>
+					</Struct>
+				</Value>
+			</Method>
+		</Methods>		
+	</Service>
+	<Service Name="ContRegService" Provider="eionet.meta.services.ContRegService">
+		<Methods>
+			<Method Name="getUrls">
+				<Parameters>
+					<Parameter Name="attrs" Type="STRUCT"/>
+				</Parameters>
+				<Value Type="ARRAY">
+					<Array Type="STRING"/>
+				</Value>
+			</Method>
+			<Method Name="getAttributes">
+				<Parameters>
+					<Parameter Name="url" Type="STRING"/>
+				</Parameters>
+				<Value Type="STRUCT"/>
+			</Method>
+		</Methods>
+	</Service>		
+</Services>
