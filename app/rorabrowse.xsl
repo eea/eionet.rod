@@ -80,29 +80,27 @@
 					</span>	</td></tr>
 				</table>
 			</xsl:when>
-			<xsl:otherwise>
-		<form name="f" method="get" action="rorabrowse.jsv">
-		<xsl:choose>
-			<xsl:when test="$rora='A'">
-				<input type="hidden" name="mode" value="A"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<input type="hidden" name="mode" value="R"/>
-			</xsl:otherwise>
-		</xsl:choose>
-		<table cellspacing="10" border="0" width="600">
-			<tr><td colspan="3"><span class="head0">
-				<xsl:choose>
-					<xsl:when test="$rora='A'">
-						Reporting activities selected by different filters:
-					</xsl:when>
-					<xsl:otherwise>
-						Reporting obligations selected by different filters:
-					</xsl:otherwise>
-				</xsl:choose>
-			</span>
-				</td>
-			</tr>
+		<xsl:otherwise>
+			<form name="f" method="get" action="rorabrowse.jsv">
+			<xsl:choose>
+				<xsl:when test="$rora='A'">
+					<input type="hidden" name="mode" value="A"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<input type="hidden" name="mode" value="R"/>
+				</xsl:otherwise>
+			</xsl:choose>
+			<table cellspacing="10" border="0" width="600">
+				<tr><td colspan="3"><span class="head0">
+					<xsl:choose>
+						<xsl:when test="$rora='A'">
+							Reporting activities selected by different filters:
+						</xsl:when>
+						<xsl:otherwise>
+							Reporting obligations selected by different filters:
+						</xsl:otherwise>
+					</xsl:choose>
+				</span></td></tr>
 			<tr valign="center">
 				<td width="10"><img src="images/diamlil.gif"/></td>
 				<td width="200">Environmental issues</td>
@@ -226,9 +224,9 @@
 		</td></tr></table>
 		<br/>
 		<div style="margin-left:20">
-		<table cellspacing="7pts">
+		<!--table cellspacing="7pts">
 			<xsl:apply-templates select="RowSet[@Name='Search results']/@*"/>
-		</table>
+		</table-->
 		</div>
 				
 		<xsl:apply-templates select="RowSet[@Name='Search results']"/>
@@ -268,43 +266,42 @@
 <!-- RA search results -->
 		<xsl:choose>
 			<xsl:when test="$rora='A'">
-			
-			<xsl:choose>
-			<xsl:when test="count(Row)=0">			
-				<xsl:call-template name="nofound"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<table cellspacing="7pts" width="600">
-				<xsl:for-each select="Row">
-					<tr valign="top">
-						<td width="10"><img src="images/diamlil.gif" vspace="4"/></td>
-						<td colspan="2">
-							<span class="head0n"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
-						<xsl:choose>
-							<xsl:when test="T_ACTIVITY/TITLE != ''">
-								<xsl:value-of select="T_ACTIVITY/TITLE"/>
-							</xsl:when>
-							<xsl:otherwise>
-								Reporting Activity</xsl:otherwise>	
-						</xsl:choose></a></span>
-						<b> for </b>
-						<span class="head0n"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
-						<xsl:choose>
-							<xsl:when test="T_REPORTING/ALIAS != ''">
-								<xsl:value-of select="T_REPORTING/ALIAS"/></xsl:when>
-							<xsl:otherwise>
-								Obligation</xsl:otherwise></xsl:choose></a></span>
-						<b> from </b><i>
-						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-							<xsl:choose>
-								<xsl:when test="T_SOURCE/ALIAS != ''">
-									<xsl:value-of select="T_SOURCE/ALIAS"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="T_SOURCE/TITLE"/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</a></i>						
+				<xsl:choose>
+					<xsl:when test="count(Row)=0">			
+						<xsl:call-template name="nofound"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<table cellspacing="7pts" width="600">
+							<xsl:for-each select="Row">
+								<tr valign="top">
+									<td width="10"><img src="images/diamlil.gif" vspace="4"/></td>
+									<td colspan="2">
+										<span class="head0n"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_ACTIVITY/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_ACTIVITY/FK_RO_ID"/>&amp;mode=A</xsl:attribute>
+									<xsl:choose>
+										<xsl:when test="T_ACTIVITY/TITLE != ''">
+											<xsl:value-of select="T_ACTIVITY/TITLE"/>
+									</xsl:when>
+									<xsl:otherwise>
+										Reporting Activity</xsl:otherwise>	
+									</xsl:choose></a></span>
+									<b> for </b>
+									<span class="head0n"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=R</xsl:attribute>
+									<xsl:choose>
+										<xsl:when test="T_REPORTING/ALIAS != ''">
+											<xsl:value-of select="T_REPORTING/ALIAS"/></xsl:when>
+										<xsl:otherwise>
+											Obligation</xsl:otherwise></xsl:choose></a></span>
+											<b> from </b><i>
+												<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+											<xsl:choose>
+												<xsl:when test="T_SOURCE/ALIAS != ''">
+													<xsl:value-of select="T_SOURCE/ALIAS"/>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:value-of select="T_SOURCE/TITLE"/>
+												</xsl:otherwise>
+											</xsl:choose>
+											</a></i>						
 <!--
 						<xsl:choose>
 							<xsl:when test="T_SOURCE/URL!=''">
@@ -362,7 +359,6 @@
 		</xsl:when>
 <!-- RO search results -->
 		<xsl:otherwise>
-
 		<xsl:choose>
 			<xsl:when test="count(Row)=0">			
 				<xsl:call-template name="nofound"/>
