@@ -269,3 +269,11 @@ background-image: url('images/bgr_form_buttons.jpg');
 	font-size: 10pt;
 	font-weight: bold;
 }
+
+.breadcrumbtrail {
+	display: none;
+}
+
+#workarea {
+	margin-left:13px;
+}
