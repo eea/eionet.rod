@@ -40,7 +40,7 @@
 
 	<xsl:template name="IntroductoryText">
 		This database contains records describing environmental reporting obligations that countries 
-		have towards the EEA, EU and international conventions. The reporting obligations arise from 
+		have towards the EEA, European Commission and international conventions. The reporting obligations arise from 
 		numerous international legislative instruments and agreements. 
 		ROD is part of the EEA's Reportnet suite of tools to streamline reporting obligations and facilitate 
 		its work collecting, handling and presenting environmental information.	
