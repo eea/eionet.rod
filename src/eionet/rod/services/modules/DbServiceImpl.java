@@ -518,12 +518,12 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
         String sql = "INSERT INTO T_DELIVERY SET STATUS=1, " +
                       " TITLE='" + 
-                     ((title == null)? "" : title) + "', UPLOAD_DATE='" +
+                     ((title == null)? "" : strLit(title)) + "', UPLOAD_DATE='" +
                      ((date == null)? "" : date) + "', DELIVERY_URL='" +
-                     identifier + "', TYPE='" +
-                     ((type == null)? "" : type) + "', FORMAT='" +
-                     ((format == null)? "" : format) + "', COVERAGE='" +
-                     ((coverage == null)? "" : coverage) + "'," +
+                     strLit(identifier) + "', TYPE='" +
+                     ((type == null)? "" : strLit(type)) + "', FORMAT='" +
+                     ((format == null)? "" : strLit(format)) + "', COVERAGE='" +
+                     ((coverage == null)? "" : strLit(coverage)) + "'," +
                      " FK_SPATIAL_ID = " + countryId + ", " +
                      " FK_RA_ID = " + raId + " ;" ;
 
