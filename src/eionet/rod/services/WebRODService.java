@@ -24,7 +24,7 @@
 package eionet.rod.services;
 
 import java.util.Vector;
-import com.tee.uit.security.AppUser;
+//import com.tee.uit.security.AppUser;
 //import java.util.Hashtable;
 
 /**
@@ -49,7 +49,7 @@ public  class WebRODService {
   * @throw ServiceException  
 	*/
 //  public static Vector getActivities() throws ServiceException {
-  public Vector getActivities() throws ServiceException {
+  public static Vector getActivities() throws ServiceException {
 
   if (dbSrv == null )
     dbSrv = RODServices.getDbService();
