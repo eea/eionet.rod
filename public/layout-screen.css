@@ -167,6 +167,39 @@ body {
 }
 
 
+#actionlist {
+	float: right;
+	width: 12em;
+	border: 1px solid #006666;
+	background-color: #cbdcdc;
+	padding: 0.4em;
+	margin-top: 0.5em;
+}
+
+#actionlist ul {
+	list-style-image: url("images/smalldiamond.png");
+	margin-left: 0;
+	padding-left: 1.5em;
+}
+#actionlist li {
+	font-size: 9pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+}
+#actionlist a, #actionlist a:visited {
+	text-decoration: none;
+	color: #024176
+}
+#actionlist h2 {
+	margin-bottom: 0;
+	font-size: 110%;
+}
+#actionlist p {
+	margin-bottom: 0;
+	margin-top: 0.1em;
+}
+
 /* Breadcrumb trail */
 .breadcrumbtrail {
 	position: absolute;
