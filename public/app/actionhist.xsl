@@ -15,7 +15,7 @@
 <html lang="en"><head><title>History of changes</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link type="text/css" rel="stylesheet" href="eionet.css"/>
-	<script language="JavaScript">
+	<script type="text/javascript">
 					
 var picklist = new Array();
 

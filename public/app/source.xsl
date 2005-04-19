@@ -44,7 +44,7 @@
 	<xsl:template match="RowSet[@Name='Source']/Row[position()=1]">
 		<!-- form for delete legislation action -->
 		<xsl:if test="contains($permissions, ',/instruments:d,')='true'">
-			<script language="JavaScript">
+			<script type="text/javascript">
 			<![CDATA[
 function delLegislation() {
 	if (confirm("Do you want to delete the current legislative instrument\nwith all related reporting obligations and activities?"))

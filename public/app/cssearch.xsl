@@ -12,7 +12,7 @@
 
 <xsl:template match="XmlData">
 
-	<script language="JavaScript">
+	<script type="text/javascript">
 
 <![CDATA[
 

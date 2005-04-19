@@ -33,7 +33,7 @@
 			<head>
 				<title>Edit Help Text</title>
 				<link href="eionet.css" rel="stylesheet" type="text/css"/>
-				<script language="JavaScript">
+				<script type="text/javascript">
 					// Sets focus on form's first element
 					//
 					function setFocus(formName) {

@@ -809,7 +809,7 @@
 		</table>
 
 </form>
-			<script language="JavaScript">
+			<script type="text/javascript">
 
 				var txtInfo=document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkInfo']/Row/T_INFO_LNK/FK_INFO_IDS"];
 				var lnkInfo=document.f.info_lnk;
@@ -883,7 +883,7 @@
 	</xsl:template-->
 
 	<!--xsl:template match="RowSet[@Name='PARAMETER']">
-		<script language="JavaScript">
+		<script type="text/javascript">
 			<xsl:for-each select="//RowSet[@Name='ParamGroup']/Row/T_PARAM_GROUP">
 				picklist.push("<xsl:value-of select="PK_GROUP_ID"/>:<xsl:value-of select="GROUP_NAME"/>:<xsl:value-of select="GROUP_TYPE"/>");
 			</xsl:for-each>	  
@@ -901,11 +901,11 @@
 						<option value="-1">Choose a group</option>
 						<xsl:apply-templates select="RowSet[@Name='ParamGroup']"/>
 					</select>
-		<script language="JavaScript">
+		<script type="text/javascript">
 			fillPicklist('C',document.f.param_group)
 		</script>
 
-		<script language="JavaScript">
+		<script type="text/javascript">
 			<xsl:for-each select="T_PARAMETER">
 				multilist.push("<xsl:value-of select="PK_PARAMETER_ID"/>:<xsl:value-of select="PARAMETER_NAME"/>:<xsl:value-of select="FK_GROUP_ID"/>");
 			</xsl:for-each>	  
@@ -916,7 +916,7 @@
 				<xsl:value-of select="PARAMETER_NAME"/></option>
 			</xsl:for-each>
 		</select>
-		<script language="JavaScript">
+		<script type="text/javascript">
 			fillMultilist(document.f.param_group.options[0].value,document.f.par_list)
 		</script>
 	</xsl:template-->
@@ -1072,7 +1072,7 @@
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='SPATIAL']">
-		<script language="JavaScript">
+		<script type="text/javascript">
 			<xsl:for-each select="T_SPATIAL">
 				clist.push("<xsl:value-of select="PK_SPATIAL_ID"/>:<xsl:value-of select="SPATIAL_NAME"/>:<xsl:value-of select="SPATIAL_TYPE"/>");
 			</xsl:for-each>	  
@@ -1084,7 +1084,7 @@
 			</xsl:for-each>
 		</select>
 
-		<script language="JavaScript">
+		<script type="text/javascript">
 			fillclist('C',document.f.spatial_list)
 		</script>		
 

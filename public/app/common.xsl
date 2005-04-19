@@ -57,8 +57,8 @@
 		<title><xsl:call-template name="PageTitle"/></title>
 		<link href="eionet.css" rel="stylesheet" type="text/css"/>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-		<script language="JavaScript" src="script/util.js"></script>
-		<script language="JavaScript">
+		<script type="text/javascript" src="script/util.js"></script>
+		<script type="text/javascript">
 					<![CDATA[
 <!--
 function showhelp(text) {

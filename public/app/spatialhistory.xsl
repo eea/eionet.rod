@@ -8,7 +8,7 @@
 <html lang="en"><head><title>Status of participation</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link type="text/css" rel="stylesheet" href="eionet.css"/>
-	<script language="JavaScript" src="script/util.js"></script>
+	<script type="text/javascript" src="script/util.js"></script>
 	</head>
 	<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
 

@@ -59,7 +59,7 @@
 	<xsl:template match="RowSet[@Name='Activity']/Row">
 		<!-- form for delete activity action -->
 		<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
-			<script language="JavaScript">
+			<script type="text/javascript">
 			<![CDATA[
 				function delActivity() {
 					if (confirm("Do you want to delete the reporting obligation?"))

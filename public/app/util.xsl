@@ -76,7 +76,7 @@
 		<!-- type=0 common, 1-RAROLI -->
 		<xsl:param name="type"></xsl:param>
 
-		<script language="JavaScript" src="script/util.js"></script>
+		<script type="text/javascript" src="script/util.js"></script>
 
 		<div id="pagefoot">
 									<a href="javascript:history.back()">Back</a>

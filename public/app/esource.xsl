@@ -522,7 +522,7 @@
      	</div>
      	</form>
 
-		<script language="JavaScript">
+		<script type="text/javascript">
 			
 <![CDATA[
 
