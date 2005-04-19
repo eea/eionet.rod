@@ -43,6 +43,18 @@
 	</xsl:variable>
 
 	<xsl:template match="XmlData">
+        <!-- context bar -->
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+<div class="breadcrumbitemlast">Reporting obligation</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+
+        <!-- page -->
+        <div id="workarea">
+
 		<table cellspacing="7pts" width="621" border="0">
 		<tr>
 			<td width="459">
@@ -67,6 +79,7 @@
 		</tr>
 		</table>
 		<xsl:apply-templates select="RowSet[@Name='Activity']/Row"/>
+</div>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Activity']/Row">
