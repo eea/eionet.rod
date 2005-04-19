@@ -31,7 +31,20 @@
 	</xsl:variable>
 
 	<xsl:template match="XmlData">
+        <!-- context bar -->
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+<div class="breadcrumbitemlast">Legislative instrument</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+
+        <!-- page -->
+        <div id="workarea">
+
 		<xsl:apply-templates select="RowSet[@Name='Source']/Row/T_SOURCE"/>
+        </div>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Source']/Row/T_SOURCE">

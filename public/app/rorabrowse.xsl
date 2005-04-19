@@ -104,7 +104,7 @@
 
 	<!-- page -->
 	<div id="workarea">
-		<div id="opertaions">
+		<div id="operations">
 			<table style="float:right">
 			<tr>
 				<td align="center">
