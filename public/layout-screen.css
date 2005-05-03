@@ -16,21 +16,20 @@
 
 /* fonts, colour-schemes etc. */
 body {
-	margin:0px;
-	padding:0px;
+	margin: 0px;
+	padding: 0px;
 	font-family: Arial, Helvetica, sans-serif; 
 	font-style: normal; 
 	font-size: 80%; 
 	line-height: normal; 
 	background: #f0f0f0 url('images/eionet_background.jpg') repeat-y;
-
 }
 
 
 /* Page head styles */
 #pagehead {
 	height: 138px;
-	background-image:url('images/treegreen.png');
+	background-image: url('images/treegreen.png');
 	background-repeat: no-repeat;
 }
  
@@ -43,23 +42,23 @@ body {
 }
 
 #logo {
-	float:right
+	float: right
 }
 
 /* The box where the content is */
 #workarea {
-	clear:right;
+	clear: right;
 	margin-left: 150px;
-	padding-left:0px;
+	padding-left: 0px;
 	padding-right: 2px;
 }
 
 #pagefoot {
-	clear:right;
+	clear: right;
 	width: 700px; 
 /*	border-top: 1px solid black; */
 	margin-left: 150px;
-/*	padding-left:0px;
+/*	padding-left: 0px;
 	padding-right: 2px; */
 	padding: 1em;
 	font-style: italic;
@@ -84,7 +83,7 @@ body {
 	font-size: 9pt; 
 	font-style: normal; 
 	line-height: normal; 
-	padding-top:10px;
+	padding-top: 10px;
 	margin-bottom: 0px;
 	font-weight: bold;
 	text-align: center; 
@@ -95,15 +94,15 @@ body {
 	list-style: none;
 	list-style-image: none; /* bug in IE */
 	padding-left: 5px;
-	margin:0px 0px 0px 10px;
+	margin: 0px 0px 0px 10px;
 }
 
 #globalnav li {
 	font-size: 9px;
 	font-family: sans-serif;
 	font-weight: bold;
-	width:100px;
-	height:13px;
+	width: 100px;
+	height: 13px;
 	line-height: 100%;
 	vertical-align: bottom;
 	color: white;
@@ -112,12 +111,12 @@ body {
 	white-space: nowrap;
 }
 #globalnav li a, #globalnav li span {
-	display:block;
+	display: block;
 	font-weight: bold;
 	text-decoration: none;
 	color: white;
-	width:80px;
-	height:13px;
+	width: 80px;
+	height: 13px;
 	padding: 0px 6px 0px 20px;
 	background: url('images/greybuttonred.gif') no-repeat left top;
 	border: none;
@@ -126,7 +125,7 @@ body {
 
 #globalnav li a:hover {
 	background: url('images/greybuttonred.gif') no-repeat left top;
-        background-position: 0% -26px;
+	background-position: 0% -26px;
 }
 
 #globalnav form {
@@ -156,7 +155,7 @@ body {
 }
 
 #operations li a {
-	display:block;
+	display: block;
 	font-weight: bold;
 	text-decoration: none;
 	color: white;
@@ -204,10 +203,6 @@ body {
 .breadcrumbtrail {
 	position: absolute;
 	left: 130px;
-/*
-	width: 630px;
-	right:0;
-*/
 	top: 113px;
 	font-size: 0.8em;
 	font-family: verdana, arial, helvetica, sans-serif;
@@ -224,8 +219,8 @@ body {
 	visibility: hidden;
 }
 .breadcrumbtail {
-	float:right;
-	width:1px;
+	float: right;
+	width: 1px;
 }
 
 .breadcrumbitem {
@@ -260,27 +255,14 @@ body {
 	color: #707070;
 }
 
-/* barfont is obsolete Use <small> instead */
-.barfont {
-	font-family: Arial, "MS Sans Serif"; 
-	font-size: 7pt; 
-	font-style: normal; 
-	line-height: normal; 
-	text-decoration: none;
-}
-
 /* Anchors */
 a:link {
 	color: #024176
 }
 
-a:visited {
+a:visited, a:active {
 	color: #A30A21
 }
-
-a:active {
-	color: #A30A21
-} 
 
 /* Remove the border around images */
 
@@ -295,7 +277,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-style: normal; 
 	font-weight: bold; 
 	text-decoration: none;
-	color:#006666;
+	color: #006666;
 }
 
 h1 {
@@ -330,7 +312,7 @@ kbd {
 ul {
 	list-style-image: url("images/smalldiamond.png");
 }
-*/  
+*/
 /* Tables */
 table {
 	empty-cells: show;
@@ -351,7 +333,7 @@ th {
 	line-height: normal; 
 	text-decoration: none;
 	text-align: left;
-/*	vertical-align: top;  */
+/*	vertical-align: top; */
 }
 
 th a:link { color: #8080ff }
@@ -360,28 +342,32 @@ th a:active { color: #ff8080 }
 /* Tables end */
 
 #rightcolumn {
-	float:right;
+	float: right;
 	margin-top: 2px;
-	width:135px;
+	width: 135px;
 }
 
 table.box {
 	background-color: #F0F0F0;
 }
 
-.Mainfont {  font-family: Verdana, Arial, Helvetica, sans-serif; 
+.Mainfont {
+font-family: Verdana, Arial, Helvetica, sans-serif; 
 font-size: 10pt; 
 font-style: normal; 
 line-height: normal; 
-text-decoration: none; }
+text-decoration: none;
+}
 
 
-.smallfont {  font-family: Verdana, Arial, MS Sans Serif; 
+.smallfont {
+font-family: Verdana, Arial, MS Sans Serif; 
 font-size: 9pt; 
 font-style: normal; 
 line-height: normal; 
 font-weight: normal; 
-text-decoration: none; }
+text-decoration: none;
+}
 
 .title1 { font-family: Verdana, Arial, Helvetica, sans-serif;
 font-size: 16pt; 
@@ -389,7 +375,8 @@ font-style: normal;
 line-height: normal; 
 font-weight: bold; 
 text-decoration: none; 
-color: #006666; } 
+color: #006666;
+} 
 
 .title2 { font-family: Verdana, Arial, Helvetica, sans-serif;
 font-size: 12pt; 
@@ -397,41 +384,50 @@ font-style: normal;
 line-height: normal; 
 font-weight: bold; 
 text-decoration: none; 
-color: #006666; } 
+color: #006666;
+} 
 
-.head0 {  font-family: Verdana, Arial, Helvetica, sans-serif; 
+.head0 {
+font-family: Verdana, Arial, Helvetica, sans-serif; 
 font-size: 9pt; 
 font-style: normal; 
 line-height: normal; 
 font-weight: bold; 
-text-decoration: none; }
+text-decoration: none;
+}
 
-.headsmall {  font-family: Verdana, Arial, Helvetica, sans-serif; 
+.headsmall {
+font-family: Verdana, Arial, Helvetica, sans-serif; 
 font-size: 7pt; 
 font-style: normal; 
 line-height: normal; 
 font-weight: bold; 
-text-decoration: none; }
+text-decoration: none;
+}
 
 
-.head0n {  font-family: Verdana, Arial, Helvetica, sans-serif; 
+.head0n {
+font-family: Verdana, Arial, Helvetica, sans-serif; 
 font-size: 9pt; 
 font-style: normal; 
 line-height: normal; 
 font-weight: normal; 
-text-decoration: none; }
+text-decoration: none;
+}
 
-.headgreen {  font-family: Verdana, Arial, Helvetica, sans-serif; 
+.headgreen {
+font-family: Verdana, Arial, Helvetica, sans-serif; 
 font-size: 13pt; 
 font-style: normal; 
 color: #006666;
 line-height: normal; 
 font-weight: bold; 
-text-decoration: none; }
+text-decoration: none;
+}
 
 .head1 {
 	font-size: 13pt; 
-	color:#006666;
+	color: #006666;
 	font-style: normal; 
 	line-height: normal; 
 	font-weight: bold; 
@@ -479,7 +475,7 @@ span.rowitem a:visited { text-decoration: none }
 kbd { font-weight: bold }
 
 .step1 {
-	font-family:  Verdana, Arial, Helvetica, sans-serif; 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
 	font-size: 13px; 
 	font-style: normal; 
 	font-weight: bold; 
@@ -488,14 +484,14 @@ kbd { font-weight: bold }
 }
 
 .step2 {
-	font-family:  Verdana, Arial, Helvetica, sans-serif; 
-	font-size: 12px;  
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 12px;
 	color: black;
 }
 
 .step3 {
-	font-family:  Verdana, Arial, Helvetica, sans-serif; 
-	font-size: 12px;  
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 12px;
 	font-style: normal; 
 	line-height: normal; 
 	font-weight: bold; 
@@ -503,7 +499,7 @@ kbd { font-weight: bold }
 }
 
 .btn {
-	font-family:  Verdana, Arial, Helvetica, sans-serif;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10pt; 
 	font-weight: bold;
 	color: black;
@@ -513,23 +509,23 @@ kbd { font-weight: bold }
 /* Sortable columns in tables */
 .sortable {
 	font-size: 0.9em;
-	line-height:normal;
+	line-height: normal;
 }
 .sortable th {
 	background: white;
 	border: 2px outset #999;
-	margin:0;
-	padding:0;
+	margin: 0;
+	padding: 0;
 	white-space: nowrap;
 	vertical-align: top;
 }
 .sortable a:link, .sortable a:visited, .sortable span {
-	font-family:  Verdana, sans-serif;
-	display:block;
+	font-family: Verdana, sans-serif;
+	display: block;
 	text-decoration: none;
 	font-weight: bold;
 	color: black;
-	padding:1px 0.8em;
+	padding: 1px 0.8em;
 	font-size: 1.0em;
 }
 
@@ -541,13 +537,13 @@ kbd { font-weight: bold }
 tr.even td {
 	background-color: #cbdcdc;
 }
-.sortable th.notsorted{
-	font-family:  Verdana, sans-serif;
+.sortable th.notsorted {
+	font-family: Verdana, sans-serif;
 	border: 2px outset #999;
 	text-decoration: none;
 	font-weight: bold;
 	color: black;
-	padding:1px 0.8em;
+	padding: 1px 0.8em;
 	font-size: 1.0em;
 }
 /*
@@ -555,20 +551,20 @@ tr.even td {
  * indent the text a bit
  */
 .popup {
-  margin:30px;
-  background-image: none;
+	margin: 30px;
+	background-image: none;
 }
 
 .popuphead h1 {
-  color: #006666;
-  font-size: 14pt;
-  font-weight: bold;
+	color: #006666;
+	font-size: 14pt;
+	font-weight: bold;
 }
 
 .popuphead hr {
-   background-color: #99CDCB;
-   height: 15px;
-   border: none;
+	background-color: #99CDCB;
+	height: 15px;
+	border: none;
 }
 
 } /* screen media */

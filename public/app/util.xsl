@@ -185,7 +185,7 @@
 		  <h2>Contents</h2>
 		  <ul>
 		    <xsl:choose>
-				 <xsl:when test="//HOMEPAGE != ''"><li><span>ROD</span></li></xsl:when>
+				 <xsl:when test="//HOMEPAGE != ''"><li><span>ROD Obligations</span></li></xsl:when>
 				 <xsl:otherwise><li><a href="index.html" title="ROD Home">ROD</a></li></xsl:otherwise>
 			 </xsl:choose>
 		    <li><a href="deliveries.jsv" title="Country deadlines">Deadlines</a></li>
@@ -208,9 +208,9 @@
 			</xsl:choose>
 		  <h2>Reportnet</h2>
 		  <ul>
-		    <li><a href="http://cdr.eionet.eu.int/" title="Central Data Repository">CDR</a></li>
-		    <li><a href="http://dd.eionet.eu.int/" title="Data Dictionary">DD</a></li>
-		    <li><a href="http://cr.eionet.eu.int/" title="Content Registry">CR</a></li>
+		    <li><a href="http://cdr.eionet.eu.int/" title="Central Data Repository">CDR Repository</a></li>
+		    <li><a href="http://dd.eionet.eu.int/">Data Dictionary</a></li>
+		    <li><a href="http://cr.eionet.eu.int/">Content Registry</a></li>
 		  </ul>
 		</div>
 	</xsl:template>
