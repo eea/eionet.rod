@@ -295,39 +295,32 @@
 		<input type="hidden" name="mode" value="A"></input>
 		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1px solid #008080">
 				 <tr>
-						<td width="36%" bgcolor="#FFFFFF" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
+						<td colspan="2" width="95%" bgcolor="#FFFFFF" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
 							<b>Show reporting obligations</b>
-						</td>
-						<td width="59%" bgcolor="#FFFFFF" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
-							<b>For a country</b>
 						</td>
 						<td bgcolor="#FFFFFF" align="center" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_SEARCH1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 						</td>
 				</tr>
 				<tr>
-					<td rowspan="4" valign="top" style="border-right: 1px solid #C0C0C0">
+					<td valign="top" bgcolor="#FFFFFF">
+							<b>Country</b>
 					</td>
 					<td style="border-left: 1px solid #C0C0C0">
-						<select name="country" style="color: #000000; font-size: 9pt; width:223" size="1">
+						<select name="country" style="color: #000000; font-size: 9pt; width:223px" size="1">
 								<option value="-1">Any country</option>
 									<xsl:call-template name="SpatialTemplate">
 										<xsl:with-param name ="type">C</xsl:with-param>
 										<xsl:with-param name ="type2"></xsl:with-param>
 										<xsl:with-param name ="sel_spatial"><xsl:value-of select="$sel_country"/></xsl:with-param>
 									</xsl:call-template>
-            </select>
+						</select>
 					</td>
-					<td rowspan="10" valign="center" style="border-left: 1px solid #C0C0C0"><xsl:call-template name="go"/></td>
+					<td rowspan="4" valign="center" style="border-left: 1px solid #C0C0C0"><xsl:call-template name="go"/></td>
 				</tr>
 
 				<tr>
-					<td style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0">&#160;</td>
-				</tr>
-				<tr>
-           <td valign="middle" align="left" style="border-bottom: 1px solid #008080" bgcolor="#FFFFFF"><b>For an issue</b></td>
-				</tr>
-				<tr>
+					<td align="left" bgcolor="#FFFFFF"><b>Issue</b></td>
 					<td style="border-left: 1px solid #C0C0C0">
 							<select width="280" name="env_issue" style="font-size: 9pt; color: #000000; width:223" height="20">
 									<option value="-1">All issues</option>
@@ -337,12 +330,7 @@
 				</tr>
 
 				<tr>
-					<td>&#160;</td><td style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0">&#160;</td>
-				</tr>
-				<tr>
-           <td>&#160;</td><td valign="middle" align="left" style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0" bgcolor="#FFFFFF"><b>For an organisation</b></td>
-				</tr>
-				<tr><td>&#160;</td>
+					<td valign="middle" align="left" bgcolor="#FFFFFF"><b>Organisation</b></td>
 					<td style="border-left: 1px solid #C0C0C0">
 								<select name="client" style="color: #000000; font-size: 9pt; width:350" size="1" width="280">
 										<option value="-1">Any organisation</option>
@@ -351,14 +339,11 @@
 						</td>
 				</tr>
 				<tr>
-					<td>&#160;</td><td style="border-bottom: 1px solid #008080; border-left: 1px solid #C0C0C0">&#160;</td>
-				</tr>
-				<tr>
-           <td>&#160;</td><td valign="middle" align="left" style="border-left: 1px solid #C0C0C0" bgcolor="#FFFFFF">
-						<input type="checkbox"	name="terminated" value="Y">
+						<td bgcolor="#FFFFFF">&#160;</td><td valign="middle" align="left" style="border-left: 1px solid #C0C0C0" bgcolor="#FFFFFF">
+						<input type="checkbox" id="isterminated"	name="terminated" value="Y">
 							<xsl:if test="$terminated='Y'"><xsl:attribute name="checked">checked</xsl:attribute></xsl:if>
 						</input>
-						<b><label for="terminated">Include terminated obligations</label></b>
+						<b><label for="isterminated">Include terminated obligations</label></b>
 					</td>
 				</tr>
 		</table>
@@ -367,11 +352,11 @@
 	
 	<!-- Replaces line breaks with <br/> tags -->
 	<xsl:template name="break">
-   	<xsl:param name="text" select="."/>
-	   <xsl:choose>
-	   	<xsl:when test="contains($text, '&#xa;')">
-		      <xsl:value-of select="substring-before($text, '&#xa;')"/>
-   		   <br/>
+	<xsl:param name="text" select="."/>
+		<xsl:choose>
+		<xsl:when test="contains($text, '&#xa;')">
+			<xsl:value-of select="substring-before($text, '&#xa;')"/>
+			<br/>
 	      	<xsl:call-template name="break">
 	   	       <xsl:with-param name="text" select="substring-after($text, '&#xa;')"/>
 		      </xsl:call-template>
