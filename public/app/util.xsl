@@ -411,7 +411,7 @@
 			<!-- the column is sorted A .. Z -->
 				<xsl:when test="contains($cur_sorted, $sorted) and contains($cur_sorted, ' DESC')=false">
 					<xsl:attribute name="title"><xsl:value-of select="$title"/> - Sorted A..Z - Click to reverse</xsl:attribute>
-					<a>
+					<a rel="nofollow">
 						<xsl:attribute name="href">
 							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="concat($sorted, ' DESC') "/></xsl:call-template>
 						</xsl:attribute>
@@ -422,7 +422,7 @@
 			<!-- the column is sorted Z...A -->
 				<xsl:when test="contains($cur_sorted, $sorted) and contains($cur_sorted, ' DESC')">
 					<xsl:attribute name="title"><xsl:value-of select="$title"/> - Sorted Z..A - Click to reverse</xsl:attribute>
-					<a>
+					<a rel="nofollow">
 						<xsl:attribute name="href">
 							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="$sorted"/></xsl:call-template>
 						</xsl:attribute>
@@ -433,7 +433,7 @@
 			<!-- sortable, but not sorted -->
 				<xsl:otherwise>
 					<xsl:attribute name="title"><xsl:value-of select="$title"/> - Sortable - Click to sort A..Z</xsl:attribute>
-					<a>
+					<a rel="nofollow">
 						<xsl:attribute name="href">
 							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="$sorted"/></xsl:call-template>
 						</xsl:attribute>
