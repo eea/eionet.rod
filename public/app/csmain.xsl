@@ -215,7 +215,14 @@
 				<xsl:with-param name="cur_sorted" select="$sortorder"/>
 			</xsl:call-template>
 	<!-- empty td -->
-		<th scope="col" class="notsorted" title="Show deliveries in the repository" width="8%">Deliveries</th>
+		<!--th scope="col" class="notsorted" title="Show deliveries in the repository" width="8%">Deliveries</th-->
+		<xsl:call-template name="createSortable">
+			<xsl:with-param name="title" select="'Show deliveries in the repository'"/>
+			<xsl:with-param name="text" select="'Deliveries'"/>
+			<xsl:with-param name="sorted" select="'HAS_DELIVERY'"/>
+			<xsl:with-param name="width" select="'8%'"/>
+			<xsl:with-param name="cur_sorted" select="$sortorder"/>
+		</xsl:call-template>
 		<xsl:if test="$sel_country='0' or $sel_country=''">
 			<xsl:call-template name="createSortable">
 				<xsl:with-param name="title" select="'Country'"/>
@@ -340,7 +347,8 @@
 	<td valign="top">
 		<span class="rowitem">
 			<xsl:choose>
-					<xsl:when test="contains(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS, concat(',' , T_SPATIAL/PK_SPATIAL_ID , ',') )='true'">
+					<!--xsl:when test="contains(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS, concat(',' , T_SPATIAL/PK_SPATIAL_ID , ',') )='true'"-->
+					<xsl:when test="T_OBLIGATION/HAS_DELIVERY=1">
 						<a window="delivery">
 						<!--xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>')</xsl:attribute-->
 						<xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/></xsl:attribute>

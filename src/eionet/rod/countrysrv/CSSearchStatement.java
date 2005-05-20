@@ -105,6 +105,7 @@ public class CSSearchStatement extends QueryStatement implements Constants {
       vFields.add(new FieldInfo("TERMINATE","T_OBLIGATION"));
       vFields.add(new FieldInfo("FK_CLIENT_ID","T_OBLIGATION"));      
       vFields.add(new FieldInfo("FK_DELIVERY_COUNTRY_IDS","T_OBLIGATION"));      
+      
 
       FieldInfo o1 = new FieldInfo("DEADLINE","T_OBLIGATION");
       o1.setFieldExpr("IF(NEXT_DEADLINE IS NULL, NEXT_REPORTING, NEXT_DEADLINE) AS DEADLINE");
@@ -113,6 +114,12 @@ public class CSSearchStatement extends QueryStatement implements Constants {
       FieldInfo o2 = new FieldInfo("DEADLINE2","T_OBLIGATION");
       o2.setFieldExpr("NEXT_DEADLINE2 AS DEADLINE2");
       vFields.add(o2);
+
+      // Add field for ordering deliveries
+      //EK 20.05.2005
+      FieldInfo o3 = new FieldInfo("HAS_DELIVERY","T_OBLIGATION");
+      o3.setFieldExpr("FK_DELIVERY_COUNTRY_IDS REGEXP CONCAT(',',T_SPATIAL.PK_SPATIAL_ID,',') AS HAS_DELIVERY");
+      vFields.add(o3); 
 
       // ROLE
       TableInfo resp = new TableInfo("T_ROLE", "CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=RESPONSIBLE.ROLE_ID" , TableInfo.OUTER_JOIN);
