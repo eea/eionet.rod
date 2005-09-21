@@ -95,6 +95,10 @@
 		<link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
 		<link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
+		<link rel="alternate" type="application/rdf+xml" title="All Obligations" href="/obligations"/>
+		<link rel="alternate" type="application/rdf+xml" title="All Localities" href="/countries"/>
+		<link rel="alternate" type="application/rdf+xml" title="All Legal instruments" href="/instruments"/>
+		<link rel="alternate" type="application/rss+xml" title="Obligation deadlines" href="/events.rss"/>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<script type="text/javascript" src="script/util.js"></script>
 		<script type="text/javascript">
