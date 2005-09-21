@@ -68,7 +68,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
   protected static ResourceBundle props; 
   
-  protected static final String rdfHeader = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
+  protected static final String rdfHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
   protected static final String rdfNameSpace = "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" ";
   protected static final String rdfSNameSpace = "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" ";
 
@@ -125,7 +125,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
   
   public void doGet( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException {
 
-    res.setContentType("text/xml");  
+    res.setContentType("application/rdf+xml;charset=UTF-8");  
 
     try {
 

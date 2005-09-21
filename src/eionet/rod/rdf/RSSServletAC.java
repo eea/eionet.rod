@@ -68,7 +68,7 @@ public abstract class RSSServletAC extends RDFServletAC implements Constants  {
 
 
  public void doGet( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException {
-    res.setContentType("text/xml");  
+    res.setContentType("application/rss+xml;charset=UTF-8");  
     try {
 
       String rss = generateRDF(req);
