@@ -41,6 +41,19 @@ body {
 	width: 620px;
 }
 
+#pagehead form {
+	position: absolute;
+	display: inline;
+	left: 10px;
+	top: 121px;
+}
+
+#pagehead input {
+	font-size: 70%;
+	background-color: rgb(153,205,203);
+	width: 100px;
+}
+
 #logo {
 	float: right
 }
@@ -72,7 +85,7 @@ body {
 #globalnav {
 	position: absolute;
 	left: 0;
-	top: 116px;
+	top: 163px;
 	width: 130px;
 	margin: 0px;
 }
@@ -203,6 +216,7 @@ body {
 .breadcrumbtrail {
 	position: absolute;
 	left: 130px;
+	right:0;
 	top: 113px;
 	font-size: 0.8em;
 	font-family: verdana, arial, helvetica, sans-serif;
@@ -508,6 +522,7 @@ kbd { font-weight: bold }
 
 /* Sortable columns in tables */
 .sortable {
+	border: 1px solid black;
 	font-size: 0.9em;
 	line-height: normal;
 }
@@ -519,7 +534,7 @@ kbd { font-weight: bold }
 	white-space: nowrap;
 	vertical-align: top;
 }
-.sortable a:link, .sortable a:visited, .sortable span {
+.sortable th a:link, .sortable th a:visited, .sortable th span {
 	font-family: Verdana, sans-serif;
 	display: block;
 	text-decoration: none;
@@ -534,17 +549,8 @@ kbd { font-weight: bold }
 	background: #E0E0E0;
 }
 
-tr.even td {
+.sortable tbody tr.even td {
 	background-color: #cbdcdc;
-}
-.sortable th.notsorted {
-	font-family: Verdana, sans-serif;
-	border: 2px outset #999;
-	text-decoration: none;
-	font-weight: bold;
-	color: black;
-	padding: 1px 0.8em;
-	font-size: 1.0em;
 }
 /*
  * Popups don't have left or right columns. Instead we
