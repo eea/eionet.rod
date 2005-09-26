@@ -111,18 +111,18 @@
 
 	<br/>
 	 
-<TABLE style="BORDER: #008080 1px solid" cellspacing="0" cellpadding="0" width="700" border="0">
+<TABLE style="border: #008080 1px solid" cellspacing="0" cellpadding="0" width="700" border="0">
 <TR>
-	<th width="20%" style="BORDER-TOP: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
+	<th width="20%" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
 			<SPAN title="Indicator number" class="headsmall"><B><FONT size="1">&#160;Title</FONT></B></SPAN>
 	</th>
-	<th width="20%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
+	<th width="20%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
 			<SPAN class="headsmall"><B><FONT title="Indicator title" size="1">&#160;Number</FONT></B></SPAN>
 	</th>
-	<th width="40%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
+	<th width="40%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
 			<SPAN class="headsmall"><B><FONT title="Indicator URL" size="1">&#160;URL</FONT></B></SPAN>
 	</th>
-	<th width="20%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
+	<th width="20%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
 			<SPAN class="headsmall"><B><FONT title="Indicator owner organisation" size="1">&#160;Owner</FONT></B></SPAN>
 	</th>
 </TR>
@@ -133,13 +133,13 @@
 				<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
 		</xsl:attribute>
 
-	<TD style="BORDER-TOP: #c0c0c0 1px solid"  vAlign="top">
+	<TD style="border-top: #c0c0c0 1px solid"  vAlign="top">
 		<xsl:value-of select="T_INDICATOR/TITLE"/>&#160;
 	</TD>
-	<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-TOP: #c0c0c0 1px solid" vAlign="top">
+	<TD style="border-left: #c0c0c0 1px solid; border-top: #c0c0c0 1px solid" vAlign="top">
 		<xsl:value-of select="T_INDICATOR/NUMBER"/>&#160;
 	</TD>
-	<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-TOP: #c0c0c0 1px solid"  vAlign="top">
+	<TD style="border-left: #c0c0c0 1px solid; border-top: #c0c0c0 1px solid"  vAlign="top">
 		<xsl:if test="T_INDICATOR/URL!=''">
 			<a target="_blank">
 				<xsl:attribute name="href"><xsl:value-of select="T_INDICATOR/URL"/></xsl:attribute>
@@ -147,7 +147,7 @@
 			</a>
 		</xsl:if>
 	</TD>
-	<TD style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-TOP: #c0c0c0 1px solid" valign="left">
+	<TD style="border-left: #c0c0c0 1px solid; border-top: #c0c0c0 1px solid" valign="left">
 		<xsl:value-of select="T_INDICATOR/OWNER"/>&#160;	</TD>
 </TR>
 </xsl:for-each>

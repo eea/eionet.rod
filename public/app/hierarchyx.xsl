@@ -30,12 +30,7 @@
 		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
 	</xsl:variable>
 
-	<xsl:template match="XmlData">
-		<xsl:apply-templates select="RowSet[@Name='Source hierarchy']"/>
-	</xsl:template>
-
-	<xsl:template match="RowSet[@Name='Source hierarchy']/Row">
-	<!-- context bar -->
+<xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
@@ -48,7 +43,13 @@
  <div class="breadcrumbitemlast">Hierarchy</div>
  <div class="breadcrumbtail">&#160;</div>
 </div>
+</xsl:template>
 
+	<xsl:template match="XmlData">
+		<xsl:apply-templates select="RowSet[@Name='Source hierarchy']"/>
+	</xsl:template>
+
+	<xsl:template match="RowSet[@Name='Source hierarchy']/Row">
 		<!-- page -->
 		<div id="workarea">
 		<!-- page title -->

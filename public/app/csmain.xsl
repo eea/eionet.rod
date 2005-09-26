@@ -36,6 +36,18 @@
 		<xsl:value-of select="//RowSet[@Name='Main']/@Sort_order" />
 	</xsl:variable>
 
+<!-- Called to show breadcrumbs -->
+<xsl:template name="breadcrumbs">
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ <div class="breadcrumbitem"><a href="deliveries.jsv">Deadlines</a></div>
+ <div class="breadcrumbitemlast">Country</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+</xsl:template>
+
 <xsl:template match="XmlData">
 
 <script type="text/javascript">
@@ -53,16 +65,6 @@
 
 				
 </script>
-
-
-<div class="breadcrumbtrail">
- <div class="breadcrumbhead">You are here:</div>
- <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
- <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
- <div class="breadcrumbitem"><a href="deliveries.jsv">Deadlines</a></div>
- <div class="breadcrumbitemlast">Country</div>
- <div class="breadcrumbtail">&#160;</div>
-</div>
 
 	<!-- main -->
 
@@ -170,10 +172,10 @@
 		</form>
 	<xsl:variable name="recCount"><xsl:value-of select="count(child::RowSet[@Name='Main']/Row/T_OBLIGATION)"/></xsl:variable>
 	<div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div>	<br/>
-<table width="100%">
+<table width="100%" class="sortable">
 	<xsl:if test="count(child::RowSet[@Name='Main']/Row)!=0">
 	<thead>
-		<tr class="sortable">
+		<tr>
 		
 			<xsl:call-template name="createSortable">
 				<xsl:with-param name="title" select="'Title of the reporting obligation'"/>
@@ -215,7 +217,7 @@
 				<xsl:with-param name="cur_sorted" select="$sortorder"/>
 			</xsl:call-template>
 	<!-- empty td -->
-		<!--th scope="col" class="notsorted" title="Show deliveries in the repository" width="8%">Deliveries</th-->
+		<!--th scope="col" title="Show deliveries in the repository" width="8%"><span>Deliveries</span></th-->
 		<xsl:call-template name="createSortable">
 			<xsl:with-param name="title" select="'Show deliveries in the repository'"/>
 			<xsl:with-param name="text" select="'Deliveries'"/>

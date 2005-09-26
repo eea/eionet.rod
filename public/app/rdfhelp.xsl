@@ -25,8 +25,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="ncommon.xsl"/>
 
-	<xsl:template match="XmlData">
-
+<xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
@@ -35,7 +34,9 @@
  <div class="breadcrumbitemlast">Data extraction</div>
  <div class="breadcrumbtail">&#160;</div>
 </div>
+</xsl:template>
 
+	<xsl:template match="XmlData">
 		<div id="workarea">
 		<h1>XML and Data Extraction Help</h1>
 		<xsl:value-of select="//HLP_AREA[AREA_ID='RSSHelp']/HTML" disable-output-escaping="yes"/>

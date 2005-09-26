@@ -12,6 +12,16 @@
 	</xsl:variable>
 
 
+<xsl:template name="breadcrumbs">
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ <div class="breadcrumbitemlast">Deadlines</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+</xsl:template>
+
 <xsl:template match="XmlData">
 
 <script type="text/javascript">
@@ -29,21 +39,13 @@ var picklist = new Array();
 </script>
 
 
-<div class="breadcrumbtrail">
- <div class="breadcrumbhead">You are here:</div>
- <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
- <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
- <div class="breadcrumbitemlast">Deadlines</div>
- <div class="breadcrumbtail">&#160;</div>
-</div>
-
-<div id="workarea" style="width:600px">
+<div id="workarea" style="max-width:800px">
 <form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form>
 
 <div style="float:right">
 <table>
 	<tr>
-		<td align="right"><a href="cssearch"><img border="0" src="images/but_advancedsearch.jpg" alt=""/></a><br/><br/></td>
+		<td align="right"><a href="cssearch"><img border="0" src="images/but_advancedsearch.jpg" alt=""/></a></td>
 	</tr>
 <xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
 	<tr>
@@ -53,6 +55,8 @@ var picklist = new Array();
 				<xsl:attribute name="style">border: #000000 1px solid;</xsl:attribute>
 				<b><font color="#FFFFFF">Actions</font></b><br/><br/>
 			</xsl:if>
+			<br/>
+			<br/>
 			<img alt="Harvest Reportnet meta-information" border="0" src="images/bb_harvest.png" onclick="javascript:openHarvester()"></img>
 			<br/><br/>
 		</td>
@@ -72,27 +76,28 @@ of ROD and CDR by using the advanced search.
 
 
 <xsl:variable name="noOfCountries"><xsl:value-of select="count(child::RowSet[@Name='Members']/Row/T_SPATIAL)"/></xsl:variable>
-<table cellspacing="0">
+<table cellspacing="0" style="min-width: 600px; max-width: 900px">
+<colgroup span="3" width="33%"/>
 <tr valign="top">
 	<th align="left" colspan="3"><b>EEA member countries </b></th>
 </tr>
 <tr>
 
-<td bgcolor="#FFFFFF" style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" width="200" valign="top">
+<td bgcolor="#FFFFFF" style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
 <xsl:for-each select="RowSet[@Name='Members']/Row/T_SPATIAL">
 	<xsl:if test="position() &lt; $noOfCountries div 3">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
-<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" width="200" valign="top">
+<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
 <xsl:for-each select="RowSet[@Name='Members']/Row/T_SPATIAL">
 	<xsl:if test="position() &gt;= $noOfCountries div 3 and position() &lt; ($noOfCountries div 3) * 2">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
-<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" width="200" valign="top">
+<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="top">
 	<xsl:for-each select="RowSet[@Name='Members']/Row/T_SPATIAL">
 		<xsl:if test="position() &gt;= ($noOfCountries div 3) * 2">
 			<xsl:call-template name="COUNTRYNAME"/>
@@ -107,21 +112,21 @@ of ROD and CDR by using the advanced search.
 	<th colspan="3" align="left"><b>Other countries </b></th>
 </tr>
 <tr>
-<td bgcolor="#FFFFFF" style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" width="200" valign="top">
+<td bgcolor="#FFFFFF" style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
 <xsl:for-each select="RowSet[@Name='NonMembers']/Row/T_SPATIAL">
 	<xsl:if test="position() &lt; $noOfNMCountries div 3">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
-<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" width="200" valign="top">
+<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
 <xsl:for-each select="RowSet[@Name='NonMembers']/Row/T_SPATIAL">
 	<xsl:if test="position() &gt;= $noOfNMCountries div 3 and position() &lt; ($noOfNMCountries div 3) * 2">
 		<xsl:call-template name="COUNTRYNAME"/>
 	</xsl:if>
 </xsl:for-each>
 </td>
-<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" width="200" valign="top">
+<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="top">
 <xsl:for-each select="RowSet[@Name='NonMembers']/Row/T_SPATIAL">
 	<xsl:if test="position() &gt;= ($noOfNMCountries div 3) * 2">
 		<xsl:call-template name="COUNTRYNAME"/>
@@ -140,8 +145,8 @@ of ROD and CDR by using the advanced search.
 
 </xsl:template>
 <xsl:template name="COUNTRYNAME">
-	<img src="images/Folder_icon.gif"/>
-	<a><xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&#038;ORD=NEXT_REPORTING, NEXT_DEADLINE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
+	<img src="images/Folder_icon.gif" alt=""/>
+	<a><xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&#038;amp;ORD=NEXT_REPORTING, NEXT_DEADLINE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
 	<br/>
 </xsl:template>
 

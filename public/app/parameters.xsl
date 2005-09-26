@@ -9,9 +9,7 @@
 		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/PK_RA_ID"/>
 	</xsl:variable>
 
-
-<xsl:template match="XmlData">
-
+<xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
 	<div class="breadcrumbhead">You are here:</div>
 	<div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
@@ -22,6 +20,10 @@ Legislative instrument</a></div>
 	<div class="breadcrumbitemlast">Parameters</div>
 	<div class="breadcrumbtail">&#160;</div>
 </div>
+</xsl:template>
+
+
+<xsl:template match="XmlData">
 	<!-- page -->
 	<div id="workarea">
 

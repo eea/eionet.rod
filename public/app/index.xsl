@@ -25,16 +25,16 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="ncommon.xsl"/>
 
-	<xsl:template match="XmlData">
-	<!-- context bar -->
-
+<xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
  <div class="breadcrumbitemlast">ROD</div>
  <div class="breadcrumbtail">&#160;</div>
 </div>
+</xsl:template>
 
+	<xsl:template match="XmlData">
 		<!-- page -->
 <div id="workarea">
 		<xsl:value-of select="//HLP_AREA[AREA_ID='Two_boxes']/HTML" disable-output-escaping="yes"/>
@@ -47,15 +47,19 @@
 
 <!-- SiteSearch Google -->
 <br/>
-<form method="get" action="http://www.google.com/search">
+<form method="get" action="http://search.eionet.eu.int/search">
+	<input type="hidden" name="client" value="Eionet" />
+	<input type="hidden" name="site" value="Eionet" />
 	<input type="hidden" name="ie" value="UTF-8"/>
-	<input type="hidden" name="oe" value="UTF-8"/>
+	<input type="hidden" name="oe" value="UTF-8" />
+	<input type="hidden" name="output" value="xml_no_dtd" />
+	<input type="hidden" name="proxystylesheet" value="Eionet" />
 		<table width="600" style="border: 1px solid #006666">
 		<tr>
 			<td valign="middle" width="42%">
-				<b>Search ROD website with Google:</b>
-				<input type="hidden" name="domains" value="rod.eionet.eu.int"/><br/>
-				<input type="hidden" name="sitesearch" value="rod.eionet.eu.int" checked="checked"/>
+				<b>Search ROD website:</b>
+				<input type="hidden" name="domains" value="rod.eionet.eu.int"/>
+				<input type="hidden" name="as_sitesearch" value="rod.eionet.eu.int"/>
 			</td>
 			<td valign="middle">
 				<input type="text" name="q" size="44" maxlength="255" value=""/>&#160;

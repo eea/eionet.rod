@@ -68,13 +68,13 @@
 <br/>
 <table width="680" cellspacing="0" border="0">
 	<tr>
-		<TD width="30%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+		<TD width="30%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" 
 						vAlign="center" bgColor="#ffffff" align="left">
 					<span class="headsmall"><font title="Reporting country" face="Verdana" color="#000000" size="1">Country</font></span></TD>
-		<TD width="25%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid" 
+		<TD width="25%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" 
 						vAlign="center" bgColor="#ffffff" align="left">
 				<span class="headsmall"><font title="Status" face="Verdana" color="#000000" size="1">Status</font></span></TD>
-		<TD width="45%"  style="BORDER-TOP: #008080 1px solid; BORDER-LEFT: #008080 1px solid; BORDER-BOTTOM: #008080 1px solid; BORDER-RIGHT: #008080 1px solid;"
+		<TD width="45%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid;"
 						vAlign="center" bgColor="#ffffff" align="left">
 				<span class="head0"><font title="Period when the country participated in reporting" face="Verdana" color="#000000" size="1">Participation period</font></span></TD>
 	</tr>
@@ -84,13 +84,13 @@
 		<xsl:attribute name="bgColor">
 				<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
 		</xsl:attribute>
-<td style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" 
+<td style="border-left: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" 
        vAlign="top"><SPAN class="Mainfont">
 			 <FONT face="Verdana" size="2">
 	<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
 		</FONT></SPAN>
 </td>
-<td style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" 
+<td style="border-left: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" 
        vAlign="top"><SPAN class="Mainfont">
 			 <FONT face="Verdana" size="2">
 	<xsl:choose>
@@ -103,7 +103,7 @@
 	</xsl:choose>
 		</FONT></SPAN>
 </td>
-<td style="BORDER-LEFT: #c0c0c0 1px solid; BORDER-RIGHT: #c0c0c0 1px solid; BORDER-BOTTOM: #c0c0c0 1px solid" 
+<td style="border-left: #c0c0c0 1px solid; border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" 
        vAlign="top"><SPAN class="Mainfont">
 			 <FONT face="Verdana" size="2">
 	<xsl:choose>

@@ -52,13 +52,26 @@
 			<!-- MAIN table -->
 
 <div id="pagehead">
+<form method="get" action="http://search.eionet.eu.int/search">
+<input name="q" type="text" size="10" value="Search Eionet"
+ title="Search Eionet sites"
+ onblur="if(this.value=='')this.value='Search Eionet';"
+ onfocus="if(this.value=='Search Eionet')this.value='';" />
+<!-- <input type="image" alt="Go and Search" src="/styles/searchimg.gif" /> -->
+<input type="hidden" name="client" value="Eionet" />
+<input type="hidden" name="site" value="Eionet" />
+<input type="hidden" name="ie" value="ISO-8859-1" />
+<input type="hidden" name="oe" value="UTF-8" />
+<input type="hidden" name="output" value="xml_no_dtd" />
+<input type="hidden" name="proxystylesheet" value="Eionet" />
+</form>
  <div id="identification">
   <a href="/" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a>
 								<div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
 								<div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
  </div>
 
-
+<xsl:call-template name="breadcrumbs"/>
 </div> <!-- page head -->
 
 					<xsl:call-template name="LeftToolbar">
@@ -95,10 +108,10 @@
 		<link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
 		<link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
-		<link rel="alternate" type="application/rdf+xml" title="All Obligations" href="/obligations"/>
-		<link rel="alternate" type="application/rdf+xml" title="All Localities" href="/countries"/>
-		<link rel="alternate" type="application/rdf+xml" title="All Legal instruments" href="/instruments"/>
-		<link rel="alternate" type="application/rss+xml" title="Obligation deadlines" href="/events.rss"/>
+		<link rel="alternate" type="application/rdf+xml" title="All Obligations" href="http://rod.eionet.eu.int/obligations"/>
+		<link rel="alternate" type="application/rdf+xml" title="All Localities" href="http://rod.eionet.eu.int/countries"/>
+		<link rel="alternate" type="application/rdf+xml" title="All Legal instruments" href="http://rod.eionet.eu.int/instruments"/>
+		<link rel="alternate" type="application/rss+xml" title="Obligation deadlines" href="http://rod.eionet.eu.int/events.rss"/>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<script type="text/javascript" src="script/util.js"></script>
 		<script type="text/javascript">

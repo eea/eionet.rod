@@ -25,9 +25,7 @@
 		<xsl:value-of select="/XmlData/RowSet[@Name='RA']/Row/T_OBLIGATION/FK_SOURCE_ID"/>
 	</xsl:variable>
 
-
-<xsl:template match="XmlData">
-<!--html lang="en"-->
+<xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
@@ -48,7 +46,9 @@ Legislative instrument</a></div>
 	<div class="breadcrumbitemlast">Deliveries</div>
 	 <div class="breadcrumbtail">&#160;</div>
 </div>
+</xsl:template>
 
+<xsl:template match="XmlData">
 	<!-- page -->
 	<div id="workarea">
 	<!-- header -->
@@ -140,9 +140,9 @@ Legislative instrument</a></div>
 
 
 <!-- oneCountry=0 one country, one country = 1 all countries -->
-<table width="100%">
+<table width="100%" class="sortable">
 	<thead>
-		<tr class="sortable">
+		<tr>
 		<!-- contact -->
 			<xsl:call-template name="createSortable">
 				<xsl:with-param name="title" select="'Responsible persons'"/>

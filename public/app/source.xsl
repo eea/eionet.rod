@@ -34,6 +34,16 @@
 		<xsl:value-of select="/XmlData/RowSet[@Name='Source']/@permissions"/>
 	</xsl:variable>
 
+<xsl:template name="breadcrumbs">
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ <div class="breadcrumbitemlast">Legislative instrument</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+</xsl:template>
+
 	<xsl:template match="XmlData">
 		<xsl:apply-templates select="RowSet[@Name='Source']"/>
 			<xsl:call-template name="LIRORAFooter">
@@ -59,15 +69,6 @@ function delLegislation() {
 				</input>
 			</form>
 		</xsl:if>
-
-<div class="breadcrumbtrail">
- <div class="breadcrumbhead">You are here:</div>
- <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
- <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
- <div class="breadcrumbitemlast">Legislative instrument</div>
- <div class="breadcrumbtail">&#160;</div>
-</div>
-
 
 		<!-- page -->
 		<div id="workarea">

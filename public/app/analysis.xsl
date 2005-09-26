@@ -33,7 +33,7 @@
 		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
 	</xsl:variable>
 
-	<xsl:template match="XmlData">
+<xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
@@ -41,6 +41,9 @@
  <div class="breadcrumbitemlast">Analysis</div>
  <div class="breadcrumbtail">&#160;</div>
 </div>
+</xsl:template>
+
+	<xsl:template match="XmlData">
 		<div id="workarea">
 			<h1>Database Content Statistics</h1>
 

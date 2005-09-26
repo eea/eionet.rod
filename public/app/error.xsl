@@ -26,15 +26,17 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:include href="ncommon.xsl"/>
 
-	<xsl:template match="XmlData">
-	<div class="breadcrumbtrail">
-	 <div class="breadcrumbhead">You are here:</div>
-	 <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
-	 <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
-	 <div class="breadcrumbitemlast">Problem</div>
-	 <div class="breadcrumbtail">&#160;</div>
-	</div>
+<xsl:template name="breadcrumbs">
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ <div class="breadcrumbitemlast">Problem</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+</xsl:template>
 
+	<xsl:template match="XmlData">
 	<div id="workarea">
 	<h1>Problem</h1>
 	<table cellspacing="7pts" width="600">

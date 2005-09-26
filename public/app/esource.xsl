@@ -30,16 +30,17 @@
 		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
 	</xsl:variable>
 
-	<xsl:template match="XmlData">
-        <!-- context bar -->
+<xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
-<div class="breadcrumbitemlast">Legislative instrument</div>
+ <div class="breadcrumbitemlast">Legislative instrument</div>
  <div class="breadcrumbtail">&#160;</div>
 </div>
+</xsl:template>
 
+	<xsl:template match="XmlData">
         <!-- page -->
         <div id="workarea">
 

@@ -56,6 +56,18 @@
 		</xsl:call-template>
 	</xsl:template>
 
+<xsl:template name="breadcrumbs">
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;mode=S</xsl:attribute>
+Legislative instrument</a></div>
+ <div class="breadcrumbitemlast">Reporting obligation</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
+</xsl:template>
+
 	<xsl:template match="RowSet[@Name='Activity']/Row">
 		<!-- form for delete activity action -->
 		<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
@@ -76,18 +88,7 @@
 					<xsl:attribute name="value"><xsl:value-of select="$src-id"/></xsl:attribute>
 				</input>
 			</form>
-		</xsl:if>
-
-		<!-- navigation bar -->
-<div class="breadcrumbtrail">
- <div class="breadcrumbhead">You are here:</div>
- <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
- <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
- <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;mode=S</xsl:attribute>
-Legislative instrument</a></div>
- <div class="breadcrumbitemlast">Reporting obligation</div>
- <div class="breadcrumbtail">&#160;</div>
-</div>
+	</xsl:if>
 
 		<div id="workarea">
 			<table width="150" style="float:right" class="notprintable" border="0">

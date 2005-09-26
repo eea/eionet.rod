@@ -78,15 +78,7 @@
 		<xsl:value-of select="//RowSet[@Name='Search results']/@Sort_order" />
 	</xsl:variable>
 
-	<xsl:template match="XmlData">
-	<script lang="Javascript">
-	function setOrder(fld) {
-		changeParamInString(document.URL,'ORD',fld)
-		//alert(fld);
-	}
-	</script>
-
-	<!-- context bar -->
+<xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
@@ -101,7 +93,15 @@
 	</xsl:choose>
  <div class="breadcrumbtail">&#160;</div>
 </div>
+</xsl:template>
 
+	<xsl:template match="XmlData">
+	<script lang="Javascript">
+	function setOrder(fld) {
+		changeParamInString(document.URL,'ORD',fld)
+		//alert(fld);
+	}
+	</script>
 	<!-- page -->
 	<div id="workarea">
 		<div id="operations">
@@ -110,7 +110,7 @@
 				<td align="center">
 				<xsl:if test="$admin='true'">
 					<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
-					<xsl:attribute name="style">BORDER: #000000 1px solid;</xsl:attribute>
+					<xsl:attribute name="style">border: #000000 1px solid;</xsl:attribute>
 					<b><font color="#FFFFFF">Actions</font></b><br/><br/>
 				</xsl:if>
 
@@ -167,9 +167,9 @@
 		<div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div><br/>
 
 		<!-- header -->
-		<table width="100%">
+		<table width="100%" class="sortable">
 			<thead>
-				<tr class="sortable">
+				<tr>
 				<xsl:if test="$rora='A'">
 					<xsl:call-template name="createSortable">
 						<xsl:with-param name="title" select="'Title of the reporting obligation'"/>
@@ -202,7 +202,7 @@
 					<xsl:with-param name="cur_sorted" select="$sortorder"/>
 				</xsl:call-template>
 				<xsl:if test="$analysisMode='P'">
-					<th scope="col" class="notsorted" title="Show deliveries in the repository" width="8%">Deliveries</th>
+					<th scope="col" title="Show deliveries in the repository" width="8%"><span>Deliveries</span></th>
 				</xsl:if>
 				</tr>
 			</thead>
