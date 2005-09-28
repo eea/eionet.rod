@@ -3,6 +3,10 @@
 	height: 80px;
 }
 
+#pagehead form {
+	display:none;
+}
+
 #logo {
 	float:right
 }
