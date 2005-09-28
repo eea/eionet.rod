@@ -99,26 +99,30 @@ h4, h5, h6 {
 }
 
 table {
-	empty-cells: show;
+	border-top: 1px dotted black;
+	border-left: 1px dotted black;
 }
 
-td {
+th, td {
 	font-family: Avenir, Helvetica, sans-serif; 
-	font-size: 10pt; 
-	font-style: normal; 
-	line-height: normal; 
-	text-decoration: none;
-}
-
-th {
 	color: black;
-	font-family: Avenir, Helvetica, sans-serif; 
 	font-size: 10pt; 
 	font-style: normal; 
-	font-weight: bold; 
 	line-height: normal; 
 	text-decoration: none;
+	empty-cells: show;
 	text-align: left;
+}
+
+.sortable td {
+	border-bottom: 1px dotted black;
+	border-right: 1px dotted black;
+}
+
+.sortable th {
+	font-weight: bold; 
+	border-bottom: 1px dotted black;
+	border-right: 1px dotted black;
 /*
 	vertical-align: top;
  */
