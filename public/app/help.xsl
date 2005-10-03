@@ -58,7 +58,7 @@
 
 				</script>
 			</head>
-			<body onLoad="setFocus('helpForm')">
+			<body onload="setFocus('helpForm')">
 				<center>
 					<h3>Edit Help Text</h3>
 					<form name="helpForm" method="post" action="help.jsv">

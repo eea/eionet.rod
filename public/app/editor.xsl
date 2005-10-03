@@ -35,8 +35,8 @@
 			<head>
 				<title><xsl:call-template name="PageTitle"/></title>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-				<meta http-equiv="Cache-Control" CONTENT="no-cache"/>
-				<meta http-equiv="Expires" CONTENT="Tue, 01 Jan 1980 00:00:00 GMT"/>
+				<meta http-equiv="Cache-Control" content="no-cache"/>
+				<meta http-equiv="Expires" content="Tue, 01 Jan 1980 00:00:00 GMT"/>
 				<link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen"/>
 				<link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
 				<link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
@@ -745,7 +745,7 @@ function checkAndSave(first, freq, next, textrep, to, terminate, client) {
 					]]>
 			</script>
 		</head>
-		<body onUnload="checkStatus()">
+		<body onunload="checkStatus()">
         <div id="pagehead">
             <div id="identification">
                 <a href="/" target="_blank" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a>

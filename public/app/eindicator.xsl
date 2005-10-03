@@ -43,7 +43,7 @@
 </head>
 
 
-<body bgcolor="#F7F3F7" text="#000000" link="#004D7B" vlink="#808080" alink="#006666" onLoad="check()" onUnload="window.opener.document.location.reload(true)">
+<body bgcolor="#F7F3F7" text="#000000" link="#004D7B" vlink="#808080" alink="#006666" onload="check()" onunload="window.opener.document.location.reload(true)">
 	<p><b><font face="Verdana" color="#006666" size="4">Add or edit indicator</font></b></p>
 	<form name="f" method="POST" action="indicator.jsv">		
 		<input type="hidden" name="dom-update-mode">

@@ -138,75 +138,60 @@ function submitSearchForm() {
 	 <div id="workarea">
 		<h1>Advanced search</h1>
 		<form name="x1" method="get" action="csmain">
-		<table  width="600" cellspacing="0" cellpadding="2" style="border: 1px solid #008080">
-				 <tr height="25" style="border-bottom:1px solid #006666">
-						<td width="34%" bgcolor="#FFFFFF"  style="border-bottom:1px solid #008080; border-right:1px solid #C0C0C0">
+		<table cellspacing="0" cellpadding="2" style="border: 1px solid #008080">
+				 <tr>
+						<td colspan="2" width="94%" bgcolor="#FFFFFF"  style="border-bottom:1px solid #008080; border-right:1px solid #C0C0C0">
+							<span style="float:right">
+							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSINDEX_SEARCH</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
+							</span>
 							<b>Show reporting deadlines</b>
 						</td>
-						<td width="60%" bgcolor="#FFFFFF" style="border-bottom:1px solid #008080; border-right:1px solid #C0C0C0">
-							<b>For a country</b>
-						</td>
-						<td bgcolor="#FFFFFF" align="center" style="border-bottom:1px solid #008080">
-							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSINDEX_SEARCH</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
-						</td>
 				</tr>
 				<tr>
-           <td rowspan="10" valign="top" style="border-right:1px solid #C0C0C0">
-							&#160;
-           </td>
-            <td style="border-bottom: 1px solid #C0C0C0">
-										<select name="COUNTRY_ID" style="color: #000000; font-size: 9pt; width:223" size="1">
-											<option value="">Any country</option>
-											<xsl:call-template name="SpatialTemplate2">
-												<xsl:with-param name ="type">C</xsl:with-param>
-												<xsl:with-param name ="type2"></xsl:with-param>
-											</xsl:call-template>
-                    </select>
-						</td>
-						<td rowspan="10" valign="center" align="center" style="border-left:1px solid #C0C0C0">
-							<xsl:call-template name="go"/>
-						</td>
-				</tr>
-				<tr>
-					<td style="border-bottom: 1px solid #C0C0C0">&#160;</td>
-				</tr>
-				<tr>
-					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0"><b>For an issue</b>	</td>
-				</tr>
-				<tr>
+					<td width="30%" bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0;border-right:1px solid #C0C0C0">
+						<label for="countryid" style="font-weight:bold">For a country</label>
+					</td>
 					<td style="border-bottom: 1px solid #C0C0C0">
-						<select name="ISSUE_ID" style="font-size: 9pt; color: #000000; width:223">
+						<select id="countryid" name="COUNTRY_ID" style="color: #000000; font-size: 9pt; width:223" size="1">
+							<option value="">Any country</option>
+							<xsl:call-template name="SpatialTemplate2">
+								<xsl:with-param name ="type">C</xsl:with-param>
+								<xsl:with-param name ="type2"></xsl:with-param>
+							</xsl:call-template>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0;border-right:1px solid #C0C0C0"><label for="issueid" style="font-weight:bold">For an issue</label>
+					</td>
+					<td style="border-bottom: 1px solid #C0C0C0">
+						<select id="issueid" name="ISSUE_ID" style="font-size: 9pt; color: #000000; width:223">
 								<option value="">All issues</option>
 								<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td style="border-bottom: 1px solid #C0C0C0">&#160;</td>
-				</tr>
-				<tr>
-					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0"><b>For an organisation</b>	</td>
-				</tr>
-				<tr>
+					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0;border-right:1px solid #C0C0C0"><label for="clientid" style="font-weight:bold">For an organisation</label>	</td>
 					<td style="border-bottom: 1px solid #C0C0C0">
-						<select name="CLIENT_ID" style="font-size: 9pt; color: #000000; width:350">
+						<select id="clientid" name="CLIENT_ID" style="font-size: 9pt; color: #000000; width:350">
 								<option value="">Any organisation</option>
 								<xsl:apply-templates select="RowSet[@Name='Client']"/>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td style="border-bottom: 1px solid #C0C0C0">&#160;</td>
-				</tr>
-				<tr>
-					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0"><b>Next deadline</b></td>
-				</tr>
-				<tr>
-					<td align="left" style="border-left: 1px solid #C0C0C0" >
-										<span class="Mainfont"><input type="text" style="color: #000000; font-size: 10pt;" name="DATE_1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/><b> -</b></span>
-										<span class="Mainfont"><font size="1"><input type="text" style="color: #000000; font-size: 10pt;" name="DATE_2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/></font></span>
+					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0;border-right:1px solid #C0C0C0"><label for="date1" style="font-weight:bold">Next deadline</label></td>
+					<td align="left" style="border-bottom: 1px solid #C0C0C0" >
+						<input type="text" style="color: #000000; font-size: 10pt;" name="DATE_1" id="date1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/><label for="date2" title="to" style="font-weight:bold"> -</label>
+						<input type="text" style="color: #000000; font-size: 10pt;" name="DATE_2" id="date2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
 						</td>
-					</tr>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<xsl:call-template name="go"/>
+					</td>
+				</tr>
 		</table>
 		</form>
 		<div style="margin-left:20">

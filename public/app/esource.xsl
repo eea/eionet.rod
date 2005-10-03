@@ -189,7 +189,7 @@
 														<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>
 													</xsl:attribute>
 													<xsl:if test="T_CLIENT/PK_CLIENT_ID = $selIssuer">
-														<xsl:attribute name="selected">true</xsl:attribute>
+														<xsl:attribute name="selected">selected</xsl:attribute>
 													</xsl:if>
 													<xsl:attribute name="url"><xsl:value-of select="T_CLIENT/CLIENT_URL"/></xsl:attribute>
 													<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
@@ -365,7 +365,7 @@
         	      		<span class="head0">Conventions</span>
         	      	</td>
                	<td width="57%" valign="middle" colspan="3" bgcolor="#B7DBDB" height="40">
-               		<hr noshade="true" color="#006666"/>
+               		<hr noshade="noshade" color="#006666"/>
                	</td>
                </tr>
 			      <tr>
@@ -433,7 +433,7 @@
         	      		<span class="head0">Record management</span>
         	      	</td>
                	<td width="57%" valign="middle" colspan="3" bgcolor="#B7DBDB" height="40">
-               		<hr noshade="true" color="#006666"/>
+               		<hr noshade="noshade" color="#006666"/>
                	</td>
                </tr>
 			      <tr bgcolor="#FFFFFF">
@@ -572,7 +572,7 @@ compField("legislation title", document.f.elements["/XmlData/RowSet[@Name='Sourc
 	</xsl:template> 
 	
 	<xsl:template match="SubSet[@Name='LnkParent']">
-		<select multiple="true" size="4" style="width:240">
+		<select multiple="multiple" size="4" style="width:240">
 			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='LnkParent']/@XPath"/>/Row/T_SOURCE_LNK/FK_SOURCE_PARENT_ID</xsl:attribute>
 			<xsl:for-each select="Row">
 				<option><xsl:attribute name="value"><xsl:value-of select="T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/></xsl:attribute>
@@ -585,7 +585,7 @@ compField("legislation title", document.f.elements["/XmlData/RowSet[@Name='Sourc
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='SOURCE_CLASS']">
-		<select multiple="true" size="4" name="parent_list" style="width:240">
+		<select multiple="multiple" size="4" name="parent_list" style="width:240">
 			<xsl:for-each select="T_SOURCE_CLASS">
 				<option><xsl:attribute name="value"><xsl:value-of select="PK_CLASS_ID"/></xsl:attribute>
 				<xsl:if test="string-length(CLASSIFICATOR)>0">
@@ -611,7 +611,7 @@ compField("legislation title", document.f.elements["/XmlData/RowSet[@Name='Sourc
 			<option>
 				<xsl:attribute name="value"><xsl:value-of select="C_VALUE"/></xsl:attribute>
 				<xsl:if test="C_VALUE=//RowSet/Row/T_SOURCE/DRAFT">
-					<xsl:attribute name="selected">true</xsl:attribute>
+					<xsl:attribute name="selected">selected</xsl:attribute>
 				</xsl:if>
 				<xsl:value-of select="C_TERM"/>
 			</option>
@@ -624,7 +624,7 @@ compField("legislation title", document.f.elements["/XmlData/RowSet[@Name='Sourc
 			<option>
 				<xsl:attribute name="value"><xsl:value-of select="C_VALUE"/></xsl:attribute>
 				<xsl:if test="C_VALUE=//RowSet/Row/T_SOURCE/DGENV_REVIEW">
-					<xsl:attribute name="selected">true</xsl:attribute>
+					<xsl:attribute name="selected">selected</xsl:attribute>
 				</xsl:if>
 				<xsl:value-of select="C_TERM"/>
 			</option>

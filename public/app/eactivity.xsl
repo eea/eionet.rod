@@ -173,7 +173,7 @@
 							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Next due date</span></td>
 							<td style="border-right: 1px solid #C0C0C0"><xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_NEXTDUEDATE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 							<td>
-								<input type="text" size="30" onchange="changed()" disabled="true">
+								<input type="text" size="30" onchange="changed()" disabled="disabled">
 									<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/NEXT_DEADLINE/@XPath"/></xsl:attribute>
 									<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/NEXT_DEADLINE"/></xsl:attribute>
 								</input><span class="smallfont">&#160;(calculated automatically)</span>
@@ -225,7 +225,7 @@
 													<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>
 												</xsl:attribute>
 												<xsl:if test="T_CLIENT/PK_CLIENT_ID = $selClient">
-													<xsl:attribute name="selected">true</xsl:attribute>
+													<xsl:attribute name="selected">selected</xsl:attribute>
 												</xsl:if>
 												<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
 												<!--xsl:choose>
@@ -578,7 +578,7 @@
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RO_INFOTYPE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 							</td>
 							<td>
-								<select name="info_lnk" multiple="true" width="180" style="width:180">
+								<select name="info_lnk" multiple="multiple" width="180" style="width:180">
 									<xsl:attribute name="onchange">
 										var txt =document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkInfo']/Row/T_INFO_LNK/FK_INFO_IDS"];
 										changeMulti(txt, this);
@@ -849,7 +849,7 @@
 	</xsl:template> 
 	
 	<xsl:template match="SubSet[@Name='LnkIssue']">
-		<select multiple="true" size="9" style="width:240"  width="240">
+		<select multiple="multiple" size="9" style="width:240"  width="240">
 			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='LnkIssue']/@XPath"/>/Row/T_RAISSUE_LNK/FK_ISSUE_ID</xsl:attribute><xsl:for-each select="Row"><option>
 				<xsl:attribute name="value">
 					<xsl:value-of select="T_RAISSUE_LNK/FK_ISSUE_ID"/>
@@ -861,7 +861,7 @@
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='ISSUE']">
-		<select multiple="true" size="9" name="issue_list" style="width:240" width="240">
+		<select multiple="multiple" size="9" name="issue_list" style="width:240" width="240">
 			<xsl:for-each select="T_ISSUE">
 				<option><xsl:attribute name="value"><xsl:value-of select="PK_ISSUE_ID"/></xsl:attribute>
 				<xsl:value-of select="ISSUE_NAME"/></option>
@@ -870,7 +870,7 @@
 	</xsl:template>
 
 	<!--xsl:template match="SubSet[@Name='LnkPar']">
-		<select multiple="true" size="9" style="width:300"  width="300">
+		<select multiple="multiple" size="9" style="width:300"  width="300">
 			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='LnkPar']/@XPath"/>/Row/T_PARAMETER_LNK/FK_PARAMETER_ID</xsl:attribute><xsl:for-each select="Row"><option>
 				<xsl:attribute name="value">
 					<xsl:value-of select="T_PARAMETER_LNK/FK_PARAMETER_ID"/>:<xsl:value-of select="T_UNIT/PK_UNIT_ID"/></xsl:attribute>
@@ -911,7 +911,7 @@
 				multilist.push("<xsl:value-of select="PK_PARAMETER_ID"/>:<xsl:value-of select="PARAMETER_NAME"/>:<xsl:value-of select="FK_GROUP_ID"/>");
 			</xsl:for-each>	  
 		</script>
-		<select multiple="true" size="9" name="par_list" style="width:300" width="300">
+		<select multiple="multiple" size="9" name="par_list" style="width:300" width="300">
 			<xsl:for-each select="T_PARAMETER">
 				<option><xsl:attribute name="value"><xsl:value-of select="PK_PARAMETER_ID"/></xsl:attribute>
 				<xsl:value-of select="PARAMETER_NAME"/></option>
@@ -924,7 +924,7 @@
 
 
 	<xsl:template match="RowSet[@Name='Client']">
-		<select multiple="true" size="9" name="client_list" style="width:240" width="240">
+		<select multiple="multiple" size="9" name="client_list" style="width:240" width="240">
 			<xsl:for-each select="Row/T_CLIENT">
 				<option>
 					<xsl:attribute name="value">
@@ -937,7 +937,7 @@
 	</xsl:template>
 
 	<xsl:template match="SubSet[@Name='CCClients']">
-		<select multiple="true" size="9" style="width:240"  width="240">
+		<select multiple="multiple" size="9" style="width:240"  width="240">
 			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='CCClients']/@XPath"/>/Row/T_CLIENT_LNK/FK_CLIENT_ID</xsl:attribute>
 			<xsl:for-each select="Row">
 				<option>
@@ -962,7 +962,7 @@
 	</xsl:template-->
 
 	<xsl:template match="SubSet[@Name='VoluntaryCountries']">
-		<select multiple="true" size="9" style="width:240"  width="240">
+		<select multiple="multiple" size="9" style="width:240"  width="240">
 			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='VoluntaryCountries']/@XPath"/>/Row/T_RASPATIAL_LNK/FK_SPATIAL_ID</xsl:attribute>
 			<xsl:for-each select="Row">
 				<option>
@@ -1028,7 +1028,7 @@
 
 
 	<xsl:template match="SubSet[@Name='LnkSpatial']">
-		<select multiple="true" size="9" style="width:240"  width="240">
+		<select multiple="multiple" size="9" style="width:240"  width="240">
 			<xsl:attribute name="name"><xsl:value-of select="//SubSet[@Name='LnkSpatial']/@XPath"/>/Row/T_RASPATIAL_LNK/FK_SPATIAL_ID</xsl:attribute><xsl:for-each select="Row"><option>
 				<xsl:attribute name="value">
 					<xsl:value-of select="T_RASPATIAL_LNK/FK_SPATIAL_ID"/>
@@ -1048,7 +1048,7 @@
 
 
 	<xsl:template match="RowSet[@Name='CountryList']">
-		<select multiple="true" size="9" name="country_list" style="width:240" width="240">
+		<select multiple="multiple" size="9" name="country_list" style="width:240" width="240">
 			<xsl:for-each select="Row/T_SPATIAL">
 				<option>
 					<xsl:attribute name="value">
@@ -1061,7 +1061,7 @@
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='SpatialType']">
-		<select name="spatial_type" onchange="fillclist(this.options[this.selectedIndex].value,document.f.spatial_list);" style="visibility:hidden" disabled="true">
+		<select name="spatial_type" onchange="fillclist(this.options[this.selectedIndex].value,document.f.spatial_list);" style="visibility:hidden" disabled="disabled">
 			<xsl:for-each select="T_LOOKUP">
 				<option>
 					<xsl:attribute name="value">
@@ -1078,7 +1078,7 @@
 				clist.push("<xsl:value-of select="PK_SPATIAL_ID"/>:<xsl:value-of select="SPATIAL_NAME"/>:<xsl:value-of select="SPATIAL_TYPE"/>");
 			</xsl:for-each>	  
 		</script>
-		<select multiple="true" size="9" name="spatial_list" style="width:240" width="240">
+		<select multiple="multiple" size="9" name="spatial_list" style="width:240" width="240">
 			<xsl:for-each select="T_SPATIAL">
 				<option><xsl:attribute name="value"><xsl:value-of select="PK_SPATIAL_ID"/></xsl:attribute>
 				<xsl:value-of select="SPATIAL_NAME"/></option>
