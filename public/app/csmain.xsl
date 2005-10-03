@@ -115,7 +115,6 @@
 							<tr>
 								<td width="50%">&#160;</td>
 								<td>
-									<xsl:call-template name="Print"/>&#160;<br/>
 									<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_CSMAIN</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>&#160;<br/>
 									<a><xsl:attribute name="href">cssearch</xsl:attribute><img src="images/but_advancedsearch.jpg" alt="" border="0"/></a>
 								</td>
@@ -125,7 +124,7 @@
 			</tr>
 			<tr>
 				<td valign="center" style="border-left: #008080 1px solid; border-right: #C0C0C0 1px solid; border-bottom: #008080 1px solid">
-					<select style="font-size: 9pt; width: 240px; color: #000000; background-color: #ffffff"  size="1" name="ISSUE_ID" height="20">
+					<select style="font-size: 9pt; width: 240px; color: #000000; background-color: #ffffff"  size="1" name="ISSUE_ID">
 										<option value="0" selected="selected">All issues</option>
 										<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 					</select>

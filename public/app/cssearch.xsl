@@ -175,7 +175,7 @@ function submitSearchForm() {
 				</tr>
 				<tr>
 					<td style="border-bottom: 1px solid #C0C0C0">
-						<select name="ISSUE_ID" style="font-size: 9pt; color: #000000; width:223" height="20">
+						<select name="ISSUE_ID" style="font-size: 9pt; color: #000000; width:223">
 								<option value="">All issues</option>
 								<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 						</select>
@@ -189,7 +189,7 @@ function submitSearchForm() {
 				</tr>
 				<tr>
 					<td style="border-bottom: 1px solid #C0C0C0">
-						<select name="CLIENT_ID" style="font-size: 9pt; color: #000000; width:350" height="20">
+						<select name="CLIENT_ID" style="font-size: 9pt; color: #000000; width:350">
 								<option value="">Any organisation</option>
 								<xsl:apply-templates select="RowSet[@Name='Client']"/>
 						</select>

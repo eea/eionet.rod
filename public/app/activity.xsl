@@ -118,7 +118,7 @@ Legislative instrument</a></div>
 					</tr>
 				</xsl:if>
 				<tr><td align="center">
-					<xsl:if test="$admin='true' and $printmode='N'">
+					<xsl:if test="$admin='true'">
 						<xsl:attribute name="style">float:right; border: 1px solid black; background-color:#a0a0a0</xsl:attribute>
 						<div style="font-weight:bold; color:white; text-align:center">Actions</div>
 					</xsl:if>

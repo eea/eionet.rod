@@ -72,7 +72,6 @@ function delLegislation() {
 
 		<!-- page -->
 		<div id="workarea">
-					<xsl:if test="$printmode='N'">
 						<div style="float:right"><xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></div>
 						<br style="clear:right"/>
 						<div style="float:right">
@@ -104,7 +103,6 @@ function delLegislation() {
 									<a href="javascript:openHelpList('LI')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
 								</xsl:if>
 						</div>
-					</xsl:if>
 					<h1>Details of legislative instrument</h1>
 
 				<table width="100%" cellspacing="6" bgcolor="#FFFFFF" style="border:1px solid #006666">

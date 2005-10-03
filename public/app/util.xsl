@@ -129,9 +129,6 @@
                   7100
 				</div>
 	</xsl:template>
-	<xsl:template name="Print">
-		<xsl:if test="$printmode='N'"><img src="images/printerfriendly.jpg" alt="Printer friendly" onclick="javascript:openPrintable()" border="0" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'"/></xsl:if>
-	</xsl:template>
 
 	<xsl:template name="Help">
 		<xsl:param name="id">HELP_MAIN</xsl:param>
@@ -139,10 +136,10 @@
 		<xsl:param name="green">N</xsl:param>
 		<xsl:choose>
 			<xsl:when test="contains($green, 'Y')">
-				<img src="images/but_questionmark.jpg" href="javascript:openViewHelp('{$id}')" alt="Show help" border="0"></img>
+				<a href="javascript:openViewHelp('{$id}')"><img src="images/but_questionmark.jpg" alt="Show help" border="0"/></a>
 			</xsl:when>
 			<xsl:otherwise>
-				<img src="images/but_questionmark_blue.jpg" href="javascript:openViewHelp('{$id}')" alt="Help for logged-in users" border="0"></img>
+				<a href="javascript:openViewHelp('{$id}')"><img src="images/but_questionmark_blue.jpg" alt="Help for logged-in users" border="0"/></a>
 			</xsl:otherwise>
 		</xsl:choose>
 		<xsl:call-template name="EditHelp">
@@ -154,7 +151,7 @@
 	<xsl:template name="HelpOverview">
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
-		<img src="images/pagehelp.jpg" href="javascript:openViewHelp('{$id}')" alt="Context sensitive help" border="0"></img>
+		<a href="javascript:openViewHelp('{$id}')"><img src="images/pagehelp.jpg" alt="Context sensitive help" border="0"/></a>
 		<xsl:call-template name="EditHelp">
 			<xsl:with-param name="id"><xsl:value-of select="$id"/></xsl:with-param>
 			<xsl:with-param name="perm"><xsl:value-of select="$perm"/></xsl:with-param>
@@ -165,7 +162,7 @@
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
 		<xsl:if test="contains($perm, ',/Admin/Helptext:u,')='true'">
-			<img src="images/checkmark.jpg" href="javascript:openHelp('{$id}')" alt="Edit help text" border="0"></img>
+			<a href="javascript:openHelp('{$id}')"><img src="images/checkmark.jpg" alt="Edit help text" border="0"/></a>
 		</xsl:if>
 	</xsl:template>
 
@@ -314,7 +311,7 @@
 				<tr>
 					<td align="left" bgcolor="#FFFFFF"><b>Issue</b></td>
 					<td style="border-left: 1px solid #C0C0C0">
-							<select width="280" name="env_issue" style="font-size: 9pt; color: #000000; width:223" height="20">
+							<select width="280" name="env_issue" style="font-size: 9pt; color: #000000; width:223">
 									<option value="-1">All issues</option>
 									<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 							</select>

@@ -56,7 +56,6 @@
 		<!-- page title -->
 
 			<table width="150" border="0" class="notprintable" style="float:right">
-				<xsl:if test="$printmode='N'">
 					<tr>
 						<td><xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_HIERARCHY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
 					</tr>
@@ -83,7 +82,6 @@
 							</xsl:if>
 						</td>
 					</tr>
-				</xsl:if>
 			</table>
 	   <h1>Legislative instruments</h1>
 
