@@ -560,7 +560,7 @@
 									<xsl:for-each select="//RowSet[@Name='LegalMoral']/T_LOOKUP">
 										<xsl:choose>
 											<xsl:when test="C_VALUE=//RowSet[@Name='Activity']/Row/T_OBLIGATION/LEGAL_MORAL">
-												<option selected="true"><xsl:attribute name="value"><xsl:value-of select="C_VALUE"/></xsl:attribute>
+												<option selected="selected"><xsl:attribute name="value"><xsl:value-of select="C_VALUE"/></xsl:attribute>
 												<xsl:value-of select="C_TERM"/></option>
 											</xsl:when>
 											<xsl:otherwise>

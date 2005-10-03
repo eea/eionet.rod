@@ -100,7 +100,7 @@ Legislative instrument</a></div>
 <table border="1">
 
 <tr>
-	<th width="100%" style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-left: #008080 1px solid" valign="center" bgColor="#ffffff" align="left">
+	<th width="100%" style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-left: #008080 1px solid" valign="center" bgcolor="#ffffff" align="left">
 			<span title="Parameters" class="head0">&#160;Parameters</span>
 	</th>
 </tr>
@@ -121,18 +121,18 @@ Legislative instrument</a></div>
 <br/>
 <table border="0">
 	<tr>
-		<th colspan="3" width="100%" style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="center" bgColor="#ffffff" align="left">
+		<th colspan="3" width="100%" style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="center" bgcolor="#ffffff" align="left">
 			<span class="head0">&#160;Parameters from Data Dictionary</span>
 		</th>
 	</tr>
 	<tr>
-		<td width="40%" style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" valign="center" bgColor="#ffffff" align="left">
+		<td width="40%" style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" valign="center" bgcolor="#ffffff" align="left">
 			<span class="headsmall">&#160;Parameter name</span>
 		</td>
-		<td width="30%" style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" valign="center" bgColor="#ffffff" align="left">
+		<td width="30%" style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" valign="center" bgcolor="#ffffff" align="left">
 			<span class="headsmall">&#160;Table name</span>
 		</td>
-		<td style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="center" bgColor="#ffffff" align="left">
+		<td style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="center" bgcolor="#ffffff" align="left">
 			<span class="headsmall">&#160;Dataset name</span>
 		</td>
 	</tr>

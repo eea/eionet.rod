@@ -65,20 +65,20 @@
 		<tr valign="top">
 			<td align="right"><span class="head0">Client organisation:</span></td>
 			<td>
-					<A>
+					<a>
 						<xsl:attribute name="href">javascript:openPopup('client.jsv','id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
 						<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
-					</A>
+					</a>
 			</td>
 		</tr>
 		<tr valign="top">
 			<td align="right"><span class="head0">Other clients using this reporting:</span></td>
 			<td>
 				<xsl:for-each select="SubSet[@Name='CCClients']/Row">
-					<A>
+					<a>
 						<xsl:attribute name="href">javascript:openPopup('client.jsv','id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
 						<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
-					</A><br/>
+					</a><br/>
 				</xsl:for-each>
 
 			</td>
@@ -111,49 +111,49 @@
 
 	<br/>
 	 
-<TABLE style="border: #008080 1px solid" cellspacing="0" cellpadding="0" width="700" border="0">
-<TR>
-	<th width="20%" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
-			<SPAN title="Indicator number" class="headsmall"><B><FONT size="1">&#160;Title</FONT></B></SPAN>
+<table style="border: #008080 1px solid" cellspacing="0" cellpadding="0" width="700" border="0">
+<tr>
+	<th width="20%" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid" valign="center" bgcolor="#ffffff" align="left">
+			<span title="Indicator number" class="headsmall"><b><font size="1">&#160;Title</font></b></span>
 	</th>
-	<th width="20%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
-			<SPAN class="headsmall"><B><FONT title="Indicator title" size="1">&#160;Number</FONT></B></SPAN>
+	<th width="20%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" valign="center" bgcolor="#ffffff" align="left">
+			<span class="headsmall"><b><font title="Indicator title" size="1">&#160;Number</font></b></span>
 	</th>
-	<th width="40%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
-			<SPAN class="headsmall"><B><FONT title="Indicator URL" size="1">&#160;URL</FONT></B></SPAN>
+	<th width="40%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" valign="center" bgcolor="#ffffff" align="left">
+			<span class="headsmall"><b><font title="Indicator URL" size="1">&#160;URL</font></b></span>
 	</th>
-	<th width="20%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" vAlign="center" bgColor="#ffffff" align="left">
-			<SPAN class="headsmall"><B><FONT title="Indicator owner organisation" size="1">&#160;Owner</FONT></B></SPAN>
+	<th width="20%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" valign="center" bgcolor="#ffffff" align="left">
+			<span class="headsmall"><b><font title="Indicator owner organisation" size="1">&#160;Owner</font></b></span>
 	</th>
-</TR>
+</tr>
 <span class="Mainfont">
 	<xsl:for-each select="XmlData/RowSet[@Name='Indicators']/Row">
-	<TR>
-		<xsl:attribute name="bgColor">
+	<tr>
+		<xsl:attribute name="bgcolor">
 				<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
 		</xsl:attribute>
 
-	<TD style="border-top: #c0c0c0 1px solid"  vAlign="top">
+	<td style="border-top: #c0c0c0 1px solid"  valign="top">
 		<xsl:value-of select="T_INDICATOR/TITLE"/>&#160;
-	</TD>
-	<TD style="border-left: #c0c0c0 1px solid; border-top: #c0c0c0 1px solid" vAlign="top">
+	</td>
+	<td style="border-left: #c0c0c0 1px solid; border-top: #c0c0c0 1px solid" valign="top">
 		<xsl:value-of select="T_INDICATOR/NUMBER"/>&#160;
-	</TD>
-	<TD style="border-left: #c0c0c0 1px solid; border-top: #c0c0c0 1px solid"  vAlign="top">
+	</td>
+	<td style="border-left: #c0c0c0 1px solid; border-top: #c0c0c0 1px solid"  valign="top">
 		<xsl:if test="T_INDICATOR/URL!=''">
 			<a target="_blank">
 				<xsl:attribute name="href"><xsl:value-of select="T_INDICATOR/URL"/></xsl:attribute>
 				<xsl:value-of select="T_INDICATOR/URL"/>&#160;
 			</a>
 		</xsl:if>
-	</TD>
-	<TD style="border-left: #c0c0c0 1px solid; border-top: #c0c0c0 1px solid" valign="left">
-		<xsl:value-of select="T_INDICATOR/OWNER"/>&#160;	</TD>
-</TR>
+	</td>
+	<td style="border-left: #c0c0c0 1px solid; border-top: #c0c0c0 1px solid" valign="left">
+		<xsl:value-of select="T_INDICATOR/OWNER"/>&#160;	</td>
+</tr>
 </xsl:for-each>
 </span>
 
-</TABLE>
+</table>
 <!--/xsl:for-each-->
 </td>
 </tr>

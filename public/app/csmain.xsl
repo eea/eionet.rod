@@ -99,18 +99,18 @@
 	<!-- 8 -->
 	<form name="ff" method="get" action="csmain" class="notprintable">
 	<table border="0"><tr>
-	<TD width="771">
+	<td width="771">
 
-	<TABLE cellspacing="0" cellpadding="3" width="100%" border="0">
-			<TR>
-				<TD vAlign="center" width="33%" bgColor="#ffffff" style="border-left: #008080 1px solid; border-right: #C0C0C0 1px solid; border-top: #008080 1px solid;"><FONT face="Verdana" size="1"><B>Select issue:</B></FONT></TD>
-				<TD vAlign="center" width="19%" bgColor="#ffffff" style="border-top: #008080 1px solid;"><B><FONT face="Verdana" size="1">Select deadline:</FONT></B></TD>
-				<TD vAlign="center" width="7%" bgColor="#ffffff" style="border-right: #008080 1px solid; border-top: #008080 1px solid;">
-					<P align="right">
+	<table cellspacing="0" cellpadding="3" width="100%" border="0">
+			<tr>
+				<td valign="center" width="33%" bgcolor="#ffffff" style="border-left: #008080 1px solid; border-right: #C0C0C0 1px solid; border-top: #008080 1px solid;"><font face="Verdana" size="1"><b>Select issue:</b></font></td>
+				<td valign="center" width="19%" bgcolor="#ffffff" style="border-top: #008080 1px solid;"><b><font face="Verdana" size="1">Select deadline:</font></b></td>
+				<td valign="center" width="7%" bgcolor="#ffffff" style="border-right: #008080 1px solid; border-top: #008080 1px solid;">
+					<p align="right">
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSMAIN1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
-					</P>
-				</TD>
-				<TD vAlign="top" align="left" width="41%" rowspan="2">
+					</p>
+				</td>
+				<td valign="top" align="left" width="41%" rowspan="2">
 					<table>
 							<tr>
 								<td width="50%">&#160;</td>
@@ -121,35 +121,35 @@
 								</td>
 							</tr>
 					</table>
-				</TD>
-			</TR>
-			<TR>
-				<TD vAlign="center" style="border-left: #008080 1px solid; border-right: #C0C0C0 1px solid; border-bottom: #008080 1px solid">
-					<SELECT style="font-size: 9pt; width: 240px; color: #000000; background-color: #ffffff"  size="1" name="ISSUE_ID" height="20">
-										<OPTION value="0" selected="true">All issues</OPTION>
+				</td>
+			</tr>
+			<tr>
+				<td valign="center" style="border-left: #008080 1px solid; border-right: #C0C0C0 1px solid; border-bottom: #008080 1px solid">
+					<select style="font-size: 9pt; width: 240px; color: #000000; background-color: #ffffff"  size="1" name="ISSUE_ID" height="20">
+										<option value="0" selected="selected">All issues</option>
 										<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
-					</SELECT>
-				</TD>
-				<TD vAlign="center" style="border-bottom: #008080 1px solid">
-					<SELECT style="font-size: 9pt; width: 129px; color: #000000; background-color: #ffffff" size="1" name="DEADLINES"> 
-						<OPTION value="0">
+					</select>
+				</td>
+				<td valign="center" style="border-bottom: #008080 1px solid">
+					<select style="font-size: 9pt; width: 129px; color: #000000; background-color: #ffffff" size="1" name="DEADLINES"> 
+						<option value="0">
 							<xsl:if test="$sel_period='' or $sel_period='0'"> 
 								<xsl:attribute name="selected"/>
 							</xsl:if>
 						All deadlines
-						</OPTION> 
-						<OPTION value="1">
+						</option> 
+						<option value="1">
 							<xsl:if test="$sel_period='1'"> 
 								<xsl:attribute name="selected"/>
 							</xsl:if>
-						In the next month</OPTION> 
-						<OPTION value="2"><xsl:if test="$sel_period='2'"><xsl:attribute name="selected"/></xsl:if>
-								In the next 3 months</OPTION> 
-						<OPTION value="3"><xsl:if test="$sel_period='3'"><xsl:attribute name="selected"/></xsl:if>In the next 6 months</OPTION> 
-						<OPTION value="4"><xsl:if test="$sel_period='4'"><xsl:attribute name="selected"/></xsl:if>Previous months</OPTION>
-					</SELECT>
-				</TD>
-				<TD vAlign="center" align="right" style="border-right: #008080 1px solid; border-bottom: #008080 1px solid">
+						In the next month</option> 
+						<option value="2"><xsl:if test="$sel_period='2'"><xsl:attribute name="selected"/></xsl:if>
+								In the next 3 months</option> 
+						<option value="3"><xsl:if test="$sel_period='3'"><xsl:attribute name="selected"/></xsl:if>In the next 6 months</option> 
+						<option value="4"><xsl:if test="$sel_period='4'"><xsl:attribute name="selected"/></xsl:if>Previous months</option>
+					</select>
+				</td>
+				<td valign="center" align="right" style="border-right: #008080 1px solid; border-bottom: #008080 1px solid">
 
 					<input type="hidden" name="CLIENT_ID">
 						<xsl:attribute name="value">
@@ -163,10 +163,10 @@
 					</input>
 
 					<xsl:call-template name="go"/>
-				</TD>
-			</TR>
-			</TABLE>
-		</TD>
+				</td>
+			</tr>
+			</table>
+		</td>
 		</tr>
 		</table>
 		</form>
@@ -258,7 +258,7 @@
 	<td  valign="top">
 		<span class="rowitem">
 			<a>
-				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;mode=A</xsl:attribute>
+				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;amp;mode=A</xsl:attribute>
 				<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/TITLE"/></xsl:attribute>
 				<xsl:call-template name="short">
 					<xsl:with-param name="text" select="T_OBLIGATION/TITLE"/>
@@ -268,7 +268,7 @@
 			<xsl:if test="T_SOURCE/SOURCE_CODE!=''">
 				<br/>
 				(<a>
-					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
 					<xsl:value-of select="T_SOURCE/SOURCE_CODE"/>
 				</a>)
 			</xsl:if>
@@ -353,7 +353,7 @@
 					<xsl:when test="T_OBLIGATION/HAS_DELIVERY=1">
 						<a window="delivery">
 						<!--xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>')</xsl:attribute-->
-						<xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/></xsl:attribute>
+						<xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/></xsl:attribute>
 							Show list
 						</a>
 					</xsl:when>
@@ -409,25 +409,25 @@
 		<xsl:param name="sorted"/>
 		<xsl:variable name="uri">csmain</xsl:variable>
 		<xsl:variable name="country_param">
-			<xsl:if test="string-length($sel_country) &gt; 0">&amp;COUNTRY_ID=<xsl:value-of select="$sel_country"/></xsl:if>
+			<xsl:if test="string-length($sel_country) &gt; 0">&amp;amp;COUNTRY_ID=<xsl:value-of select="$sel_country"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="client_param">
-			<xsl:if test="string-length($sel_client) &gt; 0">&amp;CLIENT_ID=<xsl:value-of select="$sel_client"/></xsl:if>
+			<xsl:if test="string-length($sel_client) &gt; 0">&amp;amp;CLIENT_ID=<xsl:value-of select="$sel_client"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="issue_param">
-			<xsl:if test="string-length($sel_issue) &gt; 0">&amp;ISSUE_ID=<xsl:value-of select="$sel_issue"/></xsl:if>
+			<xsl:if test="string-length($sel_issue) &gt; 0">&amp;amp;ISSUE_ID=<xsl:value-of select="$sel_issue"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="period_param">
-			<xsl:if test="string-length($sel_period) &gt; 0">&amp;DEADLINES=<xsl:value-of select="$sel_period"/></xsl:if>
+			<xsl:if test="string-length($sel_period) &gt; 0">&amp;amp;DEADLINES=<xsl:value-of select="$sel_period"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="date1_param">
-			<xsl:if test="string-length($sel_period_start) &gt; 0">&amp;DATE_1=<xsl:value-of select="$sel_period_start"/></xsl:if>
+			<xsl:if test="string-length($sel_period_start) &gt; 0">&amp;amp;DATE_1=<xsl:value-of select="$sel_period_start"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="date2_param">
-			<xsl:if test="string-length($sel_period_end) &gt; 0">&amp;DATE_2=<xsl:value-of select="$sel_period_end"/></xsl:if>
+			<xsl:if test="string-length($sel_period_end) &gt; 0">&amp;amp;DATE_2=<xsl:value-of select="$sel_period_end"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="ORD">
-			<xsl:if test="string-length($sorted) &gt; 0">&amp;ORD=<xsl:value-of select="$sorted"/></xsl:if>
+			<xsl:if test="string-length($sorted) &gt; 0">&amp;amp;ORD=<xsl:value-of select="$sorted"/></xsl:if>
 		</xsl:variable>
 		
 		<xsl:variable name="params">

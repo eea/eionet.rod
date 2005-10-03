@@ -130,7 +130,7 @@
 				</div>
 	</xsl:template>
 	<xsl:template name="Print">
-		<xsl:if test="$printmode='N'"><img src="images/printerfriendly.jpg" onclick="javascript:openPrintable()" border="0" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'"/></xsl:if>
+		<xsl:if test="$printmode='N'"><img src="images/printerfriendly.jpg" alt="Printer friendly" onclick="javascript:openPrintable()" border="0" onmouseover="javasript:this.style.cursor='hand'" onmouseout="this.style.cursor='auto'"/></xsl:if>
 	</xsl:template>
 
 	<xsl:template name="Help">
@@ -139,12 +139,10 @@
 		<xsl:param name="green">N</xsl:param>
 		<xsl:choose>
 			<xsl:when test="contains($green, 'Y')">
-				<map name="{$id}"><area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="Show help"></area></map>
-				<img src="images/but_questionmark.jpg" usemap="#{$id}" border="0"></img>
+				<img src="images/but_questionmark.jpg" href="javascript:openViewHelp('{$id}')" alt="Show help" border="0"></img>
 			</xsl:when>
 			<xsl:otherwise>
-				<map name="{$id}"><area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openViewHelp('{$id}')" alt="Help for logged-in users"></area></map>
-				<img src="images/but_questionmark_blue.jpg" usemap="#{$id}" border="0"></img>
+				<img src="images/but_questionmark_blue.jpg" href="javascript:openViewHelp('{$id}')" alt="Help for logged-in users" border="0"></img>
 			</xsl:otherwise>
 		</xsl:choose>
 		<xsl:call-template name="EditHelp">
@@ -156,10 +154,7 @@
 	<xsl:template name="HelpOverview">
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
-		<map name="{$id}">
-			<area shape="rect" tabindex="-1" coords="0,0,120,17" href="javascript:openViewHelp('{$id}')" alt="Context sensitive help"></area>
-		</map>
-		<img src="images/pagehelp.jpg" usemap="#{$id}" border="0"></img>
+		<img src="images/pagehelp.jpg" href="javascript:openViewHelp('{$id}')" alt="Context sensitive help" border="0"></img>
 		<xsl:call-template name="EditHelp">
 			<xsl:with-param name="id"><xsl:value-of select="$id"/></xsl:with-param>
 			<xsl:with-param name="perm"><xsl:value-of select="$perm"/></xsl:with-param>
@@ -170,10 +165,7 @@
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
 		<xsl:if test="contains($perm, ',/Admin/Helptext:u,')='true'">
-			<map name="{$id}_Edit">
-				<area shape="rect" tabindex="-1" coords="0,0,17,17" href="javascript:openHelp('{$id}')" alt="Edit help text"></area>
-			</map>
-			<img src="images/checkmark.jpg" usemap="#{$id}_Edit" border="0"></img>
+			<img src="images/checkmark.jpg" href="javascript:openHelp('{$id}')" alt="Edit help text" border="0"></img>
 		</xsl:if>
 	</xsl:template>
 

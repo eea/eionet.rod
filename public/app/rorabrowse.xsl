@@ -240,8 +240,8 @@
 		<!--ra-->
 		<xsl:if test="$rora='A'">
 		<td valign="top">
-			<SPAN class="head0n">
-				<A> 
+			<span class="head0n">
+				<a> 
 					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
 					<span class="rowitem">
 							<xsl:choose>
@@ -253,21 +253,21 @@
 								</xsl:otherwise>
 							</xsl:choose>
 					</span>
-				</A>
+				</a>
 				<xsl:if test="T_OBLIGATION/TERMINATE = 'Y'"><span class="smallfont" style="color:red"> [terminated]</span></xsl:if>
-			</SPAN>&#160;
+			</span>&#160;
 		</td>
 		</xsl:if>
 		<td valign="top">
-			<SPAN class="head0n">
-				<A> 
+			<span class="head0n">
+				<a> 
 					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 					<span class="rowitem"><xsl:value-of select="T_SOURCE/TITLE"/></span>
-				</A>
-			</SPAN>
+				</a>
+			</span>
 		</td>
 		<td valign="top">
-			<SPAN class="head0n">
+			<span class="head0n">
 					<span class="rowitem">
 					<a title="{T_CLIENT/CLIENT_NAME}"> 
 						<xsl:attribute name="href">javascript:openPopup('client.jsv','id=<xsl:value-of select="T_OBLIGATION/FK_CLIENT_ID"/>')</xsl:attribute>
@@ -279,7 +279,7 @@
 						</span>
 					</a>
 					</span>
-			</SPAN>
+			</span>
 			&#160;
 		</td>
 		<td valign="top">
@@ -381,7 +381,7 @@
 		<xsl:if test="count(Row) != 0">
 			<tr><td colspan="4" style="border:0">&#160;</td></tr>
 			<tr>
-				<td style="border-bottom: #c0c0c0 1px solid" vAlign="top" colspan="4">
+				<td style="border-bottom: #c0c0c0 1px solid" valign="top" colspan="4">
 					<span class="head1">Indirect reporting obligations</span>&#160;<br/>
 				</td>
 			</tr>

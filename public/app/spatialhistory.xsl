@@ -68,31 +68,31 @@
 <br/>
 <table width="680" cellspacing="0" border="0">
 	<tr>
-		<TD width="30%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" 
-						vAlign="center" bgColor="#ffffff" align="left">
-					<span class="headsmall"><font title="Reporting country" face="Verdana" color="#000000" size="1">Country</font></span></TD>
-		<TD width="25%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" 
-						vAlign="center" bgColor="#ffffff" align="left">
-				<span class="headsmall"><font title="Status" face="Verdana" color="#000000" size="1">Status</font></span></TD>
-		<TD width="45%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid;"
-						vAlign="center" bgColor="#ffffff" align="left">
-				<span class="head0"><font title="Period when the country participated in reporting" face="Verdana" color="#000000" size="1">Participation period</font></span></TD>
+		<td width="30%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" 
+						valign="center" bgcolor="#ffffff" align="left">
+					<span class="headsmall"><font title="Reporting country" face="Verdana" color="#000000" size="1">Country</font></span></td>
+		<td width="25%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid" 
+						valign="center" bgcolor="#ffffff" align="left">
+				<span class="headsmall"><font title="Status" face="Verdana" color="#000000" size="1">Status</font></span></td>
+		<td width="45%"  style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid;"
+						valign="center" bgcolor="#ffffff" align="left">
+				<span class="head0"><font title="Period when the country participated in reporting" face="Verdana" color="#000000" size="1">Participation period</font></span></td>
 	</tr>
 
 <xsl:for-each select="XmlData/RowSet/Row">
 <tr valign="top">
-		<xsl:attribute name="bgColor">
+		<xsl:attribute name="bgcolor">
 				<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
 		</xsl:attribute>
 <td style="border-left: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" 
-       vAlign="top"><SPAN class="Mainfont">
-			 <FONT face="Verdana" size="2">
+       valign="top"><span class="Mainfont">
+			 <font face="Verdana" size="2">
 	<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
-		</FONT></SPAN>
+		</font></span>
 </td>
 <td style="border-left: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" 
-       vAlign="top"><SPAN class="Mainfont">
-			 <FONT face="Verdana" size="2">
+       valign="top"><span class="Mainfont">
+			 <font face="Verdana" size="2">
 	<xsl:choose>
 		<xsl:when test="T_SPATIAL_HISTORY/VOLUNTARY='Y'">
 			Voluntary reporting
@@ -101,11 +101,11 @@
 			Formal reporting
 		</xsl:when>
 	</xsl:choose>
-		</FONT></SPAN>
+		</font></span>
 </td>
 <td style="border-left: #c0c0c0 1px solid; border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" 
-       vAlign="top"><SPAN class="Mainfont">
-			 <FONT face="Verdana" size="2">
+       valign="top"><span class="Mainfont">
+			 <font face="Verdana" size="2">
 	<xsl:choose>
 		<xsl:when test="T_SPATIAL_HISTORY/START_DATE='' or T_SPATIAL_HISTORY/START_DATE='00/00/0000'">
 			Prior to start of ROD (2003)
@@ -123,7 +123,7 @@
 				present
 		</xsl:otherwise>
 	</xsl:choose>
-		</FONT></SPAN>
+		</font></span>
 </td>
 
 </tr>	

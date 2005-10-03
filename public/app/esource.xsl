@@ -233,7 +233,7 @@
 								<xsl:attribute name="name"><xsl:value-of select="../T_SOURCE_LNK/FK_SOURCE_PARENT_ID/@XPath"/></xsl:attribute>
 								<option/>
 								<xsl:if test="../T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
-									<option selected="true">
+									<option selected="selected">
 										<xsl:attribute name="value">
 											<xsl:value-of select="../T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>
 										</xsl:attribute>
