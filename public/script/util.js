@@ -229,22 +229,6 @@ function openCirca(url){
 		}
 
 
-function openPrintable() {
-		
-	//	var mode = getRequestParameter("mode");
-	var url;
-	var name ="PrintROD";
-	
-	url = changeParamInUrl("printmode",  "Y");
-
-	var features = "location=no, menubar=yes, width=700, height=600, top=50, left=100, scrollbars=yes, resizable=yes";
-	var w = window.open(url,name,features);
-	w.focus();
-
-	//	window.open(url);
-
-}
-
 	function changeParamInString(sUrl, sName, sValue){
 		var  i, j,  sBeg, sEnd, sStr;
 		
