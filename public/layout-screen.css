@@ -573,4 +573,22 @@ kbd { font-weight: bold }
 	border: none;
 }
 
+.topcategory {
+	list-style-image: url("images/smalldiamond.png");
+	margin-left:44px;
+	padding-left: 0;
+	padding-bottom: .5em;
+}
+.topcategory li {
+	padding-bottom: .5em;
+}
+.category {
+	list-style: none;
+	list-style-image: none;
+	margin-left:24px;
+	padding-left: 0;
+	padding-top: .5em;
+}
+
+
 } /* screen media */

@@ -170,6 +170,24 @@ kbd {
 	display: none;
 }
 
+.topcategory {
+	list-style-image: url("images/smalldiamond.png");
+	margin-left:44px;
+	padding-left: 0;
+	padding-bottom: .5em;
+}
+.topcategory li {
+	padding-bottom: .5em;
+}
+.category {
+	list-style: none;
+	list-style-image: none;
+	margin-left:24px;
+	padding-left: 0;
+	padding-top: .5em;
+}
+
+
 /* IE doesn't use the THEAD and TFOOT tags properly by default when
 printing (ie: repeating those sections on every page for really long
 tables when printing). You can fix this through css like this: */
