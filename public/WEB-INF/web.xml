@@ -32,6 +32,12 @@
 		<param-name>app_cache</param-name>
 		<param-value>eionet.rod.ROCache</param-value>
 	</context-param>
+	<context-param> <!-- XMLServer parameter -->
+		<param-name>max-records</param-name>
+		<param-value>6000</param-value>
+	</context-param>
+
+
 	<servlet>
 		<servlet-name>gentext</servlet-name>
 		<servlet-class>eionet.rod.TxtServlet</servlet-class>
@@ -281,12 +287,12 @@
 		<url-pattern>/rorabrowse.jsv</url-pattern>
 	</servlet-mapping>
 	<session-config>
-	      <session-timeout>600</session-timeout>    <!-- minutes -->
+		<session-timeout>600</session-timeout>    <!-- minutes -->
 	</session-config>
 
 	<!-- the application server might allow directory listing.
        The welcome-files are used to overcome workings of such feature 
-  -->
+	-->
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
