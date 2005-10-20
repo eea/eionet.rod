@@ -53,10 +53,10 @@
 
 <div id="pagehead">
 <form method="get" action="http://search.eionet.eu.int/search">
-<input name="q" type="text" size="10" value="Search Eionet"
- title="Search Eionet sites"
- onblur="if(this.value=='')this.value='Search Eionet';"
- onfocus="if(this.value=='Search Eionet')this.value='';" />
+<input name="q" type="text" size="10" value="Search ROD"
+ title="Search Eionet sites with Google"
+ onblur="if(this.value=='')this.value='Search ROD';"
+ onfocus="if(this.value=='Search ROD')this.value='';" />
 <!-- <input type="image" alt="Go and Search" src="/styles/searchimg.gif" /> -->
 <input type="hidden" name="client" value="Eionet" />
 <input type="hidden" name="site" value="Eionet" />
@@ -64,6 +64,8 @@
 <input type="hidden" name="oe" value="UTF-8" />
 <input type="hidden" name="output" value="xml_no_dtd" />
 <input type="hidden" name="proxystylesheet" value="Eionet" />
+<input type="hidden" name="domains" value="rod.eionet.eu.int"/>
+<input type="hidden" name="as_sitesearch" value="rod.eionet.eu.int"/>
 </form>
  <div id="identification">
   <a href="/" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a>
