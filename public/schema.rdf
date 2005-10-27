@@ -63,6 +63,9 @@
 		<rdfs:label>General Comment</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/description"/>
 	</rdf:Property>
+	<rdf:Property rdf:ID="client">
+		<rdfs:label>Client</rdfs:label>
+	</rdf:Property>
 	<rdf:Property rdf:ID="responsiblerole">
 		<rdfs:label>Role responsible for reporting</rdfs:label>
 	</rdf:Property>
@@ -83,5 +86,11 @@
 	</rdf:Property>
 	<rdf:Property rdf:ID="details_url">
 		<rdfs:label>Information link</rdfs:label>
+	</rdf:Property>
+        <!-- Notifications -->
+	<rdfs:Class rdf:ID="Deadlineevent" rdfs:label="Approaching deadline"/>
+
+	<rdf:Property rdf:ID="event_type"> <!-- Used by notifications -->
+		<rdfs:label>Event type</rdfs:label>
 	</rdf:Property>
 </rdf:RDF>
