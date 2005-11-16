@@ -24,19 +24,15 @@
 
 package eionet.rod;
 
-import com.tee.xmlserver.Parameters;
-import com.tee.xmlserver.DataSourceIF;
-import com.tee.xmlserver.XSQLException;
-import com.tee.xmlserver.AppUserIF;
-
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
-import java.io.PrintWriter;
-import javax.servlet.http.HttpServlet;
-import com.tee.xmlserver.Logger;
-import java.io.IOException;
+
+import com.tee.xmlserver.AppUserIF;
+import com.tee.xmlserver.DataSourceIF;
+import com.tee.xmlserver.Parameters;
+import com.tee.xmlserver.XSQLException;
 
 import eionet.rod.countrysrv.Extractor;
 
