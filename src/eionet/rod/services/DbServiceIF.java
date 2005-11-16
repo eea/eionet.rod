@@ -169,7 +169,7 @@ public interface DbServiceIF  {
   * @return String[][]  (0:PK_RA_ID, 1:TITLE, 2:NEXT_REPORTING, 3:FK_RO_ID)
   */
 
-  public String[][] getActivityDeadlines() throws ServiceException ;
+  public String[][] getActivityDeadlines(StringTokenizer issues, StringTokenizer countries) throws ServiceException ;
 
   /**
   * Returns obligations, corresponging to the issue ids, given as parameters
@@ -179,11 +179,11 @@ public interface DbServiceIF  {
  // public String[][] getIssueObligations(StringTokenizer ids) throws ServiceException ;
 
   /**
-  * Returns activities, corresponging to the issue ids, given as parameters
+  * Returns activities, corresponging to the issue ids and country ids, given as parameters
   * @return String[][]  (0:PK_RO_ID, 1:ALIAS, 2:SOURCE.TITLE, 3:FK_SOURCE_ID)
   */
 
-  public String[][] getIssueActivities(StringTokenizer ids) throws ServiceException ;
+  public String[][] getIssueActivities(StringTokenizer issues, StringTokenizer countries) throws ServiceException ;
 
 
   /**
@@ -196,6 +196,16 @@ public interface DbServiceIF  {
   * Returns countries from the DB: PK_SPATIAL_ID, SPATIAL_NAME from T_SPATIAL
   */
   public Vector getCountries() throws ServiceException;
+  
+  /**
+   * Returns country by its id
+   */
+   public String getCountryById(String id) throws ServiceException;
+  
+  /**
+   * Returns upcoming deadlines
+   */
+   public Vector getUpcomingDeadlines(double days) throws ServiceException;
 
   /**
   * Returns max PK_RO_ID
@@ -240,6 +250,45 @@ public interface DbServiceIF  {
   */
   public void harvestParams(String raId) throws ServiceException;
 
+  /**
+  * returns obligation by id and client
+  */
+   public Vector getObligationById(String id) throws ServiceException;
+   
+   /**
+   * returns obligation organisations
+   */
+   public Vector getObligationOrg(String id) throws ServiceException;
+   
+   /**
+   * returns obligation countries
+   */
+   public Vector getObligationCountries(String id) throws ServiceException;
+   
+   /**
+    * returns obligation issues
+    */
+    public Vector getObligationIssues(String id) throws ServiceException;
+   
+   /**
+   * ParentObligation Id 
+   */
+   public String[][] getParentObligationId(String id) throws ServiceException;
+   
+   /**
+   * LatestVersion Id 
+   */
+   public String[][] getLatestVersionId(String id) throws ServiceException;
+   
+   /**
+   * PreviousVersions 
+   */
+   public Vector getPreviousVersions(String id) throws ServiceException;
+   
+   /**
+   * Restore Obligation
+   */
+   public int getRestoreObligation(String id, String pid, int latestVersion) throws ServiceException;
 
   /**
   * Obligation Ids, sorted 
@@ -251,6 +300,16 @@ public interface DbServiceIF  {
   */
   public String[][] getCountries(String raId) throws ServiceException;
 
+  /**
+   * @return array of hashes
+  */
+  public Vector getOrganisations() throws ServiceException ;
+
+  /**
+  * @return array of hashes
+  */
+  public Vector getIssues() throws ServiceException ;
+	
   /**
   * Issues of an obligations 
   */
