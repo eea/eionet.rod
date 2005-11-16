@@ -142,6 +142,26 @@ Legislative instrument</a></div>
 				<xsl:if test="$admin='true'">
 					<a href="javascript:openHelpList('RO')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
 				</xsl:if>
+				<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+					<a>
+						<xsl:attribute name="href">subscribe.jsp?id=<xsl:value-of select="$ra-id"/></xsl:attribute>
+						<img src="images/subscribe.png" alt="Create a UNS Subscription" border="0"/>
+					</a><br/>
+					<xsl:choose>
+						<xsl:when test="T_OBLIGATION/PARENT_OBLIGATION != '' and T_OBLIGATION/PARENT_OBLIGATION != 'null'">
+							<a>
+								<xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$ra-id"/>&amp;amp;pid=<xsl:value-of select="T_OBLIGATION/PARENT_OBLIGATION"/></xsl:attribute>
+								<img src="images/previousversions.png" alt="Show Previous Versions" border="0"/>
+							</a><br/>
+						</xsl:when>
+						<xsl:otherwise>
+							<a>
+								<xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$ra-id"/></xsl:attribute>
+								<img src="images/previousversions.png" alt="Show Previous Versions" border="0"/>
+							</a><br/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
 				</td>
 				</tr>
 			</table>
