@@ -112,9 +112,9 @@ public class SearchStatement extends QueryStatement implements Constants {
       vFields.add(new FieldInfo("TITLE","T_OBLIGATION"));
       vFields.add(new FieldInfo("NEXT_REPORTING","T_OBLIGATION"));
       vFields.add(new FieldInfo("NEXT_DEADLINE","T_OBLIGATION"));
-
+      
       FieldInfo o1 = new FieldInfo("DEADLINE","T_OBLIGATION"); //EK050201
-      o1.setFieldExpr("IF(NEXT_DEADLINE IS NULL, NEXT_REPORTING, NEXT_DEADLINE) AS DEADLINE");
+      o1.setFieldExpr("IF(T_OBLIGATION.NEXT_DEADLINE IS NULL, T_OBLIGATION.NEXT_REPORTING, T_OBLIGATION.NEXT_DEADLINE) AS DEADLINE");
       vFields.add(o1);
       vFields.add(new FieldInfo("FK_DELIVERY_COUNTRY_IDS","T_OBLIGATION"));//EK050211
 
@@ -124,6 +124,9 @@ public class SearchStatement extends QueryStatement implements Constants {
       vFields.add(new FieldInfo("EEA_CORE","T_OBLIGATION"));
       vFields.add(new FieldInfo("FLAGGED","T_OBLIGATION"));
       vFields.add(new FieldInfo("OVERLAP_URL","T_OBLIGATION"));
+      vFields.add(new FieldInfo("PARENT_OBLIGATION","T_OBLIGATION"));
+      //appendConstraint("T_OBLIGATION.VERSION=(SELECT MAX(T_OBLIGATION.VERSION) FROM T_OBLIGATION t2 WHERE T_OBLIGATION.PARENT_OBLIGATION = t2.PK_RA_ID) AND T_OBLIGATION.HAS_NEWER_VERSION IS NULL", "1");
+      appendConstraint("T_OBLIGATION.HAS_NEWER_VERSION='-1'", "1");
         
       vTables.add(new TableInfo("T_SOURCE", "T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID", TableInfo.OUTER_JOIN));
       vFields.add(new FieldInfo("PK_SOURCE_ID", "T_SOURCE"));
@@ -139,7 +142,7 @@ public class SearchStatement extends QueryStatement implements Constants {
       vFields.add(new FieldInfo("PK_CLIENT_ID", "T_CLIENT"));
       vFields.add(new FieldInfo("CLIENT_NAME", "T_CLIENT"));
       vFields.add(new FieldInfo("CLIENT_ACRONYM", "T_CLIENT"));
-  
+      
       _Pair env_issue, country, river, sea, lake, param_group, rotype, client, terminated;
       String source;
 
