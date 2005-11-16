@@ -23,16 +23,12 @@
  
 package eionet.rod;
 
-import javax.servlet.ServletException;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import com.tee.xmlserver.Parameters;
 import com.tee.xmlserver.DataSourceIF;
-import com.tee.xmlserver.XSQLException;
+import com.tee.xmlserver.Parameters;
 import com.tee.xmlserver.XMLSource;
+import com.tee.xmlserver.XSQLException;
 
 public class Analysis extends ROServletAC {
   protected String setXSLT(HttpServletRequest req) {
