@@ -23,11 +23,7 @@
 
 package eionet.rod;
 
-import java.io.*;
-import javax.servlet.http.*;
-
-import com.tee.util.*;
-import com.tee.xmlserver.*;
+import com.tee.util.SQLGenerator;
 
 
 public class AddClientHandler extends ROHandler {
