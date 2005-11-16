@@ -23,6 +23,8 @@
 
 package eionet.rod.rdf;
 
+import java.util.StringTokenizer;
+
 import eionet.rod.Constants;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.RODServices;
@@ -32,6 +34,19 @@ import javax.servlet.http.HttpServletRequest;
 public class Events extends RSSServletAC {
 
   protected String generateRDF(HttpServletRequest req) throws ServiceException {
+      
+    String issuesParam = req.getParameter("issues");
+    StringTokenizer issues = null;
+    
+    String countriesParam = req.getParameter("countries");
+    StringTokenizer countries = null;
+
+    if (issuesParam!=null)
+       issues = new StringTokenizer(issuesParam, ",");
+     
+    if (countriesParam!=null)
+        countries = new StringTokenizer(countriesParam, ",");
+      
     StringBuffer s = new StringBuffer();
     s.append(rdfHeader);
     
@@ -42,7 +57,7 @@ public class Events extends RSSServletAC {
     String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
     addChannelTag(s, eventsUrl);
 
-    String[][] events = RODServices.getDbService().getActivityDeadlines();
+    String[][] events = RODServices.getDbService().getActivityDeadlines(issues, countries);
 
     s.append("<items><rdf:Seq>");
     for (int i= 0; i< events.length; i++){
