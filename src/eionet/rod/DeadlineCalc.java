@@ -23,11 +23,14 @@
 
 package eionet.rod;
 
-import java.util.*;
-import java.text.*;
-import org.apache.log4j.Priority;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
-import eionet.rod.services.*;
+import eionet.rod.services.DbServiceIF;
+import eionet.rod.services.LogServiceIF;
+import eionet.rod.services.RODServices;
 
 public class DeadlineCalc {
    private static LogServiceIF logger ;  
