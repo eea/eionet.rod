@@ -24,10 +24,6 @@
 
 package eionet.rod;
 
-import javax.servlet.http.*;
-
-import com.tee.util.*;
-import com.tee.xmlserver.*;
 
 /**
  * <P>Interface defining constants used in the WebROD system.</P>
@@ -100,6 +96,7 @@ public interface Constants {
    public static final String MODE_PARAM = "mode";
    public static final String AID_PARAM = "aid";
    public static final String ENTITY_PARAM ="entity";
+   public static final String SV_PARAM ="sv";
 
 // Filter parameters for Reporting Obligation
    public static final String SHOWFILTER ="showfilters";
