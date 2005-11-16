@@ -24,40 +24,29 @@
 package eionet.rod.services.modules;
 
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-import java.util.StringTokenizer;
-import java.util.ArrayList;
-
-import java.util.Vector;
-import java.util.Hashtable;
-
 import java.sql.Connection;
-import java.sql.Statement;
 import java.sql.ResultSet;
-import java.sql.Types;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 import com.tee.util.Util;
 import com.tee.xmlserver.DBPoolIF;
-import com.tee.xmlserver.XDBApplication;
-//import com.tee.xmlserver.Logger;
 
-import eionet.rod.services.RODServices;
-import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.DbServiceIF;
-import eionet.rod.services.ServiceException;
-
-import java.net.URLEncoder;
-import eionet.rod.countrysrv.Extractor;
+import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.LogServiceIF;
-import java.util.Set;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.HashSet;
+import eionet.rod.services.RODServices;
+import eionet.rod.services.ServiceException;
 //import eionet.directory.DirectoryService;
 
 /**
@@ -641,6 +630,16 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   private String rplAmp(String fld, String alias ){
     return "REPLACE(" + fld +", '&', '&#038;') AS " + alias;
   }
+  
+  public  Vector getUpcomingDeadlines(double days) throws ServiceException {
+      
+      String sql = " SELECT o.TITLE AS title, o.FK_DELIVERY_COUNTRY_IDS AS country_ids, " + 
+      " c.CLIENT_NAME AS client, o.NEXT_DEADLINE AS next_deadline, o.NEXT_DEADLINE2 AS next_deadline2, o.RESPONSIBLE_ROLE AS responsible_role FROM T_OBLIGATION o, T_CLIENT c WHERE " +
+      " CURDATE() < o.NEXT_DEADLINE AND (CURDATE() + INTERVAL (o.REPORT_FREQ_MONTHS * " + days + ") DAY) > o.NEXT_DEADLINE " + 
+      " AND c.PK_CLIENT_ID = o.FK_CLIENT_ID ";
+
+      return  _getVectorOfHashes(sql);        
+  }
 
   public  Vector getInstruments() throws ServiceException {
     String sql = "SELECT s.PK_SOURCE_ID," +  rplAmp("s.TITLE", "TITLE") +"," +
@@ -759,12 +758,41 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return _executeStringQuery(sql);
   }
 
-  public String[][] getActivityDeadlines() throws ServiceException  {
+  public String[][] getActivityDeadlines(StringTokenizer issues, StringTokenizer countries) throws ServiceException  {
+    
+      String sql = "";
+      
+      if ( issues != null && countries != null) {
+          sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID," +
+          rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
+        " FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " +
+          "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " +
+        "a.NEXT_DEADLINE > '0000-00-00'";
 
-    String sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, FK_SOURCE_ID, " +
-      rplAmp("DESCRIPTION", "DESRCIPTION")  +
-        " FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND " +
-        "NEXT_DEADLINE > '0000-00-00'";
+         sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
+         sql = sql + "AND " +  getWhereClause("r.FK_SPATIAL_ID", countries );
+      } else if (issues!= null && countries == null) {
+       sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
+         rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
+       " FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " +
+         "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " +
+        "a.NEXT_DEADLINE > '0000-00-00'";
+
+        sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
+       } else if (issues == null && countries != null) {
+           sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
+           rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
+         " FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " +
+           "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " +
+        "a.NEXT_DEADLINE > '0000-00-00'";
+
+          sql = sql + "AND " +  getWhereClause("il.FK_SPATIAL_ID", countries );
+       }else {
+           sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, FK_SOURCE_ID, " +
+           rplAmp("DESCRIPTION", "DESRCIPTION")  +
+             " FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND " +
+             "NEXT_DEADLINE > '0000-00-00'";
+       }  
 
     return _executeStringQuery( sql);
   }
@@ -794,21 +822,35 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return _executeStringQuery(sql);
   } */
 
- public String[][] getIssueActivities(StringTokenizer ids) throws ServiceException  {
+ public String[][] getIssueActivities(StringTokenizer issues, StringTokenizer countries) throws ServiceException  {
    String sql = "";
+   
+   if ( issues != null && countries != null) {
+       sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID," +
+       rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
+     " FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " +
+       "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID ";
 
-   //if certain issues wanted make a join over ISSUE_LNK   table
-   if (ids!= null) {
+      sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
+      sql = sql + "AND " +  getWhereClause("r.FK_SPATIAL_ID", countries );
+   } else if (issues!= null && countries == null) {
     sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
       rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
     " FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " +
       "  a.PK_RA_ID = il.FK_RA_ID ";
 
-     sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", ids );
-    }        
-    else
+     sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
+    } else if (issues == null && countries != null) {
+        sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
+        rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
+      " FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " +
+        "  a.PK_RA_ID = il.FK_RA_ID ";
+
+       sql = sql + "AND " +  getWhereClause("il.FK_SPATIAL_ID", countries );
+    }else {
       sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE, NEXT_DEADLINE, " +
       " FK_SOURCE_ID, " + rplAmp("DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION ";
+    }
 
     sql += " ORDER BY PK_RA_ID";
 
@@ -871,6 +913,19 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       return (String)(countryMap.get(countryName));
       
     }
+    
+    public String getCountryById(String id) throws ServiceException {
+        String sql = "SELECT SPATIAL_NAME AS name " +
+          " FROM T_SPATIAL WHERE PK_SPATIAL_ID = '" + id + "'";
+        
+        String [][] s = _executeStringQuery(sql);
+        String result = null;
+        
+        if (s.length>0)
+            result = s[0][0];
+        
+        return result;
+     }
 
 
   public void commitDeliveries () throws ServiceException {
@@ -986,6 +1041,115 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return _executeStringQuery(sql);
     
   }
+  
+  /*
+   *  (non-Javadoc)
+   * @see eionet.rod.services.DbServiceIF#getIssues()
+   */
+  public Vector getIssues() throws ServiceException {
+  	
+	String issueNs= RODServices.getFileService().
+	getStringProperty( FileServiceIF.ISSUE_NAMESPACE);
+	
+	  String sql = "SELECT ISSUE_NAME AS name, PK_ISSUE_ID AS id, " +
+	    "CONCAT('" + issueNs +"', PK_ISSUE_ID) AS uri" +
+		" FROM T_ISSUE ORDER BY ISSUE_NAME ";
+      
+	  return _getVectorOfHashes(sql);
+  }
+
+  /*
+   * 
+   */
+  public Vector getOrganisations() throws ServiceException {
+
+	String orgNs= RODServices.getFileService().
+	getStringProperty( FileServiceIF.ORGANISATION_NAMESPACE);
+
+		String sql =
+	"SELECT CONCAT(CLIENT_ACRONYM,'-',CLIENT_NAME) AS name, PK_CLIENT_ID AS id, " +
+	"CONCAT('" + orgNs +"', PK_CLIENT_ID) AS uri" +
+		  " FROM T_CLIENT ORDER BY CLIENT_NAME ";
+      
+		return _getVectorOfHashes(sql);
+  }
+  
+  /*
+   *  (non-Javadoc)
+   * @see eionet.rod.services.DbServiceIF#getObligationById(java.lang.String)
+   */
+  public Vector getObligationById(String id) throws ServiceException {
+            
+		String sql = "SELECT REPLACE(o.TITLE, '&', '&#038;') as title, c.CLIENT_NAME AS client, o.PK_RA_ID AS obligationID, c.PK_CLIENT_ID AS clientID" +
+		  " FROM T_OBLIGATION o, T_CLIENT c WHERE c.PK_CLIENT_ID = o.FK_CLIENT_ID AND o.PK_RA_ID =" + id;
+      
+		return _getVectorOfHashes(sql);
+  }
+  
+  public Vector getObligationCountries(String id) throws ServiceException {
+      
+    String sql = "SELECT s.SPATIAL_NAME AS name FROM T_SPATIAL s, T_RASPATIAL_LNK r WHERE " + 
+    " r.FK_RA_ID = '" + id + "' AND s.PK_SPATIAL_ID = r.FK_SPATIAL_ID ORDER BY s.SPATIAL_NAME";
+
+      
+    return _getVectorOfHashes(sql);
+  }
+  
+  public Vector getObligationOrg(String id) throws ServiceException {
+      
+    String sql = "SELECT c.CLIENT_NAME AS name FROM T_CLIENT c, T_OBLIGATION o WHERE " + 
+    " o.PK_RA_ID = '" + id + "' AND c.PK_CLIENT_ID = o.FK_CLIENT_ID ORDER BY c.CLIENT_NAME";
+
+      
+    return _getVectorOfHashes(sql);
+  }
+  
+  public Vector getObligationIssues(String id) throws ServiceException {
+      
+    String sql = "SELECT i.ISSUE_NAME AS name FROM T_ISSUE i, T_RAISSUE_LNK r WHERE " + 
+    " r.FK_RA_ID = '" + id + "' AND i.PK_ISSUE_ID = r.FK_ISSUE_ID ORDER BY i.ISSUE_NAME";
+
+      
+    return _getVectorOfHashes(sql);
+  }
+  
+  public String[][] getParentObligationId(String id) throws ServiceException {
+      
+    String sql = "SELECT PARENT_OBLIGATION FROM T_OBLIGATION WHERE " + 
+    " PK_RA_ID = '" + id + "'";
+
+    return _executeStringQuery(sql);
+  }
+  
+  public String[][] getLatestVersionId(String id) throws ServiceException {
+      
+    String sql = "select PK_RA_ID from T_OBLIGATION where " + 
+    " (PARENT_OBLIGATION='" + id + "' OR PK_RA_ID='" + id + "') AND HAS_NEWER_VERSION = '-1'";
+
+    return _executeStringQuery(sql);
+  }
+  
+  public Vector getPreviousVersions(String id) throws ServiceException {
+      
+    String sql = "select PK_RA_ID AS id, TITLE AS title, VERSION AS version, FK_SOURCE_ID AS source, PARENT_OBLIGATION AS parentid from T_OBLIGATION where " + 
+    " PARENT_OBLIGATION='" + id + "' OR PK_RA_ID = '" + id + "' ORDER BY VERSION";
+
+    return _getVectorOfHashes(sql);
+  }
+  
+  public int getRestoreObligation(String id, String pid, int latestVersion) throws ServiceException {
+
+    int newVer = latestVersion + 1;  
+    String sql1 = "UPDATE T_OBLIGATION SET VERSION='" + newVer + "', HAS_NEWER_VERSION='-1' WHERE PK_RA_ID='" + id + "'";
+    String sql2 = "UPDATE T_OBLIGATION SET HAS_NEWER_VERSION='1' WHERE (PK_RA_ID = '" + pid + "' OR PARENT_OBLIGATION= '" + pid + "') AND VERSION='" + latestVersion + "'";
+    int u = 0;
+    if ((_executeUpdate(sql1) == 1) && (_executeUpdate(sql2) == 1)){
+        u = 1;
+    }
+    return (u);
+
+  }
+  
   public String[][] getIssues(String raId) throws ServiceException {
     return _executeStringQuery("SELECT FK_ISSUE_ID FROM T_OBLIGATION o, T_RAISSUE_LNK il " +
       " WHERE il.FK_RA_ID=o.PK_RA_ID AND il.FK_RA_ID=" + raId + " ORDER BY FK_ISSUE_ID" );
