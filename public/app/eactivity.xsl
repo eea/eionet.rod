@@ -103,6 +103,10 @@
 			<xsl:attribute name="value"><xsl:value-of select="$src-id"/></xsl:attribute>
 		</input>
 		<input type="hidden">
+			<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/VERSION/@XPath"/></xsl:attribute>
+			<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/VERSION"/></xsl:attribute>
+		</input>
+		<input type="hidden">
 			<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/TERMINATE/@XPath"/></xsl:attribute>
 			<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/TERMINATE"/></xsl:attribute>
 		</input>
@@ -800,10 +804,10 @@
 			</tr>
 			<tr>
 				<td valign="middle" align="middle" style="border-top: 3 solid #B7DBDB" colspan="2" height="40" bgcolor="#008080">
+					<input type="hidden" name="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/CREATE_NEW_VERSION" value="false"></input>
 					<input style="font-weight: bold; width: 120px; color: #000000; background-image: url('images/bgr_form_buttons.jpg')" onclick='checkAndSave(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/FK_CLIENT_ID/@XPath}"])' type="button" value="Save changes" width="120"></input>
 					&#160;
 					<input onclick="history.back()" type="button" value="Exit" style="font-weight: bold; color: #000000; background-image: url('images/bgr_form_buttons.jpg')"></input>
-
 				</td>
       </tr>
 
