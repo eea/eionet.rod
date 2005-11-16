@@ -87,6 +87,16 @@ public interface FileServiceIF  {
   public static final String SPATIAL_NAMESPACE = "spatial.namespace";
 
   /**
+  * Namespace for T_ISSUE
+  */
+  public static final String ISSUE_NAMESPACE = "issue.namespace";
+
+  /**
+  * Namespace for T_CLIENT
+  */
+  public static final String ORGANISATION_NAMESPACE = "organisation.namespace";
+
+  /**
   * Namespace for Delivery
   */
   public static final String DELIVERY_NAMESPACE = "delivery.namespace";
@@ -131,6 +141,11 @@ public interface FileServiceIF  {
   * Title Predicate for rdf type
   */
   public static final String PRED_RDF_TYPE = "pred.rdf-type";
+  
+  /**
+   * Percent of reporting frequence for approaching deadlines
+   */
+   public static final String PERCENT_OF_FREQ = "percent.of.freq";
 
   /**
   * Returns String type property from the properties file
