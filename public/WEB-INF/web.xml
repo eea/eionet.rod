@@ -32,12 +32,6 @@
 		<param-name>app_cache</param-name>
 		<param-value>eionet.rod.ROCache</param-value>
 	</context-param>
-	<context-param> <!-- XMLServer parameter -->
-		<param-name>max-records</param-name>
-		<param-value>6000</param-value>
-	</context-param>
-
-
 	<servlet>
 		<servlet-name>gentext</servlet-name>
 		<servlet-class>eionet.rod.TxtServlet</servlet-class>
@@ -81,6 +75,18 @@
 	<servlet>
 		<servlet-name>csmain</servlet-name>
 		<servlet-class>eionet.rod.countrysrv.servlets.Main</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>Subscribe</servlet-name>
+		<servlet-class>eionet.rod.countrysrv.servlets.Subscribe</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>restore</servlet-name>
+		<servlet-class>eionet.rod.RestoreObligation</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DummyServlet</servlet-name>
+		<servlet-class>eionet.rod.DummyServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>csdeliveries</servlet-name>
@@ -215,6 +221,18 @@
 		<url-pattern>/csmain</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
+		<servlet-name>Subscribe</servlet-name>
+		<url-pattern>/Subscribe</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>restore</servlet-name>
+		<url-pattern>/restore</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DummyServlet</servlet-name>
+		<url-pattern>/DummyServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>csdeliveries</servlet-name>
 		<url-pattern>/csdeliveries</url-pattern>
 	</servlet-mapping>
@@ -287,12 +305,12 @@
 		<url-pattern>/rorabrowse.jsv</url-pattern>
 	</servlet-mapping>
 	<session-config>
-		<session-timeout>600</session-timeout>    <!-- minutes -->
+	      <session-timeout>600</session-timeout>    <!-- minutes -->
 	</session-config>
 
 	<!-- the application server might allow directory listing.
        The welcome-files are used to overcome workings of such feature 
-	-->
+  -->
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
