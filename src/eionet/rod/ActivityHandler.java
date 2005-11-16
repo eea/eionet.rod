@@ -23,18 +23,16 @@
 
 package eionet.rod;
 
-import java.sql.*;
-import java.util.*;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
-import com.tee.util.*;
-import com.tee.xmlserver.*;
-import eionet.rod.services.RODServices;
-import eionet.rod.services.ServiceException;
-import eionet.rod.services.DbServiceIF;
 import com.tee.uit.security.AccessControlListIF;
-import eionet.directory.DirectoryService;
-import eionet.directory.DirServiceException;
+import com.tee.util.SQLGenerator;
+import com.tee.xmlserver.DBPoolIF;
+import com.tee.xmlserver.DBVendorIF;
+
 import eionet.rod.countrysrv.Extractor;
+import eionet.rod.services.RODServices;
 
 /**
  * <P>Handler to store WebROD activity data.</P>
@@ -52,6 +50,10 @@ public class ActivityHandler extends ROHandler {
   private Vector clientCont = new Vector();
 
   private Extractor ext; //used for role handling
+  
+  private boolean _wasObligationUpdate = false;
+  private boolean _wasObligationInsert = false;
+  private SQLGenerator _getSQLGen = null;
   
   //private Vector spatialHistCont = new Vector();
 
@@ -88,12 +90,14 @@ public class ActivityHandler extends ROHandler {
    protected boolean sqlReady(SQLGenerator gen, String context) {
       // if error has occured in previous call, stop further processing
 
-      
       if (getError())
          return false;
 
       String tblName = gen.getTableName();
       int state = gen.getState();
+      int newVer;
+      String currentObligationId = null;
+      String obligationId = null;
 
      String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
@@ -113,6 +117,27 @@ public class ActivityHandler extends ROHandler {
 
       //Logger.log("state " + state);
       if (tblName.equals("T_OBLIGATION")) {
+          
+        String create_ver = gen.getFieldValue("CREATE_NEW_VERSION");
+        gen.removeField("CREATE_NEW_VERSION");
+         
+        if (create_ver.equalsIgnoreCase("true")){
+            currentObligationId = gen.getFieldValue("PK_RA_ID");
+            updateDB("UPDATE T_OBLIGATION SET HAS_NEWER_VERSION = 1 WHERE PK_RA_ID = " + currentObligationId);
+            try{
+                String[][] parentObligationId = RODServices.getDbService().getParentObligationId(currentObligationId);
+                String parentId = parentObligationId[0][0];
+                if (parentId != null){
+                    currentObligationId = parentId;
+                    updateDB("UPDATE T_OBLIGATION SET HAS_NEWER_VERSION = 1 WHERE PK_RA_ID = " + currentObligationId);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            state=INSERT_RECORD;
+            gen.setState(INSERT_RECORD);
+        }
+
          if (state != INSERT_RECORD) {
 
             if (!upd)
@@ -173,10 +198,21 @@ public class ActivityHandler extends ROHandler {
          setDateValue(gen, "RM_NEXT_UPDATE");
          setDateValue(gen, "RM_VERIFIED");
          gen.setFieldExpr("LAST_UPDATE", "CURDATE()");
+         
+         if (create_ver.equalsIgnoreCase("true")){
+             String ver = gen.getFieldValue("VERSION");
+             if (ver != null && !ver.equalsIgnoreCase(""))
+                 newVer = Integer.parseInt(ver) + 1;
+             else
+                 newVer = 0;
+             gen.setFieldExpr("VERSION", (new Long(newVer)).toString());
+             gen.setFieldExpr("PARENT_OBLIGATION", currentObligationId);
+             gen.setFieldExpr("HAS_NEWER_VERSION", "-1");
+         }
 
          defaultProcessing(gen, null);
          id = recordID;
-
+         
          String mainClientId=gen.getFieldValue("FK_CLIENT_ID");
 
          //main client to T_CLIENT_LNK
@@ -223,7 +259,7 @@ public class ActivityHandler extends ROHandler {
       else if (tblName.equals("T_LOOKUP"))
          return false; // no need for further processing
 
-      else if (tblName.equals("T_LOOKUP"))
+      else if (tblName.equals("T_LOOKUP"))  
          return false; // no need for further processing
 
 
@@ -314,8 +350,42 @@ public class ActivityHandler extends ROHandler {
          }
          paramCont.clear();
       }
-
+      
+      //
+      if (tblName.equals("T_OBLIGATION") && (state == MODIFY_RECORD || state == INSERT_RECORD)) {
+              _getSQLGen = (SQLGenerator) gen.clone();
+              if (state == MODIFY_RECORD) {
+                  _wasObligationUpdate = true;
+                  
+              } else if (state == INSERT_RECORD) {
+                  _wasObligationInsert = true;
+              }
+      }
       return true;
+   }
+   
+   /*
+    * 
+    */
+   public boolean wasObligationUpdate(){
+       
+       return _wasObligationUpdate;
+   }
+   
+   /*
+    * 
+    */
+   public boolean wasObligationInsert(){
+       
+       return _wasObligationInsert;
+   }
+   
+   /*
+    * 
+    */
+   public SQLGenerator getSQLGen(){
+       
+       return _getSQLGen;
    }
 
    public ActivityHandler(ROEditServletAC servlet) {
