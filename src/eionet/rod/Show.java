@@ -140,6 +140,18 @@ public class Show extends ROServletAC {
       HttpServletRequest req = params.getRequest();
 
       id = params.getParameter(ID_PARAM);
+      String sv = params.getParameter(SV_PARAM);
+      try{
+          if (sv == null || !sv.equals("T")){
+              String[][] latestVersionId = RODServices.getDbService().getLatestVersionId(id);
+              String latestId = latestVersionId[0][0];
+              if (latestId != null)
+                  id = latestId;
+          }
+          
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
       if ( Util.nullString(id) )
         throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
 
