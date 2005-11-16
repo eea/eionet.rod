@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  * The contents of this file are subject to the Mozilla Public
@@ -78,14 +78,14 @@
 			function updIndicator(id, raId) {
 				document.forms["f"].silent.value=1;
 				save(null,true);
-				openPopup('indicator.jsv', 'id=' + id + '&amp;aid=' + raId);
+				openPopup('indicator.jsv', 'id=' + id + '&aid=' + raId);
 				document.forms["f"].silent.value=0;
 				}
 
 			function delIndicator(id, raId, srcId) {
 				document.forms["f"].silent.value=1;
 				save(null,true);
-				openPopup('indicator.jsv', 'dom-update-mode=D&amp;id=' + id + '&amp;aid=' + raId + '&amp;srcid=' + srcId);
+				openPopup('indicator.jsv', 'dom-update-mode=D&id=' + id + '&aid=' + raId + '&srcid=' + srcId);
 				document.forms["f"].silent.value=0; 
 			} 
 
@@ -171,6 +171,8 @@ function save(text,silent) {
 	if (!silent)
 		if (confirm(text) == false)
 			return false;
+	if (!silent)
+		createNewVer();
 
 	if (!bDelete) {
 		// check once more all values before sending to server
@@ -198,7 +200,7 @@ function save(text,silent) {
 		}
 	}//end-if !bDelete
 
-
+	
 	document.f.submit();
 	isChanged = false;
 
@@ -708,6 +710,15 @@ function ddmmyyyyDate(dat) {
 	s += "/" + dat.getUTCFullYear();
 	
 	return s;
+}
+
+function createNewVer() {
+	var mode = document.f.elements["dom-update-mode"];
+	if (mode.value == 'U'){
+		var agree=confirm("Do you want to create a new version?");
+		if (agree)
+			document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/CREATE_NEW_VERSION"].value = true;
+	}
 }
 
 function checkAndSave(first, freq, next, textrep, to, terminate, client) {
