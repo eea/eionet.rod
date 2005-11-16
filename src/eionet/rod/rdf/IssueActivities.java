@@ -39,11 +39,17 @@ public class IssueActivities extends RSSServletAC {
 
   protected String generateRDF(HttpServletRequest req) throws ServiceException {
 
-    String idsParam = req.getParameter("issues");
-    StringTokenizer ids = null;
+    String issuesParam = req.getParameter("issues");
+    StringTokenizer issues = null;
+    
+    String countriesParam = req.getParameter("countries");
+    StringTokenizer countries = null;
 
-    if (idsParam!=null)
-      ids = new StringTokenizer(idsParam, ",");
+    if (issuesParam!=null)
+       issues = new StringTokenizer(issuesParam, ",");
+    
+    if (countriesParam!=null)
+        countries = new StringTokenizer(countriesParam, ",");
 
 
     StringBuffer s = new StringBuffer();
@@ -57,7 +63,7 @@ public class IssueActivities extends RSSServletAC {
     String actsUrl = props.getString(Constants.ROD_URL_ACTIVITIES);
     addChannelTag(s, actsUrl);
 
-    String[][] acts = RODServices.getDbService().getIssueActivities(ids);
+    String[][] acts = RODServices.getDbService().getIssueActivities(issues, countries);
 
     s.append("<items><rdf:Seq>");
     for (int i= 0; i< acts.length; i++){
