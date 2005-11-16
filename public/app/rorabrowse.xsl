@@ -125,6 +125,10 @@
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;amp;mode=X</xsl:attribute>
 						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/>
 					</a><br/>
+					<a>
+						<xsl:attribute name="href">subscribe.jsp</xsl:attribute>
+						<img src="images/subscribe.png" alt="Create a UNS Subscription" border="0"/>
+					</a><br/>
 				</xsl:if>
 			</td>
 			</tr>
@@ -236,7 +240,14 @@
 		<td valign="top">
 			<span class="head0n">
 				<a> 
-					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute>
+					<xsl:choose>
+						<xsl:when test="T_OBLIGATION/PARENT_OBLIGATION != '' and T_OBLIGATION/PARENT_OBLIGATION != 'null'">
+							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PARENT_OBLIGATION"/>&amp;amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute>
+						</xsl:otherwise>
+					</xsl:choose>
 					<span class="rowitem">
 							<xsl:choose>
 								<xsl:when test="T_OBLIGATION/TITLE !=''">
@@ -264,7 +275,7 @@
 			<span class="head0n">
 					<span class="rowitem">
 					<a title="{T_CLIENT/CLIENT_NAME}"> 
-						<xsl:attribute name="href">javascript:openPopup('client.jsv','id=<xsl:value-of select="T_OBLIGATION/FK_CLIENT_ID"/>')</xsl:attribute>
+						<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_OBLIGATION/FK_CLIENT_ID"/></xsl:attribute>
 						<span class="rowitem">
 							<xsl:choose>
 								<xsl:when test="T_CLIENT/CLIENT_ACRONYM != ''"><xsl:value-of select="T_CLIENT/CLIENT_ACRONYM"/></xsl:when>
