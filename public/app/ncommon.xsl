@@ -60,7 +60,7 @@
 <!-- <input type="image" alt="Go and Search" src="/styles/searchimg.gif" /> -->
 <input type="hidden" name="client" value="Eionet" />
 <input type="hidden" name="site" value="Eionet" />
-<input type="hidden" name="ie" value="ISO-8859-1" />
+<input type="hidden" name="ie" value="UTF-8" />
 <input type="hidden" name="oe" value="UTF-8" />
 <input type="hidden" name="output" value="xml_no_dtd" />
 <input type="hidden" name="proxystylesheet" value="Eionet" />
