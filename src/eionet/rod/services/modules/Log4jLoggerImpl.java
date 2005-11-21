@@ -122,16 +122,6 @@ public class Log4jLoggerImpl implements LogServiceIF {
   }
   
   public void error(Object msg, Throwable t)  {
-  	
-	//
-	if (t!=null && t.getMessage()!=null){
-		System.out.println("===");
-		System.out.println(t.getMessage());
-		t.printStackTrace(System.out);
-		System.out.println("===");
-	}
-	//
-
     logger.error(msg);
   }
   

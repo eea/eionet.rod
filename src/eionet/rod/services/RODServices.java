@@ -81,16 +81,6 @@ private static FileServiceIF   _fSrv = null;
   static class StderrLogger implements LogServiceIF {
     
     private void out(String severity, Object msg, Throwable t) {
-    	
-    	//
-    	if (t!=null && t.getMessage()!=null){
-			System.out.println("===");
-    		System.out.println(t.getMessage());
-    		t.printStackTrace(System.out);
-			System.out.println("===");
-    	}
-    	//
-    	
       System.err.println("<" + severity + "> " + msg);
       if (t != null)
         t.printStackTrace(System.err);
