@@ -20,7 +20,7 @@
  *
  * Original Code: Rando Valt (TietoEnator)
  *
- * $Id: Log4jLoggerImpl.java,v 1.5 2004/04/07 08:11:17 te-ee Exp $
+ * $Id$
  */
 
 package eionet.rod.services.modules;
@@ -122,6 +122,16 @@ public class Log4jLoggerImpl implements LogServiceIF {
   }
   
   public void error(Object msg, Throwable t)  {
+  	
+	//
+	if (t!=null && t.getMessage()!=null){
+		System.out.println("===");
+		System.out.println(t.getMessage());
+		t.printStackTrace(System.out);
+		System.out.println("===");
+	}
+	//
+
     logger.error(msg);
   }
   
