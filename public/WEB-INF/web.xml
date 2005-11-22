@@ -69,8 +69,16 @@
 		<servlet-class>eionet.rod.Client</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>eclient</servlet-name>
+		<servlet-class>eionet.rod.EClient</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>addclient</servlet-name>
 		<servlet-class>eionet.rod.AddClient</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>editclient</servlet-name>
+		<servlet-class>eionet.rod.EditClient</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>csindex</servlet-name>
@@ -213,8 +221,16 @@
 		<url-pattern>/client.jsv</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
+		<servlet-name>eclient</servlet-name>
+		<url-pattern>/eclient.jsv</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>addclient</servlet-name>
 		<url-pattern>/addclient.jsv</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>editclient</servlet-name>
+		<url-pattern>/editclient.jsv</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>csindex</servlet-name>
