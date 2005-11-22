@@ -99,7 +99,7 @@
 	</xsl:template>
 	<xsl:template name="html_head">
 		<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta content="text/html; CHARSET=UTF-8" http-equiv="Content-Type"/>
 		<meta name="title" content="EEA - Reporting Obligations Database" />
 		<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
 		<meta name="keywords" content="reporting obligations, environmental legislation, environmental reporting, environmental dataflows, European Environment Agency, EEA, European, Environmental information, Environmental portal, Eionet, Reportnet, air, waste, water, biodiversity" />
@@ -179,6 +179,15 @@ function fillPicklist(type,list,text) {
 	  }
 	} 
 	list.options[0].selected = true;
+}
+
+function chkUrl(fld) {
+		var s = fld.value;
+		if ( s != "" &&  (s.substr(0,7) != "http://") && (s.substr(0,8) != "https://") && (s.substr(0,6) != "ftp://") )	{
+			fld.focus()
+			alert("Wrong URL format");
+			//fld.select();
+		}
 }
 
 //-->
