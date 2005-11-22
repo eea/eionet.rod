@@ -53,6 +53,7 @@ public class ActivityHandler extends ROHandler {
   
   private boolean _wasObligationUpdate = false;
   private boolean _wasObligationInsert = false;
+  private String create_ver = null;
   private SQLGenerator _getSQLGen = null;
   
   //private Vector spatialHistCont = new Vector();
@@ -118,7 +119,7 @@ public class ActivityHandler extends ROHandler {
       //Logger.log("state " + state);
       if (tblName.equals("T_OBLIGATION")) {
           
-        String create_ver = gen.getFieldValue("CREATE_NEW_VERSION");
+        create_ver = gen.getFieldValue("CREATE_NEW_VERSION");
         gen.removeField("CREATE_NEW_VERSION");
          
         if (create_ver.equalsIgnoreCase("true")){
@@ -378,6 +379,14 @@ public class ActivityHandler extends ROHandler {
    public boolean wasObligationInsert(){
        
        return _wasObligationInsert;
+   }
+   
+   /*
+    * 
+    */
+   public String isCreateNewVer(){
+       
+       return create_ver;
    }
    
    /*
