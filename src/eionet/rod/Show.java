@@ -144,9 +144,11 @@ public class Show extends ROServletAC {
       try{
           if (sv == null || !sv.equals("T")){
               String[][] latestVersionId = RODServices.getDbService().getLatestVersionId(id);
-              String latestId = latestVersionId[0][0];
-              if (latestId != null)
-                  id = latestId;
+              if(latestVersionId.length > 0) {
+                  String latestId = latestVersionId[0][0];
+                  if (latestId != null)
+                      id = latestId;
+              }
           }
           
       } catch (Exception e) {
