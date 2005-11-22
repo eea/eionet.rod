@@ -23,11 +23,14 @@
 
 package eionet.rod;
 
-import java.io.*;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import com.tee.util.*;
-import com.tee.xmlserver.*;
+import com.tee.xmlserver.DataSourceIF;
+import com.tee.xmlserver.Parameters;
+import com.tee.xmlserver.SaveHandler;
+import com.tee.xmlserver.XMLSource;
+import com.tee.xmlserver.XSQLException;
 
 public class AddClient extends ROEditServletAC {
     
