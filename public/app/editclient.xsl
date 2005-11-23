@@ -45,100 +45,80 @@
 
 	<xsl:template match="XmlData">
 		<div id="workarea">
-			<table>
-				<tr>
-					<td width="20"></td>
-					<td width="630" align="left">
-						<h2>Edit Client Organisation</h2>
-					</td>
-				</tr>
-			</table>
-			<form name="editClientForm" method="POST" action="editclient.jsv" acceptcharset="UTF-8">
+			<h1>Edit Client Organisation</h1>
+			<form name="editClientForm" method="post" action="editclient.jsv">
 				<table width="650" border="0">
-					<tr height="30" valign="top">
-						<td width="20"></td>
-						<td align="right" width="100"><b>Name:</b></td>
+					<tr valign="top">
+						<th align="right"><label for="name">Name:</label></th>
 						<td align="left" width="490">
 							<input type="hidden" size="20">
 								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/PK_CLIENT_ID</xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="RowSet/Row/T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
 							</input>
-							<input type="text" size="68" maxlength="255">
+							<input id="name" type="text" size="68" maxlength="255">
 								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/CLIENT_NAME</xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_NAME"/></xsl:attribute>
 							</input>
 						</td>
-						<td width="10"></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Acronym:</b></td>
-						<td align="left" >
-							<input type="text" size="68" maxlength="255">
+					<tr valign="top">
+						<th align="right"><label for="acronym">Acronym:</label></th>
+						<td align="left">
+							<input id="acronym" type="text" size="68" maxlength="255">
 								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/CLIENT_ACRONYM</xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_ACRONYM"/></xsl:attribute>
 							</input>
 						</td>
-						<td></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Address:</b></td>
+					<tr valign="top">
+						<th align="right"><label for="address">Address:</label></th>
 						<td align="left">
-							<input type="text" size="68" maxlength="255">
+							<input id="address" type="text" size="68" maxlength="255">
 								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/CLIENT_ADDRESS</xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_ADDRESS"/></xsl:attribute>
 							</input>
 						</td>
-						<td></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Postal code:</b></td>
+					<tr valign="top">
+						<th align="right"><label for="postalcode">Postal code:</label></th>
 						<td align="left">
-							<input type="text" size="68" maxlength="255">
+							<input id="postalcode" type="text" size="68" maxlength="255">
 								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/POSTAL_CODE</xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="RowSet/Row/T_CLIENT/POSTAL_CODE"/></xsl:attribute>
 							</input>
 						</td>
-						<td></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>City:</b></td>
+					<tr valign="top">
+						<th align="right"><label for="city">City:</label></th>
 						<td align="left">
-							<input type="text" size="68" maxlength="255">
+							<input id="city" type="text" size="68" maxlength="255">
 								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/CITY</xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="RowSet/Row/T_CLIENT/CITY"/></xsl:attribute>
 							</input>
 						</td>
-						<td></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Country:</b></td>
+					<tr valign="top">
+						<th align="right"><label for="country">Country:</label></th>
 						<td align="left">
-							<input type="text" size="68" maxlength="255">
+							<input id="country" type="text" size="68" maxlength="255">
 								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/COUNTRY</xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="RowSet/Row/T_CLIENT/COUNTRY"/></xsl:attribute>
 							</input>
 						</td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Homepage:</b></td>
+					<tr valign="top">
+						<th align="right"><label for="homapage">Homepage:</label></th>
 						<td align="left">
-							<input type="text" size="68" maxlength="255" onchange="chkUrl(this)">
+							<input id="homepage" type="text" size="68" maxlength="255" onchange="chkUrl(this)">
 								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/CLIENT_URL</xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_URL"/></xsl:attribute>
 							</input>
 						</td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Description:</b></td>
+					<tr valign="top">
+						<th align="right"><label for="description">Description:</label></th>
 						<td align="left">
-							<textarea rows="4" cols="53" wrap="soft">
+							<textarea id="description" rows="4" cols="53">
 								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/DESCRIPTION</xsl:attribute>
 								<xsl:value-of select="RowSet/Row/T_CLIENT/DESCRIPTION"/>
 							</textarea>
@@ -146,9 +126,8 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td></td>
 						<td align="left">
-							<input type="button" onclick="javascript:document.editClientForm.submit();" value="&#160;&#160;&#160;&#160;OK&#160;&#160;&#160;&#160;"/>
+							<input type="submit" value="OK" style="width:10em"/>
 							<input type="button" onclick="javascript:history.back()" value="Cancel"/>
 						</td>
 					</tr>
