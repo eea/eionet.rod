@@ -103,7 +103,7 @@
 						</td>
 					</tr>
 					<tr valign="top">
-						<th align="right"><label for="homapage">Homepage:</label></th>
+						<th align="right"><label for="homepage">Homepage:</label></th>
 						<td align="left">
 							<input id="homepage" type="text" size="68" maxlength="255" onchange="chkUrl(this)">
 								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/CLIENT_URL</xsl:attribute>
@@ -128,7 +128,7 @@
 						</td>
 					</tr>
 				</table>
-				<input type="hidden" name="dom-update-mode" value="U"></input>
+				<input type="hidden" name="dom-update-mode" value="U"/>
 			</form>
 		</div>
 

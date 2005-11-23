@@ -1,4 +1,4 @@
-﻿<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.RODUtil"%>
+<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.RODUtil"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -94,8 +94,8 @@
 	   	<table class="datatable" width="600">
 			<thead>
 				<tr>
-					<th scope="col">Title:</th>
-					<th scope="col">Version:</th>
+					<th scope="col">Title</th>
+					<th scope="col">Version</th>
 					<th scope="col">Action</th>
 				</tr>
 			</thead>
@@ -148,7 +148,9 @@
 									<% } else { %>
 											<a href="restore?id=<%=pkraid%>&amp;pid=<%=pkraid%>&amp;latestversion=<%=max%>">Restore</a>
 									<% }	
-									} %>
+									} else { %>
+									&nbsp;
+									<% } %>	
 									</td>
 								</tr>
 							<%

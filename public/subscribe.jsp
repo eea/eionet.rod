@@ -1,4 +1,4 @@
-﻿<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.services.FileServiceIF,eionet.rod.RODUtil,eionet.rod.countrysrv.servlets.Subscribe"%>
+<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.services.FileServiceIF,eionet.rod.RODUtil,eionet.rod.countrysrv.servlets.Subscribe"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -6,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>EEA - Reporting Obligations Database</title>
+    <title>Subscribe to notifications - ROD</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="title" content="EEA - Reporting Obligations Database" />
 	<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
@@ -20,6 +20,7 @@
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="script/util.js"></script>
 	<script type="text/javascript">
+	//<![CDATA[
     	function showhelp(text) {
 			if (text != '')
 				alert(text);
@@ -79,6 +80,7 @@
 			} 
 			list.options[0].selected = true;
 		}
+	//]]>
     </script>
 </head>
 <body>
@@ -88,9 +90,9 @@
     <%@ include file="menu.jsp" %>
 <div id="workarea">
    <div class="section">
-   	<br>
-   	<br>
-   	<form name="form" method="post" action="Subscribe" acceptcharset="UTF-8">
+   	<br/>
+   	<br/>
+   	<form name="form" method="post" action="Subscribe">
    		<%
    		Object success = session.getAttribute("SUCCESS");
    		if (success!=null){
@@ -116,11 +118,11 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td scope="row">
 						<strong>My interests:<strong>
 					</td>
 					<td>
-						<input type="checkbox" name="event_type" value="Approaching deadline">Approaching deadlines</input>
+						<input type="checkbox" id="deadlines" name="event_type" value="Approaching deadline"/><label for="deadlines">Approaching deadlines</label>
 					</td>
 				</tr>
 				<tr>
@@ -128,7 +130,7 @@
 						&nbsp;
 					</td>
 					<td>
-						<input type="checkbox" name="event_type" value="Obligation change">Changes to obligations</input>
+						<input type="checkbox" id="changes" name="event_type" value="Obligation change"/><label for="changes">Changes to obligations</label>
 					</td>
 				</tr>
 				<tr>
@@ -136,12 +138,12 @@
 						&nbsp;
 					</td>
 					<td>
-						<input type="checkbox" name="event_type" value="New obligation">New obligations</input>
+						<input type="checkbox" id="newobl" name="event_type" value="New obligation"/><label for="newobl">New obligations</label>
 					</td>
 				</tr>
 
 				<tr>
-					<td>
+					<td scope="row">
 						<strong>Country:<strong>
 					</td>
 					<td>
@@ -168,7 +170,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td scope="row">
 						<strong>Issue:<strong>
 					</td>
 					<td>
@@ -196,7 +198,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td scope="row">
 						<strong>Organisation:<strong>
 					</td>
 					<td>
@@ -237,7 +239,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td scope="row">
 						<strong>Obligation:<strong>
 					</td>
 					<td>
@@ -287,7 +289,6 @@
 				</tr>
 			</table>
 		</form>
-		<br>
    </div>
 </div> <!-- workarea -->
 <jsp:include page="footer.jsp" flush="true">

@@ -104,10 +104,9 @@
 	</script>
 	<!-- page -->
 	<div id="workarea">
-		<div id="operations">
-				<xsl:if test="$admin='true'">
-					<h2>Actions</h2>
-				</xsl:if>
+		<xsl:if test="$admin='true'">
+			<div id="operations">
+				<h2>Actions</h2>
 				<ul>
 
 				<xsl:if test="contains($permissions, ',/Admin:v,')">
@@ -124,6 +123,7 @@
 				</xsl:if>
 				</ul>
 			</div>
+		</xsl:if>
 				<h1>Reporting obligations<xsl:if test="$analysisMode!=''">: <xsl:value-of select="$analysisText"/>	</xsl:if>
 								<xsl:if test="$sel_country!=''">: <xsl:value-of select="$sel_country"/></xsl:if>
 								<xsl:if test="$sel_client!=''">	: <xsl:value-of select="$sel_client"/></xsl:if>

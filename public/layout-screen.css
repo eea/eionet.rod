@@ -192,8 +192,8 @@ body {
 }
 
 #obligations {
-	color: #000000; 
-	font-size: 9pt; 
+	color: #000000;
+	font-size: 9pt;
 	width:868px;
 }
 
@@ -538,6 +538,22 @@ kbd { font-weight: bold }
 	background-image: url('images/bgr_form_buttons.jpg');
 }
 
+/* Tables for data */
+.datatable {
+	border-collapse: collapse;
+	border: 1px solid #008080;
+}
+
+.datatable th {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	background-color: white;
+	text-align: center;
+	border: 1px solid #c0c0c0;
+}
+.datatable td {
+	border: 1px solid #c0c0c0;
+}
+
 /* Sortable columns in tables */
 .sortable {
 	border: 1px solid black;
@@ -567,7 +583,7 @@ kbd { font-weight: bold }
 	background: #E0E0E0;
 }
 
-.sortable tbody tr.even td {
+tr.even td {
 	background-color: #cbdcdc;
 }
 /*

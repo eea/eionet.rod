@@ -18,6 +18,7 @@
 	<!--SCRIPT language="JavaScript" src="script/util.js"></SCRIPT-->
 
 	<script language="JavaScript">
+	//<![CDATA[
 
 	//COPY+PASTE from util.js needs re-engineering in the future
 	function chkUrl(fld) {
@@ -46,6 +47,7 @@
 					document.forms[formName].elements[0].focus();
 			}
 		}
+	//]]>
 	</script>
 	</head>
 
