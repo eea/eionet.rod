@@ -23,11 +23,29 @@
 
 package eionet.rod;
 
-import java.sql.*;
-import javax.servlet.http.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
 
-import com.tee.xmlserver.*;
-import com.tee.util.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.tee.util.SQLGenerator;
+import com.tee.util.Util;
+import com.tee.xmlserver.AppUserIF;
+import com.tee.xmlserver.DataSourceIF;
+import com.tee.xmlserver.GeneralException;
+import com.tee.xmlserver.Logger;
+import com.tee.xmlserver.Parameters;
+import com.tee.xmlserver.QueryStatementIF;
+import com.tee.xmlserver.SaveHandler;
+import com.tee.xmlserver.XMLSource;
+import com.tee.xmlserver.XSQLException;
+
+import eionet.rod.services.RODServices;
 
 /**
  * <P>Activity editor servlet class.</P>
@@ -48,6 +66,11 @@ import com.tee.util.*;
  */
 
 public class Activity extends ROEditServletAC {
+    
+    /** */
+    private ActivityHandler activityHandler = null;
+    
+    
 /**
  *
  */
@@ -82,6 +105,7 @@ public class Activity extends ROEditServletAC {
  */
    protected void doGet(HttpServletRequest req, HttpServletResponse res) 
          throws javax.servlet.ServletException, java.io.IOException {
+       
       Connection conn = null;
       Statement stmt  = null;
 
@@ -204,10 +228,96 @@ public class Activity extends ROEditServletAC {
  *
  */
 
- 
    protected void appDoPost(HttpServletRequest req, HttpServletResponse res)
          throws XSQLException {
       try {
+          
+          //
+          if (activityHandler.wasObligationUpdate() || activityHandler.wasObligationInsert()){
+              
+              try{
+                  SQLGenerator gen = activityHandler.getSQLGen();
+                  if (gen != null) {
+                  
+                      Vector lists = new Vector();
+                      Vector list = new Vector();
+                      long timestamp = System.currentTimeMillis();
+                      String events = "http://rod.eionet.eu.int/events/" + timestamp;
+                      String obligationID = null;
+                      
+                      if (activityHandler.wasObligationUpdate() || 
+                              (activityHandler.isCreateNewVer() != null && activityHandler.isCreateNewVer().equalsIgnoreCase("true"))) {
+                          
+                          list.add(events);
+                          list.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+                          list.add(Attrs.SCHEMA_RDF + "ObligationChange");
+                          lists.add(list);
+                          
+                          list = new Vector();
+                          list.add(events);
+                          list.add(Attrs.SCHEMA_RDF + "event_type");
+                          list.add("Obligation change");
+                          lists.add(list);
+                          
+                          list = new Vector();
+                          list.add(events);
+                          list.add(Attrs.SCHEMA_RDF + "label");
+                          list.add("Obligation change");
+                          lists.add(list);
+                          
+                      } else if (activityHandler.wasObligationInsert() && 
+                              (activityHandler.isCreateNewVer() != null && !activityHandler.isCreateNewVer().equalsIgnoreCase("true"))) {
+                          
+                          list.add(events);
+                          list.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+                          list.add(Attrs.SCHEMA_RDF + "NewObligation");
+                          lists.add(list);
+                          
+                          list = new Vector();
+                          list.add(events);
+                          list.add(Attrs.SCHEMA_RDF + "event_type");
+                          list.add("New Obligation");
+                          lists.add(list);
+                          
+                          list = new Vector();
+                          list.add(events);
+                          list.add(Attrs.SCHEMA_RDF + "label");
+                          list.add("New Obligation");
+                          lists.add(list);
+                          
+                      }
+                      
+                      list = new Vector();
+                      list.add(events);
+                      list.add(Attrs.SCHEMA_RDF + "obligation");
+                      list.add(gen.getFieldValue("TITLE"));
+                      lists.add(list);
+                      
+                      if (curRecord != null)
+                          obligationID = curRecord;
+                      Vector countries = RODServices.getDbService().getObligationCountries(obligationID);
+                      
+                      for (Enumeration en = countries.elements(); en.hasMoreElements(); ){
+                          Hashtable hash = (Hashtable) en.nextElement();
+                          list = new Vector();
+                          list.add(events);
+                          list.add(Attrs.SCHEMA_RDF + "locality");
+                          list.add(hash.get("name"));                  
+                          lists.add(list);
+                      }
+                      
+                      list = new Vector();
+                      list.add(events);
+                      list.add(Attrs.SCHEMA_RDF + "responsiblerole");
+                      list.add(gen.getFieldValue("RESPONSIBLE_ROLE"));
+                      lists.add(list);
+                      
+                      if (lists.size() > 0) UNSEventSender.makeCall(lists);
+                  }
+              }
+              catch (Exception e){
+              }
+          }
 
     		String reDirect=req.getParameter("silent");
         reDirect=(reDirect==null ? "0" : reDirect);
@@ -244,7 +354,9 @@ public class Activity extends ROEditServletAC {
  *
  */
    protected SaveHandler setDataHandler() {
-      return new ActivityHandler(this);
+       
+       this.activityHandler = new ActivityHandler(this);
+       return this.activityHandler;
    }
    
    private static final String ISSUES =
