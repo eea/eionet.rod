@@ -89,26 +89,17 @@
     </jsp:include>
     <%@ include file="menu.jsp" %>
 <div id="workarea">
-   <div class="section">
-   	<br/>
-   	<br/>
-	   	<table class="sortable" cellpadding="2" cellspacing="0" width="600" border="0">
+		<h1>Previous versions</h1>						
+
+	   	<table class="datatable" width="600">
+			<thead>
 				<tr>
-					<td colspan="2">
-						<h1>Previous versions</h1>						
-					</td>
+					<th scope="col">Title:</th>
+					<th scope="col">Version:</th>
+					<th scope="col">Action</th>
 				</tr>
-				<tr>
-					<td>
-						<strong>Title:<strong>
-					</td>
-					<td>
-						<strong>Version:<strong>
-					</td>
-					<td>
-						
-					</td>
-				</tr>
+			</thead>
+			<tbody>
 				<%
 					String id = request.getParameter("id");
 					String pid = request.getParameter("pid");
@@ -145,17 +136,17 @@
 							%>
 								<tr class="<%=c%>">
 									<% if (pid != null && pid != ""){ %>
-										<td><a href="show.jsv?id=<%=pid%>&aid=<%=source%>&mode=A&sv=T"><%=title%></a></td>
+										<td><a href="show.jsv?id=<%=pid%>&amp;aid=<%=source%>&amp;mode=A&amp;sv=T"><%=title%></a></td>
 									<%} else { %>
-										<td><a href="show.jsv?id=<%=id%>&aid=<%=source%>&mode=A&sv=T"><%=title%></a></td>
+										<td><a href="show.jsv?id=<%=id%>&amp;aid=<%=source%>&amp;mode=A&amp;sv=T"><%=title%></a></td>
 									<% } %>
 									<td><%=version%></td>
 									<td>
 									<% if(Integer.parseInt(version) != max){
 										if(parentid != null && !parentid.equals("")) {%>
-											<a href="restore?id=<%=pkraid%>&pid=<%=parentid%>&latestversion=<%=max%>">Restore</a>
+											<a href="restore?id=<%=pkraid%>&amp;pid=<%=parentid%>&amp;latestversion=<%=max%>">Restore</a>
 									<% } else { %>
-											<a href="restore?id=<%=pkraid%>&pid=<%=pkraid%>&latestversion=<%=max%>">Restore</a>
+											<a href="restore?id=<%=pkraid%>&amp;pid=<%=pkraid%>&amp;latestversion=<%=max%>">Restore</a>
 									<% }	
 									} %>
 									</td>
@@ -163,10 +154,8 @@
 							<%
 						}
 				%>
-				
+				</tbody>
 			</table>
-		<br/>
-   </div>
 </div> <!-- workarea -->
 <jsp:include page="footer.jsp" flush="true">
 </jsp:include>
