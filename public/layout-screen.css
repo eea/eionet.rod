@@ -191,6 +191,11 @@ body {
 	height: 17px;
 }
 
+#obligations {
+	color: #000000; 
+	font-size: 9pt; 
+	width:868px;
+}
 
 #actionlist {
 	float: right;
