@@ -1,4 +1,4 @@
-﻿<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.RODUtil,eionet.rod.countrysrv.servlets.Subscribe"%>
+﻿<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.RODUtil"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -6,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>EEA - Reporting Obligations Database</title>
+    <title>Previous Versions - ROD</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="title" content="EEA - Reporting Obligations Database" />
 	<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
@@ -20,6 +20,7 @@
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="script/util.js"></script>
 	<script type="text/javascript">
+	//<![CDATA[
     	function showhelp(text) {
 			if (text != '')
 				alert(text);
@@ -79,6 +80,7 @@
 			} 
 			list.options[0].selected = true;
 		}
+	//]]>
     </script>
 </head>
 <body>
@@ -88,8 +90,8 @@
     <%@ include file="menu.jsp" %>
 <div id="workarea">
    <div class="section">
-   	<br>
-   	<br>
+   	<br/>
+   	<br/>
 	   	<table class="sortable" cellpadding="2" cellspacing="0" width="600" border="0">
 				<tr>
 					<td colspan="2">
@@ -163,7 +165,7 @@
 				%>
 				
 			</table>
-		<br>
+		<br/>
    </div>
 </div> <!-- workarea -->
 <jsp:include page="footer.jsp" flush="true">
