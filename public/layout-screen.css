@@ -145,17 +145,30 @@ body {
 	text-align: center;
 }
 
-/* The .operations is for the blue buttons to the right of the page */
+/* The #operations is for the blue buttons to the right of the page */
+
 
 #operations {
 	float: right;
+	width:125px;
+	border: 1px solid black;
+	background-color:#A0A0A0;
 	margin: 20px 0px 0px 15px;
 }
 
+#operations h2 {
+	text-align: center;
+	font-size: 1em;
+	font-weight:bold;
+	color:#FFFFFF;
+	background-color:#A0A0A0;
+	border-bottom:1px dotted black;
+}
 #operations ul {
 	list-style: none;
 	list-style-image: none; /* bug in IE */
 	margin: 0 0 0 0;
+	padding: 0 0 0 0;
 }
 
 #operations li {
