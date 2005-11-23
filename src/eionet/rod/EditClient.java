@@ -43,17 +43,19 @@ public class EditClient extends ROEditServletAC {
     }
    
     protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
+        HttpServletRequest req = params.getRequest();
+        
         String querySource = PREFIX + "client.xrs";
 
         String param = params.getParameter(Constants.ID_PARAM);
 
         String queryPars[][] = {{"ID", param}};
 
-        DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, params.getRequest());
+        DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, req);
 
         dataSrc.setParameters(queryPars);
-
-        return dataSrc;
+        
+        return userInfo(req, dataSrc);
       }
    
    protected void appDoPost(HttpServletRequest req, HttpServletResponse res) throws XSQLException {
