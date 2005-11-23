@@ -29,10 +29,6 @@
 		<xsl:value-of select="/XmlData/RowSet/Row/T_CLIENT/PK_CLIENT_ID"/>
 	</xsl:variable>
 	
-	<xsl:variable name="admin">
-		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@auth"/>
-	</xsl:variable>
-	
 <xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
