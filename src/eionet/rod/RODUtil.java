@@ -39,4 +39,21 @@ public class RODUtil {
       return p;
       
    }
+   
+   /*
+    * 
+    */
+	public static String threeDots(String s, int len){
+		
+		if (len<=0) return s;
+		if (s==null || s.length()==0) return s;
+		
+		if (s.length()>len){
+			StringBuffer buf = new StringBuffer(s.substring(0,len));
+			buf.append("...");
+			return buf.toString();
+		}
+		else
+			return s;
+	}
 }
