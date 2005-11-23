@@ -29,10 +29,6 @@
 		<xsl:value-of select="/XmlData/RowSet/Row/T_CLIENT/PK_CLIENT_ID"/>
 	</xsl:variable>
 	
-	<xsl:variable name="admin">
-		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@auth"/>
-	</xsl:variable>
-	
 <xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
@@ -45,15 +41,17 @@
 
 	<xsl:template match="XmlData">
 		<div id="workarea">
-			<div id="operations" style="width:125px; text-align:center; border: 1px solid black; background-color:#A0A0A0">
-				<div style="color:#FFFFFF; font-weight:bold; border-bottom:1px dotted black">Actions</div>
-				<p>
-					<a>
-					<xsl:attribute name="href">eclient.jsv?id=<xsl:value-of select='$client-id'/></xsl:attribute>
-					<img src="images/editorganisation.png" alt="Edit organisation" border="0"/>
-					</a>
-				</p>
-			</div>
+			<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+				<div id="operations" style="width:125px; text-align:center; border: 1px solid black; background-color:#A0A0A0">
+					<div style="color:#FFFFFF; font-weight:bold; border-bottom:1px dotted black">Actions</div>
+					<p>
+						<a>
+						<xsl:attribute name="href">eclient.jsv?id=<xsl:value-of select='$client-id'/></xsl:attribute>
+						<img src="images/editorganisation.png" alt="Edit organisation" border="0"/>
+						</a>
+					</p>
+				</div>
+			</xsl:if>
 			<h1>Reporting client or issuer details</h1>
 			<table border="0">
 					<tr valign="top">
