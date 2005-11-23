@@ -127,8 +127,8 @@
 					<tr>
 						<td></td>
 						<td align="left">
-							<input type="submit" value="OK" style="width:10em"/>
-							<input type="button" onclick="javascript:history.back()" value="Cancel"/>
+							<input type="submit" value="OK" style="width:6em"/>
+							<input type="button" onclick="javascript:history.back()" value="Cancel" style="width:6em"/>
 						</td>
 					</tr>
 				</table>

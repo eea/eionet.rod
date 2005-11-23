@@ -45,68 +45,43 @@
 
 	<xsl:template match="XmlData">
 		<div id="workarea">
-			<div id="operations">
-				<table style="float:right">
-				<tr>
-					<td align="center">
-						<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
-						<xsl:attribute name="style">border: #000000 1px solid;</xsl:attribute>
-						<b><font color="#FFFFFF">Actions</font></b><br/><br/>
-						<a>
-							<xsl:attribute name="href">eclient.jsv?id=<xsl:value-of select='$client-id'/></xsl:attribute>
-							<img src="images/editorganisation.png" alt="Edit organisation" border="0"/>
-						</a><br/>
-				</td>
-				</tr>
-				</table>
+			<div id="operations" style="width:125px; text-align:center; border: 1px solid black; background-color:#A0A0A0">
+				<div style="color:#FFFFFF; font-weight:bold; border-bottom:1px dotted black">Actions</div>
+				<p>
+					<a>
+					<xsl:attribute name="href">eclient.jsv?id=<xsl:value-of select='$client-id'/></xsl:attribute>
+					<img src="images/editorganisation.png" alt="Edit organisation" border="0"/>
+					</a>
+				</p>
 			</div>
-			<table>
-				<tr>
-					<td width="20"></td>
-					<td width="630" align="left">
-						<h2>Reporting client or issuer details</h2>
-					</td>
-				</tr>
-			</table>
-			<table width="650" border="0">
-					<tr height="30" valign="top">
-						<td width="20"></td>
-						<td align="right" width="100"><b>Name:</b></td>
+			<h1>Reporting client or issuer details</h1>
+			<table border="0">
+					<tr valign="top">
+						<th scope="row" align="right" width="100">Name:</th>
 						<td align="left" width="490"><xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_NAME"/></td>
-						<td width="10"></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Acronym:</b></td>
+					<tr valign="top">
+						<th scope="row" align="right">Acronym:</th>
 						<td align="left" ><xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_ACRONYM"/></td>
-						<td></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Address:</b></td>
+					<tr valign="top">
+						<th scope="row" align="right">Address:</th>
 						<td align="left"><xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_ADDRESS"/></td>
-						<td></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Postal code:</b></td>
+					<tr valign="top">
+						<th scope="row" align="right">Postal code:</th>
 						<td align="left"><xsl:value-of select="RowSet/Row/T_CLIENT/POSTAL_CODE"/></td>
-						<td></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>City:</b></td>
+					<tr valign="top">
+						<th scope="row" align="right">City:</th>
 						<td align="left"><xsl:value-of select="RowSet/Row/T_CLIENT/CITY"/></td>
-						<td></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Country:</b></td>
+					<tr valign="top">
+						<th scope="row" align="right">Country:</th>
 						<td align="left"><xsl:value-of select="RowSet/Row/T_CLIENT/COUNTRY"/></td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Homepage:</b></td>
+					<tr valign="top">
+						<th scope="row" align="right">Homepage:</th>
 						<td align="left">
 							<xsl:if test="RowSet/Row/T_CLIENT/CLIENT_URL != ''">
 							<a target="_new">
@@ -118,9 +93,8 @@
 							</xsl:if>
 						</td>
 					</tr>
-					<tr height="30" valign="top">
-						<td></td>
-						<td align="right"><b>Description:</b></td>
+					<tr valign="top">
+						<th scope="row" align="right">Description:</th>
 						<td align="left">
 					<xsl:call-template name="break">
 					       <xsl:with-param name="text" select="RowSet/Row/T_CLIENT/DESCRIPTION"/>
