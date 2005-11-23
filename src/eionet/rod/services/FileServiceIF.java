@@ -23,8 +23,6 @@
 
 package eionet.rod.services;
 
-import java.util.Iterator;
-import java.io.File;
 
 
 /**
@@ -143,9 +141,54 @@ public interface FileServiceIF  {
   public static final String PRED_RDF_TYPE = "pred.rdf-type";
   
   /**
-   * Percent of reporting frequence for approaching deadlines
-   */
-   public static final String PERCENT_OF_FREQ = "percent.of.freq";
+  * Percent of reporting frequence for approaching deadlines
+  */
+  public static final String PERCENT_OF_FREQ = "percent.of.freq";
+  
+  /**
+  * Datefile for DeadlinesDaemon
+  */
+  public static final String DEADLINES_DAEMON_DATEFILE = "deadlines.daemon.datefile";
+   
+  /**
+  * XML-RPC server URL for UNS subscription
+  */
+  public static final String UNS_XMLRPC_SERVER_URL = "uns.xml.rpc.server.url";
+   
+  /**
+  * Channel name for UNS subscription method
+  */
+  public static final String UNS_CHANNEL_NAME = "uns.channel.name";
+  
+  /**
+  * Event type predicate for UNS subscription method
+  */
+  public static final String UNS_EVENTTYPE_PREDICATE = "uns.eventtype.predicate";
+  
+  /**
+  * Country predicate for UNS subscription method
+  */
+  public static final String UNS_COUNTRY_PREDICATE = "uns.country.predicate";
+  
+  /**
+  * Issue predicate for UNS subscription method
+  */
+  public static final String UNS_ISSUE_PREDICATE = "uns.issue.predicate";
+  
+  /**
+  * Obligation predicate for UNS subscription method
+  */
+  public static final String UNS_OBLIGATION_PREDICATE = "uns.obligation.predicate";
+  
+  /**
+  * Organisation predicate for UNS subscription method
+  */
+  public static final String UNS_ORGANISATION_PREDICATE = "uns.organisation.predicate";
+  
+  /**
+  * UNS subscriptions URL
+  */
+  public static final String UNS_MY_SUBSCRIPTIONS_URL = "uns.my.subscriptions.url";
 
   /**
   * Returns String type property from the properties file
