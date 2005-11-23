@@ -105,34 +105,24 @@
 	<!-- page -->
 	<div id="workarea">
 		<div id="operations">
-			<table style="float:right">
-			<tr>
-				<td align="center">
 				<xsl:if test="$admin='true'">
-					<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
-					<xsl:attribute name="style">border: #000000 1px solid;</xsl:attribute>
-					<b><font color="#FFFFFF">Actions</font></b><br/><br/>
+					<h2>Actions</h2>
 				</xsl:if>
+				<ul>
 
 				<xsl:if test="contains($permissions, ',/Admin:v,')">
-					<a>
+					<li><a title="Show history of deleted records">
 						<xsl:attribute name="href">javascript:openActionTypeHistory("D","O' OR ITEM_TYPE='A" )</xsl:attribute>
-						<img src="images/showdeleted.png" alt="Show history of deleted records" border="0"/>
-					</a><br/>
+						Show deleted</a></li>
 				</xsl:if>
 				<xsl:if test="contains($permissions, ',/obligations:i,')">
-					<a>
+					<li><a title="Create a new reporting obligation">
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;amp;mode=X</xsl:attribute>
-						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/>
-					</a><br/>
-					<a>
-						<xsl:attribute name="href">subscribe.jsp</xsl:attribute>
-						<img src="images/subscribe.png" alt="Create a UNS Subscription" border="0"/>
-					</a><br/>
+						New obligation</a></li>
+					<li><a href="subscribe.jsp" title="Create a UNS Subscription">
+						Subscribe</a></li>
 				</xsl:if>
-			</td>
-			</tr>
-			</table>
+				</ul>
 			</div>
 				<h1>Reporting obligations<xsl:if test="$analysisMode!=''">: <xsl:value-of select="$analysisText"/>	</xsl:if>
 								<xsl:if test="$sel_country!=''">: <xsl:value-of select="$sel_country"/></xsl:if>
