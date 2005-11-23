@@ -633,10 +633,10 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   
   public  Vector getUpcomingDeadlines(double days) throws ServiceException {
       
-      String sql = " SELECT o.TITLE AS title, o.FK_DELIVERY_COUNTRY_IDS AS country_ids, " + 
+      String sql = " SELECT o.TITLE AS title, o.FK_DELIVERY_COUNTRY_IDS AS country_ids, o.REPORT_FREQ_MONTHS AS freq, " + 
       " c.CLIENT_NAME AS client, o.NEXT_DEADLINE AS next_deadline, o.NEXT_DEADLINE2 AS next_deadline2, o.RESPONSIBLE_ROLE AS responsible_role FROM T_OBLIGATION o, T_CLIENT c WHERE " +
       " CURDATE() < o.NEXT_DEADLINE AND (CURDATE() + INTERVAL (o.REPORT_FREQ_MONTHS * " + days + ") DAY) > o.NEXT_DEADLINE " + 
-      " AND c.PK_CLIENT_ID = o.FK_CLIENT_ID ";
+      "AND o.HAS_NEWER_VERSION = '-1' AND c.PK_CLIENT_ID = o.FK_CLIENT_ID ";
 
       return  _getVectorOfHashes(sql);        
   }
@@ -1108,6 +1108,15 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       
     String sql = "SELECT i.ISSUE_NAME AS name FROM T_ISSUE i, T_RAISSUE_LNK r WHERE " + 
     " r.FK_RA_ID = '" + id + "' AND i.PK_ISSUE_ID = r.FK_ISSUE_ID ORDER BY i.ISSUE_NAME";
+
+      
+    return _getVectorOfHashes(sql);
+  }
+  
+  public Vector getObligationDetail(String id) throws ServiceException {
+      
+    String sql = "SELECT TITLE AS title, NEXT_DEADLINE AS next_deadline, NEXT_DEADLINE2 AS next_deadline2 " + 
+    "  FROM T_OBLIGATION WHERE PK_RA_ID = '" + id + "'";
 
       
     return _getVectorOfHashes(sql);
