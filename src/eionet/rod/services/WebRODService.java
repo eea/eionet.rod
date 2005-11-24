@@ -24,7 +24,6 @@
 package eionet.rod.services;
 
 import java.util.Vector;
-import com.tee.uit.security.AppUser;
 
 /**
  * Container class for providing public services of WebROD
@@ -80,6 +79,20 @@ public  class WebRODService {
       dbSrv = RODServices.getDbService();    
    return dbSrv.getROSummary();
   }
-  
+  public Vector getObligationIssues(String id) throws ServiceException {
+      if (dbSrv == null )
+          dbSrv = RODServices.getDbService();
+      return dbSrv.getObligationIssues(id);
+  }
+  public Vector getObligationOrg(String id) throws ServiceException {
+      if (dbSrv == null )
+          dbSrv = RODServices.getDbService();
+      return dbSrv.getObligationOrg(id);
+  }
+  public Vector getObligationDetail(String id) throws ServiceException {
+      if (dbSrv == null )
+          dbSrv = RODServices.getDbService();
+      return dbSrv.getObligationOrg(id);
+  }
   
 }
