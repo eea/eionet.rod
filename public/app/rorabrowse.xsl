@@ -113,10 +113,9 @@
 			<div id="operations">
 				<h2>Actions</h2>
 				<ul>
-
 				<xsl:if test="contains($permissions, ',/Admin:v,')">
 					<li><a title="Show history of deleted records">
-						<xsl:attribute name="href">javascript:openActionTypeHistory("D","O' OR ITEM_TYPE='A" )</xsl:attribute>
+						<xsl:attribute name="href">history.jsv?entity=O' OR ITEM_TYPE='A&amp;amp;mode=D</xsl:attribute>
 						Show deleted</a></li>
 				</xsl:if>
 				<xsl:if test="contains($permissions, ',/obligations:i,')">

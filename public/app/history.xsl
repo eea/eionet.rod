@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -24,91 +23,99 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-<xsl:template match="/">
 
-
-<xsl:variable name="item-type">
+	<xsl:variable name="pagetitle">
+		History of changes
+	</xsl:variable>
+	
+	<xsl:include href="ncommon.xsl"/>
+	
+	<xsl:variable name="item-type">
 		<xsl:value-of select="/XmlData/RowSet/Row/T_HISTORY/ITEM_TYPE"/>
 	</xsl:variable>
-
-<html lang="en">
-<head><title>History of changes</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<link type="text/css" rel="stylesheet" href="eionet.css"/>
-</head>
-<body marginheight="0" marginwidth="0" leftmargin="0" topmargin="0" bgcolor="#f0f0f0">
-
-	<xsl:if test="XmlData/RowSet/Row/T_HISTORY/ITEM_ID != 0">
-
-	<table border="0" width="100%">
-		<tr>
-			<td width="60%" align="right">
-		<span class="head0">
-			History of changing data of 
-			<xsl:choose>
-				<xsl:when test="$item-type='O'">
-					Reporting obligation:
-				</xsl:when>
-				<xsl:when test="$item-type='A'">
-					Reporting Obligation:
-				</xsl:when>
-				<xsl:when test="$item-type='L'">
-					Legislative instrument:
-				</xsl:when>
-			</xsl:choose>
-		</span>
-   </td>
-	 <td align="left" width="40%"><b> ID=<xsl:value-of select="XmlData/RowSet/Row/T_HISTORY/ITEM_ID"/> </b></td>
-	 </tr>
-	 </table>
-	</xsl:if>
-	 <br/>
-
-	<table width="100%" border="0" cellpadding="0" cellspacing="0">
-	<tr>
-		<td style="border-right: 1px solid #008080; border-left: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080" bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">Time</span></td>
-		<td style="border-right: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080; " bgcolor="#FFFFFF" align="center" width="15%"><span class="head0">Action</span></td>
-		<td style="border-right: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080; " bgcolor="#FFFFFF" align="center" width="25%"><span class="head0">User</span></td>
-		<td style="border-right: 1px solid #008080; border-top: 1px solid #008080;border-bottom: 1px solid #008080; " bgcolor="#FFFFFF" align="center" width="35%"><span class="head0">Description</span></td>
-	</tr>
-
-
-<xsl:for-each select="XmlData/RowSet/Row">
-<tr valign="top">
-	<xsl:attribute name="bgcolor">
-		<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
-	</xsl:attribute>
-	<td align="center" style="border-right: 1px solid #C0C0C0; border-left: 1px solid #008080; border-bottom: 1px solid #C0C0C0">
-		<xsl:value-of select="T_HISTORY/TIME_STAMP"/>
-	</td>
-	<td style="border-right: 1px solid #C0C0C0; border-bottom: 1px solid #C0C0C0">
-		<xsl:choose>
-			<xsl:when test="T_HISTORY/ACTION_TYPE='I'">
-				Insert
-			</xsl:when>
-			<xsl:when test="T_HISTORY/ACTION_TYPE='U'">
-				Update
-			</xsl:when>
-			<xsl:when test="T_HISTORY/ACTION_TYPE='D'">
-				Delete
-			</xsl:when>
-			<xsl:when test="T_HISTORY/ACTION_TYPE='X'">
-				Execute
-			</xsl:when>
-		</xsl:choose>
-	</td>
-	<td style="border-right: 1px solid #C0C0C0; border-bottom: 1px solid #C0C0C0">
-		<xsl:value-of select="T_HISTORY/USER"/>
-	</td>
-	<td style="border-right: 1px solid #008080; border-bottom: 1px solid #C0C0C0">
-		<xsl:value-of select="T_HISTORY/DESCRIPTION"/>&#160;
-	</td>
-</tr>	
-</xsl:for-each>
-</table>
-
-</body>
-</html>
-
+	
+<xsl:template name="breadcrumbs">
+<div class="breadcrumbtrail">
+ <div class="breadcrumbhead">You are here:</div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
+ <div class="breadcrumbitemlast">History of changes</div>
+ <div class="breadcrumbtail">&#160;</div>
+</div>
 </xsl:template>
+	
+	<xsl:template match="XmlData">
+		<div id="workarea">
+				<xsl:if test="RowSet/Row/T_HISTORY/ITEM_ID != 0">
+				<table border="0" width="100%">
+					<tr>
+						<td width="60%" align="right">
+					<span class="head0">
+						History of changing data of 
+						<xsl:choose>
+							<xsl:when test="$item-type='O'">
+								Reporting obligation:
+							</xsl:when>
+							<xsl:when test="$item-type='A'">
+								Reporting Obligation:
+							</xsl:when>
+							<xsl:when test="$item-type='L'">
+								Legislative instrument:
+							</xsl:when>
+						</xsl:choose>
+					</span>
+			   </td>
+				 <td align="left" width="40%"><b> ID=<xsl:value-of select="RowSet/Row/T_HISTORY/ITEM_ID"/> </b></td>
+				 </tr>
+				 </table>
+				</xsl:if>
+				 <br/>
+			
+				<table width="100%" class="datatable">
+				<tr>
+					<th scope="col">Time</th>
+					<th scope="col">Action</th>
+					<th scope="col">User</th>
+					<th scope="col">Description</th>
+				</tr>
+			
+			
+			<xsl:for-each select="RowSet/Row">
+			<tr valign="top">
+				<xsl:attribute name="bgcolor">
+					<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
+				</xsl:attribute>
+				<td align="center">
+					<xsl:value-of select="T_HISTORY/TIME_STAMP"/>
+				</td>
+				<td>
+					<xsl:choose>
+						<xsl:when test="T_HISTORY/ACTION_TYPE='I'">
+							Insert
+						</xsl:when>
+						<xsl:when test="T_HISTORY/ACTION_TYPE='U'">
+							Update
+						</xsl:when>
+						<xsl:when test="T_HISTORY/ACTION_TYPE='D'">
+							Delete
+						</xsl:when>
+						<xsl:when test="T_HISTORY/ACTION_TYPE='X'">
+							Execute
+						</xsl:when>
+					</xsl:choose>
+				</td>
+				<td>
+					<xsl:value-of select="T_HISTORY/USER"/>
+				</td>
+				<td>
+					<xsl:value-of select="T_HISTORY/DESCRIPTION"/>&#160;
+				</td>
+			</tr>	
+			</xsl:for-each>
+			</table>
+		</div>
+
+		<xsl:call-template name="CommonFooter"/>
+	</xsl:template>
+
 </xsl:stylesheet>

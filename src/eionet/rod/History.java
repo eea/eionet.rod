@@ -84,7 +84,7 @@ public class History extends ROServletAC {
       DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + HISTORY_QUERY, params.getRequest());
       dataSrc.setParameters(queryPars);
       
-      return dataSrc;
+      return userInfo(params.getRequest(), dataSrc);
    }
 
  private boolean isAuthorised(HttpServletRequest req) throws XSQLException {
