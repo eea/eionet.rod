@@ -27,7 +27,7 @@
 
 	<xsl:template name="PageTitle">
 		<xsl:choose>
-			<xsl:when test="//PAGETITLE != ''"><xsl:value-of select="//PAGETITLE"/></xsl:when>
+			<xsl:when test="$pagetitle != ''"><xsl:value-of select="$pagetitle"/></xsl:when>
 			<xsl:otherwise>EEA - Reporting Obligations Database</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

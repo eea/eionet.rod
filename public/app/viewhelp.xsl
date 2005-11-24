@@ -25,8 +25,11 @@
  -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:strip-space elements="HELP_TEXT"/>
+	 <xsl:strip-space elements="HELP_TEXT"/>
 	<xsl:variable name="permissions"/>
+	<xsl:variable name="pagetitle">
+		Help
+	</xsl:variable>
 	<xsl:include href="util.xsl"/>
 
 	<xsl:template match="/">

@@ -23,8 +23,13 @@
  * -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:include href="ncommon.xsl"/>
+
+	<xsl:variable name="pagetitle">
+		Reporting client or issuer details
+	</xsl:variable>
 	
+	<xsl:include href="ncommon.xsl"/>
+
 	<xsl:variable name="client-id">
 		<xsl:value-of select="/XmlData/RowSet/Row/T_CLIENT/PK_CLIENT_ID"/>
 	</xsl:variable>
