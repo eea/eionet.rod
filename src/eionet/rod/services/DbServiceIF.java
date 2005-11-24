@@ -27,7 +27,6 @@ import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.sql.Connection;
-import java.util.Set;
 import java.util.HashMap;
 
 
@@ -269,6 +268,11 @@ public interface DbServiceIF  {
     * returns obligation issues
     */
     public Vector getObligationIssues(String id) throws ServiceException;
+    
+   /**
+    * returns obligation details
+    */
+    public Vector getObligationDetail(String id) throws ServiceException;
    
    /**
    * ParentObligation Id 
