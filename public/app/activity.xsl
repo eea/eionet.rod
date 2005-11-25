@@ -25,7 +25,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
 	<xsl:variable name="pagetitle">
-		Reporting obligation
+		Reporting obligation for <xsl:value-of select="//RowSet[@Name='Activity']/Row/T_SOURCE/ALIAS"/> &#160; <xsl:value-of select="//RowSet[@Name='Activity']/Row/T_SOURCE/SOURCE_CODE"/>
 	</xsl:variable>
 	
 	<xsl:include href="ncommon.xsl"/>

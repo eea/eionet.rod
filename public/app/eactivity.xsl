@@ -25,7 +25,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:variable name="pagetitle">
-		Edit/Create Reporting Obligation
+		Edit/Create Reporting Obligation for <xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/TITLE"/>
 	</xsl:variable>
 	<xsl:include href="editor.xsl"/>
 
