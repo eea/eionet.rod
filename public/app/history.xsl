@@ -47,10 +47,7 @@
 	<xsl:template match="XmlData">
 		<div id="workarea">
 				<xsl:if test="RowSet/Row/T_HISTORY/ITEM_ID != 0">
-				<table border="0" width="100%">
-					<tr>
-						<td width="60%" align="right">
-					<span class="head0">
+					<h1>
 						History of changing data of 
 						<xsl:choose>
 							<xsl:when test="$item-type='O'">
@@ -63,15 +60,11 @@
 								Legislative instrument:
 							</xsl:when>
 						</xsl:choose>
-					</span>
-			   </td>
-				 <td align="left" width="40%"><b> ID=<xsl:value-of select="RowSet/Row/T_HISTORY/ITEM_ID"/> </b></td>
-				 </tr>
-				 </table>
+				  ID=<xsl:value-of select="RowSet/Row/T_HISTORY/ITEM_ID"/>
+					 </h1>
 				</xsl:if>
-				 <br/>
 			
-				<table width="100%" class="datatable">
+				<table class="datatable">
 				<tr>
 					<th scope="col">Time</th>
 					<th scope="col">Action</th>
@@ -82,8 +75,8 @@
 			
 			<xsl:for-each select="RowSet/Row">
 			<tr valign="top">
-				<xsl:attribute name="bgcolor">
-					<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
+				<xsl:attribute name="class">
+					<xsl:if test="position() mod 2 = 0">even</xsl:if>
 				</xsl:attribute>
 				<td align="center">
 					<xsl:value-of select="T_HISTORY/TIME_STAMP"/>

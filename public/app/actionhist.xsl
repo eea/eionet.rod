@@ -49,10 +49,7 @@
 </xsl:template>
 	<xsl:template match="XmlData">
 		<div id="workarea">
-			<table border="0" width="100%">
-				<tr valign="top">
-				<td width="100%" align="center">
-					<span class="head0">
+			<h1>
 					<xsl:choose>
 						<xsl:when test="$action-type='I'">
 							Inserted
@@ -76,15 +73,11 @@
 							Legislative instrument
 						</xsl:when>
 					</xsl:choose>
-					</span>
-				</td>
-				</tr>
-			 </table>
-			 <br/>
+			 </h1>
 		
 		<div style="margin-left:2">
 		
-		<table width="100%" class="datatable">
+		<table class="datatable">
 			<tr>
 				<th scope="col">Item ID</th>
 				<th scope="col">Type</th>
@@ -95,8 +88,8 @@
 		
 		<xsl:for-each select="RowSet/Row">
 		<tr>
-			<xsl:attribute name="bgcolor">
-				<xsl:if test="position() mod 2 = 0">#cbdcdc</xsl:if>
+			<xsl:attribute name="class">
+				<xsl:if test="position() mod 2 = 0">even</xsl:if>
 			</xsl:attribute>
 			<td>
 				<a title="Show the change record of this item">
