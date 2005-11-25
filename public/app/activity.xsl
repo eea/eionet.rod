@@ -140,7 +140,7 @@ Legislative instrument</a></div>
 				</xsl:if>				
 				<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 				<a>
-					<xsl:attribute name="href">javascript:openPopup('history.jsv', 'id=<xsl:value-of select="$ra-id"/>&amp;entity=A')</xsl:attribute>
+					<xsl:attribute name="href">history.jsv?id=<xsl:value-of select="$ra-id"/>&amp;entity=A</xsl:attribute>
 						<img src="images/showhistory.png" alt="Show history of changes" border="0"/>
 					</a><br/>
 				</xsl:if>				
