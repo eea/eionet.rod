@@ -25,7 +25,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:variable name="pagetitle">
-		Details of legislative instrument
+		Legislative instrument details: <xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS"/>
 	</xsl:variable>
 	<xsl:include href="ncommon.xsl"/>
 
@@ -106,7 +106,7 @@ function delLegislation() {
 									<a href="javascript:openHelpList('LI')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
 								</xsl:if>
 						</div>
-					<h1>Details of legislative instrument</h1>
+					<h1>Legislative instrument details: <xsl:value-of select="T_SOURCE/ALIAS"/></h1>
 
 				<table width="100%" cellspacing="6" bgcolor="#FFFFFF" style="border:1px solid #006666">
 					<tr valign="top">
