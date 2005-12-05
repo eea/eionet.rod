@@ -171,8 +171,8 @@ function save(text,silent) {
 	if (!silent)
 		if (confirm(text) == false)
 			return false;
-	if (!silent)
-		createNewVer();
+	//if (!silent)
+		//createNewVer();
 
 	if (!bDelete) {
 		// check once more all values before sending to server
