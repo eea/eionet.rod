@@ -23,6 +23,8 @@
 
 package eionet.rod.rdf;
 
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 import java.util.StringTokenizer;
 
 import eionet.rod.Constants;
@@ -36,16 +38,46 @@ public class Events extends RSSServletAC {
   protected String generateRDF(HttpServletRequest req) throws ServiceException {
       
     String issuesParam = req.getParameter("issues");
+    StringTokenizer issuesTemp = null;
     StringTokenizer issues = null;
     
     String countriesParam = req.getParameter("countries");
+    StringTokenizer countriesTemp = null;
     StringTokenizer countries = null;
 
     if (issuesParam!=null)
-       issues = new StringTokenizer(issuesParam, ",");
+       issuesTemp = new StringTokenizer(issuesParam, ",");
      
     if (countriesParam!=null)
-        countries = new StringTokenizer(countriesParam, ",");
+        countriesTemp = new StringTokenizer(countriesParam, ",");
+    
+    StringBuffer strIssues = new StringBuffer();
+    while(issuesTemp.hasMoreTokens()){
+        String token  = issuesTemp.nextToken();
+        if(isNumeric(token)){
+            strIssues.append(token);
+            strIssues.append(" ");
+        } else {
+            strIssues.append("-1");
+            strIssues.append(" ");
+        }
+    }
+    if(strIssues.toString() != null)
+        issues = new StringTokenizer(strIssues.toString());
+    
+    StringBuffer strCountries = new StringBuffer();
+    while(countriesTemp.hasMoreTokens()){
+        String token  = countriesTemp.nextToken();
+        if(isNumeric(token)){
+            strCountries.append(token);
+            strCountries.append(" ");
+        } else {
+            strCountries.append("-1");
+            strCountries.append(" ");
+        }
+    }
+    if(strCountries.toString() != null)
+        countries = new StringTokenizer(strCountries.toString());
       
     StringBuffer s = new StringBuffer();
     s.append(rdfHeader);
@@ -89,6 +121,21 @@ public class Events extends RSSServletAC {
     s.append("</rdf:RDF>");
 
     return s.toString();
+  }
+  
+  public static boolean isNumeric( String inString )
+  {
+    CharacterIterator theIterator = new StringCharacterIterator( inString );
+   
+    for( char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next() )
+    {
+        if( !Character.isDigit( ch ) )
+        {
+            return false;
+        }
+    }
+   
+    return true;
   }
 
 }
