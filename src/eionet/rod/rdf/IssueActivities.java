@@ -56,33 +56,36 @@ public class IssueActivities extends RSSServletAC {
         countriesTemp = new StringTokenizer(countriesParam, ",");
     
     StringBuffer strIssues = new StringBuffer();
-    while(issuesTemp.hasMoreTokens()){
-        String token  = issuesTemp.nextToken();
-        if(isNumeric(token)){
-            strIssues.append(token);
-            strIssues.append(" ");
-        } else {
-            strIssues.append("-1");
-            strIssues.append(" ");
+    if(issuesTemp != null){
+        while(issuesTemp.hasMoreTokens()){
+            String token  = issuesTemp.nextToken();
+            if(isNumeric(token)){
+                strIssues.append(token);
+                strIssues.append(" ");
+            } else {
+                strIssues.append("-1");
+                strIssues.append(" ");
+            }
         }
-    }
-    if(strIssues.toString() != null)
-        issues = new StringTokenizer(strIssues.toString());
+        if(strIssues.toString() != null)
+            issues = new StringTokenizer(strIssues.toString());
+    }    
     
     StringBuffer strCountries = new StringBuffer();
-    while(countriesTemp.hasMoreTokens()){
-        String token  = countriesTemp.nextToken();
-        if(isNumeric(token)){
-            strCountries.append(token);
-            strCountries.append(" ");
-        } else {
-            strCountries.append("-1");
-            strCountries.append(" ");
+    if(countriesTemp != null){
+        while(countriesTemp.hasMoreTokens()){
+            String token  = countriesTemp.nextToken();
+            if(isNumeric(token)){
+                strCountries.append(token);
+                strCountries.append(" ");
+            } else {
+                strCountries.append("-1");
+                strCountries.append(" ");
+            }
         }
+        if(strCountries.toString() != null)
+            countries = new StringTokenizer(strCountries.toString());
     }
-    if(strCountries.toString() != null)
-        countries = new StringTokenizer(strCountries.toString());
-
 
     StringBuffer s = new StringBuffer();
     s.append(rdfHeader);
