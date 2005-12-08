@@ -112,7 +112,7 @@ public class Subscribe extends HttpServlet {
         if (filters.size()>0){
 	        	
 				XmlRpcClient server = new XmlRpcClient(server_url);
-				server.setBasicAuthentication("rod", "reportnet");
+				server.setBasicAuthentication(FileServiceIF.UNS_USERNAME, FileServiceIF.UNS_PWD);
 	        	
 	            // make subscription
 				Vector params = new Vector();
