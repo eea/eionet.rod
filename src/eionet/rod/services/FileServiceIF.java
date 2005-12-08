@@ -189,6 +189,16 @@ public interface FileServiceIF  {
   * UNS subscriptions URL
   */
   public static final String UNS_MY_SUBSCRIPTIONS_URL = "uns.my.subscriptions.url";
+  
+  /**
+  * username for UNS subscriptions
+  */
+  public static final String UNS_USERNAME = "uns.username";
+  
+  /**
+  * password for UNS subscriptions 
+  */
+  public static final String UNS_PWD = "uns.pwd";
 
   /**
   * Returns String type property from the properties file
