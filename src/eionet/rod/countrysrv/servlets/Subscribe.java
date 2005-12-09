@@ -67,7 +67,7 @@ public class Subscribe extends HttpServlet {
                                             throws ServletException, IOException {
         
         try {
-            
+        fileSrv=RODServices.getFileService();
         req.getSession().removeAttribute("SUCCESS");
 		
 		String userName = getUserName(req);;
@@ -112,7 +112,7 @@ public class Subscribe extends HttpServlet {
         if (filters.size()>0){
 	        	
 				XmlRpcClient server = new XmlRpcClient(server_url);
-				server.setBasicAuthentication(FileServiceIF.UNS_USERNAME, FileServiceIF.UNS_PWD);
+				server.setBasicAuthentication(fileSrv.getStringProperty(FileServiceIF.UNS_USERNAME), fileSrv.getStringProperty(FileServiceIF.UNS_PWD));
 	        	
 	            // make subscription
 				Vector params = new Vector();
