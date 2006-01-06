@@ -1115,8 +1115,9 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   
   public Vector getObligationDetail(String id) throws ServiceException {
       
-    String sql = "SELECT TITLE AS title, NEXT_DEADLINE AS next_deadline, NEXT_DEADLINE2 AS next_deadline2 " + 
-    "  FROM T_OBLIGATION WHERE PK_RA_ID = '" + id + "'";
+    String sql = "SELECT TITLE AS title, DESCRIPTION as description, NEXT_DEADLINE AS next_deadline, NEXT_DEADLINE2 AS next_deadline2, " + 
+    "COMMENT as comment, DATE_COMMENTS as date_comments, REPORT_FREQ as report_freq "+
+    " FROM T_OBLIGATION WHERE PK_RA_ID = '" + id + "'";
 
       
     return _getVectorOfHashes(sql);

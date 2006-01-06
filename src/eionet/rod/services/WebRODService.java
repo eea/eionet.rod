@@ -92,7 +92,7 @@ public  class WebRODService {
   public Vector getObligationDetail(String id) throws ServiceException {
       if (dbSrv == null )
           dbSrv = RODServices.getDbService();
-      return dbSrv.getObligationOrg(id);
+      return dbSrv.getObligationDetail(id);
   }
   
 }
