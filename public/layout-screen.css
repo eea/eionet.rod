@@ -216,6 +216,7 @@ body {
 	font-style: normal; 
 	line-height: normal; 
 	font-weight: bold; 
+	padding-bottom: 0.4em;
 }
 #actionlist a, #actionlist a:visited {
 	text-decoration: none;
