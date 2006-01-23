@@ -89,9 +89,7 @@
     </jsp:include>
     <%@ include file="menu.jsp" %>
 <div id="workarea">
-   <div class="section">
-   	<br/>
-   	<br/>
+	<h1>Get notifications in your email</h1>
    	<form name="form" method="post" action="Subscribe">
    		<%
    		Object success = session.getAttribute("SUCCESS");
@@ -108,12 +106,7 @@
 	   	<table style="border: 1px solid #008080" cellpadding="2" cellspacing="0" width="600" border="0">
 				<tr>
 					<td colspan="2">
-						<b>Get notifications in your email</b>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<b>Note:</b> This will make an additional subscription even if you have subscribed before.
+						<strong>Note:</strong> This will make an additional subscription even if you have subscribed before.
 						To change or delete your existing subscriptions, go to the <a href="<%=mySubscriptionsUrl%>">Unified Notification Service (UNS)</a>.
 					</td>
 				</tr>
@@ -289,7 +282,6 @@
 				</tr>
 			</table>
 		</form>
-   </div>
 </div> <!-- workarea -->
 <jsp:include page="footer.jsp" flush="true">
 </jsp:include>
