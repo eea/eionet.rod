@@ -146,8 +146,6 @@ Legislative instrument</a></div>
 				</xsl:if>				
 				<xsl:if test="$admin='true'">
 					<a href="javascript:openHelpList('RO')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
-				</xsl:if>
-				<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
 					<a>
 						<xsl:attribute name="href">subscribe.jsp?id=<xsl:value-of select="$ra-id"/></xsl:attribute>
 						<img src="images/subscribe.png" alt="Create a UNS Subscription" border="0"/>

@@ -122,9 +122,8 @@
 					<li><a title="Create a new reporting obligation">
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;amp;mode=X</xsl:attribute>
 						New obligation</a></li>
-					<li><a href="subscribe.jsp" title="Create a UNS Subscription">
-						Subscribe</a></li>
 				</xsl:if>
+				<li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe</a></li>
 				</ul>
 			</div>
 		</xsl:if>
