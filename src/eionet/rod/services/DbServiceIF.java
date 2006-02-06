@@ -161,6 +161,13 @@ public interface DbServiceIF  {
   */
 
   public String[][] getDeletedItems(String itemType) throws ServiceException ;
+  
+  /**
+   * Returns deleted items of this type
+   * @param String itemType
+   * @return Vector  (0:ITEM_ID, 1:LOG_TIME, 2:USER, 3:ACTION_TYPE, 4:ITEM_TYPE )
+   */
+  public Vector getDeletedItemsVector(String itemType) throws ServiceException ;
 
   /**
   * Returns next deadlines of activities
@@ -287,7 +294,12 @@ public interface DbServiceIF  {
    /**
    * PreviousVersions 
    */
-   public Vector getPreviousVersions(String id) throws ServiceException;
+   public Vector getPreviousActions(String id, String tab, String id_field) throws ServiceException;
+   
+   /**
+    * DeletedFromUndo
+    */
+   public Vector getDeletedFromUndo(String item_type) throws ServiceException;
    
    /**
    * Restore Obligation
@@ -334,7 +346,47 @@ public interface DbServiceIF  {
   /**
   * LI RSS
   */
-  public String[][] getInstrumentsRSS() throws ServiceException ;    
+  public String[][] getInstrumentsRSS() throws ServiceException ;
+  
+  /**
+  * Insert obligations related to instrument into T_UNDO table 
+  */
+  public void addObligationIdsIntoUndo(String id, long ts, String table, String state, String show) throws ServiceException;
+  /**
+  * Insert into T_UNDO table 
+  */
+  public boolean insertIntoUndo(String id, String state, String user, String table, String id_field, long ts, String extraSQL, String show) throws ServiceException;
+   
+  /**
+  * undo 
+  */
+  public String undo(String ts, String tab, String op, String id) throws ServiceException;
+  
+  /**
+  * Id check
+  */
+  public boolean isIdAvailable(String id, String table) throws ServiceException;
+  
+  /**
+   * Id check 
+   */
+  public String areRelatedObligationsIdsAvailable(String id) throws ServiceException;
+  
+  /**
+   * saved undo information
+   */
+  public Vector getUndoInformation(String ts, String op, String tab, String id) throws ServiceException;
+  
+  /**
+   * returns lastUpdate
+   */
+  public String getLastUpdate() throws ServiceException;
+  
+  /**
+   * returns history of current object
+   */
+  public Vector getHistory(String id, String tab) throws ServiceException;
+  
 }
 
 
