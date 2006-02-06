@@ -93,8 +93,8 @@
 		<servlet-class>eionet.rod.countrysrv.servlets.Subscribe</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>restore</servlet-name>
-		<servlet-class>eionet.rod.RestoreObligation</servlet-class>
+		<servlet-name>undo</servlet-name>
+		<servlet-class>eionet.rod.Undo</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>DummyServlet</servlet-name>
@@ -245,8 +245,8 @@
 		<url-pattern>/Subscribe</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>restore</servlet-name>
-		<url-pattern>/restore</url-pattern>
+		<servlet-name>undo</servlet-name>
+		<url-pattern>/undo</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>DummyServlet</servlet-name>
