@@ -29,9 +29,13 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -42,6 +46,7 @@ import java.util.Vector;
 import com.tee.util.Util;
 import com.tee.xmlserver.DBPoolIF;
 
+import eionet.rod.ActivityHandler;
 import eionet.rod.services.DbServiceIF;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.LogServiceIF;
@@ -600,6 +605,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 					rvec.addElement(h); // Store the row into the vector
 				}
 			} catch (SQLException e) {
+                e.printStackTrace();
 				 logger.error("Error occurred when processing result set: " + sql_stmt,e);
          throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
 			}  catch (NullPointerException nue ) {
@@ -636,7 +642,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       String sql = " SELECT o.TITLE AS title, o.FK_DELIVERY_COUNTRY_IDS AS country_ids, o.REPORT_FREQ_MONTHS AS freq, " + 
       " c.CLIENT_NAME AS client, o.NEXT_DEADLINE AS next_deadline, o.NEXT_DEADLINE2 AS next_deadline2, o.RESPONSIBLE_ROLE AS responsible_role FROM T_OBLIGATION o, T_CLIENT c WHERE " +
       " CURDATE() < o.NEXT_DEADLINE AND (CURDATE() + INTERVAL (o.REPORT_FREQ_MONTHS * " + days + ") DAY) > o.NEXT_DEADLINE " + 
-      "AND o.HAS_NEWER_VERSION = '-1' AND c.PK_CLIENT_ID = o.FK_CLIENT_ID ";
+      "AND c.PK_CLIENT_ID = o.FK_CLIENT_ID ";
 
       return  _getVectorOfHashes(sql);        
   }
@@ -757,6 +763,16 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
     return _executeStringQuery(sql);
   }
+  
+  /**
+  *
+  */
+  public Vector getDeletedItemsVector(String itemType) throws ServiceException {
+    String sql = "SELECT ITEM_ID, ACTION_TYPE, ITEM_TYPE, LOG_TIME, USER FROM T_HISTORY WHERE " + 
+      " ACTION_TYPE = '" + DELETE_ACTION_TYPE + "' AND ITEM_TYPE = '" + itemType + "'";
+
+    return _getVectorOfHashes(sql);
+  }
 
   public String[][] getActivityDeadlines(StringTokenizer issues, StringTokenizer countries) throws ServiceException  {
     
@@ -829,7 +845,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
        sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID," +
        rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
      " FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " +
-       "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID ";
+       "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID";
 
       sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
       sql = sql + "AND " +  getWhereClause("r.FK_SPATIAL_ID", countries );
@@ -837,19 +853,19 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
       rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
     " FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " +
-      "  a.PK_RA_ID = il.FK_RA_ID ";
+      "  a.PK_RA_ID = il.FK_RA_ID";
 
      sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
     } else if (issues == null && countries != null) {
         sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
         rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
       " FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " +
-        "  a.PK_RA_ID = il.FK_RA_ID ";
+        "  a.PK_RA_ID = il.FK_RA_ID";
 
        sql = sql + "AND " +  getWhereClause("il.FK_SPATIAL_ID", countries );
     }else {
       sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE, NEXT_DEADLINE, " +
-      " FK_SOURCE_ID, " + rplAmp("DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION ";
+      " FK_SOURCE_ID, " + rplAmp("DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION";
     }
 
     sql += " ORDER BY PK_RA_ID";
@@ -1135,18 +1151,35 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   public String[][] getLatestVersionId(String id) throws ServiceException {
       
     String sql = "select PK_RA_ID from T_OBLIGATION where " + 
-    " (PARENT_OBLIGATION='" + id + "' OR PK_RA_ID='" + id + "') AND HAS_NEWER_VERSION = '-1'";
+    " (PARENT_OBLIGATION='" + id + "' OR PK_RA_ID='" + id + "')";
 
     return _executeStringQuery(sql);
   }
   
-  public Vector getPreviousVersions(String id) throws ServiceException {
+  public Vector getPreviousActions(String id, String tab, String id_field) throws ServiceException {
       
-    String sql = "select PK_RA_ID AS id, TITLE AS title, VERSION AS version, FK_SOURCE_ID AS source, PARENT_OBLIGATION AS parentid from T_OBLIGATION where " + 
-    " PARENT_OBLIGATION='" + id + "' OR PK_RA_ID = '" + id + "' ORDER BY VERSION";
+    String sql = null;
+    if(id.equals("-1")){
+        sql = "select undo_time, col, tab, operation, value, show_object from T_UNDO ORDER BY undo_time DESC, tab";
+    } else {
+        sql = "select a.undo_time, a.col, a.tab, a.operation, a.value, a.show_object from T_UNDO a, T_UNDO b WHERE a.undo_time = b.undo_time AND b.col = '"+id_field+"' AND b.value = "+id+" AND a.tab = '"+tab+"' ORDER BY a.undo_time DESC";
+    }
 
     return _getVectorOfHashes(sql);
   }
+  
+  public Vector getDeletedFromUndo(String item_type) throws ServiceException {
+      
+      String tab = null;
+      if(item_type.equals("O' OR ITEM_TYPE='A"))
+          tab = "T_OBLIGATION";
+      else if(item_type.equals("L"))
+          tab = "T_SOURCE";
+      
+      String sql = sql = "select undo_time, col, tab, operation, value, show_object from T_UNDO where tab='"+tab+"' AND operation='D' ORDER BY undo_time DESC, tab";
+
+      return _getVectorOfHashes(sql);
+    }
   
   public int getRestoreObligation(String id, String pid, int latestVersion) throws ServiceException {
 
@@ -1198,4 +1231,429 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
       return _executeStringQuery(sql);
    }
- }
+   
+   public void addObligationIdsIntoUndo(String id, long ts, String table, String state, String show) throws ServiceException {
+       String sqlStmt = "SELECT PK_RA_ID AS id FROM T_OBLIGATION WHERE FK_SOURCE_ID=" + id;
+       Vector ids = _getVectorOfHashes(sqlStmt);
+       StringBuffer obligation_ids = new StringBuffer();
+       for(Enumeration en = ids.elements(); en.hasMoreElements();){
+           Hashtable hash = (Hashtable) en.nextElement();
+           obligation_ids.append(hash.get("id"));
+           if(en.hasMoreElements())
+               obligation_ids.append(",");
+       }
+       String ids_sql = "INSERT INTO T_UNDO VALUES ("+
+           ts + ",'"+table+"','OBLIGATIONS','"+state+"','y','n','"+obligation_ids.toString()+"',0,'"+show+"')";
+       _executeUpdate(ids_sql);
+       
+    }
+   
+   public boolean insertIntoUndo(String id, String state, String user, String table, String id_field, long ts, String extraSQL, String show) throws ServiceException {
+          Connection con = null;
+          Statement stmt = null;
+          ResultSet rset = null;
+          ResultSet timestamp_rset = null;
+          String sql_stmt = null;
+          
+          // Process the result set
+          con = getConnection();
+          
+          try {
+                stmt = con.createStatement();
+                sql_stmt = "SELECT * FROM "+ table +" WHERE "+id_field+" = " + id +" "+ extraSQL;
+                rset = stmt.executeQuery(sql_stmt);
+                //timestamp_rset = stmt.executeQuery("SELECT UNIX_TIMESTAMP()");
+                ResultSetMetaData md = rset.getMetaData();
+                //long ts = System.currentTimeMillis();
+                
+                /*if(state.equals("I")){
+                    String insert_stmt = "INSERT INTO T_UNDO VALUES ("+
+                        ts + ",'"+table+"','"+id_field+"','I','n','y',"+id+")";
+                    _executeUpdate(insert_stmt);
+                } else*/ 
+                String aid = null;
+                if (state.equals("U") || state.equals("D")){
+                    int colCnt = md.getColumnCount();
+                    int rowCnt = 0;
+                    while (rset.next()) {
+                        for (int i = 1; i < (colCnt + 1); ++i){
+                            String value = rset.getString(i);
+                            if(value != null)
+                                value = value.replaceAll("'", "''");
+                            //String table = md.getTableName(i);
+                            String column = md.getColumnName(i);
+                            if(column.equals("FK_SOURCE_ID")){
+                                aid = value;
+                            }
+                            int type = md.getColumnType(i);
+                            String quotes = "y";
+                            if (type == Types.INTEGER)
+                                quotes = "n";
+                            String isPrimary = isPrimaryKey(table, column);
+                            
+                            String a = "";
+                            if(quotes.equalsIgnoreCase("y"))
+                                a = "'";
+                            
+                            String insert_stmt = "INSERT INTO T_UNDO VALUES ("+
+                                    ts + ",'"+ table +"','"+column+"','"+state+"','"+quotes+"','"+isPrimary+"',"+a+value+a+","+rowCnt+",'"+show+"')";
+                            _executeUpdate(insert_stmt);
+                        }
+                        rowCnt++;
+                    }
+                }
+                String location = null;
+                if(table.equals("T_OBLIGATION") && aid != null){
+                    location = "show.jsv?id=" + id + "&aid=" + aid + "&mode=A";  
+                } else if(table.equals("T_SOURCE")){
+                    location = "show.jsv?id=" + id + "&mode=S";
+                }
+                if(user != null){
+                    String insert_user = "INSERT INTO T_UNDO VALUES ("+
+                        ts + ",'"+table+"','A_USER','"+state+"','y','n','"+user+"',0,'"+show+"')";
+                    _executeUpdate(insert_user);
+                    String insert_redirect_url = "INSERT INTO T_UNDO VALUES ("+
+                        ts + ",'"+table+"','REDIRECT_URL','"+state+"','y','n','"+location+"',0,'"+show+"')";
+                    _executeUpdate(insert_redirect_url);
+                }
+          } catch (SQLException e) {
+                logger.error("Error occurred when processing result set: " + sql_stmt,e);
+                throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
+          } finally {
+                 _close(con, stmt, null);
+          }
+          return true;
+     }
+     
+   private String isPrimaryKey(String table, String column) throws ServiceException {
+         String sql_stmt = "SHOW KEYS FROM "+table;
+         Vector result = _getVectorOfHashes(sql_stmt);
+         
+         for(Enumeration en = result.elements(); en.hasMoreElements();){
+             Hashtable hash = (Hashtable) en.nextElement();
+             String column_name = (String) hash.get("Column_name");
+             String key_name = (String) hash.get("Key_name");
+             if(column_name != null && key_name != null){
+                 if(column.equalsIgnoreCase(column_name) && key_name.equalsIgnoreCase("PRIMARY")){
+                     return "y";
+                 }
+             }
+         }
+         return "n";
+   }
+   
+   public String undo(String ts, String tab, String op, String id) throws ServiceException {
+       Connection con = null;
+       Statement stmt = null;
+       ResultSet rset = null;
+       String sql_stmt = null;
+       String id_field = null;
+       String location = "versions.jsp?id=-1";
+       
+       if(tab.equalsIgnoreCase("T_OBLIGATION"))
+           id_field = "PK_RA_ID";
+       else if(tab.equalsIgnoreCase("T_SOURCE"))
+           id_field = "PK_SOURCE_ID";
+       
+       // Process the result set
+       con = getConnection();
+        
+       try {
+             stmt = con.createStatement();
+             //if(op.equals("D")){
+                 sql_stmt = "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr FROM T_UNDO "+ 
+                     "WHERE undo_time = "+ts+" AND operation = '"+op+"' ORDER BY undo_time,tab,sub_trans_nr";
+                 /*} else {
+                 sql_stmt = "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr FROM T_UNDO "+ 
+                     "WHERE undo_time = "+ts+" AND tab = '"+tab+"' AND operation = '"+op+"'";
+             }*/
+             rset = stmt.executeQuery(sql_stmt);
+             ResultSetMetaData md = rset.getMetaData();
+             
+             if(op.equals("U")){
+                 
+                 if(tab.equals("T_OBLIGATION")){
+                     _executeUpdate("DELETE FROM T_RAISSUE_LNK WHERE FK_RA_ID=" + id);
+                     _executeUpdate("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + id);
+                     _executeUpdate("DELETE FROM T_INFO_LNK WHERE FK_RA_ID=" + id);
+                     _executeUpdate("DELETE FROM T_CLIENT_LNK WHERE TYPE='A' AND FK_OBJECT_ID=" + id);
+                     _executeUpdate("DELETE FROM T_OBLIGATION WHERE PK_RA_ID=" + id);
+                 } else if(tab.equals("T_SOURCE")){
+                     _executeUpdate("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND FK_OBJECT_ID=" + id);
+                     _executeUpdate("DELETE FROM T_SOURCE_LNK WHERE CHILD_TYPE='S' AND FK_SOURCE_CHILD_ID=" + id);
+                     _executeUpdate("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + id);
+                     _executeUpdate("DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=" + id);
+                 }
+                 
+                 /*int colCnt = md.getColumnCount();
+                 while (rset.next()) {
+                     String value = rset.getString(5);
+                     String column = rset.getString(2);
+                     String table = rset.getString(3);
+                     String quotes = rset.getString(6);
+                     
+                     if(value != null)
+                         value = value.replaceAll("'", "''");
+                     
+                     String a = "";
+                     if(quotes.equalsIgnoreCase("y")){
+                         a = "'";
+                     }
+                     
+                     if(!column.equalsIgnoreCase(id_field) && !column.equalsIgnoreCase("A_USER") && !column.equalsIgnoreCase("OBLIGATIONS")){
+                         String update_stmt = "UPDATE "+table+" SET "+
+                             column + " = " +a+value+a+ " WHERE "+ id_field +" = " +id;
+                         _executeUpdate(update_stmt);
+                         String delete_stmt = "DELETE FROM T_UNDO WHERE undo_time = "+ts+" AND tab = '"+table+"' AND operation = '"+op+"'";
+                         _executeUpdate(delete_stmt);
+                     }
+                 }*/
+             } //else if(op.equals("D")){
+                 if(op.equals("D")){
+                     if(tab.equals("T_SOURCE")){
+                         String s = "SELECT value FROM T_UNDO WHERE undo_time="+ts+" AND operation='"+op+"' AND tab='"+tab+"' AND col='OBLIGATIONS'";
+                         String[][] array = _executeStringQuery(s);
+                         if(array.length > 0){
+                             String ids = array[0][0];
+                             StringTokenizer st = new StringTokenizer(ids, ",");
+                             while(st.hasMoreTokens()){
+                                 String oid = st.nextToken();
+                                 String getObligationSql = "SELECT undo_time FROM T_UNDO WHERE tab='T_OBLIGATION' AND col='PK_RA_ID' AND operation='D' AND value="+oid;
+                                 String[][] oa = _executeStringQuery(getObligationSql);
+                                 if(oa.length > 0){
+                                     String time = oa[0][0];
+                                     if(isIdAvailable(oid, "T_OBLIGATION"))
+                                         undo(time, "T_OBLIGATION","D",oid);
+                                 }
+                             }
+                         }
+                     }
+                 }
+                 
+                 int colCnt = md.getColumnCount();
+                 
+                 String prev_ut = null;
+                 String prev_table = null;
+                 String prev_subtransnr = null;
+                 String prev_column = null;
+                 String prev_value = null;
+                 String prev_quotes = null;
+                 
+                 Vector tvec = new Vector();
+                 
+                 while (rset.next()) {
+                     String ut = rset.getString(1);
+                     String value = rset.getString(5);
+                     String column = rset.getString(2);
+                     String table = rset.getString(3);
+                     String quotes = rset.getString(6);
+                     String sub_trans_nr = rset.getString(7);
+                     
+                     if(column.equals("REDIRECT_URL")){
+                         location = value;
+                     }
+                     
+                     if(value != null)
+                         value = value.replaceAll("'", "''");
+                     
+                     if (rset.isLast()){
+                         if(!column.equals("A_USER") && !column.equals("OBLIGATIONS") && !column.equals("REDIRECT_URL")){
+                             String[] ta = new String[3];
+                             ta[0] = column;
+                             ta[1] = value;
+                             ta[2] = quotes;
+                             tvec.add(ta);
+                         }
+                     }
+
+                     if(prev_column != null && prev_value != null && prev_quotes != null){
+                         if(!prev_column.equals("A_USER") && !prev_column.equals("OBLIGATIONS") && !prev_column.equals("REDIRECT_URL")){
+                             String[] array = new String[3];
+                             array[0] = prev_column;
+                             array[1] = prev_value;
+                             array[2] = prev_quotes;
+                             tvec.add(array);
+                         }
+                         
+                         if((!sub_trans_nr.equals(prev_subtransnr) || !ut.equals(prev_ut) || !table.equals(prev_table)) || rset.isLast()){
+                             
+                             StringBuffer cols = new StringBuffer();
+                             StringBuffer values = new StringBuffer();
+                             for(Enumeration en = tvec.elements(); en.hasMoreElements();){
+                                 String[] ar = (String[]) en.nextElement();
+                                     cols.append(ar[0]);
+                                     String q = "";
+                                     if(ar[2].equals("y"))
+                                         q = "'";
+                                     values.append(q+ar[1]+q);
+                                     if(en.hasMoreElements()){
+                                         cols.append(",");
+                                         values.append(",");
+                                     }
+                             }
+                             String insert_sql = "INSERT INTO "+prev_table+" ("+cols.toString()+") VALUES ("+values.toString()+")";
+                             _executeUpdate(insert_sql);
+                             String delete_stmt = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND tab='"+prev_table+"' AND operation = '"+op+"'";
+                             _executeUpdate(delete_stmt);
+                             tvec = new Vector();
+                         }
+                     }
+                     prev_ut = ut;
+                     prev_table = table;
+                     prev_subtransnr = sub_trans_nr;
+                     prev_column = column;
+                     prev_value = value;
+                     prev_quotes = quotes;
+                 }
+                 
+             //}
+       } catch (SQLException e) {
+             logger.error("Error occurred when processing result set: " + sql_stmt,e);
+             throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
+       } finally {
+              _close(con, stmt, null);
+       }
+       return location;
+     }
+   
+       public boolean isIdAvailable(String id, String table) throws ServiceException {
+           
+           String sqlStmt = null;
+           if(table.equalsIgnoreCase("T_OBLIGATION"))
+               sqlStmt = "SELECT PK_RA_ID AS id FROM T_OBLIGATION WHERE PK_RA_ID=" + id;
+           else if(table.equalsIgnoreCase("T_SOURCE"))
+               sqlStmt = "SELECT PK_SOURCE_ID AS id FROM T_SOURCE WHERE PK_SOURCE_ID=" + id;
+           
+           String[][] ids = _executeStringQuery(sqlStmt);
+           if(ids.length > 0)
+               return false;
+           
+           return true;
+           
+       }
+       
+       public String areRelatedObligationsIdsAvailable(String id) throws ServiceException {
+           
+           String ids = "";
+           String ts = "SELECT undo_time FROM T_UNDO WHERE tab='T_SOURCE' AND col='PK_SOURCE_ID' AND value="+id;
+           String[][] tsa = _executeStringQuery(ts);
+           if(tsa.length > 0){
+               String undo_time = tsa[0][0];
+               String ids_sql = "SELECT value FROM T_UNDO WHERE tab='T_SOURCE' AND undo_time="+undo_time+" AND col='OBLIGATIONS'";
+               String[][] idsa = _executeStringQuery(ids_sql);
+               if(idsa.length > 0)
+                   ids = idsa[0][0];
+           }
+           
+           Vector vec = new Vector();
+           StringTokenizer st = new StringTokenizer(ids,",");
+           while(st.hasMoreTokens()){
+               String token = st.nextToken();
+               String sqlStmt = "SELECT PK_RA_ID AS id FROM T_OBLIGATION WHERE PK_RA_ID=" + token;
+               String[][] sa = _executeStringQuery(sqlStmt);
+               if(sa.length > 0){
+                   vec.add(sa[0][0]);
+               }
+           }
+           StringBuffer sb = new StringBuffer();
+           for(Enumeration en = vec.elements(); en.hasMoreElements();){
+               String match = (String) en.nextElement();
+               sb.append(match);
+               if(en.hasMoreElements())
+                   sb.append(" ");
+           }
+
+           return sb.toString();
+       }
+       
+       public Vector getUndoInformation(String ts, String op, String tab, String id) throws ServiceException {
+           
+           Vector vec = new Vector();
+           
+           String sql_stmt = "SELECT * FROM T_UNDO "+ 
+           "WHERE undo_time = "+ts+" AND operation = '"+op+"' ORDER BY undo_time,tab,sub_trans_nr";
+           
+           vec = _getVectorOfHashes(sql_stmt);
+           
+           if(tab.equals("T_SOURCE") && op.equals("D")){
+               String ids = "";
+               String ut = "SELECT undo_time FROM T_UNDO WHERE tab='T_SOURCE' AND col='PK_SOURCE_ID' AND value="+id;
+               String[][] tsa = _executeStringQuery(ut);
+               if(tsa.length > 0){
+                   String undo_time = tsa[0][0];
+                   String ids_sql = "SELECT value FROM T_UNDO WHERE tab='T_SOURCE' AND operation='D' AND undo_time="+undo_time+" AND col='OBLIGATIONS'";
+                   String[][] idsa = _executeStringQuery(ids_sql);
+                   if(idsa.length > 0)
+                       ids = idsa[0][0];
+               }
+               Vector obligations_vec = new Vector();
+               StringTokenizer st = new StringTokenizer(ids,",");
+               while(st.hasMoreTokens()){
+                   String token = st.nextToken();
+                   String utime_sql = "SELECT undo_time FROM T_UNDO WHERE tab = 'T_OBLIGATION' AND operation = 'D' AND col='PK_RA_ID' AND value="+token;
+                   String[][] utime = _executeStringQuery(utime_sql);
+                   if(utime.length > 0){
+                       String ob_sql = "SELECT * FROM T_UNDO WHERE tab='T_OBLIGATION' AND operation='D' AND undo_time="+utime[0][0];
+                       obligations_vec = _getVectorOfHashes(ob_sql);
+                       if(obligations_vec.size() > 0)
+                           vec.addAll(obligations_vec);
+                   }
+               }
+           }
+           
+           return vec;
+       }
+       
+       public String getLastUpdate() throws ServiceException {
+           
+           String ret = null;
+           Date o_date = new Date();
+           Date s_date = new Date();
+           DateFormat df = new SimpleDateFormat ("dd/MM/yy");
+
+           String o_sql = "SELECT MAX(LAST_UPDATE) FROM T_OBLIGATION";
+           String s_sql = "SELECT MAX(LAST_UPDATE) FROM T_SOURCE";
+           
+           String[][] oa = _executeStringQuery(o_sql);
+           String[][] sa = _executeStringQuery(s_sql);
+           if(oa.length > 0){
+               o_date.setYear(Integer.parseInt(oa[0][0].substring(0,4)) - 1900);
+               o_date.setMonth(Integer.parseInt(oa[0][0].substring(5,7)) - 1);
+               o_date.setDate(Integer.parseInt(oa[0][0].substring(8,10)));
+           }
+           if(sa.length > 0){
+               s_date.setYear(Integer.parseInt(sa[0][0].substring(0,4)) - 1900);
+               s_date.setMonth(Integer.parseInt(sa[0][0].substring(5,7)) - 1);
+               s_date.setDate(Integer.parseInt(sa[0][0].substring(8,10)));
+           }
+           
+           if(s_date == null && o_date != null)
+               return df.format(o_date);
+           else if(s_date != null && o_date == null)
+               return df.format(s_date);
+           
+           if(o_date != null && s_date != null){
+               if(o_date.after(s_date))
+                   ret = df.format(o_date);
+               else
+                   ret = df.format(s_date);
+           }
+               
+           return ret;
+           
+       }
+       
+       public Vector getHistory(String id, String tab) throws ServiceException {
+           
+           String type = null;
+           if(tab.equals("T_OBLIGATION"))
+               type = "A";
+           else if(tab.equals("T_SOURCE"))
+               type = "L";
+           
+           String sql = "SELECT LOG_TIME AS time, ACTION_TYPE AS action, USER AS user, DESCRIPTION AS description " + 
+           "  FROM T_HISTORY WHERE ITEM_ID = " + id + " AND ITEM_TYPE = '" + type + "' ORDER BY LOG_TIME desc";
+             
+           return _getVectorOfHashes(sql);
+       }
+   }
