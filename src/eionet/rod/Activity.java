@@ -245,8 +245,7 @@ public class Activity extends ROEditServletAC {
                       String events = "http://rod.eionet.eu.int/events/" + timestamp;
                       String obligationID = null;
                       
-                      if (activityHandler.wasObligationUpdate() || 
-                              (activityHandler.isCreateNewVer() != null && activityHandler.isCreateNewVer().equalsIgnoreCase("true"))) {
+                      if (activityHandler.wasObligationUpdate()) {
                           
                           list.add(events);
                           list.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
@@ -265,8 +264,7 @@ public class Activity extends ROEditServletAC {
                           list.add("Obligation change");
                           lists.add(list);
                           
-                      } else if (activityHandler.wasObligationInsert() && 
-                              (activityHandler.isCreateNewVer() != null && !activityHandler.isCreateNewVer().equalsIgnoreCase("true"))) {
+                      } else if (activityHandler.wasObligationInsert()) {
                           
                           list.add(events);
                           list.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");

@@ -29,6 +29,8 @@ import com.tee.util.*;
 import com.tee.xmlserver.*;
 import com.tee.uit.security.AccessControlListIF;
 
+import eionet.rod.services.RODServices;
+
 /**
  * <P>Handler to store WebROD legislative act data.</P>
  *
@@ -44,39 +46,59 @@ import com.tee.uit.security.AccessControlListIF;
 
 public class SourceHandler extends ActivityHandler {
 
-   private void DELETE_SOURCE(String srcID, boolean delSelf, boolean updateMode) {
-      if ( delSelf)
-        updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND FK_OBJECT_ID=" + srcID);   
-        
-      updateDB("DELETE FROM T_SOURCE_LNK WHERE CHILD_TYPE='S' AND FK_SOURCE_CHILD_ID=" + srcID);
-      if(!updateMode)
-         updateDB("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + srcID);
-
-      if (delSelf) {
-         // cascade delete related reporting obligations
-         Statement stmt = null;
-         ResultSet rs = null;
-         String sqlStmt = "SELECT PK_RA_ID FROM T_OBLIGATION WHERE FK_SOURCE_ID=" + srcID;
-         try {
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sqlStmt);
-            while (rs.next()) {
-               DELETE_ACTIVITY(rs.getString(1), true);
-            }
-         } catch (SQLException e) {
-            addErrorInfo(e, sqlStmt);
-         } finally {
-            try {
-               if (rs != null)   rs.close();
-               if (stmt != null) stmt.close();
-            } catch (SQLException e1) {
-               Logger.log("SourceHandler.DELETE_SOURCE", e1);
-            }
-         }
-         // delete legislative act itself
-         updateDB("DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=" + srcID);
-         HistoryLogger.logLegisgationHistory(srcID,this.user.getUserName(), DELETE_RECORD, "");          
-      }
+   private void DELETE_SOURCE(String srcID, boolean delSelf, boolean updateMode, String userName, long ts, int state) {
+       
+       String op = null;
+       if(state == MODIFY_RECORD)
+           op = "U";
+       else if(state == DELETE_RECORD)
+           op = "D";
+       
+       try{
+          if ( delSelf){
+            RODServices.getDbService().insertIntoUndo(srcID, op, null, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y");
+            updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND FK_OBJECT_ID=" + srcID);
+          }
+          RODServices.getDbService().insertIntoUndo(srcID, op, null, "T_SOURCE_LNK", "FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE='S'","y");
+          updateDB("DELETE FROM T_SOURCE_LNK WHERE CHILD_TYPE='S' AND FK_SOURCE_CHILD_ID=" + srcID);
+          if(!updateMode){
+              RODServices.getDbService().insertIntoUndo(srcID, op, null, "T_SOURCE_LNK", "FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE='S'","y");
+              updateDB("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + srcID);
+          }
+          
+          if (delSelf) {
+             RODServices.getDbService().addObligationIdsIntoUndo(srcID,ts,"T_SOURCE","D","y");
+              
+             // cascade delete related reporting obligations
+             Statement stmt = null;
+             ResultSet rs = null;
+             String sqlStmt = "SELECT PK_RA_ID FROM T_OBLIGATION WHERE FK_SOURCE_ID=" + srcID;
+             try {
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery(sqlStmt);
+                int cnt = 1;
+                while (rs.next()) {
+                   DELETE_ACTIVITY(rs.getString(1), true, userName, ts+cnt,"n",DELETE_RECORD);
+                   cnt++;
+                }
+             } catch (SQLException e) {
+                addErrorInfo(e, sqlStmt);
+             } finally {
+                try {
+                   if (rs != null)   rs.close();
+                   if (stmt != null) stmt.close();
+                } catch (SQLException e1) {
+                   Logger.log("SourceHandler.DELETE_SOURCE", e1);
+                }
+             }
+             RODServices.getDbService().insertIntoUndo(srcID, "D", userName, "T_SOURCE", "PK_SOURCE_ID",ts,"","y");
+             // delete legislative act itself
+             updateDB("DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=" + srcID);
+             //HistoryLogger.logLegisgationHistory(srcID,this.user.getUserName(), DELETE_RECORD, "");          
+          }
+       }catch (Exception e){
+           e.printStackTrace();
+       }  
    }
 /**
  *
@@ -88,6 +110,7 @@ public class SourceHandler extends ActivityHandler {
 
       String tblName = gen.getTableName();
       int state = gen.getState();
+      long ts = System.currentTimeMillis();
 
       String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
@@ -107,6 +130,14 @@ public class SourceHandler extends ActivityHandler {
              
             gen.setPKField("PK_SOURCE_ID");
             id = gen.getFieldValue("PK_SOURCE_ID");
+            try{
+                if(state == MODIFY_RECORD){
+                    RODServices.getDbService().insertIntoUndo(id, "U", userName, tblName, "PK_SOURCE_ID",ts,"","y");
+                    RODServices.getDbService().insertIntoUndo(id, "U", null, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             // delete all linked parameter and medium records and in delete mode also the self record
 		    updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND STATUS = 'M' AND FK_OBJECT_ID=" + id);
 
@@ -116,7 +147,7 @@ public class SourceHandler extends ActivityHandler {
               return false;
 
             //if (!upd)              
-            DELETE_SOURCE(id, delSelf, state == MODIFY_RECORD);
+            DELETE_SOURCE(id, delSelf, state == MODIFY_RECORD, userName, ts,state);
 
             if (delSelf == true) {
                //logHistory(gen);
@@ -136,6 +167,14 @@ public class SourceHandler extends ActivityHandler {
          setDateValue(gen, "RM_VERIFIED");
          defaultProcessing(gen, null);
          id = recordID;
+         
+         /*if(state == INSERT_RECORD){
+             try{
+                 RODServices.getDbService().insertIntoUndo(id, "I", userName, tblName, "PK_SOURCE_ID",ts,"","y");
+             }catch (Exception e){
+                 e.printStackTrace();
+             }
+         }*/
 
          String clientId=gen.getFieldValue("FK_CLIENT_ID");
 
@@ -144,7 +183,7 @@ public class SourceHandler extends ActivityHandler {
                " ( " + clientId + "," + id + ", 'S', 'M')");
 
 
-        logHistory(gen);
+        //logHistory(gen);
           
          if (servlet != null)
             servlet.setCurrentID(id);

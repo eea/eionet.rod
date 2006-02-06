@@ -53,37 +53,51 @@ public class ActivityHandler extends ROHandler {
   
   private boolean _wasObligationUpdate = false;
   private boolean _wasObligationInsert = false;
-  private String create_ver = null;
   private SQLGenerator _getSQLGen = null;
-  
+    
   //private Vector spatialHistCont = new Vector();
 
 /**
  * Deletes activity related data and if delSelf is true, also the activity itself.
  */
-   protected final void DELETE_ACTIVITY(String raID, boolean delSelf) {
-      // delete linked environmental issues & parameters
-      updateDB("DELETE FROM T_RAISSUE_LNK WHERE FK_RA_ID=" + raID);
-      updateDB("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + raID);      
-      //updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
-
-      updateDB("DELETE FROM T_INFO_LNK WHERE FK_RA_ID=" + raID);
-
-      // delete linked related information (eea reports, national submissions)
-      //at the moment T_INFORMATION is not used
-      //updateDB("DELETE FROM T_INFORMATION WHERE FK_RO_ID=" + raID);
-
-      //client_lnk
-      updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='A' AND FK_OBJECT_ID=" + raID);
+   protected final void DELETE_ACTIVITY(String raID, boolean delSelf, String userName, long ts, String show,int state) {
       
-      updateDB("UPDATE T_SPATIAL_HISTORY SET END_DATE=NOW() WHERE " +
-        " END_DATE IS NULL AND FK_RA_ID=" + raID);
-
-      if (delSelf) {
+      String op = null;
+      if(state == MODIFY_RECORD)
+          op = "U";
+      else if(state == DELETE_RECORD)
+          op = "D";
       
-         updateDB("DELETE FROM T_OBLIGATION WHERE PK_RA_ID=" + raID);
-         HistoryLogger.logActivityHistory(raID,this.user.getUserName(), DELETE_RECORD, "");                       
-      }
+      // store in T_UNDO 
+      try{
+          RODServices.getDbService().insertIntoUndo(raID, op, null, "T_RAISSUE_LNK", "FK_RA_ID",ts,"",show);
+          // delete linked environmental issues & parameters
+          updateDB("DELETE FROM T_RAISSUE_LNK WHERE FK_RA_ID=" + raID);
+          RODServices.getDbService().insertIntoUndo(raID, op, null, "T_RASPATIAL_LNK", "FK_RA_ID",ts,"",show);
+          updateDB("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + raID);      
+          //updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
+          RODServices.getDbService().insertIntoUndo(raID, op, null, "T_INFO_LNK", "FK_RA_ID",ts,"",show);
+          updateDB("DELETE FROM T_INFO_LNK WHERE FK_RA_ID=" + raID);
+    
+          // delete linked related information (eea reports, national submissions)
+          //at the moment T_INFORMATION is not used
+          //updateDB("DELETE FROM T_INFORMATION WHERE FK_RO_ID=" + raID);
+    
+          //client_lnk
+          RODServices.getDbService().insertIntoUndo(raID, op, null, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='A'",show);
+          updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='A' AND FK_OBJECT_ID=" + raID);
+          
+          updateDB("UPDATE T_SPATIAL_HISTORY SET END_DATE=NOW() WHERE " +
+            " END_DATE IS NULL AND FK_RA_ID=" + raID);
+    
+          if (delSelf) {
+              RODServices.getDbService().insertIntoUndo(raID, "D", userName, "T_OBLIGATION", "PK_RA_ID",ts,"",show);
+              updateDB("DELETE FROM T_OBLIGATION WHERE PK_RA_ID=" + raID);
+              //HistoryLogger.logActivityHistory(raID,this.user.getUserName(), DELETE_RECORD, "");                       
+          }
+      }catch (Exception e){
+          e.printStackTrace();
+      } 
    }
 /**
  *
@@ -96,12 +110,11 @@ public class ActivityHandler extends ROHandler {
 
       String tblName = gen.getTableName();
       int state = gen.getState();
-      int newVer;
-      String currentObligationId = null;
-      String obligationId = null;
+      long ts = System.currentTimeMillis();
 
-     String userName = this.user.getUserName();
+      String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
+      
       try {
         AccessControlListIF acl = servlet.getAcl(Constants.ACL_RA_NAME);
 
@@ -119,35 +132,22 @@ public class ActivityHandler extends ROHandler {
       //Logger.log("state " + state);
       if (tblName.equals("T_OBLIGATION")) {
           
-        create_ver = gen.getFieldValue("CREATE_NEW_VERSION");
-        gen.removeField("CREATE_NEW_VERSION");
-         
-        if (create_ver.equalsIgnoreCase("true")){
-            currentObligationId = gen.getFieldValue("PK_RA_ID");
-            updateDB("UPDATE T_OBLIGATION SET HAS_NEWER_VERSION = 1 WHERE PK_RA_ID = " + currentObligationId);
-            try{
-                String[][] parentObligationId = RODServices.getDbService().getParentObligationId(currentObligationId);
-                String parentId = parentObligationId[0][0];
-                if (parentId != null){
-                    currentObligationId = parentId;
-                    updateDB("UPDATE T_OBLIGATION SET HAS_NEWER_VERSION = 1 WHERE PK_RA_ID = " + currentObligationId);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            state=INSERT_RECORD;
-            gen.setState(INSERT_RECORD);
-        }
-
          if (state != INSERT_RECORD) {
 
             if (!upd)
               return false;
-              
+             
+             
             gen.setPKField("PK_RA_ID");
             id = gen.getFieldValue("PK_RA_ID");
-
-
+            try{
+                if(state == MODIFY_RECORD){
+                    RODServices.getDbService().insertIntoUndo(id, "U", userName, tblName, "PK_RA_ID",ts,"","y");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            
             if (ext==null)
               ext = new Extractor();
               
@@ -160,11 +160,7 @@ public class ActivityHandler extends ROHandler {
             } catch (Exception e ) {
               //don't worry about the role saving if something wrong
             }
-            
 
-
-            
-            
             // delete all linked parameter records and in delete mode also the self record
             boolean delSelf = (state == DELETE_RECORD);
 
@@ -173,15 +169,13 @@ public class ActivityHandler extends ROHandler {
             else if (!upd)
               return false;
 
-            DELETE_ACTIVITY(id, delSelf);
+            DELETE_ACTIVITY(id, delSelf, userName, ts,"y",state);
 
             if (delSelf == true) 
                return false; // everything is done, log + stop
            
          }
          else {
-
-
             if (!ins)
               return false;
               
@@ -199,20 +193,17 @@ public class ActivityHandler extends ROHandler {
          setDateValue(gen, "RM_NEXT_UPDATE");
          setDateValue(gen, "RM_VERIFIED");
          gen.setFieldExpr("LAST_UPDATE", "CURDATE()");
-         
-         if (create_ver.equalsIgnoreCase("true")){
-             String ver = gen.getFieldValue("VERSION");
-             if (ver != null && !ver.equalsIgnoreCase(""))
-                 newVer = Integer.parseInt(ver) + 1;
-             else
-                 newVer = 0;
-             gen.setFieldExpr("VERSION", (new Long(newVer)).toString());
-             gen.setFieldExpr("PARENT_OBLIGATION", currentObligationId);
-             gen.setFieldExpr("HAS_NEWER_VERSION", "-1");
-         }
 
          defaultProcessing(gen, null);
          id = recordID;
+         
+         /*if(state == INSERT_RECORD){
+             try{
+                 RODServices.getDbService().insertIntoUndo(id, "I", userName, tblName, "PK_RA_ID",ts,"","y");
+             }catch (Exception e){
+                 e.printStackTrace();
+             }
+         }*/
          
          String mainClientId=gen.getFieldValue("FK_CLIENT_ID");
 
@@ -222,28 +213,31 @@ public class ActivityHandler extends ROHandler {
               " VALUES ( " + gen.getFieldValue("FK_CLIENT_ID") + ", " + id +
         			    ", 'M', 'A')");     
 
-         HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
+         //HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
 
          if (servlet != null)
             servlet.setCurrentID(id);
       }
       else if (tblName.equals("T_RAISSUE_LNK")) {
-       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
-          issueCont.add(gen.clone());
+       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))  {
+           issueCont.add(gen.clone());
+       }
         else
           return false;
       }
       else if (tblName.equals("T_RASPATIAL_LNK")) {
-       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
-          spatialCont.add(gen.clone());
+       if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd)){
+           spatialCont.add(gen.clone());
+       }
        else
         return false;
       }
 
 
       else if (tblName.equals("T_CLIENT_LNK")) {
-         if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd))      
-            clientCont.add(gen.clone());
+         if (( state == INSERT_RECORD && ins) || ( state == MODIFY_RECORD && upd)){
+             clientCont.add(gen.clone());
+         }
          else
           return false;
       }
@@ -265,7 +259,7 @@ public class ActivityHandler extends ROHandler {
 
 
       else if (tblName.equals("T_INFO_LNK")) {
-        processInfoType( id, gen.getFieldValue("FK_INFO_IDS") );
+          processInfoType( id, gen.getFieldValue("FK_INFO_IDS") );
       }
          
 
@@ -381,13 +375,6 @@ public class ActivityHandler extends ROHandler {
        return _wasObligationInsert;
    }
    
-   /*
-    * 
-    */
-   public String isCreateNewVer(){
-       
-       return create_ver;
-   }
    
    /*
     * 

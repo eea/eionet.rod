@@ -27,6 +27,7 @@ import eionet.rod.services.RODServices;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
+
 import org.w3c.dom.*;
 import java.util.*;
 
@@ -140,7 +141,7 @@ public class Show extends ROServletAC {
       HttpServletRequest req = params.getRequest();
 
       id = params.getParameter(ID_PARAM);
-      String sv = params.getParameter(SV_PARAM);
+      /*String sv = params.getParameter(SV_PARAM);
       try{
           if (sv == null || !sv.equals("T")){
               String[][] latestVersionId = RODServices.getDbService().getLatestVersionId(id);
@@ -153,11 +154,11 @@ public class Show extends ROServletAC {
           
       } catch (Exception e) {
           e.printStackTrace();
-      }
+      }*/
       if ( Util.nullString(id) )
         throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
-
-        String[][] queryPars = {{"ID", Util.strLiteral(id)}};
+      
+      String[][] queryPars = {{"ID", Util.strLiteral(id)}};
 
          String qrySrc;
          if (mode.equals(SOURCE_MODE))
@@ -175,7 +176,16 @@ public class Show extends ROServletAC {
 
 
          dataSrc = XMLSource.getXMLSource(qrySrc, req);
+         
+         Enumeration e = dataSrc.getQueries();
+         if (e != null) {
+             QueryStatementIF qry = (QueryStatementIF)e.nextElement();
+             qry.addAttribute("latest", params.getParameter("latest"));
+         }
+         
          dataSrc.setParameters(queryPars);
+         
+         
 
       addMetaInfo(dataSrc);
       return userInfo(req, dataSrc);
