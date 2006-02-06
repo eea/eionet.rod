@@ -9,9 +9,9 @@ String last_update = RODServices.getDbService().getLastUpdate();
 	| Last updated: 
 	<a href="analysis.jsv"><%=last_update%></a>
 	|	<a target="_blank" href="mailto:helpdesk@eionet.eu.int?subject=Feedback%20from%20the%20ROD%20website">Feedback </a>
-	<br>
+	<br/>
 	<b><a target="_blank" href="http://www.eea.eu.int">European Environment Agency</a></b>
-	<br>
+	<br/>
 	Kgs. Nytorv 6, DK-1050 Copenhagen K, Denmark - Phone: +45 3336
 	7100
 </div>

@@ -1,4 +1,4 @@
-<%@ page import="eionet.rod.ROUser,eionet.rod.Attrs" %>
+<%@ page import="eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.RODUtil" %>
 <div id="globalnav">
 		  <h2>Contents</h2>
 		  <ul>
@@ -9,11 +9,11 @@
 		    </ul>
 			    		<%
 						String appName = getServletContext().getInitParameter(Attrs.APPPARAM);
-						ROUser o = (ROUser) session.getAttribute(Attrs.USERPREFIX + appName);
-						if (o!=null){
-							String fullName = o.getFullName();
+						ROUser rouser = (ROUser) session.getAttribute(Attrs.USERPREFIX + appName);
+						if (rouser!=null){
+							String userName = rouser.getUserName();
 						%>
-						<h2>Logged in as<br/><%=fullName%></h2>
+						<h2>Logged in as<br/><%=userName%></h2>
 					    	<ul>
 						    <li><a href="logout_servlet" title="Log out">Logout</a></li>
 						</ul>
@@ -25,7 +25,14 @@
 							
 						    <li><a href="login.html" title="Login">Login</a></li>
 						</ul>
-						<% } %>
+						<% } 
+						
+		  if(rouser!=null){ %>
+			  <ul>
+			    <li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe</a></li>
+			  	<li><a href="versions.jsp?id=-1">Global History</a></li>
+			  </ul>
+		  <% } %>
 		  <h2>Reportnet</h2>
 		  <ul>
 		    <li><a href="http://cdr.eionet.eu.int/" title="Central Data Repository">CDR Repository</a></li>
@@ -33,3 +40,4 @@
 		    <li><a href="http://cr.eionet.eu.int/">Content Registry</a></li>
 		  </ul>
 </div>
+

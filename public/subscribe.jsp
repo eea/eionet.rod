@@ -91,7 +91,9 @@
 <div id="workarea">
 	<h1>Get notifications in your email</h1>
    	<form name="form" method="post" action="Subscribe">
+   	
    		<%
+   		
    		Object success = session.getAttribute("SUCCESS");
    		if (success!=null){
 	   		session.removeAttribute("SUCCESS");
@@ -112,7 +114,7 @@
 				</tr>
 				<tr>
 					<td scope="row">
-						<strong>My interests:<strong>
+						<strong>My interests:</strong>
 					</td>
 					<td>
 						<input type="checkbox" id="deadlines" name="event_type" value="Approaching deadline"/><label for="deadlines">Approaching deadlines</label>
@@ -137,7 +139,7 @@
 
 				<tr>
 					<td scope="row">
-						<strong>Country:<strong>
+						<strong>Country:</strong>
 					</td>
 					<td>
 						<% 
@@ -152,7 +154,7 @@
 						   String name = (String)hash1.get("name");
 						   String uri = (String)hash1.get("uri");
 						    %>
-						    <option value="<%=name%>"><%=name%></option>
+						    <option value="<%=RODUtil.replaceTags(name)%>"><%=RODUtil.replaceTags(name)%></option>
 						    <%
 						   }
 						  %>
@@ -164,7 +166,7 @@
 				</tr>
 				<tr>
 					<td scope="row">
-						<strong>Issue:<strong>
+						<strong>Issue:</strong>
 					</td>
 					<td>
 						<% 
@@ -180,7 +182,7 @@
 						   name2 = RODUtil.threeDots(name2,OPTION_MAXLEN);
 						   String id2 = (String)hash2.get("uri");
 						    %>
-						    <option value="<%=name2%>"><%=name2%></option>
+						    <option value="<%=RODUtil.replaceTags(name2)%>"><%=RODUtil.replaceTags(name2)%></option>
 						    <%
 						   }
 						  %>
@@ -192,7 +194,7 @@
 				</tr>
 				<tr>
 					<td scope="row">
-						<strong>Organisation:<strong>
+						<strong>Organisation:</strong>
 					</td>
 					<td>
 						<% 
@@ -204,7 +206,7 @@
 								String client_id = (String)client_hash.get("clientID");
 								%>
 								<%=client%>
-								<input type="hidden" name="organisation" value="<%=client_id%>"/>
+								<input type="hidden" name="organisation" value="<%=RODUtil.replaceTags(client_id)%>"/>
 							<%
 							}
 						} else { 
@@ -220,7 +222,7 @@
 							   name3 = RODUtil.threeDots(name3,OPTION_MAXLEN);
 							   String id3 = (String)hash3.get("uri");
 							    %>
-							    <option value="<%=name3%>"><%=name3%></option>
+							    <option value="<%=RODUtil.replaceTags(name3)%>"><%=RODUtil.replaceTags(name3)%></option>
 							    <%
 							   }
 							  %>
@@ -233,7 +235,7 @@
 				</tr>
 				<tr>
 					<td scope="row">
-						<strong>Obligation:<strong>
+						<strong>Obligation:</strong>
 					</td>
 					<td>
 						<% 
@@ -245,7 +247,7 @@
 									String obligation_id = (String) title_hash.get("obligationID");
 								%>
 								<%=title%>
-								<input type="hidden" name="obligation" value="<%=obligation_id%>"/>
+								<input type="hidden" name="obligation" value="<%=RODUtil.replaceTags(obligation_id)%>"/>
 							<%
 							}
 						} else {
@@ -261,7 +263,7 @@
 							   name4 = RODUtil.threeDots(name4,OPTION_MAXLEN);
 							   String id4 = (String)hash4.get("uri");
 							    %>
-							    <option value="<%=name4%>"><%=name4%></option>
+							    <option value="<%=RODUtil.replaceTags(name4)%>"><%=RODUtil.replaceTags(name4)%></option>
 							    <%
 							   }
 							  %>
