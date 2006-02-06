@@ -1,4 +1,4 @@
-<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.RODUtil"%>
+<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.ROUser,java.text.*,eionet.rod.services.RODServices,eionet.rod.RODUtil"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -80,84 +80,187 @@
 			} 
 			list.options[0].selected = true;
 		}
+		function undoAlert(vec,url) {
+			var question = "Obligations with IDs " + vec + " cannot be restored, because their IDs are not free anymore! Do you want to continue?";
+		    var answer = confirm(question);
+			    if(answer){
+					window.location = url;  
+			    }
+		    }
 	//]]>
     </script>
 </head>
 <body>
     <jsp:include page="location.jsp" flush='true'>
-        <jsp:param name="name" value="Previous Versions"/>
+        <jsp:param name="name" value="Previous Actions"/>
     </jsp:include>
     <%@ include file="menu.jsp" %>
 <div id="workarea">
-		<h1>Previous versions</h1>						
-
-	   	<table class="datatable" width="600">
-			<thead>
-				<tr>
-					<th scope="col">Title</th>
-					<th scope="col">Version</th>
-					<th scope="col">Action</th>
-				</tr>
-			</thead>
-			<tbody>
+		<%
+		if (rouser!=null){
+		%>
+		<h1>Previous actions</h1>						
 				<%
-					String id = request.getParameter("id");
-					String pid = request.getParameter("pid");
-					Vector versions = null;
-						if (pid != null && pid != ""){
-							versions = RODServices.getDbService().getPreviousVersions(pid);
-						} else {
-							versions = RODServices.getDbService().getPreviousVersions(id);
-						}
-						int max = 0;
-						
-						for (int i=0; i<versions.size(); i++){
-							Hashtable h = (Hashtable) versions.elementAt(i);
-							String ver = (String) h.get("version");
-							if (ver != null && ver != ""){
-								int v = Integer.parseInt(ver);
-								if(v > max){
-									max = v;
-								}	
-							}
-						}
-						
-						for (int i=0; i<versions.size(); i++){
-							String c = "";
-							Hashtable hash = (Hashtable) versions.elementAt(i);
-							String pkraid = (String) hash.get("id");
-							String parentid = (String) hash.get("parentid");
-							String title = (String) hash.get("title");
-							String version = (String) hash.get("version");
-							String source = (String) hash.get("source");
-							if (i % 2 == 0){
-								c="even";
-							}
-							%>
-								<tr class="<%=c%>">
-									<% if (pid != null && pid != ""){ %>
-										<td><a href="show.jsv?id=<%=pid%>&amp;aid=<%=source%>&amp;mode=A&amp;sv=T"><%=title%></a></td>
-									<%} else { %>
-										<td><a href="show.jsv?id=<%=id%>&amp;aid=<%=source%>&amp;mode=A&amp;sv=T"><%=title%></a></td>
-									<% } %>
-									<td><%=version%></td>
-									<td>
-									<% if(Integer.parseInt(version) != max){
-										if(parentid != null && !parentid.equals("")) {%>
-											<a href="restore?id=<%=pkraid%>&amp;pid=<%=parentid%>&amp;latestversion=<%=max%>">Restore</a>
-									<% } else { %>
-											<a href="restore?id=<%=pkraid%>&amp;pid=<%=pkraid%>&amp;latestversion=<%=max%>">Restore</a>
-									<% }	
-									} else { %>
-									&nbsp;
-									<% } %>	
+						String aid = request.getParameter("id");
+						String tabel = request.getParameter("tab");
+						String id_field = request.getParameter("id_field");
+						Vector versions = RODServices.getDbService().getPreviousActions(aid, tabel, id_field);
+						String id = null;
+						String user = null;
+						String show_object = null;
+						if(versions.size() > 0){%>
+						<form name="form" method="post" action="undo">
+						<table class="datatable" width="600">
+							<thead>
+								<tr>
+									<td colspan="5" align="right">
+										<input type="submit" name="action" value="Undo selected"/>
 									</td>
 								</tr>
-							<%
-						}
-				%>
-				</tbody>
-			</table>
+								<tr>
+									<th scope="col">Time</th>
+									<th scope="col">Object</th>
+									<th scope="col">Operation</th>
+									<th scope="col">User</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+						<%
+							int s = 0;
+							for (int i=0; i<versions.size(); i++){
+								String c = "";
+								Hashtable hash = (Hashtable) versions.elementAt(i);
+										
+										String ts = (String) hash.get("undo_time");
+										String tab = (String) hash.get("tab");
+										String col = (String) hash.get("col");
+										String operation = (String) hash.get("operation");
+										String value = (String) hash.get("value");
+										System.out.println("|"+ts+" | "+tab+" | "+col+" | "+operation+" | "+value+"|");
+	
+										if(col.equalsIgnoreCase("PK_RA_ID") || col.equalsIgnoreCase("PK_SOURCE_ID")){
+											id = (String)hash.get("value");
+											show_object = (String) hash.get("show_object");
+											s++;
+										}
+										if(col.equalsIgnoreCase("A_USER")){
+											user = (String)hash.get("value");	
+										}									
+										if (s % 2 == 0){
+											c="even";
+										}
+										if(user != null && id != null && tab != null){
+											if(show_object.equals("y")){
+												%>
+													<tr class="<%=c%>">
+														<td>
+															<%
+																DateFormat df = new SimpleDateFormat ("yyyy-MM-dd' 'HH:mm:ss");
+																Date date = new Date(new Long(ts).longValue());
+																String d = df.format(date);
+															%>
+															<%=d%>
+														</td>
+														<td>
+															<%if(tab.equals("T_OBLIGATION")){%>
+																<a href="undoinfo.jsp?ts=<%=ts%>&amp;tab=<%=tab%>&amp;op=<%=operation%>&amp;id=<%=id%>&amp;user=<%=user%>">OBLIGATION</a>
+															<%} else if(tab.equals("T_SOURCE")){%>
+																<a href="undoinfo.jsp?ts=<%=ts%>&amp;tab=<%=tab%>&amp;op=<%=operation%>&amp;id=<%=id%>&amp;user=<%=user%>">INSTRUMENT</a>
+															<% } %>
+														</td>
+														<td>
+															<%if(operation.equals("D")){%>
+																DELETE
+															<%} else if(operation.equals("I")){%>
+																INSERT
+															<%} else if(operation.equals("U")){%>
+																UPDATE
+															<%}
+															%>
+														</td>
+														<td><%=user%></td>
+														<td align="center">
+														<%
+															if(!operation.equals("D") || RODServices.getDbService().isIdAvailable(id,tab)){ %>
+																	<input type="radio" name="group" value="<%=ts%>,<%=tab%>,<%=operation%>,<%=id%>"/>
+															<% } %>
+														</td>
+													</tr>
+												<%
+											}
+											id = null;
+											user = null;
+											tab = null;
+											show_object = null;
+										}
+							} %>
+						</tbody>
+						</table>	
+						</form>
+						<% }
+				if(tabel != null){ %>
+				<br/>
+				<br/>
+						<%
+						Vector history_list = RODServices.getDbService().getHistory(aid,tabel);
+						if(history_list.size() > 0){
+						if(tabel.equals("T_OBLIGATION")){ %>
+							<b>History of changing data of Reporting Obligation: ID=<%=aid%></b>
+						<% } else if(tabel.equals("T_SOURCE")){ %>
+							<b>History of changing data of Legislative instrument: ID=<%=aid%></b>				
+						<% } %>
+						<table class="datatable" width="600">
+						<thead>
+							<tr>
+								<th scope="col">Time</th>
+								<th scope="col">Action</th>
+								<th scope="col">User</th>
+								<th scope="col">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+						<%
+							int z = 0;
+							for (int i=0; i<history_list.size(); i++){
+								String cl = "";
+								
+								if (z % 2 == 0){
+									cl="even";
+								}
+								z++;
+								
+								Hashtable history = (Hashtable) history_list.elementAt(i);
+								String time = (String) history.get("time");
+								String action = (String) history.get("action");
+								String huser = (String) history.get("user");
+								String desc = (String) history.get("description");
+								%>
+								<tr class="<%=cl%>">
+									<td><%=time%></td>
+									<td>
+										<%if(action.equals("D")){%>
+											Delete
+										<% } else if(action.equals("I")){%>
+											Insert
+										<% } else if(action.equals("U")){%>
+											Update
+										<% } %>
+									</td>
+									<td><%=huser%></td>
+									<td><%=desc%></td>
+								</tr>
+							<%  } %>
+						</tbody>
+						</table> 
+						<% } %>
+			<% } %>
+		<% } else { %>
+		</br>
+		<b>Not authenticated user. Please verify that you are logged in (for security reasons, </br>
+		the system will log you out after a period of inactivity). If the problem persists, please </br>
+		contact the server administrator.</b>
+		<% } %>
 </div> <!-- workarea -->
 <jsp:include page="footer.jsp" flush="true">
 </jsp:include>
