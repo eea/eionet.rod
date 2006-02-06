@@ -118,14 +118,12 @@
 						<xsl:attribute name="href">history.jsp?item_type=O' OR ITEM_TYPE='A</xsl:attribute>
 						Show deleted</a></li>
 				</xsl:if>
-				<!--xsl:if test="contains($permissions, ',/obligations:i,')">
+				<xsl:if test="contains($permissions, ',/obligations:i,')">
 					<li><a title="Create a new reporting obligation">
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;amp;mode=X</xsl:attribute>
 						New obligation</a></li>
-					<li><a href="subscribe.jsp" title="Create a UNS Subscription">
-						Subscribe</a></li>
 				</xsl:if>
-				<xsl:if test="contains($permissions, ',/obligations:u,')">
+				<!--xsl:if test="contains($permissions, ',/obligations:u,')">
 					<li><a title="Undo list">
 						<xsl:attribute name="href">versions.jsp?id=-1</xsl:attribute>
 						Undo</a></li>
