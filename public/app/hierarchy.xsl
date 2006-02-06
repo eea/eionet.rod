@@ -71,7 +71,7 @@
 							</xsl:if>
 							<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 								<a>
-									<xsl:attribute name="href">javascript:openActionTypeHistory('D','L')</xsl:attribute>
+									<xsl:attribute name="href">history.jsp?item_type=L</xsl:attribute>
 									<img src="images/showdeleted.png" border="0" alt="Show history of deleted records"/>
 								</a>
 								<br/>

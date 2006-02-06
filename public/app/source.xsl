@@ -98,9 +98,9 @@ function delLegislation() {
 									<a href="javascript:delLegislation()">
 									<img src="images/deleteinstrument.png" alt="Delete this instrument" border="0"/></a><br/>
 								</xsl:if>
-								<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
-									<a><xsl:attribute name="href">javascript:openPopup('history.jsv', 'id=<xsl:value-of select="$src-id"/>&amp;entity=L')</xsl:attribute>
-									<img src="images/showhistory.png" alt="Show history of changes" border="0"/></a><br/>
+								<xsl:if test="contains($permissions, ',/instruments:u,')='true'">
+									<a><xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$src-id"/>&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID</xsl:attribute>
+									<img src="images/showhistory.png" alt="Show Previous Actions" border="0"/></a><br/>
 								</xsl:if>
 								<xsl:if test="$admin='true'">
 									<a href="javascript:openHelpList('LI')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>

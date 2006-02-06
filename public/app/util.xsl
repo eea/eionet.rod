@@ -195,6 +195,12 @@
 					</ul>
 				</xsl:otherwise>
 			</xsl:choose>
+		<xsl:if test="contains($admin,'true')='true'">
+		  <ul>
+		    <li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe</a></li>
+		    <li><a href="versions.jsp?id=-1">Global history</a></li>
+		  </ul>
+		</xsl:if>
 		  <h2>Reportnet</h2>
 		  <ul>
 		    <li><a href="http://cdr.eionet.eu.int/" title="Central Data Repository">CDR Repository</a></li>

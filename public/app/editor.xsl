@@ -163,16 +163,15 @@ function save(text,silent) {
 		}
 	}
 	
-	if (text == null) {
-		text = (mode.value != 'D' ? "Save data?" 	: "Delete record?");
+	//if (text == null) {
+	//	text = (mode.value != 'D' ? "Save data?" 	: "Delete record?");
 		//text = "Do you want to " + text;
-	}
+	//}
 
 	if (!silent)
-		if (confirm(text) == false)
-			return false;
-	//if (!silent)
-		//createNewVer();
+		if(text != null && text != "")
+			if (confirm(text) == false)
+				return false;
 
 	if (!bDelete) {
 		// check once more all values before sending to server
@@ -710,15 +709,6 @@ function ddmmyyyyDate(dat) {
 	s += "/" + dat.getUTCFullYear();
 	
 	return s;
-}
-
-function createNewVer() {
-	var mode = document.f.elements["dom-update-mode"];
-	if (mode.value == 'U'){
-		var agree=confirm("Do you want to create a new version?");
-		if (agree)
-			document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/CREATE_NEW_VERSION"].value = true;
-	}
 }
 
 function checkAndSave(first, freq, next, textrep, to, terminate, client) {

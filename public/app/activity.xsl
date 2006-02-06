@@ -42,9 +42,12 @@
 		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@auth"/>
 	</xsl:variable>
 
-
 	<xsl:variable name="permissions">
 		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@permissions"/>
+	</xsl:variable>
+	
+	<xsl:variable name="latest">
+		<xsl:value-of select="/XmlData/RowSet[@Name='Activity']/@latest"/>
 	</xsl:variable>
 
 	<xsl:template match="XmlData">
@@ -127,43 +130,30 @@ Legislative instrument</a></div>
 						<xsl:attribute name="style">float:right; border: 1px solid black; background-color:#a0a0a0</xsl:attribute>
 						<div style="font-weight:bold; color:white; text-align:center">Actions</div>
 					</xsl:if>
-				<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
-					<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
-						<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/></a><br/>
+				<xsl:if test="$latest != 'n'">
+					<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
+						<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+							<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/></a><br/>
+						</xsl:if>
+							<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+								<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute><img src="images/editobligation.png" alt="Edit this obligation" border="0"/></a><br/>
+							</xsl:if>
+						<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
+						<a href="javascript:delActivity()"><img src="images/deleteobligation.png" alt="Delete this obligation" border="0"/></a><br/>
+					</xsl:if>				
+					<xsl:if test="$admin='true'">
+						<a href="javascript:openHelpList('RO')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
 					</xsl:if>
 					<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
-						<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute><img src="images/editobligation.png" alt="Edit this obligation" border="0"/></a><br/>
+						<a>
+							<xsl:attribute name="href">subscribe.jsp?id=<xsl:value-of select="$ra-id"/></xsl:attribute>
+							<img src="images/subscribe.png" alt="Create a UNS Subscription" border="0"/>
+						</a><br/>
 					</xsl:if>
-
-					<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
-					<a href="javascript:delActivity()"><img src="images/deleteobligation.png" alt="Delete this obligation" border="0"/></a><br/>
-				</xsl:if>				
-				<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
-				<a>
-					<xsl:attribute name="href">history.jsv?id=<xsl:value-of select="$ra-id"/>&amp;entity=A</xsl:attribute>
-						<img src="images/showhistory.png" alt="Show history of changes" border="0"/>
-					</a><br/>
-				</xsl:if>				
-				<xsl:if test="$admin='true'">
-					<a href="javascript:openHelpList('RO')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
 					<a>
-						<xsl:attribute name="href">subscribe.jsp?id=<xsl:value-of select="$ra-id"/></xsl:attribute>
-						<img src="images/subscribe.png" alt="Create a UNS Subscription" border="0"/>
+						<xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$ra-id"/>&amp;tab=T_OBLIGATION&amp;id_field=PK_RA_ID</xsl:attribute>
+						<img src="images/showhistory.png" alt="Show Previous Actions" border="0"/>
 					</a><br/>
-					<!--xsl:choose>
-						<xsl:when test="T_OBLIGATION/PARENT_OBLIGATION != '' and T_OBLIGATION/PARENT_OBLIGATION != 'null'">
-							<a>
-								<xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$ra-id"/>&amp;amp;pid=<xsl:value-of select="T_OBLIGATION/PARENT_OBLIGATION"/></xsl:attribute>
-								<img src="images/previousversions.png" alt="Show Previous Versions" border="0"/>
-							</a><br/>
-						</xsl:when>
-						<xsl:otherwise>
-							<a>
-								<xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$ra-id"/></xsl:attribute>
-								<img src="images/previousversions.png" alt="Show Previous Versions" border="0"/>
-							</a><br/>
-						</xsl:otherwise>
-					</xsl:choose-->
 				</xsl:if>
 				</td>
 				</tr>

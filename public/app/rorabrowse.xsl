@@ -115,15 +115,21 @@
 				<ul>
 				<xsl:if test="contains($permissions, ',/Admin:v,')">
 					<li><a title="Show history of deleted records">
-						<xsl:attribute name="href">history.jsv?entity=O' OR ITEM_TYPE='A&amp;amp;mode=D</xsl:attribute>
+						<xsl:attribute name="href">history.jsp?item_type=O' OR ITEM_TYPE='A</xsl:attribute>
 						Show deleted</a></li>
 				</xsl:if>
-				<xsl:if test="contains($permissions, ',/obligations:i,')">
+				<!--xsl:if test="contains($permissions, ',/obligations:i,')">
 					<li><a title="Create a new reporting obligation">
 						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;amp;mode=X</xsl:attribute>
 						New obligation</a></li>
+					<li><a href="subscribe.jsp" title="Create a UNS Subscription">
+						Subscribe</a></li>
 				</xsl:if>
-				<li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe</a></li>
+				<xsl:if test="contains($permissions, ',/obligations:u,')">
+					<li><a title="Undo list">
+						<xsl:attribute name="href">versions.jsp?id=-1</xsl:attribute>
+						Undo</a></li>
+				</xsl:if-->
 				</ul>
 			</div>
 		</xsl:if>
@@ -233,14 +239,7 @@
 		<td valign="top">
 			<span class="head0n">
 				<a> 
-					<xsl:choose>
-						<xsl:when test="T_OBLIGATION/PARENT_OBLIGATION != '' and T_OBLIGATION/PARENT_OBLIGATION != 'null'">
-							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PARENT_OBLIGATION"/>&amp;amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute>
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute>
 					<span class="rowitem">
 							<xsl:choose>
 								<xsl:when test="T_OBLIGATION/TITLE !=''">
