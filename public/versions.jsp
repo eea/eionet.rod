@@ -15,8 +15,8 @@
 	<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
 
     <link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
-    <link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
     <link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen" title="EIONET style" />
+    <link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="script/util.js"></script>
 	<script type="text/javascript">
