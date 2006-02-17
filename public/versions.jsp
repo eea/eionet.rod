@@ -257,7 +257,7 @@
 			<% } %>
 		<% } else { %>
 		</br>
-		<b>Not authenticated user. Please verify that you are logged in (for security reasons, </br>
+		<b>Not authenticated! Please verify that you are logged in (for security reasons, </br>
 		the system will log you out after a period of inactivity). If the problem persists, please </br>
 		contact the server administrator.</b>
 		<% } %>

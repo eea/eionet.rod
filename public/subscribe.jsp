@@ -90,6 +90,7 @@
     <%@ include file="menu.jsp" %>
 <div id="workarea">
 	<h1>Get notifications in your email</h1>
+	<% if (rouser!=null){ %>
    	<form name="form" method="post" action="Subscribe">
    	
    		<%
@@ -284,6 +285,11 @@
 				</tr>
 			</table>
 		</form>
+		<% } else { %>
+		<b>Not authenticated! Please verify that you are logged in (for security reasons, 
+		the system will log you out after a period of inactivity). If the problem
+		persists, please contact the server administrator.</b>
+		<% } %>
 </div> <!-- workarea -->
 <jsp:include page="footer.jsp" flush="true">
 </jsp:include>

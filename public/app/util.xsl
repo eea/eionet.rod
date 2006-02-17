@@ -179,6 +179,7 @@
 			 </xsl:choose>
 		    <li><a href="deliveries.jsv" title="Country deadlines">Deadlines</a></li>
 		    <li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations</a></li>
+		    <li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe</a></li>
 		    <li><a href="text.jsv?mode=H" title="General Help">Help</a></li>
 		    </ul>
 		       <xsl:choose>
@@ -186,6 +187,7 @@
 					<h2>Logged in as<br/><xsl:value-of select="$username"/></h2>
 				    	<ul>
 					    <li><a href="logout_servlet" title="Log out">Logout</a></li>
+					    <li><a href="versions.jsp?id=-1">Global history</a></li>
 					</ul>
 				</xsl:when>
 				<xsl:otherwise>
@@ -195,12 +197,6 @@
 					</ul>
 				</xsl:otherwise>
 			</xsl:choose>
-		<xsl:if test="contains($admin,'true')='true'">
-		  <ul>
-		    <li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe</a></li>
-		    <li><a href="versions.jsp?id=-1">Global history</a></li>
-		  </ul>
-		</xsl:if>
 		  <h2>Reportnet</h2>
 		  <ul>
 		    <li><a href="http://cdr.eionet.eu.int/" title="Central Data Repository">CDR Repository</a></li>
