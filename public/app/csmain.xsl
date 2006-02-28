@@ -435,7 +435,7 @@
 		<xsl:variable name="params">
 			<xsl:value-of select="concat($country_param,$client_param,$issue_param,$period_param,$date1_param,$ORD,$date2_param)"/>
 		</xsl:variable>
-		<xsl:value-of select="concat($uri,'?',substring($params,2))"/>
+		<xsl:value-of select="concat($uri,'?',substring($params,6))"/>
 	</xsl:template>
 
 </xsl:stylesheet>
