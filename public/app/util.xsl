@@ -179,7 +179,14 @@
 			 </xsl:choose>
 		    <li><a href="deliveries.jsv" title="Country deadlines">Deadlines</a></li>
 		    <li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations</a></li>
-		    <li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe</a></li>
+		    <xsl:choose>
+			    <xsl:when test="contains($admin,'true')='true'">
+				<li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe</a></li>
+			    </xsl:when>
+			    <xsl:otherwise>
+				<li><a href="login.jsp?rd=subscribe" title="Create a UNS Subscription">Subscribe</a></li>
+			    </xsl:otherwise>
+		    </xsl:choose>
 		    <li><a href="text.jsv?mode=H" title="General Help">Help</a></li>
 		    </ul>
 		       <xsl:choose>
@@ -193,7 +200,7 @@
 				<xsl:otherwise>
 				    	<h2>Not logged in</h2>
 					<ul>
-					    <li><a href="login.html" title="Login">Login</a></li>
+					    <li><a href="login.jsp" title="Login">Login</a></li>
 					</ul>
 				</xsl:otherwise>
 			</xsl:choose>
