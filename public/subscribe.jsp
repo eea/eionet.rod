@@ -1,4 +1,12 @@
-<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.services.FileServiceIF,eionet.rod.RODUtil,eionet.rod.countrysrv.servlets.Subscribe"%>
+<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.services.FileServiceIF,eionet.rod.RODUtil,eionet.rod.countrysrv.servlets.Subscribe"%>
+<%
+	String app = getServletContext().getInitParameter(Attrs.APPPARAM);
+	ROUser user = (ROUser) session.getAttribute(Attrs.USERPREFIX + app);
+	if (user == null){
+		response.sendRedirect("login.jsp?rd=subscribe");
+	}
+%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -15,8 +23,8 @@
 	<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
 
     <link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
-    <link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen" title="EIONET style" />
     <link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
+    <link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen" title="EIONET style" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="script/util.js"></script>
 	<script type="text/javascript">
@@ -90,7 +98,6 @@
     <%@ include file="menu.jsp" %>
 <div id="workarea">
 	<h1>Get notifications in your email</h1>
-	<% if (rouser!=null){ %>
    	<form name="form" method="post" action="Subscribe">
    	
    		<%
@@ -285,11 +292,6 @@
 				</tr>
 			</table>
 		</form>
-		<% } else { %>
-		<b>Not authenticated! Please verify that you are logged in (for security reasons, 
-		the system will log you out after a period of inactivity). If the problem
-		persists, please contact the server administrator.</b>
-		<% } %>
 </div> <!-- workarea -->
 <jsp:include page="footer.jsp" flush="true">
 </jsp:include>
