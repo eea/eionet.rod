@@ -15,8 +15,8 @@
 	<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
 
     <link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
-    <link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
     <link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen" title="EIONET style" />
+    <link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="script/util.js"></script>
 	<script type="text/javascript">
@@ -89,10 +89,8 @@
     </jsp:include>
     <%@ include file="menu.jsp" %>
 <div id="workarea">
-	<%
-		if (rouser!=null){
-	%>
 	<h1>Get notifications in your email</h1>
+	<% if (rouser!=null){ %>
    	<form name="form" method="post" action="Subscribe">
    	
    		<%
@@ -288,10 +286,9 @@
 			</table>
 		</form>
 		<% } else { %>
-			</br>
-			<b>Not authenticated user. Please verify that you are logged in (for security reasons, </br>
-			the system will log you out after a period of inactivity). If the problem persists, please </br>
-			contact the server administrator.</b>
+		<b>Not authenticated! Please verify that you are logged in (for security reasons, 
+		the system will log you out after a period of inactivity). If the problem
+		persists, please contact the server administrator.</b>
 		<% } %>
 </div> <!-- workarea -->
 <jsp:include page="footer.jsp" flush="true">
