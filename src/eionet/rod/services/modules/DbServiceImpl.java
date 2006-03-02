@@ -617,6 +617,73 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return rvec;
 
   }
+  
+  /**
+   * returns result as vector of countries
+   */
+  private  Vector _getVectorOfNames(String sql_stmt, String tab, String col, String vol, String sql, String status) throws ServiceException {
+
+      Vector rvec = new Vector(); // Return value as Vector
+
+      Connection con = null;
+      Statement stmt = null;
+      ResultSet rset = null;
+
+      _log(sql_stmt);
+
+      con = getConnection();
+          try {
+              stmt = con.createStatement();
+              rset = stmt.executeQuery(sql_stmt);
+
+              ResultSetMetaData md = rset.getMetaData();
+              
+              while (rset.next()) {
+                  String value = rset.getString(1);
+                  if ( value == null)
+                      value = "";
+                  String sub_trans_nr = null;
+                  String val = null;
+                  if(vol != null){
+                      sub_trans_nr = rset.getString(2);
+                      String s = "SELECT value FROM T_UNDO where tab='"+tab+"' " +
+                      "AND col = '"+col+"' AND sub_trans_nr = " + sub_trans_nr;
+                      String[][] sa = _executeStringQuery(s);
+                      if(sa.length > 0)
+                          val = sa[0][0];
+                      if(val.equals(vol)){
+                          String name_sql = sql + value;
+                          String[][] na = _executeStringQuery(name_sql);
+                          if(na.length > 0){
+                              if(status != null){
+                                  String s2 = "SELECT value FROM T_UNDO WHERE tab = '"+tab+"' AND col = 'STATUS' AND sub_trans_nr = "+sub_trans_nr;
+                                  String[][] sa2 = _executeStringQuery(s2);
+                                  if(sa2.length > 0)
+                                      if(sa2[0][0].equals(status))
+                                          rvec.addElement(na[0][0]);
+                              } else {
+                                  rvec.addElement(na[0][0]);
+                              }
+                          }
+                      }
+                  } else {
+                      String name_sql = sql + "'" + value + "'";
+                      String[][] na = _executeStringQuery(name_sql);
+                      if(na.length > 0)
+                          rvec.addElement(na[0][0]);
+                  }
+              }
+          } catch (SQLException e) {
+              e.printStackTrace();
+              logger.error("Error occurred when processing result set: " + sql_stmt,e);
+              throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
+          }  catch (NullPointerException nue ) {
+              nue.printStackTrace( System.out );
+          } finally {
+              _close(con, stmt, null);
+          }
+     return rvec;
+  }
 
 /**
 *
@@ -785,8 +852,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
           "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " +
         "a.NEXT_DEADLINE > '0000-00-00'";
 
-         sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
-         sql = sql + "AND " +  getWhereClause("r.FK_SPATIAL_ID", countries );
+         sql = sql + " AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
+         sql = sql + " AND " +  getWhereClause("r.FK_SPATIAL_ID", countries );
       } else if (issues!= null && countries == null) {
        sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
          rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
@@ -794,7 +861,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
          "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " +
         "a.NEXT_DEADLINE > '0000-00-00'";
 
-        sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
+        sql = sql + " AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
        } else if (issues == null && countries != null) {
            sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
            rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
@@ -802,7 +869,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
            "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " +
         "a.NEXT_DEADLINE > '0000-00-00'";
 
-          sql = sql + "AND " +  getWhereClause("il.FK_SPATIAL_ID", countries );
+          sql = sql + " AND " +  getWhereClause("il.FK_SPATIAL_ID", countries );
        }else {
            sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, FK_SOURCE_ID, " +
            rplAmp("DESCRIPTION", "DESRCIPTION")  +
@@ -847,22 +914,22 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
      " FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " +
        "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID";
 
-      sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
-      sql = sql + "AND " +  getWhereClause("r.FK_SPATIAL_ID", countries );
+      sql = sql + " AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
+      sql = sql + " AND " +  getWhereClause("r.FK_SPATIAL_ID", countries );
    } else if (issues!= null && countries == null) {
     sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
       rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
     " FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " +
       "  a.PK_RA_ID = il.FK_RA_ID";
 
-     sql = sql + "AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
+     sql = sql + " AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
     } else if (issues == null && countries != null) {
         sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
         rplAmp("a.DESCRIPTION", "DESCRIPTION") + 
       " FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " +
         "  a.PK_RA_ID = il.FK_RA_ID";
 
-       sql = sql + "AND " +  getWhereClause("il.FK_SPATIAL_ID", countries );
+       sql = sql + " AND " +  getWhereClause("il.FK_SPATIAL_ID", countries );
     }else {
       sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE, NEXT_DEADLINE, " +
       " FK_SOURCE_ID, " + rplAmp("DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION";
@@ -1160,9 +1227,9 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       
     String sql = null;
     if(id.equals("-1")){
-        sql = "select undo_time, col, tab, operation, value, show_object from T_UNDO ORDER BY undo_time DESC, tab";
+        sql = "select undo_time, col, tab, operation, value, show_object from T_UNDO where operation='U' OR operation='D' ORDER BY undo_time DESC, tab";
     } else {
-        sql = "select a.undo_time, a.col, a.tab, a.operation, a.value, a.show_object from T_UNDO a, T_UNDO b WHERE a.undo_time = b.undo_time AND b.col = '"+id_field+"' AND b.value = "+id+" AND a.tab = '"+tab+"' ORDER BY a.undo_time DESC";
+        sql = "select a.undo_time, a.col, a.tab, a.operation, a.value, a.show_object from T_UNDO a, T_UNDO b WHERE a.undo_time = b.undo_time AND b.col = '"+id_field+"' AND b.value = "+id+" AND a.tab = '"+tab+"' AND (a.operation='U' OR a.operation='D') ORDER BY a.undo_time DESC";
     }
 
     return _getVectorOfHashes(sql);
@@ -1232,7 +1299,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       return _executeStringQuery(sql);
    }
    
-   public void addObligationIdsIntoUndo(String id, long ts, String table, String state, String show) throws ServiceException {
+   public void addObligationIdsIntoUndo(String id, long ts, String table) throws ServiceException {
        String sqlStmt = "SELECT PK_RA_ID AS id FROM T_OBLIGATION WHERE FK_SOURCE_ID=" + id;
        Vector ids = _getVectorOfHashes(sqlStmt);
        StringBuffer obligation_ids = new StringBuffer();
@@ -1243,16 +1310,24 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                obligation_ids.append(",");
        }
        String ids_sql = "INSERT INTO T_UNDO VALUES ("+
-           ts + ",'"+table+"','OBLIGATIONS','"+state+"','y','n','"+obligation_ids.toString()+"',0,'"+show+"')";
+           ts + ",'"+table+"','OBLIGATIONS','O','y','n','"+obligation_ids.toString()+"',0,'y')";
        _executeUpdate(ids_sql);
        
     }
    
-   public boolean insertIntoUndo(String id, String state, String user, String table, String id_field, long ts, String extraSQL, String show) throws ServiceException {
+   public void insertTransactionInfo(String id, String state, String table, String id_field, long ts, String extraSQL) throws ServiceException {
+       
+           String whereClause = id_field + " = " + id +" "+ extraSQL;
+           String insert_stmt = "INSERT INTO T_UNDO VALUES ("+
+               ts + ",'"+ table +"','"+id_field+"','"+state+"','y','n','"+whereClause+"',0,'n')";
+           _executeUpdate(insert_stmt);
+       
+   }
+   
+   public boolean insertIntoUndo(String id, String state, String table, String id_field, long ts, String extraSQL, String show) throws ServiceException {
           Connection con = null;
           Statement stmt = null;
           ResultSet rset = null;
-          ResultSet timestamp_rset = null;
           String sql_stmt = null;
           
           // Process the result set
@@ -1262,16 +1337,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                 stmt = con.createStatement();
                 sql_stmt = "SELECT * FROM "+ table +" WHERE "+id_field+" = " + id +" "+ extraSQL;
                 rset = stmt.executeQuery(sql_stmt);
-                //timestamp_rset = stmt.executeQuery("SELECT UNIX_TIMESTAMP()");
                 ResultSetMetaData md = rset.getMetaData();
-                //long ts = System.currentTimeMillis();
-                
-                /*if(state.equals("I")){
-                    String insert_stmt = "INSERT INTO T_UNDO VALUES ("+
-                        ts + ",'"+table+"','"+id_field+"','I','n','y',"+id+")";
-                    _executeUpdate(insert_stmt);
-                } else*/ 
-                String aid = null;
+
                 if (state.equals("U") || state.equals("D")){
                     int colCnt = md.getColumnCount();
                     int rowCnt = 0;
@@ -1280,11 +1347,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                             String value = rset.getString(i);
                             if(value != null)
                                 value = value.replaceAll("'", "''");
-                            //String table = md.getTableName(i);
                             String column = md.getColumnName(i);
-                            if(column.equals("FK_SOURCE_ID")){
-                                aid = value;
-                            }
                             int type = md.getColumnType(i);
                             String quotes = "y";
                             if (type == Types.INTEGER)
@@ -1301,20 +1364,6 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                         }
                         rowCnt++;
                     }
-                }
-                String location = null;
-                if(table.equals("T_OBLIGATION") && aid != null){
-                    location = "show.jsv?id=" + id + "&aid=" + aid + "&mode=A";  
-                } else if(table.equals("T_SOURCE")){
-                    location = "show.jsv?id=" + id + "&mode=S";
-                }
-                if(user != null){
-                    String insert_user = "INSERT INTO T_UNDO VALUES ("+
-                        ts + ",'"+table+"','A_USER','"+state+"','y','n','"+user+"',0,'"+show+"')";
-                    _executeUpdate(insert_user);
-                    String insert_redirect_url = "INSERT INTO T_UNDO VALUES ("+
-                        ts + ",'"+table+"','REDIRECT_URL','"+state+"','y','n','"+location+"',0,'"+show+"')";
-                    _executeUpdate(insert_redirect_url);
                 }
           } catch (SQLException e) {
                 logger.error("Error occurred when processing result set: " + sql_stmt,e);
@@ -1360,58 +1409,26 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
         
        try {
              stmt = con.createStatement();
-             //if(op.equals("D")){
-                 sql_stmt = "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr FROM T_UNDO "+ 
-                     "WHERE undo_time = "+ts+" AND operation = '"+op+"' ORDER BY undo_time,tab,sub_trans_nr";
-                 /*} else {
-                 sql_stmt = "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr FROM T_UNDO "+ 
-                     "WHERE undo_time = "+ts+" AND tab = '"+tab+"' AND operation = '"+op+"'";
-             }*/
+             sql_stmt = "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr FROM T_UNDO "+ 
+                 "WHERE undo_time = "+ts+" AND operation = '"+op+"' ORDER BY undo_time,tab,sub_trans_nr";
              rset = stmt.executeQuery(sql_stmt);
              ResultSetMetaData md = rset.getMetaData();
              
              if(op.equals("U")){
                  
-                 if(tab.equals("T_OBLIGATION")){
-                     _executeUpdate("DELETE FROM T_RAISSUE_LNK WHERE FK_RA_ID=" + id);
-                     _executeUpdate("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + id);
-                     _executeUpdate("DELETE FROM T_INFO_LNK WHERE FK_RA_ID=" + id);
-                     _executeUpdate("DELETE FROM T_CLIENT_LNK WHERE TYPE='A' AND FK_OBJECT_ID=" + id);
-                     _executeUpdate("DELETE FROM T_OBLIGATION WHERE PK_RA_ID=" + id);
-                 } else if(tab.equals("T_SOURCE")){
-                     _executeUpdate("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND FK_OBJECT_ID=" + id);
-                     _executeUpdate("DELETE FROM T_SOURCE_LNK WHERE CHILD_TYPE='S' AND FK_SOURCE_CHILD_ID=" + id);
-                     _executeUpdate("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + id);
-                     _executeUpdate("DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=" + id);
-                 }
+                 String tinfo_sql = "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr FROM T_UNDO "+ 
+                 "WHERE undo_time = "+ts+" AND operation = 'A' ORDER BY undo_time,tab,sub_trans_nr";
                  
-                 /*int colCnt = md.getColumnCount();
-                 while (rset.next()) {
-                     String value = rset.getString(5);
-                     String column = rset.getString(2);
-                     String table = rset.getString(3);
-                     String quotes = rset.getString(6);
-                     
-                     if(value != null)
-                         value = value.replaceAll("'", "''");
-                     
-                     String a = "";
-                     if(quotes.equalsIgnoreCase("y")){
-                         a = "'";
-                     }
-                     
-                     if(!column.equalsIgnoreCase(id_field) && !column.equalsIgnoreCase("A_USER") && !column.equalsIgnoreCase("OBLIGATIONS")){
-                         String update_stmt = "UPDATE "+table+" SET "+
-                             column + " = " +a+value+a+ " WHERE "+ id_field +" = " +id;
-                         _executeUpdate(update_stmt);
-                         String delete_stmt = "DELETE FROM T_UNDO WHERE undo_time = "+ts+" AND tab = '"+table+"' AND operation = '"+op+"'";
-                         _executeUpdate(delete_stmt);
-                     }
-                 }*/
-             } //else if(op.equals("D")){
+                 Vector tinfo_vec = _getVectorOfHashes(tinfo_sql);
+                 for(Enumeration en = tinfo_vec.elements(); en.hasMoreElements();){
+                     Hashtable hash = (Hashtable) en.nextElement();
+                     String delete_stmt = "DELETE FROM "+hash.get("tab")+" WHERE "+hash.get("value");
+                     _executeUpdate(delete_stmt);
+                 }
+             }
                  if(op.equals("D")){
                      if(tab.equals("T_SOURCE")){
-                         String s = "SELECT value FROM T_UNDO WHERE undo_time="+ts+" AND operation='"+op+"' AND tab='"+tab+"' AND col='OBLIGATIONS'";
+                         String s = "SELECT value FROM T_UNDO WHERE undo_time="+ts+" AND operation='O' AND tab='"+tab+"'";
                          String[][] array = _executeStringQuery(s);
                          if(array.length > 0){
                              String ids = array[0][0];
@@ -1457,23 +1474,19 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                          value = value.replaceAll("'", "''");
                      
                      if (rset.isLast()){
-                         if(!column.equals("A_USER") && !column.equals("OBLIGATIONS") && !column.equals("REDIRECT_URL")){
-                             String[] ta = new String[3];
-                             ta[0] = column;
-                             ta[1] = value;
-                             ta[2] = quotes;
-                             tvec.add(ta);
-                         }
+                         String[] ta = new String[3];
+                         ta[0] = column;
+                         ta[1] = value;
+                         ta[2] = quotes;
+                         tvec.add(ta);
                      }
 
                      if(prev_column != null && prev_value != null && prev_quotes != null){
-                         if(!prev_column.equals("A_USER") && !prev_column.equals("OBLIGATIONS") && !prev_column.equals("REDIRECT_URL")){
-                             String[] array = new String[3];
-                             array[0] = prev_column;
-                             array[1] = prev_value;
-                             array[2] = prev_quotes;
-                             tvec.add(array);
-                         }
+                         String[] array = new String[3];
+                         array[0] = prev_column;
+                         array[1] = prev_value;
+                         array[2] = prev_quotes;
+                         tvec.add(array);
                          
                          if((!sub_trans_nr.equals(prev_subtransnr) || !ut.equals(prev_ut) || !table.equals(prev_table)) || rset.isLast()){
                              
@@ -1495,6 +1508,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                              _executeUpdate(insert_sql);
                              String delete_stmt = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND tab='"+prev_table+"' AND operation = '"+op+"'";
                              _executeUpdate(delete_stmt);
+                             String delete_stmt2 = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND (operation = 'A' OR operation = 'K' OR operation = 'O')";
+                             _executeUpdate(delete_stmt2);
                              tvec = new Vector();
                          }
                      }
@@ -1504,6 +1519,13 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                      prev_column = column;
                      prev_value = value;
                      prev_quotes = quotes;
+                 }
+                 String url_stmt = "SELECT value FROM T_UNDO WHERE operation='L' AND undo_time="+ts+" AND tab='"+tab+"'";
+                 String[][] url_array = _executeStringQuery(url_stmt);
+                 if(url_array.length > 0){
+                     location = url_array[0][0];
+                     String delete_location = "DELETE FROM T_UNDO WHERE undo_time = "+ts+" AND operation = 'L'";
+                     _executeUpdate(delete_location);
                  }
                  
              //}
@@ -1571,7 +1593,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
            Vector vec = new Vector();
            
            String sql_stmt = "SELECT * FROM T_UNDO "+ 
-           "WHERE undo_time = "+ts+" AND operation = '"+op+"' ORDER BY undo_time,tab,sub_trans_nr";
+           "WHERE undo_time = "+ts+" AND operation = '"+op+"' AND tab = '"+tab+"' ORDER BY undo_time,tab,sub_trans_nr";
            
            vec = _getVectorOfHashes(sql_stmt);
            
@@ -1581,7 +1603,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                String[][] tsa = _executeStringQuery(ut);
                if(tsa.length > 0){
                    String undo_time = tsa[0][0];
-                   String ids_sql = "SELECT value FROM T_UNDO WHERE tab='T_SOURCE' AND operation='D' AND undo_time="+undo_time+" AND col='OBLIGATIONS'";
+                   String ids_sql = "SELECT value FROM T_UNDO WHERE tab='T_SOURCE' AND operation='O' AND undo_time="+undo_time;
                    String[][] idsa = _executeStringQuery(ids_sql);
                    if(idsa.length > 0)
                        ids = idsa[0][0];
@@ -1656,4 +1678,324 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
              
            return _getVectorOfHashes(sql);
        }
+       
+       public String getUndoUser(String ts, String tab) throws ServiceException {
+           
+           String sql = "SELECT value FROM T_UNDO WHERE " + 
+           "  undo_time = " + ts + " AND tab = '" + tab + "' AND operation='K'";
+           
+           String[][] ua = _executeStringQuery(sql);
+           if(ua.length > 0)
+               return ua[0][0];
+           
+           return null;
+       }
+       
+       public String getDifferences(String ts, String tab, String col) throws ServiceException {
+           
+           String whereClause = null;
+           String ret = null;
+           String where_sql = "SELECT value FROM T_UNDO WHERE " + 
+           "undo_time = " + ts + " AND tab = '" + tab + "' AND operation='A'";
+           
+           String[][] wa = _executeStringQuery(where_sql);
+           if(wa.length > 0)
+               whereClause = wa[0][0];
+           
+           if(whereClause != null){
+               String value_sql = "SELECT "+col+" FROM "+tab+" WHERE "+whereClause;
+               String[][] va = _executeStringQuery(value_sql);
+               if(va.length > 0)
+                   ret = va[0][0];
+           }
+           if(ret == null)
+               ret = "null";
+           
+           return ret;
+       }
+       
+       public Hashtable getDifferencesInCountries(String ts, String id, String voluntary, String op) throws ServiceException {
+           
+           Vector current = new Vector();
+           Vector undo = new Vector();
+           
+           StringBuffer currentCountries = new StringBuffer();
+           StringBuffer undoCountries = new StringBuffer();
+           StringBuffer added = new StringBuffer();
+           StringBuffer removed = new StringBuffer();
+           
+           Hashtable ret = new Hashtable();
+           
+           String current_sql = "SELECT FK_SPATIAL_ID FROM T_RASPATIAL_LNK WHERE " + 
+           "FK_RA_ID = " + id + " AND VOLUNTARY = '"+voluntary+"'";
+           
+           String undo_sql = "SELECT value, sub_trans_nr FROM T_UNDO WHERE " + 
+           "undo_time = " + ts + " AND col = 'FK_SPATIAL_ID' AND operation = '"+op+"'";
+           
+           current = _getVectorOfNames(current_sql,null,null,null,"SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ",null);
+           undo = _getVectorOfNames(undo_sql,"T_RASPATIAL_LNK","VOLUNTARY",voluntary,"SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ",null);
+           
+           int cnt1 = 0;
+           int i = 0;           
+           for(Enumeration en = current.elements(); en.hasMoreElements();){
+               if(cnt1 != 0){
+                   currentCountries.append(", ");
+               }
+               String match = (String) en.nextElement();
+               currentCountries.append(match);
+               if(!undo.contains(match)){
+                   if(i != 0)
+                       added.append(", ");
+                   added.append(match);
+                   i++;
+               }
+               cnt1++;
+           }
+           
+           int cnt2 = 0;
+           int j = 0;
+           for(Enumeration en = undo.elements(); en.hasMoreElements();){
+               if(cnt2 != 0){
+                   undoCountries.append(", ");
+               }
+               String match = (String) en.nextElement();
+               undoCountries.append(match);
+               if(!current.contains(match)){
+                   if(j != 0)
+                       removed.append(", ");
+                   removed.append(match);
+                   j++;
+               }
+               cnt2++;
+           }
+           
+           ret.put("undo",undoCountries.toString());
+           ret.put("current",currentCountries.toString());
+           ret.put("added",added.toString());
+           ret.put("removed",removed.toString());
+           
+           return ret;
+       }
+       
+       public Hashtable getDifferencesInClients(String ts, String id, String status, String op, String type) throws ServiceException {
+           
+           Vector current = new Vector();
+           Vector undo = new Vector();
+           
+           StringBuffer currentClients = new StringBuffer();
+           StringBuffer undoClients = new StringBuffer();
+           StringBuffer added = new StringBuffer();
+           StringBuffer removed = new StringBuffer();
+           
+           Hashtable ret = new Hashtable();
+           
+           String current_sql = "SELECT FK_CLIENT_ID FROM T_CLIENT_LNK WHERE " + 
+           "FK_OBJECT_ID = " + id + " AND STATUS = '"+status+"' AND TYPE = '"+type+"'";
+           
+           String undo_sql = "SELECT value, sub_trans_nr FROM T_UNDO WHERE " + 
+           "undo_time = " + ts + " AND col = 'FK_CLIENT_ID' AND tab = 'T_CLIENT_LNK' AND operation = '"+op+"'";
+           
+           current = _getVectorOfNames(current_sql,null,null,null,"SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ",null);
+           undo = _getVectorOfNames(undo_sql,"T_CLIENT_LNK","TYPE",type,"SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ",status);
+           
+           int cnt1 = 0;
+           int i = 0;           
+           for(Enumeration en = current.elements(); en.hasMoreElements();){
+               if(cnt1 != 0){
+                   currentClients.append(",<br/>");
+               }
+               String match = (String) en.nextElement();
+               currentClients.append(match);
+               if(!undo.contains(match)){
+                   if(i != 0)
+                       added.append(",<br/>");
+                   added.append(match);
+                   i++;
+               }
+               cnt1++;
+           }
+           
+           int cnt2 = 0;
+           int j = 0;
+           for(Enumeration en = undo.elements(); en.hasMoreElements();){
+               if(cnt2 != 0){
+                   undoClients.append(",<br/>");
+               }
+               String match = (String) en.nextElement();
+               undoClients.append(match);
+               if(!current.contains(match)){
+                   if(j != 0)
+                       removed.append(",<br/>");
+                   removed.append(match);
+                   j++;
+               }
+               cnt2++;
+           }
+           
+           ret.put("undo",undoClients.toString());
+           ret.put("current",currentClients.toString());
+           ret.put("added",added.toString());
+           ret.put("removed",removed.toString());
+           
+           return ret;
+       }
+       
+       public Hashtable getDifferencesInIssues(String ts, String id, String op) throws ServiceException {
+           
+           Vector current = new Vector();
+           Vector undo = new Vector();
+           
+           StringBuffer currentIssues = new StringBuffer();
+           StringBuffer undoIssues = new StringBuffer();
+           StringBuffer added = new StringBuffer();
+           StringBuffer removed = new StringBuffer();
+           
+           Hashtable ret = new Hashtable();
+           
+           String current_sql = "SELECT FK_ISSUE_ID FROM T_RAISSUE_LNK WHERE " + 
+           "FK_RA_ID = " + id;
+           
+           String undo_sql = "SELECT value, sub_trans_nr FROM T_UNDO WHERE " + 
+           "undo_time = " + ts + " AND col = 'FK_ISSUE_ID' AND operation = '"+op+"'";
+           
+           current = _getVectorOfNames(current_sql,null,null,null,"SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ",null);
+           undo = _getVectorOfNames(undo_sql,null,null,null,"SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ",null);
+           
+           int cnt1 = 0;
+           int i = 0;           
+           for(Enumeration en = current.elements(); en.hasMoreElements();){
+               if(cnt1 != 0){
+                   currentIssues.append(", ");
+               }
+               String match = (String) en.nextElement();
+               currentIssues.append(match);
+               if(!undo.contains(match)){
+                   if(i != 0)
+                       added.append(", ");
+                   added.append(match);
+                   i++;
+               }
+               cnt1++;
+           }
+           
+           int cnt2 = 0;
+           int j = 0;
+           for(Enumeration en = undo.elements(); en.hasMoreElements();){
+               if(cnt2 != 0){
+                   undoIssues.append(", ");
+               }
+               String match = (String) en.nextElement();
+               undoIssues.append(match);
+               if(!current.contains(match)){
+                   if(j != 0)
+                       removed.append(", ");
+                   removed.append(match);
+                   j++;
+               }
+               cnt2++;
+           }
+           
+           ret.put("undo",undoIssues.toString());
+           ret.put("current",currentIssues.toString());
+           ret.put("added",added.toString());
+           ret.put("removed",removed.toString());
+           
+           return ret;
+       }
+       
+       public Hashtable getDifferencesInInfo(String ts, String id, String op, String cat) throws ServiceException {
+           
+           Vector current = new Vector();
+           Vector undo = new Vector();
+           
+           StringBuffer currentInfo = new StringBuffer();
+           StringBuffer undoInfo = new StringBuffer();
+           StringBuffer added = new StringBuffer();
+           StringBuffer removed = new StringBuffer();
+           
+           Hashtable ret = new Hashtable();
+           
+           String current_sql = "SELECT FK_INFO_ID FROM T_INFO_LNK WHERE " + 
+           "FK_RA_ID = " + id;
+           
+           String undo_sql = "SELECT value, sub_trans_nr FROM T_UNDO WHERE " + 
+           "undo_time = " + ts + " AND col = 'FK_INFO_ID' AND operation = '"+op+"'";
+           
+           current = _getVectorOfNames(current_sql,null,null,null,"SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '"+cat+"' AND C_VALUE = ",null);
+           undo = _getVectorOfNames(undo_sql,null,null,null,"SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '"+cat+"' AND C_VALUE = ",null);
+           
+           int cnt1 = 0;
+           int i = 0;           
+           for(Enumeration en = current.elements(); en.hasMoreElements();){
+               if(cnt1 != 0){
+                   currentInfo.append(", ");
+               }
+               String match = (String) en.nextElement();
+               currentInfo.append(match);
+               if(!undo.contains(match)){
+                   if(i != 0)
+                       added.append(", ");
+                   added.append(match);
+                   i++;
+               }
+               cnt1++;
+           }
+           
+           int cnt2 = 0;
+           int j = 0;
+           for(Enumeration en = undo.elements(); en.hasMoreElements();){
+               if(cnt2 != 0){
+                   undoInfo.append(", ");
+               }
+               String match = (String) en.nextElement();
+               undoInfo.append(match);
+               if(!current.contains(match)){
+                   if(j != 0)
+                       removed.append(", ");
+                   removed.append(match);
+                   j++;
+               }
+               cnt2++;
+           }
+           
+           ret.put("undo",undoInfo.toString());
+           ret.put("current",currentInfo.toString());
+           ret.put("added",added.toString());
+           ret.put("removed",removed.toString());
+           
+           return ret;
+       }
+       
+       public void dpsirValuesFromExcelToDB(int id, String value) throws ServiceException {
+           
+           String sql = "UPDATE T_OBLIGATION SET DPSIR_"+value+" = 'yes' WHERE PK_RA_ID = "+id;
+           _executeUpdate(sql);           
+       }
+       
+       public void editPeriod(String start, String end, String spatialHistoryID) throws ServiceException {
+          
+           String start_date = changeDateDelimeter(start);
+           String end_date = changeDateDelimeter(end);
+          
+           String sql = "UPDATE T_SPATIAL_HISTORY SET START_DATE = '"+start_date+"', END_DATE = '"+end_date+"' WHERE PK_SPATIAL_HISTORY_ID = "+spatialHistoryID;
+           _executeUpdate(sql);           
+       }
+       
+       private String changeDateDelimeter(String date){
+           if(date != null && !date.equals("")){
+               StringTokenizer st = new StringTokenizer(date, "/");
+               String[] dmy = new String[3];
+               int cnt = 0;
+               while(st.hasMoreTokens()){
+                   String token = st.nextToken();
+                   dmy[cnt] = token;
+                   cnt++;
+               }
+               String sDate = dmy[2] + "-" + dmy[1] + "-" + dmy[0];
+               
+               return sDate;
+           }
+           return "NULL";
+       }
+
    }
