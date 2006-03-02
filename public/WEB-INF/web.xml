@@ -145,6 +145,10 @@
 		<servlet-class>eionet.rod.rdf.Events</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>allevents_rss</servlet-name>
+		<servlet-class>eionet.rod.rdf.AllEvents</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>env</servlet-name>
 		<servlet-class>com.tee.util.EnvServlet</servlet-class>
 	</servlet>
@@ -295,6 +299,10 @@
 	<servlet-mapping>
 		<servlet-name>events_rss</servlet-name>
 		<url-pattern>/events.rss</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>allevents_rss</servlet-name>
+		<url-pattern>/allevents.rss</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>env</servlet-name>
