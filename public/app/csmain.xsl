@@ -182,8 +182,9 @@
 			<xsl:call-template name="createSortable">
 				<xsl:with-param name="title" select="'Title of the reporting obligation'"/>
 				<xsl:with-param name="text" select="'Reporting obligation'"/>
-				<xsl:with-param name="sorted" select="'T_OBLIGATION.TITLE'"/>
-				<xsl:with-param name="width" select="'25%'"/>
+				<!--xsl:with-param name="sorted" select="'T_OBLIGATION.TITLE'"/-->
+				<xsl:with-param name="sorted" select="'TITLE'"/>
+				<xsl:with-param name="width" select="'30%'"/>
 				<xsl:with-param name="cur_sorted" select="$sortorder"/>
 			</xsl:call-template>
 	<!-- client -->
@@ -191,25 +192,26 @@
 				<xsl:with-param name="title" select="'Reporting client'"/>
 				<xsl:with-param name="text" select="'Reporting to'"/>
 				<xsl:with-param name="sorted" select="'CLIENT_DESCR'"/>
-				<xsl:with-param name="width" select="'14%'"/>
+				<xsl:with-param name="width" select="'18%'"/>
 				<xsl:with-param name="cur_sorted" select="$sortorder"/>
 			</xsl:call-template>
 	<!-- deadline -->
 			<xsl:call-template name="createSortable">
 				<xsl:with-param name="title" select="'Date of delivery'"/>
 				<xsl:with-param name="text" select="'Deadline'"/>
-				<xsl:with-param name="sorted" select="'NEXT_REPORTING, NEXT_DEADLINE'"/>
+				<!--xsl:with-param name="sorted" select="'NEXT_REPORTING, NEXT_DEADLINE'"/-->
+				<xsl:with-param name="sorted" select="'NEXT_REPORTING, DEADLINE'"/>
 				<xsl:with-param name="width" select="'9%'"/>
 				<xsl:with-param name="cur_sorted" select="$sortorder"/>
 			</xsl:call-template>
 	<!-- dl2 -->
-			<xsl:call-template name="createSortable">
+			<!--xsl:call-template name="createSortable">
 				<xsl:with-param name="title" select="'Next deadline'"/>
 				<xsl:with-param name="text" select="'Next DL'"/>
 				<xsl:with-param name="sorted" select="'DEADLINE2'"/>
 				<xsl:with-param name="width" select="'9%'"/>
 				<xsl:with-param name="cur_sorted" select="$sortorder"/>
-			</xsl:call-template>
+			</xsl:call-template-->
 	<!-- responsible -->
 			<xsl:call-template name="createSortable">
 				<xsl:with-param name="title" select="'Responsible person or role'"/>
@@ -312,13 +314,13 @@
 			</font>
 		</span>&#160;
 	</td>
-	<td valign="top">
+	<!--td valign="top">
 		<span class="rowitem">
 				<xsl:if test="T_OBLIGATION/DEADLINE2 != '' ">	
 					<xsl:value-of select="T_OBLIGATION/DEADLINE2"/>
 				</xsl:if>
 		</span>&#160;
-	</td>
+	</td-->
 
 	<td valign="top">
 		<span class="rowitem">
