@@ -55,19 +55,27 @@ public class SourceHandler extends ActivityHandler {
            op = "D";
        
        try{
+          
+           if(state == MODIFY_RECORD){
+               RODServices.getDbService().insertTransactionInfo(srcID,"A","T_CLIENT_LNK","FK_OBJECT_ID",ts,"AND TYPE=''S''");
+               RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE=''S''");
+               RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE=''S''");
+               RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE","PK_SOURCE_ID",ts,"");
+           }
+          
           if ( delSelf){
-            RODServices.getDbService().insertIntoUndo(srcID, op, null, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y");
+            RODServices.getDbService().insertIntoUndo(srcID, op, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y");
             updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND FK_OBJECT_ID=" + srcID);
           }
-          RODServices.getDbService().insertIntoUndo(srcID, op, null, "T_SOURCE_LNK", "FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE='S'","y");
+          RODServices.getDbService().insertIntoUndo(srcID, op, "T_SOURCE_LNK", "FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE='S'","y");
           updateDB("DELETE FROM T_SOURCE_LNK WHERE CHILD_TYPE='S' AND FK_SOURCE_CHILD_ID=" + srcID);
           if(!updateMode){
-              RODServices.getDbService().insertIntoUndo(srcID, op, null, "T_SOURCE_LNK", "FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE='S'","y");
+              RODServices.getDbService().insertIntoUndo(srcID, op, "T_SOURCE_LNK", "FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE='S'","y");
               updateDB("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + srcID);
           }
           
           if (delSelf) {
-             RODServices.getDbService().addObligationIdsIntoUndo(srcID,ts,"T_SOURCE","D","y");
+             RODServices.getDbService().addObligationIdsIntoUndo(srcID,ts,"T_SOURCE");
               
              // cascade delete related reporting obligations
              Statement stmt = null;
@@ -91,7 +99,7 @@ public class SourceHandler extends ActivityHandler {
                    Logger.log("SourceHandler.DELETE_SOURCE", e1);
                 }
              }
-             RODServices.getDbService().insertIntoUndo(srcID, "D", userName, "T_SOURCE", "PK_SOURCE_ID",ts,"","y");
+             RODServices.getDbService().insertIntoUndo(srcID, "D", "T_SOURCE", "PK_SOURCE_ID",ts,"","y");
              // delete legislative act itself
              updateDB("DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=" + srcID);
              //HistoryLogger.logLegisgationHistory(srcID,this.user.getUserName(), DELETE_RECORD, "");          
@@ -124,7 +132,16 @@ public class SourceHandler extends ActivityHandler {
       }
 
       if (tblName.equals("T_SOURCE")) {
-
+          
+          String url = gen.getFieldValue("REDIRECT_URL");
+          gen.removeField("REDIRECT_URL");
+          
+          if(state == MODIFY_RECORD || state == DELETE_RECORD){
+              updateDB("INSERT INTO T_UNDO VALUES ("+
+                      ts + ",'"+ tblName +"','REDIRECT_URL','L','y','n','"+url+"',0,'n')");
+              updateDB("INSERT INTO T_UNDO VALUES ("+
+                      ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
+          }
           
          if (state != INSERT_RECORD) {
              
@@ -132,8 +149,8 @@ public class SourceHandler extends ActivityHandler {
             id = gen.getFieldValue("PK_SOURCE_ID");
             try{
                 if(state == MODIFY_RECORD){
-                    RODServices.getDbService().insertIntoUndo(id, "U", userName, tblName, "PK_SOURCE_ID",ts,"","y");
-                    RODServices.getDbService().insertIntoUndo(id, "U", null, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y");
+                    RODServices.getDbService().insertIntoUndo(id, "U", tblName, "PK_SOURCE_ID",ts,"","y");
+                    RODServices.getDbService().insertIntoUndo(id, "U", "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y");
                 }
             }catch (Exception e){
                 e.printStackTrace();
