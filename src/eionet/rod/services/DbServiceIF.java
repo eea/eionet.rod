@@ -351,11 +351,17 @@ public interface DbServiceIF  {
   /**
   * Insert obligations related to instrument into T_UNDO table 
   */
-  public void addObligationIdsIntoUndo(String id, long ts, String table, String state, String show) throws ServiceException;
+  public void addObligationIdsIntoUndo(String id, long ts, String table) throws ServiceException;
+  
+  /**
+   * Insert transaction info into T_UNDO table 
+   */
+  public void insertTransactionInfo(String id, String state, String table, String id_field, long ts, String extraSQL) throws ServiceException;
+  
   /**
   * Insert into T_UNDO table 
   */
-  public boolean insertIntoUndo(String id, String state, String user, String table, String id_field, long ts, String extraSQL, String show) throws ServiceException;
+  public boolean insertIntoUndo(String id, String state, String table, String id_field, long ts, String extraSQL, String show) throws ServiceException;
    
   /**
   * undo 
@@ -386,6 +392,46 @@ public interface DbServiceIF  {
    * returns history of current object
    */
   public Vector getHistory(String id, String tab) throws ServiceException;
+  
+  /**
+   * returns user who performed the action
+   */
+  public String getUndoUser(String ts, String tab) throws ServiceException;
+  
+  /**
+   * returns difference between undo and current object
+   */
+  public String getDifferences(String ts, String tab, String col) throws ServiceException;
+  
+  /**
+   * returns difference between undo and current object countries
+   */
+  public Hashtable getDifferencesInCountries(String ts, String id, String voluntary, String op) throws ServiceException;
+  
+  /**
+   * returns difference between undo and current object issues
+   */
+  public Hashtable getDifferencesInIssues(String ts, String id, String op) throws ServiceException;
+  
+  /**
+   * returns difference between undo and current object clients
+   */
+  public Hashtable getDifferencesInClients(String ts, String id, String status, String op, String type) throws ServiceException;
+  
+  /**
+   * returns difference between undo and current object Type of info reported
+   */
+  public Hashtable getDifferencesInInfo(String ts, String id, String op, String cat) throws ServiceException;
+  
+  /**
+   * takes DPSIR values from Excel file and insert them into database
+   */
+  public void dpsirValuesFromExcelToDB(int id, String value) throws ServiceException;
+  
+  /**
+   * changes participation period for countires
+   */
+  public void editPeriod(String start, String end, String spatialHistoryID) throws ServiceException;
   
 }
 
