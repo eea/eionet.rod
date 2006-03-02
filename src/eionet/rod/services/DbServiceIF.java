@@ -79,18 +79,18 @@ public interface DbServiceIF  {
  * returns RA data in 2-dimensional array
  * 0-PK_ACTIVITTY_DETAILS_ID, 1-TITLE, 2-COUNTRY_ID, 3-COUNTRY_NAME
  */
-  public String[][] getRaData() throws ServiceException;  
+  public String[][] getRaData() throws ServiceException;
 
  /**
  * returns all responsible role ids from T_ACTIVITY_DETAILS
  */
-  public String[] getRespRoles() throws ServiceException;    
+  public String[] getRespRoles() throws ServiceException;
 
  /**
  * Returns deadline data in 2-dimensional array
  * 0-PK_RA_ID, 1-FIRST_REPORTING, 2-REPORT_FREQ_MONTHS, 3-VALID_TO, 4-TERMINATE
  */
-  public String[][] getDeadlines() throws ServiceException;  
+  public String[][] getDeadlines() throws ServiceException;
 
  /**
  * Saves next deadlines for given RA
@@ -111,13 +111,13 @@ public interface DbServiceIF  {
  * Saves delivery
  * @param countryMAp : HAShMap for holding country names and Id's
  */
-  public void saveDeliveries(String raId, Vector deliveries, HashMap countryMap ) throws ServiceException ;   
+  public void saveDeliveries(String raId, Vector deliveries, HashMap countryMap ) throws ServiceException ;
 
- 
+
   /**
   * Activities used in XML/RPC
   * @return array of hashes (PK_RA_ID, TITLE, etc)
-  
+
   */
   public Vector getActivities() throws ServiceException ;
 
@@ -125,7 +125,7 @@ public interface DbServiceIF  {
   * obligations.rdf
   */
   public Vector getObligations() throws ServiceException ;
-  
+
   /**
   * Legal Instruments ARRAY of STRUCTs for RDF
   * @return array of hashes
@@ -137,11 +137,11 @@ public interface DbServiceIF  {
   * @param String itemType
   * @param String itemId
   * @param String userName
-  * @param String actionType  
-  * @param String description  
+  * @param String actionType
+  * @param String description
   */
-  
-  public void logHistory(String itemType, String itemId, String userName, String actionType, String description) throws ServiceException ;   
+
+  public void logHistory(String itemType, String itemId, String userName, String actionType, String description) throws ServiceException ;
 
 
   /**
@@ -161,7 +161,7 @@ public interface DbServiceIF  {
   */
 
   public String[][] getDeletedItems(String itemType) throws ServiceException ;
-  
+
   /**
    * Returns deleted items of this type
    * @param String itemType
@@ -178,6 +178,14 @@ public interface DbServiceIF  {
   public String[][] getActivityDeadlines(StringTokenizer issues, StringTokenizer countries) throws ServiceException ;
 
   /**
+   * Returns next deadlines of activities. One activity can occure twice, if NEXT_DEADLINE2 is set.
+   * Activities, not having a deadline are not returned
+   * @return String[][]  (0:PK_RA_ID, 1:TITLE, 2:NEXT_REPORTING, 3:FK_RO_ID)
+   */
+
+   public String[][] getAllActivityDeadlines(StringTokenizer issues, StringTokenizer countries) throws ServiceException ;
+
+   /**
   * Returns obligations, corresponging to the issue ids, given as parameters
   * @return String[][]  (0:PK_RO_ID, 1:ALIAS, 2:SOURCE.TITLE, 3:FK_SOURCE_ID)
   */
@@ -202,12 +210,12 @@ public interface DbServiceIF  {
   * Returns countries from the DB: PK_SPATIAL_ID, SPATIAL_NAME from T_SPATIAL
   */
   public Vector getCountries() throws ServiceException;
-  
+
   /**
    * Returns country by its id
    */
    public String getCountryById(String id) throws ServiceException;
-  
+
   /**
    * Returns upcoming deadlines
    */
@@ -217,22 +225,22 @@ public interface DbServiceIF  {
   * Returns max PK_RO_ID
   */
   //public String getMaxROId() throws ServiceException;
-  
+
 
   public void backUpDeliveries() throws ServiceException;
 
   /**
   * Harvesting successful, remove backup
   */
-  public void commitDeliveries() throws ServiceException;  
+  public void commitDeliveries() throws ServiceException;
 
   public void rollBackDeliveries (String raId ) throws ServiceException ;
 
-  public void commitRoles() throws ServiceException;  
-  public void backUpRoles() throws ServiceException;  
+  public void commitRoles() throws ServiceException;
+  public void backUpRoles() throws ServiceException;
 
- // public Vector backupSpatialHistory(String raId) throws ServiceException;  
-  public void logSpatialHistory(String raId, String spatialId, String voluntary)   throws ServiceException;  
+ // public Vector backupSpatialHistory(String raId) throws ServiceException;
+  public void logSpatialHistory(String raId, String spatialId, String voluntary)   throws ServiceException;
 
   //used in AddClient screen
   public String[][] getCountryIdPairs() throws ServiceException;
@@ -260,54 +268,54 @@ public interface DbServiceIF  {
   * returns obligation by id and client
   */
    public Vector getObligationById(String id) throws ServiceException;
-   
+
    /**
    * returns obligation organisations
    */
    public Vector getObligationOrg(String id) throws ServiceException;
-   
+
    /**
    * returns obligation countries
    */
    public Vector getObligationCountries(String id) throws ServiceException;
-   
+
    /**
     * returns obligation issues
     */
     public Vector getObligationIssues(String id) throws ServiceException;
-    
+
    /**
     * returns obligation details
     */
     public Vector getObligationDetail(String id) throws ServiceException;
-   
+
    /**
-   * ParentObligation Id 
+   * ParentObligation Id
    */
    public String[][] getParentObligationId(String id) throws ServiceException;
-   
+
    /**
-   * LatestVersion Id 
+   * LatestVersion Id
    */
    public String[][] getLatestVersionId(String id) throws ServiceException;
-   
+
    /**
-   * PreviousVersions 
+   * PreviousVersions
    */
    public Vector getPreviousActions(String id, String tab, String id_field) throws ServiceException;
-   
+
    /**
     * DeletedFromUndo
     */
    public Vector getDeletedFromUndo(String item_type) throws ServiceException;
-   
+
    /**
    * Restore Obligation
    */
    public int getRestoreObligation(String id, String pid, int latestVersion) throws ServiceException;
 
   /**
-  * Obligation Ids, sorted 
+  * Obligation Ids, sorted
   */
   public String[][] getObligationIds() throws ServiceException;
   /**
@@ -325,9 +333,9 @@ public interface DbServiceIF  {
   * @return array of hashes
   */
   public Vector getIssues() throws ServiceException ;
-	
+
   /**
-  * Issues of an obligations 
+  * Issues of an obligations
   */
   public String[][] getIssues(String raId) throws ServiceException;
 
@@ -341,98 +349,98 @@ public interface DbServiceIF  {
   */
   public Vector getROComplete() throws ServiceException;
   public Vector getROSummary() throws ServiceException;
-  public Vector getRODeadlines() throws ServiceException;  
+  public Vector getRODeadlines() throws ServiceException;
 
   /**
   * LI RSS
   */
   public String[][] getInstrumentsRSS() throws ServiceException ;
-  
+
   /**
-  * Insert obligations related to instrument into T_UNDO table 
+  * Insert obligations related to instrument into T_UNDO table
   */
   public void addObligationIdsIntoUndo(String id, long ts, String table) throws ServiceException;
-  
+
   /**
-   * Insert transaction info into T_UNDO table 
+   * Insert transaction info into T_UNDO table
    */
   public void insertTransactionInfo(String id, String state, String table, String id_field, long ts, String extraSQL) throws ServiceException;
-  
+
   /**
-  * Insert into T_UNDO table 
+  * Insert into T_UNDO table
   */
   public boolean insertIntoUndo(String id, String state, String table, String id_field, long ts, String extraSQL, String show) throws ServiceException;
-   
+
   /**
-  * undo 
+  * undo
   */
   public String undo(String ts, String tab, String op, String id) throws ServiceException;
-  
+
   /**
   * Id check
   */
   public boolean isIdAvailable(String id, String table) throws ServiceException;
-  
+
   /**
-   * Id check 
+   * Id check
    */
   public String areRelatedObligationsIdsAvailable(String id) throws ServiceException;
-  
+
   /**
    * saved undo information
    */
   public Vector getUndoInformation(String ts, String op, String tab, String id) throws ServiceException;
-  
+
   /**
    * returns lastUpdate
    */
   public String getLastUpdate() throws ServiceException;
-  
+
   /**
    * returns history of current object
    */
   public Vector getHistory(String id, String tab) throws ServiceException;
-  
+
   /**
    * returns user who performed the action
    */
   public String getUndoUser(String ts, String tab) throws ServiceException;
-  
+
   /**
    * returns difference between undo and current object
    */
   public String getDifferences(String ts, String tab, String col) throws ServiceException;
-  
+
   /**
    * returns difference between undo and current object countries
    */
   public Hashtable getDifferencesInCountries(String ts, String id, String voluntary, String op) throws ServiceException;
-  
+
   /**
    * returns difference between undo and current object issues
    */
   public Hashtable getDifferencesInIssues(String ts, String id, String op) throws ServiceException;
-  
+
   /**
    * returns difference between undo and current object clients
    */
   public Hashtable getDifferencesInClients(String ts, String id, String status, String op, String type) throws ServiceException;
-  
+
   /**
    * returns difference between undo and current object Type of info reported
    */
   public Hashtable getDifferencesInInfo(String ts, String id, String op, String cat) throws ServiceException;
-  
+
   /**
    * takes DPSIR values from Excel file and insert them into database
    */
   public void dpsirValuesFromExcelToDB(int id, String value) throws ServiceException;
-  
+
   /**
    * changes participation period for countires
    */
   public void editPeriod(String start, String end, String spatialHistoryID) throws ServiceException;
-  
+
 }
 
 

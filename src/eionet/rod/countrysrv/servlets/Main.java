@@ -54,9 +54,9 @@ public class Main extends ROServletAC { // CSServletAC {
     //lookup values from rorabrowse.xrs
     DataSourceIF XMLDataSrc = XMLSource.getXMLSource(PREFIX + "csmain.xrs", req);
           Enumeration e = XMLDataSrc.getQueries();
-          while (e.hasMoreElements()) 
+          while (e.hasMoreElements())
             dataSrc.setQuery((QueryStatementIF)e.nextElement());
-            
+
      String[][] queryPars= new String[3][2];
 
      String countryId = params.getParameter("COUNTRY_ID");
@@ -70,16 +70,16 @@ public class Main extends ROServletAC { // CSServletAC {
      String clientId = params.getParameter("CLIENT_ID");
      queryPars[2][0]="CLIENT_ID";
      queryPars[2][1]=(Util.nullString(clientId) ? "0": Util.strLiteral(clientId));
-          
+
     dataSrc.setParameters(queryPars);
-    dataSrc.setQuery(new CSSearchStatement(params, false));
+    dataSrc.setQuery(new CSSearchStatement(params, false, false));
 
 
 
     //dataSrc.setParameters(queryPars);
     addMetaInfo(dataSrc);
-    
-    return userInfo(req,dataSrc);    
+
+    return userInfo(req,dataSrc);
   }
 
     protected int setMode() {
