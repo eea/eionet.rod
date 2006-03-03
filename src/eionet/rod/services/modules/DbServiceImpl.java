@@ -846,7 +846,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       String sql = "";
 
       if ( issues != null && countries != null) {
-          sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID," +
+          sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.REPORT_FREQ_MONTHS, a.FK_SOURCE_ID," +
           rplAmp("a.DESCRIPTION", "DESCRIPTION") +
         " FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " +
           "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " +
@@ -855,7 +855,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
          sql = sql + " AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
          sql = sql + " AND " +  getWhereClause("r.FK_SPATIAL_ID", countries );
       } else if (issues!= null && countries == null) {
-       sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
+       sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.REPORT_FREQ_MONTHS, a.FK_SOURCE_ID, " +
          rplAmp("a.DESCRIPTION", "DESCRIPTION") +
        " FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " +
          "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " +
@@ -863,7 +863,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
         sql = sql + " AND " +  getWhereClause("il.FK_ISSUE_ID", issues );
        } else if (issues == null && countries != null) {
-           sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " +
+           sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.REPORT_FREQ_MONTHS, a.FK_SOURCE_ID, " +
            rplAmp("a.DESCRIPTION", "DESCRIPTION") +
          " FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " +
            "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " +
@@ -871,7 +871,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
           sql = sql + " AND " +  getWhereClause("il.FK_SPATIAL_ID", countries );
        }else {
-           sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, FK_SOURCE_ID, " +
+           sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, REPORT_FREQ_MONTHS, FK_SOURCE_ID, " +
            rplAmp("DESCRIPTION", "DESRCIPTION")  +
              " FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND " +
              "NEXT_DEADLINE > '0000-00-00'";
