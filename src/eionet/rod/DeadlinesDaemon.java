@@ -99,7 +99,7 @@ public class DeadlinesDaemon {
                 long periodMillis = (new Long(period).longValue() * new Long(24).longValue() * new Long(3600).longValue() * new Long(1000).longValue());
                 Date periodStartDate = new Date(nextDeadlineMillis - periodMillis);
                 
-                if(!periodStartDate.before(date)){
+                if(nextDeadline.after(date) && periodStartDate.before(date)){
                 
                     Vector list = new Vector();
                     String events = "http://rod.eionet.eu.int/events/" + timestamp;
