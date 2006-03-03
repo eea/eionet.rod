@@ -25,7 +25,11 @@ package eionet.rod.rdf;
 
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 import eionet.rod.Constants;
 import eionet.rod.services.ServiceException;
@@ -95,10 +99,41 @@ public class Events extends RSSServletAC {
     addChannelTag(s, eventsUrl);
 
     String[][] events = RODServices.getDbService().getActivityDeadlines(issues, countries);
+    Vector eventsVec = new Vector();
+    Date currentDate = new Date();
+    for (int i= 0; i< events.length; i++){
+        String nd = events[i][2];
+        String freq = events[i][3];
+        boolean isUpcoming = isUpcomingEvent(nd, freq, currentDate);
+        if(isUpcoming){
+            Hashtable hash = new Hashtable();
+            hash.put("pk",events[i][0]);
+            hash.put("title",events[i][1]);
+            hash.put("next_deadline",nd);
+            hash.put("freq",freq);
+            hash.put("link",events[i][4]);
+            hash.put("desc",events[i][5]);
+            eventsVec.add(hash);
+        }            
+    }
+    
+    String[][] upcomingEvents = new String[eventsVec.size()][6];
+    int cnt = 0;
+    for(Enumeration en = eventsVec.elements(); en.hasMoreElements(); ){
+        Hashtable h = (Hashtable) en.nextElement();
+        upcomingEvents[cnt][0] = (String) h.get("pk");
+        upcomingEvents[cnt][1] = (String) h.get("title");
+        upcomingEvents[cnt][2] = (String) h.get("next_deadline");
+        upcomingEvents[cnt][3] = (String) h.get("freq");
+        upcomingEvents[cnt][4] = (String) h.get("link");
+        upcomingEvents[cnt][5] = (String) h.get("desc");
+        
+        cnt++;
+    }
 
     s.append("<items><rdf:Seq>");
-    for (int i= 0; i< events.length; i++){
-      String pk = events[i][0];
+    for (int i= 0; i< upcomingEvents.length; i++){
+      String pk = upcomingEvents[i][0];
 
       s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/")
         .append(pk).append("\"/>");
@@ -106,12 +141,12 @@ public class Events extends RSSServletAC {
     } 
     s.append("</rdf:Seq></items>");  
     addChannelEnd(s);
-    for (int i= 0; i< events.length; i++){
-      String pk = events[i][0];
-      String title = "Deadline for Reporting Obligation: " + events[i][1];
-      String date = events[i][2];
-      String link = getActivityUrl(pk, events[i][3] );
-      String description=events[i][4];
+    for (int i= 0; i< upcomingEvents.length; i++){
+      String pk = upcomingEvents[i][0];
+      String title = "Deadline for Reporting Obligation: " + upcomingEvents[i][1];
+      String date = upcomingEvents[i][2];
+      String link = getActivityUrl(pk, upcomingEvents[i][4] );
+      String description=upcomingEvents[i][5];
       
       s.append( "<item rdf:about=\"").append(obligationsNamespace).append("/")
         .append(pk).append("\">")
@@ -141,6 +176,26 @@ public class Events extends RSSServletAC {
     }
    
     return true;
+  }
+  
+  public static boolean isUpcomingEvent( String nd, String freq, Date date )
+  {
+      int year = Integer.parseInt(nd.substring(0,4)) - 1900;
+      int month = Integer.parseInt(nd.substring(5,7)) - 1;
+      int day = Integer.parseInt(nd.substring(8,10));
+      Date nextDeadline = new Date(year, month, day);
+      
+      long nextDeadlineMillis = nextDeadline.getTime();
+      
+      int f = Integer.parseInt(freq);
+      int period = new Double(3.0 * f).intValue();
+      long periodMillis = (new Long(period).longValue() * new Long(24).longValue() * new Long(3600).longValue() * new Long(1000).longValue());
+      Date periodStartDate = new Date(nextDeadlineMillis - periodMillis);
+      
+      if(nextDeadline.after(date) && periodStartDate.before(date)){
+          return true;
+      }    
+    return false;
   }
 
 }
