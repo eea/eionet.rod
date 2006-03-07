@@ -22,7 +22,7 @@
  * Original Code: Kaido Laine (TietoEnator)
  * -->
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
-	<xrs:RowSet>
+	<xrs:RowSet name="Client">
 		<T_CLIENT>
 			<PK_CLIENT_ID/>
 			<CLIENT_NAME/>
@@ -36,5 +36,51 @@
 			<COUNTRY/>
 		</T_CLIENT>
 		<xrs:Constraint>PK_CLIENT_ID=@ID</xrs:Constraint>
+	</xrs:RowSet>
+	<xrs:RowSet name="DirectObligations">
+		<T_OBLIGATION>
+			<PK_RA_ID/>
+			<TITLE/>
+		</T_OBLIGATION>
+		<xrs:Constraint>FK_CLIENT_ID=@ID</xrs:Constraint>
+		<xrs:Ordering>TITLE</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="IndirectObligations">
+		<T_CLIENT_LNK>
+			<FK_OBJECT_ID/>
+			<TYPE/>
+			<FK_CLIENT_ID/>
+		</T_CLIENT_LNK>
+		<xrs:Constraint>T_CLIENT_LNK.FK_CLIENT_ID =@ID</xrs:Constraint>
+		<xrs:Constraint>T_CLIENT_LNK.TYPE='A'</xrs:Constraint>
+		<T_OBLIGATION relation="T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID" reltype="inner">
+			<PK_RA_ID/>
+			<TITLE/>
+		</T_OBLIGATION>
+		<xrs:Constraint>T_OBLIGATION.FK_CLIENT_ID != T_CLIENT_LNK.FK_CLIENT_ID</xrs:Constraint>
+		<xrs:Ordering>TITLE</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="DirectInstruments">
+		<T_SOURCE>
+			<PK_SOURCE_ID/>
+			<ALIAS/>
+		</T_SOURCE>
+		<xrs:Constraint>FK_CLIENT_ID=@ID</xrs:Constraint>
+		<xrs:Ordering>ALIAS</xrs:Ordering>
+	</xrs:RowSet>
+	<xrs:RowSet name="IndirectInstruments">
+		<T_CLIENT_LNK>
+			<FK_OBJECT_ID/>
+			<TYPE/>
+			<FK_CLIENT_ID/>
+		</T_CLIENT_LNK>
+		<xrs:Constraint>T_CLIENT_LNK.FK_CLIENT_ID =@ID</xrs:Constraint>
+		<xrs:Constraint>T_CLIENT_LNK.TYPE='S'</xrs:Constraint>
+		<T_SOURCE relation="T_CLIENT_LNK.FK_OBJECT_ID=T_SOURCE.PK_SOURCE_ID" reltype="left">
+			<PK_SOURCE_ID/>
+			<ALIAS/>
+		</T_SOURCE>
+		<xrs:Constraint>T_SOURCE.FK_CLIENT_ID != T_CLIENT_LNK.FK_CLIENT_ID</xrs:Constraint>
+		<xrs:Ordering>ALIAS</xrs:Ordering>
 	</xrs:RowSet>
 </xrs:XmlData>
