@@ -106,7 +106,7 @@
 					</tr>
 			</table>
 			<xsl:if test="RowSet[@Name='DirectObligations']/Row/T_OBLIGATION/PK_RA_ID !=''">
-				<h1>Direct Obligations:</h1>
+				<h2>Direct Obligations:</h2>
 				<table border="1" class="datatable" width="600">
 						<tr>
 							<th scope="col">ID</th>
@@ -124,7 +124,7 @@
 				</table>
 			</xsl:if>
 			<xsl:if test="RowSet[@Name='IndirectObligations']/Row/T_OBLIGATION/PK_RA_ID !=''">
-				<h1>Indirect Obligations:</h1>
+				<h2>Indirect Obligations:</h2>
 				<table border="1" class="datatable" width="600">
 						<tr>
 							<th scope="col">ID</th>
@@ -142,7 +142,7 @@
 				</table>
 			</xsl:if>
 			<xsl:if test="RowSet[@Name='DirectInstruments']/Row/T_SOURCE/PK_SOURCE_ID !=''">
-				<h1>Direct Instruments:</h1>
+				<h2>Direct Instruments:</h2>
 				<table border="1" class="datatable" width="600">
 						<tr>
 							<th scope="col">ID</th>
@@ -160,7 +160,7 @@
 				</table>
 			</xsl:if>
 			<xsl:if test="RowSet[@Name='IndirectInstruments']/Row/T_SOURCE/PK_SOURCE_ID !=''">
-				<h1>Indirect Instruments:</h1>
+				<h2>Indirect Instruments:</h2>
 				<table border="1" class="datatable" width="600">
 						<tr>
 							<th scope="col">ID</th>
