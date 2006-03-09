@@ -116,7 +116,7 @@
 						<xsl:for-each select="RowSet[@Name='DirectObligations']/Row/T_OBLIGATION">
 								<tr>
 									<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
-									<td><xsl:value-of select="PK_RA_ID"/></td>
+									<td><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute><xsl:value-of select="PK_RA_ID"/></a></td>
 									<td><xsl:value-of select="TITLE"/></td>
 								</tr>
 						</xsl:for-each>
@@ -134,7 +134,7 @@
 						<xsl:for-each select="RowSet[@Name='IndirectObligations']/Row/T_OBLIGATION">
 								<tr>
 									<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
-									<td><xsl:value-of select="PK_RA_ID"/></td>
+									<td><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute><xsl:value-of select="PK_RA_ID"/></a></td>
 									<td><xsl:value-of select="TITLE"/></td>
 								</tr>
 						</xsl:for-each>
@@ -152,7 +152,7 @@
 						<xsl:for-each select="RowSet[@Name='DirectInstruments']/Row/T_SOURCE">
 								<tr>
 									<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
-									<td><xsl:value-of select="PK_SOURCE_ID"/></td>
+									<td><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute><xsl:value-of select="PK_SOURCE_ID"/></a></td>
 									<td><xsl:value-of select="ALIAS"/></td>
 								</tr>
 						</xsl:for-each>
@@ -170,7 +170,7 @@
 						<xsl:for-each select="RowSet[@Name='IndirectInstruments']/Row/T_SOURCE">
 								<tr>
 									<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
-									<td><xsl:value-of select="PK_SOURCE_ID"/></td>
+									<td><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute><xsl:value-of select="PK_SOURCE_ID"/></a></td>
 									<td><xsl:value-of select="ALIAS"/></td>
 								</tr>
 						</xsl:for-each>
