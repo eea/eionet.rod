@@ -99,7 +99,7 @@ public class DeadlinesDaemon {
                 long periodMillis = (new Long(period).longValue() * new Long(24).longValue() * new Long(3600).longValue() * new Long(1000).longValue());
                 Date periodStartDate = new Date(nextDeadlineMillis - periodMillis);
                 
-                if(nextDeadline.after(date) && periodStartDate.before(date)){
+                if(!periodStartDate.before(date)){
                 
                     Vector list = new Vector();
                     String events = "http://rod.eionet.eu.int/events/" + timestamp;
@@ -139,20 +139,18 @@ public class DeadlinesDaemon {
                     list.add(h.get("title"));
                     lists.add(list);
                     
-                    String ids = (String) h.get("country_ids");
-                    StringTokenizer st = new StringTokenizer(ids, ",");
-                    while (st.hasMoreTokens()) {
-                        String token = st.nextToken().trim();
-                        if (token != null && !token.equalsIgnoreCase(" ") && !token.equalsIgnoreCase("")){
-                            String country = RODServices.getDbService().getCountryById(token);
-                            if (country != null) {
+                    String id = (String) h.get("id");
+                    Vector countries = RODServices.getDbService().getObligationCountries(id);
+                    for(Enumeration cen = countries.elements(); cen.hasMoreElements(); ){
+                        Hashtable hash = (Hashtable) cen.nextElement();
+                            String country = (String) hash.get("name");
+                            if (country != null && !country.equals("")) {
                                 list = new Vector();
                                 list.add(events);
                                 list.add(Attrs.SCHEMA_RDF + "locality");
                                 list.add(country);
                                 lists.add(list);
                             }
-                        }
                     }
                     
                     list = new Vector();
