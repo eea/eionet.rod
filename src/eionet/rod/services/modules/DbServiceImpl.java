@@ -706,7 +706,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   public  Vector getUpcomingDeadlines(double days) throws ServiceException {
 
-      String sql = " SELECT o.TITLE AS title, o.FK_DELIVERY_COUNTRY_IDS AS country_ids, o.REPORT_FREQ_MONTHS AS freq, " +
+      String sql = " SELECT o.TITLE AS title, o.PK_RA_ID AS id, o.REPORT_FREQ_MONTHS AS freq, " +
       " c.CLIENT_NAME AS client, o.NEXT_DEADLINE AS next_deadline, o.NEXT_DEADLINE2 AS next_deadline2, o.RESPONSIBLE_ROLE AS responsible_role FROM T_OBLIGATION o, T_CLIENT c WHERE " +
       " CURDATE() < o.NEXT_DEADLINE AND (CURDATE() + INTERVAL (o.REPORT_FREQ_MONTHS * " + days + ") DAY) > o.NEXT_DEADLINE " +
       "AND c.PK_CLIENT_ID = o.FK_CLIENT_ID ";
