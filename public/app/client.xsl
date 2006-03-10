@@ -117,7 +117,11 @@
 								<tr>
 									<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
 									<td><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute><xsl:value-of select="PK_RA_ID"/></a></td>
-									<td><xsl:value-of select="TITLE"/></td>
+									<td><xsl:value-of select="TITLE"/>&#160;
+									<xsl:if test="TERMINATE ='Y'">
+										<em>Terminated</em>
+									</xsl:if>
+									</td>
 								</tr>
 						</xsl:for-each>
 					
@@ -135,7 +139,11 @@
 								<tr>
 									<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
 									<td><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute><xsl:value-of select="PK_RA_ID"/></a></td>
-									<td><xsl:value-of select="TITLE"/></td>
+									<td><xsl:value-of select="TITLE"/>&#160;
+									<xsl:if test="TERMINATE ='Y'">
+										<em>Terminated</em>
+									</xsl:if>
+									</td>
 								</tr>
 						</xsl:for-each>
 					

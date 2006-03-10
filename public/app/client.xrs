@@ -42,6 +42,7 @@
 			<PK_RA_ID/>
 			<FK_SOURCE_ID/>
 			<TITLE/>
+			<TERMINATE/>
 		</T_OBLIGATION>
 		<xrs:Constraint>FK_CLIENT_ID=@ID</xrs:Constraint>
 		<xrs:Ordering>TITLE</xrs:Ordering>
@@ -58,6 +59,7 @@
 			<PK_RA_ID/>
 			<FK_SOURCE_ID/>
 			<TITLE/>
+			<TERMINATE/>
 		</T_OBLIGATION>
 		<xrs:Constraint>T_OBLIGATION.FK_CLIENT_ID != T_CLIENT_LNK.FK_CLIENT_ID</xrs:Constraint>
 		<xrs:Ordering>TITLE</xrs:Ordering>
