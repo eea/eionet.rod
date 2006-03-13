@@ -24,6 +24,7 @@
 <xrs:XmlData xmlns:xrs="http://www.tietoenator.com/ee/2000/XRS">
 	<xrs:RowSet>
 		<T_SPATIAL_HISTORY>
+			<PK_SPATIAL_HISTORY_ID/>
 			<FK_RA_ID/>
 			<FK_SPATIAL_ID/>
 			<VOLUNTARY/>
