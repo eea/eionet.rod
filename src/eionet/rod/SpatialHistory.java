@@ -38,10 +38,30 @@ public class SpatialHistory extends ROServletAC {
    protected DataSourceIF prepareDataSource(Parameters parameters){
 
       String querySource = PREFIX + "spatialhistory.xrs";
-      String queryPars[][] = {{"ID", parameters.getParameter("ID")}};
-
+      String idParam = parameters.getParameter("ID");
+      String spatialIdParam = parameters.getParameter("spatialID");
+      String spatialHistoryIdParam = parameters.getParameter("spatialHistoryID");
+      
+      String queryPars[][] = {{"ID",idParam}};
+      
       DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, parameters.getRequest());
       dataSrc.setParameters(queryPars);
+      
+      java.util.Enumeration e = dataSrc.getQueries();
+      if (e != null) {
+         QueryStatementIF qry = (QueryStatementIF)e.nextElement();
+         if(idParam != null && !idParam.equalsIgnoreCase(""))
+             qry.addAttribute("ID",idParam);
+         
+         if(spatialIdParam != null && !spatialIdParam.equalsIgnoreCase(""))
+             qry.addAttribute("spatialID",spatialIdParam);
+         else
+             qry.addAttribute("spatialID",null);
+
+         if(spatialHistoryIdParam != null && !spatialHistoryIdParam.equalsIgnoreCase(""))
+             qry.addAttribute("spatialHistoryID",spatialHistoryIdParam);
+             
+      }
 
       return userInfo( parameters.getRequest() , dataSrc);    
    }
