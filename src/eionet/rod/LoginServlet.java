@@ -60,6 +60,8 @@ public class LoginServlet extends BaseServletAC {
    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
       String username = req.getParameter("j_username");
       String password = req.getParameter("j_password");
+      
+      String rd = req.getParameter("rd");
     
       AppUserIF user = XDBApplication.getAuthenticator();
 
@@ -70,6 +72,9 @@ public class LoginServlet extends BaseServletAC {
          //printPage(res, "<html><script>alert('Logged to WebROD as administrator')</script></html>");
 
          String location = "index.html";
+         if(rd != null && rd.equals("subscribe")){
+             location = "subscribe.jsp";
+         }
          //String location = "test.html";         
          // DBG
          if (Logger.enable(5))
