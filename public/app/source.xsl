@@ -59,10 +59,13 @@
 		<xsl:if test="contains($permissions, ',/instruments:d,')='true'">
 			<script type="text/javascript">
 			<![CDATA[
-function delLegislation() {
-	if (confirm("Do you want to delete the current legislative instrument\nwith all related reporting obligations and activities?"))
-		document.f.submit();
-}
+				function delLegislation() {
+					if (confirm("Do you want to delete the current legislative instrument\nwith all related reporting obligations and activities?")){
+						var u = window.location.href;
+						document.f.elements["/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/REDIRECT_URL"].value = u;
+						document.f.submit();
+					}
+				}
 			]]>
 			</script>
 			<form name="f" method="POST" action="source.jsv">
@@ -70,6 +73,7 @@ function delLegislation() {
 				<input type="hidden" name="/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/PK_SOURCE_ID">
 					<xsl:attribute name="value"><xsl:value-of select="$src-id"/></xsl:attribute>
 				</input>
+				<input type="hidden" name="/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/REDIRECT_URL" value=""></input>
 			</form>
 		</xsl:if>
 

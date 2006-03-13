@@ -82,8 +82,11 @@ Legislative instrument</a></div>
 			<script type="text/javascript">
 			<![CDATA[
 				function delActivity() {
-					if (confirm("Do you want to delete the reporting obligation?"))
+					if (confirm("Do you want to delete the reporting obligation?")){
+						var u = window.location.href;
+						document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/REDIRECT_URL"].value = u;
 						document.f.submit();
+					}
 				}
 			]]>
 			</script>
@@ -95,6 +98,7 @@ Legislative instrument</a></div>
 				<input type="hidden" name="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID">
 					<xsl:attribute name="value"><xsl:value-of select="$src-id"/></xsl:attribute>
 				</input>
+				<input type="hidden" name="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/REDIRECT_URL" value=""></input>
 			</form>
 	</xsl:if>
 
@@ -442,7 +446,7 @@ Legislative instrument</a></div>
 						</a>
 					</td>
 				</tr>
-				<tr valign="top"   bgcolor="#ECECEC">
+				<tr valign="top"  bgcolor="#ECECEC">
 					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Environmental issues</span></td>
 					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:apply-templates select="//RowSet[@Name='EnvIssue']"/>&#160;
@@ -455,6 +459,27 @@ Legislative instrument</a></div>
 							<xsl:call-template name="break">
 								 <xsl:with-param name="text" select="T_OBLIGATION/COMMENT"/>
 							</xsl:call-template>&#160;
+					</td>
+					<td style="border-right: 1px solid #C0C0C0"></td>
+				</tr>
+				<tr valign="top" bgcolor="#ECECEC">
+					<td style="border-right: 1px solid #C0C0C0"><span class="head0">DPSIR</span></td>
+					<td style="border-right: 1px solid #C0C0C0">
+						<xsl:if test="T_OBLIGATION/DPSIR_D='yes'">
+							<acronym title="Driving force">D</acronym>&#160;
+						</xsl:if>
+						<xsl:if test="T_OBLIGATION/DPSIR_P='yes'">
+							<acronym title="Pressure">P</acronym>&#160;
+						</xsl:if>
+						<xsl:if test="T_OBLIGATION/DPSIR_S='yes'">
+							<acronym title="State">S</acronym>&#160;
+						</xsl:if>
+						<xsl:if test="T_OBLIGATION/DPSIR_I='yes'">
+							<acronym title="Impact">I</acronym>&#160;
+						</xsl:if>
+						<xsl:if test="T_OBLIGATION/DPSIR_R='yes'">
+							<acronym title="Response">R</acronym>&#160;
+						</xsl:if>
 					</td>
 					<td style="border-right: 1px solid #C0C0C0"></td>
 				</tr>

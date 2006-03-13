@@ -97,6 +97,11 @@
 			<AUTHORITY/>
 			<PARAMETERS expression="REPLACE(REPLACE(T_OBLIGATION.PARAMETERS, '\r\n', '\n'), '\r', '\n') AS PARAMETERS"/>
 			<OVERLAP_URL/>
+			<DPSIR_D/>
+			<DPSIR_P/>
+			<DPSIR_S/>
+			<DPSIR_I/>
+			<DPSIR_R/>
 		</T_OBLIGATION>
 		<xrs:Constraint>T_OBLIGATION.PK_RA_ID=@ID</xrs:Constraint>
 		<T_CLIENT_LNK relation="T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID AND T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M'" reltype="outer">
@@ -147,6 +152,7 @@
 			<T_SPATIAL relation="T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID" reltype="inner">
 				<SPATIAL_NAME/>
 				<SPATIAL_TYPE/>
+				<SPATIAL_ISMEMBERCOUNTRY/>
 			</T_SPATIAL>
 			<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
 			<xrs:Constraint>T_RASPATIAL_LNK.VOLUNTARY!='Y'</xrs:Constraint>
@@ -161,6 +167,7 @@
 				<PK_SPATIAL_ID/>
 				<SPATIAL_NAME/>
 				<SPATIAL_TYPE/>
+				<SPATIAL_ISMEMBERCOUNTRY/>
 			</T_SPATIAL>
 			<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
 			<xrs:Constraint>T_RASPATIAL_LNK.VOLUNTARY='Y' AND T_SPATIAL.SPATIAL_TYPE='C'</xrs:Constraint>

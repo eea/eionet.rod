@@ -112,6 +112,18 @@
 
 				changed();
 			}
+			
+			function dpsirChkValue(chkBox, fldName) {
+				var posV = "yes";
+				var negV = "no";
+
+				if (chkBox.checked)
+					fldName.value=posV;
+				else
+					fldName.value=negV;
+
+				changed();
+			}
 
 
 function openAddClientWin() {
@@ -327,7 +339,7 @@ function mvValues(selFrom, selTo, unit) {
 /**
 * KL
 */
-function addFullValues(selFrom, selTo) {
+function addFullValues(selFrom, selTo,clist,forSelTo) {
 	var i, j, count = 0;
 	var optsLen;
 	var newVal, newText;
@@ -335,11 +347,58 @@ function addFullValues(selFrom, selTo) {
 	isChanged = true;
 
 	var selected = new Array();
+	
+	eu25 = { AT:1,BE:1,CY:1,CZ:1,
+		 DE:1,DK:1,EE:1,ES:1,FI:1,FR:1,GB:1,GR:1,
+		 HU:1,IE:1,IT:1,LT:1,LU:1,LV:1,MT:1,NL:1,
+		 PL:1,PT:1,SE:1,SI:1,SK:1 }
+	
+	for (k = 0; k < selFrom.length; ++k) {
+		if (selFrom[k].selected) {
+			var str,u;
+			u = null;
+			str = new String(selFrom[k].value);
+			if (str.indexOf(":") > -1) {
+				u = str.substr(str.indexOf(":")+1);
+				str2 = str.substring(0,str.indexOf(":"));
+			}
+			if(u != null && u.valueOf() == '0'){
+				if(clist != null){
+					for (z = 0; z < clist.length; z++) {
+						s = clist[z].split(":");
+						pvalue = s[0];
+						ptext = s[1];
+						ptype = s[2];
+						ptwoletter = s[3];
+						if (ptype.valueOf() == 'C' && ptwoletter.valueOf() in eu25) {
+							val = str2.valueOf() +":"+ pvalue.valueOf();
+							for (q = 0; q < selFrom.length; ++q) {
+								if(selFrom[q].value == val.valueOf()){
+									if (!selFrom[q].selected) {
+										selFrom[q].selected = true;
+									}
+								}
+							}
+						}
+					}
+				}
+				selFrom[k].selected = false;
+			}
+		}
+	}
 
 	for (i = 0; i < selFrom.length; ++i) {
 		if (selFrom[i].selected) {
+			var st,id;
+			st = new String(selFrom[i].value);
+			id = new String("");
+			if (st.indexOf(":") > -1) {
+				id = st.substr(st.indexOf(":")+1);
+			} 
+			
 			var exists;
 			exists = false;
+			existsFormally = false;
 			for (j = 0;j < selTo.length; ++j) {
 				var s,x;
 				s = new String(selTo[j].value);
@@ -355,43 +414,53 @@ function addFullValues(selFrom, selTo) {
 						break;
 					}
 			}
+			for (z = 0;z < forSelTo.length; ++z) {
+				if (forSelTo[z].value == id.valueOf()) {
+					existsFormally = true;
+					break;
+				}
+			}
 			if (!exists) {
-				selected[count++] = i;
+				if(!existsFormally){
+					selected[count++] = i;
+		
+					newVal = selFrom[i].value;
 	
-				newVal = selFrom[i].value;
-
-				var pos = newVal.indexOf(':');
-				/*if (pos > 0) {
-					newVal = newVal.substr(0, pos);
-				} */
-				
-				newText = selFrom[i].text;
-				pos = newText.indexOf('[');
-				if (pos > 1) {
-					newText = newText.substr(0, pos - 1); // strip leading space as well
-				}
-				/*if (unit != null && unit.text.length > 0) {
-					newVal = newVal + ':' + unit.value;
-					newText = newText + ' [' + unit.text + ']';
-				} */
-	
-				// add to
-				if (browser == 'E') {
-					var opt = document.createElement("option");
-					selTo.add(opt);
-					opt.text = newText;
-					opt.value = newVal;
-				}
-				else if (browser == 'N') {
-					var opt = new Option(newText, newVal, false, false);
-					selTo[selTo.length] = opt;
+					var pos = newVal.indexOf(':');
+					/*if (pos > 0) {
+						newVal = newVal.substr(0, pos);
+					} */
+					
+					newText = selFrom[i].text;
+					pos = newText.indexOf('[');
+					if (pos > 1) {
+						newText = newText.substr(0, pos - 1); // strip leading space as well
+					}
+					/*if (unit != null && unit.text.length > 0) {
+						newVal = newVal + ':' + unit.value;
+						newText = newText + ' [' + unit.text + ']';
+					} */
+		
+					// add to
+					if (browser == 'E') {
+						var opt = document.createElement("option");
+						selTo.add(opt);
+						opt.text = newText;
+						opt.value = newVal;
+					}
+					else if (browser == 'N') {
+						var opt = new Option(newText, newVal, false, false);
+						selTo[selTo.length] = opt;
+					}
+				} else {
+					alert("       No country can be participating both formally and voluntarily." + '\n' + "To report it voluntarily you must first remove it from formally reporting list-box.")
 				}
 			}
 		}
 	}
 }
 
-function addValues(selFrom, selTo, unit) {
+function addValues(selFrom, selTo, unit,clist,volSelTo) {
 	var i, j, count = 0;
 	var optsLen;
 	var newVal, newText;
@@ -399,11 +468,43 @@ function addValues(selFrom, selTo, unit) {
 	isChanged = true;
 
 	var selected = new Array();
-
+	
+	eu25 = { AT:1,BE:1,CY:1,CZ:1,
+		 DE:1,DK:1,EE:1,ES:1,FI:1,FR:1,GB:1,GR:1,
+		 HU:1,IE:1,IT:1,LT:1,LU:1,LV:1,MT:1,NL:1,
+		 PL:1,PT:1,SE:1,SI:1,SK:1 }
+	
+	for (k = 0; k < selFrom.length; ++k) {
+		if (selFrom[k].selected) {
+			if(selFrom[k].value == '0'){
+				if(clist != null){
+					for (z = 0; z < clist.length; z++) {
+						s = clist[z].split(":");
+						pvalue = s[0];
+						ptext = s[1];
+						ptype = s[2];
+						ptwoletter = s[3];
+						if (ptype.valueOf() == 'C' && ptwoletter.valueOf() in eu25) {
+							for (q = 0; q < selFrom.length; ++q) {
+								if(selFrom[q].value == pvalue.valueOf()){
+									if (!selFrom[q].selected) {
+										selFrom[q].selected = true;
+									}
+								}
+							}
+						}
+					}
+				}
+				selFrom[k].selected = false;
+			}
+		}
+	}
+	
 	for (i = 0; i < selFrom.length; ++i) {
 		if (selFrom[i].selected) {
 			var exists;
 			exists = false;
+			existsVolunt = false;
 			for (j = 0;j < selTo.length; ++j) {
 				var s,x;
 				s = new String(selTo[j].value);
@@ -425,41 +526,58 @@ function addValues(selFrom, selTo, unit) {
 						break;
 					}
 			}
+			for (z = 0;z < volSelTo.length; ++z) {
+				var st,id;
+				st = new String(volSelTo[z].value);
+				id = new String("");
+
+				if (st.indexOf(":") > -1) {
+					id = st.substr(st.indexOf(":")+1);
+				} 
+
+				if (id.valueOf() == selFrom[i].value) {
+					existsVolunt = true;
+					break;
+				}
+			}
 			if (!exists) {
-				selected[count++] = i;
-	
-				newVal = selFrom[i].value;
-				var pos = newVal.indexOf(':');
-				if (pos > 0) {
-					newVal = newVal.substr(0, pos);
-				}
-				
-				newText = selFrom[i].text;
-				pos = newText.indexOf('[');
-				if (pos > 1) {
-					newText = newText.substr(0, pos - 1); // strip leading space as well
-				}
-				if (unit != null && unit.text.length > 0) {
-					newVal = newVal + ':' + unit.value;
-					newText = newText + ' [' + unit.text + ']';
-				}
-	
-				// add to
-				if (browser == 'E') {
-					var opt = document.createElement("option");
-					selTo.add(opt);
-					opt.text = newText;
-					opt.value = newVal;
-				}
-				else if (browser == 'N') {
-					var opt = new Option(newText, newVal, false, false);
-					selTo[selTo.length] = opt;
+				if (!existsVolunt) {
+					selected[count++] = i;
+		
+					newVal = selFrom[i].value;
+					var pos = newVal.indexOf(':');
+					if (pos > 0) {
+						newVal = newVal.substr(0, pos);
+					}
+					
+					newText = selFrom[i].text;
+					pos = newText.indexOf('[');
+					if (pos > 1) {
+						newText = newText.substr(0, pos - 1); // strip leading space as well
+					}
+					if (unit != null && unit.text.length > 0) {
+						newVal = newVal + ':' + unit.value;
+						newText = newText + ' [' + unit.text + ']';
+					}
+		
+					// add to
+					if (browser == 'E') {
+						var opt = document.createElement("option");
+						selTo.add(opt);
+						opt.text = newText;
+						opt.value = newVal;
+					}
+					else if (browser == 'N') {
+						var opt = new Option(newText, newVal, false, false);
+						selTo[selTo.length] = opt;
+					}
+				} else {
+					alert("       No country can be participating both formally and voluntarily." + '\n' + "To report it formally you must first remove it from voluntarily reporting list-box.")
 				}
 			}
 		}
 	}
 }
-
 
 function delValues(selFrom) {
 	for (i = selFrom.length-1; i >= 0; --i) {
@@ -505,10 +623,11 @@ function fillclist(type,list,text) {
 	list.options[0] = new Option("Choose a group","-1");
 	j = 1;
 	for (i = 0; i < clist.length; i++) {
-	  s = new String(clist[i]);
-	  pvalue = s.substring(0,s.indexOf(":"));
-	  ptext = s.substring(s.indexOf(":")+1,s.lastIndexOf(":"));
-	  ptype = s.substring(s.lastIndexOf(":")+1,s.lastIndexOf(":")+2);
+	  s = clist[i].split(":");
+	  pvalue = s[0];
+	  ptext = s[1];
+	  ptype = s[2];
+	  pismember = s[3];
 	  if (ptype.valueOf() == type) {
 	  	list.options[j] = new Option(ptext.valueOf(), pvalue.valueOf());
 	  	j++;

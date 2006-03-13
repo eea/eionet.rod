@@ -514,8 +514,15 @@
 						</td>
 			      </tr>
 			      <tr>
+				<script type="text/javascript">
+					function getUrl() {
+						var u = window.location.href;
+						document.f.elements["/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/REDIRECT_URL"].value = u;
+					}
+				</script>
 			      	<td colspan="5" align="center" valign="middle" height="40" style="border-top: 2 solid #B7DBDB;" bgcolor="#669999">
-		      			<input style="font-weight: bold; width: 120px; color: #000000; background-image: url('images/bgr_form_buttons.jpg')" onclick="save(null,false)" type="button" value="Save changes"/>
+					<input type="hidden" name="/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/REDIRECT_URL" value=""></input>
+		      			<input style="font-weight: bold; width: 120px; color: #000000; background-image: url('images/bgr_form_buttons.jpg')" onclick="getUrl(); save(null,false)" type="button" value="Save changes"/>
 	   		   		<input style="font-weight: bold; color: #000000; background-image: url('images/bgr_form_buttons.jpg')" onclick="history.back()" type="button" value="Exit"/>
 				      </td>
 			      </tr>

@@ -65,6 +65,11 @@
 			<OVERLAP_URL/>
 			<EEA_CORE/>
 			<FLAGGED/>
+			<DPSIR_D/>
+			<DPSIR_P/>
+			<DPSIR_S/>
+			<DPSIR_I/>
+			<DPSIR_R/>
 		</T_OBLIGATION>
 		<T_SOURCE relation="T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID" reltype="outer">
 			<PK_SOURCE_ID/>

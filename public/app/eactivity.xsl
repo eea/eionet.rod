@@ -377,7 +377,7 @@
 										<td width="20%" valign="center">
 											<table cellspacing="5" width="100%">
 												<tr><td align="center">
-													<input type="button" width="80" style="width:80; background-image: url('images/bgr_form_buttons.jpg')" onclick="addValues(spatialLst, lnkSpatial, null)" value="&#160;&#160;-&gt;&#160;&#160;"/>
+													<input type="button" width="80" style="width:80; background-image: url('images/bgr_form_buttons.jpg')" onclick="addValues(spatialLst, lnkSpatial, null,clist,lnkVoluntaryCountries)" value="&#160;&#160;-&gt;&#160;&#160;"/>
 												</td></tr>
 												<tr><td align="center">
 													<input type="button" width="80" style="width:80; background-image: url('images/bgr_form_buttons.jpg')" 
@@ -410,7 +410,7 @@
 											<table cellspacing="5" width="100%">
 												<tr><td align="center">
 													<input type="button" width="80" style="width:80; background-image: url('images/bgr_form_buttons.jpg')" 
-														onclick="addFullValues(countryLst, lnkVoluntaryCountries, null)" 
+														onclick="addFullValues(countryLst, lnkVoluntaryCountries,clist,lnkSpatial)" 
 														value="&#160;&#160;-&gt;&#160;&#160;"/>
 												</td></tr>
 												<tr><td align="center">
@@ -698,6 +698,89 @@
 							</td>
 						</tr>
 						<tr valign="top" bgcolor="#FFFFFF">
+							<td style="border-right: 1px solid #C0C0C0"><span class="head0">DPSIR</span></td>
+							<td style="border-right: 1px solid #C0C0C0">
+								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_DPSIR</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+							</td>
+							<td>
+								<input type="hidden">
+									<xsl:attribute name="name">
+										<xsl:value-of select="T_OBLIGATION/DPSIR_D/@XPath"/>
+									</xsl:attribute>
+									<xsl:attribute name="value">
+											<xsl:value-of select='T_OBLIGATION/DPSIR_D'/>
+									</xsl:attribute>
+								</input>
+								<input type="checkbox">
+									<xsl:attribute name="onclick">dpsirChkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/DPSIR_D/@XPath'/>"])</xsl:attribute>
+									<xsl:if test="T_OBLIGATION/DPSIR_D='yes'">
+											<xsl:attribute name="checked"/>
+									</xsl:if>
+								</input>
+								&#160;D<br/>
+								<input type="hidden">
+									<xsl:attribute name="name">
+										<xsl:value-of select="T_OBLIGATION/DPSIR_P/@XPath"/>
+									</xsl:attribute>
+									<xsl:attribute name="value">
+											<xsl:value-of select='T_OBLIGATION/DPSIR_P'/>
+									</xsl:attribute>
+								</input>
+								<input type="checkbox">
+									<xsl:attribute name="onclick">dpsirChkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/DPSIR_P/@XPath'/>"])</xsl:attribute>
+									<xsl:if test="T_OBLIGATION/DPSIR_P='yes'">
+											<xsl:attribute name="checked"/>
+									</xsl:if>
+								</input>
+								&#160;P<br/>
+								<input type="hidden">
+									<xsl:attribute name="name">
+										<xsl:value-of select="T_OBLIGATION/DPSIR_S/@XPath"/>
+									</xsl:attribute>
+									<xsl:attribute name="value">
+											<xsl:value-of select='T_OBLIGATION/DPSIR_S'/>
+									</xsl:attribute>
+								</input>
+								<input type="checkbox">
+									<xsl:attribute name="onclick">dpsirChkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/DPSIR_S/@XPath'/>"])</xsl:attribute>
+									<xsl:if test="T_OBLIGATION/DPSIR_S='yes'">
+											<xsl:attribute name="checked"/>
+									</xsl:if>
+								</input>
+								&#160;S<br/>
+								<input type="hidden">
+									<xsl:attribute name="name">
+										<xsl:value-of select="T_OBLIGATION/DPSIR_I/@XPath"/>
+									</xsl:attribute>
+									<xsl:attribute name="value">
+											<xsl:value-of select='T_OBLIGATION/DPSIR_I'/>
+									</xsl:attribute>
+								</input>
+								<input type="checkbox">
+									<xsl:attribute name="onclick">dpsirChkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/DPSIR_I/@XPath'/>"])</xsl:attribute>
+									<xsl:if test="T_OBLIGATION/DPSIR_I='yes'">
+											<xsl:attribute name="checked"/>
+									</xsl:if>
+								</input>
+								&#160;I<br/>
+								<input type="hidden">
+									<xsl:attribute name="name">
+										<xsl:value-of select="T_OBLIGATION/DPSIR_R/@XPath"/>
+									</xsl:attribute>
+									<xsl:attribute name="value">
+											<xsl:value-of select='T_OBLIGATION/DPSIR_R'/>
+									</xsl:attribute>
+								</input>
+								<input type="checkbox">
+									<xsl:attribute name="onclick">dpsirChkValue(this, document.forms['f'].elements["<xsl:value-of select='T_OBLIGATION/DPSIR_R/@XPath'/>"])</xsl:attribute>
+									<xsl:if test="T_OBLIGATION/DPSIR_R='yes'">
+											<xsl:attribute name="checked"/>
+									</xsl:if>
+								</input>
+								&#160;R<br/>
+							</td>
+						</tr>
+						<tr valign="top">
 							<td style="border-right: 1px solid #C0C0C0"><span class="head0">URL of overlapping obligation</span></td>
 							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_OVERLAPURL</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
@@ -709,7 +792,7 @@
 								</input>
 							</td>
 						</tr>
-						<tr valign="top">
+						<tr valign="top" bgcolor="#FFFFFF">
 							<td style="border-right: 1px solid #C0C0C0"><span class="head0">Indicators</span></td>
 							<td style="border-right: 1px solid #C0C0C0">
 								<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_INDICATORS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
@@ -806,8 +889,15 @@
 				</td>
 			</tr>
 			<tr>
+				<script type="text/javascript">
+					function getUrl() {
+						var u = window.location.href;
+						document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/REDIRECT_URL"].value = u;
+					}
+				</script>
 				<td valign="middle" align="middle" style="border-top: 3 solid #B7DBDB" colspan="2" height="40" bgcolor="#008080">
-					<input style="font-weight: bold; width: 120px; color: #000000; background-image: url('images/bgr_form_buttons.jpg')" onclick='checkAndSave(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/FK_CLIENT_ID/@XPath}"])' type="button" value="Save changes" width="120"></input>
+					<input type="hidden" name="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/REDIRECT_URL" value=""></input>
+					<input style="font-weight: bold; width: 120px; color: #000000; background-image: url('images/bgr_form_buttons.jpg')" onclick='getUrl(); checkAndSave(document.forms["f"].elements["{T_OBLIGATION/FIRST_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/REPORT_FREQ_MONTHS/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_DEADLINE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/NEXT_REPORTING/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/VALID_TO/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/TERMINATE/@XPath}"], document.forms["f"].elements["{T_OBLIGATION/FK_CLIENT_ID/@XPath}"]);' type="button" value="Save changes" width="120"></input>
 					&#160;
 					<input onclick="history.back()" type="button" value="Exit" style="font-weight: bold; color: #000000; background-image: url('images/bgr_form_buttons.jpg')"></input>
 				</td>
@@ -1055,6 +1145,7 @@
 
 	<xsl:template match="RowSet[@Name='CountryList']">
 		<select multiple="multiple" size="9" name="country_list" style="width:240" width="240">
+			<option><xsl:attribute name="value"><xsl:value-of select="//XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/PK_RA_ID"/>:0</xsl:attribute>All EU countries</option>
 			<xsl:for-each select="Row/T_SPATIAL">
 				<option>
 					<xsl:attribute name="value">
@@ -1080,11 +1171,13 @@
 
 	<xsl:template match="RowSet[@Name='SPATIAL']">
 		<script type="text/javascript">
+			clist.push("0:All EU Countries:C:");
 			<xsl:for-each select="T_SPATIAL">
-				clist.push("<xsl:value-of select="PK_SPATIAL_ID"/>:<xsl:value-of select="SPATIAL_NAME"/>:<xsl:value-of select="SPATIAL_TYPE"/>");
+				clist.push("<xsl:value-of select="PK_SPATIAL_ID"/>:<xsl:value-of select="SPATIAL_NAME"/>:<xsl:value-of select="SPATIAL_TYPE"/>:<xsl:value-of select="SPATIAL_TWOLETTER"/>");
 			</xsl:for-each>	  
 		</script>
 		<select multiple="multiple" size="9" name="spatial_list" style="width:240" width="240">
+			<option><xsl:attribute name="value">0</xsl:attribute>All EU countries</option>
 			<xsl:for-each select="T_SPATIAL">
 				<option><xsl:attribute name="value"><xsl:value-of select="PK_SPATIAL_ID"/></xsl:attribute>
 				<xsl:value-of select="SPATIAL_NAME"/></option>
