@@ -51,6 +51,8 @@ class SubSelectStatement extends QueryStatement {
       vFields.add(new FieldInfo(_name1, _tbl));
       if (_name2 != null)
          vFields.add(new FieldInfo(_name2, _tbl));
+      if(_tbl.equals("T_SPATIAL"))
+          vFields.add(new FieldInfo("SPATIAL_TWOLETTER", _tbl));
 
       vTables.add(new TableInfo(_tbl));
       vTables.add(new TableInfo(tmpTable, join.toString(), TableInfo.OUTER_JOIN));
