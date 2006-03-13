@@ -439,7 +439,7 @@ public interface DbServiceIF  {
   /**
    * changes participation period for countires
    */
-  public void editPeriod(String start, String end, String spatialHistoryID) throws ServiceException;
+  public void editPeriod(String start, String end, String spatialHistoryID, String ra_id) throws ServiceException;
 
 }
 
