@@ -93,6 +93,14 @@
 		<servlet-class>eionet.rod.countrysrv.servlets.Subscribe</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>editperiod</servlet-name>
+		<servlet-class>eionet.rod.EditPeriod</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>dpsirvalues</servlet-name>
+		<servlet-class>eionet.rod.DPSIRValuesFromExcel</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>undo</servlet-name>
 		<servlet-class>eionet.rod.Undo</servlet-class>
 	</servlet>
@@ -247,6 +255,14 @@
 	<servlet-mapping>
 		<servlet-name>Subscribe</servlet-name>
 		<url-pattern>/Subscribe</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>editperiod</servlet-name>
+		<url-pattern>/editperiod</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dpsirvalues</servlet-name>
+		<url-pattern>/dpsirvalues</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>undo</servlet-name>
