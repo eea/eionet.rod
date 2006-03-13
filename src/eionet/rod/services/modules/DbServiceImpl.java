@@ -2066,12 +2066,24 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
            _executeUpdate(sql);
        }
 
-       public void editPeriod(String start, String end, String spatialHistoryID) throws ServiceException {
+       public void editPeriod(String start, String end, String spatialHistoryID, String ra_id) throws ServiceException {
 
            String start_date = changeDateDelimeter(start);
            String end_date = changeDateDelimeter(end);
-
-           String sql = "UPDATE T_SPATIAL_HISTORY SET START_DATE = '"+start_date+"', END_DATE = '"+end_date+"' WHERE PK_SPATIAL_HISTORY_ID = "+spatialHistoryID;
+           String sql = null;
+           
+           if(ra_id == null || ra_id.equals(""))
+               sql = "UPDATE T_SPATIAL_HISTORY SET START_DATE = '"+start_date+"', END_DATE = '"+end_date+"' WHERE PK_SPATIAL_HISTORY_ID = "+spatialHistoryID;
+           else{
+               if(!start.equals("") && !end.equals(""))
+                   sql = "UPDATE T_SPATIAL_HISTORY SET START_DATE = '"+start_date+"', END_DATE = '"+end_date+"' WHERE FK_RA_ID = "+ra_id;
+               else if(!start.equals("") && end.equals(""))
+                   sql = "UPDATE T_SPATIAL_HISTORY SET START_DATE = '"+start_date+"' WHERE FK_RA_ID = "+ra_id;
+               else if(!end.equals("") && start.equals(""))
+                   sql = "UPDATE T_SPATIAL_HISTORY SET END_DATE = '"+end_date+"' WHERE FK_RA_ID = "+ra_id;
+               else if(start.equals("") && end.equals(""))
+                   return;
+           }
            _executeUpdate(sql);
        }
 
