@@ -149,6 +149,11 @@ public interface FileServiceIF  {
   * Datefile for DeadlinesDaemon
   */
   public static final String DEADLINES_DAEMON_DATEFILE = "deadlines.daemon.datefile";
+  
+  /**
+   * DPSIR values Excel file
+   */
+   public static final String DPSIR_VALUES_FILE = "dpsir.values.file";
    
   /**
   * XML-RPC server URL for UNS subscription
