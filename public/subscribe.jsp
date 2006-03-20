@@ -110,7 +110,7 @@
 	   		<%	   		
    		}
    		
-   		String mySubscriptionsUrl = RODServices.getFileService().getStringProperty(FileServiceIF.UNS_MY_SUBSCRIPTIONS_URL) + Subscribe.CHANNEL_NAME;
+   		String mySubscriptionsUrl = RODServices.getFileService().getStringProperty(FileServiceIF.UNS_MY_SUBSCRIPTIONS_URL) + RODServices.getFileService().getStringProperty(FileServiceIF.UNS_CHANNEL_NAME);
    		%>
    		
 	   	<table style="border: 1px solid #008080" cellpadding="2" cellspacing="0" width="600" border="0">
