@@ -106,7 +106,6 @@
 						String id_field = request.getParameter("id_field");
 						Vector versions = RODServices.getDbService().getPreviousActions(aid, tabel, id_field);
 						String id = null;
-						String user = null;
 						String show_object = null;
 						if(versions.size() > 0){%>
 						<form name="form" method="post" action="undo">
@@ -137,20 +136,21 @@
 										String col = (String) hash.get("col");
 										String operation = (String) hash.get("operation");
 										String value = (String) hash.get("value");
-										System.out.println("|"+ts+" | "+tab+" | "+col+" | "+operation+" | "+value+"|");
+										String user = null;
+										show_object = (String) hash.get("show_object");
+										//System.out.println("|"+ts+" | "+tab+" | "+col+" | "+operation+" | "+value+"|");
 	
-										if(col.equalsIgnoreCase("PK_RA_ID") || col.equalsIgnoreCase("PK_SOURCE_ID")){
+										if((col.equalsIgnoreCase("PK_RA_ID") || col.equalsIgnoreCase("PK_SOURCE_ID")) && show_object.equals("y")){
 											id = (String)hash.get("value");
-											show_object = (String) hash.get("show_object");
+											String ut = (String) hash.get("undo_time");
+											String t = (String) hash.get("tab");
+											user = RODServices.getDbService().getUndoUser(ut,t);
 											s++;
 										}
-										if(col.equalsIgnoreCase("A_USER")){
-											user = (String)hash.get("value");	
-										}									
 										if (s % 2 == 0){
 											c="even";
 										}
-										if(user != null && id != null && tab != null){
+										if(id != null && tab != null && user != null){
 											if(show_object.equals("y")){
 												%>
 													<tr class="<%=c%>">
@@ -170,7 +170,7 @@
 															<% } %>
 														</td>
 														<td>
-															<%if(operation.equals("D")){%>
+															<%if(operation.equals("D") || operation.equals("K")){%>
 																DELETE
 															<%} else if(operation.equals("I")){%>
 																INSERT
@@ -190,7 +190,6 @@
 												<%
 											}
 											id = null;
-											user = null;
 											tab = null;
 											show_object = null;
 										}
