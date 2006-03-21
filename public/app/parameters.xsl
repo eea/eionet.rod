@@ -54,7 +54,7 @@ Legislative instrument</a></div>
 			<td align="right"><span class="head0">Client organisation:</span></td>
 			<td>
 					<a>
-						<xsl:attribute name="href">javascript:openPopup('client.jsv','id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
+						<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
 						<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
 					</a>
 			</td>
@@ -64,7 +64,7 @@ Legislative instrument</a></div>
 			<td>
 				<xsl:for-each select="SubSet[@Name='CCClients']/Row">
 					<a>
-						<xsl:attribute name="href">javascript:openPopup('client.jsv','id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
+						<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
 						<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
 					</a><br/>
 				</xsl:for-each>

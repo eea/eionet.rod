@@ -418,7 +418,7 @@
 						<span class="head0n">
 							<span class="rowitem">
 							<a title="{T_CLIENT/CLIENT_NAME}"> 
-								<xsl:attribute name="href">javascript:openPopup('client.jsv','id=<xsl:value-of select="T_OBLIGATION/FK_CLIENT_ID"/>')</xsl:attribute>
+								<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_OBLIGATION/FK_CLIENT_ID"/></xsl:attribute>
 								<span class="rowitem">
 									<xsl:choose>
 										<xsl:when test="T_CLIENT/CLIENT_ACRONYM != ''"><xsl:value-of select="T_CLIENT/CLIENT_ACRONYM"/></xsl:when>

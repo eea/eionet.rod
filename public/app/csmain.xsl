@@ -282,7 +282,7 @@
 	<td valign="top">
 		<span class="rowitem">
 			<a>
-				<xsl:attribute name="href">javascript:openPopup('client.jsv', 'id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
+				<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
 				<xsl:attribute name="title"><xsl:value-of select="T_CLIENT/CLIENT_NAME"/></xsl:attribute>
 						<xsl:call-template name="short">
 							<xsl:with-param name="text" select="T_CLIENT/CLIENT_DESCR"/>
