@@ -321,7 +321,7 @@ Legislative instrument</a></div>
 					</td>
 					<td align="center">
 						<xsl:if test="T_CLIENT/PK_CLIENT_ID != ''">
-						<a><xsl:attribute name="href">javascript:openPopup('client.jsv', 'id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/>')</xsl:attribute>
+						<a><xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
 							<img src="images/details.jpg" alt="Show client details" border="0"/>
 						</a>
 						</xsl:if>
