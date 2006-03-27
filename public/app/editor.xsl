@@ -460,6 +460,70 @@ function addFullValues(selFrom, selTo,clist,forSelTo) {
 	}
 }
 
+function addClientValues(selFrom, selTo) {
+	var i, j, count = 0;
+	var optsLen;
+	var newVal, newText;
+	
+	isChanged = true;
+
+	var selected = new Array();
+
+	for (i = 0; i < selFrom.length; ++i) {
+		if (selFrom[i].selected) {
+			var exists;
+			exists = false;
+			for (j = 0;j < selTo.length; ++j) {
+				var s,x;
+				s = new String(selTo[j].value);
+				u = new String("");
+
+/*				if (s.indexOf(":") > -1) {
+					u = s.substr(s.indexOf(":")+1);
+					s = s.substring(0,s.indexOf(":"));
+				} */
+
+					if (s.valueOf() == selFrom[i].value) {
+						exists = true;
+						break;
+					}
+			}
+			if (!exists) {
+				selected[count++] = i;
+	
+				newVal = selFrom[i].value;
+
+				var pos = newVal.indexOf(':');
+				/*if (pos > 0) {
+					newVal = newVal.substr(0, pos);
+				} */
+				
+				newText = selFrom[i].text;
+				pos = newText.indexOf('[');
+				if (pos > 1) {
+					newText = newText.substr(0, pos - 1); // strip leading space as well
+				}
+				/*if (unit != null && unit.text.length > 0) {
+					newVal = newVal + ':' + unit.value;
+					newText = newText + ' [' + unit.text + ']';
+				} */
+	
+				// add to
+				if (browser == 'E') {
+					var opt = document.createElement("option");
+					selTo.add(opt);
+					opt.text = newText;
+					opt.value = newVal;
+				}
+				else if (browser == 'N') {
+					var opt = new Option(newText, newVal, false, false);
+					selTo[selTo.length] = opt;
+				}
+			}
+		}
+	}
+}
+
 function addValues(selFrom, selTo, unit,clist,volSelTo) {
 	var i, j, count = 0;
 	var optsLen;

@@ -271,7 +271,7 @@
 											<table cellspacing="5">
 												<tr><td width="100" align="center">
 													<input type="button" width="80" style="width: 80px; background-image: url('images/bgr_form_buttons.jpg')" 
-														onclick="addFullValues(clientLst, lnkClients, null)" 
+														onclick="addClientValues(clientLst, lnkClients, null)" 
 														value="&#160;&#160;-&gt;&#160;&#160;"/>
 												</td></tr>
 												<tr><td width="100" align="center">
