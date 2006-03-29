@@ -42,10 +42,10 @@ import eionet.rod.services.ServiceException;
  * @version 0.1
  */
 public class FileServiceImpl implements FileServiceIF, ExtractorConstants {
-   
+
   private ResourceBundle props;
   //private String appRoot;
-   
+
 /** Creates new FileServiceImpl */
   public FileServiceImpl() throws ServiceException {
      try {
@@ -53,7 +53,7 @@ public class FileServiceImpl implements FileServiceIF, ExtractorConstants {
      } catch (MissingResourceException mre) {
        throw new ServiceException("Properties file " + PROP_FILE + ".properties not found");
      }
- 
+
   }
 
 /**
@@ -66,7 +66,7 @@ public class FileServiceImpl implements FileServiceIF, ExtractorConstants {
        throw new ServiceException("Property value for key " + propName + " not found");
     }
   }
-    
+
 /**
  *
  */
@@ -92,7 +92,29 @@ public class FileServiceImpl implements FileServiceIF, ExtractorConstants {
        throw new ServiceException("Invalid value for integer property " + propName);
     }
   }
-  
+
+  /**
+  *
+  */
+   public String[] getStringArrayProperty(String propName, String separator) throws ServiceException {
+     try {
+    	 String[] str= null;
+    	 String s = props.getString(propName);
+
+    	 if (separator == null || separator.length()==0){
+    		 str = new String[1];
+    		 str[0] = s;
+    	 }
+    	 else{
+    		 char c = separator.charAt(0);
+    		 String sep = Character.isLetterOrDigit(c) ? Character.toString(c) : "\\" + c;
+        	 str =s.split(sep);
+    	 }
+        return str;
+     } catch (MissingResourceException mre) {
+        throw new ServiceException("Property value for key " + propName + " not found");
+     }
+   }
 }
 
 
