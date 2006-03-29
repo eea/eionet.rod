@@ -932,10 +932,11 @@ function checkAndSave(first, freq, next, textrep, to, terminate, client) {
 		<body onunload="checkStatus()">
         <div id="pagehead">
             <div id="identification">
-                <a href="/" target="_blank" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a>
+                <a href="/" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a>
                 <div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
                 <div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
             </div>
+<xsl:call-template name="breadcrumbs"/>
 </div> <!-- page head -->
 
 					<!-- Toolbar -->
