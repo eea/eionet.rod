@@ -94,5 +94,10 @@ public  class WebRODService {
           dbSrv = RODServices.getDbService();
       return dbSrv.getObligationDetail(id);
   }
+  public Vector getTable(String tablename) throws ServiceException {
+      if (dbSrv == null )
+          dbSrv = RODServices.getDbService();
+      return dbSrv.getTable(tablename);
+  }
   
 }

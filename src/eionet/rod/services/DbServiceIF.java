@@ -288,6 +288,11 @@ public interface DbServiceIF  {
     * returns obligation details
     */
     public Vector getObligationDetail(String id) throws ServiceException;
+   
+   /**
+    * returns obligation details
+    */ 
+    public Vector getTable(String tablename) throws ServiceException;
 
    /**
    * ParentObligation Id
@@ -369,7 +374,7 @@ public interface DbServiceIF  {
   /**
   * Insert into T_UNDO table
   */
-  public boolean insertIntoUndo(String id, String state, String table, String id_field, long ts, String extraSQL, String show) throws ServiceException;
+  public boolean insertIntoUndo(String id, String state, String table, String id_field, long ts, String extraSQL, String show, String whereClause) throws ServiceException;
 
   /**
   * undo
