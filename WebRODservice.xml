@@ -56,6 +56,14 @@
 						<Array Type="STRUCT"/>
 					</Value>
 			</Method>
+			<Method Name="getTable" Auth="false">
+					<Parameters>
+						<Parameter Name="tablename" Type="STRING"/>
+					</Parameters>
+					<Value Type="ARRAY">
+						<Array Type="STRUCT"/>
+					</Value>
+			</Method>
 		</Methods>		
 	</Service>
 </Services>
