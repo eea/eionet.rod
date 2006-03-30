@@ -1309,6 +1309,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       Statement stmt = null;
       ResultSet rset = null;
       
+      Hashtable h = null;
+      
       String sql_stmt = "SHOW COLUMNS FROM "+tablename;
       _log(sql_stmt);
 
@@ -1318,11 +1320,13 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
           rset = stmt.executeQuery(sql_stmt);
 
           while (rset.next()) {
+              h = new Hashtable();
               String value = rset.getString(1);
               if ( value == null)
                   value = "";
-              rvec.addElement(value);
-          }                
+              h.put( "name", value  );
+              rvec.addElement(h);
+          }          
       } catch (SQLException e) {
           e.printStackTrace();
           logger.error("Error occurred when processing result set: " + sql_stmt,e);
