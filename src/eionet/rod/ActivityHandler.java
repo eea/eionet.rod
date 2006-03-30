@@ -70,20 +70,20 @@ public class ActivityHandler extends ROHandler {
       
       // store in T_UNDO 
       try{
-          if(state == MODIFY_RECORD){
+          if(state == MODIFY_RECORD || state == DELETE_RECORD){
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_RAISSUE_LNK","FK_RA_ID",ts,"");
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_RASPATIAL_LNK","FK_RA_ID",ts,"");
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_INFO_LNK","FK_RA_ID",ts,"");
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_CLIENT_LNK","FK_OBJECT_ID",ts,"AND TYPE=''A''");
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_OBLIGATION","PK_RA_ID",ts,"");
           }
-          RODServices.getDbService().insertIntoUndo(raID, op, "T_RAISSUE_LNK", "FK_RA_ID",ts,"",show);
+          RODServices.getDbService().insertIntoUndo(raID, op, "T_RAISSUE_LNK", "FK_RA_ID",ts,"",show,null);
           // delete linked environmental issues & parameters
           updateDB("DELETE FROM T_RAISSUE_LNK WHERE FK_RA_ID=" + raID);
-          RODServices.getDbService().insertIntoUndo(raID, op, "T_RASPATIAL_LNK", "FK_RA_ID",ts,"",show);
+          RODServices.getDbService().insertIntoUndo(raID, op, "T_RASPATIAL_LNK", "FK_RA_ID",ts,"",show,null);
           updateDB("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + raID);      
           //updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
-          RODServices.getDbService().insertIntoUndo(raID, op, "T_INFO_LNK", "FK_RA_ID",ts,"",show);
+          RODServices.getDbService().insertIntoUndo(raID, op, "T_INFO_LNK", "FK_RA_ID",ts,"",show,null);
           updateDB("DELETE FROM T_INFO_LNK WHERE FK_RA_ID=" + raID);
     
           // delete linked related information (eea reports, national submissions)
@@ -91,14 +91,14 @@ public class ActivityHandler extends ROHandler {
           //updateDB("DELETE FROM T_INFORMATION WHERE FK_RO_ID=" + raID);
     
           //client_lnk
-          RODServices.getDbService().insertIntoUndo(raID, op, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='A'",show);
+          RODServices.getDbService().insertIntoUndo(raID, op, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='A'",show,null);
           updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='A' AND FK_OBJECT_ID=" + raID);
           
           updateDB("UPDATE T_SPATIAL_HISTORY SET END_DATE=NOW() WHERE " +
             " END_DATE IS NULL AND FK_RA_ID=" + raID);
     
           if (delSelf) {
-              RODServices.getDbService().insertIntoUndo(raID, "D", "T_OBLIGATION", "PK_RA_ID",ts,"",show);
+              RODServices.getDbService().insertIntoUndo(raID, "D", "T_OBLIGATION", "PK_RA_ID",ts,"",show,null);
               updateDB("DELETE FROM T_OBLIGATION WHERE PK_RA_ID=" + raID);
               //HistoryLogger.logActivityHistory(raID,this.user.getUserName(), DELETE_RECORD, "");                       
           }
@@ -159,7 +159,7 @@ public class ActivityHandler extends ROHandler {
             id = gen.getFieldValue("PK_RA_ID");
             try{
                 if(state == MODIFY_RECORD){
-                    RODServices.getDbService().insertIntoUndo(id, "U", tblName, "PK_RA_ID",ts,"","y");
+                    RODServices.getDbService().insertIntoUndo(id, "U", tblName, "PK_RA_ID",ts,"","y",null);
                 }
             }catch (Exception e){
                 e.printStackTrace();

@@ -56,7 +56,7 @@ public class SourceHandler extends ActivityHandler {
        
        try{
           
-           if(state == MODIFY_RECORD){
+           if(state == MODIFY_RECORD || state == DELETE_RECORD){
                RODServices.getDbService().insertTransactionInfo(srcID,"A","T_CLIENT_LNK","FK_OBJECT_ID",ts,"AND TYPE=''S''");
                RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE=''S''");
                RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE=''S''");
@@ -64,13 +64,13 @@ public class SourceHandler extends ActivityHandler {
            }
           
           if ( delSelf){
-            RODServices.getDbService().insertIntoUndo(srcID, op, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y");
+            RODServices.getDbService().insertIntoUndo(srcID, op, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y",null);
             updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND FK_OBJECT_ID=" + srcID);
           }
-          RODServices.getDbService().insertIntoUndo(srcID, op, "T_SOURCE_LNK", "FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE='S'","y");
+          RODServices.getDbService().insertIntoUndo(srcID, op, "T_SOURCE_LNK", "FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE='S'","y",null);
           updateDB("DELETE FROM T_SOURCE_LNK WHERE CHILD_TYPE='S' AND FK_SOURCE_CHILD_ID=" + srcID);
           if(!updateMode){
-              RODServices.getDbService().insertIntoUndo(srcID, op, "T_SOURCE_LNK", "FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE='S'","y");
+              RODServices.getDbService().insertIntoUndo(srcID, op, "T_SOURCE_LNK", "FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE='S'","y",null);
               updateDB("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + srcID);
           }
           
@@ -99,7 +99,7 @@ public class SourceHandler extends ActivityHandler {
                    Logger.log("SourceHandler.DELETE_SOURCE", e1);
                 }
              }
-             RODServices.getDbService().insertIntoUndo(srcID, "D", "T_SOURCE", "PK_SOURCE_ID",ts,"","y");
+             RODServices.getDbService().insertIntoUndo(srcID, "D", "T_SOURCE", "PK_SOURCE_ID",ts,"","y",null);
              // delete legislative act itself
              updateDB("DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=" + srcID);
              //HistoryLogger.logLegisgationHistory(srcID,this.user.getUserName(), DELETE_RECORD, "");          
@@ -149,8 +149,8 @@ public class SourceHandler extends ActivityHandler {
             id = gen.getFieldValue("PK_SOURCE_ID");
             try{
                 if(state == MODIFY_RECORD){
-                    RODServices.getDbService().insertIntoUndo(id, "U", tblName, "PK_SOURCE_ID",ts,"","y");
-                    RODServices.getDbService().insertIntoUndo(id, "U", "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y");
+                    RODServices.getDbService().insertIntoUndo(id, "U", tblName, "PK_SOURCE_ID",ts,"","y",null);
+                    RODServices.getDbService().insertIntoUndo(id, "U", "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y",null);
                 }
             }catch (Exception e){
                 e.printStackTrace();
