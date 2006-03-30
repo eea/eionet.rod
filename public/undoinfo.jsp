@@ -134,6 +134,8 @@
 							INSERT
 						<%} else if(op.equals("U")){%>
 							UPDATE
+						<%} else if(op.equals("UN") || op.equals("UD") || op.equals("UDD")){%>
+							UNDO
 						<%}
 						%>
 					</td>
@@ -148,7 +150,10 @@
 					<th scope="col">Table</th>
 					<th scope="col">Sub#</th>
 					<th scope="col">Column</th>
-					<th scope="col">Value</th>
+					<th scope="col">Undo Value</th>
+					<% if(!op.equals("D") && !op.equals("UD") && !op.equals("UDD")){ %>
+						<th scope="col">Current Value</th>
+					<% } %>
 				</tr>
 			</thead>
 			<tbody>
@@ -158,30 +163,185 @@
 						int s = 0;
 						for (int i=0; i<rows.size(); i++){
 							String c = "";
+							String c2 = "";
 							Hashtable hash = (Hashtable) rows.elementAt(i);
 									
+							String ut = (String) hash.get("undo_time");
 							String tabel = (String) hash.get("tab");
 							String col = (String) hash.get("col");
 							String operation = (String) hash.get("operation");
 							String value = (String) hash.get("value");
 							String sub_trans_nr = (String) hash.get("sub_trans_nr");
-						
+							String currentValue = RODServices.getDbService().getDifferences(ut,tabel,col);
+							boolean diff = value.equals(currentValue);
+							
 							if (s % 2 == 0){
-								c="even";
+								c="#cbdcdc";
+								c2 = "#cbdcdc";
 							}
-							if(!col.equals("A_USER") && !col.equals("REDIRECT_URL")){%>
+							if(!diff){
+								c2 = "#FFFFCC";
+							}
+							%>
 								<tr class="<%=c%>">
-									<td><%=RODUtil.replaceTags(tabel)%></td>
-									<td><%=sub_trans_nr%></td>
-									<td><%=RODUtil.replaceTags(col)%></td>
-									<td><%=RODUtil.replaceTags(value)%></td>
+									<td bgcolor="<%=c%>"><%=RODUtil.replaceTags(tabel)%></td>
+									<td bgcolor="<%=c%>"><%=sub_trans_nr%></td>
+									<td bgcolor="<%=c%>"><%=RODUtil.replaceTags(col)%></td>
+									<td bgcolor="<%=c%>"><%=RODUtil.replaceTags(value)%></td>
+									<% if(!op.equals("D") && !op.equals("UD") && !op.equals("UDD")){ %>
+										<td bgcolor="<%=c2%>"><%=RODUtil.replaceTags(currentValue)%></td>
+									<% } %>
 								</tr>
 							<% 	s++;
-							}
 						}%>
 				</tbody>
 			</table>
-		<% } else { %>
+			<br/>
+			<% if(!op.equals("D") && !op.equals("UD") && !op.equals("UDD")){ %>
+			<% if(tab.equals("T_OBLIGATION")){%>
+				<b>Countries reporting formally</b>
+				<table class="datatable" width="100%">
+					<thead>
+						<tr>
+							<th width="25%" scope="col">Undo Countries</th>
+							<th width="25%" scope="col">Current Countries</th>
+							<th width="25%" scope="col">Added Countries</th>
+							<th width="25%" scope="col">Removed Countries</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% 
+							Hashtable h = RODServices.getDbService().getDifferencesInCountries(ts,id,"N",op); 
+							String undoCountries = (String) h.get("undo");
+							String currentCountries = (String) h.get("current");
+							String addedCountries = (String) h.get("added");
+							String removedCountries = (String) h.get("removed");
+						%>
+						<tr>
+							<td width="25%"><%=undoCountries%></td>
+							<td width="25%"><%=currentCountries%></td>
+							<td width="25%" bgcolor="#CCFFCC"><%=addedCountries%></td>
+							<td width="25%" bgcolor="#FFCCCC"><%=removedCountries%></td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<b>Countries reporting voluntarily</b>
+				<table class="datatable" width="100%">
+					<thead>
+						<tr>
+							<th width="25%" scope="col">Undo Countries</th>
+							<th width="25%" scope="col">Current Countries</th>
+							<th width="25%" scope="col">Added Countries</th>
+							<th width="25%" scope="col">Removed Countries</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% 
+							Hashtable h_v = RODServices.getDbService().getDifferencesInCountries(ts,id,"Y",op); 
+							String undoCountries_v = (String) h_v.get("undo");
+							String currentCountries_v = (String) h_v.get("current");
+							String addedCountries_v = (String) h_v.get("added");
+							String removedCountries_v = (String) h_v.get("removed");
+						%>
+						<tr>
+							<td width="25%"><%=undoCountries_v%></td>
+							<td width="25%"><%=currentCountries_v%></td>
+							<td width="25%" bgcolor="#CCFFCC"><%=addedCountries_v%></td>
+							<td width="25%" bgcolor="#FFCCCC"><%=removedCountries_v%></td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+		<% }
+			if(tab.equals("T_OBLIGATION")){%>
+				<b>Environmental issues</b>
+				<table class="datatable" width="100%">
+					<thead>
+						<tr>
+							<th width="25%" scope="col">Undo Issues</th>
+							<th width="25%" scope="col">Current Issues</th>
+							<th width="25%" scope="col">Added Issues</th>
+							<th width="25%" scope="col">Removed Issues</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% 
+							Hashtable h_i = RODServices.getDbService().getDifferencesInIssues(ts,id,op); 
+							String undoIssues = (String) h_i.get("undo");
+							String currentIssues = (String) h_i.get("current");
+							String addedIssues = (String) h_i.get("added");
+							String removedIssues = (String) h_i.get("removed");
+						%>
+						<tr>
+							<td width="25%"><%=undoIssues%></td>
+							<td width="25%"><%=currentIssues%></td>
+							<td width="25%" bgcolor="#CCFFCC"><%=addedIssues%></td>
+							<td width="25%" bgcolor="#FFCCCC"><%=removedIssues%></td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+		<% } 
+			if(tab.equals("T_OBLIGATION")){%>
+				<b>Other clients using this reporting</b>
+				<table class="datatable" width="100%">
+					<thead>
+						<tr>
+							<th width="25%" scope="col">Undo Clients</th>
+							<th width="25%" scope="col">Current Clients</th>
+							<th width="25%" scope="col">Added Clients</th>
+							<th width="25%" scope="col">Removed Clients</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% 
+							Hashtable h_c = RODServices.getDbService().getDifferencesInClients(ts,id,"C",op,"A"); 
+							String undoClients = (String) h_c.get("undo");
+							String currentClients = (String) h_c.get("current");
+							String addedClients = (String) h_c.get("added");
+							String removedClients = (String) h_c.get("removed");
+						%>
+						<tr>
+							<td width="25%"><%=undoClients%></td>
+							<td width="25%"><%=currentClients%></td>
+							<td width="25%" bgcolor="#CCFFCC"><%=addedClients%></td>
+							<td width="25%" bgcolor="#FFCCCC"><%=removedClients%></td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+		<% } 
+			if(tab.equals("T_OBLIGATION")){%>
+				<b>Type of info reported</b>
+				<table class="datatable" width="100%">
+					<thead>
+						<tr>
+							<th width="25%" scope="col">Undo Info Types</th>
+							<th width="25%" scope="col">Current Info Types</th>
+							<th width="25%" scope="col">Added Info Typse</th>
+							<th width="25%" scope="col">Removed Info Types</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% 
+							Hashtable h_i = RODServices.getDbService().getDifferencesInInfo(ts,id,op,"I"); 
+							String undoInfo = (String) h_i.get("undo");
+							String currentInfo = (String) h_i.get("current");
+							String addedInfo = (String) h_i.get("added");
+							String removedInfo = (String) h_i.get("removed");
+						%>
+						<tr>
+							<td width="25%"><%=undoInfo%></td>
+							<td width="25%"><%=currentInfo%></td>
+							<td width="25%" bgcolor="#CCFFCC"><%=addedInfo%></td>
+							<td width="25%" bgcolor="#FFCCCC"><%=removedInfo%></td>
+						</tr>
+					</tbody>
+				</table>
+		<% } 
+		}
+		} else { %>
 		</br>
 		<b>Not authenticated! Please verify that you are logged in (for security reasons, </br>
 		the system will log you out after a period of inactivity). If the problem persists, please </br>

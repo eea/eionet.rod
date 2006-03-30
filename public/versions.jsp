@@ -176,6 +176,8 @@
 																INSERT
 															<%} else if(operation.equals("U")){%>
 																UPDATE
+															<%} else if(operation.equals("UN") || operation.equals("UD") || operation.equals("UDD")){%>
+																UNDO
 															<%}
 															%>
 														</td>
