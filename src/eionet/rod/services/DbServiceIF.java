@@ -293,6 +293,11 @@ public interface DbServiceIF  {
     * returns obligation details
     */ 
     public Vector getTable(String tablename) throws ServiceException;
+    
+   /**
+    * returns obligation details
+    */ 
+    public Vector getTableDesc(String tablename) throws ServiceException;
 
    /**
    * ParentObligation Id
