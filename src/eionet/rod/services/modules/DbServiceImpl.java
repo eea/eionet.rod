@@ -1302,10 +1302,30 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   }
   
   public Vector getTable(String tablename) throws ServiceException {
-
-    String sql_stmt = "SELECT * FROM "+tablename;
       
-    return _getVectorOfHashes(sql_stmt);
+      tablename = tablename.toUpperCase();
+      if(tablename.equalsIgnoreCase("T_CLIENT") || 
+              tablename.equalsIgnoreCase("T_CLIENT_LNK") ||
+              tablename.equalsIgnoreCase("T_DELIVERY") ||
+              tablename.equalsIgnoreCase("T_INDICATOR") ||
+              tablename.equalsIgnoreCase("T_INFO_LNK") ||
+              tablename.equalsIgnoreCase("T_ISSUE") ||
+              tablename.equalsIgnoreCase("T_LOOKUP") ||
+              tablename.equalsIgnoreCase("T_OBLIGATION") ||
+              tablename.equalsIgnoreCase("T_RAISSUE_LNK") ||
+              tablename.equalsIgnoreCase("T_RASPATIAL_LNK") ||
+              tablename.equalsIgnoreCase("T_ROLE") ||
+              tablename.equalsIgnoreCase("T_SOURCE") ||
+              tablename.equalsIgnoreCase("T_SOURCE_CLASS") ||
+              tablename.equalsIgnoreCase("T_SOURCE_LNK") ||
+              tablename.equalsIgnoreCase("T_SOURCE_TYPE") ||
+              tablename.equalsIgnoreCase("T_SPATIAL")){
+       
+          String sql_stmt = "SELECT * FROM "+tablename;
+          return _getVectorOfHashes(sql_stmt);
+      }
+      
+    return null;
     }
   
   public Vector getTableDesc(String tablename) throws ServiceException {
