@@ -1303,6 +1303,13 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   
   public Vector getTable(String tablename) throws ServiceException {
 
+    String sql_stmt = "SELECT * FROM "+tablename;
+      
+    return _getVectorOfHashes(sql_stmt);
+    }
+  
+  public Vector getTableDesc(String tablename) throws ServiceException {
+
       Vector rvec = new Vector();
 
       Connection con = null;
@@ -1311,20 +1318,27 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       
       Hashtable h = null;
       
-      String sql_stmt = "SHOW COLUMNS FROM "+tablename;
+      String sql_stmt = "SHOW FULL COLUMNS FROM "+tablename;
       _log(sql_stmt);
 
       con = getConnection();
       try {
           stmt = con.createStatement();
           rset = stmt.executeQuery(sql_stmt);
+          ResultSetMetaData md = rset.getMetaData();
+          
+          int columnCnt = md.getColumnCount();
 
           while (rset.next()) {
               h = new Hashtable();
-              String value = rset.getString(1);
-              if ( value == null)
-                  value = "";
-              h.put( "name", value  );
+              for(int i = 0; i<columnCnt; i++){
+                  String name = md.getColumnName(i+1);
+                  String value = rset.getString(i+1);
+                  if ( value == null)
+                      value = "";
+                  if(name.equals("Field") || name.equals("Type") || name.equals("Comment"))
+                      h.put( name, value  );
+              }
               rvec.addElement(h);
           }          
       } catch (SQLException e) {
@@ -1338,7 +1352,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
       }
     //_log(" return vec");
     return rvec;
-    }
+  }
 
   public String[][] getParentObligationId(String id) throws ServiceException {
 
