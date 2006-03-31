@@ -1,0 +1,5 @@
+localgroup:rod_user:v,u,i,d
+localgroup:rod_admin:v,i,u,d,c
+user:authenticated:
+user:anonymous:
+description:Legal_instruments:

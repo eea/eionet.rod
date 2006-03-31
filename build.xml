@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ================================================== -->
+<!-- BUILDFILE FOR WEBROD
+
+	Command-line arguments:
+	Required argument: prefix - directory where the application will be installed eg.  /tomcat/webapps
+	Optional argument: vhost - if tdefined, the application will be installed as a new virtual host. 
+												Otherwise it is installed under webapps folder under existing virtual host.
+
+     the main targets are:
+
+	compile
+	   compiles java classes into classes.dir.
+
+	buildjar
+	   builds rod.jar into WEB-INF/lib directory. removes also compiled java classes from classes directory.
+
+     install
+        creates the correct deployment directory structure in the target build.dir and
+        copies all web (jsp, xsl, xml,images, css and js), configuration (web.xml)
+        related data there, java libraries and builds jar file.
+
+     clean
+        this target removes all compiled java classes from classes.dir,
+        but does not touch the rest (jsp, html, xml, stylesheets etc.)
+
+
+	 default is install 
+  -->
+<!-- use JAR instead of classes becaiuse it is easier to debug errors -->
+
+
+
+<project name='webrod' default='install' basedir='.'>
+
+	<!-- set global properties for this build -->
+	<property name="src" value="src"/>
+	<property name="deploy.dir" value="webrod"/>
+	<property name="lib" value="public/WEB-INF/lib"/>
+	<property name="classes.dir" value="${prefix}/${deploy.dir}/public/WEB-INF/classes"/>
+
+	<target name="init">
+        <fail unless="prefix"
+            message="Mandatory prefix argument is missing. Please provide directory name as prefix argument value where the application will be installed eg.  -Dprefix /tomcat/webapps "/>
+
+	</target>
+
+	<target name='compile' depends="init,prepare,clean" description="compiles java classes into classes path">
+	    <!-- Compile the java code from ${src} into ${build} -->
+		<javac deprecation='off' srcdir='${src}'
+		    destdir='${classes.dir}' debug='on'
+		    classpath='public/WEB-INF/lib/xmlserver.jar;
+		    public/WEB-INF/lib/uit-client.jar;
+		    public/WEB-INF/lib/uit-server.jar;
+		    /var/lib/tomcat4/common/lib/[servletapi4].jar;
+		    public/WEB-INF/lib/log4j.jar;
+		    public/WEB-INF/lib/xmlrpc.jar;
+		    public/WEB-INF/lib/uit-security.jar;
+		    public/WEB-INF/lib/poi-2.5-final-20040302.jar;
+		    public/WEB-INF/lib/eionet-dir.jar' />
+	</target>
+
+	<target name='buildjar' depends='compile' description="creates rod.jar into WB-INF/lib">
+		<jar jarfile='${prefix}/${deploy.dir}/${lib}//rod.jar'
+		    includes='**/*.class' basedir='${classes.dir}' />
+		<!--delete dir='${classes.dir}/eionet' /-->
+		<antcall target="clean"/>
+	</target>
+
+	<target name="prepare" description="Creates folder structure if not existing yet">
+		<mkdir dir="${prefix}/${deploy.dir}"/>
+		<mkdir dir="${prefix}/${deploy.dir}/public"/>
+		<mkdir dir="${prefix}/${deploy.dir}/public/WEB-INF"/>
+		<mkdir dir="${prefix}/${deploy.dir}/public/WEB-INF/classes"/>
+		<mkdir dir="${prefix}/${deploy.dir}/public/WEB-INF/lib"/>
+		<mkdir dir="${prefix}/${deploy.dir}/public/app"/>
+		<mkdir dir="${prefix}/${deploy.dir}/public/images"/>
+		<mkdir dir="${prefix}/${deploy.dir}/public/script"/>
+		<mkdir dir="${prefix}/${deploy.dir}/log"/>
+		<mkdir dir="${prefix}/${deploy.dir}/acl"/>
+	</target>
+
+	<target name="install" depends="init,copyfiles" description="complete installation">
+		<antcall target="checkProps"/>
+		<antcall target="create_context"/>
+	</target>
+
+	<!-- if it is installed as a new virtual host -->
+	<target name="root_context" if="vhost" description="suggestion for creating virtual host in server.xml and installation instructions">
+		<echo>==================================================================</echo>
+		<echo>=== You are installing Web ROD application as a virtual host</echo>
+		<echo>=== Remember to add a virtual host TAG into  the server.xml</echo>
+		<echo>=== if not existing yet															</echo>
+		<echo>=== Look example at: ${prefix}/${deploy.dir}/resin_conf/server.xml	</echo>
+		<echo>===================================================================</echo>
+		<echo>=== If it is a first time installation, prceed with the following steps:</echo>
+		<echo>=== </echo>
+		<echo>=== 1. Check properties files under /public/WEB-INF/classes and correct file/directory properties, if needed.</echo>
+		<echo>=== Propertis files are rod.properties, uit.properties, log4j.properties, eionetdir.properties</echo>
+		<echo>=== 2. Check if user permissions files under /acl folder exists. Edit permissions in the files manually or use web-based ACL Admin tool</echo>
+		<echo>=== 3. Check script files under the installation root folder and configure crontab</echo>
+		<echo>=== Script files are deadlinecalc.sh, deadlines-daemon.sh, harvest.sh</echo>		
+		<echo>=== </echo>
+		<echo>=== Exact installation instructions can be found from ROD Detailed Design Document.</echo>
+		<echo>===================================================================</echo>
+	</target>
+	<!-- if it is installed under webapps folder under existing virtual host -->
+	<target name="webapp_context" unless="vhost">
+		<copy file="webrod.xml" todir="${prefix}/${deploy.dir}" overwrite="true"/>
+	</target>
+	
+	<target name="create_context" depends="root_context"/>
+
+
+
+    <target name="copyfiles" depends="buildjar" description="copies all files to deploy dir. Does not overwrite properties files">
+        <!-- we do not care about these files older versions -->
+        <copy file="WebRODservice.xml" tofile="${prefix}/${deploy.dir}/WebRODservice.xml" overwrite="true"/>
+        <copy file="deadlinecalc.sh" todir="${prefix}/${deploy.dir}" overwrite="false"/>
+        <copy file="deadlines-daemon.sh" todir="${prefix}/${deploy.dir}" overwrite="false"/>
+        <copy file="harvest.sh" todir="${prefix}/${deploy.dir}" overwrite="false"/>
+        <copy file="VERSION.txt" todir="${prefix}/${deploy.dir}" overwrite="true"/>
+        <copy todir="${prefix}/${deploy.dir}/public" overwrite="true">
+            <fileset dir="public">
+                <exclude name="**/*.java" />
+                <exclude name="**/*.properties" />
+            </fileset>
+        </copy>
+        <copy todir="${prefix}/${deploy.dir}/resin_conf" overwrite="true">
+            <fileset dir="resin_conf"/>
+        </copy>
+        <copy todir="${prefix}/${deploy.dir}/acl" overwrite="false">
+            <fileset dir="acl"/>
+        </copy>
+        <copy todir="${classes.dir}" overwrite="false">
+            <fileset dir="${src}" includes="**/*.properties">
+                <exclude name="**/*.class" />
+            </fileset>
+        </copy>
+        <!-- should take care of not overwriting them -->
+        <condition property="uit.needed">
+            <not>
+                <available file="${classes.dir}/uit.properties" />
+            </not>
+        </condition>
+        <condition property="rod.needed">
+            <not>
+                <available file="${classes.dir}/rod.properties" />
+            </not>
+        </condition>
+        <condition property="log4j.needed">
+            <not>
+                <available file="${classes.dir}/log4j.properties" />
+            </not>
+        </condition>
+        <condition property="eionetdir.needed">
+            <not>
+                <available file="${classes.dir}/eionetdir.properties" />
+            </not>
+        </condition>
+        <condition property="teXDBMsg.needed">
+            <not>
+                <available file="${classes.dir}/teXDBMsg.properties" />
+            </not>
+        </condition>
+        <antcall target="copy_props" />
+    </target>
+    
+	<target name="copy_props" description="checks some properties in properties files">
+		<antcall target="cp_uit"/>
+		<antcall target="cp_rod"/>
+		<antcall target="cp_log4j"/>
+		<antcall target="cp_eionetdir"/>
+		<antcall target="cp_teXDBMsg"/>
+	</target>
+	<target name="cp_uit" if="uit.needed">
+		<copy file="public/WEB-INF/classes/uit.properties" tofile="${classes.dir}/uit.properties"/>
+	</target>
+	<target name="cp_log4j" if="log4j.needed">
+		<copy file="public/WEB-INF/classes/log4j.properties" tofile="${classes.dir}/log4j.properties"/>
+	</target>
+	<target name="cp_rod" if="rod.needed">
+		<copy file="public/WEB-INF/classes/rod.properties" tofile="${classes.dir}/rod.properties"/>
+	</target>
+	<target name="cp_eionetdir" if="eionetdir.needed">
+		<copy file="public/WEB-INF/classes/eionetdir.properties" tofile="${classes.dir}/eionetdir.properties"/>
+	</target>
+	<target name="cp_teXDBMsg" if="teXDBMsg.needed">
+		<copy file="public/WEB-INF/classes/teXDBMsg.properties" tofile="${classes.dir}/teXDBMsg.properties"/>
+	</target>
+	
+<!-- Check  properties files -->
+	<target name="checkProps">
+		<antcall target="checkUITProps"/>
+		<antcall target="checkRODProps"/>
+	</target>
+
+	<target name="checkUITProps">
+		<loadproperties srcFile="${classes.dir}/uit.properties"/>
+		<condition property="srvdef.not.available">
+			<not>
+				<available file="${services.definition.file}"/>
+			</not>
+		</condition>
+		<condition property="groupfile.not.available">
+			<not>
+				<available file="${application.localgroups.file}"/>
+			</not>
+		</condition>
+		<condition property="prms.not.available">
+			<not>
+				<available file="${application.permissions.file}"/>
+			</not>
+		</condition>
+		<condition property="users.not.available">
+			<not>
+				<available file="${acl.localusers.xml}"/>
+			</not>
+		</condition>
+
+		<antcall target="warn_definition"/>
+		<antcall target="warn_localgroup"/>
+		<antcall target="warn_prms"/>
+		<antcall target="warn_users"/>
+	</target>
+	<target name="checkRODProps">
+		<loadproperties srcFile="${classes.dir}/rod.properties"/>
+		<condition property="extractorpath.not.available">
+			<not>
+				<available file="${extractor.logpath}" type="dir"/>
+			</not>
+		</condition>
+		<antcall target="warn_extractor"/>
+	</target>
+
+<!-- Warnings -->
+
+	<target name="warn_definition" if="srvdef.not.available">
+		<echo message="==================================================================="/>
+		<echo message="Services definition file is not available at: ${services.definition.file}"/>
+		<echo message="Please specify the correct location in uit.properties"/>
+		<echo message="==================================================================="/>
+	</target>
+
+	<target name="warn_localgroup" if="groupfile.not.available">
+		<echo message="==================================================================="/>
+		<echo message="File for localgroups and users is not available at: ${application.localgroups.file}"/>
+		<echo message="Please specify the correct location in uit.properties"/>
+		<echo message="==================================================================="/>
+	</target>
+
+	<target name="warn_prms" if="prms.not.available">
+		<echo message="==================================================================="/>
+		<echo message="File for app permissions and descriptions is not available at: ${application.permissions.file}"/>
+		<echo message="Please specify the correct location in uit.properties"/>
+		<echo message="==================================================================="/>
+	</target>
+
+	<target name="warn_users" if="users.not.available">
+		<echo message="==================================================================="/>
+		<echo message="File for localuser accounts is not available at: ${acl.localusers.xml}"/>
+		<echo message="Please specify the correct location in uit.properties"/>
+		<echo message="==================================================================="/>
+	</target>
+
+	<target name="warn_extractor" if="extractorpath.not.available">
+		<echo message="==================================================================="/>
+		<echo message="Extractor file path is not available at: ${extractor.logpath}"/>
+		<echo message="Please specify the correct location in rod.properties"/>
+		<echo message="==================================================================="/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${classes.dir}/eionet"/>
+	</target>
+
+</project>

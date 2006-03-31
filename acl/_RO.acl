@@ -1,0 +1,5 @@
+user:authenticated:v
+user:anonymous:v
+localgroup:rod_user:v,u,i,d
+localgroup:rod_admin:d,i,u,v,c
+description:/RO:
