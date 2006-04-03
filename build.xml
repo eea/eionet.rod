@@ -2,12 +2,17 @@
 <!-- ================================================== -->
 <!-- BUILDFILE FOR WEBROD
 
-	Command-line arguments:
-	Required argument: prefix - directory where the application will be installed eg.  /tomcat/webapps
-	Optional argument: vhost - if tdefined, the application will be installed as a new virtual host. 
+	Ant reads all arguments from build.properties file.
+		build.dir - directory where the application will be installed eg.  /tomcat/webapps
+		servletapi.jar - servletapi.jar file location eg. /tomcat/common/lib/srvletapi.jar
+		vhost - if tdefined, the application will be installed as a new virtual host. 
 												Otherwise it is installed under webapps folder under existing virtual host.
 
-     the main targets are:
+	If build.properties doesn't exist yet, then make a copy from default.properties and rename it to build.properties. Modify properties, if needed.
+	
+
+
+     The main targets are:
 
 	compile
 	   compiles java classes into classes.dir.
@@ -34,15 +39,25 @@
 <project name='webrod' default='install' basedir='.'>
 
 	<!-- set global properties for this build -->
-	<property name="src" value="src"/>
-	<property name="deploy.dir" value="webrod"/>
-	<property name="lib" value="public/WEB-INF/lib"/>
-	<property name="classes.dir" value="${prefix}/${deploy.dir}/public/WEB-INF/classes"/>
+	<!-- reads default parametrs from build.properties file -->
 
 	<target name="init">
-        <fail unless="prefix"
-            message="Mandatory prefix argument is missing. Please provide directory name as prefix argument value where the application will be installed eg.  -Dprefix /tomcat/webapps "/>
 
+        <condition property="build.properties.exists">
+                <available file="build.properties" />
+        </condition>
+
+        <fail unless="build.properties.exists"
+            message="Couldn't find build.properties file! Make a copy from default.properties and rename it to build.properties. Modify properties, if needed."/>
+
+		<loadproperties srcFile="build.properties"/>
+
+        <fail unless="build.dir"
+            message="Mandatory build.dir property is missing in build.properties file. Please provide a directory name as build.dir property value where the application will be installed eg.  build.dir=/tomcat/webapps/webrod "/>
+
+		<property name="src" value="src"/>
+		<property name="lib" value="public/WEB-INF/lib"/>
+		<property name="classes.dir" value="${build.dir}/public/WEB-INF/classes"/>
 	</target>
 
 	<target name='compile' depends="init,prepare,clean" description="compiles java classes into classes path">
@@ -52,7 +67,7 @@
 		    classpath='public/WEB-INF/lib/xmlserver.jar;
 		    public/WEB-INF/lib/uit-client.jar;
 		    public/WEB-INF/lib/uit-server.jar;
-		    /var/lib/tomcat4/common/lib/[servletapi4].jar;
+		    ${servletapi.jar};
 		    public/WEB-INF/lib/log4j.jar;
 		    public/WEB-INF/lib/xmlrpc.jar;
 		    public/WEB-INF/lib/uit-security.jar;
@@ -61,23 +76,23 @@
 	</target>
 
 	<target name='buildjar' depends='compile' description="creates rod.jar into WB-INF/lib">
-		<jar jarfile='${prefix}/${deploy.dir}/${lib}//rod.jar'
+		<jar jarfile='${build.dir}/${lib}//rod.jar'
 		    includes='**/*.class' basedir='${classes.dir}' />
 		<!--delete dir='${classes.dir}/eionet' /-->
 		<antcall target="clean"/>
 	</target>
 
 	<target name="prepare" description="Creates folder structure if not existing yet">
-		<mkdir dir="${prefix}/${deploy.dir}"/>
-		<mkdir dir="${prefix}/${deploy.dir}/public"/>
-		<mkdir dir="${prefix}/${deploy.dir}/public/WEB-INF"/>
-		<mkdir dir="${prefix}/${deploy.dir}/public/WEB-INF/classes"/>
-		<mkdir dir="${prefix}/${deploy.dir}/public/WEB-INF/lib"/>
-		<mkdir dir="${prefix}/${deploy.dir}/public/app"/>
-		<mkdir dir="${prefix}/${deploy.dir}/public/images"/>
-		<mkdir dir="${prefix}/${deploy.dir}/public/script"/>
-		<mkdir dir="${prefix}/${deploy.dir}/log"/>
-		<mkdir dir="${prefix}/${deploy.dir}/acl"/>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.dir}/public"/>
+		<mkdir dir="${build.dir}/public/WEB-INF"/>
+		<mkdir dir="${build.dir}/public/WEB-INF/classes"/>
+		<mkdir dir="${build.dir}/public/WEB-INF/lib"/>
+		<mkdir dir="${build.dir}/public/app"/>
+		<mkdir dir="${build.dir}/public/images"/>
+		<mkdir dir="${build.dir}/public/script"/>
+		<mkdir dir="${build.dir}/log"/>
+		<mkdir dir="${build.dir}/acl"/>
 	</target>
 
 	<target name="install" depends="init,copyfiles" description="complete installation">
@@ -86,12 +101,12 @@
 	</target>
 
 	<!-- if it is installed as a new virtual host -->
-	<target name="root_context" if="vhost" description="suggestion for creating virtual host in server.xml and installation instructions">
+	<target name="root_context" if="install.vhost" description="suggestion for creating virtual host in server.xml and installation instructions">
 		<echo>==================================================================</echo>
 		<echo>=== You are installing Web ROD application as a virtual host</echo>
 		<echo>=== Remember to add a virtual host TAG into  the server.xml</echo>
 		<echo>=== if not existing yet															</echo>
-		<echo>=== Look example at: ${prefix}/${deploy.dir}/resin_conf/server.xml	</echo>
+		<echo>=== Look example at: ${build.dir}/resin_conf/server.xml	</echo>
 		<echo>===================================================================</echo>
 		<echo>=== If it is a first time installation, prceed with the following steps:</echo>
 		<echo>=== </echo>
@@ -105,31 +120,36 @@
 		<echo>===================================================================</echo>
 	</target>
 	<!-- if it is installed under webapps folder under existing virtual host -->
-	<target name="webapp_context" unless="vhost">
-		<copy file="webrod.xml" todir="${prefix}/${deploy.dir}" overwrite="true"/>
+	<target name="webapp_context" unless="install.vhost">
+		<copy file="webrod.xml" todir="${build.dir}" overwrite="true"/>
 	</target>
 	
-	<target name="create_context" depends="root_context"/>
+	<target name="create_context">
+		<condition property="install.vhost">
+			<equals arg1="${vhost}" arg2="true"/>
+		</condition>
+		<antcall target="root_context"/>
+	</target>
 
 
 
     <target name="copyfiles" depends="buildjar" description="copies all files to deploy dir. Does not overwrite properties files">
         <!-- we do not care about these files older versions -->
-        <copy file="WebRODservice.xml" tofile="${prefix}/${deploy.dir}/WebRODservice.xml" overwrite="true"/>
-        <copy file="deadlinecalc.sh" todir="${prefix}/${deploy.dir}" overwrite="false"/>
-        <copy file="deadlines-daemon.sh" todir="${prefix}/${deploy.dir}" overwrite="false"/>
-        <copy file="harvest.sh" todir="${prefix}/${deploy.dir}" overwrite="false"/>
-        <copy file="VERSION.txt" todir="${prefix}/${deploy.dir}" overwrite="true"/>
-        <copy todir="${prefix}/${deploy.dir}/public" overwrite="true">
+        <copy file="WebRODservice.xml" tofile="${build.dir}/WebRODservice.xml" overwrite="true"/>
+        <copy file="deadlinecalc.sh" todir="${build.dir}" overwrite="false"/>
+        <copy file="deadlines-daemon.sh" todir="${build.dir}" overwrite="false"/>
+        <copy file="harvest.sh" todir="${build.dir}" overwrite="false"/>
+        <copy file="VERSION.txt" todir="${build.dir}" overwrite="true"/>
+        <copy todir="${build.dir}/public" overwrite="true">
             <fileset dir="public">
                 <exclude name="**/*.java" />
                 <exclude name="**/*.properties" />
             </fileset>
         </copy>
-        <copy todir="${prefix}/${deploy.dir}/resin_conf" overwrite="true">
+        <copy todir="${build.dir}/resin_conf" overwrite="true">
             <fileset dir="resin_conf"/>
         </copy>
-        <copy todir="${prefix}/${deploy.dir}/acl" overwrite="false">
+        <copy todir="${build.dir}/acl" overwrite="false">
             <fileset dir="acl"/>
         </copy>
         <copy todir="${classes.dir}" overwrite="false">
@@ -202,6 +222,7 @@
 				<available file="${services.definition.file}"/>
 			</not>
 		</condition>
+
 		<condition property="groupfile.not.available">
 			<not>
 				<available file="${application.localgroups.file}"/>
