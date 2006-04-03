@@ -1301,9 +1301,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return _getVectorOfHashes(sql);
   }
   
-  public Vector getTable(String tablename) throws ServiceException {
+  private boolean allowedTable(String tablename) throws ServiceException {
       
-      tablename = tablename.toUpperCase();
       if(tablename.equalsIgnoreCase("T_CLIENT") || 
               tablename.equalsIgnoreCase("T_CLIENT_LNK") ||
               tablename.equalsIgnoreCase("T_DELIVERY") ||
@@ -1320,7 +1319,16 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
               tablename.equalsIgnoreCase("T_SOURCE_LNK") ||
               tablename.equalsIgnoreCase("T_SOURCE_TYPE") ||
               tablename.equalsIgnoreCase("T_SPATIAL")){
-       
+          
+          return true;
+      }
+      return false;
+  }
+  
+  public Vector getTable(String tablename) throws ServiceException {
+      
+      tablename = tablename.toUpperCase();
+      if(allowedTable(tablename)){       
           String sql_stmt = "SELECT * FROM "+tablename;
           return _getVectorOfHashes(sql_stmt);
       }
@@ -1329,49 +1337,68 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     }
   
   public Vector getTableDesc(String tablename) throws ServiceException {
-
-      Vector rvec = new Vector();
-
-      Connection con = null;
-      Statement stmt = null;
-      ResultSet rset = null;
       
-      Hashtable h = null;
-      
-      String sql_stmt = "SHOW FULL COLUMNS FROM "+tablename;
-      _log(sql_stmt);
-
-      con = getConnection();
-      try {
-          stmt = con.createStatement();
-          rset = stmt.executeQuery(sql_stmt);
-          ResultSetMetaData md = rset.getMetaData();
+      tablename = tablename.toUpperCase();
+      if(allowedTable(tablename)){
+          Vector rvec = new Vector();
+    
+          Connection con = null;
+          Statement stmt = null;
+          ResultSet rset = null;
           
-          int columnCnt = md.getColumnCount();
-
-          while (rset.next()) {
-              h = new Hashtable();
-              for(int i = 0; i<columnCnt; i++){
-                  String name = md.getColumnName(i+1);
-                  String value = rset.getString(i+1);
-                  if ( value == null)
-                      value = "";
-                  if(name.equals("Field") || name.equals("Type") || name.equals("Comment"))
-                      h.put( name, value  );
-              }
-              rvec.addElement(h);
-          }          
-      } catch (SQLException e) {
-          e.printStackTrace();
-          logger.error("Error occurred when processing result set: " + sql_stmt,e);
-          throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
-      } catch (NullPointerException nue ) {
-          nue.printStackTrace( System.out );
-      } finally {
-          _close(con, stmt, null);
+          Hashtable h = null;
+          
+          String sql_stmt = "SHOW FULL COLUMNS FROM "+tablename;
+          _log(sql_stmt);
+    
+          con = getConnection();
+          try {
+              stmt = con.createStatement();
+              rset = stmt.executeQuery(sql_stmt);
+              ResultSetMetaData md = rset.getMetaData();
+              
+              int columnCnt = md.getColumnCount();
+    
+              while (rset.next()) {
+                  h = new Hashtable();
+                  for(int i = 0; i<columnCnt; i++){
+                      String name = md.getColumnName(i+1);
+                      String value = rset.getString(i+1);
+                      if ( value == null)
+                          value = "";
+                      if(name.equals("Field") || name.equals("Comment"))
+                          h.put( name, value  );
+                      if(name.equals("Type")){
+                          int start = value.indexOf("(");
+                          int end = value.indexOf(")");
+                          String length = "";
+                          String newVal = "";
+                          if(start != -1 && end != -1){
+                              newVal = value.substring(0,start);
+                              if(!newVal.equalsIgnoreCase("enum")){
+                                  length = value.substring(start+1, end);
+                                  value = newVal;
+                              }
+                          }
+                          h.put("Type",value);
+                          h.put("Length",length);
+                      }
+                  }
+                  rvec.addElement(h);
+              }          
+          } catch (SQLException e) {
+              e.printStackTrace();
+              logger.error("Error occurred when processing result set: " + sql_stmt,e);
+              throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
+          } catch (NullPointerException nue ) {
+              nue.printStackTrace( System.out );
+          } finally {
+              _close(con, stmt, null);
+          }
+        //_log(" return vec");
+        return rvec;
       }
-    //_log(" return vec");
-    return rvec;
+      return null;
   }
 
   public String[][] getParentObligationId(String id) throws ServiceException {
