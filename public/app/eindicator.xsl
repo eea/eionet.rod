@@ -23,7 +23,7 @@
  * Original Code: Kaido Laine (TietoEnator)
  * -->
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:java="http://xml.apache.org/xslt/java">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" exclude-result-prefixes="java" xmlns:java="http://xml.apache.org/xslt/java">
 <xsl:param name="req" select="'default value'"/>
 <xsl:variable name="mode" select="java:eionet.rod.RODUtil.getParameter($req, 'dom-update-mode')"/>
 <!--xsl:include href="editor.xsl"/-->

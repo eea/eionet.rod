@@ -22,7 +22,11 @@
  * Original Code: Andre Karpistsenko (TietoEnator)
  * -->
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:java="http://xml.apache.org/xslt/java" version="1.0">
+<xsl:stylesheet
+	exclude-result-prefixes="java"
+	xmlns:java="http://xml.apache.org/xslt/java"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+
 	<!--xsl:output indent="yes"/-->   
 	<!--xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" omit-xml-declaration="yes"/-->
 	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd" omit-xml-declaration="yes"/>   

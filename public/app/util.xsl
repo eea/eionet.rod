@@ -23,7 +23,7 @@
  * Original Code: Ander Tenno (TietoEnator)
  * -->
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:java="http://xml.apache.org/xslt/java" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="java" xmlns:java="http://xml.apache.org/xslt/java" version="1.0">
 	<xsl:include href="static.xsl"/>
 
 	<xsl:param name="req" select="'default value'"/>

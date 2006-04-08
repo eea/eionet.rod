@@ -136,19 +136,19 @@
 					<select style="font-size: 9pt; width: 129px; color: #000000; background-color: #ffffff" size="1" name="DEADLINES"> 
 						<option value="0">
 							<xsl:if test="$sel_period='' or $sel_period='0'"> 
-								<xsl:attribute name="selected"/>
+								<xsl:attribute name="selected">selected</xsl:attribute>
 							</xsl:if>
 						All deadlines
 						</option> 
 						<option value="1">
 							<xsl:if test="$sel_period='1'"> 
-								<xsl:attribute name="selected"/>
+								<xsl:attribute name="selected">selected</xsl:attribute>
 							</xsl:if>
 						In the next month</option> 
-						<option value="2"><xsl:if test="$sel_period='2'"><xsl:attribute name="selected"/></xsl:if>
+						<option value="2"><xsl:if test="$sel_period='2'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>
 								In the next 3 months</option> 
-						<option value="3"><xsl:if test="$sel_period='3'"><xsl:attribute name="selected"/></xsl:if>In the next 6 months</option> 
-						<option value="4"><xsl:if test="$sel_period='4'"><xsl:attribute name="selected"/></xsl:if>Previous months</option>
+						<option value="3"><xsl:if test="$sel_period='3'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>In the next 6 months</option> 
+						<option value="4"><xsl:if test="$sel_period='4'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>Previous months</option>
 					</select>
 				</td>
 				<td valign="center" align="right" style="border-right: #008080 1px solid; border-bottom: #008080 1px solid">
@@ -401,7 +401,7 @@
 			<option>
 				<xsl:attribute name="value"><xsl:value-of select="PK_ISSUE_ID"/></xsl:attribute>
 					<xsl:if test="PK_ISSUE_ID=$sel_issue">
-							<xsl:attribute name="selected"/>
+							<xsl:attribute name="selected">selected</xsl:attribute>
 					</xsl:if>
 				<xsl:value-of select="ISSUE_NAME"/>
 			</option>
