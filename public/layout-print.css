@@ -98,34 +98,63 @@ h4, h5, h6 {
 	padding-left: 0.5em;
 }
 
-table {
-	border-top: 1px dotted black;
-	border-left: 1px dotted black;
-}
-
-th, td {
+td, th {
 	font-family: Avenir, Helvetica, sans-serif; 
-	color: black;
 	font-size: 10pt; 
 	font-style: normal; 
 	line-height: normal; 
 	text-decoration: none;
 	empty-cells: show;
+}
+
+th {
+	font-weight: bold; 
 	text-align: left;
 }
 
-.sortable td {
-	border-bottom: 1px dotted black;
-	border-right: 1px dotted black;
+.datatable {
+	font-family: Avenir, Helvetica, sans-serif; 
+	font-size: 10pt; 
+	margin: 1em 0.5em;
+	border-collapse: collapse;
+	border-top:    2pt solid black;
+	border-bottom: 2pt solid black;
+	empty-cells: show;
 }
 
-.sortable th {
+.datatable td {
+	border-bottom: 1pt solid black;
+	padding: 0.3em;
+}
+
+.datatable th {
+	color: black;
 	font-weight: bold; 
-	border-bottom: 1px dotted black;
-	border-right: 1px dotted black;
-/*
-	vertical-align: top;
- */
+	text-align: center;
+	border-bottom: 2pt solid black;
+	padding: 0.3em;
+}
+
+.datatable th.scope-row { /* IE6 doesn't understand [scope="row"] */
+	text-align: left;
+	border-bottom: 1pt solid black;
+}
+
+.datatable th[scope="row"] {
+	text-align: left;
+	border-bottom: 1pt solid black;
+}
+
+.datatable .number {
+	text-align: right;
+}
+
+.datatable .center {
+	text-align: center;
+}
+
+.datatable .sum {
+	font-weight: bold;
 }
 
 kbd {

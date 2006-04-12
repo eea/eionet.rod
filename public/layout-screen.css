@@ -352,14 +352,6 @@ table {
 	empty-cells: show;
 }
 
-td {
-	font-family: Arial, Helvetica, sans-serif; 
-	font-size: 1em; 
-	font-style: normal; 
-	line-height: normal; 
-	text-decoration: none;
-}
-
 th {
 	font-size: 1em; 
 	font-style: normal; 
@@ -367,7 +359,6 @@ th {
 	line-height: normal; 
 	text-decoration: none;
 	text-align: left;
-/*	vertical-align: top; */
 }
 
 th a:link { color: #8080ff }
@@ -386,77 +377,79 @@ table.box {
 }
 
 .Mainfont {
-font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 10pt; 
-font-style: normal; 
-line-height: normal; 
-text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 10pt; 
+	font-style: normal; 
+	line-height: normal; 
+	text-decoration: none;
 }
 
 
 .smallfont {
-font-family: Verdana, Arial, MS Sans Serif; 
-font-size: 9pt; 
-font-style: normal; 
-line-height: normal; 
-font-weight: normal; 
-text-decoration: none;
+	font-family: Verdana, Arial, MS Sans Serif; 
+	font-size: 9pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: normal; 
+	text-decoration: none;
 }
 
-.title1 { font-family: Verdana, Arial, Helvetica, sans-serif;
-font-size: 16pt; 
-font-style: normal; 
-line-height: normal; 
-font-weight: bold; 
-text-decoration: none; 
-color: #006666;
+.title1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	text-decoration: none; 
+	color: #006666;
 } 
 
-.title2 { font-family: Verdana, Arial, Helvetica, sans-serif;
-font-size: 12pt; 
-font-style: normal; 
-line-height: normal; 
-font-weight: bold; 
-text-decoration: none; 
-color: #006666;
+.title2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	text-decoration: none; 
+	color: #006666;
 } 
 
 .head0 {
-font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 9pt; 
-font-style: normal; 
-line-height: normal; 
-font-weight: bold; 
-text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	text-decoration: none;
 }
 
 .headsmall {
-font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 7pt; 
-font-style: normal; 
-line-height: normal; 
-font-weight: bold; 
-text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 7pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	text-decoration: none;
 }
 
 
 .head0n {
-font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 9pt; 
-font-style: normal; 
-line-height: normal; 
-font-weight: normal; 
-text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: normal; 
+	text-decoration: none;
 }
 
 .headgreen {
-font-family: Verdana, Arial, Helvetica, sans-serif; 
-font-size: 13pt; 
-font-style: normal; 
-color: #006666;
-line-height: normal; 
-font-weight: bold; 
-text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 13pt; 
+	font-style: normal; 
+	color: #006666;
+	line-height: normal; 
+	font-weight: bold; 
+	text-decoration: none;
 }
 
 .head1 {
@@ -540,20 +533,48 @@ kbd { font-weight: bold }
 	background-image: url('images/bgr_form_buttons.jpg');
 }
 
-/* Tables for data */
+/* Data tables have borders */
 .datatable {
 	border-collapse: collapse;
 	border: 1px solid #008080;
+	margin: 1em 0em;
 }
 
-.datatable th {
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
-	background-color: white;
-	text-align: center;
+.datatable td, .datatable th  {
+	border: 1px solid black;
 	border: 1px solid #c0c0c0;
+	padding: 0.3em;
+	vertical-align: top;
 }
-.datatable td {
-	border: 1px solid #c0c0c0;
+
+.datatable th { /* Defaults to scope="col" style */
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	text-align: center;
+	background: #ddd;
+	color: black;
+	font-weight: bold; 
+	background-color: white;
+}
+
+
+.datatable th.scope-row { /* IE6 doesn't understand [scope="row"] */
+	text-align: left;
+}
+
+.datatable th[scope="row"] {
+	text-align: left;
+}
+
+.datatable .number {
+	text-align: right;
+}
+
+.datatable .center {
+	text-align: center;
+}
+
+.datatable .sum {
+	font-weight: bold;
 }
 
 /* Sortable columns in tables */
@@ -585,7 +606,7 @@ kbd { font-weight: bold }
 	background: #E0E0E0;
 }
 
-tr.even td {
+tr.even td, tr.zebraeven td {
 	background-color: #cbdcdc;
 }
 /*
