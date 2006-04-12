@@ -176,7 +176,7 @@
 																INSERT
 															<%} else if(operation.equals("U")){%>
 																UPDATE
-															<%} else if(operation.equals("UN") || operation.equals("UD") || operation.equals("UDD")){%>
+															<%} else if(operation.equals("UN") || operation.equals("UD")){%>
 																UNDO
 															<%}
 															%>
@@ -246,6 +246,10 @@
 											Insert
 										<% } else if(action.equals("U")){%>
 											Update
+										<% } else if(action.equals("N")){%>
+											Undo
+										<% } else if(action.equals("R")){%>
+											Redo
 										<% } %>
 									</td>
 									<td><%=huser%></td>

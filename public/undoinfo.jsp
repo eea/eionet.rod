@@ -134,7 +134,7 @@
 							INSERT
 						<%} else if(op.equals("U")){%>
 							UPDATE
-						<%} else if(op.equals("UN") || op.equals("UD") || op.equals("UDD")){%>
+						<%} else if(op.equals("UN") || op.equals("UD")){%>
 							UNDO
 						<%}
 						%>
