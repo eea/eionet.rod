@@ -280,13 +280,13 @@ public class CSSearchStatement extends QueryStatement implements Constants {
       if (_union)
     	  appendConstraint(" ((NEXT_DEADLINE2 >= '" + date1 + "' AND NEXT_DEADLINE2 <= '" + date2 + "')) ", "1");
       else
-    	  appendConstraint(" ((NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "') OR NEXT_REPORTING != '') ", "1");
+    	  appendConstraint(" ((NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "')) ", "1");
 
    }
 
     // dd/mm/yyyy -> yyyy-mm-dd
     private String cnvDate(String date ){
-    date = date.substring(6) +  date.substring(3,5) +  date.substring(0,2);
+    date = date.substring(6) +"-"+  date.substring(3,5) +"-"+  date.substring(0,2);
     return date;
   }
 
