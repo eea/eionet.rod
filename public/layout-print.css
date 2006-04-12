@@ -98,6 +98,13 @@ h4, h5, h6 {
 	padding-left: 0.5em;
 }
 
+ul.menu { /* Simple menu of items */
+	list-style: none;
+	list-style-image: none;
+	padding:0;
+	margin:0;
+}
+
 td, th {
 	font-family: Avenir, Helvetica, sans-serif; 
 	font-size: 10pt; 

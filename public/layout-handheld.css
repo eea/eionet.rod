@@ -56,6 +56,13 @@ h4, h5, h6 {
 	line-height: normal; 
 }
 
+ul.menu { /* Simple menu of items */
+	list-style: none;
+	list-style-image: none;
+	padding:0;
+	margin:0;
+}
+
 #globalnav {
 }
 

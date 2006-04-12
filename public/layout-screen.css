@@ -347,6 +347,14 @@ ul {
 	list-style-image: url("images/smalldiamond.png");
 }
 */
+
+ul.menu { /* Simple menu of items */
+	list-style: none;
+	list-style-image: none;
+	padding:0;
+	margin:0;
+}
+
 /* Tables */
 table {
 	empty-cells: show;
