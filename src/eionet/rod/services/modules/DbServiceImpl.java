@@ -1601,45 +1601,48 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                Hashtable hash = (Hashtable) en.nextElement();
                String t = (String)hash.get("tab");
                String v = (String)hash.get("value");
-               insertIntoUndo(null,state,t,null,ut,null,"y",v);
+               if(!state.equals("UNN") && !state.equals("UDD"))
+                   insertIntoUndo(null,state,t,null,ut,null,"y",v);
                if(del){
                    String delete_stmt = "DELETE FROM "+hash.get("tab")+" WHERE "+hash.get("value");
                    _executeUpdate(delete_stmt);
                }
            }
        }
-       String temp = "";
-       if(state.equals("UD"))
-           temp = " OR operation = 'D' OR operation = 'UDD'";
-       
-       String opinfo_sql = "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr, p_key, show_object FROM T_UNDO "+
-       "WHERE undo_time = "+ts+" AND (operation = 'A' OR operation = 'K' OR operation = 'O' OR operation = 'L' "+temp+") ORDER BY undo_time,tab,sub_trans_nr";
-       
-       Vector opinfo_vec = _getVectorOfHashes(opinfo_sql);
-       for(Enumeration en = opinfo_vec.elements(); en.hasMoreElements();){
-           Hashtable h = (Hashtable) en.nextElement();
-           String t = (String) h.get("tab");
-           String c = (String) h.get("col");
-           String val = (String) h.get("value");
-           String quotes = (String) h.get("quotes");
-           String sub_trans_nr = (String) h.get("sub_trans_nr");
-           String p_key = (String) h.get("p_key");
-           String show = (String) h.get("show_object");
-           String operation = (String) h.get("operation");
+       if(!state.equals("UNN") && !state.equals("UDD")){
+           String temp = "";
+           if(state.equals("UD"))
+               temp = " OR operation = 'D'";
            
-           if(state.equals("UD") && (operation.equals("D") || operation.equals("UDD")))
-               operation = "UD";
+           String opinfo_sql = "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr, p_key, show_object FROM T_UNDO "+
+           "WHERE undo_time = "+ts+" AND (operation = 'A' OR operation = 'K' OR operation = 'O' OR operation = 'L' "+temp+") ORDER BY undo_time,tab,sub_trans_nr";
            
-           if(val != null)
-               val = val.replaceAll("'", "''");
-           
-           String a = "";
-           if(quotes.equalsIgnoreCase("y") || val.equals(""))
-               a = "'";
-           
-           String insert_stmt = "INSERT INTO T_UNDO VALUES ("+
-                   ut + ",'"+ t +"','"+c+"','"+operation+"','"+quotes+"','"+p_key+"',"+a+val+a+","+sub_trans_nr+",'"+show+"')";
-           _executeUpdate(insert_stmt);
+           Vector opinfo_vec = _getVectorOfHashes(opinfo_sql);
+           for(Enumeration en = opinfo_vec.elements(); en.hasMoreElements();){
+               Hashtable h = (Hashtable) en.nextElement();
+               String t = (String) h.get("tab");
+               String c = (String) h.get("col");
+               String val = (String) h.get("value");
+               String quotes = (String) h.get("quotes");
+               String sub_trans_nr = (String) h.get("sub_trans_nr");
+               String p_key = (String) h.get("p_key");
+               String show = (String) h.get("show_object");
+               String operation = (String) h.get("operation");
+               
+               if(state.equals("UD") && (operation.equals("D")))
+                   operation = "UD";
+               
+               if(val != null)
+                   val = val.replaceAll("'", "''");
+               
+               String a = "";
+               if(quotes.equalsIgnoreCase("y") || val.equals(""))
+                   a = "'";
+               
+               String insert_stmt = "INSERT INTO T_UNDO VALUES ("+
+                       ut + ",'"+ t +"','"+c+"','"+operation+"','"+quotes+"','"+p_key+"',"+a+val+a+","+sub_trans_nr+",'"+show+"')";
+               _executeUpdate(insert_stmt);
+           }
        }
    }
 
@@ -1650,11 +1653,16 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
        String sql_stmt = null;
        String id_field = null;
        String location = "versions.jsp?id=-1";
+       String type = null;
 
-       if(tab.equalsIgnoreCase("T_OBLIGATION"))
+       if(tab.equalsIgnoreCase("T_OBLIGATION")){
            id_field = "PK_RA_ID";
-       else if(tab.equalsIgnoreCase("T_SOURCE"))
+           type = "A";
+       }
+       else if(tab.equalsIgnoreCase("T_SOURCE")){
            id_field = "PK_SOURCE_ID";
+           type = "L";
+       }
 
        // Process the result set
        con = getConnection();
@@ -1666,9 +1674,11 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
              rset = stmt.executeQuery(sql_stmt);
              ResultSetMetaData md = rset.getMetaData();
 
-                 if(op.equals("U") || op.equals("UN")){
+                 if(op.equals("U")){
                      copyUndo("UN", ts, true);
-                 } else if(op.equals("D") || op.equals("UDD")){
+                 } else if(op.equals("UN")){
+                     copyUndo("UNN", ts, true);
+                 } else if(op.equals("D")){
                      if(tab.equals("T_SOURCE")){
                          String s = "SELECT value FROM T_UNDO WHERE undo_time="+ts+" AND operation='O' AND tab='"+tab+"'";
                          String[][] array = _executeStringQuery(s);
@@ -1708,6 +1718,21 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                      }
                      copyUndo("UDD",ts,true);
                  }
+                 
+                 String user_stmt = "SELECT value FROM T_UNDO WHERE operation='K' AND undo_time="+ts+" AND tab='"+tab+"'";
+                 String[][] user_array = _executeStringQuery(user_stmt);
+                 String user = "";
+                 if(user_array.length > 0)
+                     user = user_array[0][0];
+                 
+                 if(op.equals("U"))
+                     logHistory(type,id,user,"N","Undo Update");
+                 else if(op.equals("D"))
+                     logHistory(type,id,user,"N","Undo Delete");
+                 else if(op.equals("UN"))
+                     logHistory(type,id,user,"R","Redo Update");
+                 else if(op.equals("UD"))
+                     logHistory(type,id,user,"R","Redo Delete");
 
                  int colCnt = md.getColumnCount();
 
