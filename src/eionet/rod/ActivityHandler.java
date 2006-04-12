@@ -100,7 +100,7 @@ public class ActivityHandler extends ROHandler {
           if (delSelf) {
               RODServices.getDbService().insertIntoUndo(raID, "D", "T_OBLIGATION", "PK_RA_ID",ts,"",show,null);
               updateDB("DELETE FROM T_OBLIGATION WHERE PK_RA_ID=" + raID);
-              //HistoryLogger.logActivityHistory(raID,this.user.getUserName(), DELETE_RECORD, "");                       
+              HistoryLogger.logActivityHistory(raID,this.user.getUserName(), DELETE_RECORD, "");                       
           }
       }catch (Exception e){
           e.printStackTrace();
@@ -139,16 +139,6 @@ public class ActivityHandler extends ROHandler {
       //Logger.log("state " + state);
       if (tblName.equals("T_OBLIGATION")) {
           
-          String url = gen.getFieldValue("REDIRECT_URL");
-          gen.removeField("REDIRECT_URL");
-          
-          if(state == MODIFY_RECORD || state == DELETE_RECORD){
-              updateDB("INSERT INTO T_UNDO VALUES ("+
-                      ts + ",'"+ tblName +"','REDIRECT_URL','L','y','n','"+url+"',0,'n')");
-              updateDB("INSERT INTO T_UNDO VALUES ("+
-                      ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
-          }
-          
          if (state != INSERT_RECORD) {
 
             if (!upd)
@@ -164,6 +154,15 @@ public class ActivityHandler extends ROHandler {
             }catch (Exception e){
                 e.printStackTrace();
             }
+            
+            String aid = gen.getFieldValue("FK_SOURCE_ID");
+            
+            String url = "show.jsv?id="+id+"&aid="+aid+"&mode=A";
+           
+            updateDB("INSERT INTO T_UNDO VALUES ("+
+                    ts + ",'"+ tblName +"','REDIRECT_URL','L','y','n','"+url+"',0,'n')");
+            updateDB("INSERT INTO T_UNDO VALUES ("+
+                    ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
             
             if (ext==null)
               ext = new Extractor();
@@ -230,7 +229,7 @@ public class ActivityHandler extends ROHandler {
               " VALUES ( " + gen.getFieldValue("FK_CLIENT_ID") + ", " + id +
         			    ", 'M', 'A')");     
 
-         //HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
+         HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
 
          if (servlet != null)
             servlet.setCurrentID(id);

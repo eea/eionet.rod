@@ -102,7 +102,7 @@ public class SourceHandler extends ActivityHandler {
              RODServices.getDbService().insertIntoUndo(srcID, "D", "T_SOURCE", "PK_SOURCE_ID",ts,"","y",null);
              // delete legislative act itself
              updateDB("DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=" + srcID);
-             //HistoryLogger.logLegisgationHistory(srcID,this.user.getUserName(), DELETE_RECORD, "");          
+             HistoryLogger.logLegisgationHistory(srcID,this.user.getUserName(), DELETE_RECORD, "");          
           }
        }catch (Exception e){
            e.printStackTrace();
@@ -133,16 +133,6 @@ public class SourceHandler extends ActivityHandler {
 
       if (tblName.equals("T_SOURCE")) {
           
-          String url = gen.getFieldValue("REDIRECT_URL");
-          gen.removeField("REDIRECT_URL");
-          
-          if(state == MODIFY_RECORD || state == DELETE_RECORD){
-              updateDB("INSERT INTO T_UNDO VALUES ("+
-                      ts + ",'"+ tblName +"','REDIRECT_URL','L','y','n','"+url+"',0,'n')");
-              updateDB("INSERT INTO T_UNDO VALUES ("+
-                      ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
-          }
-          
          if (state != INSERT_RECORD) {
              
             gen.setPKField("PK_SOURCE_ID");
@@ -155,6 +145,14 @@ public class SourceHandler extends ActivityHandler {
             }catch (Exception e){
                 e.printStackTrace();
             }
+            
+            String url = "show.jsv?id="+id+"&mode=S";
+            
+            updateDB("INSERT INTO T_UNDO VALUES ("+
+                    ts + ",'"+ tblName +"','REDIRECT_URL','L','y','n','"+url+"',0,'n')");
+            updateDB("INSERT INTO T_UNDO VALUES ("+
+                    ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
+            
             // delete all linked parameter and medium records and in delete mode also the self record
 		    updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND STATUS = 'M' AND FK_OBJECT_ID=" + id);
 
@@ -200,7 +198,7 @@ public class SourceHandler extends ActivityHandler {
                " ( " + clientId + "," + id + ", 'S', 'M')");
 
 
-        //logHistory(gen);
+        logHistory(gen);
           
          if (servlet != null)
             servlet.setCurrentID(id);
