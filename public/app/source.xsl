@@ -112,21 +112,17 @@
 						</div>
 					<h1>Legislative instrument details: <xsl:value-of select="T_SOURCE/ALIAS"/></h1>
 
-				<table width="100%" cellspacing="6" bgcolor="#FFFFFF" style="border:1px solid #006666">
-					<tr valign="top">
-						<th width="25%">
-							Classification
-						</th>
+				<table class="datatable">
+				<col style="width:25%" />
+				<col style="width:75%" />
+					<tr class="zebraodd">
+						<th scope="row" class="scope-row">Classification</th>
 						<td>
-							<table cellpadding="0" cellspacing="0">
-								<xsl:apply-templates select="SubSet[@Name='Parents']"/>
-							</table>
+							<xsl:apply-templates select="SubSet[@Name='Parents']"/>
 						</td>
 					</tr>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">Legal name</span>
-						</td>
+					<tr class="zebraeven">
+						<th scope="row" class="scope-row">Legal name</th>
 						<td>
 							<xsl:choose>
 								<xsl:when test="T_SOURCE/URL!=''">
@@ -144,34 +140,26 @@
 							</xsl:choose>
 						</td>
 					</tr>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">Short name</span>
-						</td>
+					<tr class="zebraodd">
+						<th scope="row" class="scope-row">Short name</th>
 						<td>
 							<xsl:value-of select="T_SOURCE/ALIAS"/>						
 						</td>
 					</tr>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">CELEX reference</span>
-						</td>
+					<tr class="zebraeven">
+						<th scope="row" class="scope-row">CELEX reference</th>
 						<td>
 							<xsl:value-of select="T_SOURCE/CELEX_REF"/>						
 						</td>
 					</tr>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">Identification number</span>
-						</td>
+					<tr class="zebraodd">
+						<th scope="row" class="scope-row">Identification number</th>
 						<td>
 							<xsl:value-of select="T_SOURCE/SOURCE_CODE"/>						
 						</td>
 					</tr>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">Issued by</span>
-						</td>
+					<tr class="zebraeven">
+						<th scope="row" class="scope-row">Issued by</th>
 						<td>
 							<a>
 								<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
@@ -179,10 +167,8 @@
 							</a>
 						</td>
 					</tr>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">URL to issuer</span>
-						</td>
+					<tr class="zebraodd">
+						<th scope="row" class="scope-row">URL to issuer</th>
 						<td>
 							<a target="_new">
 								<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/ISSUED_BY_URL"/></xsl:attribute>
@@ -192,61 +178,49 @@
 					</tr>
 					<xsl:apply-templates select="SubSet[@Name='Origin']"/>
 					<xsl:apply-templates select="SubSet[@Name='RelatedInstruments']"/>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">Valid from</span>
-						</td>
+					<tr class="zebraeven">
+						<th scope="row" class="scope-row">Valid from</th>
 						<td>
 							<xsl:value-of select="T_SOURCE/VALID_FROM"/>
 						</td>
 					</tr>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">Abstract</span>
-						</td>
+					<tr class="zebraodd">
+						<th scope="row" class="scope-row">Abstract</th>
 						<td>
 				      	<xsl:call-template name="break">
 	   				   	<xsl:with-param name="text" select="T_SOURCE/ABSTRACT"/>
 					      </xsl:call-template>
 						</td>
 					</tr>
-					<tr>
-						<td bgcolor="#006666" colspan="3" valign="top" align="left">
-							<font color="#FFFFFF"><b>Reporting framework</b></font><br/>
+					<tr class="zebraeven">
+						<td colspan="2" style="background-color:#006666; color: white; font-weight:bold">
+							Reporting framework
 						</td>
 					</tr>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">Reporting obligations</span>
-						</td>
+					<tr class="zebraodd">
+						<th scope="row" class="scope-row">Reporting obligations</th>
 						<td>
 							<xsl:apply-templates select="//SubSet[@Name='Obligation']"/>
 						</td>
 					</tr>
 					<xsl:if test="//RowSet[@Name='DGEnv']/Row/T_LOOKUP/C_TERM!=''">
-						<tr valign="top">
-							<td width="25%">
-								<span class="head0">DG Env review of reporting theme</span>
-							</td>
+						<tr class="zebraodd">
+							<th scope="row" class="scope-row">DG Env review of reporting theme</th>
 							<td>
 								<xsl:value-of select="//RowSet[@Name='DGEnv']/Row/T_LOOKUP/C_TERM"/>
 							</td>
 						</tr>
 					</xsl:if>
 					<xsl:if test="T_SOURCE/GEOGRAPHIC_SCOPE!=''">
-						<tr valign="top">
-							<td width="25%">
-								<span class="head0">Geographic scope</span>
-							</td>
+						<tr class="zebraeven">
+							<th scope="row" class="scope-row">Geographic scope</th>
 							<td>
 								<xsl:value-of select="T_SOURCE/GEOGRAPHIC_SCOPE"/>
 							</td>
 						</tr>
 					</xsl:if>
-					<tr valign="top">
-						<td width="25%">
-							<span class="head0">Comments</span>
-						</td>
+					<tr class="zebraodd">
+						<th scope="row" class="scope-row">Comments</th>
 						<td>
 				      	<xsl:call-template name="break">
    					   	<xsl:with-param name="text" select="T_SOURCE/COMMENT"/>
@@ -255,26 +229,20 @@
 					</tr>
 					<xsl:for-each select="SubSet[@Name='Parents']/Row/T_SOURCE_CLASS">
 						<xsl:if test="CLASS_NAME = 'Conventions'">
-							<tr valign="top">
-								<td width="25%">
-									<span class="head0">EC entry into force</span>
-								</td>
+							<tr class="zebraeven">
+								<th scope="row" class="scope-row">EC entry into force</th>
 								<td>
 									<xsl:value-of select="//RowSet[@Name='Source']/Row[position()=1]/T_SOURCE/EC_ENTRY_INTO_FORCE"/>
 								</td>
 							</tr>
-							<tr valign="top">
-								<td width="25%">
-									<span class="head0">EC accession</span>
-								</td>
+							<tr class="zebraodd">
+								<th scope="row" class="scope-row">EC accession</th>
 								<td>
 									<xsl:value-of select="//RowSet[@Name='Source']/Row[position()=1]/T_SOURCE/EC_ACCESSION"/>
 								</td>
 							</tr>
-							<tr valign="top">
-								<td width="25%">
-									<span class="head0">Convention secretariat</span>
-								</td>
+							<tr class="zebraeven">
+								<th scope="row" class="scope-row">Convention secretariat</th>
 								<td>
 									<xsl:choose>
 										<xsl:when test="//RowSet[@Name='Source']/Row[position()=1]/T_SOURCE/SECRETARIAT_URL!=''">
@@ -298,10 +266,9 @@
 
 	<xsl:template match="//SubSet[@Name='Obligation']">
 		<xsl:if test="count(Row)>0">
-			<table cellspacing="0">
+			<ul class="menu">
 				<xsl:for-each select="Row/T_OBLIGATION">
-					<tr valign="top">
-						<td>
+					<li>
 							<a>
 								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 								<xsl:choose>
@@ -316,31 +283,29 @@
 							<xsl:if test="AUTHORITY != ''">
 								&#160;[<xsl:value-of select="AUTHORITY"/>]
 							</xsl:if>
-						</td>
-					</tr>
+					</li>
 				</xsl:for-each>
-			</table>
+			</ul>
 		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="SubSet[@Name='Parents']">
+		<ul class="menu">
 		<xsl:for-each select="Row/T_SOURCE_CLASS">
-			<tr>
-				<td>
+			<li>
 				<xsl:if test="CLASSIFICATOR!=''">
 					<xsl:value-of select="CLASSIFICATOR"/>&#160;
 				</xsl:if>
 				<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_CLASS_ID"/>&amp;mode=C</xsl:attribute>
-				<span class="head0"><xsl:value-of select="CLASS_NAME"/></span></a></td>
-			</tr>
+				<span class="head0"><xsl:value-of select="CLASS_NAME"/></span></a>
+			</li>
 		</xsl:for-each>
+		</ul>
 	</xsl:template>
 
 	<xsl:template match="SubSet[@Name='Origin']/Row/LSOURCE">
 		<tr valign="top">
-			<td width="25%">
-				<span class="head0">Parent legislative instrument</span>
-			</td>
+			<th scope="row" class="scope-row">Parent legislative instrument</th>
 			<td>
 				<a>
 					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
@@ -360,9 +325,7 @@
 	<xsl:template match="SubSet[@Name='RelatedInstruments']">
 		<xsl:if test="count(Row)>0">
 			<tr valign="top">
-				<td width="25%">
-					<span class="head0">Related instrument(s)</span>
-				</td>
+				<th scope="row" class="scope-row">Related instrument(s)</th>
 				<td>
 					<xsl:for-each select="Row/LSOURCE">
 						<a>
