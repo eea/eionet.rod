@@ -164,335 +164,330 @@ Legislative instrument</a></div>
 			</table>
 
 		<h1>Reporting obligation for <xsl:value-of select="T_SOURCE/ALIAS"/> &#160; <xsl:value-of select="T_SOURCE/SOURCE_CODE"/></h1>
-		<table border="0">
+		<table class="datatable">
+		<col style="width:30%" />
+		<col style="width:65%" />
+		<col style="width:5%" />
+			<tr class="zebraodd">
+				<th scope="row" class="scope-row">Title</th>
+				<td>
+					<xsl:choose>
+						<xsl:when test="T_OBLIGATION/TITLE != ''">
+							<xsl:value-of select="T_OBLIGATION/TITLE"/>
+						</xsl:when>
+						<xsl:otherwise>
+							Reporting Obligation
+						</xsl:otherwise>
+					</xsl:choose>
+				</td>
+				<td>&#160;</td>
+			</tr>
+			<tr class="zebraeven">
+				<th scope="row" class="scope-row">Description</th>
+				<td>
+					<xsl:call-template name="break">
+						 <xsl:with-param name="text" select="T_OBLIGATION/DESCRIPTION"/>
+					</xsl:call-template>
+					<xsl:if test="T_OBLIGATION/EEA_PRIMARY=1">
+							 <br/>This reporting obligation is an EIONET Priority Data flow<br/>
+					</xsl:if>
+					<xsl:if test="T_OBLIGATION/EEA_CORE=1">
+						<br/>Reporting under this obligation is used for EEA Core set of indicators<br/>
+					</xsl:if>
+					<xsl:if test="T_OBLIGATION/FLAGGED=1">
+						<br/>This reporting obligation is flagged<br/>
+					</xsl:if>
+					<xsl:if test="T_OBLIGATION/OVERLAP_URL!=''">
+						<br/>Delivery process or content of this obligation overlaps with another reporting obligation (
+						<a><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/OVERLAP_URL"/></xsl:attribute>
+						<xsl:value-of select="T_OBLIGATION/OVERLAP_URL"/>
+						</a>
+						)
+					</xsl:if>&#160;
+				</td>
+				<td>&#160;</td>
+			</tr>
 			<tr>
-			<td style="border:1px solid #006666">
-				<table border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
-					<tr bgcolor="#ECECEC">
-						<td width="30%" valign="top" align="left" style="border-right: 1px solid #C0C0C0">
-							<span class="head0"><font face="Verdana" size="2"><b>Title</b></font></span>
-						</td>
-						<td width="65%" valign="top" align="left" style="border-right: 1px solid #C0C0C0">
-							<xsl:choose>
-								<xsl:when test="T_OBLIGATION/TITLE != ''">
-									<xsl:value-of select="T_OBLIGATION/TITLE"/>
-								</xsl:when>
-								<xsl:otherwise>
-									Reporting Obligation
-								</xsl:otherwise>
-							</xsl:choose>
-						</td>
-						<td width="5%" align="right">&#160;</td>
-					</tr>
-					<tr valign="top">
-						<td style="border-right: 1px solid #C0C0C0"><b>Description</b></td>
-						<td style="border-right: 1px solid #C0C0C0">
-							<xsl:call-template name="break">
-								 <xsl:with-param name="text" select="T_OBLIGATION/DESCRIPTION"/>
-							</xsl:call-template>
-							<xsl:if test="T_OBLIGATION/EEA_PRIMARY=1">
-									 <br/>This reporting obligation is an EIONET Priority Data flow<br/>
-							</xsl:if>
-							<xsl:if test="T_OBLIGATION/EEA_CORE=1">
-								<br/>Reporting under this obligation is used for EEA Core set of indicators<br/>
-							</xsl:if>
-							<xsl:if test="T_OBLIGATION/FLAGGED=1">
-								<br/>This reporting obligation is flagged<br/>
-							</xsl:if>
-							<xsl:if test="T_OBLIGATION/OVERLAP_URL!=''">
-								<br/>Delivery process or content of this obligation overlaps with another reporting obligation (
-								<a><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/OVERLAP_URL"/></xsl:attribute>
-								<xsl:value-of select="T_OBLIGATION/OVERLAP_URL"/>
-								</a>
-								)
-							</xsl:if>&#160;
-						</td>
-						<td>&#160;</td>
-					</tr>
-				<tr>
-					<td bgcolor="#006666" colspan="3" valign="top" align="left">
-						<font color="#FFFFFF"><b>Reporting dates and guidelines</b></font><br/>
-					</td>
-				</tr>
-				<tr valign="top">
-					<td style="border-right: 1px solid #C0C0C0"><b>National reporting coordinators</b></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:choose>
-						<xsl:when test="COORD_ROLE/ROLE_ID!=''">
-							<a>
-								<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="COORD_ROLE/ROLE_URL"/>')</xsl:attribute>
-								<xsl:value-of select="COORD_ROLE/ROLE_NAME"/> (<xsl:value-of select="COORD_ROLE/ROLE_ID"/>)</a>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:if test="T_OBLIGATION/COORDINATOR_ROLE != ''">
-								<font color="#000000"><b>Directory role not found for '<xsl:value-of select="T_OBLIGATION/COORDINATOR_ROLE"/>'</b></font><br/>
-							</xsl:if>
-							<xsl:value-of select="T_OBLIGATION/COORDINATOR"/>&#160;
-								<a target="_blank">
-									<xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/COORDINATOR_URL"/></xsl:attribute>
-										<xsl:value-of select="T_OBLIGATION/COORDINATOR_URL"/>
-								</a>
-						</xsl:otherwise>
-						</xsl:choose>
-					</td>
-					<td align="center">
-						<xsl:if test="COORD_ROLE/ROLE_ID!=''">
-							<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="COORD_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-								<img src="images/details.jpg" alt="Additional details for logged-in users" border="0"/>
-							</a>
+				<td colspan="3" style="background-color:#006666; color: white; font-weight:bold">
+					Reporting dates and guidelines
+				</td>
+			</tr>
+			<tr class="zebraeven">
+				<th scope="row" class="scope-row">National reporting coordinators</th>
+				<td>
+					<xsl:choose>
+					<xsl:when test="COORD_ROLE/ROLE_ID!=''">
+						<a>
+							<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="COORD_ROLE/ROLE_URL"/>')</xsl:attribute>
+							<xsl:value-of select="COORD_ROLE/ROLE_NAME"/> (<xsl:value-of select="COORD_ROLE/ROLE_ID"/>)</a>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:if test="T_OBLIGATION/COORDINATOR_ROLE != ''">
+							<font color="#000000"><b>Directory role not found for '<xsl:value-of select="T_OBLIGATION/COORDINATOR_ROLE"/>'</b></font><br/>
 						</xsl:if>
-					</td>
-				</tr>
-				<tr valign="top"  bgcolor="#ECECEC">
-					<td style="border-right: 1px solid #C0C0C0"><b>National reporting contacts</b></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:choose>
-						<xsl:when test="RESP_ROLE/ROLE_ID!=''">
-							<a>
-								<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESP_ROLE/ROLE_URL"/>')</xsl:attribute>
-								<xsl:value-of select="RESP_ROLE/ROLE_NAME"/> (<xsl:value-of select="RESP_ROLE/ROLE_ID"/>)</a>
+						<xsl:value-of select="T_OBLIGATION/COORDINATOR"/>&#160;
+							<a target="_blank">
+								<xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/COORDINATOR_URL"/></xsl:attribute>
+									<xsl:value-of select="T_OBLIGATION/COORDINATOR_URL"/>
+							</a>
+					</xsl:otherwise>
+					</xsl:choose>
+				</td>
+				<td class="center">
+					<xsl:if test="COORD_ROLE/ROLE_ID!=''">
+						<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="COORD_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
+							<img src="images/details.jpg" alt="Additional details for logged-in users" border="0"/>
+						</a>
+					</xsl:if>
+				</td>
+			</tr>
+			<tr class="zebraodd">
+				<th scope="row" class="scope-row">National reporting contacts</th>
+				<td>
+					<xsl:choose>
+					<xsl:when test="RESP_ROLE/ROLE_ID!=''">
+						<a>
+							<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESP_ROLE/ROLE_URL"/>')</xsl:attribute>
+							<xsl:value-of select="RESP_ROLE/ROLE_NAME"/> (<xsl:value-of select="RESP_ROLE/ROLE_ID"/>)</a>
+					</xsl:when>
+					<xsl:otherwise>
+							<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE != ''">
+								<font color="#000000"><b>Directory role not found for '<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>'</b></font><br/>
+							</xsl:if>
+							<xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT"/>&#160;
+							<a target="_blank">
+								<xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT_URL"/></xsl:attribute>
+									<xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT_URL"/>
+							</a>
+					</xsl:otherwise>
+					</xsl:choose>
+				</td>
+				<td class="center">
+					<xsl:if test="RESP_ROLE/ROLE_ID!=''">
+						<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESP_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
+							<img src="images/details.jpg" alt="Additional details for logged-in users" border="0"/>
+						</a>
+					</xsl:if>&#160;
+				</td>
+			</tr>
+			<!--tr valign="top">
+				<td style="border-right: 1px solid #C0C0C0"><span class="head0">Baseline reporting date</span></td>
+				<td style="border-right: 1px solid #C0C0C0">
+					<xsl:value-of select="T_OBLIGATION/FIRST_REPORTING"/>
+				</td>
+				<td style="border-right: 1px solid #C0C0C0"></td>
+			</tr-->
+			<tr class="zebraeven">
+				<th scope="row" class="scope-row">Reporting frequency</th>
+				<td>
+					<xsl:call-template name="RAReportingFrequency"/>
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraodd">
+				<th scope="row" class="scope-row">Next report due</th>
+				<td>
+					<xsl:choose>
+						<xsl:when test="T_OBLIGATION/TERMINATE = 'N'">
+							<xsl:choose>
+							<xsl:when test="string-length(T_OBLIGATION/NEXT_REPORTING) = 0">
+								<xsl:value-of select="T_OBLIGATION/NEXT_DEADLINE"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="T_OBLIGATION/NEXT_REPORTING"/>
+							</xsl:otherwise>
+							</xsl:choose>
 						</xsl:when>
 						<xsl:otherwise>
-								<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE != ''">
-									<font color="#000000"><b>Directory role not found for '<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>'</b></font><br/>
-								</xsl:if>
-								<xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT"/>&#160;
-								<a target="_blank">
-									<xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT_URL"/></xsl:attribute>
-										<xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT_URL"/>
-								</a>
+							<font color="red">terminated</font>
 						</xsl:otherwise>
-						</xsl:choose>
-					</td>
-					<td align="center">
-						<xsl:if test="RESP_ROLE/ROLE_ID!=''">
-							<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESP_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-								<img src="images/details.jpg" alt="Additional details for logged-in users" border="0"/>
-							</a>
-						</xsl:if>&#160;
-					</td>
-				</tr>
-				<!--tr valign="top">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Baseline reporting date</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:value-of select="T_OBLIGATION/FIRST_REPORTING"/>
-					</td>
-					<td style="border-right: 1px solid #C0C0C0"></td>
-				</tr-->
-				<tr valign="top">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Reporting frequency</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:call-template name="RAReportingFrequency"/>
-					</td>
-					<td style="border-right: 1px solid #C0C0C0"></td>
-				</tr>
-				<tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Next report due</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
+					</xsl:choose>
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraeven">
+				<th scope="row" class="scope-row">Date comments</th>
+				<td>
+					<xsl:value-of select="T_OBLIGATION/DATE_COMMENTS"/>&#160;
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraodd">
+				<th scope="row" class="scope-row">Report to</th>
+				<td>
+						<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>&#160;
+				</td>
+				<td class="center">
+					<xsl:if test="T_CLIENT/PK_CLIENT_ID != ''">
+					<a><xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
+						<img src="images/details.jpg" alt="Show client details" border="0"/>
+					</a>
+					</xsl:if>
+				</td>
+			</tr>
+			<tr class="zebraeven">
+				<th scope="row" class="scope-row">Other clients using this reporting</th>
+				<td>
+					<xsl:call-template name="OtherClients"/>
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraodd">
+				<th scope="row" class="scope-row">Reporting guidelines</th>
+				<td>
 						<xsl:choose>
-							<xsl:when test="T_OBLIGATION/TERMINATE = 'N'">
+						<xsl:when test="T_OBLIGATION/REPORT_FORMAT_URL!=''">
+							<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
 								<xsl:choose>
-								<xsl:when test="string-length(T_OBLIGATION/NEXT_REPORTING) = 0">
-									<xsl:value-of select="T_OBLIGATION/NEXT_DEADLINE"/>
+								<xsl:when test="T_OBLIGATION/FORMAT_NAME!=''">
+									<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:value-of select="T_OBLIGATION/NEXT_REPORTING"/>
+									<xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/>
 								</xsl:otherwise>
 								</xsl:choose>
-							</xsl:when>
-							<xsl:otherwise>
-								<font color="red">terminated</font>
-							</xsl:otherwise>
+							</a>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/>
+						</xsl:otherwise>
 						</xsl:choose>
-					</td>
-					<td style="border-right: 1px solid #C0C0C0"></td>
-				</tr>
-				<tr valign="top">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Date comments</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:value-of select="T_OBLIGATION/DATE_COMMENTS"/>&#160;
-					</td>
-					<td style="border-right: 1px solid #C0C0C0"></td>
-				</tr>
-				<tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Report to</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-							<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>&#160;
-					</td>
-					<td align="center">
-						<xsl:if test="T_CLIENT/PK_CLIENT_ID != ''">
-						<a><xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
-							<img src="images/details.jpg" alt="Show client details" border="0"/>
-						</a>
-						</xsl:if>
-					</td>
-				</tr>
-				<tr valign="top">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Other clients using this reporting</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-							<xsl:call-template name="OtherClients"/>
-					</td>
-					<td></td>
-				</tr>
-				<tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Reporting guidelines</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-							<xsl:choose>
-							<xsl:when test="T_OBLIGATION/REPORT_FORMAT_URL!=''">
-								<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
-									<xsl:choose>
-									<xsl:when test="T_OBLIGATION/FORMAT_NAME!=''">
-										<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/>
+						<xsl:if test="T_OBLIGATION/VALID_SINCE!=''">
+							[Valid since <xsl:value-of select="T_OBLIGATION/VALID_SINCE"/>]
+						</xsl:if>&#160;
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraeven">
+				<th scope="row" class="scope-row">Extra information</th>
+				<td>
+						<xsl:call-template name="break">
+							 <xsl:with-param name="text" select="T_OBLIGATION/REPORTING_FORMAT"/>
+						</xsl:call-template>&#160;
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraodd">
+				<th scope="row" class="scope-row">Principle repository</th>
+				<td>
+					<xsl:choose>
+						<xsl:when test="T_OBLIGATION/LOCATION_PTR != ''">
+							<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/LOCATION_PTR"/></xsl:attribute>						
+								<xsl:choose>
+									<xsl:when test="T_OBLIGATION/LOCATION_INFO != ''">
+										<xsl:value-of select="T_OBLIGATION/LOCATION_INFO"/>
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/>
+										<xsl:value-of select="T_OBLIGATION/LOCATION_PTR"/>
 									</xsl:otherwise>
-									</xsl:choose>
-								</a>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/>
-							</xsl:otherwise>
-							</xsl:choose>
-							<xsl:if test="T_OBLIGATION/VALID_SINCE!=''">
-								[Valid since <xsl:value-of select="T_OBLIGATION/VALID_SINCE"/>]
-							</xsl:if>&#160;
-					</td>
-					<td></td>
-				</tr>
-				<tr valign="top">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Extra information</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-							<xsl:call-template name="break">
-								 <xsl:with-param name="text" select="T_OBLIGATION/REPORTING_FORMAT"/>
-							</xsl:call-template>&#160;
-					</td>
-					<td></td>
-				</tr>
-				<tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Principle repository</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:choose>
-							<xsl:when test="T_OBLIGATION/LOCATION_PTR != ''">
-								<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/LOCATION_PTR"/></xsl:attribute>						
-									<xsl:choose>
-										<xsl:when test="T_OBLIGATION/LOCATION_INFO != ''">
-											<xsl:value-of select="T_OBLIGATION/LOCATION_INFO"/>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:value-of select="T_OBLIGATION/LOCATION_PTR"/>
-										</xsl:otherwise>
-									</xsl:choose>
-								</a>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="T_OBLIGATION/LOCATION_INFO"/>
-							</xsl:otherwise>
-						</xsl:choose>&#160;
-					</td>
-					<td></td>
-				</tr>
-				<tr valign="top">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Type of information reported</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:apply-templates select="SubSet[@Name='InfoType']"/>
-					</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td bgcolor="#006666" colspan="3" valign="top" align="left"><font color="#FFFFFF"><b>Legal framework</b></font></td>
-				</tr>
-				<tr valign="top"  bgcolor="#ECECEC">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Parent legislative instrument</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-						<xsl:choose>
-							<xsl:when test="T_SOURCE/ALIAS != ''">
-								<xsl:value-of select="T_SOURCE/ALIAS"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="T_SOURCE/TITLE"/>
-							</xsl:otherwise>
-						</xsl:choose>
-						</a>
-						<xsl:if test="T_OBLIGATION/AUTHORITY!=''">
-							&#160;[<xsl:value-of select="T_OBLIGATION/AUTHORITY"/>]
-						</xsl:if>
-					</td>
-					<td></td>
-				</tr>
-				<tr valign="top">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Sibling reporting obligations</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:call-template name="Sibling"/>
-					</td>
-					<td></td>
-				</tr>
-				<tr valign="top"  bgcolor="#ECECEC">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Type of obligation</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-							<xsl:value-of select="T_LOOKUP/C_TERM"/>
-					</td>
-					<td></td>
-				</tr>
-				<tr valign="top">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Countries</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:apply-templates select="//RowSet[@Name='Spatial']"/>
-					</td>
-					<td align="center">
-						<a><xsl:attribute name="href">javascript:openPopup('spatialhistory.jsv', 'ID=<xsl:value-of select="$ra-id"/>')</xsl:attribute>
-							<img src="images/details.jpg" alt="Status of country participation" border="0"/>
-						</a>
-					</td>
-				</tr>
-				<tr valign="top"  bgcolor="#ECECEC">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Environmental issues</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:apply-templates select="//RowSet[@Name='EnvIssue']"/>&#160;
-					</td>
-					<td></td>
-				</tr>
-				<tr valign="top" >
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">General comments</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-							<xsl:call-template name="break">
-								 <xsl:with-param name="text" select="T_OBLIGATION/COMMENT"/>
-							</xsl:call-template>&#160;
-					</td>
-					<td style="border-right: 1px solid #C0C0C0"></td>
-				</tr>
-				<tr valign="top" bgcolor="#ECECEC">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">DPSIR</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:if test="T_OBLIGATION/DPSIR_D='yes'">
-							<acronym title="Driving force">D</acronym>&#160;
-						</xsl:if>
-						<xsl:if test="T_OBLIGATION/DPSIR_P='yes'">
-							<acronym title="Pressure">P</acronym>&#160;
-						</xsl:if>
-						<xsl:if test="T_OBLIGATION/DPSIR_S='yes'">
-							<acronym title="State">S</acronym>&#160;
-						</xsl:if>
-						<xsl:if test="T_OBLIGATION/DPSIR_I='yes'">
-							<acronym title="Impact">I</acronym>&#160;
-						</xsl:if>
-						<xsl:if test="T_OBLIGATION/DPSIR_R='yes'">
-							<acronym title="Response">R</acronym>&#160;
-						</xsl:if>
-					</td>
-					<td style="border-right: 1px solid #C0C0C0"></td>
-				</tr>
-				<!--tr valign="top"   bgcolor="#ECECEC">
-					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Authority giving rise to the obligation</span></td>
-					<td style="border-right: 1px solid #C0C0C0">
-						<xsl:value-of select="T_OBLIGATION/AUTHORITY"/>
-					</td>
-					<td></td>
-				</tr-->
-			</table>
-		</td>
-		</tr>
+								</xsl:choose>
+							</a>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="T_OBLIGATION/LOCATION_INFO"/>
+						</xsl:otherwise>
+					</xsl:choose>&#160;
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraeven">
+				<th scope="row" class="scope-row">Type of information reported</th>
+				<td>
+					<xsl:apply-templates select="SubSet[@Name='InfoType']"/>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="3" style="background-color:#006666; color: white; font-weight:bold">Legal framework</td>
+			</tr>
+			<tr class="zebraodd">
+				<th scope="row" class="scope-row">Parent legislative instrument</th>
+				<td>
+					<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+					<xsl:choose>
+						<xsl:when test="T_SOURCE/ALIAS != ''">
+							<xsl:value-of select="T_SOURCE/ALIAS"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="T_SOURCE/TITLE"/>
+						</xsl:otherwise>
+					</xsl:choose>
+					</a>
+					<xsl:if test="T_OBLIGATION/AUTHORITY!=''">
+						&#160;[<xsl:value-of select="T_OBLIGATION/AUTHORITY"/>]
+					</xsl:if>
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraeven">
+				<th scope="row" class="scope-row">Sibling reporting obligations</th>
+				<td>
+					<xsl:call-template name="Sibling"/>
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraodd">
+				<th scope="row" class="scope-row">Type of obligation</th>
+				<td>
+					<xsl:value-of select="T_LOOKUP/C_TERM"/>
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraeven">
+				<th scope="row" class="scope-row">Countries</th>
+				<td>
+					<xsl:apply-templates select="//RowSet[@Name='Spatial']"/>
+				</td>
+				<td class="center">
+					<a><xsl:attribute name="href">javascript:openPopup('spatialhistory.jsv', 'ID=<xsl:value-of select="$ra-id"/>')</xsl:attribute>
+						<img src="images/details.jpg" alt="Status of country participation" border="0"/>
+					</a>
+				</td>
+			</tr>
+			<tr class="zebraodd">
+				<th scope="row" class="scope-row">Environmental issues</th>
+				<td>
+					<xsl:apply-templates select="//RowSet[@Name='EnvIssue']"/>&#160;
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraeven">
+				<th scope="row" class="scope-row">General comments</th>
+				<td>
+					<xsl:call-template name="break">
+						 <xsl:with-param name="text" select="T_OBLIGATION/COMMENT"/>
+					</xsl:call-template>&#160;
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraodd">
+				<th scope="row" class="scope-row">DPSIR</th>
+				<td>
+					<xsl:if test="T_OBLIGATION/DPSIR_D='yes'">
+						<acronym title="Driving force">D</acronym>&#160;
+					</xsl:if>
+					<xsl:if test="T_OBLIGATION/DPSIR_P='yes'">
+						<acronym title="Pressure">P</acronym>&#160;
+					</xsl:if>
+					<xsl:if test="T_OBLIGATION/DPSIR_S='yes'">
+						<acronym title="State">S</acronym>&#160;
+					</xsl:if>
+					<xsl:if test="T_OBLIGATION/DPSIR_I='yes'">
+						<acronym title="Impact">I</acronym>&#160;
+					</xsl:if>
+					<xsl:if test="T_OBLIGATION/DPSIR_R='yes'">
+						<acronym title="Response">R</acronym>&#160;
+					</xsl:if>
+				</td>
+				<td></td>
+			</tr>
+			<!--tr valign="top"   bgcolor="#ECECEC">
+				<td style="border-right: 1px solid #C0C0C0"><span class="head0">Authority giving rise to the obligation</span></td>
+				<td style="border-right: 1px solid #C0C0C0">
+					<xsl:value-of select="T_OBLIGATION/AUTHORITY"/>
+				</td>
+				<td></td>
+			</tr-->
 	</table>
 
 
@@ -500,23 +495,17 @@ Legislative instrument</a></div>
 	</xsl:template>
 
 	<xsl:template match="//RowSet[@Name='Spatial']">
-		<table>
-			<tr>
-				<td>
-					<xsl:for-each select="Row">
-						<xsl:choose>
-							<xsl:when test="T_RASPATIAL_LNK/VOLUNTARY='Y'">
-								<span title="Informal participation in the reporting obligation"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>*</span>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
-							</xsl:otherwise>
-						</xsl:choose>
-						<xsl:if test="position()!=count(//RowSet[@Name='Spatial']/Row)">, </xsl:if>
-					</xsl:for-each>
-				</td>
-			</tr>
-			</table>
+		<xsl:for-each select="Row">
+			<xsl:choose>
+				<xsl:when test="T_RASPATIAL_LNK/VOLUNTARY='Y'">
+					<span title="Informal participation in the reporting obligation"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>*</span>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:if test="position()!=count(//RowSet[@Name='Spatial']/Row)">, </xsl:if>
+		</xsl:for-each>
 	</xsl:template>
 
 
@@ -538,36 +527,32 @@ Legislative instrument</a></div>
 	</xsl:template>
 
 	<xsl:template name="OtherClients">
-		<table cellpadding="0" cellspacing="0">
+		<ul class="menu">
 			<xsl:for-each select="SubSet[@Name='CCClients']/Row/T_CLIENT">
-				<tr>
-					<td>
-						<a>
-							<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="PK_CLIENT_ID"/></xsl:attribute>
-							<xsl:value-of select="CLIENT_NAME"/>
-						</a>
-					</td>
-				</tr>
+				<li>
+					<a>
+						<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="PK_CLIENT_ID"/></xsl:attribute>
+						<xsl:value-of select="CLIENT_NAME"/>
+					</a>
+				</li>
 			</xsl:for-each>
-		</table>
+		</ul>
 	</xsl:template>
 
 	<xsl:template name="Sibling">
-		<table cellpadding="0" cellspacing="0">
+		<ul class="menu">
 			<xsl:for-each select="SubSet[@Name='Sibling']/Row/T_OBLIGATION">
-				<tr>
-					<td>
-						<a>
-							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="FK_SOURCE_ID"/></xsl:attribute>
-							<xsl:value-of select="TITLE"/>
-						</a>
-						<xsl:if test="AUTHORITY!=''">
-							&#160;[<xsl:value-of select="AUTHORITY"/>]
-						</xsl:if>
-					</td>
-				</tr>
+				<li>
+					<a>
+						<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="FK_SOURCE_ID"/></xsl:attribute>
+						<xsl:value-of select="TITLE"/>
+					</a>
+					<xsl:if test="AUTHORITY!=''">
+						&#160;[<xsl:value-of select="AUTHORITY"/>]
+					</xsl:if>
+				</li>
 			</xsl:for-each>
-		</table>
+		</ul>
 	</xsl:template>
 
 </xsl:stylesheet>
