@@ -162,7 +162,7 @@
 						   String name = (String)hash1.get("name");
 						   String uri = (String)hash1.get("uri");
 						    %>
-						    <option value="<%=RODUtil.replaceTags(name)%>"><%=RODUtil.replaceTags(name)%></option>
+						    <option><%=name%></option>
 						    <%
 						   }
 						  %>
@@ -190,7 +190,7 @@
 						   name2 = RODUtil.threeDots(name2,OPTION_MAXLEN);
 						   String id2 = (String)hash2.get("uri");
 						    %>
-						    <option value="<%=RODUtil.replaceTags(name2)%>"><%=RODUtil.replaceTags(name2)%></option>
+						    <option><%=name2%></option>
 						    <%
 						   }
 						  %>
@@ -230,7 +230,7 @@
 							   name3 = RODUtil.threeDots(name3,OPTION_MAXLEN);
 							   String id3 = (String)hash3.get("uri");
 							    %>
-							    <option value="<%=RODUtil.replaceTags(name3)%>"><%=RODUtil.replaceTags(name3)%></option>
+							    <option><%=name3%></option>
 							    <%
 							   }
 							  %>
@@ -271,7 +271,7 @@
 							   name4 = RODUtil.threeDots(name4,OPTION_MAXLEN);
 							   String id4 = (String)hash4.get("uri");
 							    %>
-							    <option value="<%=RODUtil.replaceTags(name4)%>"><%=RODUtil.replaceTags(name4)%></option>
+							    <option><%=name4%></option>
 							    <%
 							   }
 							  %>
