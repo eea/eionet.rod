@@ -198,17 +198,6 @@ body {
 }
 
 .quickjumps {
-	float:right;
-	width : 12em;
-	border: 1px solid #495b6b;
-	border-radius: 1em;/* CSS3 */
-	-moz-border-radius: 1em;/* Mozilla */
-	background-color : #e5e2dc; 
-	padding: 0.5em;
-	margin: 0.5em;
-}
-
-#actionlist {
 	float: right;
 	width: 12em;
 	border: 1px solid #006666;
@@ -219,27 +208,27 @@ body {
 	margin: 0.5em;
 }
 
-#actionlist ul {
+.quickjumps ul {
 	list-style-image: url("images/smalldiamond.png");
 	margin-left: 0;
 	padding-left: 1.5em;
 }
-#actionlist li {
+.quickjumps li {
 	font-size: 9pt; 
 	font-style: normal; 
 	line-height: normal; 
 	font-weight: bold; 
 	padding-bottom: 0.4em;
 }
-#actionlist a, #actionlist a:visited {
+.quickjumps a, .quickjumps a:visited {
 	text-decoration: none;
 	color: #024176
 }
-#actionlist h2 {
+.quickjumps h2 {
 	margin-bottom: 0;
 	font-size: 110%;
 }
-#actionlist p {
+.quickjumps p {
 	border-top: 1px dotted black;
 	margin-bottom: 0;
 	margin-top: 0.1em;
