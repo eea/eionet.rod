@@ -111,7 +111,8 @@
 		<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
 
 		<title><xsl:call-template name="PageTitle"/></title>
-		<link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen" title="Standard"/>
+		<link rel="alternate stylesheet" type="text/css" href="http://www.eionet.eu.int/styles/eea2006/layout-screen.css" media="screen" title="EEA 2006 style" />
 		<link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
 		<link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
 		<link rel="alternate" type="application/rdf+xml" title="All Obligations" href="http://rod.eionet.eu.int/obligations"/>
