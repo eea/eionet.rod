@@ -163,6 +163,8 @@ public class ActivityHandler extends ROHandler {
                     ts + ",'"+ tblName +"','REDIRECT_URL','L','y','n','"+url+"',0,'n')");
             updateDB("INSERT INTO T_UNDO VALUES ("+
                     ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
+            updateDB("INSERT INTO T_UNDO VALUES ("+
+                    ts + ",'"+ tblName +"','TYPE','T','y','n','A',0,'n')");
             
             if (ext==null)
               ext = new Extractor();

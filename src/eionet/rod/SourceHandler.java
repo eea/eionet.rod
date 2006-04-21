@@ -152,6 +152,8 @@ public class SourceHandler extends ActivityHandler {
                     ts + ",'"+ tblName +"','REDIRECT_URL','L','y','n','"+url+"',0,'n')");
             updateDB("INSERT INTO T_UNDO VALUES ("+
                     ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
+            updateDB("INSERT INTO T_UNDO VALUES ("+
+                    ts + ",'"+ tblName +"','TYPE','T','y','n','L',0,'n')");
             
             // delete all linked parameter and medium records and in delete mode also the self record
 		    updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND STATUS = 'M' AND FK_OBJECT_ID=" + id);
