@@ -1615,7 +1615,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                temp = " OR operation = 'D'";
            
            String opinfo_sql = "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr, p_key, show_object FROM T_UNDO "+
-           "WHERE undo_time = "+ts+" AND (operation = 'A' OR operation = 'K' OR operation = 'O' OR operation = 'L' "+temp+") ORDER BY undo_time,tab,sub_trans_nr";
+           "WHERE undo_time = "+ts+" AND (operation = 'A' OR operation = 'K' OR operation = 'T' OR operation = 'O' OR operation = 'L' "+temp+") ORDER BY undo_time,tab,sub_trans_nr";
            
            Vector opinfo_vec = _getVectorOfHashes(opinfo_sql);
            for(Enumeration en = opinfo_vec.elements(); en.hasMoreElements();){
@@ -1651,18 +1651,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
        Statement stmt = null;
        ResultSet rset = null;
        String sql_stmt = null;
-       String id_field = null;
        String location = "versions.jsp?id=-1";
-       String type = null;
-
-       if(tab.equalsIgnoreCase("T_OBLIGATION")){
-           id_field = "PK_RA_ID";
-           type = "A";
-       }
-       else if(tab.equalsIgnoreCase("T_SOURCE")){
-           id_field = "PK_SOURCE_ID";
-           type = "L";
-       }
 
        // Process the result set
        con = getConnection();
@@ -1724,6 +1713,12 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                  String user = "";
                  if(user_array.length > 0)
                      user = user_array[0][0];
+                 
+                 String type_stmt = "SELECT value FROM T_UNDO WHERE operation='T' AND undo_time="+ts+" AND tab='"+tab+"'";
+                 String[][] type_array = _executeStringQuery(type_stmt);
+                 String type = "";
+                 if(type_array.length > 0)
+                     type = type_array[0][0];
                  
                  if(op.equals("U"))
                      logHistory(type,id,user,"N","Undo Update");
@@ -1796,7 +1791,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                                  _executeUpdate(insert_sql);
                              String delete_stmt = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND tab='"+prev_table+"' AND operation = '"+op+"'";
                              _executeUpdate(delete_stmt);
-                             String delete_stmt2 = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND (operation = 'A' OR operation = 'K' OR operation = 'O')";
+                             String delete_stmt2 = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND (operation = 'A' OR operation = 'K' OR operation = 'O' OR operation = 'T')";
                              _executeUpdate(delete_stmt2);
                              tvec = new Vector();
                          }
