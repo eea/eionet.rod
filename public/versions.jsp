@@ -6,19 +6,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Previous Versions - ROD</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="title" content="EEA - Reporting Obligations Database" />
-	<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
-	<meta name="keywords" content="reporting obligations, environmental legislation, environmental reporting, environmental dataflows, European Environment Agency, EEA, European, Environmental information, Environmental portal, Eionet, Reportnet, air, waste, water, biodiversity" />
-	<meta name="Publisher" content="EEA, The European Environment Agency" />
-	<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
-
-    <link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
-    <link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen" title="EIONET style" />
-    <link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	<script type="text/javascript" src="script/util.js"></script>
+	<title>Previous Versions - ROD</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<%@ include file="headerinfo.txt" %>
 	<script type="text/javascript">
 	//<![CDATA[
     	function showhelp(text) {

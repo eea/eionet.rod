@@ -226,7 +226,7 @@ function openCirca(url){
 				sUrl = sUrl + '?' + sName + '=' + sValue;
 			}
 		return sUrl ;
-		}
+	}
 
 
 	function changeParamInString(sUrl, sName, sValue){
@@ -255,7 +255,7 @@ function openCirca(url){
 				sUrl = sUrl + '?' + sName + '=' + sValue;
 			}
 		redirect(sUrl);
-		}
+	}
 
 	function redirect(url){
 		document.location=url;

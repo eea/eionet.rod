@@ -79,9 +79,7 @@
 		<script type="text/javascript" src="script/util.js"></script>
 
 		<div id="pagefoot">
-									<a href="javascript:history.back()">Back</a>
-									<!--| <a href="mailto:rod@eea.eu.int">E-mail</a> -->
-									| <a>
+									<a>
 											<xsl:attribute name="href">
 												<xsl:call-template name="Disclaimer_URL"/>
 											</xsl:attribute>
@@ -291,7 +289,7 @@
 		
 		<form name="x1" method="get" action="rorabrowse.jsv" class="notprintable">
 		<input type="hidden" name="mode" value="A"></input>
-		<table  border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1px solid #008080">
+		<table class="formtable" border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1px solid #008080">
 				 <tr>
 						<td colspan="2" width="95%" bgcolor="#FFFFFF" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
 							<b>Show reporting obligations</b>
