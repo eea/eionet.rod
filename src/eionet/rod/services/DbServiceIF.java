@@ -91,11 +91,16 @@ public interface DbServiceIF  {
  * 0-PK_RA_ID, 1-FIRST_REPORTING, 2-REPORT_FREQ_MONTHS, 3-VALID_TO, 4-TERMINATE
  */
   public String[][] getDeadlines() throws ServiceException;
+ 
+ /**
+  * Returns historical deadlines between given range
+  */ 
+  public Vector getHistoricDeadlines(String start_date, String end_date) throws ServiceException;
 
  /**
  * Saves next deadlines for given RA
  */
-  public void saveDeadline(String raId, String next, String next2) throws ServiceException ;
+  public void saveDeadline(String raId, String next, String next2, String current) throws ServiceException ;
 
  /**
  * Saves next terminated value for given RA
