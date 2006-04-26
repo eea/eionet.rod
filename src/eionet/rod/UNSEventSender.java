@@ -32,7 +32,7 @@ public class UNSEventSender {
                 throw new Exception("Cannot send a null object via XML-RPC");
             
             XmlRpcClient server = new XmlRpcClient(server_url);
-            server.setBasicAuthentication("rod", "reportnet");
+            server.setBasicAuthentication(fileSrv.getStringProperty(FileServiceIF.UNS_USERNAME), fileSrv.getStringProperty(FileServiceIF.UNS_PWD));
             
             Vector params = new Vector();
             params.add(channel_name);
