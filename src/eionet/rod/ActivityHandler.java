@@ -76,6 +76,7 @@ public class ActivityHandler extends ROHandler {
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_INFO_LNK","FK_RA_ID",ts,"");
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_CLIENT_LNK","FK_OBJECT_ID",ts,"AND TYPE=''A''");
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_OBLIGATION","PK_RA_ID",ts,"");
+              RODServices.getDbService().insertTransactionInfo(raID,"A","T_HISTORIC_DEADLINES","FK_RA_ID",ts,"");
           }
           RODServices.getDbService().insertIntoUndo(raID, op, "T_RAISSUE_LNK", "FK_RA_ID",ts,"",show,null);
           // delete linked environmental issues & parameters
@@ -85,6 +86,9 @@ public class ActivityHandler extends ROHandler {
           //updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
           RODServices.getDbService().insertIntoUndo(raID, op, "T_INFO_LNK", "FK_RA_ID",ts,"",show,null);
           updateDB("DELETE FROM T_INFO_LNK WHERE FK_RA_ID=" + raID);
+          //delete linked historical deadlines
+          RODServices.getDbService().insertIntoUndo(raID, op, "T_HISTORIC_DEADLINES", "FK_RA_ID",ts,"",show,null);
+          updateDB("DELETE FROM T_HISTORIC_DEADLINES WHERE FK_RA_ID=" + raID);
     
           // delete linked related information (eea reports, national submissions)
           //at the moment T_INFORMATION is not used

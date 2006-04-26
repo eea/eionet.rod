@@ -182,7 +182,7 @@ public class DeadlineCalc {
             repStr2 = dFormat.format(repDate.getTime());
 
          try {
-            db.saveDeadline(deadlines[i][0], repStr, repStr2);
+            db.saveDeadline(deadlines[i][0], repStr, repStr2, deadlines[i][1]);
          }  
          catch (Exception e) {
             logger.error("Saving deadline to database failed. The following error was reported:\n" + e.toString());      
