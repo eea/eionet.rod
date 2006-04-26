@@ -105,6 +105,10 @@
 		<servlet-class>eionet.rod.Undo</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>histDeadlines</servlet-name>
+		<servlet-class>eionet.rod.HistoricalDeadlines</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>DummyServlet</servlet-name>
 		<servlet-class>eionet.rod.DummyServlet</servlet-class>
 	</servlet>
@@ -267,6 +271,10 @@
 	<servlet-mapping>
 		<servlet-name>undo</servlet-name>
 		<url-pattern>/undo</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>histDeadlines</servlet-name>
+		<url-pattern>/histDeadlines</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>DummyServlet</servlet-name>
