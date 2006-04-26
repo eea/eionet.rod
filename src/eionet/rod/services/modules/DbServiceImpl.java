@@ -109,8 +109,23 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                    "FROM T_OBLIGATION WHERE FIRST_REPORTING > 0 AND VALID_TO > 0";
       return _executeStringQuery(sql);
    }
+   
+   public Vector getHistoricDeadlines(String start_date, String end_date) throws ServiceException {
+       SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+       String d = formatter.format(new Date());
+       if(start_date == null || start_date.equals(""))
+           start_date = "00/00/0000";
+       if(end_date == null || end_date.equals(""))
+           end_date = d;
+       String start = changeDateDelimeter(start_date);
+       String end = changeDateDelimeter(end_date);
+       String sql = "SELECT h.FK_RA_ID AS id, h.DEADLINE AS deadline, o.TITLE AS title, o.FK_SOURCE_ID AS source " +
+                    "FROM T_HISTORIC_DEADLINES h, T_OBLIGATION o "+
+                    "WHERE h.DEADLINE >= '"+start+"' AND h.DEADLINE <= '"+end+"' AND h.FK_RA_ID = o.PK_RA_ID ORDER BY h.DEADLINE DESC";
+       return _getVectorOfHashes(sql);
+    }
 
-   public void saveDeadline(String raId, String next, String next2) throws ServiceException {
+   public void saveDeadline(String raId, String next, String next2, String current) throws ServiceException {
       String sql;
       if(next2.length() > 0)
          sql = "UPDATE T_OBLIGATION SET NEXT_DEADLINE='" + next +
@@ -119,6 +134,9 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
          sql = "UPDATE T_OBLIGATION SET NEXT_DEADLINE='" + next +
                "', NEXT_DEADLINE2=NULL WHERE PK_RA_ID=" + raId;
       _executeUpdate(sql);
+      
+      String insert_stmt = "INSERT IGNORE INTO T_HISTORIC_DEADLINES SET FK_RA_ID = "+raId+", DEADLINE = '"+current+"'";
+      _executeUpdate(insert_stmt);
    }
 
    public void saveTerminate(String raId, String terminated) throws ServiceException {
