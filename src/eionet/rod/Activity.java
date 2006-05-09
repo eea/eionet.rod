@@ -310,6 +310,15 @@ public class Activity extends ROEditServletAC {
                       list.add(gen.getFieldValue("RESPONSIBLE_ROLE"));
                       lists.add(list);
                       
+                      list = new Vector();
+                      list.add(events);
+                      list.add("http://purl.org/dc/elements/1.1/identifier");
+                      String ra_id = gen.getFieldValue("PK_RA_ID");
+                      String src_id = gen.getFieldValue("FK_SOURCE_ID");
+                      String url = "http://rod.eionet.europa.eu/show.jsv?id="+ra_id+"&aid="+src_id+"&mode=A";
+                      list.add(url);
+                      lists.add(list);
+                      
                       if (lists.size() > 0) UNSEventSender.makeCall(lists);
                   }
               }

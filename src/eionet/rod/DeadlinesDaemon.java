@@ -159,6 +159,13 @@ public class DeadlinesDaemon {
                     list.add(h.get("responsible_role"));
                     lists.add(list);
                     
+                    list = new Vector();
+                    list.add(events);
+                    list.add("http://purl.org/dc/elements/1.1/identifier");
+                    String url = "http://rod.eionet.europa.eu/show.jsv?id="+h.get("id")+"&aid="+h.get("src_id")+"&mode=A";
+                    list.add(url);
+                    lists.add(list);
+                    
                     if (lists.size() > 0){
                         makeCall(lists);
                     }
