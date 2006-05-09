@@ -122,7 +122,7 @@
 											</xsl:attribute>
 									Feedback </a>
 									<br/>
-                  <b><a href="http://www.eea.eu.int" target="_blank">European Environment Agency</a></b><br/>
+                  <b><a href="http://www.eea.europa.eu">European Environment Agency</a></b><br/>
                   Kgs. Nytorv 6, DK-1050 Copenhagen K, Denmark - Phone: +45 3336
                   7100
 				</div>
@@ -204,9 +204,9 @@
 			</xsl:choose>
 		  <h2>Reportnet</h2>
 		  <ul>
-		    <li><a href="http://cdr.eionet.eu.int/" title="Central Data Repository">CDR Repository</a></li>
-		    <li><a href="http://dd.eionet.eu.int/">Data Dictionary</a></li>
-		    <li><a href="http://cr.eionet.eu.int/">Content Registry</a></li>
+		    <li><a href="http://cdr.eionet.europa.eu/" title="Central Data Repository">CDR Repository</a></li>
+		    <li><a href="http://dd.eionet.europa.eu/">Data Dictionary</a></li>
+		    <li><a href="http://cr.eionet.europa.eu/">Content Registry</a></li>
 		  </ul>
 		</div>
 	</xsl:template>

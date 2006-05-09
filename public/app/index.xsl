@@ -33,7 +33,7 @@
 <xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
- <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.europa.eu">EIONET</a></div>
  <div class="breadcrumbitemlast">ROD</div>
  <div class="breadcrumbtail">&#160;</div>
 </div>
@@ -52,7 +52,7 @@
 
 <!-- SiteSearch Google -->
 <br/>
-<form method="get" action="http://search.eionet.eu.int/search">
+<form method="get" action="http://search.eionet.europa.eu/search">
 	<input type="hidden" name="client" value="Eionet" />
 	<input type="hidden" name="site" value="Eionet" />
 	<input type="hidden" name="ie" value="UTF-8"/>
@@ -63,8 +63,8 @@
 		<tr>
 			<td valign="middle" width="42%">
 				<b>Search ROD website:</b>
-				<input type="hidden" name="domains" value="rod.eionet.eu.int"/>
-				<input type="hidden" name="as_sitesearch" value="rod.eionet.eu.int"/>
+				<input type="hidden" name="domains" value="rod.eionet.europa.eu"/>
+				<input type="hidden" name="as_sitesearch" value="rod.eionet.europa.eu"/>
 			</td>
 			<td valign="middle">
 				<input type="text" name="q" size="44" maxlength="255" value=""/>&#160;

@@ -31,7 +31,7 @@
 <xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
- <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.europa.eu">EIONET</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
  <div class="breadcrumbitem"><a href="text.jsv?mode=H">General Help</a></div>
  <div class="breadcrumbitemlast">Data extraction</div>
@@ -63,7 +63,7 @@ Used for Eionet calendar, lists all reporting obligations with deadline.
 Only obligations having a deadline are listed<br/>
 <b><a target="_blank" href="obligations.rss">Reporting Obligations</a></b><br/>
 Lists all obligations linked to specified environmental issues<br/>
-<span class="smallfont">Usage: http://rod.eionet.eu.int/obligations.rss?issues=[issueId1],[issueId2],... [issueIdN]</span><br/>
+<span class="smallfont">Usage: http://rod.eionet.europa.eu/obligations.rss?issues=[issueId1],[issueId2],... [issueIdN]</span><br/>
 The issue ID's are the primary key values of T_ISSUE table of ROD database.<br/>
 <b><a target="_blank" href="instruments.rss">Legislative Instruments</a></b><br/>
 Lists all legislative instruments<br/>
@@ -72,7 +72,7 @@ Lists all legislative instruments<br/>
 
 <p>
 <h2>XML - RPC</h2>
-<b>XML RPC Router:</b> http://rod.eionet.eu.int/rpcrouter<br/>
+<b>XML RPC Router:</b> http://rod.eionet.europa.eu/rpcrouter<br/>
 <b>Service name:</b> WebRODService<br/>
 <br/>
 Methods<br/>

@@ -56,7 +56,7 @@
 	</xsl:template>
 
 	<xsl:template name="Disclaimer">
-	Disclaimer:  EEA does not guarantee that all possible obligations are shown nor that recorded obligations totally cover all aspects a country has to comply with regarding a specific obligation. If you find any inconsistencies in the database, please <a><xsl:attribute name="href">mailto:eea@eea.eu.int</xsl:attribute>report back</a> to EEA.
+	Disclaimer:  EEA does not guarantee that all possible obligations are shown nor that recorded obligations totally cover all aspects a country has to comply with regarding a specific obligation. If you find any inconsistencies in the database, please <a><xsl:attribute name="href">mailto:eea@eea.europa.eu</xsl:attribute>report back</a> to EEA.
 	</xsl:template>
 
 	<xsl:template name="DB_RecognizedDefault">
@@ -85,7 +85,7 @@
 		
 	<xsl:template name="DB_OtherRequest_ID">23</xsl:template>
 
-	<xsl:template name="Feedback_URL">mailto:helpdesk@eionet.eu.int?subject=Feedback from the ROD website</xsl:template>
+	<xsl:template name="Feedback_URL">mailto:helpdesk@eionet.europa.eu?subject=Feedback from the ROD website</xsl:template>
 
 	<xsl:template name="Disclaimer_URL">text.jsv?mode=D</xsl:template>
 

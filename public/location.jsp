@@ -8,7 +8,7 @@
 
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
- <div class="breadcrumbitem"><a href="http://www.eionet.eu.int">EIONET</a></div>
+ <div class="breadcrumbitem"><a href="http://www.eionet.europa.eu">EIONET</a></div>
 
 <%
    String oHName=request.getParameter("name");
