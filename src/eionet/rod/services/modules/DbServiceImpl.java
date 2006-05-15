@@ -2281,23 +2281,16 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
            String end_date = changeDateDelimeter(end);
            String sql = null;
            
-           if(ra_id == null || ra_id.equals(""))
-               sql = "UPDATE T_SPATIAL_HISTORY SET START_DATE = '"+start_date+"', END_DATE = '"+end_date+"' WHERE PK_SPATIAL_HISTORY_ID = "+spatialHistoryID;
+           if(spatialHistoryID != null && !spatialHistoryID.equals(""))
+               sql = "UPDATE T_SPATIAL_HISTORY SET START_DATE = "+start_date+", END_DATE = "+end_date+" WHERE PK_SPATIAL_HISTORY_ID = "+spatialHistoryID;
            else{
-               if(!start.equals("") && !end.equals(""))
-                   sql = "UPDATE T_SPATIAL_HISTORY SET START_DATE = '"+start_date+"', END_DATE = '"+end_date+"' WHERE FK_RA_ID = "+ra_id;
-               else if(!start.equals("") && end.equals(""))
-                   sql = "UPDATE T_SPATIAL_HISTORY SET START_DATE = '"+start_date+"' WHERE FK_RA_ID = "+ra_id;
-               else if(!end.equals("") && start.equals(""))
-                   sql = "UPDATE T_SPATIAL_HISTORY SET END_DATE = '"+end_date+"' WHERE FK_RA_ID = "+ra_id;
-               else if(start.equals("") && end.equals(""))
-                   return;
+               sql = "UPDATE T_SPATIAL_HISTORY SET START_DATE = "+start_date+", END_DATE = "+end_date+" WHERE FK_RA_ID = "+ra_id;
            }
            _executeUpdate(sql);
        }
 
        private String changeDateDelimeter(String date){
-           if(date != null && !date.equals("")){
+           if(date != null && !date.equals("") && !date.equals("present") && !date.equals("Prior to start of ROD (2003)")){
                StringTokenizer st = new StringTokenizer(date, "/");
                String[] dmy = new String[3];
                int cnt = 0;
@@ -2306,7 +2299,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                    dmy[cnt] = token;
                    cnt++;
                }
-               String sDate = dmy[2] + "-" + dmy[1] + "-" + dmy[0];
+               String sDate = "'" + dmy[2] + "-" + dmy[1] + "-" + dmy[0] + "'";
 
                return sDate;
            }
