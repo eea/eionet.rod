@@ -203,6 +203,10 @@
 				<xsl:attribute name="name">spatialHistoryID</xsl:attribute>
 				<xsl:attribute name="value"><xsl:value-of select="T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID"/></xsl:attribute>
 			</input>
+			<input type="hidden">
+				<xsl:attribute name="name">ra_id</xsl:attribute>
+				<xsl:attribute name="value"><xsl:value-of select="$ra-id"/></xsl:attribute>
+			</input>
 			<tr valign="top" bgcolor="#FFCCCC">
 				<td colspan="2" style="border-left: #c0c0c0 1px solid; border-right: #c0c0c0 0px solid; border-bottom: #c0c0c0 1px solid" valign="top"><span class="Mainfont">
 				&#160;
