@@ -635,6 +635,56 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return rvec;
 
   }
+  
+  /**
+   * returns result as hashtable
+   */
+    private  Hashtable _getHashtable(String sql_stmt) throws ServiceException {
+
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rset = null;
+
+        Hashtable h = null;
+
+        _log(sql_stmt);
+
+        con = getConnection();
+        //_log("CONN OK");
+        try {
+            stmt = con.createStatement();
+            rset = stmt.executeQuery(sql_stmt);
+            //_log("RESULT OK");
+            ResultSetMetaData md = rset.getMetaData();
+
+            //number of columns in the result set
+            int colCnt = md.getColumnCount();
+            //_log("COLS OK" + colCnt);
+
+            while (rset.next()) {
+                h = new Hashtable();
+                // Retrieve the columns of the result set
+                for (int i = 0; i < colCnt; ++i) {
+                    String name = md.getColumnName(i + 1);
+                    String value = rset.getString(i + 1);
+                    if ( value == null)
+                        value = "";
+                    h.put( name, value  );
+                }
+            }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                logger.error("Error occurred when processing result set: " + sql_stmt,e);
+                throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
+            } catch (NullPointerException nue ) {
+                nue.printStackTrace( System.out );
+            } finally {
+                _close(con, stmt, null);
+            }
+      //_log(" return vec");
+      return h;
+
+    }
 
   /**
    * returns result as vector of countries
@@ -2304,6 +2354,26 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                return sDate;
            }
            return "NULL";
+       }
+       
+       public Hashtable getCountryInfo(String ra_id, String spatial_id) throws ServiceException {
+
+           Hashtable ret = new Hashtable();
+           String sql = null;
+           
+           sql = "SELECT TITLE AS title, RESPONSIBLE_ROLE AS role FROM T_OBLIGATION WHERE PK_RA_ID = "+ra_id;
+           ret.put("obligationinfo", _getHashtable(sql));
+           
+           sql = "SELECT SPATIAL_NAME AS name, SPATIAL_TWOLETTER AS two FROM T_SPATIAL WHERE PK_SPATIAL_ID = "+spatial_id;
+           ret.put("spatialinfo", _getHashtable(sql));
+           
+           sql = "SELECT START_DATE AS start, END_DATE AS end FROM T_SPATIAL_HISTORY WHERE FK_SPATIAL_ID = "+spatial_id+" AND FK_RA_ID = "+ra_id;
+           ret.put("period", _getHashtable(sql));
+           
+           sql = "SELECT PK_DELIVERY_ID AS id, TITLE AS title, DELIVERY_URL AS url FROM T_DELIVERY WHERE FK_SPATIAL_ID = "+spatial_id+" AND FK_RA_ID = "+ra_id;
+           ret.put("deliveries", _getVectorOfHashes(sql));
+           
+           return ret;
        }
 
    }
