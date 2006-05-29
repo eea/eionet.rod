@@ -455,6 +455,11 @@ public interface DbServiceIF  {
    * changes participation period for countires
    */
   public void editPeriod(String start, String end, String spatialHistoryID, String ra_id) throws ServiceException;
+  
+  /**
+   * returns country information
+   */
+  public Hashtable getCountryInfo(String ra_id, String spatial_id) throws ServiceException;
 
 }
 
