@@ -163,6 +163,7 @@
 		</T_RASPATIAL_LNK>
 		<T_SPATIAL relation="T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID">
 			<SPATIAL_NAME/>
+			<PK_SPATIAL_ID/>
 		</T_SPATIAL>
 		<xrs:Ordering>SPATIAL_NAME</xrs:Ordering>
 		<xrs:Constraint>FK_RA_ID=@ID</xrs:Constraint>
