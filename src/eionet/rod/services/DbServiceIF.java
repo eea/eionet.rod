@@ -460,6 +460,11 @@ public interface DbServiceIF  {
    * returns country information
    */
   public Hashtable getCountryInfo(String ra_id, String spatial_id) throws ServiceException;
+  
+  /**
+   * returns role information
+   */
+  public Hashtable getRoleDesc(String role_id) throws ServiceException;
 
 }
 
