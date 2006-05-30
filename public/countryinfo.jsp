@@ -1,20 +1,9 @@
 <%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.services.FileServiceIF,eionet.rod.RODUtil,eionet.rod.countrysrv.servlets.Subscribe"%>
-<%
-	String app = getServletContext().getInitParameter(Attrs.APPPARAM);
-	ROUser user = (ROUser) session.getAttribute(Attrs.USERPREFIX + app);
-	if (user == null){
-		response.sendRedirect("login.jsp");
-	}
-%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-
-<%!final static int OPTION_MAXLEN=80;%>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Subscribe to notifications - ROD</title>
+    <title>Country Information</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="title" content="EEA - Reporting Obligations Database" />
 	<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
@@ -92,41 +81,47 @@
     </script>
 </head>
 <body>
+
     <jsp:include page="location.jsp" flush='true'>
         <jsp:param name="name" value="Country Information"/>
     </jsp:include>
     <%@ include file="menu.jsp" %>
+    
 <div id="workarea">
-	<h1>Country Information</h1>
-   		<%
-			String ra_id = request.getParameter("ra-id");
-			String spatial_id = request.getParameter("spatial");
-			String vol = request.getParameter("vol");
-			
-			Hashtable hash = RODServices.getDbService().getCountryInfo(ra_id, spatial_id);
-			
-			Hashtable obligation_info = (Hashtable) hash.get("obligationinfo");
-			String obligation = (String) obligation_info.get("title");
-			String role = (String) obligation_info.get("role");
-			
-			Hashtable spatial_info = (Hashtable) hash.get("spatialinfo");
-			String country = (String) spatial_info.get("name");
-			String two_letter = (String) spatial_info.get("two");
-			
-			Hashtable period = (Hashtable) hash.get("period");
-			String start = (String) period.get("start");
-			if(start == null || start.equals("") || start.equals("00/00/0000") || start.equals("0000-00-00")){
-				start = "Prior to start of ROD (2003)";
-			} else {
-				start = "From " + start;	
-			}
-			String end = (String) period.get("end");
-			if(end == null || end.equals("") || end.equals("00/00/0000") || start.equals("0000-00-00")){
-				end = "present";
-			}
-			
-			Vector deliveries = (Vector) hash.get("deliveries");
-		%>
+
+	<%
+		String ra_id = request.getParameter("ra-id");
+		String spatial_id = request.getParameter("spatial");
+		String vol = request.getParameter("vol");
+		
+		Hashtable hash = RODServices.getDbService().getCountryInfo(ra_id, spatial_id);
+		
+		Hashtable obligation_info = (Hashtable) hash.get("obligationinfo");
+		String obligation = (String) obligation_info.get("title");
+		String role = (String) obligation_info.get("role");
+		
+		Hashtable spatial_info = (Hashtable) hash.get("spatialinfo");
+		String country = (String) spatial_info.get("name");
+		String two_letter = (String) spatial_info.get("two");
+		two_letter = two_letter.toLowerCase();
+		
+		Hashtable period = (Hashtable) hash.get("period");
+		String start = (String) period.get("start");
+		if(start == null || start.equals("") || start.equals("00/00/0000") || start.equals("0000-00-00")){
+			start = "Prior to start of ROD (2003)";
+		} else {
+			start = "From " + start;	
+		}
+		String end = (String) period.get("end");
+		if(end == null || end.equals("") || end.equals("00/00/0000") || start.equals("0000-00-00")){
+			end = "present";
+		}
+		
+		Vector deliveries = (Vector) hash.get("deliveries");
+	%>
+	
+	<h1><%=country%></h1>
+   		
 	   	<table class="datatable">
 	   	<col style="width:30%" />
 		<col style="width:70%" />
@@ -161,9 +156,31 @@
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Responsible Role</th>
 					<td>
-						<%if(role != null && !role.equals("")){ %>
-							<%=role%>-<%=two_letter%>
-						<% } %>
+						<%
+						String person = null;
+						String institute = null;
+						String role_url = null;
+						if(role != null && !role.equals("")){ 
+							Hashtable role_desc = RODServices.getDbService().getRoleDesc(role+"-"+two_letter);
+							person = (String) role_desc.get("person");
+							institute = (String) role_desc.get("institute");
+							role_url = (String) role_desc.get("role_url");
+						 }%>
+						 <%if(role_url != null && !role_url.equals("")){ %>
+						 	<a href="<%=role_url%>" target="_blank">
+						 <% } %>
+							 <%if(person != null && !person.equals("")){ %>
+							 	<%=person%>&nbsp;
+							 <% } 
+							 if(institute != null && !institute.equals("")){ %>
+							 	[<%=institute%>]&nbsp;
+							 <% } 
+							 if(role != null && !role.equals("")){ %>
+							 	(<%=role%>-<%=two_letter%>)
+							 <% } %>
+						 <%if(role_url != null && !role_url.equals("")){ %>
+						 	</a>
+						 <% } %>
 					</td>
 				</tr>
 				<tr class="zebraeven">
