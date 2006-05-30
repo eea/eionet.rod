@@ -2375,5 +2375,16 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
            
            return ret;
        }
+       
+       public Hashtable getRoleDesc(String role_id) throws ServiceException {
+
+           Hashtable ret = new Hashtable();
+           String sql = null;
+           
+           sql = "SELECT PERSON AS person, INSTITUTE AS institute, ROLE_URL AS role_url FROM T_ROLE WHERE ROLE_ID = '"+role_id+"'";
+           ret = _getHashtable(sql);
+           
+           return ret;
+       }
 
    }
