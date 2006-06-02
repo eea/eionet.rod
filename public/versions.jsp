@@ -94,7 +94,23 @@
 						String aid = request.getParameter("id");
 						String tabel = request.getParameter("tab");
 						String id_field = request.getParameter("id_field");
-						Vector versions = RODServices.getDbService().getPreviousActions(aid, tabel, id_field);
+						String pagenr = request.getParameter("p");
+						int pa_nr = 1;
+						if(pagenr != null){
+							pa_nr = new Integer(pagenr).intValue();
+						}
+						Hashtable verHash = RODServices.getDbService().getPreviousActions(aid, tabel, id_field);
+						Integer pages_int = (Integer) verHash.get("pages");
+						int pages = 1;
+						if(pages_int != null){
+							pages = pages_int.intValue();
+						}
+						Vector versions = new Vector();
+						if(pagenr != null && !pagenr.equals("")){
+							versions = (Vector) verHash.get(pagenr);
+						} else {
+							versions = (Vector) verHash.get("1");	
+						}
 						String id = null;
 						String show_object = null;
 						if(versions.size() > 0){%>
@@ -187,7 +203,34 @@
 										}
 							} %>
 						</tbody>
+						</table>
+						<%if(pages_int != null && pages > 1){ %>
+						<table border="0" width="600">
+							<tr>
+								<td align="left" width="15%">
+									<% 
+									if(pa_nr > 1){ 
+										int previous = pa_nr - 1; %>
+										<a href="versions.jsp?id=-1&p=<%=previous%>"><b>Previous</b></a>
+									<% } %>
+								</td>
+								<td align="center" width="70%">
+									<%
+										for(int i=1; i<=pages; i++){ %>
+											<a href="versions.jsp?id=-1&p=<%=i%>"><%= i %></a>		
+										<% }
+									%>
+								</td>
+								<td align="right" width="15%">
+									<% 
+									if(pa_nr < pages){ 
+										int next = pa_nr + 1; %>
+										<a href="versions.jsp?id=-1&p=<%=next%>"><b>Next</b></a>
+									<% } %>
+								</td>
+							</tr>
 						</table>	
+						<% } %>
 						</form>
 						<% }
 				if(tabel != null){ %>
