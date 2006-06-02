@@ -214,6 +214,11 @@ public interface FileServiceIF  {
   * password for UNS subscriptions
   */
   public static final String UNS_PWD = "uns.pwd";
+  
+  /**
+   * Undo - number of records per page
+   */
+   public static final String UNDO_STEP = "undo.step";
 
   /**
   * Returns String type property from the properties file
