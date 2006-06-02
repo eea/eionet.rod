@@ -1485,16 +1485,60 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
     return _executeStringQuery(sql);
   }
 
-  public Vector getPreviousActions(String id, String tab, String id_field) throws ServiceException {
+  public Hashtable getPreviousActions(String id, String tab, String id_field) throws ServiceException {
 
     String sql = null;
+    Connection con = null;
+    Statement stmt = null;
+    ResultSet rset = null;
+    
+    Hashtable ret = new Hashtable();
+    
     if(id.equals("-1")){
-        sql = "select undo_time, col, tab, operation, value, show_object from T_UNDO where operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD' ORDER BY undo_time DESC, tab";
+        FileServiceIF fileSrv=RODServices.getFileService();
+        int step = fileSrv.getIntProperty(FileServiceIF.UNDO_STEP);
+        con = getConnection();
+        try {
+            stmt = con.createStatement();
+            String countSql = "SELECT COUNT(*) AS count FROM T_UNDO WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y'";
+            rset = stmt.executeQuery(countSql);
+            int count = 0;
+            while (rset.next()) {
+                count = rset.getInt("count");
+            }
+            int pages = 0;
+            if(count % step == 0)
+                pages = (count / step);
+            else
+                pages = (count / step) + 1;
+            
+            ret.put("pages",new Integer(pages));
+            
+            int start = 0;
+            for(int i = 1; i<=pages; i++){
+                sql = "select undo_time, col, tab, operation, value, show_object from T_UNDO WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') ORDER BY undo_time DESC, tab LIMIT "+start+","+step;
+                Vector vec = _getVectorOfHashes(sql);
+                ret.put(new Integer(i).toString(),vec);
+                start = start + step;
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Error occurred when processing result set: " + sql,e);
+            throw new ServiceException("Error occurred when processing result set: " + sql);
+        } catch (NullPointerException nue ) {
+            nue.printStackTrace( System.out );
+        } finally {
+            _close(con, stmt, null);
+        }
+        //sql = "select undo_time, col, tab, operation, value, show_object from T_UNDO where operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD' ORDER BY undo_time DESC, tab";
     } else {
         sql = "select a.undo_time, a.col, a.tab, a.operation, a.value, a.show_object from T_UNDO a, T_UNDO b WHERE a.undo_time = b.undo_time AND b.col = '"+id_field+"' AND b.value = "+id+" AND a.tab = '"+tab+"' AND (a.operation='U' OR a.operation='D' OR a.operation='UN' OR a.operation='UD' OR a.operation='UDD') ORDER BY a.undo_time DESC";
+        Vector vec = _getVectorOfHashes(sql);
+        ret.put("1",vec);
     }
 
-    return _getVectorOfHashes(sql);
+    return ret;
   }
 
   public Vector getDeletedFromUndo(String item_type) throws ServiceException {
