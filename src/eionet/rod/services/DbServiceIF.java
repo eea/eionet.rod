@@ -317,7 +317,7 @@ public interface DbServiceIF  {
    /**
    * PreviousVersions
    */
-   public Vector getPreviousActions(String id, String tab, String id_field) throws ServiceException;
+   public Hashtable getPreviousActions(String id, String tab, String id_field) throws ServiceException;
 
    /**
     * DeletedFromUndo
