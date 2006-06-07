@@ -211,7 +211,7 @@
 									<% 
 									if(pa_nr > 1){ 
 										int previous = pa_nr - 1; %>
-										<a href="versions.jsp?id=-1&p=<%=previous%>"><b>Previous</b></a>
+										<a href="versions.jsp?id=-1&p=<%=previous%>"><b>Earlier Transactions</b></a>
 									<% } %>
 								</td>
 								<td align="center" width="70%">
@@ -225,7 +225,7 @@
 									<% 
 									if(pa_nr < pages){ 
 										int next = pa_nr + 1; %>
-										<a href="versions.jsp?id=-1&p=<%=next%>"><b>Next</b></a>
+										<a href="versions.jsp?id=-1&p=<%=next%>"><b>Later Transactions</b></a>
 									<% } %>
 								</td>
 							</tr>
