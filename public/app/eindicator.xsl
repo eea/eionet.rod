@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -22,17 +21,17 @@
  *
  * Original Code: Kaido Laine (TietoEnator)
  * -->
-
+ 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" exclude-result-prefixes="java" xmlns:java="http://xml.apache.org/xslt/java">
 <xsl:param name="req" select="'default value'"/>
 <xsl:variable name="mode" select="java:eionet.rod.RODUtil.getParameter($req, 'dom-update-mode')"/>
 <!--xsl:include href="editor.xsl"/-->
-
 <xsl:template match="/XmlData">
 <html lang="en">
 <head><title>Client information</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link type="text/css" rel="stylesheet" href="eionet.css"/>
+	<link rel="stylesheet" type="text/css" href="local2006.css" media="screen" title="Standard"/>
 	<script lang="JavaScript" src="script/util.js"></script>
 	<script lang="JavaScript">
 			function check() {
@@ -43,8 +42,8 @@
 </head>
 
 
-<body bgcolor="#F7F3F7" text="#000000" link="#004D7B" vlink="#808080" alink="#006666" onload="check()" onunload="window.opener.document.location.reload(true)">
-	<p><b><font face="Verdana" color="#006666" size="4">Add or edit indicator</font></b></p>
+<body style="background: #FFFFFF" bgcolor="#F7F3F7" text="#000000" link="#004D7B" vlink="#808080" alink="#006666" onload="check()" onunload="window.opener.document.location.reload(true)">
+	<p><h2>Add or edit indicator</h2></p>
 	<form name="f" method="POST" action="indicator.jsv">		
 		<input type="hidden" name="dom-update-mode">
 			<xsl:attribute name="value">
@@ -55,10 +54,9 @@
 				</xsl:choose>
 			</xsl:attribute>
 		</input>
-
 	<table border="0" width="500" cellspacing="0" cellpadding="2" style="border: 1px solid #808080" height="125">
-  <tr bgcolor="#FFFFFF" height="25" style="border-right: 1px solid #C0C0C0">
-    <td width="107" valign="top" align="left" ><font face="Verdana" size="2"><b>Indicator title</b></font></td>
+  <tr bgcolor="#FFFFFF" height="25" class="border_right">
+    <td width="107" valign="top" align="left" class="indicator_label">Indicator title</td>
     <td width="277" valign="top" align="left">
 			<input type="hidden" size="20">
 				<xsl:attribute name="name"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/PK_INDICATOR_ID/@XPath"/></xsl:attribute>
@@ -74,8 +72,8 @@
 			</input>
 		</td>
 	</tr>
-  <tr height="25" style="border-right: 1px solid #C0C0C0">
-    <td valign="top" align="left" ><font face="Verdana" size="2"><b>Indicator number</b></font></td>
+  <tr height="25" class="border_right">
+    <td valign="top" align="left" class="indicator_label">Indicator number</td>
     <td valign="top" align="left">
 		<input type="text" size="60">
 			<xsl:attribute name="name"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/NUMBER/@XPath"/></xsl:attribute>
@@ -83,8 +81,8 @@
 		</input>
 		</td>
 	</tr>
-  <tr bgcolor="#FFFFFF" height="25" style="border-right: 1px solid #C0C0C0">
-    <td valign="top" align="left" ><font face="Verdana" size="2"><b>URL</b></font></td>
+  <tr bgcolor="#FFFFFF" height="25" class="border_right">
+    <td valign="top" align="left" class="indicator_label">URL</td>
     <td valign="top" align="left">
 		<input type="text" size="60" onchange="chkUrl(this)">
 			<xsl:attribute name="name"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/URL/@XPath"/></xsl:attribute>
@@ -92,8 +90,8 @@
 		</input>
 		</td>
 	</tr>
-  <tr height="25" style="border-right: 1px solid #C0C0C0">
-    <td valign="top" align="left" ><font face="Verdana" size="2"><b>Owner</b></font></td>
+  <tr height="25" class="border_right">
+    <td valign="top" align="left" class="indicator_label">Owner</td>
     <td valign="top" align="left">
 		<input type="text" size="60">
 			<xsl:attribute name="name"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/OWNER/@XPath"/></xsl:attribute>
@@ -101,10 +99,10 @@
 		</input>
 		</td>
 	</tr>
-  <tr bgcolor="#FFFFFF" height="25" style="border-right: 1px solid #C0C0C0">
+  <tr bgcolor="#FFFFFF" height="25" class="border_right">
     <td valign="top" align="left" >&#160;</td>
     <td valign="top" align="left">
-			<input type="submit" value="Save" name="B1" style="background-image: url('images/bgr_form_buttons_wide.jpg'); font-family: Verdana; font-size: 10pt; color: #000000; font-weight: bold"></input>
+			<input type="submit" value="Save" name="B1" class="btn"></input>
 		</td>
 	</tr>
 	</table>
