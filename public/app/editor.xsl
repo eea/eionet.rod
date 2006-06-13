@@ -38,6 +38,7 @@
 				<meta http-equiv="Cache-Control" content="no-cache"/>
 				<meta http-equiv="Expires" content="Tue, 01 Jan 1980 00:00:00 GMT"/>
 				<link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen"/>
+				<link rel="stylesheet" type="text/css" href="local2006.css" media="screen"/>
 				<link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
 				<link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
 				<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
