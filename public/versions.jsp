@@ -154,7 +154,7 @@
 											s++;
 										}
 										if (s % 2 == 0){
-											c="even";
+											c="zebraeven";
 										}
 										if(id != null && tab != null && user != null){
 											if(show_object.equals("y")){

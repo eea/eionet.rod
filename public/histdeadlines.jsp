@@ -8,17 +8,7 @@
 <head>
     <title>Previous Versions - ROD</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="title" content="EEA - Reporting Obligations Database" />
-	<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
-	<meta name="keywords" content="reporting obligations, environmental legislation, environmental reporting, environmental dataflows, European Environment Agency, EEA, European, Environmental information, Environmental portal, Eionet, Reportnet, air, waste, water, biodiversity" />
-	<meta name="Publisher" content="EEA, The European Environment Agency" />
-	<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
-
-    <link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
-    <link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen" title="EIONET style" />
-    <link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	<script type="text/javascript" src="script/util.js"></script>
+	<%@ include file="headerinfo.txt" %>
 	<script type="text/javascript">
 	//<![CDATA[
     	function showhelp(text) {
@@ -108,21 +98,18 @@
 						<form name="form" method="post" action="histDeadlines">
 							<table width="680" cellspacing="0" border="0">
 								<tr>
-									<td style="border-top: #008080 1px solid; border-left: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" 
-													valign="center" bgcolor="#ffffff" align="left">
-										<span class="headsmall"><font title="Search" face="Verdana" color="#000000" size="1">Search</font></span>
+									<td class="headline" valign="center" align="left">
+										Search
 									</td>
 								</tr>
 								<tr valign="top" bgcolor="#cbdcdc">
-									<td style="border-left: #c0c0c0 1px solid; border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid" valign="middle"><span class="Mainfont">
-										<font face="Verdana" size="2">
+									<td class="search" valign="middle">
 											<b>Start date</b>
 											<input type="text" value="<%=start%>" name="start_date" size="10" maxlength="10"></input><span class="smallfont">&#160;(dd/mm/yyyy)</span>
 											<b>End date</b>
 											<input type="text" value="<%=end%>" name="end_date" size="10" maxlength="10"></input><span class="smallfont">&#160;(dd/mm/yyyy)</span>
 											&#160;
 											<input type="submit" value="Search" style="font-weight: normal; color: #000000; background-image: url('images/bgr_form_buttons.jpg')"></input>
-										</font></span>
 									</td>
 								</tr>
 							</table>
