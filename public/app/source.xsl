@@ -79,36 +79,54 @@
 
 		<!-- page -->
 		<div id="workarea">
-						<div style="float:right"><xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></div>
 						<br style="clear:right"/>
-						<div style="float:right">
+						<div id="operations">
+							<ul>
+								<li><a href="javascript:openViewHelp('HELP_LI')">Page help</a></li>
+								<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
+									<li><a href="javascript:openHelp('HELP_LI')">Edit help text</a></li>
+								</xsl:if>
 								<xsl:if test="$admin='true'">
-									<xsl:attribute name="style">border: 1px solid black; background-color:#a0a0a0; float:right</xsl:attribute>
-									<div style="font-weight:bold; color:white; text-align:center">Actions</div>
+									<li>
+										Actions<br/><br/>
+									</li>
 								</xsl:if>
 								<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
-									<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
-									<img src="images/newobligation.png" alt="Create a new reporting obligation" border="0"/></a><br/>
+									<li>
+										<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+										New obligation</a>
+									</li>
 								</xsl:if>
 								<xsl:if test="contains($permissions, ',/instruments:i,')='true'">
-									<a><xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
-									<img src="images/newinstrument.png" alt="Create a new legislative instrument" border="0"/></a><br/>
+									<li>
+										<a><xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
+										New instrument</a>
+									</li>
 								</xsl:if>
 								<xsl:if test="contains($permissions, ',/instruments:u,')='true'">
-									<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
-									<img src="images/editinstrument.png" alt="Edit this instrument" border="0"/></a><br/>
+									<li>
+										<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
+										Edit instrument</a>
+									</li>
 								</xsl:if>
 								<xsl:if test="contains($permissions, ',/instruments:d,')='true'">
-									<a href="javascript:delLegislation()">
-									<img src="images/deleteinstrument.png" alt="Delete this instrument" border="0"/></a><br/>
+									<li>
+										<a href="javascript:delLegislation()">
+										Delete instrument</a>
+									</li>
 								</xsl:if>
 								<xsl:if test="contains($permissions, ',/instruments:u,')='true'">
-									<a><xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$src-id"/>&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID</xsl:attribute>
-									<img src="images/showhistory.png" alt="Show Previous Actions" border="0"/></a><br/>
+									<li>
+										<a><xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$src-id"/>&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID</xsl:attribute>
+										Show history</a>
+									</li>
 								</xsl:if>
 								<xsl:if test="$admin='true'">
-									<a href="javascript:openHelpList('LI')"><img src="images/bb_fielddescr.png" alt="View field descriptions" border="0"/></a><br/>
+									<li>
+										<a href="javascript:openHelpList('LI')">Field descriptions</a>
+									</li>
 								</xsl:if>
+							</ul>
 						</div>
 					<h1>Legislative instrument details: <xsl:value-of select="T_SOURCE/ALIAS"/></h1>
 
@@ -193,7 +211,7 @@
 						</td>
 					</tr>
 					<tr class="zebraeven">
-						<td colspan="2" style="background-color:#006666; color: white; font-weight:bold">
+						<td colspan="2" class="dark_green_heading">
 							Reporting framework
 						</td>
 					</tr>

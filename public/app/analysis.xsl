@@ -58,14 +58,14 @@
 		
 		<table cellpadding="5" cellspacing="0" width="584" style="border: #008080 1px solid">  
 			<tr>
-				<td width="70%" style="border-right: #c0c0c0 1px solid">Number of reporting obligations used for the EEA Core set of indicators</td>
-				<td width="7%" align="right" style="border-right: #c0c0c0 1px solid"><xsl:value-of select="RowSet[@Name='RACoreSet']/Row/T_OBLIGATION/TOTAL_RA"/></td>
+				<td width="70%" class="border_right">Number of reporting obligations used for the EEA Core set of indicators</td>
+				<td width="7%" align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RACoreSet']/Row/T_OBLIGATION/TOTAL_RA"/></td>
 				<td width="15%" align="right">
 					<xsl:if test="RowSet[@Name='RACoreSet']/Row/T_OBLIGATION/TOTAL_RA > 0">
 						<a href="rorabrowse.jsv?mode=A&amp;amp;anmode=C">Show list</a>
 					</xsl:if>
 				</td>
-				<td align="right" style="border-left: #c0c0c0 1px solid">
+				<td align="right" class="border_left">
 					<xsl:call-template name="Help">
 						<xsl:with-param name="id">HELP_ANALYSIS_EEACORE</xsl:with-param>
 						<xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param>
@@ -74,14 +74,14 @@
 				</td>
 			</tr>
 			<tr bgcolor="#CBDCDC">
-				<td style="border-right: #c0c0c0 1px solid">Number of reporting obligations used for the EIONET Priority Data flows</td>
-				<td align="right" style="border-right: #c0c0c0 1px solid"><xsl:value-of select="RowSet[@Name='RAEEAPriority']/Row/T_OBLIGATION/TOTAL_RA"/></td>
+				<td class="border_right">Number of reporting obligations used for the EIONET Priority Data flows</td>
+				<td align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RAEEAPriority']/Row/T_OBLIGATION/TOTAL_RA"/></td>
 				<td align="right">
 					<xsl:if test="RowSet[@Name='RAEEAPriority']/Row/T_OBLIGATION/TOTAL_RA > 0">
 						<a href="rorabrowse.jsv?mode=A&amp;amp;anmode=P">Show list</a>
 					</xsl:if>
 				</td>
-				<td align="right" style="border-left: #c0c0c0 1px solid">
+				<td align="right" class="border_left">
 					<xsl:call-template name="Help">
 						<xsl:with-param name="id">HELP_ANALYSIS_EIONETPRIORITY</xsl:with-param>
 						<xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param>
@@ -90,14 +90,14 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="border-right: #c0c0c0 1px solid">Number of reporting obligations where the delivery process or content overlaps with another reporting obligation</td>
-				<td align="right" style="border-right: #c0c0c0 1px solid"><xsl:value-of select="RowSet[@Name='RAOverLap']/Row/T_OBLIGATION/TOTAL_RA"/></td>
+				<td class="border_right">Number of reporting obligations where the delivery process or content overlaps with another reporting obligation</td>
+				<td align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RAOverLap']/Row/T_OBLIGATION/TOTAL_RA"/></td>
 				<td align="right">
 					<xsl:if test="RowSet[@Name='RAOverLap']/Row/T_OBLIGATION/TOTAL_RA > 0">
 						<a href="rorabrowse.jsv?mode=A&amp;amp;anmode=O">Show list</a>
 					</xsl:if>
 				</td>
-				<td align="right" style="border-left: #c0c0c0 1px solid">
+				<td align="right" class="border_left">
 					<xsl:call-template name="Help">
 						<xsl:with-param name="id">HELP_ANALYSIS_OVERLAPPING</xsl:with-param>
 						<xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param>
@@ -106,14 +106,14 @@
 				</td>
 			</tr>
 			<tr bgcolor="#CBDCDC">
-				<td style="border-right: #c0c0c0 1px solid">Number of reporting obligations flagged<br/>&#160;</td>
-				<td align="right" style="border-right: #c0c0c0 1px solid"><xsl:value-of select="RowSet[@Name='RAFlagged']/Row/T_OBLIGATION/TOTAL_RA"/></td>
+				<td class="border_right">Number of reporting obligations flagged<br/>&#160;</td>
+				<td align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RAFlagged']/Row/T_OBLIGATION/TOTAL_RA"/></td>
 				<td align="right">
 					<xsl:if test="RowSet[@Name='RAFlagged']/Row/T_OBLIGATION/TOTAL_RA > 0">
 						<a href="rorabrowse.jsv?mode=A&amp;amp;anmode=F">Show list</a>
 					</xsl:if>
 				</td>
-				<td align="right" style="border-left: #c0c0c0 1px solid">
+				<td align="right" class="border_left">
 					<xsl:call-template name="Help">
 						<xsl:with-param name="id">HELP_ANALYSIS_FLAGGED</xsl:with-param>
 						<xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param>

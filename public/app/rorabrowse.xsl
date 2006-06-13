@@ -249,7 +249,7 @@
 							</xsl:choose>
 					</span>
 				</a>
-				<xsl:if test="T_OBLIGATION/TERMINATE = 'Y'"><span class="smallfont" style="color:red"> [terminated]</span></xsl:if>
+				<xsl:if test="T_OBLIGATION/TERMINATE = 'Y'"><span class="smallfont" style="color: red"> [terminated]</span></xsl:if>
 			</span>&#160;
 		</td>
 		</xsl:if>

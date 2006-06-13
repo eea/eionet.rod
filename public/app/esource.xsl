@@ -67,55 +67,51 @@
 			<xsl:attribute name="value"><xsl:value-of select="PK_SOURCE_ID"/></xsl:attribute>
 		</input>
 
-      <div align="left">
-     	<table border="0" width="621" cellpadding="0">
+     	<table cellspacing="7pts" width="621" border="0">
 		<tr>
 			<td width="471">
 				<span class="headgreen" id="lblTitle">Edit/Create a Legislative Instrument</span>
 			</td>
-			<td>
+			<td align="right">
 				<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 			</td>
 		</tr>
-      <tr>
-      	<td width="615" height="10" colspan="3"></td>
-     	</tr>
-      <tr>
-	      <td width="615" style="border: 1px solid #006666" colspan="3">
+	</table>
+	<div class="main">
    		   <table border="0" cellspacing="0" width="100%" cellpadding="2">
 			      <tr valign="top" bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Legal name</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_LEGALNAME</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<textarea rows="4" cols="47" style="width:400" onchange="changed()">
+							<textarea rows="4" cols="47" id="es_object" onchange="changed()">
 								<xsl:attribute name="name"><xsl:value-of select="TITLE/@XPath"/></xsl:attribute>
 								<xsl:value-of select="TITLE"/>
 							</textarea>
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Short name</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ALIASNAME</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<input type="text" size="56" maxlength="255" style="width:400" onchange="changed()">
+							<input type="text" size="56" maxlength="255" id="es_object" onchange="changed()">
 								<xsl:attribute name="name"><xsl:value-of select="ALIAS/@XPath"/></xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="ALIAS"/></xsl:attribute>
 							</input>
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Identification number</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_IDENTIFICATIONNUMBER</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -142,38 +138,38 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">URL to official text</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_URLTOOFFICIALSOURCE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<input type="text" size="56" maxlength="255" style="width:400" onchange="chkUrl(this)">
+							<input type="text" size="56" maxlength="255" id="es_object" onchange="chkUrl(this)">
 								<xsl:attribute name="name"><xsl:value-of select="URL/@XPath"/></xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="URL"/></xsl:attribute>
 							</input>
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">CELEX reference</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_CELEXREFERENCE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<input type="text" size="56" maxlength="255" style="width:400" onchange="changed()">
+							<input type="text" size="56" maxlength="255" id="es_object" onchange="changed()">
 								<xsl:attribute name="name"><xsl:value-of select="CELEX_REF/@XPath"/></xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="CELEX_REF"/></xsl:attribute>
 							</input>
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Issued by</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ISSUEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -183,7 +179,7 @@
 										<xsl:variable name="selIssuer">
 											<xsl:value-of select="../T_CLIENT_LNK/FK_CLIENT_ID"/>
 										</xsl:variable>
-										<select style="width:400" maxlength="255" onchange="changeIssuer(this)">
+										<select id="es_object" maxlength="255" onchange="changeIssuer(this)">
 											<xsl:attribute name="name"><xsl:value-of select="FK_CLIENT_ID/@XPath"/></xsl:attribute>
 											<option value=''></option>
 											<xsl:for-each select="//RowSet[@Name='Issuer']/Row">
@@ -211,28 +207,28 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">URL to issuer</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_URLTOISSUER</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<input type="text" size="56" maxlength="255" style="width:400" onchange="chkUrl(this)">
+							<input type="text" size="56" maxlength="255" id="es_object" onchange="chkUrl(this)">
 								<xsl:attribute name="name"><xsl:value-of select="ISSUED_BY_URL/@XPath"/></xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="ISSUED_BY_URL"/></xsl:attribute>
 							</input>
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Parent legislative instrument</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_PARENTLEGALINSTRUMENT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<select name="" style="width:400">
+							<select name="" id="es_object">
 								<xsl:attribute name="name"><xsl:value-of select="../T_SOURCE_LNK/FK_SOURCE_PARENT_ID/@XPath"/></xsl:attribute>
 								<option/>
 								<xsl:if test="../T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
@@ -248,10 +244,10 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Eur-lex categories</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_CLASSIFICATION</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3"></td>
@@ -285,24 +281,24 @@
 						</td>
 					</tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">DG Env review of reporting theme</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_DGENVREVIEW</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<select style="width:400">
+							<select id="es_object">
 								<xsl:attribute name="name"><xsl:value-of select="DGENV_REVIEW/@XPath"/></xsl:attribute>
 								<xsl:apply-templates select="//RowSet[@Name='DGEnv']"/>
 							</select>
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Valid from</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_VALIDFROM</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -322,60 +318,60 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Geographic scope</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_GSCOPE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<input type="text" size="56" maxlength="255" style="width:400" onchange="changed()">
+							<input type="text" size="56" maxlength="255" id="es_object" onchange="changed()">
 								<xsl:attribute name="name"><xsl:value-of select="GEOGRAPHIC_SCOPE/@XPath"/></xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="GEOGRAPHIC_SCOPE"/></xsl:attribute>
 							</input>
 						</td>
 			      </tr>
 			      <tr valign="top">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Abstract</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ABSTRACT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<textarea rows="10" cols="47" style="width:400" onchange="changed()">
+							<textarea rows="10" cols="47" id="es_object" onchange="changed()">
 								<xsl:attribute name="name"><xsl:value-of select="ABSTRACT/@XPath"/></xsl:attribute>
 								<xsl:value-of select="ABSTRACT"/>
 							</textarea>
 						</td>
 			      </tr>
 			      <tr valign="top" bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Comments</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_COMMENT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<textarea rows="4" cols="47" style="width:400" onchange="changed()">
+							<textarea rows="4" cols="47" id="es_object" onchange="changed()">
 								<xsl:attribute name="name"><xsl:value-of select="COMMENT/@XPath"/></xsl:attribute>
 								<xsl:value-of select="COMMENT"/>
 							</textarea>
 						</td>
 			      </tr>
-               <tr>
-        	      	<td width="26%" valign="middle" colspan="2" bgcolor="#B7DBDB" height="40">
-        	      		<span class="head0">Conventions</span>
-        	      	</td>
-               	<td width="57%" valign="middle" colspan="3" bgcolor="#B7DBDB" height="40">
-               		<hr noshade="noshade" color="#006666"/>
-               	</td>
-               </tr>
+			       <tr>
+					<td width="26%" valign="middle" colspan="2" bgcolor="#B7DBDB" height="40">
+						<span class="head0">Conventions</span>
+					</td>
+				<td width="57%" valign="middle" colspan="3" bgcolor="#B7DBDB" height="40">
+					<hr noshade="noshade" color="#006666"/>
+				</td>
+			       </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">EC entry into force </span><span class="smallfont">(dd/mm/yyyy)</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_ECENTRYINTOFORCE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -404,28 +400,28 @@
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Secretariat</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_SECRETARIAT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<input type="text" size="56" maxlength="255" style="width:400" onchange="changed()">
+							<input type="text" size="56" maxlength="255" id="es_object" onchange="changed()">
 								<xsl:attribute name="name"><xsl:value-of select="SECRETARIAT/@XPath"/></xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="SECRETARIAT"/></xsl:attribute>
 							</input>
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">URL to Secretariat homepage</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_SECRETARIATHOMEPAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<input type="text" size="56" maxlength="255" style="width:400" onchange="chkUrl(this)">
+							<input type="text" size="56" maxlength="255" id="es_object" onchange="chkUrl(this)">
 								<xsl:attribute name="name"><xsl:value-of select="SECRETARIAT_URL/@XPath"/></xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="SECRETARIAT_URL"/></xsl:attribute>
 							</input>
@@ -440,10 +436,10 @@
                	</td>
                </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Verified</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMVERIFIED</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -463,24 +459,24 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Verified by</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMVERIFIEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<input type="text" size="56" maxlength="100" style="width:400" onchange="changed()">
+							<input type="text" size="56" maxlength="100" id="es_object" onchange="changed()">
 								<xsl:attribute name="name"><xsl:value-of select="RM_VERIFIED_BY/@XPath"/></xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="RM_VERIFIED_BY"/></xsl:attribute>
 							</input>
 						</td>
 			      </tr>
 			      <tr bgcolor="#FFFFFF">
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Next update due</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMNEXTUPDATEDUE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
@@ -500,30 +496,28 @@
 						</td>
 			      </tr>
 			      <tr>
-				      <td width="19%" style="border-right: 1px solid #C0C0C0">
+				      <td width="19%" class="border_right">
 					      <span class="head0">Validated by</span> 
 				      </td>
-				      <td width="7%" align="center" style="border-right: 1px solid #C0C0C0">
+				      <td width="7%" align="center" class="border_right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_LI_RMVALIDATEDBY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 				      </td>
 				      <td width="57%" colspan="3">
-							<input type="text" size="56" maxlength="100" style="width:400" onchange="changed()">
+							<input type="text" size="56" maxlength="100" id="es_object" onchange="changed()">
 								<xsl:attribute name="name"><xsl:value-of select="RM_VALIDATED_BY/@XPath"/></xsl:attribute>
 								<xsl:attribute name="value"><xsl:value-of select="RM_VALIDATED_BY"/></xsl:attribute>
 							</input>
 						</td>
 			      </tr>
 			      <tr>
-			      	<td colspan="5" align="center" valign="middle" height="40" style="border-top: 2 solid #B7DBDB;" bgcolor="#669999">
-		      			<input style="font-weight: bold; width: 120px; color: #000000; background-image: url('images/bgr_form_buttons.jpg')" onclick="save(null,false)" type="button" value="Save changes"/>
-	   		   		<input style="font-weight: bold; color: #000000; background-image: url('images/bgr_form_buttons.jpg')" onclick="history.back()" type="button" value="Exit"/>
+			      	<td colspan="5" align="center" valign="middle" class="save">
+		      			<input class="btn" onclick="save(null,false)" type="button" value="Save changes"/>
+					&#160;
+	   		   		<input class="btn" onclick="history.back()" type="button" value="Exit"/>
 				      </td>
 			      </tr>
-			   </table>
-			</td>
-		</tr>
-     	</table>
-     	</div>
+			</table>
+		</div>
      	</form>
 
 		<script type="text/javascript">

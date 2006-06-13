@@ -47,14 +47,18 @@
 	<xsl:template match="XmlData">
 		<div id="workarea">
 			<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
-				<div id="operations" style="width:125px; text-align:center; border: 1px solid black; background-color:#A0A0A0">
-					<div style="color:#FFFFFF; font-weight:bold; border-bottom:1px dotted black">Actions</div>
-					<p>
-						<a>
-						<xsl:attribute name="href">eclient.jsv?id=<xsl:value-of select='$client-id'/></xsl:attribute>
-						<img src="images/editorganisation.png" alt="Edit organisation" border="0"/>
-						</a>
-					</p>
+				<div id="operations">
+					<ul>
+						<li>
+							Actions<br/><br/>
+						</li>
+						<li>
+							<a>
+							<xsl:attribute name="href">eclient.jsv?id=<xsl:value-of select='$client-id'/></xsl:attribute>
+							Edit Organisation
+							</a>
+						</li>
+					</ul>
 				</div>
 			</xsl:if>
 			<h1>Reporting client or issuer details</h1>

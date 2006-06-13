@@ -43,30 +43,28 @@ var picklist = new Array();
 </script>
 
 
-<div id="workarea" style="max-width:800px">
+<div id="workarea">
 <form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form>
 
-<div style="float:right">
-<table>
-	<tr>
-		<td align="right"><a href="cssearch"><img border="0" src="images/but_advancedsearch.jpg" alt=""/></a></td>
-	</tr>
-<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
-	<tr>
-		<td align="center">
+<div id="operations">
+	<ul>
+		<li>
+			<a href="cssearch">Advanced search</a>
+		</li>
+		<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
 			<xsl:if test="$admin='true'">
-				<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
-				<xsl:attribute name="style">border: #000000 1px solid;</xsl:attribute>
-				<b><font color="#FFFFFF">Actions</font></b><br/><br/>
+				<li>
+					Actions
+				</li>
 			</xsl:if>
 			<br/>
 			<br/>
-			<img alt="Harvest Reportnet meta-information" border="0" src="images/bb_harvest.png" onclick="javascript:openHarvester()"></img>
+			<li>
+				<a href="javascript:openHarvester()">Harvest</a>
+			</li>
 			<br/><br/>
-		</td>
-	</tr>
-</xsl:if>
-</table>
+		</xsl:if>
+	</ul>
 </div>
 <h1>Country deadlines</h1>
 <p align="justify">

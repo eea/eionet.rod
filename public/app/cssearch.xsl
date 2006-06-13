@@ -141,9 +141,9 @@ function submitSearchForm() {
 	 <div id="workarea">
 		<h1>Advanced search</h1>
 		<form name="x1" method="get" action="csmain">
-		<table cellspacing="0" cellpadding="2" style="border: 1px solid #008080">
+		<table cellspacing="0" cellpadding="2" class="main">
 				 <tr>
-						<td colspan="2" width="94%" bgcolor="#FFFFFF"  style="border-bottom:1px solid #008080; border-right:1px solid #C0C0C0">
+						<td colspan="2" width="94%" bgcolor="#FFFFFF" class="head">
 							<span style="float:right">
 							<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSINDEX_SEARCH</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 							</span>
@@ -151,11 +151,11 @@ function submitSearchForm() {
 						</td>
 				</tr>
 				<tr>
-					<td width="30%" bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0;border-right:1px solid #C0C0C0">
-						<label for="countryid" style="font-weight:bold">For a country</label>
+					<td width="30%" bgcolor="#FFFFFF" class="lab">
+						<label for="countryid">For a country</label>
 					</td>
-					<td style="border-bottom: 1px solid #C0C0C0">
-						<select id="countryid" name="COUNTRY_ID" style="color: #000000; font-size: 9pt; width:223" size="1">
+					<td class="dat">
+						<select id="countryid" name="COUNTRY_ID" class="dat" style="width:223" size="1">
 							<option value="">Any country</option>
 							<xsl:call-template name="SpatialTemplate2">
 								<xsl:with-param name ="type">C</xsl:with-param>
@@ -165,29 +165,29 @@ function submitSearchForm() {
 					</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0;border-right:1px solid #C0C0C0"><label for="issueid" style="font-weight:bold">For an issue</label>
+					<td bgcolor="#FFFFFF" class="lab"><label for="issueid">For an issue</label>
 					</td>
-					<td style="border-bottom: 1px solid #C0C0C0">
-						<select id="issueid" name="ISSUE_ID" style="font-size: 9pt; color: #000000; width:223">
+					<td class="dat">
+						<select id="issueid" name="ISSUE_ID" style="width:223" class="dat">
 								<option value="">All issues</option>
 								<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0;border-right:1px solid #C0C0C0"><label for="clientid" style="font-weight:bold">For an organisation</label>	</td>
-					<td style="border-bottom: 1px solid #C0C0C0">
-						<select id="clientid" name="CLIENT_ID" style="font-size: 9pt; color: #000000; width:350">
+					<td bgcolor="#FFFFFF" class="lab"><label for="clientid">For an organisation</label>	</td>
+					<td class="dat">
+						<select id="clientid" name="CLIENT_ID" style="width:350" class="dat">
 								<option value="">Any organisation</option>
 								<xsl:apply-templates select="RowSet[@Name='Client']"/>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td bgcolor="#FFFFFF" style="border-bottom: 1px solid #C0C0C0;border-right:1px solid #C0C0C0"><label for="date1" style="font-weight:bold">Next deadline</label></td>
-					<td align="left" style="border-bottom: 1px solid #C0C0C0" >
-						<input type="text" style="color: #000000; font-size: 10pt;" name="DATE_1" id="date1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/><label for="date2" title="to" style="font-weight:bold"> -</label>
-						<input type="text" style="color: #000000; font-size: 10pt;" name="DATE_2" id="date2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
+					<td bgcolor="#FFFFFF" class="lab"><label for="date1">Next deadline</label></td>
+					<td align="left" class="dat">
+						<input type="text" class="dat" name="DATE_1" id="date1" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/><label for="date2" title="to" style="font-weight:bold"> -</label>
+						<input type="text" class="dat" name="DATE_2" id="date2" size="10" onchange="checkDate(this)" value="dd/mm/yyyy"/>
 						</td>
 				</tr>
 				<tr>

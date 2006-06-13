@@ -101,39 +101,36 @@
 
 	<!-- 8 -->
 	<form name="ff" method="get" action="csmain" class="notprintable">
-	<table border="0"><tr>
-	<td width="771">
-
 	<table cellspacing="0" cellpadding="3" width="100%" border="0">
 			<tr>
-				<td valign="center" width="33%" bgcolor="#ffffff" style="border-left: #008080 1px solid; border-right: #C0C0C0 1px solid; border-top: #008080 1px solid;"><font face="Verdana" size="1"><b>Select issue:</b></font></td>
-				<td valign="center" width="19%" bgcolor="#ffffff" style="border-top: #008080 1px solid;"><b><font face="Verdana" size="1">Select deadline:</font></b></td>
-				<td valign="center" width="7%" bgcolor="#ffffff" style="border-right: #008080 1px solid; border-top: #008080 1px solid;">
+				<td valign="center" width="33%" bgcolor="#ffffff" class="select_issue">Select issue:</td>
+				<td valign="center" width="19%" bgcolor="#ffffff" class="select_deadline">Select deadline:</td>
+				<td valign="center" width="7%" bgcolor="#ffffff" class="help_btn">
 					<p align="right">
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSMAIN1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 					</p>
 				</td>
-				<td valign="top" align="left" width="41%" rowspan="2">
-					<table>
-							<tr>
-								<td width="50%">&#160;</td>
-								<td>
-									<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_CSMAIN</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>&#160;<br/>
-									<a><xsl:attribute name="href">cssearch</xsl:attribute><img src="images/but_advancedsearch.jpg" alt="" border="0"/></a>
-								</td>
-							</tr>
-					</table>
+				<td bgcolor="#ffffff" valign="top" align="left" width="41%" rowspan="2">
+					<div id="operations">
+						<ul>
+							<li><a href="javascript:openViewHelp('HELP_CSMAIN')">Page help</a></li>
+							<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
+								<li><a href="javascript:openHelp('HELP_CSMAIN')">Edit help text</a></li>
+							</xsl:if>
+							<li><a><xsl:attribute name="href">cssearch</xsl:attribute>Advanced search</a></li>
+						</ul>
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<td valign="center" style="border-left: #008080 1px solid; border-right: #C0C0C0 1px solid; border-bottom: #008080 1px solid">
-					<select style="font-size: 9pt; width: 240px; color: #000000; background-color: #ffffff"  size="1" name="ISSUE_ID">
-										<option value="0" selected="selected">All issues</option>
-										<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
+				<td valign="center" bgcolor="#CFE4FF" class="issues">
+					<select class="issues" size="1" name="ISSUE_ID">
+						<option value="0" selected="selected">All issues</option>
+						<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 					</select>
 				</td>
-				<td valign="center" style="border-bottom: #008080 1px solid">
-					<select style="font-size: 9pt; width: 129px; color: #000000; background-color: #ffffff" size="1" name="DEADLINES"> 
+				<td valign="center" bgcolor="#CFE4FF" class="deadlines">
+					<select class="deadlines" size="1" name="DEADLINES"> 
 						<option value="0">
 							<xsl:if test="$sel_period='' or $sel_period='0'"> 
 								<xsl:attribute name="selected">selected</xsl:attribute>
@@ -151,7 +148,7 @@
 						<option value="4"><xsl:if test="$sel_period='4'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>Previous months</option>
 					</select>
 				</td>
-				<td valign="center" align="right" style="border-right: #008080 1px solid; border-bottom: #008080 1px solid">
+				<td valign="center" bgcolor="#CFE4FF" align="right" class="go_btn">
 
 					<input type="hidden" name="CLIENT_ID">
 						<xsl:attribute name="value">
@@ -168,9 +165,6 @@
 				</td>
 			</tr>
 			</table>
-		</td>
-		</tr>
-		</table>
 		</form>
 	<xsl:variable name="recCount"><xsl:value-of select="count(child::RowSet[@Name='Main']/Row/T_OBLIGATION)"/></xsl:variable>
 	<div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div>	<br/>
@@ -294,7 +288,6 @@
 	<td valign="top">
 		<span class="rowitem">
 			<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
-			<font>
 			<xsl:choose>
 			<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
 				<xsl:attribute name="color">#006666</xsl:attribute>
@@ -310,8 +303,6 @@
 			</xsl:call-template>
 			
 			<!--xsl:value-of select="T_OBLIGATION/DEADLINE"/-->
-
-			</font>
 		</span>&#160;
 	</td>
 	<!--td valign="top">
