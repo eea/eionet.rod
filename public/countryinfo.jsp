@@ -5,17 +5,7 @@
 <head>
     <title>Country Information</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="title" content="EEA - Reporting Obligations Database" />
-	<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
-	<meta name="keywords" content="reporting obligations, environmental legislation, environmental reporting, environmental dataflows, European Environment Agency, EEA, European, Environmental information, Environmental portal, Eionet, Reportnet, air, waste, water, biodiversity" />
-	<meta name="Publisher" content="EEA, The European Environment Agency" />
-	<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
-
-    <link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
-    <link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
-    <link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen" title="EIONET style" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	<script type="text/javascript" src="script/util.js"></script>
+	<%@ include file="headerinfo.txt" %>
 	<script type="text/javascript">
 	//<![CDATA[
     	function showhelp(text) {
@@ -128,13 +118,13 @@
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Obligation</th>
 					<td>
-						<%=obligation%>
+						<%=RODUtil.replaceTags(obligation)%>
 					</td>
 				</tr>
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">Country</th>
 					<td>
-						<%=country%>
+						<%=RODUtil.replaceTags(country)%>
 					</td>
 				</tr>
 				<tr class="zebraodd">
@@ -167,16 +157,16 @@
 							role_url = (String) role_desc.get("role_url");
 						 }%>
 						 <%if(role_url != null && !role_url.equals("")){ %>
-						 	<a href="<%=role_url%>" target="_blank">
+						 	<a href="<%=RODUtil.replaceTags(role_url,true)%>" target="_blank">
 						 <% } %>
 							 <%if(person != null && !person.equals("")){ %>
-							 	<%=person%>&nbsp;
+							 	<%=RODUtil.replaceTags(person)%>&nbsp;
 							 <% } 
 							 if(institute != null && !institute.equals("")){ %>
-							 	[<%=institute%>]&nbsp;
+							 	[<%=RODUtil.replaceTags(institute)%>]&nbsp;
 							 <% } 
 							 if(role != null && !role.equals("")){ %>
-							 	(<%=role%>-<%=two_letter%>)
+							 	(<%=RODUtil.replaceTags(role)%>-<%=two_letter%>)
 							 <% } %>
 						 <%if(role_url != null && !role_url.equals("")){ %>
 						 	</a>
@@ -192,7 +182,7 @@
 								String title = (String) delivery.get("title");
 								String url = (String) delivery.get("url");
 								%>
-									<a href="<%=url%>" target="_blank"><%=title%></a><br/>
+									<a href="<%=RODUtil.replaceTags(url,true)%>" target="_blank"><%=RODUtil.replaceTags(title)%></a><br/>
 								<%
 							}
 						%>
