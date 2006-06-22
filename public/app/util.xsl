@@ -273,12 +273,12 @@
 								</xsl:choose>
 							</xsl:when>
 							<xsl:otherwise>
-								<font color="red">terminated</font>
+								<span class="warning">terminated</span>
 							</xsl:otherwise>
 						</xsl:choose>
 		</xsl:template>
 	<xsl:template name="go">
-		<input type="submit" value="GO" name="GO" style="font-family: Verdana; font-size: 10pt; color: #000000; text-align: Center; background-color: #CBDCDC; font-weight: bold; border-left: 1px solid #008080; border-right: 2 solid #006666; border-top: 1px solid #008080; border-bottom: 2 solid #006666"></input>
+		<input type="submit" value="GO" name="GO" class="go_btn"></input>
 	</xsl:template>
 
 	<xsl:template name="RASearch">
@@ -312,13 +312,13 @@
 									</xsl:call-template>
 						</select>
 					</td>
-					<td rowspan="4" valign="center" style="border-left: 1px solid #C0C0C0"><xsl:call-template name="go"/></td>
+					<td rowspan="4" valign="middle" style="border-left: 1px solid #C0C0C0"><xsl:call-template name="go"/></td>
 				</tr>
 
 				<tr>
 					<td align="left" bgcolor="#FFFFFF"><b>Issue</b></td>
 					<td style="border-left: 1px solid #C0C0C0">
-							<select width="280" name="env_issue" style="font-size: 9pt; color: #000000; width:223">
+							<select name="env_issue" style="font-size: 9pt; color: #000000; width:223">
 									<option value="-1">All issues</option>
 									<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 							</select>
@@ -328,7 +328,7 @@
 				<tr>
 					<td valign="middle" align="left" bgcolor="#FFFFFF"><b>Organisation</b></td>
 					<td style="border-left: 1px solid #C0C0C0">
-								<select name="client" style="color: #000000; font-size: 9pt; width:350" size="1" width="280">
+								<select name="client" style="color: #000000; font-size: 9pt; width:350" size="1">
 										<option value="-1">Any organisation</option>
 										<xsl:apply-templates select="RowSet[@Name='Client']"/>
 								</select>

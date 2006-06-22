@@ -82,9 +82,9 @@
 						<br style="clear:right"/>
 						<div id="operations">
 							<ul>
-								<li><a href="javascript:openViewHelp('HELP_LI')">Page help</a></li>
+								<li class="help"><a href="javascript:openViewHelp('HELP_LI')">Page help</a></li>
 								<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
-									<li><a href="javascript:openHelp('HELP_LI')">Edit help text</a></li>
+									<li class="help"><a href="javascript:openHelp('HELP_LI')">Edit help text</a></li>
 								</xsl:if>
 								<xsl:if test="$admin='true'">
 									<li>
@@ -93,7 +93,7 @@
 								</xsl:if>
 								<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
 									<li>
-										<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+										<a><xsl:attribute name="href">activity.jsv?id=-1&amp;amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 										New obligation</a>
 									</li>
 								</xsl:if>
@@ -117,7 +117,7 @@
 								</xsl:if>
 								<xsl:if test="contains($permissions, ',/instruments:u,')='true'">
 									<li>
-										<a><xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$src-id"/>&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID</xsl:attribute>
+										<a><xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$src-id"/>&amp;amp;tab=T_SOURCE&amp;amp;id_field=PK_SOURCE_ID</xsl:attribute>
 										Show history</a>
 									</li>
 								</xsl:if>
@@ -288,7 +288,7 @@
 				<xsl:for-each select="Row/T_OBLIGATION">
 					<li>
 							<a>
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;amp;mode=A&amp;amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
 								<xsl:choose>
 									<xsl:when test="TITLE != ''">
 										<xsl:value-of select="TITLE"/>
@@ -314,7 +314,7 @@
 				<xsl:if test="CLASSIFICATOR!=''">
 					<xsl:value-of select="CLASSIFICATOR"/>&#160;
 				</xsl:if>
-				<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_CLASS_ID"/>&amp;mode=C</xsl:attribute>
+				<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_CLASS_ID"/>&amp;amp;mode=C</xsl:attribute>
 				<span class="head0"><xsl:value-of select="CLASS_NAME"/></span></a>
 			</li>
 		</xsl:for-each>
@@ -326,7 +326,7 @@
 			<th scope="row" class="scope-row">Parent legislative instrument</th>
 			<td>
 				<a>
-					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
 					<xsl:choose>
 						<xsl:when test="ALIAS != ''">
 							<xsl:value-of select="ALIAS"/>
@@ -347,7 +347,7 @@
 				<td>
 					<xsl:for-each select="Row/LSOURCE">
 						<a>
-							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
 							<xsl:choose>
 								<xsl:when test="ALIAS != ''">
 									<xsl:value-of select="ALIAS"/>

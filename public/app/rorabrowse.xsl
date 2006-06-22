@@ -471,7 +471,7 @@
 	<xsl:template match="RowSet[@Name='Search results']/@*">
 		<xsl:if test="name(.)!='Name' and name(.)!='order' and name(.)!='auth'">
 			<tr><td>
-				<xsl:value-of select="translate(name(.),'_',' ')"/>&amp;<b><xsl:value-of select="."/></b>
+				<xsl:value-of select="translate(name(.),'_',' ')"/>&amp;amp;<b><xsl:value-of select="."/></b>
 			</td></tr>
 		</xsl:if>
 	</xsl:template>
