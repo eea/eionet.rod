@@ -57,65 +57,65 @@
 		<!-- page -->
 		<div id="workarea">
 		<!-- page title -->
-
-			<table width="150" border="0" class="notprintable" style="float:right">
-					<tr>
-						<td><xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_HIERARCHY</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template></td>
-					</tr>
-					<tr>
-						<td align="center">
-							<xsl:if test="$admin='true'">
-								<xsl:attribute name="bgcolor">#A0A0A0</xsl:attribute>
-								<xsl:attribute name="style">border: #000000 1px solid;</xsl:attribute>
-								<b><font color="#FFFFFF">Actions</font></b><br/><br/>
-							</xsl:if>
-							<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
-								<a>
-									<xsl:attribute name="href">history.jsp?item_type=L</xsl:attribute>
-									<img src="images/showdeleted.png" border="0" alt="Show history of deleted records"/>
-								</a>
-								<br/>
-							</xsl:if>
-							<xsl:if test="contains($permissions, ',/instruments:i,')='true'">
-								<a>
-									<xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
-									<img src="images/newinstrument.png" border="0" alt="Create a new legislative instrument"/>
-								</a>
-								<br/>
-							</xsl:if>
-						</td>
-					</tr>
-			</table>
-	   <h1>Legislative instruments</h1>
-	   <div style="background-color: white; width:606px; border: 1px solid #006666">
-		 <div class="head0" style="font-size: 10pt">(Eur-lex categories)</div>
-		<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!='' or T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
-		   <div style="padding:.5em .5em 0 .5em">
-						<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!=''">
-							<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASSIFICATOR"/></span>&#160;
-						</xsl:if>
-						<xsl:if test="T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">		
+			<div id="operations">
+				<ul>
+					<li class="help"><a href="javascript:openViewHelp('HELP_HIERARCHY')">Page help</a></li>
+					<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
+						<li class="help"><a href="javascript:openHelp('HELP_HIERARCHY')">Edit help text</a></li>
+					</xsl:if>
+					<xsl:if test="$admin='true'">
+						<li>
+							Actions<br/><br/>
+						</li>
+					</xsl:if>
+					<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
+						<li>
 							<a>
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>&amp;amp;mode=C</xsl:attribute>
-								<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span>
+								<xsl:attribute name="href">history.jsp?item_type=L</xsl:attribute>
+								Deleted records
 							</a>
-						</xsl:if>
+						</li>
+					</xsl:if>
+					<xsl:if test="contains($permissions, ',/instruments:i,')='true'">
+						<a>
+							<xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
+							New instrument
+						</a>
+					</xsl:if>	
+				</ul>
 			</div>
-		</xsl:if>
-
-		<xsl:choose>		
-			<xsl:when test="T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
-				<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:apply-templates select="SubSet[@Name='subClass']" mode="heading"/>
-			</xsl:otherwise>
-		</xsl:choose>
-		<xsl:apply-templates select="SubSet[@Name='Source']"/>
-		
-		</div>
-
-		</div>
+	   <h1>Legislative instruments</h1>
+	   <div id="hierarchy">
+		   <div class="main">
+			 <div class="eurlex">(Eur-lex categories)</div>
+			<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!='' or T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
+				<div class="class_name">
+					<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!=''">
+						<xsl:value-of select="T_SOURCE_CLASS/CLASSIFICATOR"/>&#160;
+					</xsl:if>
+					<xsl:if test="T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">		
+						<xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/><br/>
+						<a>
+							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>&amp;amp;mode=C</xsl:attribute>
+							One level up
+						</a>
+					</xsl:if>
+				</div>
+			</xsl:if>
+	
+			<xsl:choose>		
+				<xsl:when test="T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
+					<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates select="SubSet[@Name='subClass']" mode="heading"/>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:apply-templates select="SubSet[@Name='Source']"/>
+			
+			</div>
+		    </div>
+	    </div>
 	</xsl:template>
 
 	<xsl:template match="SubSet[@Name='subClass']" mode="heading">
@@ -125,7 +125,7 @@
 						<li>
 								<a>
 									<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;amp;mode=C</xsl:attribute>
-									<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span>
+									<xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/>
 								</a>
 					<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
 						</li>
@@ -140,11 +140,11 @@
 				<xsl:for-each select="Row">
 						<li>
 								<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!=''">
-									<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASSIFICATOR"/>&#160;</span>
+									<xsl:value-of select="T_SOURCE_CLASS/CLASSIFICATOR"/>&#160;
 								</xsl:if>
 								<a>
 									<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;amp;mode=C</xsl:attribute>
-									<span class="head0"><xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/></span>
+									<xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/>
 								</a>
 					<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
 						</li>
@@ -161,10 +161,10 @@
 								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
 								<xsl:choose>
 									<xsl:when test="T_SOURCE/ALIAS != ''">
-										<xsl:value-of select="T_SOURCE/ALIAS"/>
+										<span class="normal_weight"><xsl:value-of select="T_SOURCE/ALIAS"/></span>
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:value-of select="T_SOURCE/TITLE"/>
+										<span class="normal_weight"><xsl:value-of select="T_SOURCE/TITLE"/></span>
 									</xsl:otherwise>
 								</xsl:choose>
 							</a>
@@ -174,24 +174,24 @@
 									<a>
 										<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/URL"/></xsl:attribute>
 										<xsl:attribute name="target">_new</xsl:attribute>
-										<span class="head0">Link to legal text</span>
+										Link to legal text
 									</a>
 								</xsl:when>
 								<xsl:otherwise>
-									<span class="head0">Link to legal text</span>
+									Link to legal text
 								</xsl:otherwise>
 							</xsl:choose>				
 							<br/>
 							<xsl:if test="PARENT_SOURCE/PK_SOURCE_ID != ''">
-									<span class="head0">Parent legislative instrument: </span>
+									Parent legislative instrument: 
 									<a>
 										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PARENT_SOURCE/PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
 										<xsl:choose>
 											<xsl:when test="PARENT_SOURCE/ALIAS != ''">
-												<xsl:value-of select="PARENT_SOURCE/ALIAS"/>
+												<span class="normal_weight"><xsl:value-of select="PARENT_SOURCE/ALIAS"/></span>
 											</xsl:when>
 											<xsl:otherwise>
-												<xsl:value-of select="PARENT_SOURCE/TITLE"/>
+												<span class="normal_weight"><xsl:value-of select="PARENT_SOURCE/TITLE"/></span>
 											</xsl:otherwise>
 										</xsl:choose>
 									</a>

@@ -47,7 +47,7 @@
 		<br/>
   
 <!--- -->
- 	<xsl:call-template name="RASearch"/>
+<xsl:call-template name="RASearch"/>
 
 
 <!-- SiteSearch Google -->
@@ -74,10 +74,11 @@
 	</table>
 </form>
 <!-- SiteSearch Google -->
+</div> <!-- workarea -->
 
 		<xsl:call-template name="CommonFooter"/>
 
-</div> <!-- workarea -->
+
 		
 	</xsl:template>
 

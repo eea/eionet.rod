@@ -76,7 +76,7 @@
 			<xsl:for-each select="RowSet/Row">
 			<tr valign="top">
 				<xsl:attribute name="class">
-					<xsl:if test="position() mod 2 = 0">even</xsl:if>
+					<xsl:if test="position() mod 2 = 0">zebraeven</xsl:if>
 				</xsl:attribute>
 				<td align="center">
 					<xsl:value-of select="T_HISTORY/TIME_STAMP"/>
