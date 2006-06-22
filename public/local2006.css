@@ -214,26 +214,6 @@ td.indicator_label {
 }
 /* end eindicator */
 
-#operations li.help a {
-	display:block;
-	font-weight: bold;
-	color: #455b6b;
-	text-decoration: none;
-	background: url('images/bt-lightred.gif') no-repeat;
-	padding: 5px 0px 0px 10px;
-	border-bottom: none;
-	width: 170px;
-	height: 22px;
-}
-#operations li.help a:hover {
-	color: #b20d00;
-	background-color: transparent;
-}
-#operations li.help a:active {
-	color: #b20d00;
-	background: url('bt-darkred.gif') no-repeat;
-}
-
 input.go_btn {
 	font-family: Verdana; 
 	font-size: 10pt; 
@@ -299,7 +279,7 @@ input.go_btn {
 }
 
 #hierarchy .topcategory {
-	list-style-image: url("http://www.eionet.europa.eu/styles/smalldiamond.png");
+	list-style: circle;
 	margin-left:44px;
 	padding-left: 0;
 	padding-bottom: .5em;
