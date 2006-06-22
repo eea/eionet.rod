@@ -126,11 +126,6 @@ Legislative instrument</a></div>
 						Status of deliveries</a>
 					</li>
 				</xsl:if>
-				<xsl:if test="$admin='true'">
-					<li>
-						Actions<br/><br/>
-					</li>
-				</xsl:if>
 				<xsl:if test="$latest != 'n'">
 					<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
 						<li>

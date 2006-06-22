@@ -111,7 +111,6 @@
 	<div id="workarea">
 		<xsl:if test="$admin='true'">
 			<div id="operations">
-				<h2>Actions</h2>
 				<ul>
 				<xsl:if test="contains($permissions, ',/Admin:v,')">
 					<li><a title="Show history of deleted records">

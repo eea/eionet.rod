@@ -63,11 +63,6 @@
 					<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
 						<li class="help"><a href="javascript:openHelp('HELP_HIERARCHY')">Edit help text</a></li>
 					</xsl:if>
-					<xsl:if test="$admin='true'">
-						<li>
-							Actions<br/><br/>
-						</li>
-					</xsl:if>
 					<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 						<li>
 							<a>

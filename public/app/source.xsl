@@ -79,17 +79,11 @@
 
 		<!-- page -->
 		<div id="workarea">
-						<br style="clear:right"/>
 						<div id="operations">
 							<ul>
 								<li class="help"><a href="javascript:openViewHelp('HELP_LI')">Page help</a></li>
 								<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
 									<li class="help"><a href="javascript:openHelp('HELP_LI')">Edit help text</a></li>
-								</xsl:if>
-								<xsl:if test="$admin='true'">
-									<li>
-										Actions<br/><br/>
-									</li>
 								</xsl:if>
 								<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
 									<li>

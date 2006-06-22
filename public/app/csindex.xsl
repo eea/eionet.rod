@@ -52,22 +52,14 @@ var picklist = new Array();
 			<a href="cssearch">Advanced search</a>
 		</li>
 		<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
-			<xsl:if test="$admin='true'">
-				<li>
-					Actions
-				</li>
-			</xsl:if>
-			<br/>
-			<br/>
 			<li>
 				<a href="javascript:openHarvester()">Harvest</a>
 			</li>
-			<br/><br/>
 		</xsl:if>
 	</ul>
 </div>
 <h1>Country deadlines</h1>
-<p align="justify">
+<p>
 This part of ROD helps countries co-ordinate and manage their international
 reporting obligations. It provides information about when countries have to
 report, who is responsible for reporting, and to which organisation the data

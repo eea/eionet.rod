@@ -50,9 +50,6 @@
 				<div id="operations">
 					<ul>
 						<li>
-							Actions<br/><br/>
-						</li>
-						<li>
 							<a>
 							<xsl:attribute name="href">eclient.jsv?id=<xsl:value-of select='$client-id'/></xsl:attribute>
 							Edit Organisation
