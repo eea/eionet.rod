@@ -58,14 +58,15 @@ Legislative instrument</a></div>
 	<div id="workarea">
 	<!-- header -->
 	<xsl:for-each select="//RowSet[@Name='RA']/Row">
-	
-	<table border="0" style="float:right">
-		<tr>
-			<td align="right" valign="top">
-				<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_DELIVERIES</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-			</td>
-		</tr>
-	</table>
+
+	<div id="operations">
+		<ul>
+			<li class="help"><a href="javascript:openViewHelp('HELP_DELIVERIES')">Page help</a></li>
+			<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
+				<li class="help"><a href="javascript:openHelp('HELP_DELIVERIES')">Edit help text</a></li>
+			</xsl:if>
+		</ul>
+	</div>
 	
 	<h1>Status of deliveries:
 			<xsl:choose>
@@ -77,23 +78,22 @@ Legislative instrument</a></div>
 				</xsl:otherwise>
 			</xsl:choose>
 	</h1>
-	<table>
+	<table class="datatable">
 	<xsl:if test="contains($permissions, ',/Admin/Harvest:v,')='true'">
 		<tr><td></td><td><i>last harvested: <xsl:value-of select="T_OBLIGATION/LAST_HARVESTED"/>&#160;</i></td></tr>
 	</xsl:if>
-	<tr><td></td><td>&#160;</td></tr>
-		<tr valign="top">
-			<td align="right"><span class="head0">Reporting obligation:</span></td>
+		<tr>
+			<th scope="row" class="scope-row">Reporting obligation:</th>
 			<td ><xsl:value-of select="T_OBLIGATION/TITLE"/></td>
 		</tr>
-		<tr valign="top">
-			<td align="right"><span class="head0">Reporting frequency:</span></td>
+		<tr>
+			<th scope="row" class="scope-row">Reporting frequency:</th>
 			<td>
 				<xsl:call-template name="RAReportingFrequency"/>
 			</td>
 		</tr>
-		<tr valign="top">
-			<td align="right"><span class="head0">Client organisation:</span></td>
+		<tr>
+			<th scope="row" class="scope-row">Client organisation:</th>
 			<td>
 					<a>
 						<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
@@ -101,8 +101,8 @@ Legislative instrument</a></div>
 					</a>
 			</td>
 		</tr>
-		<tr valign="top">
-			<td align="right"><span class="head0">Other clients using this reporting:</span></td>
+		<tr>
+			<th scope="row" class="scope-row">Other clients using this reporting:</th>
 			<td>
 				<xsl:for-each select="SubSet[@Name='CCClients']/Row">
 					<a>
@@ -113,8 +113,8 @@ Legislative instrument</a></div>
 
 			</td>
 		</tr>
-		<tr valign="top">
-			<td align="right"><span class="head0">Reporting guidelines:</span></td>
+		<tr>
+			<th scope="row" class="scope-row">Reporting guidelines:</th>
 			<td><a target="RA_guidelines"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
 				<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/></a></td>
 		</tr>
@@ -140,7 +140,7 @@ Legislative instrument</a></div>
 	</xsl:variable>
 
 	<!--div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div-->
-	<div class="headsmall">[<xsl:value-of select="$recCount"/> record(s) returned]</div>	
+	<p class="headsmall">[<xsl:value-of select="$recCount"/> record(s) returned]</p>	
 <br/>
 
 
@@ -194,12 +194,11 @@ Legislative instrument</a></div>
 	</thead>
 
 	<xsl:for-each select="//RowSet[@Name='Main']/Row">
-		<tr valign="top">
+		<tr>
 			<xsl:attribute name="class">
-				<xsl:if test="position() mod 2 = 0">even</xsl:if>
+				<xsl:if test="position() mod 2 = 0">zebraeven</xsl:if>
 			</xsl:attribute>
-			<td valign="top">
-				<span class="Mainfont">
+			<td>
 					<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE != ''">
 						<xsl:choose>
 							<xsl:when test="T_ROLE/ROLE_DESCR=''">
@@ -224,39 +223,32 @@ Legislative instrument</a></div>
 					</xsl:choose>
 				</xsl:if>
 				&#160;
-			</span>
 		</td>
-		<td valign="top">
-			 <span class="Mainfont">
-				<a target="ROD_delivery">
-					<xsl:attribute name="href">
-						<xsl:value-of select="T_DELIVERY/DELIVERY_URL"/>
-					</xsl:attribute>
-					<xsl:value-of select="T_DELIVERY/TITLE"/>
-					</a>
-			</span>
+		<td>
+			<a target="ROD_delivery">
+				<xsl:attribute name="href">
+					<xsl:value-of select="T_DELIVERY/DELIVERY_URL"/>
+				</xsl:attribute>
+				<xsl:value-of select="T_DELIVERY/TITLE"/>
+			</a>
 		</td>
-		<td valign="top">
-			 <span class="Mainfont">
-				<xsl:choose>
-					<xsl:when test="T_DELIVERY/UPLOAD_DATE != '0000-00-00'">
-						<xsl:value-of select="T_DELIVERY/UPLOAD_DATE"/>
-					</xsl:when>
-					<xsl:otherwise>
-						&lt;No date&gt;
-					</xsl:otherwise>
-				</xsl:choose>
-			 </span>
+		<td>
+			<xsl:choose>
+				<xsl:when test="T_DELIVERY/UPLOAD_DATE != '0000-00-00'">
+					<xsl:value-of select="T_DELIVERY/UPLOAD_DATE"/>
+				</xsl:when>
+				<xsl:otherwise>
+					&lt;No date&gt;
+				</xsl:otherwise>
+			</xsl:choose>
 		</td>
-		<td valign="top">
-			 <span class="Mainfont">
-				<xsl:value-of select="T_DELIVERY/COVERAGE"/>
-			 </span>
+		<td>
+			<xsl:value-of select="T_DELIVERY/COVERAGE"/>
 			 &#160;
 		</td>
 		<xsl:if test="$allCountries=1">
-			<td valign="top">
-				<span class="Mainfont"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/></span>
+			<td>
+				<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
 			</td>
 		</xsl:if>
 	</tr>
@@ -265,7 +257,7 @@ Legislative instrument</a></div>
 </table>
 
 	<br/><br/>
-	<span class="Mainfont">&#160;&#160;&#160;&#160;Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.</span>
+	&#160;&#160;&#160;&#160;Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.
 	<br/><br/>
   </div> <!-- workarea -->
 <xsl:call-template name="CommonFooter"/>

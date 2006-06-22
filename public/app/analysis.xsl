@@ -56,7 +56,7 @@
 		<xsl:value-of select="RowSet[@Name='LIAnalysis']/Row/T_SOURCE/TOTAL_LI"/> Legislative Instrument records (last update: <xsl:value-of select="RowSet[@Name='LIAnalysis']/Row/T_SOURCE/LI_UPDATE"/>)<br/>
 		<br/>
 		
-		<table cellpadding="5" cellspacing="0" width="584" style="border: #008080 1px solid">  
+		<table cellpadding="5" cellspacing="0" width="584" style="border: #c0c0c0 1px solid">  
 			<tr>
 				<td width="70%" class="border_right">Number of reporting obligations used for the EEA Core set of indicators</td>
 				<td width="7%" align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RACoreSet']/Row/T_OBLIGATION/TOTAL_RA"/></td>
@@ -73,7 +73,7 @@
 					</xsl:call-template>
 				</td>
 			</tr>
-			<tr bgcolor="#CBDCDC">
+			<tr bgcolor="#f6f6f6">
 				<td class="border_right">Number of reporting obligations used for the EIONET Priority Data flows</td>
 				<td align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RAEEAPriority']/Row/T_OBLIGATION/TOTAL_RA"/></td>
 				<td align="right">
@@ -105,8 +105,8 @@
 					</xsl:call-template>
 				</td>
 			</tr>
-			<tr bgcolor="#CBDCDC">
-				<td class="border_right">Number of reporting obligations flagged<br/>&#160;</td>
+			<tr bgcolor="#f6f6f6">
+				<td class="border_right">Number of reporting obligations flagged&#160;</td>
 				<td align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RAFlagged']/Row/T_OBLIGATION/TOTAL_RA"/></td>
 				<td align="right">
 					<xsl:if test="RowSet[@Name='RAFlagged']/Row/T_OBLIGATION/TOTAL_RA > 0">

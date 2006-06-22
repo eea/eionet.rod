@@ -73,8 +73,16 @@
 
 	<div id="workarea">
 	
-
-    <h1>Reporting overview:
+	<div id="operations">
+		<ul>
+			<li class="help"><a href="javascript:openViewHelp('HELP_CSMAIN')">Page help</a></li>
+			<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
+				<li class="help"><a href="javascript:openHelp('HELP_CSMAIN')">Edit help text</a></li>
+			</xsl:if>
+			<li><a><xsl:attribute name="href">cssearch</xsl:attribute>Advanced search</a></li>
+		</ul>
+	</div>
+	<h1>Reporting overview:
 		<xsl:if test="$sel_country!='0'">
 			<xsl:value-of select="//RowSet[@Name='CountryData']/Row/T_SPATIAL/SPATIAL_NAME"/>
 		</xsl:if>
@@ -97,39 +105,28 @@
 		<xsl:if test="$sel_client!='0' and $sel_client!='' ">
 		 <br/>for: <xsl:value-of select="//RowSet[@Name='ClientData']/Row/T_CLIENT/CLIENT_NAME"/>
  		</xsl:if>
-		</h1>
+	</h1>
 
 	<!-- 8 -->
 	<form name="ff" method="get" action="csmain" class="notprintable">
-	<table cellspacing="0" cellpadding="3" width="100%" border="0">
+	<table cellspacing="0" cellpadding="3" width="600" border="0">
 			<tr>
-				<td valign="center" width="33%" bgcolor="#ffffff" class="select_issue">Select issue:</td>
-				<td valign="center" width="19%" bgcolor="#ffffff" class="select_deadline">Select deadline:</td>
-				<td valign="center" width="7%" bgcolor="#ffffff" class="help_btn">
+				<td valign="middle" width="33%" bgcolor="#ffffff" class="select_issue">Select issue:</td>
+				<td valign="middle" width="19%" bgcolor="#ffffff" class="select_deadline">Select deadline:</td>
+				<td valign="middle" width="7%" bgcolor="#ffffff" class="help_btn">
 					<p align="right">
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSMAIN1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 					</p>
 				</td>
-				<td bgcolor="#ffffff" valign="top" align="left" width="41%" rowspan="2">
-					<div id="operations">
-						<ul>
-							<li><a href="javascript:openViewHelp('HELP_CSMAIN')">Page help</a></li>
-							<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
-								<li><a href="javascript:openHelp('HELP_CSMAIN')">Edit help text</a></li>
-							</xsl:if>
-							<li><a><xsl:attribute name="href">cssearch</xsl:attribute>Advanced search</a></li>
-						</ul>
-					</div>
-				</td>
 			</tr>
 			<tr>
-				<td valign="center" bgcolor="#CFE4FF" class="issues">
+				<td valign="middle" bgcolor="#CFE4FF" class="issues">
 					<select class="issues" size="1" name="ISSUE_ID">
 						<option value="0" selected="selected">All issues</option>
 						<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 					</select>
 				</td>
-				<td valign="center" bgcolor="#CFE4FF" class="deadlines">
+				<td valign="middle" bgcolor="#CFE4FF" class="deadlines">
 					<select class="deadlines" size="1" name="DEADLINES"> 
 						<option value="0">
 							<xsl:if test="$sel_period='' or $sel_period='0'"> 
@@ -148,7 +145,7 @@
 						<option value="4"><xsl:if test="$sel_period='4'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>Previous months</option>
 					</select>
 				</td>
-				<td valign="center" bgcolor="#CFE4FF" align="right" class="go_btn">
+				<td valign="middle" bgcolor="#CFE4FF" align="right" class="go_btn">
 
 					<input type="hidden" name="CLIENT_ID">
 						<xsl:attribute name="value">
@@ -290,10 +287,10 @@
 			<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
 			<xsl:choose>
 			<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
-				<xsl:attribute name="color">#006666</xsl:attribute>
+				<xsl:attribute name="style">color:#006666</xsl:attribute>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:attribute name="color">#000000</xsl:attribute>
+				<xsl:attribute name="style">color:#000000</xsl:attribute>
 			</xsl:otherwise>			
 			</xsl:choose>
 
@@ -346,7 +343,7 @@
 			<xsl:choose>
 					<!--xsl:when test="contains(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS, concat(',' , T_SPATIAL/PK_SPATIAL_ID , ',') )='true'"-->
 					<xsl:when test="T_OBLIGATION/HAS_DELIVERY=1">
-						<a window="delivery">
+						<a>
 						<!--xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>')</xsl:attribute-->
 						<xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/></xsl:attribute>
 							Show list

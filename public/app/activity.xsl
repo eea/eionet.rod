@@ -69,7 +69,7 @@
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.europa.eu">EIONET</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
- <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;mode=S</xsl:attribute>
+ <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;amp;mode=S</xsl:attribute>
 Legislative instrument</a></div>
  <div class="breadcrumbitemlast">Reporting obligation</div>
  <div class="breadcrumbtail">&#160;</div>
@@ -104,78 +104,72 @@ Legislative instrument</a></div>
 
 		<div id="workarea">
 			
-			<table width="150" style="float:right" class="notprintable" border="0">
-				<tr>
-					<td>
-						<div id="operations">
-							<ul>
-								<li><a href="javascript:openViewHelp('HELP_RA')">Page help</a></li>
-								<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
-									<li><a href="javascript:openHelp('HELP_RA')">Edit help text</a></li>
-								</xsl:if>
-								<xsl:if test="count(//SubSet[@Name='Indicators']/Row) != 0 ">
-									<li>
-									<a><xsl:attribute name="href">javascript:openPopup("show.jsv", "id=<xsl:value-of select='$ra-id'/>&amp;mode=I")</xsl:attribute>
-										Indicators</a>
-									</li>
-								</xsl:if>
-								<li>
-									<a><xsl:attribute name="href">show.jsv?mode=M&amp;id=<xsl:value-of select="$ra-id"/></xsl:attribute>
-									Parameters</a>
-								</li>
-								<xsl:if test="T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != ''">
-									<li>
-										<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="$ra-id"/>&amp;COUNTRY_ID=%%</xsl:attribute>
-										Status of deliveries</a>
-									</li>
-								</xsl:if>
-								<xsl:if test="$admin='true'">
-									<li>
-										Actions<br/><br/>
-									</li>
-								</xsl:if>
-								<xsl:if test="$latest != 'n'">
-									<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
-										<li>
-											<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
-											New obligation</a>
-										</li>
-									</xsl:if>
-									<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
-										<li>
-											<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>Edit obligation</a>
-										</li>
-									</xsl:if>
-									<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
-										<li>
-											<a href="javascript:delActivity()">Delete obligation</a>
-										</li>
-									</xsl:if>				
-									<xsl:if test="$admin='true'">
-										<li>
-											<a href="javascript:openHelpList('RO')">Field descriptions</a>
-										</li>
-									</xsl:if>
-									<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
-										<li>
-											<a>
-												<xsl:attribute name="href">subscribe.jsp?id=<xsl:value-of select="$ra-id"/></xsl:attribute>
-												Subscribe
-											</a>
-										</li>
-									</xsl:if>
-									<li>
-										<a>
-											<xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$ra-id"/>&amp;tab=T_OBLIGATION&amp;id_field=PK_RA_ID</xsl:attribute>
-											Show history
-										</a>
-									</li>
-								</xsl:if>
-							</ul>
-						</div>
-					</td>
-				</tr>
-			</table>
+		<div id="operations">
+			<ul>
+				<li class="help"><a href="javascript:openViewHelp('HELP_RA')">Page help</a></li>
+				<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
+					<li class="help"><a href="javascript:openHelp('HELP_RA')">Edit help text</a></li>
+				</xsl:if>
+				<xsl:if test="count(//SubSet[@Name='Indicators']/Row) != 0 ">
+					<li>
+					<a><xsl:attribute name="href">javascript:openPopup("show.jsv", "id=<xsl:value-of select='$ra-id'/>&amp;amp;mode=I")</xsl:attribute>
+						Indicators</a>
+					</li>
+				</xsl:if>
+				<li>
+					<a><xsl:attribute name="href">show.jsv?mode=M&amp;amp;id=<xsl:value-of select="$ra-id"/></xsl:attribute>
+					Parameters</a>
+				</li>
+				<xsl:if test="T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != ''">
+					<li>
+						<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="$ra-id"/>&amp;amp;COUNTRY_ID=%%</xsl:attribute>
+						Status of deliveries</a>
+					</li>
+				</xsl:if>
+				<xsl:if test="$admin='true'">
+					<li>
+						Actions<br/><br/>
+					</li>
+				</xsl:if>
+				<xsl:if test="$latest != 'n'">
+					<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
+						<li>
+							<a><xsl:attribute name="href">activity.jsv?id=-1&amp;amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+							New obligation</a>
+						</li>
+					</xsl:if>
+					<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+						<li>
+							<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>Edit obligation</a>
+						</li>
+					</xsl:if>
+					<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
+						<li>
+							<a href="javascript:delActivity()">Delete obligation</a>
+						</li>
+					</xsl:if>				
+					<xsl:if test="$admin='true'">
+						<li>
+							<a href="javascript:openHelpList('RO')">Field descriptions</a>
+						</li>
+					</xsl:if>
+					<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+						<li>
+							<a>
+								<xsl:attribute name="href">subscribe.jsp?id=<xsl:value-of select="$ra-id"/></xsl:attribute>
+								Subscribe
+							</a>
+						</li>
+					</xsl:if>
+					<li>
+						<a>
+							<xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$ra-id"/>&amp;amp;tab=T_OBLIGATION&amp;amp;id_field=PK_RA_ID</xsl:attribute>
+							Show history
+						</a>
+					</li>
+				</xsl:if>
+			</ul>
+		</div>
 
 		<h1>Reporting obligation for <xsl:value-of select="T_SOURCE/ALIAS"/> &#160; <xsl:value-of select="T_SOURCE/SOURCE_CODE"/></h1>
 		<table class="datatable">
@@ -417,7 +411,7 @@ Legislative instrument</a></div>
 			<tr class="zebraodd">
 				<th scope="row" class="scope-row">Parent legislative instrument</th>
 				<td>
-					<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+					<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
 					<xsl:choose>
 						<xsl:when test="T_SOURCE/ALIAS != ''">
 							<xsl:value-of select="T_SOURCE/ALIAS"/>
@@ -453,7 +447,7 @@ Legislative instrument</a></div>
 					<xsl:apply-templates select="//RowSet[@Name='Spatial']"/>
 				</td>
 				<td class="center">
-					<a><xsl:attribute name="href">javascript:openPopup('spatialhistory.jsv', 'ID=<xsl:value-of select="$ra-id"/>')</xsl:attribute>
+					<a><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/></xsl:attribute>
 						<img src="images/details.jpg" alt="Status of country participation" border="0"/>
 					</a>
 				</td>
@@ -510,7 +504,7 @@ Legislative instrument</a></div>
 
 	<xsl:template match="//RowSet[@Name='Spatial']">
 		<xsl:for-each select="Row">
-			<a><xsl:attribute name="href">countryinfo.jsp?ra-id=<xsl:value-of select="$ra-id"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>&amp;vol=<xsl:value-of select="T_RASPATIAL_LNK/VOLUNTARY"/></xsl:attribute>
+			<a><xsl:attribute name="href">countryinfo.jsp?ra-id=<xsl:value-of select="$ra-id"/>&amp;amp;spatial=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>&amp;amp;vol=<xsl:value-of select="T_RASPATIAL_LNK/VOLUNTARY"/></xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="T_RASPATIAL_LNK/VOLUNTARY='Y'">
 						<span title="Informal participation in the reporting obligation"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>*</span>
@@ -560,7 +554,7 @@ Legislative instrument</a></div>
 			<xsl:for-each select="SubSet[@Name='Sibling']/Row/T_OBLIGATION">
 				<li>
 					<a>
-						<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="FK_SOURCE_ID"/></xsl:attribute>
+						<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;amp;mode=A&amp;amp;aid=<xsl:value-of select="FK_SOURCE_ID"/></xsl:attribute>
 						<xsl:value-of select="TITLE"/>
 					</a>
 					<xsl:if test="AUTHORITY!=''">
