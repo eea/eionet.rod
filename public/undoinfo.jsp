@@ -166,14 +166,14 @@
 							boolean diff = value.equals(currentValue);
 							
 							if (s % 2 == 0){
-								c="#cbdcdc";
-								c2 = "#cbdcdc";
+								c="#f6f6f6";
+								c2 = "#f6f6f6";
 							}
 							if(!diff){
 								c2 = "#FFFFCC";
 							}
 							%>
-								<tr class="<%=c%>">
+								<tr>
 									<td bgcolor="<%=c%>"><%=RODUtil.replaceTags(tabel)%></td>
 									<td bgcolor="<%=c%>"><%=sub_trans_nr%></td>
 									<td bgcolor="<%=c%>"><%=RODUtil.replaceTags(col)%></td>

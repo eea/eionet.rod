@@ -81,7 +81,7 @@
 											user = (String)hash.get("value");	
 										}									
 										if (s % 2 == 0){
-											c="even";
+											c="zebraeven";
 										}
 										if(user != null && id != null && tab != null){
 											if(show_object.equals("y")){

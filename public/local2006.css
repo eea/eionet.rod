@@ -90,6 +90,15 @@ td.border_left {
 }
 
 /*start eactivity, esource */
+.label {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	text-decoration: none;
+}
+
 div.main {
 	border: 1px solid #006666; 
 	width: 615px; 
@@ -134,7 +143,7 @@ input.indicator_btns {
 }
 
 /*edit instrument form objects that has the same width */
-#es_object {
+.es_object {
 	width: 400px;
 }
 
@@ -204,5 +213,122 @@ td.indicator_label {
 	font-weight: bold;
 }
 /* end eindicator */
+
+#operations li.help a {
+	display:block;
+	font-weight: bold;
+	color: #455b6b;
+	text-decoration: none;
+	background: url('images/bt-lightred.gif') no-repeat;
+	padding: 5px 0px 0px 10px;
+	border-bottom: none;
+	width: 170px;
+	height: 22px;
+}
+#operations li.help a:hover {
+	color: #b20d00;
+	background-color: transparent;
+}
+#operations li.help a:active {
+	color: #b20d00;
+	background: url('bt-darkred.gif') no-repeat;
+}
+
+input.go_btn {
+	font-family: Verdana; 
+	font-size: 10pt; 
+	color: #000000; 
+	text-align: Center; 
+	background-color: #CBDCDC; 
+	font-weight: bold; 
+	border-left: 1px solid #008080; 
+	border-right: 2 solid #006666; 
+	border-top: 1px solid #008080; 
+	border-bottom: 2 solid #006666;
+}
+
+.headsmall {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 7pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	text-decoration: none;
+}
+
+.head1 {
+	font-size: 13pt; 
+	color: #006666;
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	text-decoration: none;
+}
+
+.warning {
+	color: red;
+}
+
+/* start Legislative instruments hierarchy*/
+#hierarchy {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	text-decoration: none;
+}
+
+#hierarchy div.main {
+	background-color: white; 
+	width:606px; 
+	border: 1px solid #006666;
+}
+
+#hierarchy div.class_name {
+	padding:.5em .5em 0 .5em;
+}
+
+#hierarchy .eurlex {
+	font-size: 10pt; 
+}
+
+#hierarchy .normal_weight {
+	font-weight: normal; 
+}
+
+#hierarchy .topcategory {
+	list-style-image: url("http://www.eionet.europa.eu/styles/smalldiamond.png");
+	margin-left:44px;
+	padding-left: 0;
+	padding-bottom: .5em;
+}
+
+#hierarchy .topcategory li {
+	padding-bottom: .5em;
+}
+
+#hierarchy .category {
+	list-style: none;
+	list-style-image: none;
+	margin-left:24px;
+	padding-left: 0;
+	padding-top: .5em;
+}
+/* end Legislative instruments hierarchy*/
+
+/* start spatialhistory*/
+table.spatial {
+	border: #c0c0c0 1px solid;
+	width: 680px;
+}
+
+td.spatial_label {
+	border-bottom: #c0c0c0 1px solid;
+	text-align: left;
+	vertical-align: middle;
+}
+/* end spatialhistory*/
 
 } /* screen media */
