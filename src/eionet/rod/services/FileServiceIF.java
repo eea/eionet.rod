@@ -218,7 +218,12 @@ public interface FileServiceIF  {
   /**
    * Undo - number of records per page
    */
-   public static final String UNDO_STEP = "undo.step";
+  public static final String UNDO_STEP = "undo.step";
+   
+  /**
+   * Undo - number of records per page
+   */
+  public static final String HISTORY_UNDO_STEP = "history.undo.step";
 
   /**
   * Returns String type property from the properties file

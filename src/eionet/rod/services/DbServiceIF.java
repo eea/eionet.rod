@@ -172,7 +172,7 @@ public interface DbServiceIF  {
    * @param String itemType
    * @return Vector  (0:ITEM_ID, 1:LOG_TIME, 2:USER, 3:ACTION_TYPE, 4:ITEM_TYPE )
    */
-  public Vector getDeletedItemsVector(String itemType) throws ServiceException ;
+  public Hashtable getDeletedItemsVector(String itemType) throws ServiceException ;
 
   /**
   * Returns next deadlines of activities
