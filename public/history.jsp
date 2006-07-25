@@ -135,7 +135,23 @@
 				<br/>
 				<br/>
 						<%
-						Vector history_list = RODServices.getDbService().getDeletedItemsVector(item_type);
+						String pagenr = request.getParameter("p");
+						int pa_nr = 1;
+						if(pagenr != null){
+							pa_nr = new Integer(pagenr).intValue();
+						}
+						Hashtable historyHash = RODServices.getDbService().getDeletedItemsVector(item_type);
+						Integer pages_int = (Integer) historyHash.get("pages");
+						int pages = 1;
+						if(pages_int != null){
+							pages = pages_int.intValue();
+						}
+						Vector history_list = new Vector();
+						if(pagenr != null && !pagenr.equals("")){
+							history_list = (Vector) historyHash.get(pagenr);
+						} else {
+							history_list = (Vector) historyHash.get("1");	
+						}
 						if(history_list.size() > 0){
 						if(item_type.equals("O' OR ITEM_TYPE='A")){ %>
 							<h1>Deleted Items of type Reporting obligation</h1>
@@ -196,7 +212,34 @@
 							<%  } %>
 						</tbody>
 						</table> 
-						<% }
+						<%if(pages_int != null && pages > 1){ %>
+						<table border="0" width="600">
+							<tr>
+								<td align="left" width="10%">
+									<% 
+									if(pa_nr > 1){ 
+										int previous = pa_nr - 1; %>
+										<a href="history.jsp?item_type=<%=item_type%>&amp;p=<%=previous%>"><b>Previous</b></a>
+									<% } %>
+								</td>
+								<td align="center" width="80%">
+									<%
+										for(int i=1; i<=pages; i++){ %>
+											<a href="history.jsp?item_type=<%=item_type%>&amp;p=<%=i%>"><%= i %></a>		
+										<% }
+									%>
+								</td>
+								<td align="right" width="10%">
+									<% 
+									if(pa_nr < pages){ 
+										int next = pa_nr + 1; %>
+										<a href="history.jsp?item_type=<%=item_type%>&amp;p=<%=next%>"><b>Next</b></a>
+									<% } %>
+								</td>
+							</tr>
+						</table>	
+						<% } 
+						}
 		} else { %>
 		</br>
 		<b>Not authenticated! Please verify that you are logged in (for security reasons, </br>
