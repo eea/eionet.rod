@@ -902,11 +902,52 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   /**
   *
   */
-  public Vector getDeletedItemsVector(String itemType) throws ServiceException {
-    String sql = "SELECT ITEM_ID, ACTION_TYPE, ITEM_TYPE, LOG_TIME, USER FROM T_HISTORY WHERE " +
-      " ACTION_TYPE = '" + DELETE_ACTION_TYPE + "' AND ITEM_TYPE = '" + itemType + "'";
-
-    return _getVectorOfHashes(sql);
+  public Hashtable getDeletedItemsVector(String itemType) throws ServiceException {
+      
+      String sql = null;
+      Connection con = null;
+      Statement stmt = null;
+      ResultSet rset = null;
+      
+      Hashtable ret = new Hashtable();
+      
+      FileServiceIF fileSrv=RODServices.getFileService();
+      int step = fileSrv.getIntProperty(FileServiceIF.HISTORY_UNDO_STEP);
+      con = getConnection();
+      try {
+          stmt = con.createStatement();
+          String countSql = "SELECT COUNT(*) AS count FROM T_HISTORY WHERE ACTION_TYPE = '" + DELETE_ACTION_TYPE + "' AND ITEM_TYPE = '" + itemType + "'";
+          rset = stmt.executeQuery(countSql);
+          int count = 0;
+          while (rset.next()) {
+              count = rset.getInt("count");
+          }
+          int pages = 0;
+          if(count % step == 0)
+              pages = (count / step);
+          else
+              pages = (count / step) + 1;
+          
+          ret.put("pages",new Integer(pages));
+          
+          int start = 0;
+          for(int i = 1; i<=pages; i++){
+              sql = "SELECT ITEM_ID, ACTION_TYPE, ITEM_TYPE, LOG_TIME, USER FROM T_HISTORY WHERE ACTION_TYPE = '" + DELETE_ACTION_TYPE + "' AND ITEM_TYPE = '" + itemType + "' LIMIT "+start+","+step;
+              Vector vec = _getVectorOfHashes(sql);
+              ret.put(new Integer(i).toString(),vec);
+              start = start + step;
+          }
+          
+      } catch (SQLException e) {
+          e.printStackTrace();
+          logger.error("Error occurred when processing result set: " + sql,e);
+          throw new ServiceException("Error occurred when processing result set: " + sql);
+      } catch (NullPointerException nue ) {
+          nue.printStackTrace( System.out );
+      } finally {
+          _close(con, stmt, null);
+      }
+      return ret;
   }
 
   public String[][] getActivityDeadlines(StringTokenizer issues, StringTokenizer countries) throws ServiceException  {
