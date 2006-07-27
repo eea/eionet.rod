@@ -134,7 +134,7 @@
 		<xsl:param name="green">N</xsl:param>
 		<xsl:choose>
 			<xsl:when test="contains($green, 'Y')">
-				<a href="javascript:openViewHelp('{$id}')"><img src="images/but_questionmark.jpg" alt="Show help" border="0"/></a>
+				<a href="javascript:openViewHelp('{$id}')"><img src="images/info_icon.gif" alt="Show help" border="0"/></a>
 			</xsl:when>
 			<xsl:otherwise>
 				<a href="javascript:openViewHelp('{$id}')"><img src="images/but_questionmark_blue.jpg" alt="Help for logged-in users" border="0"/></a>
