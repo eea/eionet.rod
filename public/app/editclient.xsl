@@ -61,6 +61,15 @@
 						</td>
 					</tr>
 					<tr valign="top">
+						<th align="right"><label for="name">Short Name:</label></th>
+						<td align="left" width="490">
+							<input id="name" type="text" size="68" maxlength="100">
+								<xsl:attribute name="name">/XmlData/RowSet/Row/T_CLIENT/CLIENT_SHORT_NAME</xsl:attribute>
+								<xsl:attribute name="value"><xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_SHORT_NAME"/></xsl:attribute>
+							</input>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th align="right"><label for="acronym">Acronym:</label></th>
 						<td align="left">
 							<input id="acronym" type="text" size="68" maxlength="255">

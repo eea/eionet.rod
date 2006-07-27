@@ -61,8 +61,12 @@
 			<h1>Reporting client or issuer details</h1>
 			<table border="0">
 					<tr valign="top">
-						<th scope="row" align="right" width="100">Name:</th>
+						<th scope="row" align="right" width="120">Name:</th>
 						<td align="left" width="490"><xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_NAME"/></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row" align="right" width="120">Short Name:</th>
+						<td align="left" width="490"><xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_SHORT_NAME"/></td>
 					</tr>
 					<tr valign="top">
 						<th scope="row" align="right">Acronym:</th>
