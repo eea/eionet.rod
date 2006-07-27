@@ -139,6 +139,7 @@ public class SearchStatement extends QueryStatement implements Constants {
       vTables.add(new TableInfo("T_CLIENT", "T_CLIENT.PK_CLIENT_ID = T_OBLIGATION.FK_CLIENT_ID", TableInfo.OUTER_JOIN));
       vFields.add(new FieldInfo("PK_CLIENT_ID", "T_CLIENT"));
       vFields.add(new FieldInfo("CLIENT_NAME", "T_CLIENT"));
+      vFields.add(new FieldInfo("CLIENT_SHORT_NAME", "T_CLIENT"));
       vFields.add(new FieldInfo("CLIENT_ACRONYM", "T_CLIENT"));
       
       _Pair env_issue, country, river, sea, lake, param_group, rotype, client, terminated;
