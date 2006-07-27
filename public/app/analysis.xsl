@@ -44,7 +44,7 @@
  <div class="breadcrumbitem"><a href="http://www.eionet.europa.eu">EIONET</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
  <div class="breadcrumbitemlast">Analysis</div>
- <div class="breadcrumbtail">&#160;</div>
+ <div class="breadcrumbtail"></div>
 </div>
 </xsl:template>
 

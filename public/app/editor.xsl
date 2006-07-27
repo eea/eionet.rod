@@ -37,9 +37,9 @@
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 				<meta http-equiv="Cache-Control" content="no-cache"/>
 				<meta http-equiv="Expires" content="Tue, 01 Jan 1980 00:00:00 GMT"/>
-				<link rel="alternate stylesheet" type="text/css" href="layout-screen.css" media="screen" title="Standard"/>
-				<link rel="stylesheet" type="text/css" href="local2006.css" media="screen" title="EEA 2006 style"/>
-				<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eea2006/layout-screen.css" media="screen" title="EEA 2006 style" />
+				<link rel="stylesheet" type="text/css" href="layout-screen.css" media="screen" title="Standard"/>
+				<link rel="alternate stylesheet" type="text/css" href="local2006.css" media="screen" title="EEA 2006 style"/>
+				<link rel="alternate stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eea2006/layout-screen.css" media="screen" title="EEA 2006 style" />
 				<link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
 				<link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
 				<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />

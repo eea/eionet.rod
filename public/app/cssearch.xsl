@@ -20,7 +20,7 @@
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
  <div class="breadcrumbitem"><a href="deliveries.jsv">Deadlines</a></div>
  <div class="breadcrumbitemlast">Advanced search</div>
- <div class="breadcrumbtail">&#160;</div>
+ <div class="breadcrumbtail"></div>
 </div>
 </xsl:template>
 

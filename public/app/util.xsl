@@ -171,10 +171,7 @@
 		<div id="globalnav">
 		  <h2>Contents</h2>
 		  <ul>
-		    <xsl:choose>
-				 <xsl:when test="//HOMEPAGE != ''"><li><span>ROD Obligations</span></li></xsl:when>
-				 <xsl:otherwise><li><a href="index.html" title="ROD Home">ROD</a></li></xsl:otherwise>
-			 </xsl:choose>
+		    <li><a href="index.html" title="ROD Home">Home</a></li>
 		    <li><a href="deliveries.jsv" title="Country deadlines">Deadlines</a></li>
 		    <li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations</a></li>
 		    <xsl:choose>

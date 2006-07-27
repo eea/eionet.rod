@@ -44,7 +44,7 @@
     </a>
  </div>
  <div class="breadcrumbitemlast">Hierarchy</div>
- <div class="breadcrumbtail">&#160;</div>
+ <div class="breadcrumbtail"></div>
 </div>
 </xsl:template>
 

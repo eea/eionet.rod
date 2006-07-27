@@ -35,7 +35,7 @@
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
  <div class="breadcrumbitem"><a href="text.jsv?mode=H">General Help</a></div>
  <div class="breadcrumbitemlast">Data extraction</div>
- <div class="breadcrumbtail">&#160;</div>
+ <div class="breadcrumbtail"></div>
 </div>
 </xsl:template>
 

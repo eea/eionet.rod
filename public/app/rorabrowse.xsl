@@ -96,7 +96,7 @@
 		<div class="breadcrumbitemlast">Reporting obligation</div>
 	</xsl:otherwise>
 	</xsl:choose>
- <div class="breadcrumbtail">&#160;</div>
+ <div class="breadcrumbtail"></div>
 </div>
 </xsl:template>
 

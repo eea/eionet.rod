@@ -49,7 +49,7 @@ Legislative instrument</a></div>
 		</xsl:otherwise>
 	</xsl:choose>
 	<div class="breadcrumbitemlast">Deliveries</div>
-	 <div class="breadcrumbtail">&#160;</div>
+	 <div class="breadcrumbtail"></div>
 </div>
 </xsl:template>
 
