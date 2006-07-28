@@ -87,7 +87,7 @@
 						<input type="hidden"><xsl:attribute name="name">ra_id</xsl:attribute><xsl:attribute name="value"><xsl:value-of select="$ra-id"/></xsl:attribute></input>
 						From <input size="7" type="text"><xsl:attribute name="name">from</xsl:attribute><xsl:attribute name="value"></xsl:attribute></input>
 						to <input size="7" type="text"><xsl:attribute name="name">to</xsl:attribute><xsl:attribute name="value"></xsl:attribute></input>
-						&#160;<input type="submit" value="Save" style="font-weight: normal; color: #000000; background-image: url('images/bgr_form_buttons.jpg')"></input>
+						&#160;<input type="submit" value="Save"></input>
 					</fieldset>
 				</form>
 				<br/>
@@ -162,7 +162,7 @@
 			<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
 				<td valign="top" align="center">
 					<a><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/>&amp;amp;spatialID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>&amp;amp;spatialHistoryID=<xsl:value-of select="T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID"/></xsl:attribute>
-						edit
+						Edit
 					</a>
 				</td>
 			</xsl:if>
@@ -210,7 +210,7 @@
 									</input>
 							</td>
 							<td valign="top" align="center">
-								<input type="submit" value="Save" style="font-weight: normal; color: #000000; background-image: url('images/bgr_form_buttons.jpg')"></input>
+								<input type="submit" value="Save"></input>
 							</td>
 						</tr>
 					</form>
