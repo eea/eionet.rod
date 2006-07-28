@@ -51,7 +51,7 @@
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem"><a href="http://www.eionet.europa.eu">EIONET</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
- <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;mode=A</xsl:attribute>
+ <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;amp;mode=A</xsl:attribute>
  Reporting obligation</a></div>
  <div class="breadcrumbitemlast">Status of participation</div>
  <div class="breadcrumbtail"></div>
@@ -68,67 +68,45 @@
 					</xsl:if>
 				</ul>
 			</div>
-			<table width="680" border="0">
+			<h1>Status of participation:</h1>
+			<table class="datatable">
 				<tr>
-					<td width="3%"></td>
-					<td width="35%" valign="top" align="right"><span class="head1">Status of participation:</span></td>
-					<td align="62%"></td>
-				</tr>
-				<tr>
-					<td></td>
-					<th align="right" scope="row" class="scope-row">Reporting obligation:</th>
+					<th scope="row" class="scope-row">Reporting obligation:</th>
 					<td><xsl:value-of select="//RowSet/Row/T_OBLIGATION/TITLE"/></td>
 				</tr>
 				<tr valign="top">
-					<td></td>
-					<th align="right" scope="row" class="scope-row">Client organisation: </th>
+					<th scope="row" class="scope-row">Client organisation: </th>
 					<td><xsl:value-of select="//RowSet/Row/T_CLIENT/CLIENT_NAME"/></td>
 				</tr>
 			</table>
 			<br/>
 			<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
-				<table cellspacing="0" class="spatial">
-					<tr>
-						<td class="spatial_label">
-							<span class="headsmall">Edit period</span>
-						</td>
-					</tr>
-					<form name="f1" method="POST" action="editperiod" acceptcharset="UTF-8">
-						<input type="hidden">
-							<xsl:attribute name="name">ra_id</xsl:attribute>
-							<xsl:attribute name="value"><xsl:value-of select="$ra-id"/></xsl:attribute>
-						</input>
-						<tr valign="top" bgcolor="#f6f6f6">
-							<td valign="middle">
-								From
-								<input size="7" type="text">
-									<xsl:attribute name="name">from</xsl:attribute>
-									<xsl:attribute name="value"></xsl:attribute>
-								</input>
-								to
-								<input size="7" type="text">
-									<xsl:attribute name="name">to</xsl:attribute>
-									<xsl:attribute name="value"></xsl:attribute>
-								</input>
-								&#160;
-								<input type="submit" value="Save" style="font-weight: normal; color: #000000; background-image: url('images/bgr_form_buttons.jpg')"></input>
-							</td>
-						</tr>
-					</form>
-				</table>
+				<form name="f1" method="POST" action="editperiod">
+					<span style="font-weight: bold;">Edit period:</span>
+					<fieldset>
+						<input type="hidden"><xsl:attribute name="name">ra_id</xsl:attribute><xsl:attribute name="value"><xsl:value-of select="$ra-id"/></xsl:attribute></input>
+						From <input size="7" type="text"><xsl:attribute name="name">from</xsl:attribute><xsl:attribute name="value"></xsl:attribute></input>
+						to <input size="7" type="text"><xsl:attribute name="name">to</xsl:attribute><xsl:attribute name="value"></xsl:attribute></input>
+						&#160;<input type="submit" value="Save" style="font-weight: normal; color: #000000; background-image: url('images/bgr_form_buttons.jpg')"></input>
+					</fieldset>
+				</form>
 				<br/>
 			</xsl:if>
-			<table cellspacing="0" class="spatial">
+			<table cellspacing="0" class="datatable">
 				<tr>
-					<td class="spatial_label" width="25%">
-								<span class="headsmall">Country</span></td>
-					<td class="spatial_label" width="25%">
-							<span class="headsmall">Status</span></td>
-					<td class="spatial_label" width="40%">
-							<span class="headsmall">Participation period</span></td>
+					<th width="25%">
+						Country
+					</th>
+					<th width="25%">
+						Status
+					</th>
+					<th width="40%">
+						Participation period
+					</th>
 					<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
-						<td class="spatial_label" width="10%">
-							<span class="headsmall">Edit period</span></td>
+						<th width="10%">
+							Edit period
+						</th>
 					</xsl:if>
 				</tr>
 			<xsl:for-each select="//RowSet/Row">
@@ -169,7 +147,7 @@
 				</xsl:choose>
 			</td>
 			<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
-				<td valign="top">
+				<td valign="top" align="center">
 					<a><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/>&amp;amp;spatialID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>&amp;amp;spatialHistoryID=<xsl:value-of select="T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID"/></xsl:attribute>
 						edit
 					</a>
@@ -179,7 +157,7 @@
 			<xsl:if test="$spatialID = T_SPATIAL/PK_SPATIAL_ID">
 				<xsl:if test="$spatialHistoryID = T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID">
 				
-					<form name="f2" method="POST" action="editperiod" acceptcharset="UTF-8">
+					<form name="f2" method="POST" action="editperiod">
 						<input type="hidden">
 							<xsl:attribute name="name">spatialHistoryID</xsl:attribute>
 							<xsl:attribute name="value"><xsl:value-of select="T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID"/></xsl:attribute>
@@ -218,7 +196,7 @@
 											</xsl:choose>
 									</input>
 							</td>
-							<td valign="top">
+							<td valign="top" align="center">
 								<input type="submit" value="Save" style="font-weight: normal; color: #000000; background-image: url('images/bgr_form_buttons.jpg')"></input>
 							</td>
 						</tr>
