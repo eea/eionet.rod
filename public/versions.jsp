@@ -155,6 +155,8 @@
 										}
 										if (s % 2 == 0){
 											c="zebraeven";
+										} else {
+											c="zebraodd";
 										}
 										if(id != null && tab != null && user != null){
 											if(show_object.equals("y")){
@@ -260,7 +262,9 @@
 								String cl = "";
 								
 								if (z % 2 == 0){
-									cl="even";
+									cl="zebraodd";
+								} else {
+									cl="zebraeven";
 								}
 								z++;
 								

@@ -81,7 +81,9 @@
 											user = (String)hash.get("value");	
 										}									
 										if (s % 2 == 0){
-											c="zebraeven";
+											cl="zebraodd";
+										} else {
+											cl="zebraeven";
 										}
 										if(user != null && id != null && tab != null){
 											if(show_object.equals("y")){
@@ -175,7 +177,9 @@
 								String cl = "";
 								
 								if (z % 2 == 0){
-									cl="even";
+									cl="zebraodd";
+								} else {
+									cl="zebraeven";
 								}
 								z++;
 								

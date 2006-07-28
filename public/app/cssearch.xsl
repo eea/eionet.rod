@@ -198,9 +198,7 @@ function submitSearchForm() {
 		</table>
 		</form>
   </div>
-  <div style="margin-left:20">
 	<xsl:call-template name="CommonFooter"/>		
-</div>
 	</xsl:template>
 
 	<xsl:template name="SpatialTemplate2">

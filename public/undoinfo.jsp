@@ -165,21 +165,23 @@
 							String currentValue = RODServices.getDbService().getDifferences(ut,tabel,col);
 							boolean diff = value.equals(currentValue);
 							
+							c2 = "";
 							if (s % 2 == 0){
-								c="#f6f6f6";
-								c2 = "#f6f6f6";
+								c="zebraodd";
+							} else {
+								c="zebraeven";
 							}
 							if(!diff){
-								c2 = "#FFFFCC";
+								c2 = "background-color:#FFFFCC";
 							}
 							%>
-								<tr>
-									<td bgcolor="<%=c%>"><%=RODUtil.replaceTags(tabel)%></td>
-									<td bgcolor="<%=c%>"><%=sub_trans_nr%></td>
-									<td bgcolor="<%=c%>"><%=RODUtil.replaceTags(col)%></td>
-									<td bgcolor="<%=c%>"><%=RODUtil.replaceTags(value)%></td>
+								<tr class="<%=c%>">
+									<td><%=RODUtil.replaceTags(tabel)%></td>
+									<td><%=sub_trans_nr%></td>
+									<td><%=RODUtil.replaceTags(col)%></td>
+									<td><%=RODUtil.replaceTags(value)%></td>
 									<% if(!op.equals("D") && !op.equals("UD") && !op.equals("UDD")){ %>
-										<td bgcolor="<%=c2%>"><%=RODUtil.replaceTags(currentValue)%></td>
+										<td style="<%=c2%>"><%=RODUtil.replaceTags(currentValue)%></td>
 									<% } %>
 								</tr>
 							<% 	s++;
@@ -191,12 +193,16 @@
 			<% if(tab.equals("T_OBLIGATION")){%>
 				<b>Countries reporting formally</b>
 				<table class="datatable" width="100%">
+					<col style="width:25%"/>
+					<col style="width:25%"/>
+					<col style="width:25%"/>
+					<col style="width:25%"/>
 					<thead>
 						<tr>
-							<th width="25%" scope="col">Undo Countries</th>
-							<th width="25%" scope="col">Current Countries</th>
-							<th width="25%" scope="col">Added Countries</th>
-							<th width="25%" scope="col">Removed Countries</th>
+							<th scope="col">Undo Countries</th>
+							<th scope="col">Current Countries</th>
+							<th scope="col">Added Countries</th>
+							<th scope="col">Removed Countries</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -208,22 +214,26 @@
 							String removedCountries = (String) h.get("removed");
 						%>
 						<tr>
-							<td width="25%"><%=undoCountries%></td>
-							<td width="25%"><%=currentCountries%></td>
-							<td width="25%" bgcolor="#CCFFCC"><%=addedCountries%></td>
-							<td width="25%" bgcolor="#FFCCCC"><%=removedCountries%></td>
+							<td><%=undoCountries%></td>
+							<td><%=currentCountries%></td>
+							<td style="background-color:#CCFFCC"><%=addedCountries%></td>
+							<td style="background-color:#FFCCCC"><%=removedCountries%></td>
 						</tr>
 					</tbody>
 				</table>
 				<br/>
 				<b>Countries reporting voluntarily</b>
 				<table class="datatable" width="100%">
+					<col style="width:25%"/>
+					<col style="width:25%"/>
+					<col style="width:25%"/>
+					<col style="width:25%"/>
 					<thead>
 						<tr>
-							<th width="25%" scope="col">Undo Countries</th>
-							<th width="25%" scope="col">Current Countries</th>
-							<th width="25%" scope="col">Added Countries</th>
-							<th width="25%" scope="col">Removed Countries</th>
+							<th scope="col">Undo Countries</th>
+							<th scope="col">Current Countries</th>
+							<th scope="col">Added Countries</th>
+							<th scope="col">Removed Countries</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -235,10 +245,10 @@
 							String removedCountries_v = (String) h_v.get("removed");
 						%>
 						<tr>
-							<td width="25%"><%=undoCountries_v%></td>
-							<td width="25%"><%=currentCountries_v%></td>
-							<td width="25%" bgcolor="#CCFFCC"><%=addedCountries_v%></td>
-							<td width="25%" bgcolor="#FFCCCC"><%=removedCountries_v%></td>
+							<td><%=undoCountries_v%></td>
+							<td><%=currentCountries_v%></td>
+							<td style="background-color:#CCFFCC"><%=addedCountries_v%></td>
+							<td style="background-color:#FFCCCC"><%=removedCountries_v%></td>
 						</tr>
 					</tbody>
 				</table>
@@ -247,12 +257,16 @@
 			if(tab.equals("T_OBLIGATION")){%>
 				<b>Environmental issues</b>
 				<table class="datatable" width="100%">
+					<col style="width:25%"/>
+					<col style="width:25%"/>
+					<col style="width:25%"/>
+					<col style="width:25%"/>
 					<thead>
 						<tr>
-							<th width="25%" scope="col">Undo Issues</th>
-							<th width="25%" scope="col">Current Issues</th>
-							<th width="25%" scope="col">Added Issues</th>
-							<th width="25%" scope="col">Removed Issues</th>
+							<th scope="col">Undo Issues</th>
+							<th scope="col">Current Issues</th>
+							<th scope="col">Added Issues</th>
+							<th scope="col">Removed Issues</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -264,10 +278,10 @@
 							String removedIssues = (String) h_i.get("removed");
 						%>
 						<tr>
-							<td width="25%"><%=undoIssues%></td>
-							<td width="25%"><%=currentIssues%></td>
-							<td width="25%" bgcolor="#CCFFCC"><%=addedIssues%></td>
-							<td width="25%" bgcolor="#FFCCCC"><%=removedIssues%></td>
+							<td><%=undoIssues%></td>
+							<td><%=currentIssues%></td>
+							<td style="background-color:#CCFFCC"><%=addedIssues%></td>
+							<td style="background-color:#FFCCCC"><%=removedIssues%></td>
 						</tr>
 					</tbody>
 				</table>
@@ -276,12 +290,16 @@
 			if(tab.equals("T_OBLIGATION")){%>
 				<b>Other clients using this reporting</b>
 				<table class="datatable" width="100%">
+					<col style="width:25%"/>
+					<col style="width:25%"/>
+					<col style="width:25%"/>
+					<col style="width:25%"/>
 					<thead>
 						<tr>
-							<th width="25%" scope="col">Undo Clients</th>
-							<th width="25%" scope="col">Current Clients</th>
-							<th width="25%" scope="col">Added Clients</th>
-							<th width="25%" scope="col">Removed Clients</th>
+							<th scope="col">Undo Clients</th>
+							<th scope="col">Current Clients</th>
+							<th scope="col">Added Clients</th>
+							<th scope="col">Removed Clients</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -293,10 +311,10 @@
 							String removedClients = (String) h_c.get("removed");
 						%>
 						<tr>
-							<td width="25%"><%=undoClients%></td>
-							<td width="25%"><%=currentClients%></td>
-							<td width="25%" bgcolor="#CCFFCC"><%=addedClients%></td>
-							<td width="25%" bgcolor="#FFCCCC"><%=removedClients%></td>
+							<td><%=undoClients%></td>
+							<td><%=currentClients%></td>
+							<td style="background-color:#CCFFCC"><%=addedClients%></td>
+							<td style="background-color:#FFCCCC"><%=removedClients%></td>
 						</tr>
 					</tbody>
 				</table>
@@ -305,12 +323,16 @@
 			if(tab.equals("T_OBLIGATION")){%>
 				<b>Type of info reported</b>
 				<table class="datatable" width="100%">
+					<col style="width:25%"/>
+					<col style="width:25%"/>
+					<col style="width:25%"/>
+					<col style="width:25%"/>
 					<thead>
 						<tr>
-							<th width="25%" scope="col">Undo Info Types</th>
-							<th width="25%" scope="col">Current Info Types</th>
-							<th width="25%" scope="col">Added Info Typse</th>
-							<th width="25%" scope="col">Removed Info Types</th>
+							<th scope="col">Undo Info Types</th>
+							<th scope="col">Current Info Types</th>
+							<th scope="col">Added Info Typse</th>
+							<th scope="col">Removed Info Types</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -322,10 +344,10 @@
 							String removedInfo = (String) h_i.get("removed");
 						%>
 						<tr>
-							<td width="25%"><%=undoInfo%></td>
-							<td width="25%"><%=currentInfo%></td>
-							<td width="25%" bgcolor="#CCFFCC"><%=addedInfo%></td>
-							<td width="25%" bgcolor="#FFCCCC"><%=removedInfo%></td>
+							<td><%=undoInfo%></td>
+							<td><%=currentInfo%></td>
+							<td style="background-color:#CCFFCC"><%=addedInfo%></td>
+							<td style="background-color:#FFCCCC"><%=removedInfo%></td>
 						</tr>
 					</tbody>
 				</table>
