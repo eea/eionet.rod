@@ -64,7 +64,7 @@
 				<ul>
 					<li class="help"><a href="javascript:openViewHelp('HELP_SPATIALHISTORY')">Page help</a></li>
 					<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
-						<li class="help"><a href="javascript:openHelp('HELP_SPATIALHISTORY')">Edit help text</a></li>
+						<li><a href="javascript:openHelp('HELP_SPATIALHISTORY')">Edit help text</a></li>
 					</xsl:if>
 				</ul>
 			</div>
@@ -92,19 +92,32 @@
 				</form>
 				<br/>
 			</xsl:if>
-			<table cellspacing="0" class="datatable">
+			<table class="datatable">
+			<xsl:choose>
+			<xsl:when test="contains($permissions, ',/obligations:u,')='true'">
+				<col style="width:25%"/>
+				<col style="width:25%"/>
+				<col style="width:40%"/>
+				<col style="width:10%"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<col style="width:30%"/>
+				<col style="width:30%"/>
+				<col style="width:40%"/>
+			</xsl:otherwise>
+			</xsl:choose>
 				<tr>
-					<th width="25%">
+					<th>
 						Country
 					</th>
-					<th width="25%">
+					<th>
 						Status
 					</th>
-					<th width="40%">
+					<th>
 						Participation period
 					</th>
 					<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
-						<th width="10%">
+						<th>
 							Edit period
 						</th>
 					</xsl:if>
