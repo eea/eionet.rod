@@ -220,7 +220,7 @@ Legislative instrument</a></div>
 				<td>
 					<xsl:choose>
 					<xsl:when test="COORD_ROLE/ROLE_ID!=''">
-						<a>
+						<a title="Public role information">
 							<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="COORD_ROLE/ROLE_URL"/>')</xsl:attribute>
 							<xsl:value-of select="COORD_ROLE/ROLE_NAME"/> (<xsl:value-of select="COORD_ROLE/ROLE_ID"/>)</a>
 					</xsl:when>
@@ -238,7 +238,7 @@ Legislative instrument</a></div>
 				</td>
 				<td class="center">
 					<xsl:if test="COORD_ROLE/ROLE_ID!=''">
-						<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="COORD_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
+						<a title="Role details on CIRCA for members"><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="COORD_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
 							<img src="images/details.jpg" alt="Additional details for logged-in users" border="0"/>
 						</a>
 					</xsl:if>
@@ -249,7 +249,7 @@ Legislative instrument</a></div>
 				<td>
 					<xsl:choose>
 					<xsl:when test="RESP_ROLE/ROLE_ID!=''">
-						<a>
+						<a title="Public role information">
 							<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESP_ROLE/ROLE_URL"/>')</xsl:attribute>
 							<xsl:value-of select="RESP_ROLE/ROLE_NAME"/> (<xsl:value-of select="RESP_ROLE/ROLE_ID"/>)</a>
 					</xsl:when>
@@ -267,7 +267,7 @@ Legislative instrument</a></div>
 				</td>
 				<td class="center">
 					<xsl:if test="RESP_ROLE/ROLE_ID!=''">
-						<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESP_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
+						<a title="Role details on CIRCA"><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESP_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
 							<img src="images/details.jpg" alt="Additional details for logged-in users" border="0"/>
 						</a>
 					</xsl:if>&#160;
@@ -318,14 +318,18 @@ Legislative instrument</a></div>
 			<tr class="zebraodd">
 				<th scope="row" class="scope-row">Report to</th>
 				<td>
-						<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>&#160;
+					<xsl:choose>
+						<xsl:when test="T_CLIENT/PK_CLIENT_ID != ''">
+						<a><xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
+							<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
+						</a>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="T_CLIENT/CLIENT_NAME"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</td>
-				<td class="center">
-					<xsl:if test="T_CLIENT/PK_CLIENT_ID != ''">
-					<a><xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
-						<img src="images/details.jpg" alt="Show client details" border="0"/>
-					</a>
-					</xsl:if>
+				<td>
 				</td>
 			</tr>
 			<tr class="zebraeven">
@@ -338,7 +342,7 @@ Legislative instrument</a></div>
 			<tr class="zebraodd">
 				<th scope="row" class="scope-row">Reporting guidelines</th>
 				<td>
-						<xsl:choose>
+					<xsl:choose>
 						<xsl:when test="T_OBLIGATION/REPORT_FORMAT_URL!=''">
 							<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
 								<xsl:choose>
@@ -354,10 +358,10 @@ Legislative instrument</a></div>
 						<xsl:otherwise>
 							<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/>
 						</xsl:otherwise>
-						</xsl:choose>
-						<xsl:if test="T_OBLIGATION/VALID_SINCE!=''">
-							[Valid since <xsl:value-of select="T_OBLIGATION/VALID_SINCE"/>]
-						</xsl:if>&#160;
+					</xsl:choose>
+					<xsl:if test="T_OBLIGATION/VALID_SINCE!=''">
+						[Valid since <xsl:value-of select="T_OBLIGATION/VALID_SINCE"/>]
+					</xsl:if>&#160;
 				</td>
 				<td></td>
 			</tr>
@@ -442,7 +446,7 @@ Legislative instrument</a></div>
 					<xsl:apply-templates select="//RowSet[@Name='Spatial']"/>
 				</td>
 				<td class="center">
-					<a><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/></xsl:attribute>
+					<a title="History of participation"><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/></xsl:attribute>
 						<img src="images/details.jpg" alt="Status of country participation" border="0"/>
 					</a>
 				</td>
