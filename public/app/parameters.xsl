@@ -33,12 +33,10 @@ Legislative instrument</a></div>
 	<xsl:for-each select="//RowSet[@Name='Activity']/Row">
 		<div id="operations">
 			<ul>
-				<li class="help">
 					<li class="help"><a href="javascript:openViewHelp('HELP_PARAMETERS')">Page help</a></li>
 					<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
 						<li class="help"><a href="javascript:openHelp('HELP_PARAMETERS')">Edit help text</a></li>
 					</xsl:if>
-				</li>
 			</ul>
 		</div>
 	<h1>Overview of parameters</h1>
