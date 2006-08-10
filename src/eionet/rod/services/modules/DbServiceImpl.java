@@ -769,7 +769,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
   }
 
   private String rplAmp(String fld, String alias ){
-    return "REPLACE(" + fld +", '&', '&#038;') AS " + alias;
+    return "REPLACE(REPLACE(" + fld +", '&', '&#038;'),'<','&lt;') AS " + alias;
   }
 
   public  Vector getUpcomingDeadlines(double days) throws ServiceException {
