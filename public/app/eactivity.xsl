@@ -615,7 +615,7 @@
 									<table cellspacing="5">
 										<tr><td align="center">
 											<input type="button" class="arrow_btns"
-												onclick="addValues(issueLst, lnkIssue, null)" 
+												onclick="addValuesEnv(issueLst, lnkIssue, null)" 
 												value="&#160;&#160;-&gt;&#160;&#160;"/>
 										</td></tr>
 										<tr><td width="100" align="center">
