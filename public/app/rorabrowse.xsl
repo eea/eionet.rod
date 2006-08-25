@@ -86,7 +86,7 @@
 <xsl:template name="breadcrumbs">
 <div class="breadcrumbtrail">
  <div class="breadcrumbhead">You are here:</div>
- <div class="breadcrumbitem"><a href="http://www.eionet.europa.eu">EIONET</a></div>
+ <div class="breadcrumbitem eionetaccronym"><a href="http://www.eionet.europa.eu">Eionet</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
 	<xsl:choose>
 	<xsl:when test="$rora='A' or $rora='B'">

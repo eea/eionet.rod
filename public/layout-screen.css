@@ -65,6 +65,11 @@ body {
 	padding-right: 2px;
 }
 
+.eionetaccronym {
+	font-variant: small-caps;
+	text-transform:uppercase;
+}
+
 #pagefoot {
 	clear: right;
 	width: 700px; 
