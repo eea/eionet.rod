@@ -111,22 +111,22 @@
 	<form name="ff" method="get" action="csmain" class="notprintable">
 	<table cellspacing="0" cellpadding="3" width="600" border="0">
 			<tr>
-				<td valign="middle" width="33%" bgcolor="#ffffff" class="select_issue">Select issue:</td>
-				<td valign="middle" width="19%" bgcolor="#ffffff" class="select_deadline">Select deadline:</td>
-				<td valign="middle" width="7%" bgcolor="#ffffff" class="help_btn">
+				<td valign="middle" width="33%" class="select_issue">Select issue:</td>
+				<td valign="middle" width="19%" class="select_deadline">Select deadline:</td>
+				<td valign="middle" width="7%" class="help_btn">
 					<p align="right">
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSMAIN1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 					</p>
 				</td>
 			</tr>
 			<tr>
-				<td valign="middle" bgcolor="#CFE4FF" class="issues">
+				<td valign="middle" class="issues">
 					<select class="issues" size="1" name="ISSUE_ID">
 						<option value="0" selected="selected">All issues</option>
 						<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 					</select>
 				</td>
-				<td valign="middle" bgcolor="#CFE4FF" class="deadlines">
+				<td valign="middle" class="deadlines">
 					<select class="deadlines" size="1" name="DEADLINES"> 
 						<option value="0">
 							<xsl:if test="$sel_period='' or $sel_period='0'"> 
@@ -145,7 +145,7 @@
 						<option value="4"><xsl:if test="$sel_period='4'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>Previous months</option>
 					</select>
 				</td>
-				<td valign="middle" bgcolor="#CFE4FF" align="right" class="go_btn">
+				<td valign="middle" align="right" class="go_btn">
 
 					<input type="hidden" name="CLIENT_ID">
 						<xsl:attribute name="value">
