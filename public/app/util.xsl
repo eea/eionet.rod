@@ -394,7 +394,7 @@
 							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="concat($sorted, ' DESC') "/></xsl:call-template>
 						</xsl:attribute>
 						<xsl:value-of select="$text"/>
-						<img src="images/rodsortup.gif" width="12" height="12" alt=""/>				
+						<img src="images/sortup.gif" width="12" height="12" alt=""/>				
 					</a>
 				</xsl:when>
 			<!-- the column is sorted Z...A -->
@@ -405,7 +405,7 @@
 							<xsl:call-template name="createURL"><xsl:with-param name="sorted" select="$sorted"/></xsl:call-template>
 						</xsl:attribute>
 						<xsl:value-of select="$text"/>
-						<img src="images/rodsortdown.gif" width="12" height="12" alt=""/>
+						<img src="images/sortdown.gif" width="12" height="12" alt=""/>
 					</a>
 				</xsl:when>
 			<!-- sortable, but not sorted -->
