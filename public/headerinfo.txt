@@ -1,12 +1,11 @@
-
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
 	<meta name="keywords" content="reporting obligations, environmental legislation, environmental reporting, environmental dataflows, European Environment Agency, EEA, European, Environmental information, Environmental portal, Eionet, Reportnet, air, waste, water, biodiversity" />
 	<meta name="Publisher" content="EEA, The European Environment Agency" />
 	<meta name="Rights" content="Copyright EEA Copenhagen 2003-2006" />
 
-	<link rel="stylesheet" type="text/css" href="layout-print.css" media="print" />
-	<link rel="stylesheet" type="text/css" href="layout-handheld.css" media="handheld" />
-	<link rel="alternate stylesheet" type="text/css" href="layout-screen.css" media="screen" title="Standard"/>
+	<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/layout-print.css" media="print" />
+	<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/layout-handheld.css" media="handheld" />
 	<link rel="stylesheet" type="text/css" href="local2006.css" media="screen" title="EEA 2006 style"/>
 	<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eea2006/layout-screen.css" media="screen" title="EEA 2006 style" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />

@@ -3,9 +3,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Country Information</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<%@ include file="headerinfo.txt" %>
+  <title>Country Information</title>
 	<script type="text/javascript">
 	//<![CDATA[
     	function showhelp(text) {

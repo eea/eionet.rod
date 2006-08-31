@@ -239,7 +239,7 @@ Legislative instrument</a></div>
 				<td class="center">
 					<xsl:if test="COORD_ROLE/ROLE_ID!=''">
 						<a title="Role details on CIRCA for members"><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="COORD_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-							<img src="images/details.jpg" alt="Additional details for logged-in users" border="0"/>
+							<img src="images/details.gif" alt="Additional details for logged-in users" border="0"/>
 						</a>
 					</xsl:if>
 				</td>
@@ -268,7 +268,7 @@ Legislative instrument</a></div>
 				<td class="center">
 					<xsl:if test="RESP_ROLE/ROLE_ID!=''">
 						<a title="Role details on CIRCA"><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESP_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-							<img src="images/details.jpg" alt="Additional details for logged-in users" border="0"/>
+							<img src="images/details.gif" alt="Additional details for logged-in users" border="0"/>
 						</a>
 					</xsl:if>&#160;
 				</td>
@@ -447,7 +447,7 @@ Legislative instrument</a></div>
 				</td>
 				<td class="center">
 					<a title="History of participation"><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/></xsl:attribute>
-						<img src="images/details.jpg" alt="Status of country participation" border="0"/>
+						<img src="images/details.gif" alt="Status of country participation" border="0"/>
 					</a>
 				</td>
 			</tr>

@@ -331,7 +331,7 @@
 							</xsl:call-template>
 				</a>&#160;
 				<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-					<img src="images/details.jpg" alt="Additional details for logged-in users" border="0"/>
+					<img src="images/details.gif" alt="Additional details for logged-in users" border="0"/>
 				</a>
 				</xsl:otherwise>
 				</xsl:choose>

@@ -216,7 +216,7 @@ Legislative instrument</a></div>
 									<xsl:with-param name="length">30</xsl:with-param>
 								</xsl:call-template>
 							</a>&#160;
-							<img src="images/details.jpg" alt="Additional details for logged-in users">
+							<img src="images/details.gif" alt="Additional details for logged-in users">
 								<xsl:attribute name="onclick">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
 							</img>
 						</xsl:otherwise>

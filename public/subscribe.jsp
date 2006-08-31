@@ -14,9 +14,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Subscribe to notifications - ROD</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<%@ include file="headerinfo.txt" %>
+  <title>Subscribe to notifications - ROD</title>
 	<script type="text/javascript">
 	//<![CDATA[
     	function showhelp(text) {
