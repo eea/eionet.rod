@@ -102,7 +102,7 @@ public class DeadlinesDaemon {
                 if(!periodStartDate.before(date)){
                 
                     Vector list = new Vector();
-                    String events = "http://rod.eionet.eu.int/events/" + timestamp;
+                    String events = "http://rod.eionet.europa.eu/events/" + timestamp;
                     
                     list.add(events);
                     list.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");

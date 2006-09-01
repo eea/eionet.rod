@@ -48,7 +48,7 @@ public class InstrumentsRSS extends RSSServletAC {
       .append(eventsNs)
       .append(">");
       
-    String lisUrl = "http://rod.eionet.eu.int/instruments.rss";
+    String lisUrl = "http://rod.eionet.europa.eu/instruments.rss";
     try {
       lisUrl=props.getString(Constants.ROD_URL_INSTRUMENTS);
     } catch (Exception e ) {

@@ -242,7 +242,7 @@ public class Activity extends ROEditServletAC {
                       Vector lists = new Vector();
                       Vector list = new Vector();
                       long timestamp = System.currentTimeMillis();
-                      String events = "http://rod.eionet.eu.int/events/" + timestamp;
+                      String events = "http://rod.eionet.europa.eu/events/" + timestamp;
                       String obligationID = null;
                       
                       if (activityHandler.wasObligationUpdate()) {
