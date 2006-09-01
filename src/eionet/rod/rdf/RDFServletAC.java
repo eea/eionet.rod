@@ -91,21 +91,21 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
       try {
         instrumentsNamespace = props.getString(ROD_LI_NS);
       } catch (MissingResourceException mre ) {
-        instrumentsNamespace="http://rod.eionet.europa.eu/instruments/";
+        instrumentsNamespace="http://rod.eionet.eu.int/instruments/";
       }
 
     if (issuesNamespace == null)
       try {
         issuesNamespace = props.getString(ROD_ISSUES_NS);
       } catch (MissingResourceException mre ) {
-        issuesNamespace="http://rod.eionet.europa.eu/issues/";
+        issuesNamespace="http://rod.eionet.eu.int/issues/";
       }
 
     if (spatialNamespace == null)
       try {
         spatialNamespace = props.getString("spatial.namespace");
       } catch (MissingResourceException mre ) {
-        issuesNamespace="http://rod.eionet.europa.eu/spatial/";
+        issuesNamespace="http://rod.eionet.eu.int/spatial/";
       }
 
 
@@ -117,7 +117,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
         rodSchemaNamespace=props.getString("schema.namespace");
         //quite likely it will not change
       } catch (MissingResourceException mre ) {
-        rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
+        rodSchemaNamespace="http://rod.eionet.eu.int/schema.rdf";
       }
 
   }
