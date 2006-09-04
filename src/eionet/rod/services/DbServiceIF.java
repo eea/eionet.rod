@@ -334,6 +334,10 @@ public interface DbServiceIF  {
   */
   public String[][] getObligationIds() throws ServiceException;
   /**
+  * Instrument Ids
+  */
+  public String[][] getInstrumentIds() throws ServiceException;
+  /**
   * Countries of an obligation
   * NB! SPATIAL_TYPE='C'
   */
@@ -375,7 +379,12 @@ public interface DbServiceIF  {
   * Insert obligations related to instrument into T_UNDO table
   */
   public void addObligationIdsIntoUndo(String id, long ts, String table) throws ServiceException;
-
+  
+  /**
+   * Get ACL_ID by ACL_NAME
+   */
+  public String getAclId(String acl_name, String type) throws ServiceException;
+  
   /**
    * Insert transaction info into T_UNDO table
    */
