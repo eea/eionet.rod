@@ -1,5 +1,9 @@
-localgroup:rod_user:v,u,i,d
-localgroup:rod_admin:v,i,u,d,c
-user:authenticated:
-user:anonymous:
+user:authenticated:v
+user:anonymous:v
+localgroup:rod_user:v,i
+localgroup:rod_admin:v,i,c,d,u
+authenticated:v:doc
+anonymous:v:doc
+localgroup:rod_user:v,u,d:doc
+localgroup:rod_admin:v,u,d,c:doc
 description:Legal_instruments:
