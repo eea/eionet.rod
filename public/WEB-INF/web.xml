@@ -101,6 +101,10 @@
 		<servlet-class>eionet.rod.DPSIRValuesFromExcel</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>createacls</servlet-name>
+		<servlet-class>eionet.rod.AddAcls</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>undo</servlet-name>
 		<servlet-class>eionet.rod.Undo</servlet-class>
 	</servlet>
@@ -267,6 +271,10 @@
 	<servlet-mapping>
 		<servlet-name>dpsirvalues</servlet-name>
 		<url-pattern>/dpsirvalues</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>createacls</servlet-name>
+		<url-pattern>/createacls</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>undo</servlet-name>
