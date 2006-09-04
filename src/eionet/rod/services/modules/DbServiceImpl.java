@@ -1615,7 +1615,10 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
 
   public String[][] getObligationIds() throws ServiceException {
     return _executeStringQuery("SELECT PK_RA_ID FROM T_OBLIGATION ORDER BY PK_RA_ID");
-
+  }
+  
+  public String[][] getInstrumentIds() throws ServiceException {
+      return _executeStringQuery("SELECT PK_SOURCE_ID FROM T_SOURCE");
   }
 
   public String[][] getIssueIdPairs() throws ServiceException {
@@ -1661,6 +1664,18 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
        _executeUpdate(ids_sql);
 
     }
+   
+   public String getAclId(String acl_name, String type) throws ServiceException {
+
+       String ret = "";
+       String sql = "SELECT ACL_ID AS acl_id FROM ACLS WHERE ACL_NAME = "+acl_name+" AND PARENT_NAME = '"+type+"'";
+       Hashtable hash = _getHashtable(sql);
+       if(hash != null && hash.size() > 0){
+           ret = (String) hash.get("acl_id");
+       }
+       
+       return ret;
+   }
 
    public void insertTransactionInfo(String id, String state, String table, String id_field, long ts, String extraSQL) throws ServiceException {
 
@@ -1670,7 +1685,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
            _executeUpdate(insert_stmt);
 
    }
-
+   
    public boolean insertIntoUndo(String id, String state, String table, String id_field, long ts, String extraSQL, String show, String whereClause) throws ServiceException {
           Connection con = null;
           Statement stmt = null;
@@ -1768,7 +1783,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                temp = " OR operation = 'D'";
            
            String opinfo_sql = "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr, p_key, show_object FROM T_UNDO "+
-           "WHERE undo_time = "+ts+" AND (operation = 'A' OR operation = 'K' OR operation = 'T' OR operation = 'O' OR operation = 'L' "+temp+") ORDER BY undo_time,tab,sub_trans_nr";
+           "WHERE undo_time = "+ts+" AND (operation = 'A' OR operation = 'ACL' OR operation = 'K' OR operation = 'T' OR operation = 'O' OR operation = 'L' "+temp+") ORDER BY undo_time,tab,sub_trans_nr";
            
            Vector opinfo_vec = _getVectorOfHashes(opinfo_sql);
            for(Enumeration en = opinfo_vec.elements(); en.hasMoreElements();){
@@ -1944,7 +1959,7 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                                  _executeUpdate(insert_sql);
                              String delete_stmt = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND tab='"+prev_table+"' AND operation = '"+op+"'";
                              _executeUpdate(delete_stmt);
-                             String delete_stmt2 = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND (operation = 'A' OR operation = 'K' OR operation = 'O' OR operation = 'T')";
+                             String delete_stmt2 = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND (operation = 'A' OR operation = 'ACL' OR operation = 'K' OR operation = 'O' OR operation = 'T')";
                              _executeUpdate(delete_stmt2);
                              tvec = new Vector();
                          }
