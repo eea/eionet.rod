@@ -24,10 +24,13 @@
 package eionet.rod;
 
 import java.sql.*;
+import java.util.HashMap;
 
 import com.tee.util.*;
 import com.tee.xmlserver.*;
 import com.tee.uit.security.AccessControlListIF;
+import com.tee.uit.security.AccessController;
+import com.tee.uit.security.SignOnException;
 
 import eionet.rod.services.RODServices;
 
@@ -49,6 +52,7 @@ public class SourceHandler extends ActivityHandler {
    private void DELETE_SOURCE(String srcID, boolean delSelf, boolean updateMode, String userName, long ts, int state) {
        
        String op = null;
+       String acl_id = null;
        if(state == MODIFY_RECORD)
            op = "U";
        else if(state == DELETE_RECORD)
@@ -61,6 +65,11 @@ public class SourceHandler extends ActivityHandler {
                RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE=''S''");
                RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE=''S''");
                RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE","PK_SOURCE_ID",ts,"");
+               if(state == DELETE_RECORD){
+                   acl_id = RODServices.getDbService().getAclId(srcID,"/instruments");
+                   RODServices.getDbService().insertTransactionInfo(acl_id,"A","ACLS","ACL_ID",ts,"");
+                   RODServices.getDbService().insertTransactionInfo(acl_id,"A","ACL_ROWS","ACL_ID",ts,"");
+               }
            }
           
           if ( delSelf){
@@ -73,7 +82,16 @@ public class SourceHandler extends ActivityHandler {
               RODServices.getDbService().insertIntoUndo(srcID, op, "T_SOURCE_LNK", "FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE='S'","y",null);
               updateDB("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + srcID);
           }
-          
+          if(state == DELETE_RECORD){
+              RODServices.getDbService().insertIntoUndo(acl_id, op, "ACLS", "ACL_ID",ts,"","n",null);
+              RODServices.getDbService().insertIntoUndo(acl_id, op, "ACL_ROWS", "ACL_ID",ts,"","n",null);
+              try {
+                  String aclPath = "/instruments/"+srcID;
+                  AccessController.removeAcl(aclPath);
+              } catch (SignOnException e){
+                  e.printStackTrace();
+              }
+          }
           if (delSelf) {
              RODServices.getDbService().addObligationIdsIntoUndo(srcID,ts,"T_SOURCE");
               
@@ -154,6 +172,10 @@ public class SourceHandler extends ActivityHandler {
                     ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
             updateDB("INSERT INTO T_UNDO VALUES ("+
                     ts + ",'"+ tblName +"','TYPE','T','y','n','L',0,'n')");
+            if(state == DELETE_RECORD){
+                updateDB("INSERT INTO T_UNDO VALUES ("+
+                        ts + ",'"+ tblName +"','ACL','ACL','n','n','"+id+"',0,'n')");
+            }
             
             // delete all linked parameter and medium records and in delete mode also the self record
 		    updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND STATUS = 'M' AND FK_OBJECT_ID=" + id);
@@ -184,6 +206,18 @@ public class SourceHandler extends ActivityHandler {
          setDateValue(gen, "RM_VERIFIED");
          defaultProcessing(gen, null);
          id = recordID;
+         
+         if(state == INSERT_RECORD){
+             try {
+                 String aclPath = "/instruments/"+id;
+                 HashMap acls = AccessController.getAcls();
+                 if (!acls.containsKey(aclPath)){
+                     AccessController.addAcl(aclPath, userName, "");
+                 }
+             } catch (SignOnException e){
+                 e.printStackTrace();
+             }
+         }
          
          /*if(state == INSERT_RECORD){
              try{

@@ -23,10 +23,13 @@
 
 package eionet.rod;
 
+import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
 import com.tee.uit.security.AccessControlListIF;
+import com.tee.uit.security.AccessController;
+import com.tee.uit.security.SignOnException;
 import com.tee.util.SQLGenerator;
 import com.tee.xmlserver.DBPoolIF;
 import com.tee.xmlserver.DBVendorIF;
@@ -63,6 +66,7 @@ public class ActivityHandler extends ROHandler {
    protected final void DELETE_ACTIVITY(String raID, boolean delSelf, String userName, long ts, String show,int state) {
       
       String op = null;
+      String acl_id = null;
       if(state == MODIFY_RECORD)
           op = "U";
       else if(state == DELETE_RECORD)
@@ -77,6 +81,11 @@ public class ActivityHandler extends ROHandler {
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_CLIENT_LNK","FK_OBJECT_ID",ts,"AND TYPE=''A''");
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_OBLIGATION","PK_RA_ID",ts,"");
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_HISTORIC_DEADLINES","FK_RA_ID",ts,"");
+              if(state == DELETE_RECORD){
+                  acl_id = RODServices.getDbService().getAclId(raID,"/obligations");
+                  RODServices.getDbService().insertTransactionInfo(acl_id,"A","ACLS","ACL_ID",ts,"");
+                  RODServices.getDbService().insertTransactionInfo(acl_id,"A","ACL_ROWS","ACL_ID",ts,"");
+              }
           }
           RODServices.getDbService().insertIntoUndo(raID, op, "T_RAISSUE_LNK", "FK_RA_ID",ts,"",show,null);
           // delete linked environmental issues & parameters
@@ -89,6 +98,17 @@ public class ActivityHandler extends ROHandler {
           //delete linked historical deadlines
           RODServices.getDbService().insertIntoUndo(raID, op, "T_HISTORIC_DEADLINES", "FK_RA_ID",ts,"",show,null);
           updateDB("DELETE FROM T_HISTORIC_DEADLINES WHERE FK_RA_ID=" + raID);
+          
+          if(state == DELETE_RECORD){
+              RODServices.getDbService().insertIntoUndo(acl_id, op, "ACLS", "ACL_ID",ts,"","n",null);
+              RODServices.getDbService().insertIntoUndo(acl_id, op, "ACL_ROWS", "ACL_ID",ts,"","n",null);
+              try {
+                  String aclPath = "/obligations/"+raID;
+                  AccessController.removeAcl(aclPath);
+              } catch (SignOnException e){
+                  e.printStackTrace();
+              }
+          }
     
           // delete linked related information (eea reports, national submissions)
           //at the moment T_INFORMATION is not used
@@ -106,6 +126,7 @@ public class ActivityHandler extends ROHandler {
               updateDB("DELETE FROM T_OBLIGATION WHERE PK_RA_ID=" + raID);
               HistoryLogger.logActivityHistory(raID,this.user.getUserName(), DELETE_RECORD, "");                       
           }
+          
       }catch (Exception e){
           e.printStackTrace();
       } 
@@ -147,8 +168,7 @@ public class ActivityHandler extends ROHandler {
 
             if (!upd)
               return false;
-             
-             
+            
             gen.setPKField("PK_RA_ID");
             id = gen.getFieldValue("PK_RA_ID");
             try{
@@ -169,6 +189,11 @@ public class ActivityHandler extends ROHandler {
                     ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
             updateDB("INSERT INTO T_UNDO VALUES ("+
                     ts + ",'"+ tblName +"','TYPE','T','y','n','A',0,'n')");
+            
+            if(state == DELETE_RECORD){
+                updateDB("INSERT INTO T_UNDO VALUES ("+
+                        ts + ",'"+ tblName +"','ACL','ACL','n','n','"+id+"',0,'n')");
+            }
             
             if (ext==null)
               ext = new Extractor();
@@ -219,13 +244,17 @@ public class ActivityHandler extends ROHandler {
          defaultProcessing(gen, null);
          id = recordID;
          
-         /*if(state == INSERT_RECORD){
-             try{
-                 RODServices.getDbService().insertIntoUndo(id, "I", userName, tblName, "PK_RA_ID",ts,"","y");
-             }catch (Exception e){
+         if(state == INSERT_RECORD){
+             try {
+                 String aclPath = "/obligations/"+id;
+                 HashMap acls = AccessController.getAcls();
+                 if (!acls.containsKey(aclPath)){
+                     AccessController.addAcl(aclPath, userName, "");
+                 }
+             } catch (SignOnException e){
                  e.printStackTrace();
              }
-         }*/
+         }
          
          String mainClientId=gen.getFieldValue("FK_CLIENT_ID");
 
