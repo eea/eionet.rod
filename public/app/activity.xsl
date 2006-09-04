@@ -78,7 +78,7 @@ Legislative instrument</a></div>
 
 	<xsl:template match="RowSet[@Name='Activity']/Row">
 		<!-- form for delete activity action -->
-		<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
+		<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':d,'))='true'">
 			<script type="text/javascript">
 			<![CDATA[
 				function delActivity() {
@@ -133,12 +133,12 @@ Legislative instrument</a></div>
 							New obligation</a>
 						</li>
 					</xsl:if>
-					<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+					<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
 						<li>
 							<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>Edit obligation</a>
 						</li>
 					</xsl:if>
-					<xsl:if test="contains($permissions, ',/obligations:d,')='true'">
+					<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':d,'))='true'">
 						<li>
 							<a href="javascript:delActivity()">Delete obligation</a>
 						</li>
@@ -148,7 +148,7 @@ Legislative instrument</a></div>
 							<a href="javascript:openHelpList('RO')">Field descriptions</a>
 						</li>
 					</xsl:if>
-					<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+					<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
 						<li>
 							<a>
 								<xsl:attribute name="href">subscribe.jsp?id=<xsl:value-of select="$ra-id"/></xsl:attribute>

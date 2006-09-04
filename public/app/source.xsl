@@ -56,7 +56,7 @@
 
 	<xsl:template match="RowSet[@Name='Source']/Row[position()=1]">
 		<!-- form for delete legislation action -->
-		<xsl:if test="contains($permissions, ',/instruments:d,')='true'">
+		<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':d,'))='true'">
 			<script type="text/javascript">
 			<![CDATA[
 				function delLegislation() {
@@ -97,19 +97,19 @@
 										New instrument</a>
 									</li>
 								</xsl:if>
-								<xsl:if test="contains($permissions, ',/instruments:u,')='true'">
+								<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':u,'))='true'">
 									<li>
 										<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
 										Edit instrument</a>
 									</li>
 								</xsl:if>
-								<xsl:if test="contains($permissions, ',/instruments:d,')='true'">
+								<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':d,'))='true'">
 									<li>
 										<a href="javascript:delLegislation()">
 										Delete instrument</a>
 									</li>
 								</xsl:if>
-								<xsl:if test="contains($permissions, ',/instruments:u,')='true'">
+								<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':u,'))='true'">
 									<li>
 										<a><xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$src-id"/>&amp;amp;tab=T_SOURCE&amp;amp;id_field=PK_SOURCE_ID</xsl:attribute>
 										Show history</a>
