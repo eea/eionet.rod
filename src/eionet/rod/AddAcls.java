@@ -24,30 +24,20 @@ public class AddAcls extends HttpServlet {
         
         try{
             String[][] obligations = RODServices.getDbService().getObligationIds();
+            HashMap acls = AccessController.getAcls();
             for(int i=0; i<obligations.length; i++){
                 String id = obligations[i][0];
                 String aclPath = "/obligations/"+id;
-                try {
-                    HashMap acls = AccessController.getAcls();
-                    if (!acls.containsKey(aclPath)){
-                        AccessController.addAcl(aclPath, "", "");
-                    }
-                } catch (SignOnException e){
-                    e.printStackTrace();
+                if (!acls.containsKey(aclPath)){
+                    RODServices.getDbService().addAcl(aclPath, "", "");
                 }
             }
-            
             String[][] instruments = RODServices.getDbService().getInstrumentIds();
             for(int i=0; i<instruments.length; i++){
                 String id = instruments[i][0];
                 String aclPath = "/instruments/"+id;
-                try {
-                    HashMap acls = AccessController.getAcls();
-                    if (!acls.containsKey(aclPath)){
-                        AccessController.addAcl(aclPath, "", "");
-                    }
-                } catch (SignOnException e){
-                    e.printStackTrace();
+                if (!acls.containsKey(aclPath)){
+                    RODServices.getDbService().addAcl(aclPath, "", "");
                 }
             }
             res.sendRedirect("index.html");
