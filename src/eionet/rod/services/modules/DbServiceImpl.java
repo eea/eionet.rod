@@ -43,6 +43,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import com.tee.uit.security.SignOnException;
 import com.tee.util.Util;
 import com.tee.xmlserver.DBPoolIF;
 
@@ -1664,6 +1665,34 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
        _executeUpdate(ids_sql);
 
     }
+   
+   public void addAcl(String aclPath, String owner, String description) throws ServiceException {
+
+       int lastSlash=aclPath.lastIndexOf("/");
+       String parentName= (lastSlash==0 ? "/" :  aclPath.substring(0,lastSlash));
+       String aclName=aclPath.substring(lastSlash+1);
+       
+       String sql = "INSERT INTO ACLS (ACL_NAME, PARENT_NAME, OWNER, DESCRIPTION) VALUES('" + aclName + "', '" + parentName +
+       "','" + owner +   "', '" + description + "')";
+       
+       _executeUpdate(sql);
+       
+       String acl_id_sql = "SELECT MAX(ACL_ID) FROM ACLS ";
+       String ret[][] = _executeStringQuery(acl_id_sql);
+       String acl_id = null;
+
+       if (ret.length > 0)
+         acl_id = ret[0][0];
+       
+       sql = "INSERT INTO ACL_ROWS (ACL_ID, ENTRY_TYPE, TYPE, PRINCIPAL, PERMISSIONS, STATUS) " +
+       " VALUES(" + acl_id + ",'localgroup','object','rod_user','v,u,d', 1)";
+       _executeUpdate(sql);
+       
+       sql = "INSERT INTO ACL_ROWS (ACL_ID, ENTRY_TYPE, TYPE, PRINCIPAL, PERMISSIONS, STATUS) " +
+       " VALUES(" + acl_id + ",'localgroup','object','rod_admin','v,u,d,c', 1)";
+       _executeUpdate(sql);
+       
+   }
    
    public String getAclId(String acl_name, String type) throws ServiceException {
 
