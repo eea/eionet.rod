@@ -386,6 +386,11 @@ public interface DbServiceIF  {
   public String getAclId(String acl_name, String type) throws ServiceException;
   
   /**
+   * Add ACL for obligation or instrument
+   */
+  public void addAcl(String aclPath, String owner, String description) throws ServiceException;
+  
+  /**
    * Insert transaction info into T_UNDO table
    */
   public void insertTransactionInfo(String id, String state, String table, String id_field, long ts, String extraSQL) throws ServiceException;
