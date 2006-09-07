@@ -80,7 +80,7 @@
 				</tr>
 			</table>
 			<br/>
-			<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+			<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
 				<form name="f1" method="POST" action="editperiod">
 					<span style="font-weight: bold;">Edit period:</span>
 					<fieldset>
@@ -94,7 +94,7 @@
 			</xsl:if>
 			<table class="datatable">
 			<xsl:choose>
-			<xsl:when test="contains($permissions, ',/obligations:u,')='true'">
+			<xsl:when test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
 				<col style="width:25%"/>
 				<col style="width:25%"/>
 				<col style="width:40%"/>
@@ -116,7 +116,7 @@
 					<th>
 						Participation period
 					</th>
-					<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+					<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
 						<th>
 							Edit period
 						</th>
@@ -159,7 +159,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</td>
-			<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+			<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
 				<td valign="top" align="center">
 					<a><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/>&amp;amp;spatialID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>&amp;amp;spatialHistoryID=<xsl:value-of select="T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID"/></xsl:attribute>
 						Edit
