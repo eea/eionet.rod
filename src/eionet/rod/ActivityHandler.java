@@ -81,11 +81,6 @@ public class ActivityHandler extends ROHandler {
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_CLIENT_LNK","FK_OBJECT_ID",ts,"AND TYPE=''A''");
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_OBLIGATION","PK_RA_ID",ts,"");
               RODServices.getDbService().insertTransactionInfo(raID,"A","T_HISTORIC_DEADLINES","FK_RA_ID",ts,"");
-              if(state == DELETE_RECORD){
-                  acl_id = RODServices.getDbService().getAclId(raID,"/obligations");
-                  RODServices.getDbService().insertTransactionInfo(acl_id,"A","ACLS","ACL_ID",ts,"");
-                  RODServices.getDbService().insertTransactionInfo(acl_id,"A","ACL_ROWS","ACL_ID",ts,"");
-              }
           }
           RODServices.getDbService().insertIntoUndo(raID, op, "T_RAISSUE_LNK", "FK_RA_ID",ts,"",show,null);
           // delete linked environmental issues & parameters
@@ -142,14 +137,18 @@ public class ActivityHandler extends ROHandler {
 
       String tblName = gen.getTableName();
       int state = gen.getState();
+      if (state != INSERT_RECORD) {
+          id = gen.getFieldValue("PK_RA_ID");
+      }
       long ts = System.currentTimeMillis();
 
       String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
       
       try {
-        AccessControlListIF acl = servlet.getAcl(Constants.ACL_RA_NAME);
-
+        String acl_p = Constants.ACL_RA_NAME + "/" +id;
+        AccessControlListIF acl = servlet.getAcl(acl_p);
+        
         upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
         
         //special case for delete, because user, having permission to delete RO or 
@@ -170,7 +169,7 @@ public class ActivityHandler extends ROHandler {
               return false;
             
             gen.setPKField("PK_RA_ID");
-            id = gen.getFieldValue("PK_RA_ID");
+            //id = gen.getFieldValue("PK_RA_ID");
             try{
                 if(state == MODIFY_RECORD){
                     RODServices.getDbService().insertIntoUndo(id, "U", tblName, "PK_RA_ID",ts,"","y",null);
@@ -191,8 +190,9 @@ public class ActivityHandler extends ROHandler {
                     ts + ",'"+ tblName +"','TYPE','T','y','n','A',0,'n')");
             
             if(state == DELETE_RECORD){
+                String acl_path = "/obligations/"+id;
                 updateDB("INSERT INTO T_UNDO VALUES ("+
-                        ts + ",'"+ tblName +"','ACL','ACL','n','n','"+id+"',0,'n')");
+                        ts + ",'"+ tblName +"','ACL','ACL','y','n','"+acl_path+"',0,'n')");
             }
             
             if (ext==null)

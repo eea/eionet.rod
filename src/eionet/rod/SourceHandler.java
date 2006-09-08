@@ -65,11 +65,11 @@ public class SourceHandler extends ActivityHandler {
                RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE=''S''");
                RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE=''S''");
                RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE","PK_SOURCE_ID",ts,"");
-               if(state == DELETE_RECORD){
+               /*if(state == DELETE_RECORD){
                    acl_id = RODServices.getDbService().getAclId(srcID,"/instruments");
                    RODServices.getDbService().insertTransactionInfo(acl_id,"A","ACLS","ACL_ID",ts,"");
                    RODServices.getDbService().insertTransactionInfo(acl_id,"A","ACL_ROWS","ACL_ID",ts,"");
-               }
+               }*/
            }
           
           if ( delSelf){
@@ -136,12 +136,16 @@ public class SourceHandler extends ActivityHandler {
 
       String tblName = gen.getTableName();
       int state = gen.getState();
+      if (state != INSERT_RECORD) {
+          id = gen.getFieldValue("PK_SOURCE_ID");
+      }
       long ts = System.currentTimeMillis();
 
       String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
       try {
-        AccessControlListIF acl = servlet.getAcl(Constants.ACL_LI_NAME);
+        String acl_p = Constants.ACL_LI_NAME + "/" +id;  
+        AccessControlListIF acl = servlet.getAcl(acl_p);
         upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
         del = acl.checkPermission(userName, Constants.ACL_DELETE_PERMISSION);
         ins = acl.checkPermission(userName, Constants.ACL_INSERT_PERMISSION);      
@@ -154,7 +158,6 @@ public class SourceHandler extends ActivityHandler {
          if (state != INSERT_RECORD) {
              
             gen.setPKField("PK_SOURCE_ID");
-            id = gen.getFieldValue("PK_SOURCE_ID");
             try{
                 if(state == MODIFY_RECORD){
                     RODServices.getDbService().insertIntoUndo(id, "U", tblName, "PK_SOURCE_ID",ts,"","y",null);
@@ -173,8 +176,9 @@ public class SourceHandler extends ActivityHandler {
             updateDB("INSERT INTO T_UNDO VALUES ("+
                     ts + ",'"+ tblName +"','TYPE','T','y','n','L',0,'n')");
             if(state == DELETE_RECORD){
+                String acl_path = "/instruments/"+id;
                 updateDB("INSERT INTO T_UNDO VALUES ("+
-                        ts + ",'"+ tblName +"','ACL','ACL','n','n','"+id+"',0,'n')");
+                        ts + ",'"+ tblName +"','ACL','ACL','y','n','"+acl_path+"',0,'n')");
             }
             
             // delete all linked parameter and medium records and in delete mode also the self record
