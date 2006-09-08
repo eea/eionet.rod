@@ -43,6 +43,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import com.tee.uit.security.AccessController;
 import com.tee.uit.security.SignOnException;
 import com.tee.util.Util;
 import com.tee.xmlserver.DBPoolIF;
@@ -1917,6 +1918,12 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                  if(type_array.length > 0)
                      type = type_array[0][0];
                  
+                 String acl_stmt = "SELECT value FROM T_UNDO WHERE operation='ACL' AND undo_time="+ts+" AND tab='"+tab+"'";
+                 String[][] acl_array = _executeStringQuery(acl_stmt);
+                 String aclPath = "";
+                 if(acl_array.length > 0)
+                     aclPath = acl_array[0][0];
+                 
                  if(op.equals("U"))
                      logHistory(type,id,user,"N","Undo Update");
                  else if(op.equals("D"))
@@ -1936,7 +1943,8 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                  String prev_quotes = null;
 
                  Vector tvec = new Vector();
-
+                 boolean aclAdded = false;
+                 
                  while (rset.next()) {
                      String ut = rset.getString(1);
                      String value = rset.getString(5);
@@ -1986,6 +1994,17 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                              String insert_sql = "INSERT INTO "+prev_table+" ("+cols.toString()+") VALUES ("+values.toString()+")";
                              if(!op.equals("UD"))
                                  _executeUpdate(insert_sql);
+                             if(op.equals("D") && aclPath != null && !aclPath.equalsIgnoreCase("") && !aclAdded){
+                                 try {
+                                     HashMap acls = AccessController.getAcls();
+                                     if (!acls.containsKey(aclPath)){
+                                         AccessController.addAcl(aclPath, user, "");
+                                         aclAdded = true;
+                                     }
+                                 } catch (SignOnException e){
+                                     e.printStackTrace();
+                                 }
+                             }
                              String delete_stmt = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND tab='"+prev_table+"' AND operation = '"+op+"'";
                              _executeUpdate(delete_stmt);
                              String delete_stmt2 = "DELETE FROM T_UNDO WHERE undo_time = "+prev_ut+" AND (operation = 'A' OR operation = 'ACL' OR operation = 'K' OR operation = 'O' OR operation = 'T')";
