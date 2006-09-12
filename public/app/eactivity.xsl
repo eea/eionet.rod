@@ -359,6 +359,18 @@
 					</td>
 				</tr>
 				<tr valign="top" bgcolor="#FFFFFF">
+					<td class="border_right"><span class="label">Data used for</span></td>
+					<td class="border_right">
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_DATAUSEDFOR</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+					</td>
+					<td>
+						<input type="text" size="68" onchange="chkUrl(this); changed()">
+							<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR/@XPath"/></xsl:attribute>
+							<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/></xsl:attribute>
+						</input>
+					</td>
+				</tr>
+				<tr valign="top" bgcolor="#FFFFFF">
 					<td colspan="2" class="border_right"><span class="label">Countries reporting formally</span></td>
 					<td>
 						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_SPATIALCOVERAGE</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>

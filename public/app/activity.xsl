@@ -398,6 +398,15 @@ Legislative instrument</a></div>
 				<td></td>
 			</tr>
 			<tr class="zebraeven">
+				<th scope="row" class="scope-row">Data used for</th>
+				<td>
+					<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/></xsl:attribute>
+						<xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/>
+					</a>
+				</td>
+				<td></td>
+			</tr>
+			<tr class="zebraodd">
 				<th scope="row" class="scope-row">Type of information reported</th>
 				<td>
 					<xsl:apply-templates select="SubSet[@Name='InfoType']"/>
