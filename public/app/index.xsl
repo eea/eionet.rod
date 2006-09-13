@@ -52,23 +52,16 @@
 
 <!-- SiteSearch Google -->
 <br/>
-<form method="get" action="http://search.eionet.europa.eu/search">
-	<input type="hidden" name="client" value="Eionet" />
-	<input type="hidden" name="site" value="Eionet" />
-	<input type="hidden" name="ie" value="UTF-8"/>
-	<input type="hidden" name="oe" value="UTF-8" />
-	<input type="hidden" name="output" value="xml_no_dtd" />
-	<input type="hidden" name="proxystylesheet" value="Eionet" />
-		<table width="600" style="border: 1px solid #006666">
-		<tr>
-			<td valign="middle" width="42%">
-				<b>Search ROD website:</b>
-				<input type="hidden" name="domains" value="rod.eionet.europa.eu"/>
-				<input type="hidden" name="as_sitesearch" value="rod.eionet.europa.eu"/>
-			</td>
-			<td valign="middle">
-				<input type="text" name="q" size="44" maxlength="255" value=""/>&#160;
-				<xsl:call-template name="go"/>
+<form method="get" action="http://search.eionet.europa.eu/search.jsp">
+	<input value="rod.eionet.europa.eu" name="qp_site" type="hidden"/>
+	<table width="600" style="border: 1px solid #006666">
+	<tr>
+		<td valign="middle" width="42%">
+			<label for="queryfld" style="font-weight:bold">Search ROD website:</label>
+		</td>
+		<td valign="middle">
+			<input type="text" name="query" id="queryfld" size="44" maxlength="255" value=""/>&#160;
+			<xsl:call-template name="go"/>
 			</td>
 		</tr>
 	</table>
