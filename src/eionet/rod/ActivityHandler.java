@@ -51,6 +51,7 @@ public class ActivityHandler extends ROHandler {
   private Vector paramCont = new Vector();
   private Vector spatialCont = new Vector();  
   private Vector clientCont = new Vector();
+  private String obligation_id = "";
 
   private Extractor ext; //used for role handling
   
@@ -137,8 +138,12 @@ public class ActivityHandler extends ROHandler {
 
       String tblName = gen.getTableName();
       int state = gen.getState();
-      if (state != INSERT_RECORD) {
-          id = gen.getFieldValue("PK_RA_ID");
+      
+      if (tblName.equals("T_OBLIGATION")) {
+          if (state != INSERT_RECORD) {
+              id = gen.getFieldValue("PK_RA_ID");
+          }
+          obligation_id = id;
       }
       long ts = System.currentTimeMillis();
 
@@ -146,7 +151,7 @@ public class ActivityHandler extends ROHandler {
       boolean ins = false, upd =false, del=false;
       
       try {
-        String acl_p = Constants.ACL_RA_NAME + "/" +id;
+        String acl_p = Constants.ACL_RA_NAME + "/" +obligation_id;
         AccessControlListIF acl = servlet.getAcl(acl_p);
         
         upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
@@ -246,7 +251,7 @@ public class ActivityHandler extends ROHandler {
          
          if(state == INSERT_RECORD){
              try {
-                 String aclPath = "/obligations/"+id;
+                 String aclPath = "/obligations/"+obligation_id;
                  HashMap acls = AccessController.getAcls();
                  if (!acls.containsKey(aclPath)){
                      AccessController.addAcl(aclPath, userName, "");

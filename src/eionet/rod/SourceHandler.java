@@ -48,6 +48,8 @@ import eionet.rod.services.RODServices;
  */
 
 public class SourceHandler extends ActivityHandler {
+    
+   private String source_id = "";
 
    private void DELETE_SOURCE(String srcID, boolean delSelf, boolean updateMode, String userName, long ts, int state) {
        
@@ -136,15 +138,18 @@ public class SourceHandler extends ActivityHandler {
 
       String tblName = gen.getTableName();
       int state = gen.getState();
-      if (state != INSERT_RECORD) {
-          id = gen.getFieldValue("PK_SOURCE_ID");
+      if (tblName.equals("T_SOURCE")) {
+          if (state != INSERT_RECORD) {
+              id = gen.getFieldValue("PK_SOURCE_ID");
+          }
+          source_id = id;
       }
       long ts = System.currentTimeMillis();
 
       String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
       try {
-        String acl_p = Constants.ACL_LI_NAME + "/" +id;  
+        String acl_p = Constants.ACL_LI_NAME + "/" +source_id;  
         AccessControlListIF acl = servlet.getAcl(acl_p);
         upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
         del = acl.checkPermission(userName, Constants.ACL_DELETE_PERMISSION);
@@ -213,7 +218,7 @@ public class SourceHandler extends ActivityHandler {
          
          if(state == INSERT_RECORD){
              try {
-                 String aclPath = "/instruments/"+id;
+                 String aclPath = "/instruments/"+source_id;
                  HashMap acls = AccessController.getAcls();
                  if (!acls.containsKey(aclPath)){
                      AccessController.addAcl(aclPath, userName, "");
