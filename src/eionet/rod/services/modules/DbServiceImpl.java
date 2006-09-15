@@ -1994,12 +1994,26 @@ public class DbServiceImpl implements DbServiceIF, eionet.rod.Constants {
                              String insert_sql = "INSERT INTO "+prev_table+" ("+cols.toString()+") VALUES ("+values.toString()+")";
                              if(!op.equals("UD"))
                                  _executeUpdate(insert_sql);
-                             if(op.equals("D") && aclPath != null && !aclPath.equalsIgnoreCase("") && !aclAdded){
+                             if(op.equals("D")  && !aclAdded){
                                  try {
                                      HashMap acls = AccessController.getAcls();
-                                     if (!acls.containsKey(aclPath)){
-                                         AccessController.addAcl(aclPath, user, "");
-                                         aclAdded = true;
+                                     if(aclPath != null && !aclPath.equalsIgnoreCase("")){
+                                             if (!acls.containsKey(aclPath)){
+                                                 AccessController.addAcl(aclPath, user, "");
+                                                 aclAdded = true;
+                                             }
+                                     } else {
+                                         String path = "";
+                                         if(tab.equals("T_OBLIGATION"))
+                                             path = "/obligations/";
+                                         else if(tab.equals("T_SOURCE"))
+                                             path = "/instruments/";
+                                         path = path + id;
+                                         
+                                         if (!acls.containsKey(path)){
+                                             AccessController.addAcl(path, user, "");
+                                             aclAdded = true;
+                                         }
                                      }
                                  } catch (SignOnException e){
                                      e.printStackTrace();
