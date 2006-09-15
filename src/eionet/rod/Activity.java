@@ -260,7 +260,8 @@ public class Activity extends ROEditServletAC {
                           
                           list = new Vector();
                           list.add(events);
-                          list.add(Attrs.SCHEMA_RDF + "label");
+                          list.add("http://purl.org/dc/elements/1.1/title");
+                          //list.add(Attrs.SCHEMA_RDF + "label");
                           list.add("Obligation change");
                           lists.add(list);
                           
@@ -279,7 +280,8 @@ public class Activity extends ROEditServletAC {
                           
                           list = new Vector();
                           list.add(events);
-                          list.add(Attrs.SCHEMA_RDF + "label");
+                          list.add("http://purl.org/dc/elements/1.1/title");
+                          //list.add(Attrs.SCHEMA_RDF + "label");
                           list.add("New Obligation");
                           lists.add(list);
                           
