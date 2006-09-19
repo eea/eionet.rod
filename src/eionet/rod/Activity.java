@@ -234,6 +234,8 @@ public class Activity extends ROEditServletAC {
           
           //
           if (activityHandler.wasObligationUpdate() || activityHandler.wasObligationInsert()){
+              AppUserIF user = getUser(req);
+              String userName = user.getUserName();
               
               try{
                   SQLGenerator gen = activityHandler.getSQLGen();
@@ -310,6 +312,12 @@ public class Activity extends ROEditServletAC {
                       list.add(events);
                       list.add(Attrs.SCHEMA_RDF + "responsiblerole");
                       list.add(gen.getFieldValue("RESPONSIBLE_ROLE"));
+                      lists.add(list);
+                      
+                      list = new Vector();
+                      list.add(events);
+                      list.add(Attrs.SCHEMA_RDF + "actor");
+                      list.add(userName);
                       lists.add(list);
                       
                       list = new Vector();
