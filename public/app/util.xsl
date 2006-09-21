@@ -286,7 +286,7 @@
 		
 		<form name="x1" method="get" action="rorabrowse.jsv" class="notprintable">
 		<input type="hidden" name="mode" value="A"></input>
-		<table class="formtable" border="0" width="600" cellspacing="0" cellpadding="2"  style="border: 1px solid #008080">
+		<table class="formtable" border="0" width="530" cellspacing="0" cellpadding="2"  style="border: 1px solid #008080">
 				 <tr>
 						<td colspan="2" width="95%" bgcolor="#FFFFFF" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
 							<b>Show reporting obligations</b>
@@ -325,7 +325,7 @@
 				<tr>
 					<td valign="middle" align="left" bgcolor="#FFFFFF"><b>Organisation</b></td>
 					<td style="border-left: 1px solid #C0C0C0">
-								<select name="client" style="color: #000000; font-size: 9pt; width:350" size="1">
+								<select name="client" style="color: #000000; font-size: 9pt; width:300" size="1">
 										<option value="-1">Any organisation</option>
 										<xsl:apply-templates select="RowSet[@Name='Client']"/>
 								</select>

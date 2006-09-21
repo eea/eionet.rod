@@ -54,9 +54,9 @@
 <br/>
 <form method="get" action="http://search.eionet.europa.eu/search.jsp">
 	<input value="rod.eionet.europa.eu" name="qp_site" type="hidden"/>
-	<table width="600" style="border: 1px solid #006666">
+	<table width="530" style="border: 1px solid #006666">
 	<tr>
-		<td valign="middle" width="42%">
+		<td valign="middle" width="30%">
 			<label for="queryfld" style="font-weight:bold">Search ROD website:</label>
 		</td>
 		<td valign="middle">
