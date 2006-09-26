@@ -46,7 +46,7 @@
 
 	<xsl:template match="XmlData">
 		<div id="workarea">
-			<xsl:if test="contains($permissions, ',/obligations:u,')='true'">
+			<xsl:if test="contains($permissions, ',/obligations:c,')='true'">
 				<div id="operations">
 					<ul>
 						<li>
