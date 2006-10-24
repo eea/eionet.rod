@@ -116,7 +116,7 @@
 						<%
 						Vector deadlines = null;
 						if(start_date != null && end_date != null){
-							deadlines = RODServices.getDbService().getHistoricDeadlines(start_date, end_date);
+							deadlines = RODServices.getDbService().getHistoricDeadlineDao().getHistoricDeadlines(start_date, end_date);
 						}
 						if(deadlines != null){
 						%>

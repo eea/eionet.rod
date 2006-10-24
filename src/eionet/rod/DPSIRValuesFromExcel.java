@@ -51,7 +51,7 @@ public class DPSIRValuesFromExcel extends HttpServlet {
                     for(int z = 1; z <= length; z++){
                         String value = dpsir.substring(z-1,z);
                         if(!value.equals(" ") && !value.equals(",")){
-                            RODServices.getDbService().dpsirValuesFromExcelToDB(id,value);
+                            RODServices.getDbService().getObligationDao().dpsirValuesFromExcelToDB(id,value);
                         }
                     }
                 }

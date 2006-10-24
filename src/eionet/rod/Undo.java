@@ -44,7 +44,7 @@ public class Undo extends HttpServlet {
             String location = null;
             
             try{
-                location = RODServices.getDbService().undo(va[0], va[1], va[2], va[3]);
+                location = RODServices.getDbService().getUndoDao().undo(Long.valueOf(va[0]).longValue(), va[1], va[2], va[3]);
             }catch (Exception e){
                 e.printStackTrace();
             }

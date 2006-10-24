@@ -28,7 +28,7 @@ public class RestoreObligation extends HttpServlet {
             int latestVer = Integer.parseInt(latestversion);
             try{
                 
-                update = RODServices.getDbService().getRestoreObligation(id, pid, latestVer);
+                update = RODServices.getDbService().getObligationDao().getRestoreObligation(Integer.valueOf(id), Integer.valueOf(pid), latestVer);
                 
             } catch (Exception e) {
                 e.printStackTrace();

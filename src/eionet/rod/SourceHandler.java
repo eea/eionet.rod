@@ -25,6 +25,8 @@ package eionet.rod;
 
 import java.sql.*;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import com.tee.util.*;
 import com.tee.xmlserver.*;
@@ -33,6 +35,11 @@ import com.tee.uit.security.AccessController;
 import com.tee.uit.security.SignOnException;
 
 import eionet.rod.services.RODServices;
+import eionet.rod.services.ServiceException;
+import eionet.rod.services.modules.db.dao.IClientDao;
+import eionet.rod.services.modules.db.dao.IObligationDao;
+import eionet.rod.services.modules.db.dao.ISourceDao;
+import eionet.rod.services.modules.db.dao.IUndoDao;
 
 /**
  * <P>Handler to store WebROD legislative act data.</P>
@@ -50,7 +57,11 @@ import eionet.rod.services.RODServices;
 public class SourceHandler extends ActivityHandler {
     
    private String source_id = "";
-
+   private IClientDao clientDao = null;
+   private IUndoDao undoDao = null;
+   private ISourceDao sourceDao = null;
+   private IObligationDao obligationDao = null;
+	
    private void DELETE_SOURCE(String srcID, boolean delSelf, boolean updateMode, String userName, long ts, int state) {
        
        String op = null;
@@ -63,10 +74,11 @@ public class SourceHandler extends ActivityHandler {
        try{
           
            if(state == MODIFY_RECORD || state == DELETE_RECORD){
-               RODServices.getDbService().insertTransactionInfo(srcID,"A","T_CLIENT_LNK","FK_OBJECT_ID",ts,"AND TYPE=''S''");
-               RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE=''S''");
-               RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE=''S''");
-               RODServices.getDbService().insertTransactionInfo(srcID,"A","T_SOURCE","PK_SOURCE_ID",ts,"");
+//          	 !!!!!!!!!! in old version single quotes was escaped in where clause
+        	   undoDao.insertTransactionInfo(srcID,"A","T_CLIENT_LNK","FK_OBJECT_ID",ts,"AND TYPE='S'");
+        	   undoDao.insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE='S'");
+        	   undoDao.insertTransactionInfo(srcID,"A","T_SOURCE_LNK","FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE='S'");
+        	   undoDao.insertTransactionInfo(srcID,"A","T_SOURCE","PK_SOURCE_ID",ts,"");
                /*if(state == DELETE_RECORD){
                    acl_id = RODServices.getDbService().getAclId(srcID,"/instruments");
                    RODServices.getDbService().insertTransactionInfo(acl_id,"A","ACLS","ACL_ID",ts,"");
@@ -75,18 +87,18 @@ public class SourceHandler extends ActivityHandler {
            }
           
           if ( delSelf){
-            RODServices.getDbService().insertIntoUndo(srcID, op, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y",null);
-            updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND FK_OBJECT_ID=" + srcID);
+            undoDao.insertIntoUndo(null,srcID, op, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y",null);
+            clientDao.deleteSourceLink(Integer.valueOf(srcID));
           }
-          RODServices.getDbService().insertIntoUndo(srcID, op, "T_SOURCE_LNK", "FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE='S'","y",null);
-          updateDB("DELETE FROM T_SOURCE_LNK WHERE CHILD_TYPE='S' AND FK_SOURCE_CHILD_ID=" + srcID);
+          undoDao.insertIntoUndo(null,srcID, op, "T_SOURCE_LNK", "FK_SOURCE_CHILD_ID",ts,"AND CHILD_TYPE='S'","y",null);
+          sourceDao.deleteChildLink(Integer.valueOf(srcID));
           if(!updateMode){
-              RODServices.getDbService().insertIntoUndo(srcID, op, "T_SOURCE_LNK", "FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE='S'","y",null);
-              updateDB("DELETE FROM T_SOURCE_LNK WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=" + srcID);
+              undoDao.insertIntoUndo(null,srcID, op, "T_SOURCE_LNK", "FK_SOURCE_PARENT_ID",ts,"AND PARENT_TYPE='S'","y",null);
+              sourceDao.deleteParentLink(Integer.valueOf(srcID));
           }
           if(state == DELETE_RECORD){
-              RODServices.getDbService().insertIntoUndo(acl_id, op, "ACLS", "ACL_ID",ts,"","n",null);
-              RODServices.getDbService().insertIntoUndo(acl_id, op, "ACL_ROWS", "ACL_ID",ts,"","n",null);
+              undoDao.insertIntoUndo(null,acl_id, op, "ACLS", "ACL_ID",ts,"","n",null);
+              undoDao.insertIntoUndo(null,acl_id, op, "ACL_ROWS", "ACL_ID",ts,"","n",null);
               try {
                   String aclPath = "/instruments/"+srcID;
                   AccessController.removeAcl(aclPath);
@@ -95,36 +107,25 @@ public class SourceHandler extends ActivityHandler {
               }
           }
           if (delSelf) {
-             RODServices.getDbService().addObligationIdsIntoUndo(srcID,ts,"T_SOURCE");
+             undoDao.addObligationIdsIntoUndo(Integer.valueOf(srcID),ts,"T_SOURCE");
               
              // cascade delete related reporting obligations
-             Statement stmt = null;
-             ResultSet rs = null;
-             String sqlStmt = "SELECT PK_RA_ID FROM T_OBLIGATION WHERE FK_SOURCE_ID=" + srcID;
-             try {
-                stmt = conn.createStatement();
-                rs = stmt.executeQuery(sqlStmt);
-                int cnt = 1;
-                while (rs.next()) {
-                   DELETE_ACTIVITY(rs.getString(1), true, userName, ts+cnt,"n",DELETE_RECORD);
-                   cnt++;
-                }
-             } catch (SQLException e) {
-                addErrorInfo(e, sqlStmt);
-             } finally {
-                try {
-                   if (rs != null)   rs.close();
-                   if (stmt != null) stmt.close();
-                } catch (SQLException e1) {
-                   Logger.log("SourceHandler.DELETE_SOURCE", e1);
-                }
-             }
-             RODServices.getDbService().insertIntoUndo(srcID, "D", "T_SOURCE", "PK_SOURCE_ID",ts,"","y",null);
-             // delete legislative act itself
-             updateDB("DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=" + srcID);
-             HistoryLogger.logLegisgationHistory(srcID,this.user.getUserName(), DELETE_RECORD, "");          
+             
+             List sourceObligations = obligationDao.getObligationsBySource(Integer.valueOf(srcID));
+             int cnt = 1;
+             Iterator soIterator = sourceObligations.iterator();
+             while (soIterator.hasNext()) {
+				String obligationId = (String) soIterator.next();
+			    DELETE_ACTIVITY(obligationId, true, userName, ts+cnt,"n",DELETE_RECORD);
+			    cnt++;				
+			}             
+            undoDao.insertIntoUndo(null,srcID, "D", "T_SOURCE", "PK_SOURCE_ID",ts,"","y",null);
+            // delete legislative act itself
+            sourceDao.deleteSource(Integer.valueOf(srcID));
+            HistoryLogger.logLegisgationHistory(srcID,this.user.getUserName(), DELETE_RECORD, "");          
           }
        }catch (Exception e){
+           Logger.log("SourceHandler.DELETE_SOURCE", e);
            e.printStackTrace();
        }  
    }
@@ -136,6 +137,7 @@ public class SourceHandler extends ActivityHandler {
       if (getError())
          return false;
 
+     try {
       String tblName = gen.getTableName();
       int state = gen.getState();
       if (tblName.equals("T_SOURCE")) {
@@ -163,31 +165,23 @@ public class SourceHandler extends ActivityHandler {
          if (state != INSERT_RECORD) {
              
             gen.setPKField("PK_SOURCE_ID");
-            try{
                 if(state == MODIFY_RECORD){
-                    RODServices.getDbService().insertIntoUndo(id, "U", tblName, "PK_SOURCE_ID",ts,"","y",null);
-                    RODServices.getDbService().insertIntoUndo(id, "U", "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y",null);
+		            undoDao.insertIntoUndo(null,id, "U", tblName, "PK_SOURCE_ID",ts,"","y",null);
+		            undoDao.insertIntoUndo(null,id, "U", "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y",null);
                 }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
             
             String url = "show.jsv?id="+id+"&mode=S";
             
-            updateDB("INSERT INTO T_UNDO VALUES ("+
-                    ts + ",'"+ tblName +"','REDIRECT_URL','L','y','n','"+url+"',0,'n')");
-            updateDB("INSERT INTO T_UNDO VALUES ("+
-                    ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
-            updateDB("INSERT INTO T_UNDO VALUES ("+
-                    ts + ",'"+ tblName +"','TYPE','T','y','n','L',0,'n')");
+			undoDao.insertIntoUndo(ts,tblName,"REDIRECT_URL","L","y","n",url,0,"n");
+			undoDao.insertIntoUndo(ts,tblName,"A_USER","K","y","n",userName,0,"n");
+			undoDao.insertIntoUndo(ts,tblName,"TYPE","T","y","n","L",0,"n");
             if(state == DELETE_RECORD){
                 String acl_path = "/instruments/"+id;
-                updateDB("INSERT INTO T_UNDO VALUES ("+
-                        ts + ",'"+ tblName +"','ACL','ACL','y','n','"+acl_path+"',0,'n')");
+                undoDao.insertIntoUndo(ts,tblName,"ACL","ACL","y","n",acl_path,0,"n");
             }
             
             // delete all linked parameter and medium records and in delete mode also the self record
-		    updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='S' AND STATUS = 'M' AND FK_OBJECT_ID=" + id);
+			clientDao.deleteParameterLink(Integer.valueOf(id));
 
             boolean delSelf = (state == DELETE_RECORD);
 
@@ -239,8 +233,7 @@ public class SourceHandler extends ActivityHandler {
          String clientId=gen.getFieldValue("FK_CLIENT_ID");
 
           if ( clientId != null && !clientId.trim().equals(""))
-            updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, TYPE, STATUS) VALUES " +
-               " ( " + clientId + "," + id + ", 'S', 'M')");
+		    	  clientDao.insertClientLink(Integer.valueOf(clientId), Integer.valueOf(id), "M","S");
 
 
         logHistory(gen);
@@ -267,18 +260,32 @@ public class SourceHandler extends ActivityHandler {
       }
       else if (tblName.equals("T_LOOKUP")) 
          return false; // no need for further processing
-      
+       }catch(Exception e){logger.error(e);}
       return true;
    }
 
    public SourceHandler(ROEditServletAC servlet) {
       super(servlet);
+      initDao();
    }
    // constructor for testing
    SourceHandler(DBPoolIF dbPool, DBVendorIF dbVendor) {
       super(dbPool, dbVendor);
+      initDao();
    }
 
+   private void initDao(){
+		try {
+			undoDao = RODServices.getDbService().getUndoDao();
+			obligationDao = RODServices.getDbService().getObligationDao();
+			clientDao = RODServices.getDbService().getClientDao();
+			sourceDao = RODServices.getDbService().getSourceDao();			
+		} catch (ServiceException e) {
+			logger.fatal(e);
+		}
+		
+	}   
+   
    private void logHistory(SQLGenerator gen ) {
       HistoryLogger.logLegisgationHistory(id, this.user.getUserName(), gen.getState(), gen.getFieldValue("TITLE"));   
    }

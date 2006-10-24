@@ -31,12 +31,12 @@
 			String item_type = request.getParameter("item_type");
 			String mode = request.getParameter("mode");
 
-						Vector versions = RODServices.getDbService().getDeletedFromUndo(item_type);
+						Vector versions = RODServices.getDbService().getUndoDao().getDeletedFromUndo(item_type);
 						String id = null;
 						String user = null;
 						String show_object = null;
 						if(versions.size() > 0){
-							if(item_type.equals("O' OR ITEM_TYPE='A")){ %>		
+							if(item_type.equals("O")){ %>		
 								<h1>Deleted Obligations</h1>
 							<%} else if(item_type.equals("L")){ %>					
 								<h1>Deleted Legislative instruments</h1>
@@ -80,9 +80,9 @@
 											user = (String)hash.get("value");	
 										}									
 										if (s % 2 == 0){
-											cl="zebraodd";
+											c="zebraodd";
 										} else {
-											cl="zebraeven";
+											c="zebraeven";
 										}
 										if(user != null && id != null && tab != null){
 											if(show_object.equals("y")){
@@ -116,7 +116,7 @@
 														<td><%=user%></td>
 														<td align="center">
 														<%
-															if(!operation.equals("D") || RODServices.getDbService().isIdAvailable(id,tab)){ %>
+															if(!operation.equals("D") || RODServices.getDbService().getGenericlDao().isIdAvailable(id,tab)){ %>
 																	<input type="radio" name="group" value="<%=ts%>,<%=tab%>,<%=operation%>,<%=id%>"/>
 															<% } %>
 														</td>
@@ -141,7 +141,7 @@
 						if(pagenr != null){
 							pa_nr = new Integer(pagenr).intValue();
 						}
-						Hashtable historyHash = RODServices.getDbService().getDeletedItemsVector(item_type);
+						Hashtable historyHash = RODServices.getDbService().getHistoryDao().getDeletedItemsVector(item_type);
 						Integer pages_int = (Integer) historyHash.get("pages");
 						int pages = 1;
 						if(pages_int != null){
@@ -154,7 +154,7 @@
 							history_list = (Vector) historyHash.get("1");	
 						}
 						if(history_list.size() > 0){
-						if(item_type.equals("O' OR ITEM_TYPE='A")){ %>
+						if(item_type.equals("O")){ %>
 							<h1>Deleted Items of type Reporting obligation</h1>
 						<% } else if(item_type.equals("L")){ %>
 							<h1>Deleted Items of type Legislative instrument </h1>				
@@ -250,7 +250,6 @@
 		contact the server administrator.</b>
 		<% } %>
 </div> <!-- workarea -->
-<jsp:include page="footer.jsp" flush="true">
-</jsp:include>
+<jsp:include page="footer.jsp" flush="true"></jsp:include>
 </body>
 </html>

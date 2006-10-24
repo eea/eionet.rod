@@ -179,7 +179,15 @@
 				<li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe</a></li>
 			    </xsl:when>
 			    <xsl:otherwise>
-				<li><a href="login.jsp?rd=subscribe" title="Create a UNS Subscription">Subscribe</a></li>
+					<li>
+						<a>
+							<xsl:attribute name="href">
+								<xsl:value-of select="java:eionet.rod.EionetCASFilter.getCASLoginURL($req,true())"/>
+							</xsl:attribute>
+							<xsl:attribute name="title">Create a UNS Subscription</xsl:attribute>
+							Subscribe
+						</a>					    
+					</li>					
 			    </xsl:otherwise>
 		    </xsl:choose>
 		    <li><a href="text.jsv?mode=H" title="General Help">Help</a></li>
@@ -195,7 +203,15 @@
 				<xsl:otherwise>
 				    	<h2>Not logged in</h2>
 					<ul>
-					    <li><a href="login.jsp" title="Login">Login</a></li>
+						<li>
+							<a>
+								<xsl:attribute name="href">
+									<xsl:value-of select="java:eionet.rod.EionetCASFilter.getCASLoginURL($req,false())"/>
+								</xsl:attribute>
+								<xsl:attribute name="title">Login</xsl:attribute>
+								Login
+							</a>					    
+						</li>
 					</ul>
 				</xsl:otherwise>
 			</xsl:choose>

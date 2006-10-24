@@ -98,7 +98,7 @@
 						if(pagenr != null){
 							pa_nr = new Integer(pagenr).intValue();
 						}
-						Hashtable verHash = RODServices.getDbService().getPreviousActions(aid, tabel, id_field);
+						Hashtable verHash = RODServices.getDbService().getUndoDao().getPreviousActions(aid, tabel, id_field);
 						Integer pages_int = (Integer) verHash.get("pages");
 						int pages = 1;
 						if(pages_int != null){
@@ -112,7 +112,7 @@
 						}
 						String id = null;
 						String show_object = null;
-						if(versions.size() > 0){%>
+						if(versions != null && versions.size() > 0){%>
 						<form name="form" method="post" action="undo">
 						<table class="datatable" width="600">
 							<thead>
@@ -149,7 +149,7 @@
 											id = (String)hash.get("value");
 											String ut = (String) hash.get("undo_time");
 											String t = (String) hash.get("tab");
-											user = RODServices.getDbService().getUndoUser(ut,t);
+											user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ut).longValue(),t);
 											s++;
 										}
 										if (s % 2 == 0){
@@ -191,7 +191,7 @@
 														<td><%=user%></td>
 														<td align="center">
 														<%
-															if(!operation.equals("D") || RODServices.getDbService().isIdAvailable(id,tab)){ %>
+															if(!operation.equals("D") || RODServices.getDbService().getGenericlDao().isIdAvailable(id,tab)){ %>
 																	<input type="radio" name="group" value="<%=ts%>,<%=tab%>,<%=operation%>,<%=id%>"/>
 															<% } %>
 														</td>
@@ -238,7 +238,7 @@
 				<br/>
 				<br/>
 						<%
-						Vector history_list = RODServices.getDbService().getHistory(aid,tabel);
+						Vector history_list = RODServices.getDbService().getHistoryDao().getHistory(Integer.valueOf(aid).intValue(),tabel);
 						if(history_list.size() > 0){
 						if(tabel.equals("T_OBLIGATION")){ %>
 							<b>History of changing data of Reporting Obligation: ID=<%=aid%></b>
@@ -303,7 +303,6 @@
 		contact the server administrator.</b>
 		<% } %>
 </div> <!-- workarea -->
-<jsp:include page="footer.jsp" flush="true">
-</jsp:include>
+<jsp:include page="footer.jsp" flush="true"></jsp:include>
 </body>
 </html>

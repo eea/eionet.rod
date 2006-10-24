@@ -36,6 +36,13 @@ import com.tee.xmlserver.DBVendorIF;
 
 import eionet.rod.countrysrv.Extractor;
 import eionet.rod.services.RODServices;
+import eionet.rod.services.LogServiceIF;
+import eionet.rod.services.ServiceException;
+import eionet.rod.services.modules.db.dao.IClientDao;
+import eionet.rod.services.modules.db.dao.IHistoricDeadlineDao;
+import eionet.rod.services.modules.db.dao.IObligationDao;
+import eionet.rod.services.modules.db.dao.ISpatialHistoryDao;
+import eionet.rod.services.modules.db.dao.IUndoDao;
 
 /**
  * <P>Handler to store WebROD activity data.</P>
@@ -54,6 +61,12 @@ public class ActivityHandler extends ROHandler {
   private String obligation_id = "";
 
   private Extractor ext; //used for role handling
+  private IUndoDao undoDao = null;
+  private IObligationDao obligationDao = null;
+  private IHistoricDeadlineDao historicDeadlineDao = null;
+  private IClientDao clientDao = null;
+  private ISpatialHistoryDao spatialHistoryDao = null;
+  protected static LogServiceIF logger = RODServices.getLogService();
   
   private boolean _wasObligationUpdate = false;
   private boolean _wasObligationInsert = false;
@@ -76,28 +89,30 @@ public class ActivityHandler extends ROHandler {
       // store in T_UNDO 
       try{
           if(state == MODIFY_RECORD || state == DELETE_RECORD){
-              RODServices.getDbService().insertTransactionInfo(raID,"A","T_RAISSUE_LNK","FK_RA_ID",ts,"");
-              RODServices.getDbService().insertTransactionInfo(raID,"A","T_RASPATIAL_LNK","FK_RA_ID",ts,"");
-              RODServices.getDbService().insertTransactionInfo(raID,"A","T_INFO_LNK","FK_RA_ID",ts,"");
-              RODServices.getDbService().insertTransactionInfo(raID,"A","T_CLIENT_LNK","FK_OBJECT_ID",ts,"AND TYPE=''A''");
-              RODServices.getDbService().insertTransactionInfo(raID,"A","T_OBLIGATION","PK_RA_ID",ts,"");
-              RODServices.getDbService().insertTransactionInfo(raID,"A","T_HISTORIC_DEADLINES","FK_RA_ID",ts,"");
-          }
-          RODServices.getDbService().insertIntoUndo(raID, op, "T_RAISSUE_LNK", "FK_RA_ID",ts,"",show,null);
+				undoDao.insertTransactionInfo(raID, "A", "T_RAISSUE_LNK", "FK_RA_ID", ts, "");
+				undoDao.insertTransactionInfo(raID, "A", "T_RASPATIAL_LNK", "FK_RA_ID", ts, "");
+				undoDao.insertTransactionInfo(raID, "A", "T_INFO_LNK", "FK_RA_ID", ts, "");
+				// !!!!!!!!!! in old version single quotes was escaped in where clause
+				undoDao.insertTransactionInfo(raID, "A", "T_CLIENT_LNK", "FK_OBJECT_ID", ts, "AND TYPE='A'");
+				undoDao.insertTransactionInfo(raID, "A", "T_OBLIGATION", "PK_RA_ID", ts, "");
+				undoDao.insertTransactionInfo(raID, "A", "T_HISTORIC_DEADLINES", "FK_RA_ID", ts, "");
+			}
+			Integer obligationID = Integer.valueOf(raID); 
+			undoDao.insertIntoUndo(null, raID, op, "T_RAISSUE_LNK", "FK_RA_ID", ts, "", show, null);
           // delete linked environmental issues & parameters
-          updateDB("DELETE FROM T_RAISSUE_LNK WHERE FK_RA_ID=" + raID);
-          RODServices.getDbService().insertIntoUndo(raID, op, "T_RASPATIAL_LNK", "FK_RA_ID",ts,"",show,null);
-          updateDB("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + raID);      
-          //updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
-          RODServices.getDbService().insertIntoUndo(raID, op, "T_INFO_LNK", "FK_RA_ID",ts,"",show,null);
-          updateDB("DELETE FROM T_INFO_LNK WHERE FK_RA_ID=" + raID);
-          //delete linked historical deadlines
-          RODServices.getDbService().insertIntoUndo(raID, op, "T_HISTORIC_DEADLINES", "FK_RA_ID",ts,"",show,null);
-          updateDB("DELETE FROM T_HISTORIC_DEADLINES WHERE FK_RA_ID=" + raID);
-          
+			obligationDao.deleteIssueLink(obligationID);
+			undoDao.insertIntoUndo(null, raID, op, "T_RASPATIAL_LNK", "FK_RA_ID", ts, "", show, null);
+			obligationDao.deleteSpatialLink(obligationID);
+			// updateDB("DELETE FROM T_PARAMETER_LNK WHERE FK_RA_ID=" + raID);
+			undoDao.insertIntoUndo(null, raID, op, "T_INFO_LNK", "FK_RA_ID", ts, "", show, null);
+			obligationDao.deleteInfoLink(obligationID);
+			// delete linked historical deadlines
+			undoDao.insertIntoUndo(null, raID, op, "T_HISTORIC_DEADLINES", "FK_RA_ID", ts, "", show, null);
+			historicDeadlineDao.deleteByObligationId(obligationID);
+
           if(state == DELETE_RECORD){
-              RODServices.getDbService().insertIntoUndo(acl_id, op, "ACLS", "ACL_ID",ts,"","n",null);
-              RODServices.getDbService().insertIntoUndo(acl_id, op, "ACL_ROWS", "ACL_ID",ts,"","n",null);
+              undoDao.insertIntoUndo(null,acl_id, op, "ACLS", "ACL_ID",ts,"","n",null);
+              undoDao.insertIntoUndo(null,acl_id, op, "ACL_ROWS", "ACL_ID",ts,"","n",null);
               try {
                   String aclPath = "/obligations/"+raID;
                   AccessController.removeAcl(aclPath);
@@ -111,18 +126,16 @@ public class ActivityHandler extends ROHandler {
           //updateDB("DELETE FROM T_INFORMATION WHERE FK_RO_ID=" + raID);
     
           //client_lnk
-          RODServices.getDbService().insertIntoUndo(raID, op, "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='A'",show,null);
-          updateDB("DELETE FROM T_CLIENT_LNK WHERE TYPE='A' AND FK_OBJECT_ID=" + raID);
-          
-          updateDB("UPDATE T_SPATIAL_HISTORY SET END_DATE=NOW() WHERE " +
-            " END_DATE IS NULL AND FK_RA_ID=" + raID);
-    
+			undoDao.insertIntoUndo(null, raID, op, "T_CLIENT_LNK", "FK_OBJECT_ID", ts, "AND TYPE='A'", show, null);
+			clientDao.deleteObligationLink(obligationID);
+
+			spatialHistoryDao.updateEndDateForObligation(obligationID);
+
           if (delSelf) {
-              RODServices.getDbService().insertIntoUndo(raID, "D", "T_OBLIGATION", "PK_RA_ID",ts,"",show,null);
-              updateDB("DELETE FROM T_OBLIGATION WHERE PK_RA_ID=" + raID);
-              HistoryLogger.logActivityHistory(raID,this.user.getUserName(), DELETE_RECORD, "");                       
-          }
-          
+				undoDao.insertIntoUndo(null, raID, "D", "T_OBLIGATION", "PK_RA_ID", ts, "", show, null);
+				obligationDao.deleteObligation(obligationID);
+				HistoryLogger.logActivityHistory(raID, this.user.getUserName(), DELETE_RECORD, "");
+			}
       }catch (Exception e){
           e.printStackTrace();
       } 
@@ -132,7 +145,7 @@ public class ActivityHandler extends ROHandler {
  */
    protected boolean sqlReady(SQLGenerator gen, String context) {
       // if error has occured in previous call, stop further processing
-
+    try{
       if (getError())
          return false;
 
@@ -177,7 +190,7 @@ public class ActivityHandler extends ROHandler {
             //id = gen.getFieldValue("PK_RA_ID");
             try{
                 if(state == MODIFY_RECORD){
-                    RODServices.getDbService().insertIntoUndo(id, "U", tblName, "PK_RA_ID",ts,"","y",null);
+						undoDao.insertIntoUndo(null, id, "U", tblName, "PK_RA_ID", ts, "", "y", null);
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -187,17 +200,13 @@ public class ActivityHandler extends ROHandler {
             
             String url = "show.jsv?id="+id+"&aid="+aid+"&mode=A";
            
-            updateDB("INSERT INTO T_UNDO VALUES ("+
-                    ts + ",'"+ tblName +"','REDIRECT_URL','L','y','n','"+url+"',0,'n')");
-            updateDB("INSERT INTO T_UNDO VALUES ("+
-                    ts + ",'"+ tblName +"','A_USER','K','y','n','"+userName+"',0,'n')");
-            updateDB("INSERT INTO T_UNDO VALUES ("+
-                    ts + ",'"+ tblName +"','TYPE','T','y','n','A',0,'n')");
+			undoDao.insertIntoUndo(ts,tblName,"REDIRECT_URL","L","y","n",url,0,"n");
+			undoDao.insertIntoUndo(ts,tblName,"A_USER","K","y","n",userName,0,"n");
+			undoDao.insertIntoUndo(ts,tblName,"TYPE","T","y","n","A",0,"n");
             
             if(state == DELETE_RECORD){
                 String acl_path = "/obligations/"+id;
-                updateDB("INSERT INTO T_UNDO VALUES ("+
-                        ts + ",'"+ tblName +"','ACL','ACL','y','n','"+acl_path+"',0,'n')");
+                undoDao.insertIntoUndo(ts,tblName,"ACL","ACL","y","n",acl_path,0,"n");
             }
             
             if (ext==null)
@@ -265,9 +274,7 @@ public class ActivityHandler extends ROHandler {
 
          //main client to T_CLIENT_LNK
       	 if (state != DELETE_RECORD && !gen.getFieldValue("FK_CLIENT_ID").equals("0"))
-        		updateDB("INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, STATUS, TYPE) " +
-              " VALUES ( " + gen.getFieldValue("FK_CLIENT_ID") + ", " + id +
-        			    ", 'M', 'A')");     
+      		 	clientDao.insertClientLink(Integer.valueOf(gen.getFieldValue("FK_CLIENT_ID")),Integer.valueOf(id),"M","A");
 
          HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
 
@@ -330,7 +337,7 @@ public class ActivityHandler extends ROHandler {
            String spatialId, voluntary; // spatialType;
 
            if(value.indexOf(":") == -1) {
-             updateDB("DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=" + id + " AND FK_SPATIAL_ID=" + getID(value));
+			 obligationDao.deleteSpatialLink(Integer.valueOf(id), new Integer(getID(value)));
              spatialId=getID(value);
              //spatialType=getUnitID(value);
              voluntary="N";
@@ -412,6 +419,7 @@ public class ActivityHandler extends ROHandler {
                   _wasObligationInsert = true;
               }
       }
+    }catch (Exception e){logger.error(e);} 
       return true;
    }
    
@@ -442,26 +450,37 @@ public class ActivityHandler extends ROHandler {
 
    public ActivityHandler(ROEditServletAC servlet) {
       super(servlet);
+      initDao();
    }
    // constructor for testing
    ActivityHandler(DBPoolIF dbPool, DBVendorIF dbVendor) {
       super(dbPool, dbVendor);
+      initDao();
    }
 
-  private void processInfoType(String raId, String infoIds) {
+  private void processInfoType(String raId, String infoIds) throws ServiceException{
     StringTokenizer st = new StringTokenizer(infoIds, "|");
     while (st.hasMoreTokens()) {
       String infoId=st.nextToken();
-      String sql;
       if (infoId.length()>0) {
-        sql="INSERT INTO T_INFO_LNK (FK_RA_ID, FK_INFO_ID) VALUES (" + raId + ", '" + infoId + "')";
-        //System.out.println("************** " + sql);
-        updateDB(sql);
+				obligationDao.insertInfoLink(Integer.valueOf(raId),infoId);
       }
         
     }
   }
 
+   private void initDao(){
+		try {
+			undoDao = RODServices.getDbService().getUndoDao();
+			obligationDao = RODServices.getDbService().getObligationDao();
+			historicDeadlineDao = RODServices.getDbService().getHistoricDeadlineDao();
+			clientDao = RODServices.getDbService().getClientDao();
+			spatialHistoryDao = RODServices.getDbService().getSpatialHistoryDao();			
+		} catch (ServiceException e) {
+			logger.fatal(e);
+		}		
+	}
+	
   /**
   * takes role info from DIR and saves if found
   */

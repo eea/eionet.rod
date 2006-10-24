@@ -44,6 +44,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import eionet.rod.services.*;
+import eionet.rod.services.modules.db.dao.RODDaoFactory;
 import eionet.directory.DirectoryService;
 import eionet.directory.DirServiceException;
 import java.util.HashMap;
@@ -67,7 +68,7 @@ public class Extractor implements ExtractorConstants {
   boolean debugLog = true;
   private static PrintWriter out = null;
   private static LogServiceIF logger ;
-  private  DbServiceIF csDb;
+  private  RODDaoFactory daoFactory;
 
   private static Extractor extractor;
 
@@ -81,9 +82,9 @@ public class Extractor implements ExtractorConstants {
   public Extractor() {
 
     try {
-      if (csDb==null) {
+      if (daoFactory==null) {
 
-        csDb = RODServices.getDbService();
+        daoFactory = RODServices.getDbService();
       }
     }  catch (Exception e) {
       //extractor.out.println("Opening connection to database failed. The following error was reported:\n" + e.toString());
@@ -268,7 +269,7 @@ public class Extractor implements ExtractorConstants {
       }
 
     try {
-      raData = csDb.getRaData();
+      raData = daoFactory.getObligationDao().getRaData();
 
       Hashtable attrs = new Hashtable();
 
@@ -277,7 +278,7 @@ public class Extractor implements ExtractorConstants {
 
       //go through all RA's and get deliveries and referrals
       HashMap cMap = new HashMap();
-      csDb.backUpDeliveries();
+      daoFactory.getDeliveryDao().backUpDeliveries();
 
       int countDeliveryNs = deliveryNs.length;
       //create total counters:
@@ -308,14 +309,14 @@ public class Extractor implements ExtractorConstants {
 
             log("Received " + allDeliveries.size() + " deliveries for RA: " + raData[i][1]);
 
-            csDb.saveDeliveries( raData[i][0], allDeliveries, cMap);
+            daoFactory.getDeliveryDao().saveDeliveries( Integer.valueOf(raData[i][0]), allDeliveries, cMap);
         } catch (Exception se ) {
-          csDb.rollBackDeliveries(raData[i][0]);
+          daoFactory.getDeliveryDao().rollBackDeliveries(Integer.valueOf(raData[i][0]));
           log ("Error harvesintg deliveries for RA: " + raData[i][0] + " " + se.toString());
         }
       }
 
-      csDb.commitDeliveries();
+      daoFactory.getDeliveryDao().commitDeliveries();
 
       if(debugLog)
         log("* Deliveries OK");
@@ -337,12 +338,12 @@ public class Extractor implements ExtractorConstants {
       actionText += " - roles ";
       try  {
         Set roleSet = new HashSet();
-        String[] respRoles = csDb.getRespRoles();
+        String[] respRoles = daoFactory.getObligationDao().getRespRoles();
 
       log("Found " + respRoles.length + " roles from database");
 
 
-      csDb.backUpRoles();
+      daoFactory.getRoleDao().backUpRoles();
 
       for(int i = 0; i < respRoles.length; i++) {
 
@@ -400,7 +401,7 @@ public class Extractor implements ExtractorConstants {
         }*/
       } // roles.next()
 
-      csDb.commitRoles();
+      daoFactory.getRoleDao().commitRoles();
 
       if(debugLog)
         log("* Roles OK");
@@ -430,7 +431,7 @@ public class Extractor implements ExtractorConstants {
 
   }
 
-    csDb.logHistory("H", "0",  userFullName, "X", actionText);
+    daoFactory.getHistoryDao().logHistory("H", "0",  userFullName, "X", actionText);
     // End processing
     //
     long b = System.currentTimeMillis();
@@ -494,7 +495,7 @@ public class Extractor implements ExtractorConstants {
            e.printStackTrace();
         }
 
-        csDb.saveRole(role, fullName, orgName);
+        daoFactory.getRoleDao().saveRole(role, fullName, orgName);
       }
 
     }

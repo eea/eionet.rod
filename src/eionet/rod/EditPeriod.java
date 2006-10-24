@@ -37,7 +37,7 @@ public class EditPeriod extends HttpServlet {
         
         try{
             
-        RODServices.getDbService().editPeriod(start_date,end_date,spatialHistoryID,ra_id);
+        RODServices.getDbService().getSpatialHistoryDao().editPeriod(start_date,end_date,spatialHistoryID,ra_id);
         
         } catch (Exception e){
             e.printStackTrace();

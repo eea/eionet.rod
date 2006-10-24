@@ -24,35 +24,33 @@
 
 package eionet.rod;
 
-import eionet.rod.services.DbServiceIF;
+
 import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import com.tee.xmlserver.SaveHandler;
-import eionet.directory.DirectoryService;
-import eionet.directory.DirServiceException;
 import com.tee.uit.security.AuthMechanism;
 import com.tee.uit.security.SignOnException;
+import eionet.rod.services.modules.db.dao.IHistoryDao;
 
 public class HistoryLogger extends SaveHandler {
-  private static DbServiceIF db;
+  private static IHistoryDao historyDao;
   private static LogServiceIF logger;
 
   
   static  {
 
     logger = RODServices.getLogService();
-    if (db==null)
-		try {
-			db = RODServices.getDbService();
-	  } catch (ServiceException se ) {
-		logger.error("Error getting DbPool " + se.toString());
-	  }
+	    try {  
+	    		historyDao = RODServices.getDbService().getHistoryDao(); 
+	      } catch (ServiceException se ) {
+	        logger.fatal(se);
+	      }
   }
 
  static void logLegisgationHistory(String id, String user, int state, String desc ) {
     try {  
-      logHistory( DbServiceIF.LI_LOG_TYPE, id, user, state, desc);
+      logHistory( historyDao.LI_LOG_TYPE, id, user, state, desc);
     } catch (ServiceException se ) {
       logger.error("Error saving LI history " + se.toString());
     }
@@ -60,7 +58,7 @@ public class HistoryLogger extends SaveHandler {
 /*
   static void logObligationHistory(String id, String user, int state, String desc ) {
     try {  
-      logHistory( DbServiceIF.RO_LOG_TYPE, id, user, state, desc);
+      logHistory( historyDao.RO_LOG_TYPE, id, user, state, desc);
     } catch (ServiceException se ) {
       logger.error("Error saving RO history " + se.toString());
     }
@@ -68,14 +66,16 @@ public class HistoryLogger extends SaveHandler {
 */
   static void logSpatialHistory(String id, String spatialId, String voluntary) {
     try {
-      db.logSpatialHistory(id, spatialId, voluntary);
+       int ra_id = Integer.valueOf(id).intValue();
+       int spatial_id = Integer.valueOf(spatialId).intValue();
+       RODServices.getDbService().getSpatialHistoryDao().logSpatialHistory(ra_id, spatial_id, voluntary);
     } catch (ServiceException se ) {
       logger.error("Error saving spatial link history " + se.toString());
     }
   }
   static void logActivityHistory(String id, String user, int state, String desc ) {
     try {  
-      logHistory( DbServiceIF.RA_LOG_TYPE, id, user, state, desc);
+      logHistory( historyDao.RA_LOG_TYPE, id, user, state, desc);
     } catch (ServiceException se ) {
       logger.error("Error saving history " + se.toString());
     }
@@ -91,17 +91,17 @@ public class HistoryLogger extends SaveHandler {
       RODServices.getLogService().warning("Error getting full name for " + user);
     }
 
-    db.logHistory( type, id, user, action, desc );
+    RODServices.getDbService().getHistoryDao().logHistory( type, id, user, action, desc );
   }
 
  private static String getAction(int state) {
   String action = "";
   if ( state==INSERT_RECORD)
-    action = DbServiceIF.INSERT_ACTION_TYPE;
+    action = historyDao.INSERT_ACTION_TYPE;
   else if ( state==DELETE_RECORD)
-    action = DbServiceIF.DELETE_ACTION_TYPE;
+    action = historyDao.DELETE_ACTION_TYPE;
   else if ( state== MODIFY_RECORD)
-    action = DbServiceIF.UPDATE_ACTION_TYPE;
+    action = historyDao.UPDATE_ACTION_TYPE;
 
   return action;    
     

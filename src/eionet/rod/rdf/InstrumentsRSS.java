@@ -56,7 +56,7 @@ public class InstrumentsRSS extends RSSServletAC {
     }
     addChannelTag(s, lisUrl);
 
-    String[][] lis = RODServices.getDbService().getInstrumentsRSS();
+    String[][] lis = RODServices.getDbService().getSourceDao().getInstrumentsRSS();
 
     s.append("<items><rdf:Seq>");
     for (int i= 0; i< lis.length; i++){

@@ -22,7 +22,7 @@
 	</context-param>
 	<context-param>
 		<param-name>authenticator</param-name>
-		<param-value>eionet.rod.ROUser</param-value>
+		<param-value>eionet.rod.ROCASUser</param-value>
 	</context-param>
 	<context-param>
 		<param-name>login-error-page</param-name>
@@ -36,6 +36,64 @@
 		<param-name>max-records</param-name>
 		<param-value>6000</param-value>
 	</context-param>
+	<filter>
+	    <filter-name>CAS Filter</filter-name>
+	    <filter-class>eionet.rod.EionetCASFilter</filter-class>
+	    <init-param>
+	      <param-name>edu.yale.its.tp.cas.client.filter.loginUrl</param-name>
+	      <param-value>https://localhost:8443/cas/login</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>edu.yale.its.tp.cas.client.filter.validateUrl</param-name>
+	      <param-value>https://localhost:8443/cas/serviceValidate</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>edu.yale.its.tp.cas.client.filter.serverName</param-name>
+	      <param-value>localhost:8065</param-value>
+	    </init-param>
+	   <init-param>
+	      <param-name>edu.yale.its.tp.cas.client.filter.wrapRequest</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>eionetLoginCookieDomain</param-name>
+	      <param-value>localhost</param-value>
+	    </init-param>	    
+	</filter>
+	<filter>
+	    <filter-name>Browser cache controller</filter-name>
+	    <filter-class>eionet.rod.BrowserCacheController</filter-class>
+	    <init-param>
+	      <param-name>disableBrowserCache</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	</filter>
+
+	<!-- Filter Mappings -->
+	<filter-mapping>
+    	<filter-name>Browser cache controller</filter-name>
+		<url-pattern>*.jsv</url-pattern>
+  	</filter-mapping>	
+	<filter-mapping>
+    	<filter-name>Browser cache controller</filter-name>
+		<servlet-name>index</servlet-name>
+  	</filter-mapping>	
+	<filter-mapping>
+    	<filter-name>CAS Filter</filter-name>
+		<url-pattern>/login</url-pattern>
+  	</filter-mapping>
+	<filter-mapping>
+    	<filter-name>CAS Filter</filter-name>
+		<url-pattern>/eionetCookieLogin/*</url-pattern>		
+  	</filter-mapping>  	
+	<filter-mapping>
+    	<filter-name>CAS Filter</filter-name>
+		<url-pattern>/versions.jsp</url-pattern>		
+  	</filter-mapping>  	
+	<filter-mapping>
+    	<filter-name>CAS Filter</filter-name>
+		<url-pattern>/subscribe.jsp</url-pattern>		
+  	</filter-mapping>  	
 	<servlet>
 		<servlet-name>gentext</servlet-name>
 		<servlet-class>eionet.rod.TxtServlet</servlet-class>

@@ -1,6 +1,6 @@
 <%@page import="eionet.rod.services.RODServices"%>
 <%
-String last_update = RODServices.getDbService().getLastUpdate();
+String last_update = RODServices.getDbService().getGenericlDao().getLastUpdate();
 %>
 <div id="pagefoot">
 	<a href="text.jsv?mode=D">Disclaimer</a>

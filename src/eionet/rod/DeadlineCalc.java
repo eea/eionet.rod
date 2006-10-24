@@ -28,9 +28,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import eionet.rod.services.DbServiceIF;
+
 import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
+import eionet.rod.services.modules.db.dao.IObligationDao;
 
 public class DeadlineCalc {
    private static LogServiceIF logger ;  
@@ -49,7 +50,7 @@ public class DeadlineCalc {
    public static void main(String[] args) {
       DeadlineCalc dCalc = new DeadlineCalc();
       SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
-      DbServiceIF db;
+      IObligationDao db;
       String[][] deadlines;
 
       logger.info("DeadlineCalc v1.0 - getting deadlines...");
@@ -57,7 +58,7 @@ public class DeadlineCalc {
       // Get DB connection
       //
       try {
-         db = RODServices.getDbService();
+         db = RODServices.getDbService().getObligationDao();
       }  
       catch (Exception e) {
          logger.error("Opening connection to database failed. The following error was reported:\n" + e.toString());      
@@ -104,7 +105,7 @@ public class DeadlineCalc {
          // Update TERMINATE field
          //
          try {
-            db.saveTerminate(deadlines[i][0], currDate.after(toDate)? "Y" : "N");
+            db.saveTerminate(Integer.valueOf(deadlines[i][0]), currDate.after(toDate)? "Y" : "N");
          }  
          catch (Exception e) {
             logger.error("Saving TERMINATE value to database failed. The following error was reported:\n" + e.toString());      
@@ -156,7 +157,7 @@ public class DeadlineCalc {
          //
          try {
             if(repDate.before(currDate))
-               db.saveTerminate(deadlines[i][0], "Y");
+               db.saveTerminate(Integer.valueOf(deadlines[i][0]), "Y");
 //               logger.info("Terminate!\t\t\t\t" + repStr + "\t" + plusStr + "\t" + currStr);
          }  
          catch (Exception e) {
@@ -182,7 +183,7 @@ public class DeadlineCalc {
             repStr2 = dFormat.format(repDate.getTime());
 
          try {
-            db.saveDeadline(deadlines[i][0], repStr, repStr2, deadlines[i][1]);
+            db.saveDeadline(Integer.valueOf(deadlines[i][0]), repStr, repStr2, deadlines[i][1]);
          }  
          catch (Exception e) {
             logger.error("Saving deadline to database failed. The following error was reported:\n" + e.toString());      

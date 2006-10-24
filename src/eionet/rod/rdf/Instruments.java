@@ -77,7 +77,7 @@ public class Instruments extends RDFServletAC {
 
 
     //WebRODService wSrv = new WebRODService();
-    Vector instruments = RODServices.getDbService().getInstruments();
+    Vector instruments = RODServices.getDbService().getSourceDao().getInstruments();
     
     for (int i= 0; i< instruments.size(); i++){
       Hashtable li=(Hashtable)instruments.elementAt(i);

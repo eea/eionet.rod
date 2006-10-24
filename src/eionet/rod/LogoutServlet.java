@@ -39,13 +39,12 @@ public class LogoutServlet  extends ROServletAC { //BaseServletAC {
   return null;
  }
 
- public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    //quick fix, if acl admin performs logout action, the ACL is reset
-    resetAcls();
-    freeSession(req);
-      
-    String location = "index.html";
-    res.sendRedirect(location);      
-   }
+	public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		// quick fix, if acl admin performs logout action, the ACL is reset
+		resetAcls();
+		freeSession(req);
+		EionetCASFilter.attachEionetLoginCookie(res,false);
+		res.sendRedirect(EionetCASFilter.getCASLogoutURL(req));
+	}
 
 }

@@ -23,26 +23,13 @@
 
 package eionet.rod.rdf;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-
-//import com.tee.util.*;
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import eionet.rod.services.WebRODService;
-
 import java.util.Hashtable;
 import java.util.Vector;
-import eionet.rod.services.ServiceException;
-import javax.servlet.ServletConfig;
-import com.tee.xmlserver.BaseServletAC;
-import eionet.rod.services.DbServiceIF;
+
+import javax.servlet.http.HttpServletRequest;
+
 import eionet.rod.services.RODServices;
+import eionet.rod.services.ServiceException;
 
 
 /**
@@ -78,9 +65,9 @@ public class Activities extends RDFServletAC {
     .append(">");
 
 
-    DbServiceIF wSrv = RODServices.getDbService();
+    
     //WebRODService wSrv = new WebRODService();
-    Vector acts = wSrv.getObligations();
+    Vector acts = RODServices.getDbService().getObligationDao().getObligations();
     
     for (int i= 0; i< acts.size(); i++){
       Hashtable act = (Hashtable)acts.elementAt(i);
@@ -137,11 +124,11 @@ public class Activities extends RDFServletAC {
 
     }
     //loop for the countries
-    String[][] raIds=wSrv.getObligationIds();
+    String[][] raIds=RODServices.getDbService().getObligationDao().getObligationIds();
     for (int i= 0; i< raIds.length; i++) {
       String pk = raIds[i][0];
 
-      String[][] spIds = wSrv.getCountries(pk);
+      String[][] spIds = RODServices.getDbService().getSpatialDao().getCountries(Integer.valueOf(pk).intValue());
       
       s.append("<rdf:Description rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">");
         for (int j=0; j<spIds.length; j++) 
@@ -151,7 +138,7 @@ public class Activities extends RDFServletAC {
     }
 
     //issues list
-    String [][] issues = wSrv.getIssueIdPairs();
+    String [][] issues = RODServices.getDbService().getIssueDao().getIssueIdPairs();
     for (int i= 0; i< issues.length; i++) {
       String pk = issues[i][0];
       String name = issues[i][1];
@@ -164,7 +151,7 @@ public class Activities extends RDFServletAC {
    for (int i= 0; i< raIds.length; i++) {
    
     s.append("<rdf:Description rdf:about=\"").append(obligationsNamespace).append("/").append(raIds[i][0]).append("\">");
-    String[][] iIds = wSrv.getIssues(raIds[i][0]);
+    String[][] iIds = RODServices.getDbService().getIssueDao().getIssues(Integer.valueOf(raIds[i][0]));
     for (int j=0; j<iIds.length; j++) 
       s.append("<rod:issue rdf:resource=\"" + issuesNamespace + iIds[j][0] + "\"/>");
           

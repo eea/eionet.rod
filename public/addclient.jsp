@@ -4,11 +4,12 @@
 
 <%
 	//try {
-		String[][] countries = RODServices.getDbService().getCountryIdPairs();
+		String[][] countries = RODServices.getDbService().getSpatialDao().getCountryIdPairs();
 //	} catch (Exception e) {
 		
 	//}
 %>
+
 
 <html>
 	<head>

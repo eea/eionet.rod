@@ -29,7 +29,7 @@ import java.util.Vector;
 
 import eionet.directory.DirectoryService;
 import com.tee.uit.security.AuthMechanism;
-
+import com.tee.xmlserver.caucho.CDBPool;
 /**
  * <P>WebROD specific implementation of the <CODE>com.tee.xmlserver.AppUserIF</CODE> interface. 
  * Uses database to authenticate users.</P>
@@ -39,16 +39,21 @@ import com.tee.uit.security.AuthMechanism;
  */
 
 public class ROUser implements AppUserIF {
-   private boolean authented = false;
-   private String user = null;
-   private String password = null;
-   private DBPoolIF dbPool = null;
-   private String fullName = null;
+   protected boolean authented = false;
+   protected String user = null;
+   protected String password = null;
+   protected DBPoolIF dbPool = null;
+   protected String fullName = null;
    
-   private String[] _roles = null;
+   protected String[] _roles = null;
    
    public ROUser() {
-      dbPool = XDBApplication.getDBPool();
+      try {
+		dbPool = XDBApplication.getDBPool();
+	} catch (Throwable e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
    }
 /**
  *

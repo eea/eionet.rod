@@ -25,6 +25,13 @@ package eionet.rod.services;
 
 import java.util.Vector;
 
+import eionet.rod.services.modules.db.dao.IClientDao;
+import eionet.rod.services.modules.db.dao.IGenericDao;
+import eionet.rod.services.modules.db.dao.IIssueDao;
+import eionet.rod.services.modules.db.dao.IObligationDao;
+import eionet.rod.services.modules.db.dao.ISpatialDao;
+import eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao;
+
 /**
  * Container class for providing public services of WebROD
  * through XML/RPC || SOAP
@@ -33,10 +40,27 @@ import java.util.Vector;
  */
 public  class WebRODService {
 
-  private static DbServiceIF dbSrv;
+	private static LogServiceIF logger = RODServices.getLogService();
+	
+  	private IObligationDao obligationDao ;
+  	private ISpatialDao spatialDao;
+  	private IIssueDao issueDao;
+  	private IClientDao clientDao;
+  	private IGenericDao genericDao;
 
 
-   public WebRODService() { }
+   public WebRODService() { 
+		try {
+			obligationDao = RODServices.getDbService().getObligationDao();
+			clientDao = RODServices.getDbService().getClientDao();
+			spatialDao = RODServices.getDbService().getSpatialDao();
+			issueDao = RODServices.getDbService().getIssueDao();
+			genericDao = RODServices.getDbService().getGenericlDao();
+		} catch (ServiceException e) {
+			logger.fatal(e);
+		}		
+
+   }
   
   /**
 	* Returns Activity Ids and Titles
@@ -44,11 +68,7 @@ public  class WebRODService {
   * @throw ServiceException  
 	*/
   public Vector getActivities() throws ServiceException {
-
-  if (dbSrv == null )
-    dbSrv = RODServices.getDbService();
-
-    return dbSrv.getActivities();
+    return obligationDao.getActivities();
   }
 
   /**
@@ -58,51 +78,32 @@ public  class WebRODService {
 	*/
   public Vector getCountries() throws ServiceException {
 
-    if (dbSrv == null )
-      dbSrv = RODServices.getDbService();
-
-    return dbSrv.getCountries();
+    return spatialDao.getCountries();
   } 
 
   public Vector getROComplete() throws ServiceException {
-    if (dbSrv == null )
-      dbSrv = RODServices.getDbService();    
-   return dbSrv.getROComplete();
+   return obligationDao.getROComplete();
   }
   public Vector getRODeadlines() throws ServiceException {
-    if (dbSrv == null )
-      dbSrv = RODServices.getDbService();
-    return dbSrv.getRODeadlines();
+    return obligationDao.getRODeadlines();
   }
   public Vector getROSummary() throws ServiceException {
-    if (dbSrv == null )
-      dbSrv = RODServices.getDbService();    
-   return dbSrv.getROSummary();
+   return obligationDao.getROSummary();
   }
   public Vector getObligationIssues(String id) throws ServiceException {
-      if (dbSrv == null )
-          dbSrv = RODServices.getDbService();
-      return dbSrv.getObligationIssues(id);
+      return issueDao.getObligationIssues(Integer.valueOf(id));
   }
   public Vector getObligationOrg(String id) throws ServiceException {
-      if (dbSrv == null )
-          dbSrv = RODServices.getDbService();
-      return dbSrv.getObligationOrg(id);
+      return clientDao.getObligationOrg(Integer.valueOf(id));
   }
   public Vector getObligationDetail(String id) throws ServiceException {
-      if (dbSrv == null )
-          dbSrv = RODServices.getDbService();
-      return dbSrv.getObligationDetail(id);
+      return obligationDao.getObligationDetail(Integer.valueOf(id));
   }
   public Vector getTable(String tablename) throws ServiceException {
-      if (dbSrv == null )
-          dbSrv = RODServices.getDbService();
-      return dbSrv.getTable(tablename);
+      return genericDao.getTable(tablename);
   }
   public Vector getTableDesc(String tablename) throws ServiceException {
-      if (dbSrv == null )
-          dbSrv = RODServices.getDbService();
-      return dbSrv.getTableDesc(tablename);
+      return genericDao.getTableDesc(tablename);
   }
   
 }

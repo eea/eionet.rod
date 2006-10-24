@@ -98,7 +98,7 @@ public class IssueActivities extends RSSServletAC {
     String actsUrl = props.getString(Constants.ROD_URL_ACTIVITIES);
     addChannelTag(s, actsUrl);
 
-    String[][] acts = RODServices.getDbService().getIssueActivities(issues, countries);
+    String[][] acts = RODServices.getDbService().getObligationDao().getIssueActivities(issues, countries);
 
     s.append("<items><rdf:Seq>");
     for (int i= 0; i< acts.length; i++){

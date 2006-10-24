@@ -72,7 +72,9 @@
 		    public/WEB-INF/lib/xmlrpc.jar;
 		    public/WEB-INF/lib/uit-security.jar;
 		    public/WEB-INF/lib/poi-2.5-final-20040302.jar;
-		    public/WEB-INF/lib/eionet-dir.jar' />
+		    public/WEB-INF/lib/eionet-dir.jar;
+		    public/WEB-INF/lib/junit.jar;
+			public/WEB-INF/lib/casclient.jar;' />
 	</target>
 
 	<target name='buildjar' depends='compile' description="creates rod.jar into WB-INF/lib">

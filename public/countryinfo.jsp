@@ -83,7 +83,7 @@
 		String spatial_id = request.getParameter("spatial");
 		String vol = request.getParameter("vol");
 		
-		Hashtable hash = RODServices.getDbService().getCountryInfo(ra_id, spatial_id);
+		Hashtable hash = RODServices.getDbService().getSpatialDao().getCountryInfo(Integer.valueOf(ra_id).intValue(), Integer.valueOf(spatial_id).intValue() );
 		
 		Hashtable obligation_info = (Hashtable) hash.get("obligationinfo");
 		String obligation = (String) obligation_info.get("title");
@@ -150,7 +150,7 @@
 						String institute = null;
 						String role_url = null;
 						if(role != null && !role.equals("")){ 
-							Hashtable role_desc = RODServices.getDbService().getRoleDesc(role+"-"+two_letter);
+							Hashtable role_desc = RODServices.getDbService().getRoleDao().getRoleDesc(role+"-"+two_letter);
 							person = (String) role_desc.get("person");
 							institute = (String) role_desc.get("institute");
 							role_url = (String) role_desc.get("role_url");

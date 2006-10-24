@@ -23,9 +23,10 @@
 
 package eionet.rod.services;
 
-import eionet.rod.services.modules.DbServiceImpl;
 import eionet.rod.services.modules.FileServiceImpl;
 import eionet.rod.services.modules.Log4jLoggerImpl;
+import eionet.rod.services.modules.db.dao.RODDaoFactory;
+import eionet.rod.services.modules.db.dao.mysql.MySqlDaoFactory;
 
 /**
  * Proxy class for accessing CountrySrv services
@@ -36,18 +37,17 @@ public class RODServices  {
 
 
 private static LogServiceIF   _logSrv = null;
-private static DbServiceIF   _dbSrv = null;
+private static RODDaoFactory daoFactory = null;
 private static FileServiceIF   _fSrv = null;
 
 
   /**
-  * Instance of DbServiceIF
+  * Instance of RODDaoFactory
   */
-	public static DbServiceIF getDbService() throws ServiceException {
-    if ( _dbSrv == null)
-      _dbSrv = new DbServiceImpl();
-  	return _dbSrv; //new DbServiceImpl();
-  }
+	public static RODDaoFactory getDbService() throws ServiceException {
+		if (daoFactory == null) daoFactory = new MySqlDaoFactory();
+		return daoFactory; // new DbServiceImpl();
+	}
 
   /**
   * Instance of FileServiceIF (reads from props file)
@@ -97,10 +97,24 @@ private static FileServiceIF   _fSrv = null;
     public void warning(Object msg)               { warning(msg, null); }
     public void warning(Object msg, Throwable t)  { out("WARNING", msg, t); }
     
-    public void error(Object msg)                 { error(msg, null); }
+	public void error(Object msg) {
+		if (msg instanceof Throwable) {
+			  Throwable t = (Throwable) msg;
+				error(t.getMessage(),t);
+		   }else{
+			  error(msg, null);
+		   }	
+		}
     public void error(Object msg, Throwable t)    { out("ERROR", msg, t); }
     
-    public void fatal(Object msg)                 { fatal(msg, null); }
+    public void fatal(Object msg){         
+			if (msg instanceof Throwable) {
+				Throwable t = (Throwable) msg;
+				fatal(t.getMessage(),t);
+			}else{
+				fatal(msg, null);
+			}
+	}
     public void fatal(Object msg, Throwable t)    { out("FATAL", msg, t); }
   }
 

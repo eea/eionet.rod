@@ -78,7 +78,7 @@ public class DeadlinesDaemon {
         int percent = RODServices.getFileService().getIntProperty( FileServiceIF.PERCENT_OF_FREQ);
         double days = (percent / 100.0) * 30.0;
         
-            Vector vec = RODServices.getDbService().getUpcomingDeadlines(days);
+            Vector vec = RODServices.getDbService().getObligationDao().getUpcomingDeadlines(days);
             long timestamp = System.currentTimeMillis();
             
             
@@ -140,7 +140,7 @@ public class DeadlinesDaemon {
                     lists.add(list);
                     
                     String id = (String) h.get("id");
-                    Vector countries = RODServices.getDbService().getObligationCountries(id);
+                    Vector countries = RODServices.getDbService().getSpatialDao().getObligationCountries(Integer.valueOf(id).intValue());
                     for(Enumeration cen = countries.elements(); cen.hasMoreElements(); ){
                         Hashtable hash = (Hashtable) cen.nextElement();
                             String country = (String) hash.get("name");

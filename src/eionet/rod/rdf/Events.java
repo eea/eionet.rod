@@ -98,7 +98,7 @@ public class Events extends RSSServletAC {
     String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
     addChannelTag(s, eventsUrl);
 
-    String[][] events = RODServices.getDbService().getActivityDeadlines(issues, countries);
+    String[][] events = RODServices.getDbService().getObligationDao().getActivityDeadlines(issues, countries);
     Vector eventsVec = new Vector();
     Date currentDate = new Date();
     for (int i= 0; i< events.length; i++){

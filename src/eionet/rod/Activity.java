@@ -297,7 +297,8 @@ public class Activity extends ROEditServletAC {
                       
                       if (curRecord != null)
                           obligationID = curRecord;
-                      Vector countries = RODServices.getDbService().getObligationCountries(obligationID);
+                      int obligation_id = Integer.valueOf(obligationID).intValue();
+                      Vector countries = RODServices.getDbService().getSpatialDao().getObligationCountries(obligation_id);
                       
                       for (Enumeration en = countries.elements(); en.hasMoreElements(); ){
                           Hashtable hash = (Hashtable) en.nextElement();

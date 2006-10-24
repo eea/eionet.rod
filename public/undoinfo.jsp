@@ -147,7 +147,7 @@
 			</thead>
 			<tbody>
 				<%
-						Vector rows = RODServices.getDbService().getUndoInformation(ts,op,tab,id);
+						Vector rows = RODServices.getDbService().getUndoDao().getUndoInformation(Long.valueOf(ts).longValue(),op,tab,id);
 						
 						int s = 0;
 						for (int i=0; i<rows.size(); i++){
@@ -161,8 +161,10 @@
 							String operation = (String) hash.get("operation");
 							String value = (String) hash.get("value");
 							String sub_trans_nr = (String) hash.get("sub_trans_nr");
-							String currentValue = RODServices.getDbService().getDifferences(ut,tabel,col);
-							boolean diff = value.equals(currentValue);
+							String currentValue = RODServices.getDbService().getDifferencesDao().getDifferences(Long.valueOf(ut).longValue(),tabel,col);
+							if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null"))) value = null;
+                            if ((currentValue != null && currentValue.trim().equals("")) || (currentValue != null && currentValue.trim().equals("null"))) currentValue = null;
+							boolean diff = (value != null && currentValue != null && value.equals(currentValue)) || (value == null && currentValue == null)  ;
 							
 							c2 = "";
 							if (s % 2 == 0){
@@ -206,7 +208,7 @@
 					</thead>
 					<tbody>
 						<% 
-							Hashtable h = RODServices.getDbService().getDifferencesInCountries(ts,id,"N",op); 
+							Hashtable h = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(Long.valueOf(ts).longValue(),Integer.valueOf(id).intValue(),"N",op); 
 							String undoCountries = (String) h.get("undo");
 							String currentCountries = (String) h.get("current");
 							String addedCountries = (String) h.get("added");
@@ -237,7 +239,7 @@
 					</thead>
 					<tbody>
 						<% 
-							Hashtable h_v = RODServices.getDbService().getDifferencesInCountries(ts,id,"Y",op); 
+							Hashtable h_v = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(Long.valueOf(ts).longValue(),Integer.valueOf(id).intValue(),"Y",op); 
 							String undoCountries_v = (String) h_v.get("undo");
 							String currentCountries_v = (String) h_v.get("current");
 							String addedCountries_v = (String) h_v.get("added");
@@ -270,7 +272,7 @@
 					</thead>
 					<tbody>
 						<% 
-							Hashtable h_i = RODServices.getDbService().getDifferencesInIssues(ts,id,op); 
+							Hashtable h_i = RODServices.getDbService().getDifferencesDao().getDifferencesInIssues(Long.valueOf(ts).longValue(),Integer.valueOf(id).intValue(),op); 
 							String undoIssues = (String) h_i.get("undo");
 							String currentIssues = (String) h_i.get("current");
 							String addedIssues = (String) h_i.get("added");
@@ -303,7 +305,7 @@
 					</thead>
 					<tbody>
 						<% 
-							Hashtable h_c = RODServices.getDbService().getDifferencesInClients(ts,id,"C",op,"A"); 
+							Hashtable h_c = RODServices.getDbService().getDifferencesDao().getDifferencesInClients(Long.valueOf(ts).longValue(),Integer.valueOf(id).intValue(),"C",op,"A"); 
 							String undoClients = (String) h_c.get("undo");
 							String currentClients = (String) h_c.get("current");
 							String addedClients = (String) h_c.get("added");
@@ -336,7 +338,7 @@
 					</thead>
 					<tbody>
 						<% 
-							Hashtable h_i = RODServices.getDbService().getDifferencesInInfo(ts,id,op,"I"); 
+							Hashtable h_i = RODServices.getDbService().getDifferencesDao().getDifferencesInInfo(Long.valueOf(ts).longValue(), Integer.valueOf(id).intValue(),op,"I"); 
 							String undoInfo = (String) h_i.get("undo");
 							String currentInfo = (String) h_i.get("current");
 							String addedInfo = (String) h_i.get("added");
@@ -359,7 +361,6 @@
 		contact the server administrator.</b>
 		<% } %>
 </div> <!-- workarea -->
-<jsp:include page="footer.jsp" flush="true">
-</jsp:include>
+<jsp:include page="footer.jsp" flush="true"></jsp:include>
 </body>
 </html>

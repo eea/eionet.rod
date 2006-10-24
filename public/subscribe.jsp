@@ -1,9 +1,9 @@
-<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.services.FileServiceIF,eionet.rod.RODUtil,eionet.rod.countrysrv.servlets.Subscribe"%>
+<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.services.FileServiceIF,eionet.rod.EionetCASFilter,eionet.rod.countrysrv.servlets.Subscribe"%>
 <%
 	String app = getServletContext().getInitParameter(Attrs.APPPARAM);
 	ROUser user = (ROUser) session.getAttribute(Attrs.USERPREFIX + app);
 	if (user == null){
-		response.sendRedirect("login.jsp?rd=subscribe");
+		response.sendRedirect(EionetCASFilter.getCASLoginURL(request,true));
 	}
 %>
 
@@ -140,7 +140,7 @@
 					</td>
 					<td>
 						<% 
-						Vector countries = RODServices.getDbService().getCountries();
+						Vector countries = RODServices.getDbService().getSpatialDao().getCountries();
 						if (countries!=null && countries.size()>0){
 						 %>
 						  <select name="country">
@@ -167,7 +167,7 @@
 					</td>
 					<td>
 						<% 
-						Vector issues = RODServices.getDbService().getIssues();
+						Vector issues = RODServices.getDbService().getIssueDao().getIssues();
 						if (issues!=null && issues.size()>0){
 						 %>
 						  <select name="issue">
@@ -196,7 +196,7 @@
 					<td>
 						<% 
 						if(request.getParameter("id") != null && request.getParameter("id") != "") { 
-							Vector client_vector = RODServices.getDbService().getObligationById(request.getParameter("id"));
+							Vector client_vector = RODServices.getDbService().getObligationDao().getObligationById(Integer.valueOf(request.getParameter("id")));
 							if (client_vector!=null && client_vector.size()>0){
 								Hashtable client_hash = (Hashtable) client_vector.elementAt(0);
 								String client = (String)client_hash.get("client");
@@ -207,7 +207,7 @@
 							<%
 							}
 						} else { 
-							Vector organisations = RODServices.getDbService().getOrganisations();
+							Vector organisations = RODServices.getDbService().getClientDao().getOrganisations();
 							if (organisations!=null && organisations.size()>0){
 							 %>
 							  <select name="organisation">
@@ -237,7 +237,7 @@
 					<td>
 						<% 
 						if(request.getParameter("id") != null && request.getParameter("id") != "") {
-							Vector title_vector = RODServices.getDbService().getObligationById(request.getParameter("id"));
+							Vector title_vector = RODServices.getDbService().getObligationDao().getObligationById(Integer.valueOf(request.getParameter("id")));
 							if (title_vector!=null && title_vector.size()>0){
 									Hashtable title_hash = (Hashtable) title_vector.elementAt(0);
 									String title = (String) title_hash.get("title");
@@ -248,7 +248,7 @@
 							<%
 							}
 						} else {
-							Vector obligations = RODServices.getDbService().getObligations();
+							Vector obligations = RODServices.getDbService().getObligationDao().getObligations();
 							if (obligations!=null && obligations.size()>0){
 							 %>
 							  <select id="obligations" name="obligation">
@@ -282,7 +282,6 @@
 			</table>
 		</form>
 </div> <!-- workarea -->
-<jsp:include page="footer.jsp" flush="true">
-</jsp:include>
+<jsp:include page="footer.jsp" flush="true" />
 </body>
 </html>
