@@ -149,8 +149,8 @@ public class SourceHandler extends ActivityHandler {
       String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
       try {
-        String acl_p = Constants.ACL_LI_NAME + "/" +source_id;  
-        AccessControlListIF acl = servlet.getAcl(acl_p);
+        String acl_p = (source_id == null || source_id == "")? Constants.ACL_LI_NAME : (Constants.ACL_LI_NAME + "/" +source_id);
+        AccessControlListIF acl = AccessController.getAcl(acl_p);
         upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
         del = acl.checkPermission(userName, Constants.ACL_DELETE_PERMISSION);
         ins = acl.checkPermission(userName, Constants.ACL_INSERT_PERMISSION);      
@@ -218,7 +218,7 @@ public class SourceHandler extends ActivityHandler {
          
          if(state == INSERT_RECORD){
              try {
-                 String aclPath = "/instruments/"+source_id;
+                 String aclPath = "/instruments/"+id;
                  HashMap acls = AccessController.getAcls();
                  if (!acls.containsKey(aclPath)){
                      AccessController.addAcl(aclPath, userName, "");
