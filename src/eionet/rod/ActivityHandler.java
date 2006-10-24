@@ -151,8 +151,8 @@ public class ActivityHandler extends ROHandler {
       boolean ins = false, upd =false, del=false;
       
       try {
-        String acl_p = Constants.ACL_RA_NAME + "/" +obligation_id;
-        AccessControlListIF acl = servlet.getAcl(acl_p);
+        String acl_p = (obligation_id == null || obligation_id == "")? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" +obligation_id);
+		AccessControlListIF acl = AccessController.getAcl(acl_p);
         
         upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
         
@@ -251,7 +251,7 @@ public class ActivityHandler extends ROHandler {
          
          if(state == INSERT_RECORD){
              try {
-                 String aclPath = "/obligations/"+obligation_id;
+                 String aclPath = "/obligations/"+id;
                  HashMap acls = AccessController.getAcls();
                  if (!acls.containsKey(aclPath)){
                      AccessController.addAcl(aclPath, userName, "");
