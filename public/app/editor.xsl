@@ -28,6 +28,14 @@
 	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" omit-xml-declaration="yes"  encoding="UTF-8"/>   
 	<!--xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd" omit-xml-declaration="yes"/-->   
 
+	<xsl:variable name="admin">
+		<xsl:value-of select="//RowSet[position()=1]/@auth"/>
+	</xsl:variable>
+	<xsl:variable name="username">
+		<xsl:value-of select="//RowSet[position()=1]/@username"/>
+	</xsl:variable>
+
+
 	<xsl:include href="util.xsl"/>
             
 	<xsl:template match="/">
@@ -1010,7 +1018,7 @@ function checkAndSave(first, freq, next, textrep, to, terminate, client) {
 </div> <!-- page head -->
 
 					<!-- Toolbar -->
-        <xsl:call-template name="LeftToolbar"><xsl:with-param name="admin">false<!--xsl:value-of select="$admin"/--></xsl:with-param></xsl:call-template>
+        <xsl:call-template name="LeftToolbar"><xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param><xsl:with-param name="username"><xsl:value-of select="$username"/></xsl:with-param></xsl:call-template>
 
 					<xsl:apply-templates select="XmlData"/>
 			</body>
