@@ -21,6 +21,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import eionet.rod.Constants;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
@@ -61,6 +62,9 @@ public abstract class MySqlBaseDao {
 			properties.put(FileServiceIF.DB_URL, fileService.getStringProperty(FileServiceIF.DB_URL));
 			properties.put(FileServiceIF.DB_USER_ID, fileService.getStringProperty(FileServiceIF.DB_USER_ID));
 			properties.put(FileServiceIF.DB_USER_PWD, fileService.getStringProperty(FileServiceIF.DB_USER_PWD));
+		    rodDomain  = RODServices.getFileService().getStringProperty( Constants.ROD_URL_DOMAIN );
+		    roNs= RODServices.getFileService().getStringProperty( FileServiceIF.RO_NAMESPACE);
+
 			
 			try {
 				InitialContext ctx = new InitialContext();
