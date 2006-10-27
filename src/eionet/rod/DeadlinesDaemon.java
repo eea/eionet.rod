@@ -189,7 +189,7 @@ public class DeadlinesDaemon {
             params.add(notifications);
     
             String result = null;
-            result = (String) server.execute("sendNotification", params);
+            result = (String) server.execute(fileSrv.getStringProperty(FileServiceIF.UNS_SEND_NOTIFICATION), params);
     
         } catch (Throwable t) {
             t.printStackTrace(System.out);

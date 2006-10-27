@@ -113,15 +113,13 @@ public class Subscribe extends HttpServlet {
 	        	
 				XmlRpcClient server = new XmlRpcClient(server_url);
 				server.setBasicAuthentication(fileSrv.getStringProperty(FileServiceIF.UNS_USERNAME), fileSrv.getStringProperty(FileServiceIF.UNS_PWD));
-	        	
 	            // make subscription
 				Vector params = new Vector();
 				params = new Vector();
 	            params.add(CHANNEL_NAME);
 	            params.add(userName);
 	            params.add(filters);            
-	            String makeSubscription =
-	            (String) server.execute("makeSubscription", params);
+	            String makeSubscription = (String) server.execute(fileSrv.getStringProperty(FileServiceIF.UNS_MAKE_SUBSCRIPTION), params);
 
         }
         

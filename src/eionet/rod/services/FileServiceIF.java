@@ -216,6 +216,16 @@ public interface FileServiceIF  {
   public static final String UNS_PWD = "uns.pwd";
   
   /**
+   * UNS xmlrpc function that is called for making subscription
+   */
+  public static final String UNS_MAKE_SUBSCRIPTION = "uns.make.subsription.function";
+  
+  /**
+   * UNS xmlrpc function that is called for sending notifications
+   */
+  public static final String UNS_SEND_NOTIFICATION = "uns.send.notification.function";
+  
+  /**
    * Undo - number of records per page
    */
   public static final String UNDO_STEP = "undo.step";
