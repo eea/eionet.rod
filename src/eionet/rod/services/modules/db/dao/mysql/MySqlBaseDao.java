@@ -589,7 +589,7 @@ public abstract class MySqlBaseDao {
 
 	}
 
-	protected String rplAmp(String fld, String alias) {
+	protected static String rplAmp(String fld, String alias) {
 	    return "REPLACE(REPLACE(" + fld +", '&', '&#038;'),'<','&lt;') AS " + alias;
 	}
 

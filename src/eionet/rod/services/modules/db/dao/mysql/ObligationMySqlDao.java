@@ -326,13 +326,13 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri," + 
 			"IF (TERMINATE='Y', 1, 0) AS 'terminated', " + 
 			"a.VALID_SINCE, " + 
-			"a.EEA_PRIMARY, " + "REPLACE(a.RESPONSIBLE_ROLE, '&', '&#038;') AS  RESPONSIBLE_ROLE, " + 
-			"REPLACE(a.DESCRIPTION, '&', '&#038;') AS  DESCRIPTION, " + 
+			"a.EEA_PRIMARY, " + rplAmp("a.RESPONSIBLE_ROLE", "RESPONSIBLE_ROLE") + " , " + 
+			 rplAmp("a.DESCRIPTION", "DESCRIPTION") + " , " +
 			"a.NEXT_DEADLINE, " + "a.NEXT_DEADLINE2, " + 
-			"REPLACE(a.COMMENT, '&', '&#038;') AS  COMMENT, " + 
-			"REPLACE(a.REPORTING_FORMAT, '&', '&#038;') AS  REPORTING_FORMAT, " + 
-			"REPLACE(a.FORMAT_NAME, '&', '&#038;') AS  FORMAT_NAME, " + 
-			"REPLACE(a.REPORT_FORMAT_URL, '&', '&#038;') AS  REPORT_FORMAT_URL " + 
+	          rplAmp("a.COMMENT", "COMMENT") + ", " + 
+	          rplAmp("a.REPORTING_FORMAT", "REPORTING_FORMAT") + ", " +	          
+	          rplAmp("a.FORMAT_NAME", "FORMAT_NAME") + ", " + 
+	          rplAmp("a.REPORT_FORMAT_URL", "REPORT_FORMAT_URL") + " " + 
 		"FROM T_OBLIGATION a , T_SOURCE s "+ 
 		"WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " + 
 		"ORDER BY SOURCE_TITLE, TITLE";
