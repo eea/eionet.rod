@@ -65,7 +65,7 @@ import eionet.rod.services.RODServices;
  * @version 1.1
  */
 
-public class Activity extends ROEditServletAC {
+public class Activity extends ROEditServletAC { 
     
     /** */
     private ActivityHandler activityHandler = null;
@@ -86,7 +86,7 @@ public class Activity extends ROEditServletAC {
          throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
       String rid = params.getParameter(AID_PARAM);
       if ( Util.nullString(rid) ) 
-         throw new GeneralException(null, "Missing parameter '" + AID_PARAM + "'");
+         throw new GeneralException(null, "Missing parameter '" + AID_PARAM + "'"); 
 
 
 
@@ -326,7 +326,7 @@ public class Activity extends ROEditServletAC {
                       list.add("http://purl.org/dc/elements/1.1/identifier");
                       String ra_id = gen.getFieldValue("PK_RA_ID");
                       String src_id = gen.getFieldValue("FK_SOURCE_ID");
-                      String url = "http://rod.eionet.europa.eu/show.jsv?id="+ra_id+"&aid="+src_id+"&mode=A";
+                      String url = "http://rod.eionet.europa.eu/show.jsv?id="+obligationID+"&aid="+src_id+"&mode=A";
                       list.add(url);
                       lists.add(list);
                       
