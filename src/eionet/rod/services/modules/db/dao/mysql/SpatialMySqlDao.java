@@ -201,20 +201,20 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 			preparedStatement = connection.prepareStatement(q_obligationInfo);
 			preparedStatement.setInt(1, ra_id);
 			if (isDebugMode) logQuery(q_obligationInfo);
-			ret.put("obligationinfo", _getVectorOfHashes(preparedStatement));
+			ret.put("obligationinfo", _getHashtable(preparedStatement));
 			preparedStatement.close();
 
 			preparedStatement = connection.prepareStatement(q_spatialinfo);
 			preparedStatement.setInt(1, spatial_id);
 			if (isDebugMode) logQuery(q_spatialinfo);
-			ret.put("spatialinfo", _getVectorOfHashes(preparedStatement));
+			ret.put("spatialinfo", _getHashtable(preparedStatement));
 			preparedStatement.close();
 			
 			preparedStatement = connection.prepareStatement(q_period);
 			preparedStatement.setInt(1, spatial_id);
 			preparedStatement.setInt(2, ra_id);
 			if (isDebugMode) logQuery(q_period);
-			ret.put("period", _getVectorOfHashes(preparedStatement));
+			ret.put("period", _getHashtable(preparedStatement));
 			preparedStatement.close();
 			
 			preparedStatement = connection.prepareStatement(q_deliveries);
