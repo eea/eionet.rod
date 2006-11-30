@@ -70,7 +70,6 @@
     </script>
 </head>
 <body>
-
     <jsp:include page="location.jsp" flush='true'>
         <jsp:param name="name" value="Country Information"/>
     </jsp:include>
@@ -82,7 +81,6 @@
 		String ra_id = request.getParameter("ra-id");
 		String spatial_id = request.getParameter("spatial");
 		String vol = request.getParameter("vol");
-		
 		Hashtable hash = RODServices.getDbService().getSpatialDao().getCountryInfo(Integer.valueOf(ra_id).intValue(), Integer.valueOf(spatial_id).intValue() );
 		
 		Hashtable obligation_info = (Hashtable) hash.get("obligationinfo");
@@ -107,6 +105,8 @@
 		}
 		
 		Vector deliveries = (Vector) hash.get("deliveries");
+		
+		
 	%>
 	
 	<h1><%=country%></h1>
