@@ -24,6 +24,6 @@ cp=/usr/share/java/mysql-connector-java.jar
 cp=$cp:/usr/share/java/servlet.jar
 
 cp=$cp:$libpath/rod.jar
-cp=$cp:$libpath/tomcat-util.jar:$libpath/xmlrpc.jar:$libpath/xmlserver.jar:$CLASSPATH
+cp=$cp:$libpath/tomcat-util.jar:$libpath/xmlrpc.jar:$libpath/xmlserver.jar:$libpath/uit-security.jar:$CLASSPATH
 
 $java -cp $cp eionet.rod.DeadlinesDaemon
