@@ -448,59 +448,77 @@ public class Extractor implements ExtractorConstants {
 
   }
 
-  public  void saveRole(String roleId) throws ServiceException {
-    String roleName =  roleId;
-    if (roleName != null) {
-      Hashtable role = null;
-      try {
-        role = DirectoryService.getRole(roleName);
-        log("Received role info for " + roleName + " from Directory");
-      } catch (DirServiceException de ) {
-        logger.error("Error getting role " + roleName + " " + de.toString());
-      } catch (Exception e ) {
-        e.printStackTrace();
-      }
+    /**
+     * 
+     * @param roleId
+     * @throws ServiceException
+     */
+	public  void saveRole(String roleId) throws ServiceException {
+		
+		if (roleId==null || roleId.trim().length()==0)
+			return;
+		
+		String roleName =  roleId;
+		Hashtable role = null;
+		try{
+			role = DirectoryService.getRole(roleName);
+			log("Received role info for " + roleName + " from Directory");
+		}
+		catch (DirServiceException de ){
+			logger.error("Error getting role " + roleName + ": " + de.toString());
+		}
+		catch (Exception e ){
+			e.printStackTrace();
+		}
 
-      if (role != null) {
-        String uid="";
-        String orgId="";
-        String orgName=orgId;
-        String fullName=uid;
-        Hashtable person = null;
-        Hashtable org = null;
+		if (role==null)
+			return;
+		
+		String uid="";
+		String orgId="";
+		String orgName=orgId;
+		String fullName=uid;
+		Hashtable person = null;
+		Hashtable org = null;
 
-        Vector occupants = (Vector)role.get("OCCUPANTS");
-        if (occupants != null && occupants.size() > 0 )
-          uid = (String)occupants.elementAt(0);
-        try {
-          person=DirectoryService.getPerson(uid);
-        } catch (DirServiceException dire) {
-          logger.error("Error getting person " + uid + " " + dire.toString());
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
+		Vector occupants = (Vector)role.get("OCCUPANTS");
+		if (occupants!=null && occupants.size()>0)
+			uid = (String)occupants.elementAt(0);
+		
+		if (uid!=null && uid.trim().length()>0){
+			try {
+				person=DirectoryService.getPerson(uid);
+			}
+			catch (DirServiceException dire) {
+				logger.error("Error getting person " + uid + ": " + dire.toString());
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
-        if (person != null) {
-          fullName=(String)person.get("FULLNAME");
-          orgId=(String)person.get("ORG_ID");
-        }
+		if (person != null) {
+			fullName=(String)person.get("FULLNAME");
+			orgId=(String)person.get("ORG_ID");
+		}
 
-        try {
-          org =  DirectoryService.getOrganisation(orgId);
-          if (org!=null)
-            orgName=(String)org.get("NAME");
-        } catch (DirServiceException dire) {
-          logger.error("Error getting organisation" + orgId + " " + dire.toString());
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
+		if (orgId!=null && orgId.trim().length()>0){
+			try {
+				org =  DirectoryService.getOrganisation(orgId);
+				if (org!=null)
+					orgName=(String)org.get("NAME");
+			}
+			catch (DirServiceException dire) {
+				logger.error("Error getting organisation " + orgId + ": " + dire.toString());
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
-        daoFactory.getRoleDao().saveRole(role, fullName, orgName);
-      }
-
-    }
-
-  }
+		daoFactory.getRoleDao().saveRole(role, fullName, orgName);
+	}
+	
   /*
    * 	Method validates and merges deliveries lists.
    * 	Referrals rows will be added to deliveries vector except
