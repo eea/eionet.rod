@@ -256,9 +256,10 @@ Legislative instrument</a></div>
 
 </table>
 
-	<br/><br/>
-	&#160;&#160;&#160;&#160;Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.
-	<br/><br/>
+	<p style="text-align:center">
+	Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.<br/>
+        There can be a delay of up to one day before they show up.
+	</p>
   </div> <!-- workarea -->
 <xsl:call-template name="CommonFooter"/>
 
