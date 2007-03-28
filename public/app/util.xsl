@@ -149,11 +149,19 @@
 	<xsl:template name="HelpOverview">
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
-		<a href="javascript:openViewHelp('{$id}')">Page help</a>
-		<xsl:call-template name="EditHelp">
+		<li class="help"><a href="javascript:openViewHelp('{$id}')">Page help</a></li>
+		<xsl:call-template name="EditHelpOps">
 			<xsl:with-param name="id"><xsl:value-of select="$id"/></xsl:with-param>
 			<xsl:with-param name="perm"><xsl:value-of select="$perm"/></xsl:with-param>
 		</xsl:call-template>
+	</xsl:template>
+
+	<xsl:template name="EditHelpOps">
+		<xsl:param name="id">HELP_MAIN</xsl:param>
+		<xsl:param name="perm">x</xsl:param>
+		<xsl:if test="contains($perm, ',/Admin/Helptext:u,')='true'">
+			<li><a href="javascript:openHelp('{$id}')">Edit help text</a></li>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template name="EditHelp">

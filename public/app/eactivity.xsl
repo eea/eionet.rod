@@ -58,30 +58,26 @@
 	<xsl:template match="XmlData">
         <!-- page -->
         <div id="workarea">
-
-		<table cellspacing="7pts" width="621" border="0">
-		<tr>
-			<td width="459">
-				<span class="head1">
-					Edit/Create Reporting Obligation for 
-					<xsl:choose>
-						<xsl:when test="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS != ''">
-							<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/TITLE"/>
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="//RowSet[@Name='Source']/Row/T_SOURCE/SOURCE_CODE != ''">
-						&#160;(<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/SOURCE_CODE"/>)&#160;
-					</xsl:if>
-				</span>
-			</td>
-			<td width="152" align="right">
+		<div id="operations">
+			<ul>
 				<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RA</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-			</td>
-		</tr>
-		</table>
+			</ul>
+		</div>
+		<h1>
+			Edit/Create Reporting Obligation for 
+			<xsl:choose>
+				<xsl:when test="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS != ''">
+					<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/TITLE"/>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:if test="//RowSet[@Name='Source']/Row/T_SOURCE/SOURCE_CODE != ''">
+				&#160;(<xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/SOURCE_CODE"/>)&#160;
+			</xsl:if>
+		</h1>
+	
 		<xsl:apply-templates select="RowSet[@Name='Activity']/Row"/>
 </div>
 	</xsl:template>

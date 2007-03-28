@@ -52,6 +52,14 @@
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Source']/Row/T_SOURCE">
+		<!-- page title -->
+		<div id="operations">
+			<ul>
+				<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+			</ul>
+		</div>
+
+        <h1>Edit/Create a Legislative Instrument</h1>
 		<form name="f" method="POST" action="source.jsv">
 		<input type="hidden" name="silent" value="0"/> <!--silent save -->
 		<input type="hidden" name="dom-update-mode">
@@ -67,16 +75,6 @@
 			<xsl:attribute name="value"><xsl:value-of select="PK_SOURCE_ID"/></xsl:attribute>
 		</input>
 
-     	<table cellspacing="7pts" width="621" border="0">
-		<tr>
-			<td width="471">
-				<span class="headgreen" id="lblTitle">Edit/Create a Legislative Instrument</span>
-			</td>
-			<td align="right">
-				<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-			</td>
-		</tr>
-	</table>
 	<div class="main">
    		   <table border="0" cellspacing="0" width="100%" cellpadding="2">
 			      <tr valign="top" bgcolor="#FFFFFF">

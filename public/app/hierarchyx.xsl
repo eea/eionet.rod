@@ -56,13 +56,6 @@
 		<!-- page -->
 		<div id="workarea">
 		<!-- page title -->
-	   <table width="610" border="0">
-		 <tr>
-			<td valign="top" width="76%">
-				<span class="head1">Select legislative instrument to add reporting obligation to</span>
-			</td>
-		</tr>
-	   </table>
 	   <div id="operations">
 		<ul>
 			<li class="help"><a href="javascript:openViewHelp('HELP_HIERARCHY_ADD')">Page help</a></li>
@@ -71,8 +64,8 @@
 			</xsl:if>
 		</ul>
 	   </div>
+           <h1>Select legislative instrument to add reporting obligation to</h1>
 
-	   <br/>
 	   <div id="hierarchy">
 		<div class="main">
 		<xsl:if test="T_SOURCE_CLASS/CLASSIFICATOR!='' or T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">
