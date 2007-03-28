@@ -72,10 +72,12 @@
 						</li>
 					</xsl:if>
 					<xsl:if test="contains($permissions, ',/instruments:i,')='true'">
-						<a>
-							<xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
-							New instrument
-						</a>
+						<li>
+							<a>
+								<xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
+								New instrument
+							</a>
+						</li>
 					</xsl:if>	
 				</ul>
 			</div>
