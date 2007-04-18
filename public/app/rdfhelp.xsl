@@ -48,24 +48,24 @@
 
 <p>
 <h2>RDF</h2>
-<b><a target="_blank" href="obligations">Reporting Obligations</a></b><br/>
+<b><a href="obligations">Reporting Obligations</a></b><br/>
 Lists all Reporting Obligations with linked countries and environmental issues<br/>
-<b><a target="_blank" href="instruments">Legislative Instruments</a><br/></b>
+<b><a href="instruments">Legislative Instruments</a><br/></b>
 Lists all Legislative Instruments<br/>
-<b><a target="_blank" href="countries">Countries</a><br/></b>
+<b><a href="countries">Countries</a><br/></b>
 Lists all Countries<br/>
 </p>
 <hr/>
 <p>
 <h2>RSS</h2>
-<b><a target="_blank" href="events.rss">Reporting Obligation deadlines</a></b><br/>
+<b><a href="events.rss">Reporting Obligation deadlines</a></b><br/>
 Used for Eionet calendar, lists all reporting obligations with deadline. 
 Only obligations having a deadline are listed<br/>
-<b><a target="_blank" href="obligations.rss">Reporting Obligations</a></b><br/>
+<b><a href="obligations.rss">Reporting Obligations</a></b><br/>
 Lists all obligations linked to specified environmental issues<br/>
 <span class="smallfont">Usage: http://rod.eionet.europa.eu/obligations.rss?issues=[issueId1],[issueId2],... [issueIdN]</span><br/>
 The issue ID's are the primary key values of T_ISSUE table of ROD database.<br/>
-<b><a target="_blank" href="instruments.rss">Legislative Instruments</a></b><br/>
+<b><a href="instruments.rss">Legislative Instruments</a></b><br/>
 Lists all legislative instruments<br/>
 </p>
 <hr/>

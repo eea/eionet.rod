@@ -92,7 +92,7 @@
 						<th scope="row" align="right">Homepage:</th>
 						<td align="left">
 							<xsl:if test="RowSet/Row/T_CLIENT/CLIENT_URL != ''">
-							<a target="_new">
+							<a>
 								<xsl:attribute name="href">
 									<xsl:value-of select="RowSet/Row/T_CLIENT/CLIENT_URL"/>
 								</xsl:attribute>

@@ -229,7 +229,7 @@ Legislative instrument</a></div>
 							<div class="role_not_found">Directory role not found for '<xsl:value-of select="T_OBLIGATION/COORDINATOR_ROLE"/>'</div><br/>
 						</xsl:if>
 						<xsl:value-of select="T_OBLIGATION/COORDINATOR"/>&#160;
-							<a target="_blank">
+							<a>
 								<xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/COORDINATOR_URL"/></xsl:attribute>
 									<xsl:value-of select="T_OBLIGATION/COORDINATOR_URL"/>
 							</a>
@@ -258,7 +258,7 @@ Legislative instrument</a></div>
 								<div class="role_not_found">Directory role not found for '<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>'</div><br/>
 							</xsl:if>
 							<xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT"/>&#160;
-							<a target="_blank">
+							<a>
 								<xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT_URL"/></xsl:attribute>
 									<xsl:value-of select="T_OBLIGATION/NATIONAL_CONTACT_URL"/>
 							</a>
@@ -344,7 +344,7 @@ Legislative instrument</a></div>
 				<td>
 					<xsl:choose>
 						<xsl:when test="T_OBLIGATION/REPORT_FORMAT_URL!=''">
-							<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
+							<a><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
 								<xsl:choose>
 								<xsl:when test="T_OBLIGATION/FORMAT_NAME!=''">
 									<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/>
@@ -379,7 +379,7 @@ Legislative instrument</a></div>
 				<td>
 					<xsl:choose>
 						<xsl:when test="T_OBLIGATION/LOCATION_PTR != ''">
-							<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/LOCATION_PTR"/></xsl:attribute>						
+							<a><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/LOCATION_PTR"/></xsl:attribute>						
 								<xsl:choose>
 									<xsl:when test="T_OBLIGATION/LOCATION_INFO != ''">
 										<xsl:value-of select="T_OBLIGATION/LOCATION_INFO"/>
@@ -400,7 +400,7 @@ Legislative instrument</a></div>
 			<tr class="zebraeven">
 				<th scope="row" class="scope-row">Data used for</th>
 				<td>
-					<a target="_blank"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/></xsl:attribute>
+					<a><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/></xsl:attribute>
 						<xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/>
 					</a>
 				</td>

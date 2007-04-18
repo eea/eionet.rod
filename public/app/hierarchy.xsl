@@ -170,7 +170,6 @@
 								<xsl:when test="T_SOURCE/URL!=''">
 									<a>
 										<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/URL"/></xsl:attribute>
-										<xsl:attribute name="target">_new</xsl:attribute>
 										Link to legal text
 									</a>
 								</xsl:when>

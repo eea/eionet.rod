@@ -77,7 +77,7 @@ Legislative instrument</a></div>
 			<td>
 				<xsl:choose>
 					<xsl:when test="T_OBLIGATION/REPORT_FORMAT_URL!=''">
-						<a target="RA_guidelines">
+						<a>
 							<xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
 							<xsl:choose>
 								<xsl:when test="T_OBLIGATION/FORMAT_NAME!=''">
@@ -134,7 +134,7 @@ Legislative instrument</a></div>
 		<tr>
 			<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">zebraeven</xsl:if></xsl:attribute>
 			<td style="border-right: #c0c0c0 1px solid;">
-				<a href="{ELEMENT_URL}" title="View parameter details in Data Dictionary" target="_blank"><xsl:value-of select="ELEMENT_NAME"/></a>
+				<a href="{ELEMENT_URL}" title="View parameter details in Data Dictionary"><xsl:value-of select="ELEMENT_NAME"/></a>
 			</td>
 			<td style="border-right: #c0c0c0 1px solid;">
 				<xsl:value-of select="TABLE_NAME"/>

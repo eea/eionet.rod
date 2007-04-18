@@ -115,7 +115,7 @@ Legislative instrument</a></div>
 		</tr>
 		<tr>
 			<th scope="row" class="scope-row">Reporting guidelines:</th>
-			<td><a target="RA_guidelines"><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
+			<td><a><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
 				<xsl:value-of select="T_OBLIGATION/FORMAT_NAME"/></a></td>
 		</tr>
 	</table>
@@ -225,7 +225,7 @@ Legislative instrument</a></div>
 				&#160;
 		</td>
 		<td>
-			<a target="ROD_delivery">
+			<a>
 				<xsl:attribute name="href">
 					<xsl:value-of select="T_DELIVERY/DELIVERY_URL"/>
 				</xsl:attribute>

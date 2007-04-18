@@ -116,7 +116,7 @@
 										
 									</xsl:otherwise>
 									</xsl:choose>
-									|	<a target="_blank"> 
+									|	<a> 
 											<xsl:attribute name="href">
 												<xsl:call-template name="Feedback_URL"/>
 											</xsl:attribute>

@@ -140,7 +140,6 @@
 								<xsl:when test="T_SOURCE/URL!=''">
 									<a>
 										<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/URL"/></xsl:attribute>
-										<xsl:attribute name="target">_new</xsl:attribute>
 				      				<xsl:call-template name="break">
 			   				   	<xsl:with-param name="text" select="T_SOURCE/TITLE"/>
 								      </xsl:call-template>
@@ -182,7 +181,7 @@
 					<tr class="zebraodd">
 						<th scope="row" class="scope-row">URL to issuer</th>
 						<td>
-							<a target="_new">
+							<a>
 								<xsl:attribute name="href"><xsl:value-of select="T_SOURCE/ISSUED_BY_URL"/></xsl:attribute>
 								<xsl:value-of select="T_SOURCE/ISSUED_BY_URL_LABEL"/>
 							</a>
@@ -260,7 +259,6 @@
 										<xsl:when test="//RowSet[@Name='Source']/Row[position()=1]/T_SOURCE/SECRETARIAT_URL!=''">
 											<a>
 												<xsl:attribute name="href"><xsl:value-of select="//RowSet[@Name='Source']/Row[position()=1]/T_SOURCE/SECRETARIAT_URL"/></xsl:attribute>
-												<xsl:attribute name="target">_new	</xsl:attribute>
 												<xsl:value-of select="//RowSet[@Name='Source']/Row[position()=1]/T_SOURCE/SECRETARIAT"/>
 											</a>
 										</xsl:when>

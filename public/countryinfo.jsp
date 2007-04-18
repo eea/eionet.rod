@@ -156,7 +156,7 @@
 							role_url = (String) role_desc.get("role_url");
 						 }%>
 						 <%if(role_url != null && !role_url.equals("")){ %>
-						 	<a href="<%=RODUtil.replaceTags(role_url,true)%>" target="_blank">
+						 	<a href="<%=RODUtil.replaceTags(role_url,true)%>">
 						 <% } %>
 							 <%if(person != null && !person.equals("")){ %>
 							 	<%=RODUtil.replaceTags(person)%>&nbsp;
@@ -181,7 +181,7 @@
 								String title = (String) delivery.get("title");
 								String url = (String) delivery.get("url");
 								%>
-									<a href="<%=RODUtil.replaceTags(url,true)%>" target="_blank"><%=RODUtil.replaceTags(title)%></a><br/>
+									<a href="<%=RODUtil.replaceTags(url,true)%>"><%=RODUtil.replaceTags(title)%></a><br/>
 								<%
 							}
 						%>

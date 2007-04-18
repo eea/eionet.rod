@@ -88,7 +88,7 @@
 			<td>
 				<xsl:choose>
 					<xsl:when test="T_OBLIGATION/REPORT_FORMAT_URL!=''">
-						<a target="RA_guidelines">
+						<a>
 							<xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/REPORT_FORMAT_URL"/></xsl:attribute>
 							<xsl:choose>
 								<xsl:when test="T_OBLIGATION/FORMAT_NAME!=''">
@@ -141,7 +141,7 @@
 	</td>
 	<td style="border-left: #c0c0c0 1px solid; border-top: #c0c0c0 1px solid"  valign="top">
 		<xsl:if test="T_INDICATOR/URL!=''">
-			<a target="_blank">
+			<a>
 				<xsl:attribute name="href"><xsl:value-of select="T_INDICATOR/URL"/></xsl:attribute>
 				<xsl:value-of select="T_INDICATOR/URL"/>&#160;
 			</a>
