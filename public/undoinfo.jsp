@@ -101,9 +101,9 @@
 		<table class="datatable" width="50%">
 			<thead>
 				<tr>
-					<th scope="col">Time</th>
-					<th scope="col">Operation</th>
-					<th scope="col">User</th>
+					<th scope="col" class="scope-col">Time</th>
+					<th scope="col" class="scope-col">Operation</th>
+					<th scope="col" class="scope-col">User</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -136,12 +136,12 @@
 	   	<table class="datatable" width="100%">
 			<thead>
 				<tr>
-					<th scope="col">Table</th>
-					<th scope="col">Sub#</th>
-					<th scope="col">Column</th>
-					<th scope="col">Undo Value</th>
+					<th scope="col" class="scope-col">Table</th>
+					<th scope="col" class="scope-col">Sub#</th>
+					<th scope="col" class="scope-col">Column</th>
+					<th scope="col" class="scope-col">Undo Value</th>
 					<% if(!op.equals("D") && !op.equals("UD") && !op.equals("UDD")){ %>
-						<th scope="col">Current Value</th>
+						<th scope="col" class="scope-col">Current Value</th>
 					<% } %>
 				</tr>
 			</thead>
@@ -200,10 +200,10 @@
 					<col style="width:25%"/>
 					<thead>
 						<tr>
-							<th scope="col">Undo Countries</th>
-							<th scope="col">Current Countries</th>
-							<th scope="col">Added Countries</th>
-							<th scope="col">Removed Countries</th>
+							<th scope="col" class="scope-col">Undo Countries</th>
+							<th scope="col" class="scope-col">Current Countries</th>
+							<th scope="col" class="scope-col">Added Countries</th>
+							<th scope="col" class="scope-col">Removed Countries</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -231,10 +231,10 @@
 					<col style="width:25%"/>
 					<thead>
 						<tr>
-							<th scope="col">Undo Countries</th>
-							<th scope="col">Current Countries</th>
-							<th scope="col">Added Countries</th>
-							<th scope="col">Removed Countries</th>
+							<th scope="col" class="scope-col">Undo Countries</th>
+							<th scope="col" class="scope-col">Current Countries</th>
+							<th scope="col" class="scope-col">Added Countries</th>
+							<th scope="col" class="scope-col">Removed Countries</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -264,10 +264,10 @@
 					<col style="width:25%"/>
 					<thead>
 						<tr>
-							<th scope="col">Undo Issues</th>
-							<th scope="col">Current Issues</th>
-							<th scope="col">Added Issues</th>
-							<th scope="col">Removed Issues</th>
+							<th scope="col" class="scope-col">Undo Issues</th>
+							<th scope="col" class="scope-col">Current Issues</th>
+							<th scope="col" class="scope-col">Added Issues</th>
+							<th scope="col" class="scope-col">Removed Issues</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -297,10 +297,10 @@
 					<col style="width:25%"/>
 					<thead>
 						<tr>
-							<th scope="col">Undo Clients</th>
-							<th scope="col">Current Clients</th>
-							<th scope="col">Added Clients</th>
-							<th scope="col">Removed Clients</th>
+							<th scope="col" class="scope-col">Undo Clients</th>
+							<th scope="col" class="scope-col">Current Clients</th>
+							<th scope="col" class="scope-col">Added Clients</th>
+							<th scope="col" class="scope-col">Removed Clients</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -330,10 +330,10 @@
 					<col style="width:25%"/>
 					<thead>
 						<tr>
-							<th scope="col">Undo Info Types</th>
-							<th scope="col">Current Info Types</th>
-							<th scope="col">Added Info Typse</th>
-							<th scope="col">Removed Info Types</th>
+							<th scope="col" class="scope-col">Undo Info Types</th>
+							<th scope="col" class="scope-col">Current Info Types</th>
+							<th scope="col" class="scope-col">Added Info Typse</th>
+							<th scope="col" class="scope-col">Removed Info Types</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -355,9 +355,9 @@
 		<% } 
 		}
 		} else { %>
-		</br>
-		<b>Not authenticated! Please verify that you are logged in (for security reasons, </br>
-		the system will log you out after a period of inactivity). If the problem persists, please </br>
+		<br/>
+		<b>Not authenticated! Please verify that you are logged in (for security reasons, <br/>
+		the system will log you out after a period of inactivity). If the problem persists, please <br/>
 		contact the server administrator.</b>
 		<% } %>
 </div> <!-- workarea -->

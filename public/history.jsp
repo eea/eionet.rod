@@ -50,11 +50,11 @@
 									</td>
 								</tr>
 								<tr>
-									<th scope="col">Time</th>
-									<th scope="col">Object</th>
-									<th scope="col">Operation</th>
-									<th scope="col">User</th>
-									<th scope="col"></th>
+									<th scope="col" class="scope-col">Time</th>
+									<th scope="col" class="scope-col">Object</th>
+									<th scope="col" class="scope-col">Operation</th>
+									<th scope="col" class="scope-col">User</th>
+									<th scope="col" class="scope-col"></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -159,14 +159,14 @@
 						<% } else if(item_type.equals("L")){ %>
 							<h1>Deleted Items of type Legislative instrument </h1>				
 						<% } %>
-						<table class="datatable" width="600">
+						<table class="datatable">
 						<thead>
 							<tr>
-								<th scope="col">Item ID</th>
-								<th scope="col">Type</th>
-								<th scope="col">Time</th>
-								<th scope="col">Action</th>
-								<th scope="col">User</th>
+								<th scope="col" class="scope-col">Item ID</th>
+								<th scope="col" class="scope-col">Type</th>
+								<th scope="col" class="scope-col">Time</th>
+								<th scope="col" class="scope-col">Action</th>
+								<th scope="col" class="scope-col">User</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -216,23 +216,26 @@
 						</tbody>
 						</table> 
 						<%if(pages_int != null && pages > 1){ %>
-						<table border="0" width="600">
+						<table border="0">
+						 <col style="width:10%"/>
+						 <col style="width:80%"/>
+						 <col style="width:10%"/>
 							<tr>
-								<td align="left" width="10%">
+								<td style="text-align:left">
 									<% 
 									if(pa_nr > 1){ 
 										int previous = pa_nr - 1; %>
 										<a href="history.jsp?item_type=<%=item_type%>&amp;p=<%=previous%>"><b>Previous</b></a>
 									<% } %>
 								</td>
-								<td align="center" width="80%">
+								<td style="text-align:center">
 									<%
 										for(int i=1; i<=pages; i++){ %>
 											<a href="history.jsp?item_type=<%=item_type%>&amp;p=<%=i%>"><%= i %></a>		
 										<% }
 									%>
 								</td>
-								<td align="right" width="10%">
+								<td style="text-align:right">
 									<% 
 									if(pa_nr < pages){ 
 										int next = pa_nr + 1; %>
@@ -244,9 +247,9 @@
 						<% } 
 						}
 		} else { %>
-		</br>
-		<b>Not authenticated! Please verify that you are logged in (for security reasons, </br>
-		the system will log you out after a period of inactivity). If the problem persists, please </br>
+		<br/>
+		<b>Not authenticated! Please verify that you are logged in (for security reasons, <br/>
+		the system will log you out after a period of inactivity). If the problem persists, please <br/>
 		contact the server administrator.</b>
 		<% } %>
 </div> <!-- workarea -->

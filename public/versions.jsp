@@ -114,7 +114,7 @@
 						String show_object = null;
 						if(versions != null && versions.size() > 0){%>
 						<form name="form" method="post" action="undo">
-						<table class="datatable" width="600">
+						<table class="datatable">
 							<thead>
 								<tr>
 									<td colspan="5" align="right">
@@ -206,23 +206,26 @@
 						</tbody>
 						</table>
 						<%if(pages_int != null && pages > 1){ %>
-						<table border="0" width="600">
+						<table border="0">
+						  <col style="width:15%"/>
+						  <col style="width:70%"/>
+						  <col style="width:15%"/>
 							<tr>
-								<td align="left" width="15%">
+								<td align="left">
 									<% 
 									if(pa_nr > 1){ 
 										int previous = pa_nr - 1; %>
 										<a href="versions.jsp?id=-1&amp;p=<%=previous%>"><b>Later Transactions</b></a>
 									<% } %>
 								</td>
-								<td align="center" width="70%">
+								<td align="center">
 									<%
 										for(int i=1; i<=pages; i++){ %>
 											<a href="versions.jsp?id=-1&amp;p=<%=i%>"><%= i %></a>		
 										<% }
 									%>
 								</td>
-								<td align="right" width="15%">
+								<td align="right">
 									<% 
 									if(pa_nr < pages){ 
 										int next = pa_nr + 1; %>
@@ -245,13 +248,13 @@
 						<% } else if(tabel.equals("T_SOURCE")){ %>
 							<b>History of changing data of Legislative instrument: ID=<%=aid%></b>				
 						<% } %>
-						<table class="datatable" width="600">
+						<table class="datatable">
 						<thead>
 							<tr>
-								<th scope="col">Time</th>
-								<th scope="col">Action</th>
-								<th scope="col">User</th>
-								<th scope="col">Description</th>
+								<th scope="col" class="scope-col">Time</th>
+								<th scope="col" class="scope-col">Action</th>
+								<th scope="col" class="scope-col">User</th>
+								<th scope="col" class="scope-col">Description</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -297,9 +300,9 @@
 						<% } %>
 			<% } %>
 		<% } else { %>
-		</br>
-		<b>Not authenticated! Please verify that you are logged in (for security reasons, </br>
-		the system will log you out after a period of inactivity). If the problem persists, please </br>
+		<br/>
+		<b>Not authenticated! Please verify that you are logged in (for security reasons, <br/>
+		the system will log you out after a period of inactivity). If the problem persists, please <br/>
 		contact the server administrator.</b>
 		<% } %>
 </div> <!-- workarea -->

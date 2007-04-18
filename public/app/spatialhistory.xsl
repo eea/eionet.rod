@@ -79,7 +79,7 @@
 					<td><xsl:value-of select="//RowSet/Row/T_CLIENT/CLIENT_NAME"/></td>
 				</tr>
 			</table>
-			<br/>
+
 			<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
 				<form name="f1" method="POST" action="editperiod">
 					<span style="font-weight: bold;">Edit period:</span>
@@ -107,30 +107,30 @@
 			</xsl:otherwise>
 			</xsl:choose>
 				<tr>
-					<th>
+					<th scope="col" class="scope-col">
 						Country
 					</th>
-					<th>
+					<th scope="col" class="scope-col">
 						Status
 					</th>
-					<th>
+					<th scope="col" class="scope-col">
 						Participation period
 					</th>
 					<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
-						<th>
+						<th scope="col" class="scope-col">
 							Edit period
 						</th>
 					</xsl:if>
 				</tr>
 			<xsl:for-each select="//RowSet/Row">
-			<tr valign="top">
+			<tr>
 					<xsl:attribute name="class">
 							<xsl:if test="position() mod 2 = 0">zebraeven</xsl:if>
 					</xsl:attribute>
-			<td valign="top">
+			<td>
 				<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
 			</td>
-			<td valign="top">
+			<td>
 				<xsl:choose>
 					<xsl:when test="T_SPATIAL_HISTORY/VOLUNTARY='Y'">
 						Voluntary reporting
@@ -140,7 +140,7 @@
 					</xsl:when>
 				</xsl:choose>
 			</td>
-			<td valign="top">
+			<td>
 				<xsl:choose>
 					<xsl:when test="T_SPATIAL_HISTORY/START_DATE='' or T_SPATIAL_HISTORY/START_DATE='00/00/0000'">
 						Prior to start of ROD (2003)
@@ -160,7 +160,7 @@
 				</xsl:choose>
 			</td>
 			<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
-				<td valign="top" align="center">
+				<td class="center">
 					<a><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/>&amp;amp;spatialID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>&amp;amp;spatialHistoryID=<xsl:value-of select="T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID"/></xsl:attribute>
 						Edit
 					</a>
