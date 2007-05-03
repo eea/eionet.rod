@@ -253,7 +253,7 @@
 	<td  valign="top">
 		<span class="rowitem">
 			<a>
-				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;amp;mode=A</xsl:attribute>
+				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;mode=A</xsl:attribute>
 				<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/TITLE"/></xsl:attribute>
 				<xsl:call-template name="short">
 					<xsl:with-param name="text" select="T_OBLIGATION/TITLE"/>
@@ -263,7 +263,7 @@
 			<xsl:if test="T_SOURCE/SOURCE_CODE!=''">
 				<br/>
 				(<a>
-					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 					<xsl:value-of select="T_SOURCE/SOURCE_CODE"/>
 				</a>)
 			</xsl:if>
@@ -345,7 +345,7 @@
 					<xsl:when test="T_OBLIGATION/HAS_DELIVERY=1">
 						<a>
 						<!--xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>')</xsl:attribute-->
-						<xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/></xsl:attribute>
+						<xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/></xsl:attribute>
 							Show list
 						</a>
 					</xsl:when>
@@ -401,25 +401,25 @@
 		<xsl:param name="sorted"/>
 		<xsl:variable name="uri">csmain</xsl:variable>
 		<xsl:variable name="country_param">
-			<xsl:if test="string-length($sel_country) &gt; 0">&amp;amp;COUNTRY_ID=<xsl:value-of select="$sel_country"/></xsl:if>
+			<xsl:if test="string-length($sel_country) &gt; 0">&amp;COUNTRY_ID=<xsl:value-of select="$sel_country"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="client_param">
-			<xsl:if test="string-length($sel_client) &gt; 0">&amp;amp;CLIENT_ID=<xsl:value-of select="$sel_client"/></xsl:if>
+			<xsl:if test="string-length($sel_client) &gt; 0">&amp;CLIENT_ID=<xsl:value-of select="$sel_client"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="issue_param">
-			<xsl:if test="string-length($sel_issue) &gt; 0">&amp;amp;ISSUE_ID=<xsl:value-of select="$sel_issue"/></xsl:if>
+			<xsl:if test="string-length($sel_issue) &gt; 0">&amp;ISSUE_ID=<xsl:value-of select="$sel_issue"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="period_param">
-			<xsl:if test="string-length($sel_period) &gt; 0">&amp;amp;DEADLINES=<xsl:value-of select="$sel_period"/></xsl:if>
+			<xsl:if test="string-length($sel_period) &gt; 0">&amp;DEADLINES=<xsl:value-of select="$sel_period"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="date1_param">
-			<xsl:if test="string-length($sel_period_start) &gt; 0">&amp;amp;DATE_1=<xsl:value-of select="$sel_period_start"/></xsl:if>
+			<xsl:if test="string-length($sel_period_start) &gt; 0">&amp;DATE_1=<xsl:value-of select="$sel_period_start"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="date2_param">
-			<xsl:if test="string-length($sel_period_end) &gt; 0">&amp;amp;DATE_2=<xsl:value-of select="$sel_period_end"/></xsl:if>
+			<xsl:if test="string-length($sel_period_end) &gt; 0">&amp;DATE_2=<xsl:value-of select="$sel_period_end"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="ORD">
-			<xsl:if test="string-length($sorted) &gt; 0">&amp;amp;ORD=<xsl:value-of select="$sorted"/></xsl:if>
+			<xsl:if test="string-length($sorted) &gt; 0">&amp;ORD=<xsl:value-of select="$sorted"/></xsl:if>
 		</xsl:variable>
 		
 		<xsl:variable name="params">

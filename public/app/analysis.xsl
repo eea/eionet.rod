@@ -62,7 +62,7 @@
 				<td width="7%" align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RACoreSet']/Row/T_OBLIGATION/TOTAL_RA"/></td>
 				<td width="15%" align="right">
 					<xsl:if test="RowSet[@Name='RACoreSet']/Row/T_OBLIGATION/TOTAL_RA > 0">
-						<a href="rorabrowse.jsv?mode=A&amp;amp;anmode=C">Show list</a>
+						<a href="rorabrowse.jsv?mode=A&amp;anmode=C">Show list</a>
 					</xsl:if>
 				</td>
 				<td align="right" class="border_left">
@@ -78,7 +78,7 @@
 				<td align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RAEEAPriority']/Row/T_OBLIGATION/TOTAL_RA"/></td>
 				<td align="right">
 					<xsl:if test="RowSet[@Name='RAEEAPriority']/Row/T_OBLIGATION/TOTAL_RA > 0">
-						<a href="rorabrowse.jsv?mode=A&amp;amp;anmode=P">Show list</a>
+						<a href="rorabrowse.jsv?mode=A&amp;anmode=P">Show list</a>
 					</xsl:if>
 				</td>
 				<td align="right" class="border_left">
@@ -94,7 +94,7 @@
 				<td align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RAOverLap']/Row/T_OBLIGATION/TOTAL_RA"/></td>
 				<td align="right">
 					<xsl:if test="RowSet[@Name='RAOverLap']/Row/T_OBLIGATION/TOTAL_RA > 0">
-						<a href="rorabrowse.jsv?mode=A&amp;amp;anmode=O">Show list</a>
+						<a href="rorabrowse.jsv?mode=A&amp;anmode=O">Show list</a>
 					</xsl:if>
 				</td>
 				<td align="right" class="border_left">
@@ -110,7 +110,7 @@
 				<td align="right" class="border_right"><xsl:value-of select="RowSet[@Name='RAFlagged']/Row/T_OBLIGATION/TOTAL_RA"/></td>
 				<td align="right">
 					<xsl:if test="RowSet[@Name='RAFlagged']/Row/T_OBLIGATION/TOTAL_RA > 0">
-						<a href="rorabrowse.jsv?mode=A&amp;amp;anmode=F">Show list</a>
+						<a href="rorabrowse.jsv?mode=A&amp;anmode=F">Show list</a>
 					</xsl:if>
 				</td>
 				<td align="right" class="border_left">

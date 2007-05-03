@@ -119,7 +119,7 @@
 				</xsl:if>
 				<xsl:if test="contains($permissions, ',/obligations:i,')">
 					<li><a title="Create a new reporting obligation">
-						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;amp;mode=X</xsl:attribute>
+						<xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
 						New obligation</a></li>
 				</xsl:if>
 				<!--xsl:if test="contains($permissions, ',/obligations:u,')">
@@ -236,7 +236,7 @@
 		<td valign="top">
 			<span class="head0n">
 				<a> 
-					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute>
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
 					<span class="rowitem">
 							<xsl:choose>
 								<xsl:when test="T_OBLIGATION/TITLE !=''">
@@ -255,7 +255,7 @@
 		<td valign="top">
 			<span class="head0n">
 				<a> 
-					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 					<span class="rowitem"><xsl:value-of select="T_SOURCE/TITLE"/></span>
 				</a>
 			</span>
@@ -302,7 +302,7 @@
 				<span class="rowitem">
 					<xsl:choose>
 						<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
-							<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;COUNTRY_ID=%%</xsl:attribute>
+							<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%</xsl:attribute>
 							Show list
 							</a>
 						</xsl:when>
@@ -389,7 +389,7 @@
 					<td valign="top">
 						<span class="head0n">
 							<a> 
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;amp;mode=A</xsl:attribute>
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
 								<span class="rowitem">
 										<xsl:choose>
 											<xsl:when test="T_OBLIGATION/TITLE !=''">
@@ -408,7 +408,7 @@
 					<td valign="top">
 						<span class="head0n">
 							<a> 
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 								<span class="rowitem"><xsl:value-of select="T_SOURCE/TITLE"/></span>
 							</a>
 						</span>
@@ -451,7 +451,7 @@
 							<span class="rowitem">
 								<xsl:choose>
 									<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
-										<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;amp;COUNTRY_ID=%%</xsl:attribute>
+										<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%</xsl:attribute>
 										Show list
 										</a>
 									</xsl:when>
@@ -470,7 +470,7 @@
 	<xsl:template match="RowSet[@Name='Search results']/@*">
 		<xsl:if test="name(.)!='Name' and name(.)!='order' and name(.)!='auth'">
 			<tr><td>
-				<xsl:value-of select="translate(name(.),'_',' ')"/>&amp;amp;<b><xsl:value-of select="."/></b>
+				<xsl:value-of select="translate(name(.),'_',' ')"/>&amp;<b><xsl:value-of select="."/></b>
 			</td></tr>
 		</xsl:if>
 	</xsl:template>
@@ -479,22 +479,22 @@
 		<xsl:param name="sorted"/>
 		<xsl:variable name="uri">rorabrowse.jsv?mode=<xsl:value-of select="$rora"/></xsl:variable>
 		<xsl:variable name="anmode">
-			<xsl:if test="string-length($analysisMode) &gt; 0">&amp;amp;anmode=<xsl:value-of select="$analysisMode"/></xsl:if>
+			<xsl:if test="string-length($analysisMode) &gt; 0">&amp;anmode=<xsl:value-of select="$analysisMode"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="client">
-			<xsl:if test="string-length($client_param) &gt; 0">&amp;amp;client=<xsl:value-of select="$client_param"/></xsl:if>
+			<xsl:if test="string-length($client_param) &gt; 0">&amp;client=<xsl:value-of select="$client_param"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="country">
-			<xsl:if test="string-length($country_param) &gt; 0">&amp;amp;country=<xsl:value-of select="$country_param"/></xsl:if>
+			<xsl:if test="string-length($country_param) &gt; 0">&amp;country=<xsl:value-of select="$country_param"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="env_issue">
-			<xsl:if test="string-length($issue_param) &gt; 0">&amp;amp;env_issue=<xsl:value-of select="$issue_param"/></xsl:if>
+			<xsl:if test="string-length($issue_param) &gt; 0">&amp;env_issue=<xsl:value-of select="$issue_param"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="terminated">
-			<xsl:if test="string-length($terminated_param) &gt; 0">&amp;amp;terminated=<xsl:value-of select="$terminated_param"/></xsl:if>
+			<xsl:if test="string-length($terminated_param) &gt; 0">&amp;terminated=<xsl:value-of select="$terminated_param"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="ORD">
-			<xsl:if test="string-length($sorted) &gt; 0">&amp;amp;ORD=<xsl:value-of select="$sorted"/></xsl:if>
+			<xsl:if test="string-length($sorted) &gt; 0">&amp;ORD=<xsl:value-of select="$sorted"/></xsl:if>
 		</xsl:variable>
 		
 		<xsl:value-of select="concat($uri, $anmode, $client, $country, $env_issue, $terminated, $ORD)"/>

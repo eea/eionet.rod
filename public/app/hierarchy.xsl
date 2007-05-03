@@ -39,7 +39,7 @@
  <div class="breadcrumbitem eionetaccronym"><a href="http://www.eionet.europa.eu">Eionet</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
  <div class="breadcrumbitem">
-	<a><xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;amp;mode=C</xsl:attribute>
+	<a><xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=C</xsl:attribute>
 		Legislative instruments
 	</a>
  </div>
@@ -93,7 +93,7 @@
 					<xsl:if test="T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">		
 						<xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/><br/>
 						<a>
-							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>&amp;amp;mode=C</xsl:attribute>
+							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>&amp;mode=C</xsl:attribute>
 							One level up
 						</a>
 					</xsl:if>
@@ -121,7 +121,7 @@
 				<xsl:for-each select="Row">
 						<li>
 								<a>
-									<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;amp;mode=C</xsl:attribute>
+									<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;mode=C</xsl:attribute>
 									<xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/>
 								</a>
 					<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
@@ -140,7 +140,7 @@
 									<xsl:value-of select="T_SOURCE_CLASS/CLASSIFICATOR"/>&#160;
 								</xsl:if>
 								<a>
-									<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;amp;mode=C</xsl:attribute>
+									<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;mode=C</xsl:attribute>
 									<xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/>
 								</a>
 					<xsl:apply-templates select="SubSet[@Name='subClass']" mode="normal"/>
@@ -155,7 +155,7 @@
 				<xsl:for-each select="Row">
 					<li>
 							<a>
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 								<xsl:choose>
 									<xsl:when test="T_SOURCE/ALIAS != ''">
 										<span class="normal_weight"><xsl:value-of select="T_SOURCE/ALIAS"/></span>
@@ -181,7 +181,7 @@
 							<xsl:if test="PARENT_SOURCE/PK_SOURCE_ID != ''">
 									Parent legislative instrument: 
 									<a>
-										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PARENT_SOURCE/PK_SOURCE_ID"/>&amp;amp;mode=S</xsl:attribute>
+										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PARENT_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
 										<xsl:choose>
 											<xsl:when test="PARENT_SOURCE/ALIAS != ''">
 												<span class="normal_weight"><xsl:value-of select="PARENT_SOURCE/ALIAS"/></span>

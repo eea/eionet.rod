@@ -39,7 +39,7 @@
  <div class="breadcrumbitem eionetaccronym"><a href="http://www.eionet.europa.eu">Eionet</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
  <div class="breadcrumbitem">
-    <a><xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;amp;mode=X</xsl:attribute>
+    <a><xsl:attribute name="href">show.jsv?id=<xsl:call-template name="DB_Legal_Root_ID"/>&amp;mode=X</xsl:attribute>
         Legislative instruments
     </a>
  </div>
@@ -75,7 +75,7 @@
 			</xsl:if>
 			<xsl:if test="T_SOURCE_LNK/FK_SOURCE_PARENT_ID!=''">		
 				<a>
-					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>&amp;amp;mode=X</xsl:attribute>
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_LNK/FK_SOURCE_PARENT_ID"/>&amp;mode=X</xsl:attribute>
 					<xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/>
 				</a>
 			</xsl:if>
@@ -102,7 +102,7 @@
 				<xsl:for-each select="Row">
 						<li>
 							<a>
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;amp;mode=X</xsl:attribute>
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;mode=X</xsl:attribute>
 								<xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/>
 							</a>
 						</li>
@@ -121,7 +121,7 @@
 							<xsl:value-of select="T_SOURCE_CLASS/CLASSIFICATOR"/>&#160;
 						</xsl:if>
 						<a>
-							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;amp;mode=X</xsl:attribute>
+							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE_CLASS/PK_CLASS_ID"/>&amp;mode=X</xsl:attribute>
 							<xsl:value-of select="T_SOURCE_CLASS/CLASS_NAME"/>
 						</a>
 					</li>
@@ -136,7 +136,7 @@
 				<xsl:for-each select="Row">
 					<li>
 						<a>
-							<xsl:attribute name="href">activity.jsv?id=-1&amp;amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/></xsl:attribute>
+							<xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/></xsl:attribute>
 							<xsl:choose>
 								<xsl:when test="T_SOURCE/ALIAS != ''">
 									<span class="normal_weight"><xsl:value-of select="T_SOURCE/ALIAS"/></span>

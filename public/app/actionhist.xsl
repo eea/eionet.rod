@@ -93,7 +93,7 @@
 			</xsl:attribute>
 			<td>
 				<a title="Show the change record of this item">
-				<xsl:attribute name="href">history.jsv?entity=<xsl:value-of select="T_HISTORY/ITEM_TYPE"/>&amp;amp;id=<xsl:value-of select="T_HISTORY/ITEM_ID"/></xsl:attribute>
+				<xsl:attribute name="href">history.jsv?entity=<xsl:value-of select="T_HISTORY/ITEM_TYPE"/>&amp;id=<xsl:value-of select="T_HISTORY/ITEM_ID"/></xsl:attribute>
 				<xsl:value-of select="T_HISTORY/ITEM_ID"/>
 				</a>
 			</td>

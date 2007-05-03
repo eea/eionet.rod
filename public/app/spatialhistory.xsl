@@ -51,7 +51,7 @@
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem eionetaccronym"><a href="http://www.eionet.europa.eu">Eionet</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
- <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;amp;mode=A</xsl:attribute>
+ <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;mode=A</xsl:attribute>
  Reporting obligation</a></div>
  <div class="breadcrumbitemlast">Status of participation</div>
  <div class="breadcrumbtail"></div>
@@ -161,7 +161,7 @@
 			</td>
 			<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
 				<td class="center">
-					<a><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/>&amp;amp;spatialID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>&amp;amp;spatialHistoryID=<xsl:value-of select="T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID"/></xsl:attribute>
+					<a><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/>&amp;spatialID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>&amp;spatialHistoryID=<xsl:value-of select="T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID"/></xsl:attribute>
 						Edit
 					</a>
 				</td>
