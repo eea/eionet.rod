@@ -70,6 +70,8 @@ public class ActivityHandler extends ROHandler {
   
   private boolean _wasObligationUpdate = false;
   private boolean _wasObligationInsert = false;
+  private long _ts = 0;
+  private String _id = null;
   private SQLGenerator _getSQLGen = null;
     
   //private Vector spatialHistCont = new Vector();
@@ -152,14 +154,17 @@ public class ActivityHandler extends ROHandler {
       String tblName = gen.getTableName();
       int state = gen.getState();
       
+      long ts = System.currentTimeMillis();
+      
       if (tblName.equals("T_OBLIGATION")) {
           if (state != INSERT_RECORD) {
               id = gen.getFieldValue("PK_RA_ID");
           }
           obligation_id = id;
+          _ts = ts;
+          _id = obligation_id;
       }
-      long ts = System.currentTimeMillis();
-
+      
       String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
       
@@ -437,6 +442,22 @@ public class ActivityHandler extends ROHandler {
    public boolean wasObligationInsert(){
        
        return _wasObligationInsert;
+   }
+   
+   /*
+    * 
+    */
+   public long tsValue(){
+       
+       return _ts;
+   }
+   
+   /*
+    * 
+    */
+   public String idValue(){
+       
+       return _id;
    }
    
    

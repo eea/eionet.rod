@@ -24,10 +24,17 @@
 package eionet.rod;
 
 import java.sql.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
+
 import javax.servlet.http.*;
 
 import com.tee.util.*;
 import com.tee.xmlserver.*;
+
+import eionet.rod.services.RODServices;
+import eionet.rod.services.ServiceException;
 
 /**
  * <P>Legal instrument editor servlet class.</P>
@@ -47,6 +54,8 @@ import com.tee.xmlserver.*;
  */
 
 public class Source extends ROEditServletAC {
+    
+    private SourceHandler sourceHandler = null;
 /**
  *
  */
@@ -148,7 +157,8 @@ public class Source extends ROEditServletAC {
  *
  */
    protected SaveHandler setDataHandler() {
-      return new SourceHandler(this);
+       this.sourceHandler = new SourceHandler(this);
+       return this.sourceHandler;
    }
 /**
  *
@@ -156,7 +166,106 @@ public class Source extends ROEditServletAC {
    protected void appDoPost(HttpServletRequest req, HttpServletResponse res)
          throws XSQLException {
       try {
-    		String reDirect = req.getParameter("silent");
+          
+          if (sourceHandler.wasInstrumentUpdate() || sourceHandler.wasInstrumentInsert()){
+              AppUserIF user = getUser(req);
+              String userName = user.getUserName();
+              
+              try{
+                  SQLGenerator gen = sourceHandler.getSQLGen();
+                  if (gen != null) {
+                  
+                      Vector lists = new Vector();
+                      Vector list = new Vector();
+                      long timestamp = System.currentTimeMillis();
+                      String events = "http://rod.eionet.europa.eu/events/" + timestamp;
+                      String instrumentID = null;
+                      
+                      if (curRecord != null)
+                          instrumentID = curRecord;
+                      
+                      if (sourceHandler.wasInstrumentUpdate()) {
+                         
+                          list.add(events);
+                          list.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+                          list.add(Attrs.SCHEMA_RDF + "InstrumentChange");
+                          lists.add(list);
+                          
+                          list = new Vector();
+                          list.add(events);
+                          list.add(Attrs.SCHEMA_RDF + "event_type");
+                          list.add("Instrument change");
+                          lists.add(list);
+                          
+                          list = new Vector();
+                          list.add(events);
+                          list.add("http://purl.org/dc/elements/1.1/title");
+                          //list.add(Attrs.SCHEMA_RDF + "label");
+                          list.add("Instrument change");
+                          lists.add(list);
+                          
+                      } else if (sourceHandler.wasInstrumentInsert()) {
+                          
+                          list.add(events);
+                          list.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+                          list.add(Attrs.SCHEMA_RDF + "NewInstrument");
+                          lists.add(list);
+                          
+                          list = new Vector();
+                          list.add(events);
+                          list.add(Attrs.SCHEMA_RDF + "event_type");
+                          list.add("New instrument");
+                          lists.add(list);
+                          
+                          list = new Vector();
+                          list.add(events);
+                          list.add("http://purl.org/dc/elements/1.1/title");
+                          //list.add(Attrs.SCHEMA_RDF + "label");
+                          list.add("New instrument");
+                          lists.add(list);
+                          
+                      }
+                      
+                      list = new Vector();
+                      list.add(events);
+                      list.add(Attrs.SCHEMA_RDF + "instrument");
+                      list.add(gen.getFieldValue("TITLE"));
+                      lists.add(list);
+                      
+                      list = new Vector();
+                      list.add(events);
+                      list.add(Attrs.SCHEMA_RDF + "actor");
+                      list.add(userName);
+                      lists.add(list);
+                      
+                      if (sourceHandler.wasInstrumentUpdate()) {                      
+                          Vector changes = getChanges(instrumentID);
+                          for(Enumeration en = changes.elements(); en.hasMoreElements(); ){
+                              String label = (String) en.nextElement();
+                              list = new Vector();
+                              list.add(events);
+                              list.add(Attrs.SCHEMA_RDF + "change");
+                              list.add(label);
+                              lists.add(list);
+                          }
+                      }
+                      
+                      list = new Vector();
+                      list.add(events);
+                      list.add("http://purl.org/dc/elements/1.1/identifier");
+                      String url = "http://rod.eionet.europa.eu/show.jsv?id=" + curRecord + "&mode=S";
+                      list.add(url);
+                      
+                      lists.add(list);
+                      
+                      if (lists.size() > 0) UNSEventSender.makeCall(lists);
+                  }
+              }
+              catch (Exception e){
+              }
+          } 
+          
+    	 String reDirect = req.getParameter("silent");
          reDirect = (reDirect == null) ? "0" : reDirect;
 
          String location = null;
@@ -197,6 +306,105 @@ public class Source extends ROEditServletAC {
          throw new XSQLException(e, "Error in redirection");
       }
    }
+   
+   private Vector getChanges(String instrumentID) throws ServiceException {
+       
+       long ts = sourceHandler.tsValue();
+       Vector res_vec = new Vector();
+       Vector undo_vec = RODServices.getDbService().getUndoDao().getUndoInformation(ts,"U","T_SOURCE",instrumentID);
+       for (int i=0; i<undo_vec.size(); i++){
+           Hashtable hash = (Hashtable) undo_vec.elementAt(i);
+           
+           String label = "";
+           String ut = (String) hash.get("undo_time");
+           String tabel = (String) hash.get("tab");
+           String col = (String) hash.get("col");
+           String value = (String) hash.get("value");
+           if(tabel != null & !tabel.equals("") && tabel.equals("T_SOURCE")){
+               String currentValue = RODServices.getDbService().getDifferencesDao().getDifferences(Long.valueOf(ut).longValue(),tabel,col);
+               if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null"))) value = null;
+               if ((currentValue != null && currentValue.trim().equals("")) || (currentValue != null && currentValue.trim().equals("null"))) currentValue = null;
+               boolean diff = (value != null && currentValue != null && value.equals(currentValue)) || (value == null && currentValue == null)  ;
+               
+               if(!diff){
+                   label = getLabel(col, value, currentValue);
+                   res_vec.add(label);
+               }
+           }
+       }
+       
+       Hashtable eurlex = RODServices.getDbService().getDifferencesDao().getDifferencesInEurlexCategories(ts,new Integer(instrumentID).intValue(),"U");
+       if(eurlex.size() > 0){
+           String added = (String) eurlex.get("added");
+           String removed = (String) eurlex.get("removed");
+           if(added.length() > 0){
+               res_vec.add("'Eur-lex categories' added: "+added);
+           }
+           if(removed.length() > 0){
+               res_vec.add("'Eur-lex categories' removed: "+removed);
+           }
+       }
+       
+       return res_vec;
+   }
+
+    private String getLabel(String col, String value, String currentValue) throws ServiceException {
+        
+        String label = "";
+        
+        if(col != null && col.equalsIgnoreCase("TITLE")){
+            label = "'Title' changed ";
+        } else if (col != null && col.equalsIgnoreCase("ALIAS")){
+            label = "'Short name' changed ";
+        } else if (col != null && col.equalsIgnoreCase("SOURCE_CODE")){
+            label = "'Identification number' changed ";
+        } else if (col != null && col.equalsIgnoreCase("DRAFT")){
+            label = "'Draft' changed ";
+        } else if (col != null && col.equalsIgnoreCase("URL")){
+            label = "'URL to official text' changed ";
+        } else if (col != null && col.equalsIgnoreCase("CELEX_REF")){
+            label = "'CELEX reference' changed ";
+        } else if (col != null && col.equalsIgnoreCase("FK_CLIENT_ID")){
+            label = "'Issued by' changed ";
+            value = RODServices.getDbService().getClientDao().getOrganisationNameByID(value);
+            currentValue = RODServices.getDbService().getClientDao().getOrganisationNameByID(currentValue);
+        } else if (col != null && col.equalsIgnoreCase("ISSUED_BY_URL")){
+            label = "'URL to issuer' changed ";
+        } else if (col != null && col.equalsIgnoreCase("DGENV_REVIEW")){
+            label = "'DG Env review of reporting theme' changed ";
+            value = RODServices.getDbService().getSourceDao().getDGEnvName(value);
+            currentValue = RODServices.getDbService().getSourceDao().getDGEnvName(currentValue);
+        } else if (col != null && col.equalsIgnoreCase("VALID_FROM")){
+            label = "'Valid from' changed ";
+        } else if (col != null && col.equalsIgnoreCase("GEOGRAPHIC_SCOPE")){
+            label = "'Geographic scope' changed ";
+        } else if (col != null && col.equalsIgnoreCase("ABSTRACT")){
+            label = "'Abstract' changed ";
+        } else if (col != null && col.equalsIgnoreCase("COMMENT")){
+            label = "'Comments' changed ";
+        } else if (col != null && col.equalsIgnoreCase("EC_ENTRY_INTO_FORCE")){
+            label = "'EC entry into force' changed ";
+        } else if (col != null && col.equalsIgnoreCase("EC_ACCESSION")){
+            label = "'EC accession' changed ";
+        } else if (col != null && col.equalsIgnoreCase("SECRETARIAT")){
+            label = "'Secretariat' changed ";
+        } else if (col != null && col.equalsIgnoreCase("SECRETARIAT_URL")){
+            label = "'URL to Secretariat homepage' changed ";
+        } else if (col != null && col.equalsIgnoreCase("RM_VERIFIED")){
+            label = "'Verified' changed ";
+        } else if (col != null && col.equalsIgnoreCase("RM_VERIFIED_BY")){
+            label = "'Verified by' changed ";
+        } else if (col != null && col.equalsIgnoreCase("RM_NEXT_UPDATE")){
+            label = "'Next update due' changed ";
+        } else if (col != null && col.equalsIgnoreCase("RM_VALIDATED_BY")){
+            label = "'Validated by' changed ";
+        }
+        
+        label = label + " from '" + value + "' to '" + currentValue + "'";
+        
+        return label;
+    }
+   
    private static final String PARENTS =
       "T_SOURCE_LNK.FK_SOURCE_PARENT_ID FROM T_SOURCE_LNK WHERE T_SOURCE_LNK.CHILD_TYPE='S' AND T_SOURCE_LNK.FK_SOURCE_CHILD_ID=";
 }

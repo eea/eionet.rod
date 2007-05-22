@@ -46,6 +46,7 @@ import com.tee.xmlserver.XMLSource;
 import com.tee.xmlserver.XSQLException;
 
 import eionet.rod.services.RODServices;
+import eionet.rod.services.ServiceException;
 
 /**
  * <P>Activity editor servlet class.</P>
@@ -247,8 +248,12 @@ public class Activity extends ROEditServletAC {
                       String events = "http://rod.eionet.europa.eu/events/" + timestamp;
                       String obligationID = null;
                       
+                      if (curRecord != null)
+                          obligationID = curRecord;
+                      int obligation_id = Integer.valueOf(obligationID).intValue();
+                      
                       if (activityHandler.wasObligationUpdate()) {
-                          
+                         
                           list.add(events);
                           list.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
                           list.add(Attrs.SCHEMA_RDF + "ObligationChange");
@@ -295,9 +300,7 @@ public class Activity extends ROEditServletAC {
                       list.add(gen.getFieldValue("TITLE"));
                       lists.add(list);
                       
-                      if (curRecord != null)
-                          obligationID = curRecord;
-                      int obligation_id = Integer.valueOf(obligationID).intValue();
+                      
                       Vector countries = RODServices.getDbService().getSpatialDao().getObligationCountries(obligation_id);
                       
                       for (Enumeration en = countries.elements(); en.hasMoreElements(); ){
@@ -321,6 +324,18 @@ public class Activity extends ROEditServletAC {
                       list.add(userName);
                       lists.add(list);
                       
+                      if (activityHandler.wasObligationUpdate()) {                      
+                          Vector changes = getChanges(obligationID);
+                          for(Enumeration en = changes.elements(); en.hasMoreElements(); ){
+                              String label = (String) en.nextElement();
+                              list = new Vector();
+                              list.add(events);
+                              list.add(Attrs.SCHEMA_RDF + "change");
+                              list.add(label);
+                              lists.add(list);
+                          }
+                      }
+                      
                       list = new Vector();
                       list.add(events);
                       list.add("http://purl.org/dc/elements/1.1/identifier");
@@ -328,6 +343,7 @@ public class Activity extends ROEditServletAC {
                       String src_id = gen.getFieldValue("FK_SOURCE_ID");
                       String url = "http://rod.eionet.europa.eu/show.jsv?id="+obligationID+"&aid="+src_id+"&mode=A";
                       list.add(url);
+                      
                       lists.add(list);
                       
                       if (lists.size() > 0) UNSEventSender.makeCall(lists);
@@ -368,6 +384,247 @@ public class Activity extends ROEditServletAC {
          throw new XSQLException(e, "Error in redirection");
       }
    }
+   
+   private Vector getChanges(String obligationID) throws ServiceException {
+       
+       long ts = activityHandler.tsValue();
+       Vector res_vec = new Vector();
+       Vector undo_vec = RODServices.getDbService().getUndoDao().getUndoInformation(ts,"U","T_OBLIGATION",obligationID);
+       for (int i=0; i<undo_vec.size(); i++){
+           Hashtable hash = (Hashtable) undo_vec.elementAt(i);
+           
+           String label = "";
+           String ut = (String) hash.get("undo_time");
+           String tabel = (String) hash.get("tab");
+           String col = (String) hash.get("col");
+           String value = (String) hash.get("value");
+           String currentValue = RODServices.getDbService().getDifferencesDao().getDifferences(Long.valueOf(ut).longValue(),tabel,col);
+           if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null"))) value = null;
+           if ((currentValue != null && currentValue.trim().equals("")) || (currentValue != null && currentValue.trim().equals("null"))) currentValue = null;
+           boolean diff = (value != null && currentValue != null && value.equals(currentValue)) || (value == null && currentValue == null)  ;
+           
+           if(!diff){
+               label = getLabel(col, value, currentValue);
+               res_vec.add(label);
+           }
+       }
+       
+       Hashtable countries_formally = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,new Integer(obligationID).intValue(),"N","U");
+       if(countries_formally.size() > 0){
+           String added = (String) countries_formally.get("added");
+           String removed = (String) countries_formally.get("removed");
+           if(added.length() > 0){
+               res_vec.add("'Countries reporting formally' added: "+added);
+           }
+           if(removed.length() > 0){
+               res_vec.add("'Countries reporting formally' removed: "+removed);
+           }
+       }
+       
+       Hashtable countries_voluntarily = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,new Integer(obligationID).intValue(),"Y","U");
+       if(countries_voluntarily.size() > 0){
+           String added = (String) countries_voluntarily.get("added");
+           String removed = (String) countries_voluntarily.get("removed");
+           if(added.length() > 0){
+               res_vec.add("'Countries reporting voluntarily' added: "+added);
+           }
+           if(removed.length() > 0){
+               res_vec.add("'Countries reporting voluntarily' removed: "+removed);
+           }
+       }
+       
+       Hashtable issues = RODServices.getDbService().getDifferencesDao().getDifferencesInIssues(ts,new Integer(obligationID).intValue(),"U"); 
+       if(issues.size() > 0){
+           String added = (String) issues.get("added");
+           String removed = (String) issues.get("removed");
+           if(added.length() > 0){
+               res_vec.add("'Environmental issues' added: "+added);
+           }
+           if(removed.length() > 0){
+               res_vec.add("'Environmental issues' removed: "+removed);
+           }
+       }
+       
+       Hashtable clients = RODServices.getDbService().getDifferencesDao().getDifferencesInClients(ts,new Integer(obligationID).intValue(),"C","U","A");
+       if(clients.size() > 0){
+           String added = (String) clients.get("added");
+           String removed = (String) clients.get("removed");
+           if(added.length() > 0){
+               res_vec.add("'Other clients using this reporting' added: "+added);
+           }
+           if(removed.length() > 0){
+               res_vec.add("'Other clients using this reporting' removed: "+removed);
+           }
+       }
+       
+       Hashtable info = RODServices.getDbService().getDifferencesDao().getDifferencesInInfo(ts,new Integer(obligationID).intValue(),"U","I");        
+       if(info.size() > 0){
+           String added = (String) info.get("added");
+           String removed = (String) info.get("removed");
+           if(added.length() > 0){
+               res_vec.add("'Type of info reported' added: "+added);
+           }
+           if(removed.length() > 0){
+               res_vec.add("'Type of info reported' removed: "+removed);
+           }
+       }
+       
+       return res_vec;
+   }
+   
+   private String getLabel(String col, String value, String currentValue) throws ServiceException {
+       
+       String label = "";
+       
+       if(col != null && col.equalsIgnoreCase("TITLE")){
+           label = "'Title' changed ";
+       } else if (col != null && col.equalsIgnoreCase("DESCRIPTION")){
+           label = "'Description' changed ";
+       } else if (col != null && col.equalsIgnoreCase("COORDINATOR_ROLE")){
+           label = "'National reporting coordinators role' changed ";
+       } else if (col != null && col.equalsIgnoreCase("COORDINATOR_ROLE_SUF")){
+           label = "'National reporting coordinators suffix' changed ";
+           value = getSuffixValue(value);
+           currentValue = getSuffixValue(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("COORDINATOR")){
+           label = "'National reporting coordinators name' changed ";
+       } else if (col != null && col.equalsIgnoreCase("COORDINATOR_URL")){
+           label = "'National reporting coordinators URL' changed ";
+       } else if (col != null && col.equalsIgnoreCase("RESPONSIBLE_ROLE")){
+           label = "'National reporting contacts role' changed ";
+       } else if (col != null && col.equalsIgnoreCase("RESPONSIBLE_ROLE_SUF")){
+           label = "'National reporting contacts suffix' changed ";
+           value = getSuffixValue(value);
+           currentValue = getSuffixValue(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("NATIONAL_CONTACT")){
+           label = "'National reporting contacts name' changed ";
+       } else if (col != null && col.equalsIgnoreCase("REPORT_FREQ_MONTHS")){
+           label = "'Reporting frequency in months' changed ";
+       } else if (col != null && col.equalsIgnoreCase("FIRST_REPORTING")){
+           label = "'Baseline reporting date' changed ";
+       } else if (col != null && col.equalsIgnoreCase("VALID_TO")){
+           label = "'Valid to' changed ";
+       } else if (col != null && col.equalsIgnoreCase("NEXT_DEADLINE")){
+           label = "'Next due date' changed ";
+       } else if (col != null && col.equalsIgnoreCase("NEXT_REPORTING")){
+           label = "'Reporting date' changed ";
+       } else if (col != null && col.equalsIgnoreCase("DATE_COMMENTS")){
+           label = "'Date comments' changed ";
+       } else if (col != null && col.equalsIgnoreCase("FORMAT_NAME")){
+           label = "'Name of reporting guidelines' changed ";
+       } else if (col != null && col.equalsIgnoreCase("REPORT_FORMAT_URL")){
+           label = "'URL to reporting guidelines' changed ";
+       } else if (col != null && col.equalsIgnoreCase("VALID_SINCE")){
+           label = "'Format valid since' changed ";
+       } else if (col != null && col.equalsIgnoreCase("REPORTING_FORMAT")){
+           label = "'Reporting guidelines -Extra info' changed ";
+       } else if (col != null && col.equalsIgnoreCase("LOCATION_INFO")){
+           label = "'Name of repository' changed ";
+       } else if (col != null && col.equalsIgnoreCase("LOCATION_PTR")){
+           label = "'URL to repository' changed ";
+       } else if (col != null && col.equalsIgnoreCase("DATA_USED_FOR")){
+           label = "'Data used for' changed ";
+       } else if (col != null && col.equalsIgnoreCase("LEGAL_MORAL")){
+           label = "'Obligation type' changed ";
+       } else if (col != null && col.equalsIgnoreCase("PARAMETERS")){
+           label = "'Parameters' changed ";
+       } else if (col != null && col.equalsIgnoreCase("EEA_PRIMARY")){
+           label = "'This obligation is EIONET Priority Data flow' changed ";
+           value = getChkValue(value);
+           currentValue = getChkValue(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("EEA_CORE")){
+           label = "'This obligation is used for EEA Core set of indicators' changed ";
+           value = getChkValue(value);
+           currentValue = getChkValue(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("FLAGGED")){
+           label = "'This obligation is flagged' changed ";
+           value = getChkValue(value);
+           currentValue = getChkValue(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("DPSIR_D")){
+           label = "'DPSIR D' changed ";
+           value = getDpsirValue(value);
+           currentValue = getDpsirValue(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("DPSIR_P")){
+           label = "'DPSIR P' changed ";
+           value = getDpsirValue(value);
+           currentValue = getDpsirValue(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("DPSIR_S")){
+           label = "'DPSIR S' changed ";
+           value = getDpsirValue(value);
+           currentValue = getDpsirValue(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("DPSIR_I")){
+           label = "'DPSIR I' changed ";
+           value = getDpsirValue(value);
+           currentValue = getDpsirValue(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("DPSIR_R")){
+           label = "'DPSIR R' changed ";
+           value = getDpsirValue(value);
+           currentValue = getDpsirValue(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("OVERLAP_URL")){
+           label = "'URL of overlapping obligation' changed ";
+       } else if (col != null && col.equalsIgnoreCase("OVERLAP_URL")){
+           //Indicators
+       } else if (col != null && col.equalsIgnoreCase("COMMENT")){
+           label = "'General comments' changed ";
+       } else if (col != null && col.equalsIgnoreCase("AUTHORITY")){
+           label = "'Authority giving rise to the obligation' changed ";
+       } else if (col != null && col.equalsIgnoreCase("RM_VERIFIED")){
+           label = "'Verified' changed ";
+       } else if (col != null && col.equalsIgnoreCase("RM_VERIFIED_BY")){
+           label = "'Verified by' changed ";
+       } else if (col != null && col.equalsIgnoreCase("RM_NEXT_UPDATE")){
+           label = "'Next update due' changed ";
+       } else if (col != null && col.equalsIgnoreCase("VALIDATED_BY")){
+           label = "'Validated by' changed ";
+       } else if (col != null && col.equalsIgnoreCase("FK_CLIENT_ID")){
+           label = "'Report to' changed ";
+           value = RODServices.getDbService().getClientDao().getOrganisationNameByID(value);
+           currentValue = RODServices.getDbService().getClientDao().getOrganisationNameByID(currentValue);
+       }
+       
+       label = label + " from '" + value + "' to '" + currentValue + "'";
+       
+       return label;
+   }
+   
+   private String getDpsirValue(String value) throws ServiceException {
+    
+        String ret = null;
+        if(value.equalsIgnoreCase("null") || value.equalsIgnoreCase("no")){
+            ret="unchecked";
+        }
+        if(value.equalsIgnoreCase("yes")){
+            ret="checked";
+        }
+        return ret;
+   }
+   
+   private String getChkValue(String value) throws ServiceException {
+       
+       String ret = null;
+       int b = new Integer(value).intValue();
+       if(b == 0){
+           ret="unchecked";
+       }
+       if(b == 1){
+           ret="checked";
+       }
+       return ret;
+  }
+   
+   private String getSuffixValue(String value) throws ServiceException {
+       
+       String ret = null;
+       int b = new Integer(value).intValue();
+       if(b == 0){
+           ret="checked";
+       }
+       if(b == 1){
+           ret="unchecked";
+       }
+       return ret;
+   }
+
 /**  
  *
  */

@@ -61,6 +61,11 @@ public class SourceHandler extends ActivityHandler {
    private IUndoDao undoDao = null;
    private ISourceDao sourceDao = null;
    private IObligationDao obligationDao = null;
+   
+   private boolean _wasInstrumentUpdate = false;
+   private boolean _wasInstrumentInsert = false;
+   private long _ts = 0;
+   private SQLGenerator _getSQLGen = null;
 	
    private void DELETE_SOURCE(String srcID, boolean delSelf, boolean updateMode, String userName, long ts, int state) {
        
@@ -140,13 +145,17 @@ public class SourceHandler extends ActivityHandler {
      try {
       String tblName = gen.getTableName();
       int state = gen.getState();
+      
+      long ts = System.currentTimeMillis();
+      
       if (tblName.equals("T_SOURCE")) {
           if (state != INSERT_RECORD) {
               id = gen.getFieldValue("PK_SOURCE_ID");
           }
           source_id = id;
+          _ts = ts;
       }
-      long ts = System.currentTimeMillis();
+      
 
       String userName = this.user.getUserName();
       boolean ins = false, upd =false, del=false;
@@ -240,6 +249,15 @@ public class SourceHandler extends ActivityHandler {
           
          if (servlet != null)
             servlet.setCurrentID(id);
+         
+         if (state == MODIFY_RECORD) {
+             _wasInstrumentUpdate = true;
+             _getSQLGen = (SQLGenerator) gen.clone();
+             
+         } else if (state == INSERT_RECORD) {
+             _wasInstrumentInsert = true;
+             _getSQLGen = (SQLGenerator) gen.clone();
+         }
       } 
       else if (tblName.equals("T_SOURCE_LNK")) {
 
@@ -262,6 +280,38 @@ public class SourceHandler extends ActivityHandler {
          return false; // no need for further processing
        }catch(Exception e){logger.error(e);}
       return true;
+   }
+   
+   /*
+    * 
+    */
+   public boolean wasInstrumentUpdate(){
+       
+       return _wasInstrumentUpdate;
+   }
+   
+   /*
+    * 
+    */
+   public boolean wasInstrumentInsert(){
+       
+       return _wasInstrumentInsert;
+   }
+   
+   /*
+    * 
+    */
+   public long tsValue(){
+       
+       return _ts;
+   }
+   
+   /*
+    * 
+    */
+   public SQLGenerator getSQLGen(){
+       
+       return _getSQLGen;
    }
 
    public SourceHandler(ROEditServletAC servlet) {
