@@ -133,6 +133,22 @@
 						<input type="checkbox" id="newobl" name="event_type" value="New obligation"/><label for="newobl">New obligations</label>
 					</td>
 				</tr>
+				<tr>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<input type="checkbox" id="changes_inst" name="event_type" value="Instrument change"/><label for="changes">Changes to instruments</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<input type="checkbox" id="newinst" name="event_type" value="New instrument"/><label for="newobl">New instrument</label>
+					</td>
+				</tr>
 
 				<tr>
 					<td scope="row">
@@ -244,7 +260,7 @@
 									String obligation_id = (String) title_hash.get("obligationID");
 								%>
 								<%=title%>
-								<input type="hidden" name="obligation" value="<%=RODUtil.replaceTags(obligation_id)%>"/>
+								<input type="hidden" name="obligation" value="<%=RODUtil.replaceTags(title)%>"/>
 							<%
 							}
 						} else {
@@ -268,6 +284,47 @@
 							 <%
 							}
 						}
+						%>
+					</td>
+					
+				</tr>
+				<tr>
+					<td scope="row">
+						<strong>Instrument:</strong>
+					</td>
+					<td>
+						<% 
+							if(request.getParameter("sid") != null && request.getParameter("sid") != "") {
+							Vector title_vector = RODServices.getDbService().getSourceDao().getInstrumentById(Integer.valueOf(request.getParameter("sid")));
+							if (title_vector!=null && title_vector.size()>0){
+									Hashtable title_hash = (Hashtable) title_vector.elementAt(0);
+									String title = (String) title_hash.get("TITLE");
+									String instrument_id = (String) title_hash.get("instrumentID");
+								%>
+								<%=title%>
+								<input type="hidden" name="instrument" value="<%=RODUtil.replaceTags(title)%>"/>
+							<%
+							}
+							} else {
+								Vector instruments = RODServices.getDbService().getSourceDao().getInstruments();
+								if (instruments!=null && instruments.size()>0){
+								 %>
+								  <select id="instruments" name="instrument">
+								  	<option value="">All instruments</option>
+								  <%
+								  for (int i=0; i<instruments.size(); i++){
+								   Hashtable hash = (Hashtable) instruments.elementAt(i);
+								   String name = (String)hash.get("TITLE");
+								   name = RODUtil.threeDots(name,OPTION_MAXLEN);
+								    %>
+								    <option><%=name%></option>
+								    <%
+								   }
+								  %>
+								 </select>
+								 <%
+								}
+							}
 						%>
 					</td>
 					
