@@ -20,6 +20,12 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 			" {fn concat(?,PK_CLIENT_ID) }  AS uri " + 
 		"FROM T_CLIENT " + 
 		"ORDER BY CLIENT_NAME ";
+    
+    private static final String qGetOrganisationNameByID = 
+        "SELECT " +
+            "CONCAT(CLIENT_ACRONYM,'-',CLIENT_NAME) AS name " + 
+        "FROM T_CLIENT " +
+        "WHERE PK_CLIENT_ID = ? ";
 
 	
 	private static final String getObligationOrg = 
@@ -31,7 +37,41 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 
 	public ClientMySqlDao() {
 	}
+	
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.IClientDao#getOrganisationNameByID()
+     */
+    public String getOrganisationNameByID(String clientId) throws ServiceException {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        String[][] result = null;
+        String res = null;
 
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(qGetOrganisationNameByID);
+            preparedStatement.setString(1, clientId);
+            if (isDebugMode) logQuery(qGetOrganisationNameByID);
+            resultSet = preparedStatement.executeQuery();
+            result = getResults(resultSet);
+            resultSet.close();
+            preparedStatement.close();
+            if(result.length > 0){
+                res = result[0][0];
+            }
+        } catch (SQLException exception) {
+            logger.error(exception);
+            throw new ServiceException(exception.getMessage());
+        } finally {
+            closeAllResources(resultSet, preparedStatement, connection);
+        }
+
+        return res != null ? res : "";
+    }
+    
 	/*
 	 * (non-Javadoc)
 	 * 

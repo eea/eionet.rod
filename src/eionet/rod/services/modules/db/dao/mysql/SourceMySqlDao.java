@@ -2,6 +2,7 @@ package eionet.rod.services.modules.db.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -57,6 +58,37 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 		return result != null ? result : new Vector();
 
 	}
+    
+    private final static String qInstrumentById = 
+        "SELECT " + 
+            "PK_SOURCE_ID AS instrumentID, " + 
+            "REPLACE(TITLE, '&', '&#038;') AS TITLE " + 
+        "FROM T_SOURCE WHERE PK_SOURCE_ID=? ";
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.ISourceDao#getInstrumentById(java.lang.Integer)
+     */
+    public Vector getInstrumentById(Integer id) throws ServiceException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        Vector result = null;
+        try {
+            connection = getConnection();
+            if (isDebugMode) logQuery(qInstrumentById);
+            preparedStatement = connection.prepareStatement(qInstrumentById);
+            preparedStatement.setInt(1, id.intValue());
+            result = _getVectorOfHashes(preparedStatement);
+        } catch (SQLException exception) {
+            logger.error(exception);
+            throw new ServiceException(exception.getMessage());
+        } finally {
+            closeAllResources(null, preparedStatement, connection);
+        }
+
+        return result != null ? result : new Vector();
+    }
 
 	private static final String q_instruments_rss = 
 		"SELECT " + 
@@ -176,5 +208,44 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
 			return result != null ? result : new String[][] {};
 	  }
+     
+      private final static String qDGEnv = 
+            "SELECT " + 
+                "C_TERM AS name " + 
+            "FROM T_LOOKUP WHERE C_VALUE=? AND CATEGORY = 'DGS' ";
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see eionet.rod.services.modules.db.dao.ISourceDao#getDGEnvName(java.lang.String)
+         */
+      public String getDGEnvName(String value) throws ServiceException {
+          Connection connection = null;
+          ResultSet resultSet = null;
+          PreparedStatement preparedStatement = null;
+          String[][] result = null;
+          String res = null;
+
+          try {
+              connection = getConnection();
+              preparedStatement = connection.prepareStatement(qDGEnv);
+              preparedStatement.setString(1, value);
+              if (isDebugMode) logQuery(qDGEnv);
+              resultSet = preparedStatement.executeQuery();
+              result = getResults(resultSet);
+              resultSet.close();
+              preparedStatement.close();
+              if(result.length > 0){
+                  res = result[0][0];
+              }
+          } catch (SQLException exception) {
+              logger.error(exception);
+              throw new ServiceException(exception.getMessage());
+          } finally {
+              closeAllResources(resultSet, preparedStatement, connection);
+          }
+
+          return res != null ? res : "";
+      }
 	
 }
