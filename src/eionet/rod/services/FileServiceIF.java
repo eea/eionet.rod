@@ -194,6 +194,11 @@ public interface FileServiceIF  {
   * Obligation predicate for UNS subscription method
   */
   public static final String UNS_OBLIGATION_PREDICATE = "uns.obligation.predicate";
+  
+  /**
+   * Instrument predicate for UNS subscription method
+   */
+   public static final String UNS_INSTRUMENT_PREDICATE = "uns.instrument.predicate";
 
   /**
   * Organisation predicate for UNS subscription method
