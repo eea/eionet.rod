@@ -51,6 +51,8 @@ public class Subscribe extends HttpServlet {
     		"issue", fileSrv.getStringProperty(FileServiceIF.UNS_ISSUE_PREDICATE));
     		preferencesMap.put(
     		"obligation", fileSrv.getStringProperty(FileServiceIF.UNS_OBLIGATION_PREDICATE));
+            preferencesMap.put(
+            "instrument", fileSrv.getStringProperty(FileServiceIF.UNS_INSTRUMENT_PREDICATE));
     		preferencesMap.put(
     		"organisation", fileSrv.getStringProperty(FileServiceIF.UNS_ORGANISATION_PREDICATE));
         } catch (Throwable t) {
