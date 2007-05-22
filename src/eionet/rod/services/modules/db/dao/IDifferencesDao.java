@@ -16,6 +16,16 @@ public interface IDifferencesDao {
 	 * @throws ServiceException
 	 */
 	public Hashtable getDifferencesInCountries(long ts, int id, String voluntary, String op) throws ServiceException;
+    
+    /**
+     * Returns difference between undo and current object eur-lex categories
+     * @param ts
+     * @param id
+     * @param op
+     * @return difference between undo and current object eur-lex categories
+     * @throws ServiceException
+     */
+    public Hashtable getDifferencesInEurlexCategories(long ts, int id, String op) throws ServiceException;
 
 	/**
 	 * Returns c

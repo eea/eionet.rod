@@ -12,6 +12,14 @@ public interface ISourceDao {
 	 * @throws ServiceException
 	 */
 	public Vector getInstruments() throws ServiceException;
+    
+    /**
+     * Returns instrument by id
+     * @param id
+     * @return instrument by id
+     * @throws ServiceException
+     */
+    public Vector getInstrumentById(Integer id) throws ServiceException;
 
 	/**
 	 * @return
@@ -47,6 +55,14 @@ public interface ISourceDao {
 	 * @throws ServiceException
 	 */
 	public String[][] getInstrumentIds() throws ServiceException ;	
+    
+    /**
+     * Returns reporting theme name by value
+     * @param value
+     * @return reporting theme name by value
+     * @throws ServiceException
+     */
+    public String getDGEnvName(String value) throws ServiceException ;  
 	
 	
 	

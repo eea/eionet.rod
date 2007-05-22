@@ -6,7 +6,14 @@ import eionet.rod.services.ServiceException;
 
 public interface IClientDao {
 
-	/**
+    /**
+     * @param clientId
+     * @return client name
+     * @throws ServiceException
+     */
+    public String getOrganisationNameByID(String clientId) throws ServiceException;
+    
+    /**
 	 * @return
 	 * @throws ServiceException
 	 */
