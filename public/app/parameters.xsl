@@ -34,9 +34,6 @@ Legislative instrument</a></div>
 		<div id="operations">
 			<ul>
 					<li class="help"><a href="javascript:openViewHelp('HELP_PARAMETERS')">Page help</a></li>
-					<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
-						<li class="help"><a href="javascript:openHelp('HELP_PARAMETERS')">Edit help text</a></li>
-					</xsl:if>
 			</ul>
 		</div>
 	<h1>Overview of parameters</h1>

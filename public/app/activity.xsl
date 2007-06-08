@@ -107,9 +107,6 @@ Legislative instrument</a></div>
 		<div id="operations">
 			<ul>
 				<li class="help"><a href="javascript:openViewHelp('HELP_RA')">Page help</a></li>
-				<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
-					<li class="help"><a href="javascript:openHelp('HELP_RA')">Edit help text</a></li>
-				</xsl:if>
 				<xsl:if test="count(//SubSet[@Name='Indicators']/Row) != 0 ">
 					<li>
 					<a><xsl:attribute name="href">javascript:openPopup("show.jsv", "id=<xsl:value-of select='$ra-id'/>&amp;mode=I")</xsl:attribute>

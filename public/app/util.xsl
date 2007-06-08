@@ -140,20 +140,20 @@
 				<a href="javascript:openViewHelp('{$id}')"><img src="images/but_questionmark_blue.jpg" alt="Help for logged-in users" border="0"/></a>
 			</xsl:otherwise>
 		</xsl:choose>
-		<xsl:call-template name="EditHelp">
+		<!--xsl:call-template name="EditHelp">
 			<xsl:with-param name="id"><xsl:value-of select="$id"/></xsl:with-param>
 			<xsl:with-param name="perm"><xsl:value-of select="$perm"/></xsl:with-param>
-		</xsl:call-template>
+		</xsl:call-template-->
 	</xsl:template>
 
 	<xsl:template name="HelpOverview">
 		<xsl:param name="id">HELP_MAIN</xsl:param>
 		<xsl:param name="perm">x</xsl:param>
 		<li class="help"><a href="javascript:openViewHelp('{$id}')">Page help</a></li>
-		<xsl:call-template name="EditHelpOps">
+		<!--xsl:call-template name="EditHelpOps">
 			<xsl:with-param name="id"><xsl:value-of select="$id"/></xsl:with-param>
 			<xsl:with-param name="perm"><xsl:value-of select="$perm"/></xsl:with-param>
-		</xsl:call-template>
+		</xsl:call-template-->
 	</xsl:template>
 
 	<xsl:template name="EditHelpOps">

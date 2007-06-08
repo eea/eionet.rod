@@ -3,7 +3,7 @@
 	<xsl:variable name="pagetitle">
 		Reporting overview
 	</xsl:variable>
-<xsl:include href="ncommon.xsl"/>
+	<xsl:include href="ncommon.xsl"/>
 
 
 	<xsl:variable name="admin">
@@ -76,9 +76,6 @@
 	<div id="operations">
 		<ul>
 			<li class="help"><a href="javascript:openViewHelp('HELP_CSMAIN')">Page help</a></li>
-			<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
-				<li class="help"><a href="javascript:openHelp('HELP_CSMAIN')">Edit help text</a></li>
-			</xsl:if>
 			<li><a><xsl:attribute name="href">cssearch</xsl:attribute>Advanced search</a></li>
 		</ul>
 	</div>

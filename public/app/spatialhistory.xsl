@@ -63,9 +63,6 @@
 			<div id="operations">
 				<ul>
 					<li class="help"><a href="javascript:openViewHelp('HELP_SPATIALHISTORY')">Page help</a></li>
-					<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
-						<li><a href="javascript:openHelp('HELP_SPATIALHISTORY')">Edit help text</a></li>
-					</xsl:if>
 				</ul>
 			</div>
 			<h1>Status of participation:</h1>

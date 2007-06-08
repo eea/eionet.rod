@@ -26,7 +26,9 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	 <xsl:strip-space elements="HELP_TEXT"/>
-	<xsl:variable name="permissions"/>
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
+	</xsl:variable>
 	<xsl:variable name="pagetitle">
 		Help
 	</xsl:variable>
@@ -50,6 +52,10 @@
 	      	<xsl:call-template name="break">
 	   	       <xsl:with-param name="text" select="XmlData/RowSet/Row/T_HELP/HELP_TEXT"/>
 		      </xsl:call-template>
+			<br/><br/>
+			<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
+				<a><xsl:attribute name="href">help.jsv?helpID=<xsl:value-of select="XmlData/RowSet/Row/T_HELP/PK_HELP_ID"/></xsl:attribute>Edit help text</a>
+			</xsl:if>
 			</body>
 		</html>
 	</xsl:template>

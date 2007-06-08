@@ -47,6 +47,11 @@
 						}
 					}
 					
+					function openViewHelpSameWindow(ID){
+						var url = "viewhelp.jsv?helpID=" + ID;
+						document.location=url;
+					}
+					
 					<![CDATA[
 						function saveHelp() {
 //alert("1");
@@ -94,8 +99,10 @@
 							</tr>
 							<tr align="right">
 								<td colspan="2" align="right">
-									<input type="submit" value="&#160;&#160;&#160;&#160;OK&#160;&#160;&#160;&#160;"/>&#160;
-									<input type="button" onclick="javascript:window.close()" value="Cancel"/>
+									<input type="submit" value="&#160;&#160;&#160;&#160;Save&#160;&#160;&#160;&#160;"/>&#160;
+									<input type="button" value="Cancel">
+										<xsl:attribute name="onclick">openViewHelpSameWindow('<xsl:value-of select="$id"/>')</xsl:attribute>
+									</input>
 								</td>
 							</tr>
 						</table>

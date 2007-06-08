@@ -59,9 +59,6 @@
 	   <div id="operations">
 		<ul>
 			<li class="help"><a href="javascript:openViewHelp('HELP_HIERARCHY_ADD')">Page help</a></li>
-			<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
-				<li class="help"><a href="javascript:openHelp('HELP_HIERARCHY_ADD')">Edit help text</a></li>
-			</xsl:if>
 		</ul>
 	   </div>
            <h1>Select legislative instrument to add reporting obligation to</h1>
