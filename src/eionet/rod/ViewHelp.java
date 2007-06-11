@@ -41,11 +41,12 @@ public class ViewHelp extends ROEditServletAC {
    protected DataSourceIF prepareDataSource(Parameters parameters){
       String querySource = PREFIX + "help.xrs";
       String queryPars[][] = {{"ID", parameters.getParameter("helpID")}};
-
+      
+      HttpServletRequest req = parameters.getRequest();
       DataSourceIF dataSrc = XMLSource.getXMLSource(querySource, parameters.getRequest());
       dataSrc.setParameters(queryPars);
 
-      return dataSrc;
+      return userInfo(req, dataSrc);
    }
    
    protected SaveHandler setDataHandler() {

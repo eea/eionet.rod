@@ -53,6 +53,7 @@ public class Help extends ROEditServletAC {
    }
 
   protected void appDoPost(HttpServletRequest req, HttpServletResponse res) throws XSQLException {
-    printPage(res, "<html><script>window.close()</script></html>");
+    String name = req.getParameter("/XmlData/RowSet/Row/T_HELP/PK_HELP_ID");
+    printPage(res, "<html><script>document.location='viewhelp.jsv?helpID="+name+"'</script></html>");
    }
 }
