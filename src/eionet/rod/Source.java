@@ -398,6 +398,8 @@ public class Source extends ROEditServletAC {
             label = "'Next update due' changed ";
         } else if (col != null && col.equalsIgnoreCase("RM_VALIDATED_BY")){
             label = "'Validated by' changed ";
+        } else if (col != null && col.equalsIgnoreCase("LAST_UPDATE")){
+            label = "'Last update' changed ";
         }
         
         label = label + " from '" + value + "' to '" + currentValue + "'";
