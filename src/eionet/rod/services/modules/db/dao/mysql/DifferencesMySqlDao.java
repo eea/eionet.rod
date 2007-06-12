@@ -57,8 +57,8 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 			undoPreparedStatement.setString(2, "FK_SPATIAL_ID");
 			undoPreparedStatement.setString(3, op);
 			if (isDebugMode) logQuery(q_undo_sql_differences);
-			current = _getVectorOfNames(currentPreparedStatement, null, null, null, "SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ", null);
-			undo = _getVectorOfNames(undoPreparedStatement, "T_RASPATIAL_LNK", "VOLUNTARY", voluntary, "SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ", null);
+			current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null, "SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ", null);
+			undo = _getVectorOfNames(undoPreparedStatement, ts, "T_RASPATIAL_LNK", "VOLUNTARY", voluntary, "SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ", null);
 			currentPreparedStatement.close();
 			undoPreparedStatement.close();
 		} catch (SQLException exception) {
@@ -147,8 +147,8 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 			undoPreparedStatement.setString(2, "FK_CLIENT_ID");
 			undoPreparedStatement.setString(3, op);
 			if (isDebugMode) logQuery(q_undo_sql_differences);
-			current = _getVectorOfNames(currentPreparedStatement, null, null, null, "SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ", null);
-			undo = _getVectorOfNames(undoPreparedStatement, "T_CLIENT_LNK", "TYPE", type, "SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ", status);
+			current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null, "SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ", null);
+			undo = _getVectorOfNames(undoPreparedStatement, ts, "T_CLIENT_LNK", "TYPE", type, "SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ", status);
 			currentPreparedStatement.close();
 			undoPreparedStatement.close();
 		} catch (SQLException exception) {
@@ -235,8 +235,8 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
             undoPreparedStatement.setString(2, "FK_SOURCE_PARENT_ID");
             undoPreparedStatement.setString(3, op);
             if (isDebugMode) logQuery(q_undo_sql_differences);
-            current = _getVectorOfNames(currentPreparedStatement, null, null, null, "SELECT CLASS_NAME FROM T_SOURCE_CLASS WHERE PK_CLASS_ID = ", null);
-            undo = _getVectorOfNames(undoPreparedStatement, "T_SOURCE_LNK", "CHILD_TYPE", "S", "SELECT CLASS_NAME FROM T_SOURCE_CLASS WHERE PK_CLASS_ID = ", null);
+            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null, "SELECT CLASS_NAME FROM T_SOURCE_CLASS WHERE PK_CLASS_ID = ", null);
+            undo = _getVectorOfNames(undoPreparedStatement, ts, "T_SOURCE_LNK", "CHILD_TYPE", "S", "SELECT CLASS_NAME FROM T_SOURCE_CLASS WHERE PK_CLASS_ID = ", null);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
         } catch (SQLException exception) {
@@ -323,8 +323,8 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 			undoPreparedStatement.setString(2, "FK_ISSUE_ID");
 			undoPreparedStatement.setString(3, op);
 			if (isDebugMode) logQuery(q_undo_sql_differences);
-			current = _getVectorOfNames(currentPreparedStatement, null, null, null, "SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ", null);
-			undo = _getVectorOfNames(undoPreparedStatement, null, null, null, "SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ", null);
+			current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null, "SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ", null);
+			undo = _getVectorOfNames(undoPreparedStatement, ts, null, null, null, "SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ", null);
 			currentPreparedStatement.close();
 			undoPreparedStatement.close();
 		} catch (SQLException exception) {
@@ -411,8 +411,8 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 			undoPreparedStatement.setString(2, "FK_INFO_ID");
 			undoPreparedStatement.setString(3, op);
 			if (isDebugMode) logQuery(q_undo_sql_differences);
-			current = _getVectorOfNames(currentPreparedStatement, null, null, null, "SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '" + cat + "' AND C_VALUE = ", null);
-			undo = _getVectorOfNames(undoPreparedStatement, null, null, null, "SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '" + cat + "' AND C_VALUE = ", null);
+			current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null, "SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '" + cat + "' AND C_VALUE = ", null);
+			undo = _getVectorOfNames(undoPreparedStatement, ts, null, null, null, "SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '" + cat + "' AND C_VALUE = ", null);
 			currentPreparedStatement.close();
 			undoPreparedStatement.close();
 		} catch (SQLException exception) {

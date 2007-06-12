@@ -647,7 +647,7 @@ public abstract class MySqlBaseDao {
 		return (Integer) (countryMap.get(countryName));
 	}
 
-	protected Vector _getVectorOfNames(PreparedStatement preparedStatement, String tab, String col, String vol, String sql, String status) throws ServiceException {
+	protected Vector _getVectorOfNames(PreparedStatement preparedStatement, long ts, String tab, String col, String vol, String sql, String status) throws ServiceException {
 
 		Vector rvec = new Vector(); // Return value as Vector
 
@@ -669,7 +669,7 @@ public abstract class MySqlBaseDao {
 				String val = null;
 				if (vol != null) {
 					sub_trans_nr = rset.getString(2);
-					String s = "SELECT value FROM T_UNDO where tab='" + tab + "' " + " AND col = '" + col + "' AND sub_trans_nr = " + sub_trans_nr;
+					String s = "SELECT value FROM T_UNDO where undo_time = '"+ts+"' AND tab='" + tab + "' " + " AND col = '" + col + "' AND sub_trans_nr = " + sub_trans_nr;
 					String[][] sa = _executeStringQuery(s);
 					if (sa.length > 0) val = sa[0][0];
 					if (val.equals(vol)) {
@@ -677,7 +677,7 @@ public abstract class MySqlBaseDao {
 						String[][] na = _executeStringQuery(name_sql);
 						if (na.length > 0) {
 							if (status != null) {
-								String s2 = "SELECT value FROM T_UNDO WHERE tab = '" + tab + "' AND col = 'STATUS' AND sub_trans_nr = " + sub_trans_nr;
+								String s2 = "SELECT value FROM T_UNDO WHERE undo_time = '"+ts+"' AND tab = '" + tab + "' AND col = 'STATUS' AND sub_trans_nr = " + sub_trans_nr;
 								String[][] sa2 = _executeStringQuery(s2);
 								if (sa2.length > 0) if (sa2[0][0].equals(status)) rvec.addElement(na[0][0]);
 							} else {
