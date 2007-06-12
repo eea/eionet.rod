@@ -580,6 +580,8 @@ public class Activity extends ROEditServletAC {
            label = "'Report to' changed ";
            value = RODServices.getDbService().getClientDao().getOrganisationNameByID(value);
            currentValue = RODServices.getDbService().getClientDao().getOrganisationNameByID(currentValue);
+       } else if (col != null && col.equalsIgnoreCase("LAST_UPDATE")){
+           label = "'Last update' changed ";
        }
        
        label = label + " from '" + value + "' to '" + currentValue + "'";
