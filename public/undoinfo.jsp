@@ -4,6 +4,24 @@
 
 <%!final static int OPTION_MAXLEN=80;%>
 
+<%!
+	private String addCommas(String value){
+	
+		StringTokenizer st = new StringTokenizer(value, ",");
+		int tcnt = st.countTokens();
+		String valuen = "";
+		int z = 1;
+		while (st.hasMoreTokens()) {
+			valuen = valuen + st.nextToken();
+			if(z < tcnt){
+				valuen = valuen + ", ";	
+			}
+			z++;
+		}
+		return valuen;
+	}
+%>
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<%@ include file="headerinfo.txt" %>
@@ -165,6 +183,11 @@
 							if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null"))) value = null;
                             if ((currentValue != null && currentValue.trim().equals("")) || (currentValue != null && currentValue.trim().equals("null"))) currentValue = null;
 							boolean diff = (value != null && currentValue != null && value.equals(currentValue)) || (value == null && currentValue == null)  ;
+							
+							if(tab.equals("T_OBLIGATION") && col.equals("FK_DELIVERY_COUNTRY_IDS")){
+								value = addCommas(value);
+								currentValue = addCommas(currentValue);
+							}
 							
 							c2 = "";
 							if (s % 2 == 0){
