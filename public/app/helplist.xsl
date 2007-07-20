@@ -55,4 +55,5 @@
 			</body>
 		</html>
 	</xsl:template>
+	<xsl:template name="createURL"/>
 </xsl:stylesheet>

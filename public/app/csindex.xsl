@@ -143,5 +143,5 @@ of ROD and CDR by using the advanced search.
 	<a><xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&amp;ORD=NEXT_REPORTING, DEADLINE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
 	<br/>
 </xsl:template>
-
+<xsl:template name="createURL"/>
 </xsl:stylesheet>

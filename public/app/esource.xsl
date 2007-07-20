@@ -624,5 +624,5 @@ compField("legislation title", document.f.elements["/XmlData/RowSet[@Name='Sourc
 			</option>
 		</xsl:for-each>
 	</xsl:template>
-
+	<xsl:template name="createURL"/>
 </xsl:stylesheet>

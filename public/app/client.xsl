@@ -194,5 +194,5 @@
 
 		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
-
+	<xsl:template name="createURL"/>
 </xsl:stylesheet>

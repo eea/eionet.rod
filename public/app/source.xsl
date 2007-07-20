@@ -360,5 +360,5 @@
 			</tr>
 		</xsl:if>
 	</xsl:template>
-
+	<xsl:template name="createURL"/>
 </xsl:stylesheet>

@@ -94,5 +94,5 @@ contains the reporting client name and the next deadline<br/>
 		</div>
 		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
-
+	<xsl:template name="createURL"/>
 </xsl:stylesheet>
