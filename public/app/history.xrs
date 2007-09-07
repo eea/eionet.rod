@@ -34,5 +34,11 @@
 		</T_HISTORY>
 		<xrs:Constraint>(ITEM_TYPE=@TYPE ) AND @OTHER</xrs:Constraint>
 		<xrs:Ordering>LOG_TIME</xrs:Ordering>
+		<T_OBLIGATION>
+			<PK_RA_ID/>
+			<FK_SOURCE_ID/>
+			<TITLE/>
+		</T_OBLIGATION>
+		<xrs:Constraint>T_OBLIGATION.PK_RA_ID=T_HISTORY.ITEM_ID</xrs:Constraint>
 	</xrs:RowSet>
 </xrs:XmlData>
