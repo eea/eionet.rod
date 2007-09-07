@@ -1154,7 +1154,7 @@ Legislative instrument</a></div>
 	</xsl:template>
 	
 	<!-- EK 050210 template for calculating request URL for sorting -->
-	<!--xsl:template name="createURL">
+	<xsl:template name="createURL">
 		<xsl:param name="sorted"/>
 		<xsl:variable name="uri">csdeliveries</xsl:variable>
 		<xsl:variable name="actdetails_param">
@@ -1171,7 +1171,7 @@ Legislative instrument</a></div>
 			<xsl:value-of select="concat($ORD,$actdetails_param,$country_param)"/>
 		</xsl:variable>
 		<xsl:value-of select="concat($uri,'?',substring($params,2))"/>
-	</xsl:template-->
+	</xsl:template>
 	
 	<xsl:template match="//RowSet[@Name='Spatial']">
 		<xsl:for-each select="Row">
@@ -1235,5 +1235,5 @@ Legislative instrument</a></div>
 			</xsl:for-each>
 		</ul>
 	</xsl:template>
-	<xsl:template name="createURL"/>
+	<!--xsl:template name="createURL"/-->
 </xsl:stylesheet>
