@@ -6,17 +6,20 @@
 
 <%!
 	private String addCommas(String value){
-	
-		StringTokenizer st = new StringTokenizer(value, ",");
-		int tcnt = st.countTokens();
+		
 		String valuen = "";
-		int z = 1;
-		while (st.hasMoreTokens()) {
-			valuen = valuen + st.nextToken();
-			if(z < tcnt){
-				valuen = valuen + ", ";	
+		if(value != null && !value.equals("")){	
+			StringTokenizer st = new StringTokenizer(value, ",");
+			int tcnt = st.countTokens();
+			
+			int z = 1;
+			while (st.hasMoreTokens()) {
+				valuen = valuen + st.nextToken();
+				if(z < tcnt){
+					valuen = valuen + ", ";	
+				}
+				z++;
 			}
-			z++;
 		}
 		return valuen;
 	}
