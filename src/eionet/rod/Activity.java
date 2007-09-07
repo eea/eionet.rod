@@ -95,7 +95,14 @@ public class Activity extends ROEditServletAC {
       String[][] queryPars = {{"ID", Util.strLiteral(id)}, {"RID", Util.strLiteral(rid)}};   
 
       HttpServletRequest req = params.getRequest();
-      DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + E_ACTIVITY_QUERY, params.getRequest());
+      DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + E_ACTIVITY_QUERY, req);
+      /*
+      Enumeration e = dataSrc.getQueries();
+      if (e != null) {
+          QueryStatementIF qry = (QueryStatementIF)e.nextElement();
+          qry.addAttribute("tab", params.getParameter("tab"));
+      }*/
+      
       dataSrc.setParameters(queryPars);
       //addMetaInfo(dataSrc);      
       

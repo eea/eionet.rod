@@ -24,11 +24,15 @@
 package eionet.rod;
 
 import eionet.rod.services.RODServices;
+import eionet.rod.services.ServiceException;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
 import org.w3c.dom.*;
+
+import java.sql.SQLException;
 import java.util.*;
 
 import com.tee.util.*;
@@ -124,7 +128,7 @@ public class Show extends ROServletAC {
       else if (mode.equals(INDICATORS_MODE))
          return PREFIX + INDICATORS_XSL;
       else if (mode.equals(PARAMETERS_MODE))
-         return PREFIX + PARAMETERS_XSL;
+         return PREFIX + ACTIVITY_XSL;
 
       else
          throw new GeneralException(null, "Unknown value for parameter '" + MODE_PARAM + "': " + mode);
@@ -133,33 +137,121 @@ public class Show extends ROServletAC {
  *
  */
    protected DataSourceIF prepareDataSource(Parameters params) throws XSQLException {
-      mode = params.getParameter(MODE_PARAM);
-      if ( Util.nullString(mode) )
-         throw new GeneralException(null, "Missing parameter '" + MODE_PARAM + "'");
       
-      DataSourceIF dataSrc = null;
+      DataSourceIF dataSrc = null; 
       HttpServletRequest req = params.getRequest();
+      String tab = "overview";
+      if(params.getParameter("tab") != null && !params.getParameter("tab").equals("")){
+          tab = params.getParameter("tab");
+      }
+      
+      if(mode.equals(ACTIVITY_MODE) && tab.equals("participation")){
+          String querySource = PREFIX + "spatialhistory.xrs";
+          String idParam = params.getParameter("ID");
+          String spatialIdParam = params.getParameter("spatialID");
+          String spatialHistoryIdParam = params.getParameter("spatialHistoryID");
+          
+          String queryPars[][] = {{"ID",idParam}};
+          
+          dataSrc = XMLSource.getXMLSource(querySource, req);
+          dataSrc.setParameters(queryPars);
+          
+          java.util.Enumeration e = dataSrc.getQueries();
+          if (e != null) {
+             QueryStatementIF qry = (QueryStatementIF)e.nextElement();
+             if(idParam != null && !idParam.equalsIgnoreCase(""))
+                 qry.addAttribute("ID",idParam);
+             
+             if(spatialIdParam != null && !spatialIdParam.equalsIgnoreCase(""))
+                 qry.addAttribute("spatialID",spatialIdParam);
+             else
+                 qry.addAttribute("spatialID",null);
 
-      id = params.getParameter(ID_PARAM);
-      /*String sv = params.getParameter(SV_PARAM);
-      try{
-          if (sv == null || !sv.equals("T")){
-              String[][] latestVersionId = RODServices.getDbService().getLatestVersionId(id);
-              if(latestVersionId.length > 0) {
-                  String latestId = latestVersionId[0][0];
-                  if (latestId != null)
-                      id = latestId;
-              }
+             if(spatialHistoryIdParam != null && !spatialHistoryIdParam.equalsIgnoreCase(""))
+                 qry.addAttribute("spatialHistoryID",spatialHistoryIdParam);
+             
+             if(tab != null && !tab.equalsIgnoreCase(""))
+                 qry.addAttribute("tab", tab);                 
+          }
+      } else if(mode.equals(ACTIVITY_MODE) && tab.equals("deliveries")){
+          String querySource = PREFIX + "csdeliveries.xml";
+
+          String param = params.getParameter("ACT_DETAILS_ID");
+          String param2 = params.getParameter("COUNTRY_ID");
+          String ord = params.getParameter("ORD");
+
+          if (ord==null)
+            ord="T_SPATIAL.SPATIAL_NAME, T_DELIVERY.UPLOAD_DATE DESC";
+          
+          String queryPars[][] = {{"ACT_DETAILS_ID", Util.strLiteral(param)}, {"COUNTRY_ID", Util.strLiteral(param2)}, {"ORD", ord}};
+
+          dataSrc = XMLSource.getXMLSource(querySource, req);
+          
+          Enumeration e = dataSrc.getQueries();
+          if (e != null) {
+              QueryStatementIF qry = (QueryStatementIF)e.nextElement();
+              qry.addAttribute("ID", param);
+              qry.addAttribute("tab", tab);
           }
           
-      } catch (Exception e) {
-          e.printStackTrace();
-      }*/
-      if ( Util.nullString(id) )
-        throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
-      
-      String[][] queryPars = {{"ID", Util.strLiteral(id)}};
+          dataSrc.setParameters(queryPars);
+          addMetaInfo(dataSrc);
+      } else if(mode.equals(ACTIVITY_MODE) && tab.equals("history")){
+          String id = params.getParameter(ID_PARAM);
+          String item_type = params.getParameter(ENTITY_PARAM);
+          String mode = params.getParameter(MODE_PARAM);
 
+          String secondParam = "";
+
+          if ( Util.nullString(item_type) ) 
+             throw new GeneralException(null, "Missing parameter '" + ENTITY_PARAM + "'");
+          if ( Util.nullString(id) && Util.nullString(mode) ) 
+                   throw new GeneralException(null, "One of parameters '" + MODE_PARAM + "' or '" + ID_PARAM + "' must not be empty");
+                   
+          if (!Util.nullString(id))
+             secondParam = " ITEM_ID = " + id;
+          else        
+             secondParam = " ACTION_TYPE = '" + mode + "'";
+             
+          // prepare data source
+          String[][] queryPars = {{"TYPE", "'" + item_type + "'" }, {"OTHER", secondParam}};   
+
+          dataSrc = XMLSource.getXMLSource(PREFIX + HISTORY_QUERY, params.getRequest());
+          
+          Enumeration e = dataSrc.getQueries();
+          if (e != null) {
+              QueryStatementIF qry = (QueryStatementIF)e.nextElement();
+              qry.addAttribute("ID", id);
+              qry.addAttribute("tab", tab);
+          }
+          
+          dataSrc.setParameters(queryPars);
+          addMetaInfo(dataSrc);
+      } else {
+          mode = params.getParameter(MODE_PARAM);
+          if ( Util.nullString(mode) )
+             throw new GeneralException(null, "Missing parameter '" + MODE_PARAM + "'");
+          
+          id = params.getParameter(ID_PARAM);
+          /*String sv = params.getParameter(SV_PARAM);
+          try{
+              if (sv == null || !sv.equals("T")){
+                  String[][] latestVersionId = RODServices.getDbService().getLatestVersionId(id);
+                  if(latestVersionId.length > 0) {
+                      String latestId = latestVersionId[0][0];
+                      if (latestId != null)
+                          id = latestId;
+                  }
+              }
+              
+          } catch (Exception e) {
+              e.printStackTrace();
+          }*/
+          if ( Util.nullString(id) )
+            throw new GeneralException(null, "Missing parameter '" + ID_PARAM + "'");
+          
+          String[][] queryPars = {{"ID", Util.strLiteral(id)}};
+    
          String qrySrc;
          if (mode.equals(SOURCE_MODE))
             qrySrc = PREFIX + SOURCE_QUERY;
@@ -181,13 +273,16 @@ public class Show extends ROServletAC {
          if (e != null) {
              QueryStatementIF qry = (QueryStatementIF)e.nextElement();
              qry.addAttribute("latest", params.getParameter("latest"));
+             qry.addAttribute("ID", id);
+             if(mode.equals(ACTIVITY_MODE) || mode.equals(PARAMETERS_MODE)){
+                 qry.addAttribute("tab", tab);
+             }
          }
          
          dataSrc.setParameters(queryPars);
-         
-         
-
-      addMetaInfo(dataSrc);
+         addMetaInfo(dataSrc);
+      }
+     
       return userInfo(req, dataSrc);
    }
 	

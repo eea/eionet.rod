@@ -31,7 +31,13 @@ public class EditPeriod extends HttpServlet {
                                             throws ServletException, IOException {
         
         String start_date = req.getParameter("from");
+        if(start_date != null && start_date.equals("Prior to start of ROD (2003)")){
+            start_date = null;
+        }
         String end_date = req.getParameter("to");
+        if(end_date != null && end_date.equals("present")){
+            end_date = null;
+        }
         String spatialHistoryID = req.getParameter("spatialHistoryID");
         String ra_id = req.getParameter("ra_id");
         
@@ -42,7 +48,7 @@ public class EditPeriod extends HttpServlet {
         } catch (Exception e){
             e.printStackTrace();
         }
-        res.sendRedirect("spatialhistory.jsv?ID="+ra_id);
+        res.sendRedirect("show.jsv?ID="+ra_id+"&mode=A&tab=participation");
         
     }
 

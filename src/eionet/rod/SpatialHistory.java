@@ -24,6 +24,8 @@
 package eionet.rod;
 
 import java.io.*;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
 import com.tee.util.*;
@@ -65,6 +67,18 @@ public class SpatialHistory extends ROServletAC {
 
       return userInfo( parameters.getRequest() , dataSrc);    
    }
+   
+   protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+       String id = req.getParameter("ID");
+       try {
+          appDoGet(req, res);
+          res.sendRedirect("show.jsv?ID="+id+"&mode=A&tab=participation");
+
+       } catch (Exception e) {
+             throw new GeneralException(e, e.getMessage());
+       }
+    }
    
    protected SaveHandler setDataHandler() {
       return null;

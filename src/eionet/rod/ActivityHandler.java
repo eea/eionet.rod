@@ -203,7 +203,7 @@ public class ActivityHandler extends ROHandler {
             
             String aid = gen.getFieldValue("FK_SOURCE_ID");
             
-            String url = "show.jsv?id="+id+"&aid="+aid+"&mode=A";
+            String url = "show.jsv?id="+id+"&aid="+aid+"&mode=A&tab=overview";
            
 			undoDao.insertIntoUndo(ts,tblName,"REDIRECT_URL","L","y","n",url,0,"n");
 			undoDao.insertIntoUndo(ts,tblName,"A_USER","K","y","n",userName,0,"n");

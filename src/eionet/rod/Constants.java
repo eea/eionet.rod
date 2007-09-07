@@ -66,6 +66,8 @@ public interface Constants {
    public static final String INDICATORS_QUERY  = "indicators.xrs";
    public static final String ACTIVITY_XSL = "activity.xsl";
    public static final String ACTIVITY_QUERY  = "activity.xrs";
+   
+   public static final String VERSIONS_QUERY  = "versions.xrs";
 
    public static final String HISTORY_QUERY = "history.xrs";
    public static final String HISTORY_XSL = "history.xsl";
