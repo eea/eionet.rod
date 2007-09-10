@@ -46,7 +46,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 		"select a.undo_time, a.col, a.tab, a.operation, a.value, a.show_object " + 
 		"from T_UNDO a, T_UNDO b " + "WHERE a.undo_time = b.undo_time " + 
 			"AND b.col =? " + 
-			"AND b.value = ? " + 
+			"AND b.value =? " + 
 			"AND a.tab =? " + 
 			"AND (a.operation='U' OR a.operation='D' OR a.operation='UN' OR a.operation='UD' OR a.operation='UDD') " + 
 		"ORDER BY a.undo_time DESC";
@@ -111,6 +111,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 				// OR a.operation='D' OR a.operation='UN' OR a.operation='UD' OR
 				// a.operation='UDD') ORDER BY a.undo_time DESC";
 				// Vector vec = _getVectorOfHashes(sql);
+				con = getConnection();
 				preparedStatement = con.prepareStatement(qUndoReportSpecific);
 				preparedStatement.setString(1, id_field);
 				preparedStatement.setString(2, id);
