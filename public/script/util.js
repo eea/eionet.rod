@@ -104,7 +104,7 @@ function openHistory(ID,TYPE){
 function openHelp(ID){
 	var url = "help.jsv?helpID=" + ID;
 	var name = "Help";
-	var features = "location=no, menubar=no, width=485, height=480, top=100, left=200, scrollbars=no";
+	var features = "location=no, menubar=no, width=730, height=480, top=100, left=200, scrollbars=no";
 	var w = window.open(url,name,features);
 	w.focus();
 }
@@ -115,7 +115,7 @@ function openHelp(ID){
 function openViewHelp(ID){
 	var url = "viewhelp.jsv?helpID=" + ID;
 	var name = "Help";
-	var features = "location=no, menubar=no, width=470, height=345, top=100, left=200, scrollbars=yes, resizable=yes";
+	var features = "location=no, menubar=no, width=730, height=480, top=100, left=200, scrollbars=yes, resizable=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 }
@@ -126,7 +126,7 @@ function openViewHelp(ID){
 function openHelpList(mode){
 	var url = "helplist.jsv?mode=" + mode;
 	var name = "Help";
-	var features = "location=no, menubar=no, width=500, height=500, top=100, left=200, scrollbars=yes, resizable=yes";
+	var features = "location=no, menubar=no, width=730, height=480, top=100, left=200, scrollbars=yes, resizable=yes";
 	var w = window.open(url,name,features);
 	w.focus();
 }
