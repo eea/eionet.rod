@@ -44,8 +44,8 @@
 				
 				<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 				<script type="text/javascript" src="script.js"></script>
-				<script type="text/javascript" src="pageops.js"></script>
-				
+				<script type="text/javascript" src="script/pageops.js"></script>
+                                <script type="text/javascript" src="script/mark_special_links.js"></script>
 				<title>Help</title>
 			</head>
 			<body class="popup">

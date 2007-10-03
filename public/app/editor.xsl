@@ -63,6 +63,7 @@
 				<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 				<script type="text/javascript" src="script/util.js"></script>
 				<script type="text/javascript" src="script/pageops.js"></script>
+                                <script type="text/javascript" src="script/mark_special_links.js"></script>
 				<script type="text/javascript">
 					<![CDATA[
 					<!--

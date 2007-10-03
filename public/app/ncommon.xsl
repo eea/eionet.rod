@@ -146,30 +146,31 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<script type="text/javascript" src="script/util.js"></script>
 		<script type="text/javascript" src="script/pageops.js"></script>
-		
-		<xsl:if test = "not(java:eionet.rod.EionetCASFilter.isCasLoggedUser($req))">  
+                <script type="text/javascript" src="script/mark_special_links.js"></script>
+
+		<xsl:if test = "not(java:eionet.rod.EionetCASFilter.isCasLoggedUser($req))">
 			<script type="text/javascript">
 				<![CDATA[
 					function get_cookie( cookie_name )
 					{
-					  var results = document.cookie.match ( cookie_name + '=(.*?)(;|$)' );				
+					  var results = document.cookie.match ( cookie_name + '=(.*?)(;|$)' );
 					  if ( results )
 					    return ( unescape ( results[1] ) );
 					  else
 					    return null;
-					}				
+					}
 				]]>
 				<![CDATA[ eionetCasCookieName="]]><xsl:value-of select="java:eionet.rod.EionetCASFilter.getEionetLoginCookieName()"/><![CDATA[";]]>
 				<![CDATA[ eionetCookieLoginURL="]]><xsl:value-of select="java:eionet.rod.EionetCASFilter.getEionetCookieCASLoginURL($req)"/><![CDATA[";]]>
 				<![CDATA[
 				eionetLoginCookieValue = get_cookie(eionetCasCookieName);
-				if (eionetLoginCookieValue != null && eionetLoginCookieValue == "loggedIn"){	
+				if (eionetLoginCookieValue != null && eionetLoginCookieValue == "loggedIn"){
 					window.location=eionetCookieLoginURL;
 				}
-				]]>		
+				]]>
 			</script>
 		</xsl:if>
-		
+
 		
 		<script type="text/javascript">
 					<![CDATA[
