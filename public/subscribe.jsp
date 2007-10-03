@@ -103,13 +103,13 @@
    		String mySubscriptionsUrl = RODServices.getFileService().getStringProperty(FileServiceIF.UNS_MY_SUBSCRIPTIONS_URL) + RODServices.getFileService().getStringProperty(FileServiceIF.UNS_CHANNEL_NAME);
    		%>
    		
+			<div class="note-msg">
+				<strong>Note</strong>
+				<p>This will make an additional subscription even if you have subscribed before.
+						To change or delete your existing subscriptions,
+						go to the <a href="<%=mySubscriptionsUrl%>">Unified Notification Service (UNS)</a>.</p>
+			</div>
 	   	<table class="formtable" style="border: 1px solid #008080" cellpadding="2" cellspacing="0" width="600" border="0">
-				<tr>
-					<td colspan="2">
-						<strong>Note:</strong> This will make an additional subscription even if you have subscribed before.
-						To change or delete your existing subscriptions, go to the <a href="<%=mySubscriptionsUrl%>">Unified Notification Service (UNS)</a>.
-					</td>
-				</tr>
 				<tr>
 					<td scope="row">
 						<strong>My interests:</strong>
