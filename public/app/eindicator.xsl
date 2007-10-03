@@ -51,7 +51,7 @@
 
 		<body class="popup" onload="check()" onunload="window.opener.document.location.reload(true)">
 			<div id="pagehead">
-				<a href="/"><img style="padding-right: 5px;" src="images/eealogo.gif" alt="Logo" id="logo" /></a>
+				<a href="/"><img src="images/eea-print-logo.gif" alt="Logo" id="logo" /></a>
 				<div id="networktitle">Eionet</div>
 				<div id="sitetitle">Reporting Obligations Database (ROD)</div>
 				<div id="sitetagline">This service is part of Reportnet</div>    
