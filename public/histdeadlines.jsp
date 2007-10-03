@@ -73,6 +73,7 @@
     </script>
 </head>
 <body>
+<div id="container">
     <jsp:include page="location.jsp" flush='true'>
         <jsp:param name="name" value="Historical Deadlines"/>
     </jsp:include>
@@ -160,6 +161,7 @@
 		contact the server administrator.</b>
 		<% } %>
 </div> <!-- workarea -->
+</div>
 <jsp:include page="footer.jsp" flush="true"/>
 </body>
 </html>

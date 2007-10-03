@@ -70,6 +70,7 @@
     </script>
 </head>
 <body>
+<div id="container">
     <jsp:include page="location.jsp" flush='true'>
         <jsp:param name="name" value="Country Information"/>
     </jsp:include>
@@ -189,6 +190,7 @@
 				</tr>
 			</table>
 </div> <!-- workarea -->
+</div>
 <jsp:include page="footer.jsp" flush="true"/>
 </body>
 </html>
