@@ -28,6 +28,10 @@
 		History of changes
 	</xsl:variable>
 	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="action-type">
@@ -137,4 +141,6 @@
 		</div>
 		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
+	
+	<xsl:template name="PageHelp"/>
 </xsl:stylesheet>

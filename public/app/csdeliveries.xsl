@@ -4,6 +4,10 @@
 	<xsl:variable name="pagetitle">
 		Status of deliveries
 	</xsl:variable>
+	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
 
 	<xsl:include href="ncommon.xsl"/>
 
@@ -53,17 +57,15 @@ Legislative instrument</a></div>
 </div>
 </xsl:template>
 
+<xsl:template name="PageHelp">
+	<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_DELIVERIES')" onclick="pop(this.href);return false;"><span>Page help</span></a>
+</xsl:template>
+
 <xsl:template match="XmlData">
 	<!-- page -->
 	<div id="workarea">
 	<!-- header -->
 	<xsl:for-each select="//RowSet[@Name='RA']/Row">
-
-	<div id="operations">
-		<ul>
-			<li class="help"><a href="javascript:openViewHelp('HELP_DELIVERIES')">Page help</a></li>
-		</ul>
-	</div>
 	
 	<h1>Status of deliveries:
 			<xsl:choose>

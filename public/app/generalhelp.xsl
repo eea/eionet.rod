@@ -26,6 +26,9 @@
 	<xsl:variable name="pagetitle">
 		General Help
 	</xsl:variable>
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
 	<xsl:include href="ncommon.xsl"/>
 
 <xsl:template name="breadcrumbs">
@@ -111,4 +114,5 @@ Lastly the EEA itself makes use of ROD to identify and gain access to suitable d
 		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
 	<xsl:template name="createURL"/>
+	<xsl:template name="PageHelp"/>
 </xsl:stylesheet>

@@ -28,6 +28,10 @@
 		Reporting obligations
 	</xsl:variable>
 	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="rora">
@@ -499,4 +503,6 @@
 		
 		<xsl:value-of select="concat($uri, $anmode, $client, $country, $env_issue, $terminated, $ORD)"/>
 	</xsl:template>
+	
+	<xsl:template name="PageHelp"/>
 </xsl:stylesheet>

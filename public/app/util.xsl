@@ -175,60 +175,36 @@
 	<xsl:template name="LeftToolbar">
 		<xsl:param name="admin">false</xsl:param>
 		<xsl:param name="username"/>
-			<!-- Toolbar -->
-		<div id="globalnav">
-		  <h2>Contents</h2>
-		  <ul>
-		    <li><a href="index.html" title="ROD Home">Home</a></li>
-		    <li><a href="deliveries.jsv" title="Country deadlines">Deadlines</a></li>
-		    <li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations</a></li>
-		    <xsl:choose>
-			    <xsl:when test="contains($admin,'true')='true'">
-				<li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe</a></li>
-			    </xsl:when>
-			    <xsl:otherwise>
-					<li>
-						<a>
-							<xsl:attribute name="href">
-								<xsl:value-of select="java:eionet.rod.EionetCASFilter.getCASLoginURL($req,true())"/>
-							</xsl:attribute>
-							<xsl:attribute name="title">Create a UNS Subscription</xsl:attribute>
-							Subscribe
-						</a>					    
-					</li>					
-			    </xsl:otherwise>
-		    </xsl:choose>
-		    <li><a href="text.jsv?mode=H" title="General Help">Help</a></li>
-		    </ul>
-		       <xsl:choose>
-				<xsl:when test="contains($admin,'true')='true'">
-					<h2>Logged in as<br/><xsl:value-of select="$username"/></h2>
-				    	<ul>
-					    <li><a href="logout_servlet" title="Log out">Logout</a></li>
-					    <li><a href="versions.jsp?id=-1">Global history</a></li>
-					</ul>
-				</xsl:when>
-				<xsl:otherwise>
-				    	<h2>Not logged in</h2>
-					<ul>
+		<!-- Toolbar -->
+		<div id="leftcolumn" class="localnav">
+			<ul>
+				<li><a href="index.html" title="ROD Home">Home </a></li>
+				<li><a href="deliveries.jsv" title="Country deadlines">Deadlines </a></li>
+				<li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations </a></li>
+				<xsl:choose>
+					 <xsl:when test="contains($admin,'true')='true'">
+						<li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe </a></li>
+					 </xsl:when>
+					 <xsl:otherwise>
 						<li>
 							<a>
 								<xsl:attribute name="href">
-									<xsl:value-of select="java:eionet.rod.EionetCASFilter.getCASLoginURL($req,false())"/>
+									<xsl:value-of select="java:eionet.rod.EionetCASFilter.getCASLoginURL($req,true())"/>
 								</xsl:attribute>
-								<xsl:attribute name="title">Login</xsl:attribute>
-								Login
+								<xsl:attribute name="title">Create a UNS Subscription</xsl:attribute>
+								Subscribe
 							</a>					    
-						</li>
-					</ul>
-				</xsl:otherwise>
-			</xsl:choose>
-		  <h2>Reportnet</h2>
-		  <ul>
-		    <li><a href="http://cdr.eionet.europa.eu/" title="Central Data Repository">CDR Repository</a></li>
-		    <li><a href="http://dd.eionet.europa.eu/">Data Dictionary</a></li>
-		    <li><a href="http://cr.eionet.europa.eu/">Content Registry</a></li>
-		  </ul>
+						</li>					
+					</xsl:otherwise>
+				</xsl:choose>
+				<li><a href="text.jsv?mode=H" title="General Help">Help </a></li>
+				<xsl:if test="contains($admin,'true')='true'">
+					<li><a href="versions.jsp?id=-1">Global history </a></li>
+				</xsl:if>
+				<li><a href="show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
+				<li><a href="rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
+				<li><a href="analysis.jsv" title="Database statistics">Database statistics </a></li>
+			</ul>
 		</div>
 	</xsl:template>
 

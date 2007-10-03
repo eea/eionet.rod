@@ -28,11 +28,20 @@
 	<xsl:strip-space elements="HELP_TEXT"/>
 	<xsl:param name="req" select="'default value'"/>
 	<xsl:variable name="id" select="java:eionet.rod.RODUtil.getParameter($req, 'helpID')"/>
+	
 	<xsl:template match="/">
-		<html>
+		<html xml:lang="en">
 			<head>
-				<title>Edit Help Text</title>
-				<link href="eionet.css" rel="stylesheet" type="text/css"/>
+				<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+				
+				<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/print.css" media="print" />
+				<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/handheld.css" media="handheld" />		
+				<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/screen.css" media="screen" title="Eionet 2007 style" />
+				<link rel="stylesheet" type="text/css" href="eionet2007.css" media="screen" title="Eionet 2007 style"/>
+				
+				<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+				<script type="text/javascript" src="script.js"></script>
+				<script type="text/javascript" src="pageops.js"></script>
 				<script type="text/javascript">
 					// Sets focus on form's first element
 					//
@@ -54,17 +63,30 @@
 					
 					<![CDATA[
 						function saveHelp() {
-//alert("1");
+							//alert("1");
 							document.helpForm.submit();
-//alert("2");
+							//alert("2");
 						//	window.close();
 						}
 					]]>
 
 				</script>
+				
+				<title>Edit Help Text</title>
 			</head>
-			<body onload="setFocus('helpForm')">
-				<center>
+			<body class="popup" onload="setFocus('helpForm')">
+				<div id="pagehead">
+				    <a href="/"><img style="padding-right: 5px;" src="images/eealogo.gif" alt="Logo" id="logo" /></a>
+				    <div id="networktitle">Eionet</div>
+				    <div id="sitetitle">Reporting Obligations Database (ROD)</div>
+				    <div id="sitetagline">This service is part of Reportnet</div>    
+				</div> <!-- pagehead -->
+				<div id="operations" style="margin-top:10px">
+					<ul>
+						<li><a href="javascript:window.close();">Close</a></li>
+					</ul>
+				</div>
+				<div id="workarea" style="clear:right">
 					<h3>Edit Help Text</h3>
 					<form name="helpForm" method="post" action="help.jsv">
 						<table width="100%">
@@ -73,7 +95,7 @@
 									<b>Title:&#160;</b>
 								</td>
 								<td align="left">
-									<input type="text" size="55" maxlength="255">
+									<input type="text" size="70" maxlength="255">
 										<xsl:attribute name="name">/XmlData/RowSet/Row/T_HELP/HELP_TITLE</xsl:attribute>
 										<xsl:attribute name="value"><xsl:value-of select="/XmlData/RowSet/Row/T_HELP/HELP_TITLE"/></xsl:attribute>
 									</input>
@@ -86,7 +108,7 @@
 							</tr>
 							<tr>
 								<td align="left" colspan="2">
-									<textarea rows="18" cols="55">
+									<textarea rows="18" cols="70">
 										<xsl:attribute name="name">/XmlData/RowSet/Row/T_HELP/HELP_TEXT</xsl:attribute>
 										<xsl:value-of select="/XmlData/RowSet/Row/T_HELP/HELP_TEXT"/>
 									</textarea>
@@ -123,7 +145,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</form>
-				</center>
+				</div>
 			</body>
 		</html>
 	</xsl:template>

@@ -28,6 +28,10 @@
 		Reporting client or issuer details
 	</xsl:variable>
 	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="client-id">
@@ -195,4 +199,5 @@
 		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
 	<xsl:template name="createURL"/>
+	<xsl:template name="PageHelp"/>
 </xsl:stylesheet>

@@ -3,6 +3,11 @@
 	<xsl:variable name="pagetitle">
 		Overview of parameters
 	</xsl:variable>
+	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 <xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="src-id">
@@ -25,17 +30,15 @@ Legislative instrument</a></div>
 </div>
 </xsl:template>
 
+<xsl:template name="PageHelp">
+	<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_PARAMETERS')" onclick="pop(this.href);return false;"><span>Page help</span></a>
+</xsl:template>
 
 <xsl:template match="XmlData">
 	<!-- page -->
 	<div id="workarea">
 
 	<xsl:for-each select="//RowSet[@Name='Activity']/Row">
-		<div id="operations">
-			<ul>
-					<li class="help"><a href="javascript:openViewHelp('HELP_PARAMETERS')">Page help</a></li>
-			</ul>
-		</div>
 	<h1>Overview of parameters</h1>
 	<table class="datatable">
 		<tr valign="top">

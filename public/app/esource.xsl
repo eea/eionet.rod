@@ -27,6 +27,11 @@
 	<xsl:variable name="pagetitle">
 		Edit/Create a Legislative Instrument
 	</xsl:variable>
+	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 	<xsl:include href="editor.xsl"/>
 
 	<xsl:variable name="permissions">
@@ -50,14 +55,13 @@
 		<xsl:apply-templates select="RowSet[@Name='Source']/Row/T_SOURCE"/>
         </div>
 	</xsl:template>
+	
+	<xsl:template name="PageHelp">
+		<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_LI')" onclick="pop(this.href);return false;"><span>Page help</span></a>
+	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Source']/Row/T_SOURCE">
 		<!-- page title -->
-		<div id="operations">
-			<ul>
-				<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_LI</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-			</ul>
-		</div>
 
         <h1>Edit/Create a Legislative Instrument</h1>
 		<form name="f" method="POST" action="source.jsv">

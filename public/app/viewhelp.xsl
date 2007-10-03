@@ -35,27 +35,50 @@
 	<xsl:include href="util.xsl"/>
 
 	<xsl:template match="/">
-		<html>
+		<html xml:lang="en">
 			<head>
+				<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+				
+				<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/print.css" media="print" />
+				<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/handheld.css" media="handheld" />		
+				<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/screen.css" media="screen" title="Eionet 2007 style" />
+				<link rel="stylesheet" type="text/css" href="eionet2007.css" media="screen" title="Eionet 2007 style"/>
+				
+				<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+				<script type="text/javascript" src="script.js"></script>
+				<script type="text/javascript" src="pageops.js"></script>
+				
 				<title>Help</title>
-				<link href="eionet.css" rel="stylesheet" type="text/css"/>
 			</head>
-			<body bgcolor="#F0F0F0">
-				<h3>
-					<xsl:choose>
-						<xsl:when test="XmlData/RowSet/Row/T_HELP/HELP_TITLE">
-							<xsl:value-of select="XmlData/RowSet/Row/T_HELP/HELP_TITLE"/>
-						</xsl:when>
-						<xsl:otherwise>&lt;No Title&gt;</xsl:otherwise>
-					</xsl:choose>
-				</h3>
-	      	<xsl:call-template name="break">
-	   	       <xsl:with-param name="text" select="XmlData/RowSet/Row/T_HELP/HELP_TEXT"/>
-		      </xsl:call-template>
-			<br/><br/>
-			<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
-				<a><xsl:attribute name="href">help.jsv?helpID=<xsl:value-of select="XmlData/RowSet/Row/T_HELP/PK_HELP_ID"/></xsl:attribute>Edit help text</a>
-			</xsl:if>
+			<body class="popup">
+				<div id="pagehead">
+				    <a href="/"><img style="padding-right: 5px;" src="images/eealogo.gif" alt="Logo" id="logo" /></a>
+				    <div id="networktitle">Eionet</div>
+				    <div id="sitetitle">Reporting Obligations Database (ROD)</div>
+				    <div id="sitetagline">This service is part of Reportnet</div>    
+				</div> <!-- pagehead -->
+				<div id="operations" style="margin-top:10px">
+					<ul>
+						<li><a href="javascript:window.close();">Close</a></li>
+					</ul>
+				</div>
+				<div id="workarea" style="clear:right">
+					<h3>
+						<xsl:choose>
+							<xsl:when test="XmlData/RowSet/Row/T_HELP/HELP_TITLE">
+								<xsl:value-of select="XmlData/RowSet/Row/T_HELP/HELP_TITLE"/>
+							</xsl:when>
+							<xsl:otherwise>&lt;No Title&gt;</xsl:otherwise>
+						</xsl:choose>
+					</h3>
+					<xsl:call-template name="break">
+						<xsl:with-param name="text" select="XmlData/RowSet/Row/T_HELP/HELP_TEXT"/>
+					</xsl:call-template>
+					<br/><br/>
+					<xsl:if test="contains($permissions, ',/Admin/Helptext:u,')='true'">
+						<a><xsl:attribute name="href">help.jsv?helpID=<xsl:value-of select="XmlData/RowSet/Row/T_HELP/PK_HELP_ID"/></xsl:attribute>Edit help text</a>
+					</xsl:if>
+				</div>
 			</body>
 		</html>
 	</xsl:template>

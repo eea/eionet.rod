@@ -27,6 +27,11 @@
 	<xsl:variable name="pagetitle">
 		Edit/Create Reporting Obligation for <xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/TITLE"/>
 	</xsl:variable>
+	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 	<xsl:include href="editor.xsl"/>
 
 	<!--xsl:variable name="ro-id">
@@ -54,15 +59,14 @@
  <div class="breadcrumbtail"></div>
 </div>
 </xsl:template>
+	
+	<xsl:template name="PageHelp">
+		<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_RA')" onclick="pop(this.href);return false;"><span>Page help</span></a>
+	</xsl:template>
 
 	<xsl:template match="XmlData">
         <!-- page -->
         <div id="workarea">
-		<div id="operations">
-			<ul>
-				<xsl:call-template name="HelpOverview"><xsl:with-param name="id">HELP_RA</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-			</ul>
-		</div>
 		<h1>
 			Edit/Create Reporting Obligation for 
 			<xsl:choose>

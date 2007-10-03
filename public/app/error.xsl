@@ -27,6 +27,9 @@
 	<xsl:variable name="pagetitle">
 		Problem
 	</xsl:variable>
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
 	<xsl:include href="ncommon.xsl"/>
 
 <xsl:template name="breadcrumbs">
@@ -73,4 +76,5 @@
 	</div>
 	</xsl:template>
 	<xsl:template name="createURL"/>
+	<xsl:template name="PageHelp"/>
 </xsl:stylesheet>

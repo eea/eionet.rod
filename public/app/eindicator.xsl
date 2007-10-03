@@ -27,87 +27,108 @@
 <xsl:variable name="mode" select="java:eionet.rod.RODUtil.getParameter($req, 'dom-update-mode')"/>
 <!--xsl:include href="editor.xsl"/-->
 <xsl:template match="/XmlData">
-<html lang="en">
-<head><title>Client information</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<link type="text/css" rel="stylesheet" href="eionet.css"/>
-	<link rel="stylesheet" type="text/css" href="local2006.css" media="screen" title="Standard"/>
-	<script lang="JavaScript" src="script/util.js"></script>
-	<script lang="JavaScript">
-			function check() {
-				if (document.f.elements["dom-update-mode"].value=="D")	
-					document.f.submit();
-			}
-	</script>
-</head>
+	<html xml:lang="en">
+		<head>
+			<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+			
+			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/print.css" media="print" />
+			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/handheld.css" media="handheld" />		
+			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/screen.css" media="screen" title="Eionet 2007 style" />
+			<link rel="stylesheet" type="text/css" href="eionet2007.css" media="screen" title="Eionet 2007 style"/>
+			
+			<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+			<script type="text/javascript" src="script.js"></script>
+			<script type="text/javascript" src="pageops.js"></script>
+			<script lang="JavaScript">
+					function check() {
+						if (document.f.elements["dom-update-mode"].value=="D")	
+							document.f.submit();
+					}
+			</script>
+			
+			<title>Client information</title>
+		</head>
 
-
-<body style="background: #FFFFFF" bgcolor="#F7F3F7" text="#000000" link="#004D7B" vlink="#808080" alink="#006666" onload="check()" onunload="window.opener.document.location.reload(true)">
-	<p><h2>Add or edit indicator</h2></p>
-	<form name="f" method="POST" action="indicator.jsv">		
-		<input type="hidden" name="dom-update-mode">
-			<xsl:attribute name="value">
-				<xsl:choose>
-					<xsl:when test="RowSet[@skeleton='1']">A</xsl:when>
-					<xsl:when test="$mode='D'">D</xsl:when>
-					<xsl:otherwise>U</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
-		</input>
-	<table border="0" width="500" cellspacing="0" cellpadding="2" style="border: 1px solid #808080" height="125">
-  <tr bgcolor="#FFFFFF" height="25" class="border_right">
-    <td width="107" valign="top" align="left" class="indicator_label">Indicator title</td>
-    <td width="277" valign="top" align="left">
-			<input type="hidden" size="20">
-				<xsl:attribute name="name"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/PK_INDICATOR_ID/@XPath"/></xsl:attribute>
-				<xsl:attribute name="value"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/PK_INDICATOR_ID"/></xsl:attribute>
-			</input>
-			<input type="hidden" size="20">
-				<xsl:attribute name="name"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/FK_RA_ID/@XPath"/></xsl:attribute>
-				<xsl:attribute name="value"><xsl:value-of select="//RowSet[@Name='Activity']/Row/T_OBLIGATION/PK_RA_ID"/></xsl:attribute>
-			</input>
-			<input type="text" size="60">
-				<xsl:attribute name="name"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/TITLE/@XPath"/></xsl:attribute>
-				<xsl:attribute name="value"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/TITLE"/></xsl:attribute>
-			</input>
-		</td>
-	</tr>
-  <tr height="25" class="border_right">
-    <td valign="top" align="left" class="indicator_label">Indicator number</td>
-    <td valign="top" align="left">
-		<input type="text" size="60">
-			<xsl:attribute name="name"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/NUMBER/@XPath"/></xsl:attribute>
-			<xsl:attribute name="value"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/NUMBER"/></xsl:attribute>
-		</input>
-		</td>
-	</tr>
-  <tr bgcolor="#FFFFFF" height="25" class="border_right">
-    <td valign="top" align="left" class="indicator_label">URL</td>
-    <td valign="top" align="left">
-		<input type="text" size="60" onchange="chkUrl(this)">
-			<xsl:attribute name="name"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/URL/@XPath"/></xsl:attribute>
-			<xsl:attribute name="value"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/URL"/></xsl:attribute>
-		</input>
-		</td>
-	</tr>
-  <tr height="25" class="border_right">
-    <td valign="top" align="left" class="indicator_label">Owner</td>
-    <td valign="top" align="left">
-		<input type="text" size="60">
-			<xsl:attribute name="name"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/OWNER/@XPath"/></xsl:attribute>
-			<xsl:attribute name="value"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/OWNER"/></xsl:attribute>
-		</input>
-		</td>
-	</tr>
-  <tr bgcolor="#FFFFFF" height="25" class="border_right">
-    <td valign="top" align="left" >&#160;</td>
-    <td valign="top" align="left">
-			<input type="submit" value="Save" name="B1" class="btn"></input>
-		</td>
-	</tr>
-	</table>
-	</form>
-</body>
-</html>
+		<body class="popup" onload="check()" onunload="window.opener.document.location.reload(true)">
+			<div id="pagehead">
+				<a href="/"><img style="padding-right: 5px;" src="images/eealogo.gif" alt="Logo" id="logo" /></a>
+				<div id="networktitle">Eionet</div>
+				<div id="sitetitle">Reporting Obligations Database (ROD)</div>
+				<div id="sitetagline">This service is part of Reportnet</div>    
+			</div> <!-- pagehead -->
+			<div id="operations" style="margin-top:10px">
+				<ul>
+					<li><a href="javascript:window.close();">Close</a></li>
+				</ul>
+			</div>
+			<div id="workarea" style="clear:right">
+			<h2>Add or edit indicator</h2>
+				<form name="f" method="POST" action="indicator.jsv">		
+					<input type="hidden" name="dom-update-mode">
+						<xsl:attribute name="value">
+							<xsl:choose>
+								<xsl:when test="RowSet[@skeleton='1']">A</xsl:when>
+								<xsl:when test="$mode='D'">D</xsl:when>
+								<xsl:otherwise>U</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
+					</input>
+					<table border="0" width="500" cellspacing="0" cellpadding="2" style="border: 1px solid #808080" height="125">
+						<tr bgcolor="#FFFFFF" height="25" class="border_right">
+							<td width="107" valign="top" align="left" class="indicator_label">Indicator title</td>
+							<td width="277" valign="top" align="left">
+								<input type="hidden" size="20">
+									<xsl:attribute name="name"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/PK_INDICATOR_ID/@XPath"/></xsl:attribute>
+									<xsl:attribute name="value"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/PK_INDICATOR_ID"/></xsl:attribute>
+								</input>
+								<input type="hidden" size="20">
+									<xsl:attribute name="name"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/FK_RA_ID/@XPath"/></xsl:attribute>
+									<xsl:attribute name="value"><xsl:value-of select="//RowSet[@Name='Activity']/Row/T_OBLIGATION/PK_RA_ID"/></xsl:attribute>
+								</input>
+								<input type="text" size="60">
+									<xsl:attribute name="name"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/TITLE/@XPath"/></xsl:attribute>
+									<xsl:attribute name="value"><xsl:value-of select="//RowSet[@Name='Indicator']/Row/T_INDICATOR/TITLE"/></xsl:attribute>
+								</input>
+							</td>
+						</tr>
+						<tr height="25" class="border_right">
+							<td valign="top" align="left" class="indicator_label">Indicator number</td>
+							<td valign="top" align="left">
+								<input type="text" size="60">
+									<xsl:attribute name="name"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/NUMBER/@XPath"/></xsl:attribute>
+									<xsl:attribute name="value"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/NUMBER"/></xsl:attribute>
+								</input>
+							</td>
+						</tr>
+						<tr bgcolor="#FFFFFF" height="25" class="border_right">
+							<td valign="top" align="left" class="indicator_label">URL</td>
+							<td valign="top" align="left">
+								<input type="text" size="60" onchange="chkUrl(this)">
+									<xsl:attribute name="name"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/URL/@XPath"/></xsl:attribute>
+									<xsl:attribute name="value"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/URL"/></xsl:attribute>
+								</input>
+							</td>
+						</tr>
+						<tr height="25" class="border_right">
+							<td valign="top" align="left" class="indicator_label">Owner</td>
+							<td valign="top" align="left">
+								<input type="text" size="60">
+									<xsl:attribute name="name"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/OWNER/@XPath"/></xsl:attribute>
+									<xsl:attribute name="value"><xsl:value-of select="RowSet[@Name='Indicator']/Row/T_INDICATOR/OWNER"/></xsl:attribute>
+								</input>
+							</td>
+						</tr>
+						<tr bgcolor="#FFFFFF" height="25" class="border_right">
+							<td valign="top" align="left" >&#160;</td>
+							<td valign="top" align="left">
+								<input type="submit" value="Save" name="B1" class="btn"></input>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</body>
+	</html>
 </xsl:template>
+<xsl:template name="createURL"/>
 </xsl:stylesheet>

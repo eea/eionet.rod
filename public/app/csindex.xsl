@@ -3,6 +3,10 @@
 	<xsl:variable name="pagetitle">
 		Country deadlines
 	</xsl:variable>
+	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
 
 	<xsl:include href="ncommon.xsl"/>
 
@@ -144,4 +148,5 @@ of ROD and CDR by using the advanced search.
 	<br/>
 </xsl:template>
 <xsl:template name="createURL"/>
+<xsl:template name="PageHelp"/>
 </xsl:stylesheet>

@@ -32,7 +32,8 @@
 	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd" omit-xml-declaration="yes"/>   
 
 	<xsl:include href="util.xsl"/>
-
+	<xsl:include href="dropdownmenus.xsl"/>
+	
 	<xsl:param name="req" select="'default value'"/>
 	<xsl:variable name="printmode" select="java:eionet.rod.RODUtil.getParameter($req, 'printmode')"/>
 
@@ -43,39 +44,73 @@
 		<xsl:value-of select="//RowSet[position()=1]/@username"/>
 	</xsl:variable>
 
-
 	<xsl:variable name="permissions">
 		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
 	</xsl:variable>
 
 	<xsl:template match="/">
-   	<html lang="en">
-   		<xsl:call-template name="html_head"/>
-		<body>
+		<html xml:lang="en">
+			<xsl:call-template name="html_head"/>
+			<body>
+			<xsl:attribute name="class">
+				<xsl:value-of select="$col_class"/>
+			</xsl:attribute>
+			<div id="container">
+						<!-- MAIN table -->
+				<div id="toolribbon">
+					<div id="lefttools">
+				      <a id="eealink" href="http://www.eea.europa.eu/">EEA</a>
+				      <a id="ewlink" href="http://www.ewindows.eu.org/">EnviroWindows</a>
+				    </div>
+				    <div id="righttools">    
+						<xsl:choose>
+							<xsl:when test="contains($admin,'true')='true'">
+								<a id="logoutlink" href="logout_servlet" title="Log out">Logout <xsl:value-of select="$username"/></a>
+							</xsl:when>
+							<xsl:otherwise>
+								<a>
+									<xsl:attribute name="href">
+										<xsl:value-of select="java:eionet.rod.EionetCASFilter.getCASLoginURL($req,false())"/>
+									</xsl:attribute>
+									<xsl:attribute name="title">Login</xsl:attribute>
+									<xsl:attribute name="id">loginlink</xsl:attribute>
+									Login
+								</a>					    
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:call-template name="PageHelp"/>
+						<a id="printlink" title="Print this page" href="javascript:this.print();"><span>Print</span></a>
+						<a id="fullscreenlink" href="javascript:toggleFullScreenMode()" title="Switch to/from full screen mode"><span>Switch to/from full screen mode</span></a>
+						<a id="acronymlink" href="http://www.eionet.europa.eu/acronyms" title="Look up acronyms"><span>Acronyms</span></a>
+						<form action="http://search.eionet.europa.eu/search.jsp" method="get">
+							<div id="freesrchform"><label for="freesrchfld">Search</label>
+								<input type="text" id="freesrchfld" name="query"/>
+								<input id="freesrchbtn" type="image" src="images/button_go.gif" alt="Go"/>
+							</div>
+						</form>
+				    </div>
+				</div> <!-- toolribbon -->
 
-			<!-- MAIN table -->
+				<div id="pagehead">
+				    <a href="/"><img src="images/eealogo.gif" alt="Logo" id="logo" /></a>
+				    <div id="networktitle">Eionet</div>
+				    <div id="sitetitle">Reporting Obligations Database (ROD)</div>
+				    <div id="sitetagline">This service is part of Reportnet</div>
+				</div> <!-- pagehead -->
 
-<div id="pagehead">
-<form action="http://search.eionet.europa.eu/search.jsp" method="get">
-<input onfocus="if(this.value=='Search ROD')this.value='';" onblur="if(this.value=='')this.value='Search ROD';" title="Search Eionet sites with Nutch" value="Search ROD" size="10" type="text" name="query"/>
-<input value="rod.eionet.europa.eu" name="qp_site" type="hidden"/>
-</form>
- <div id="identification">
-  <a href="/" title="Frontpage of website"><img src="images/logo.png" alt="Logo" id="logo" border="0" /></a>
-								<div class="sitetitle"><xsl:call-template name="FirstHeading"/></div>
-								<div class="sitetagline"><xsl:call-template name="SecondHeading"/></div>
- </div>
 
-<xsl:call-template name="breadcrumbs"/>
-</div> <!-- page head -->
-
-					<xsl:call-template name="LeftToolbar">
-						<xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param>
-						<xsl:with-param name="username"><xsl:value-of select="$username"/></xsl:with-param>
-					</xsl:call-template>
-					<xsl:apply-templates select="XmlData"/>
-			</body>
-   	 </html>
+				<div id="menuribbon">
+					<xsl:call-template name="DropDownMenu"/>
+				</div>
+				<xsl:call-template name="breadcrumbs"/>
+				<xsl:call-template name="LeftToolbar">
+					<xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param>
+					<xsl:with-param name="username"><xsl:value-of select="$username"/></xsl:with-param>
+				</xsl:call-template>
+				<xsl:apply-templates select="XmlData"/>
+			</div>
+		</body>
+		 </html>
 	</xsl:template>  
 
 	<xsl:template name="nofound">
@@ -100,16 +135,17 @@
 		<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
 
 		<title><xsl:call-template name="PageTitle"/></title>
-		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eea2006/layout-screen.css" media="screen" title="EEA 2006 style" />
-		<link rel="stylesheet" type="text/css" href="local2006.css" media="screen" title="EEA 2006 style"/>
-		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/layout-print.css" media="print" />
-		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/layout-handheld.css" media="handheld" />
+		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/print.css" media="print" />
+		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/handheld.css" media="handheld" />		
+		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/screen.css" media="screen" title="Eionet 2007 style" />
+		<link rel="stylesheet" type="text/css" href="eionet2007.css" media="screen" title="Eionet 2007 style"/>
 		<link rel="alternate" type="application/rdf+xml" title="All Obligations" href="http://rod.eionet.europa.eu/obligations"/>
 		<link rel="alternate" type="application/rdf+xml" title="All Localities" href="http://rod.eionet.europa.eu/countries"/>
 		<link rel="alternate" type="application/rdf+xml" title="All Legal instruments" href="http://rod.eionet.europa.eu/instruments"/>
 		<link rel="alternate" type="application/rss+xml" title="Obligation deadlines" href="http://rod.eionet.europa.eu/events.rss"/>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<script type="text/javascript" src="script/util.js"></script>
+		<script type="text/javascript" src="script/pageops.js"></script>
 		
 		<xsl:if test = "not(java:eionet.rod.EionetCASFilter.isCasLoggedUser($req))">  
 			<script type="text/javascript">

@@ -3,6 +3,11 @@
 	<xsl:variable name="pagetitle">
 		Advanced search
 	</xsl:variable>
+	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 <xsl:include href="ncommon.xsl"/>
 
 <xsl:variable name="admin">
@@ -228,4 +233,5 @@ function submitSearchForm() {
 	</xsl:template>
 
 	<xsl:template name="createURL"/>
+	<xsl:template name="PageHelp"/>
 </xsl:stylesheet>

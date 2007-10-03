@@ -3,6 +3,11 @@
 	<xsl:variable name="pagetitle">
 		Reporting overview
 	</xsl:variable>
+	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 	<xsl:include href="ncommon.xsl"/>
 
 
@@ -51,6 +56,10 @@
 </div>
 </xsl:template>
 
+<xsl:template name="PageHelp">
+	<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_CSMAIN')" onclick="pop(this.href);return false;"><span>Page help</span></a>
+</xsl:template>
+
 <xsl:template match="XmlData">
 
 <script type="text/javascript">
@@ -75,7 +84,6 @@
 	
 	<div id="operations">
 		<ul>
-			<li class="help"><a href="javascript:openViewHelp('HELP_CSMAIN')">Page help</a></li>
 			<li><a><xsl:attribute name="href">cssearch</xsl:attribute>Advanced search</a></li>
 		</ul>
 	</div>

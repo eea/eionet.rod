@@ -28,6 +28,11 @@
 	<xsl:variable name="pagetitle">
 		EEA - Reporting Obligations Database
 	</xsl:variable>
+	
+	<xsl:variable name="col_class">
+		threecolumns
+	</xsl:variable>
+	
 	<xsl:include href="ncommon.xsl"/>
 
 <xsl:template name="breadcrumbs">
@@ -41,37 +46,35 @@
 
 	<xsl:template match="XmlData">
 		<!-- page -->
-<div id="workarea">
-		<xsl:value-of select="//HLP_AREA[AREA_ID='Two_boxes']/HTML" disable-output-escaping="yes"/>
-		<xsl:value-of select="//HLP_AREA[AREA_ID='Introduction']/HTML" disable-output-escaping="yes"/>
-		<br/>
-  
-<!--- -->
-<xsl:call-template name="RASearch"/>
+		<div id="rightcolumn" class="quickjumps">
+			<xsl:value-of select="//HLP_AREA[AREA_ID='Two_boxes']/HTML" disable-output-escaping="yes"/>
+		</div>
+		<div id="workarea">
+			<xsl:value-of select="//HLP_AREA[AREA_ID='Introduction']/HTML" disable-output-escaping="yes"/>
+			<br/>
+			<!--- -->
+			<xsl:call-template name="RASearch"/>
 
 
-<!-- SiteSearch Google -->
-<br/>
-<form method="get" action="http://search.eionet.europa.eu/search.jsp">
-	<input value="rod.eionet.europa.eu" name="qp_site" type="hidden"/>
-	<table width="530" style="border: 1px solid #006666">
-	<tr>
-		<td valign="middle" width="30%">
-			<label for="queryfld" style="font-weight:bold">Search ROD website:</label>
-		</td>
-		<td valign="middle">
-			<input type="text" name="query" id="queryfld" size="44" maxlength="255" value=""/>&#160;
-			<xsl:call-template name="go"/>
-			</td>
-		</tr>
-	</table>
-</form>
-<!-- SiteSearch Google -->
-</div> <!-- workarea -->
-
+			<!-- SiteSearch Google -->
+			<br/>
+			<form method="get" action="http://search.eionet.europa.eu/search.jsp">
+				<input value="rod.eionet.europa.eu" name="qp_site" type="hidden"/>
+				<table width="530" style="border: 1px solid #006666">
+				<tr>
+					<td valign="middle" width="30%">
+						<label for="queryfld" style="font-weight:bold">Search ROD website:</label>
+					</td>
+					<td valign="middle">
+						<input type="text" name="query" id="queryfld" size="44" maxlength="255" value=""/>&#160;
+						<xsl:call-template name="go"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<!-- SiteSearch Google -->
+		</div> <!-- workarea -->
 		<xsl:call-template name="CommonFooter"/>
-
-
 		
 	</xsl:template>
 
@@ -91,5 +94,7 @@
 	</xsl:template>
 
         <xsl:template name="createURL"/>
+	
+	<xsl:template name="PageHelp"/>
 
 </xsl:stylesheet>

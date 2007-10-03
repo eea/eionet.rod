@@ -26,6 +26,11 @@
 	<xsl:variable name="pagetitle">
 		XML and Data Extraction Help
 	</xsl:variable>
+	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 	<xsl:include href="ncommon.xsl"/>
 
 <xsl:template name="breadcrumbs">
@@ -95,4 +100,5 @@ contains the reporting client name and the next deadline<br/>
 		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
 	<xsl:template name="createURL"/>
+	<xsl:template name="PageHelp"/>
 </xsl:stylesheet>

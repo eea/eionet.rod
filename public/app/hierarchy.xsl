@@ -27,6 +27,9 @@
 	<xsl:variable name="pagetitle">
 		Legislative instruments
 	</xsl:variable>
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
 	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="permissions">
@@ -52,6 +55,10 @@
 		<xsl:apply-templates select="RowSet[@Name='Source hierarchy']"/>
 		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
+	
+	<xsl:template name="PageHelp">
+		<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_HIERARCHY')" onclick="pop(this.href);return false;"><span>Page help</span></a>
+	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Source hierarchy']/Row">
 		<!-- page -->
@@ -59,7 +66,6 @@
 		<!-- page title -->
 			<div id="operations">
 				<ul>
-					<li class="help"><a href="javascript:openViewHelp('HELP_HIERARCHY')">Page help</a></li>
 					<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 						<li>
 							<a>

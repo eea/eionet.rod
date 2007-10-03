@@ -27,6 +27,11 @@
 	<xsl:variable name="pagetitle">
 		Legislative instrument details: <xsl:value-of select="//RowSet[@Name='Source']/Row/T_SOURCE/ALIAS"/>
 	</xsl:variable>
+	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 	<xsl:include href="ncommon.xsl"/>
 
 	<xsl:variable name="src-id">
@@ -52,6 +57,10 @@
 			<xsl:call-template name="LIRORAFooter">
 			<xsl:with-param name="table">LI</xsl:with-param>			
 		</xsl:call-template>
+	</xsl:template>
+	
+	<xsl:template name="PageHelp">
+		<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_LI')" onclick="pop(this.href);return false;"><span>Page help</span></a>
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Source']/Row[position()=1]">
@@ -81,7 +90,6 @@
 		<div id="workarea">
 						<div id="operations">
 							<ul>
-								<li class="help"><a href="javascript:openViewHelp('HELP_LI')">Page help</a></li>
 								<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
 									<li>
 										<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
