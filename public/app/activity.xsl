@@ -28,6 +28,10 @@
 		Reporting obligation for <xsl:value-of select="//RowSet[@Name='Activity']/Row/T_SOURCE/ALIAS"/> &#160; <xsl:value-of select="//RowSet[@Name='Activity']/Row/T_SOURCE/SOURCE_CODE"/>
 	</xsl:variable>
 	
+	<xsl:variable name="col_class">
+		twocolumns
+	</xsl:variable>
+	
 	<xsl:include href="ncommon.xsl"/>
 	
 	<xsl:variable name="ra-id">
@@ -186,22 +190,26 @@ Legislative instrument</a></div>
 						<li><a><xsl:attribute name="href">show.jsv?ID=<xsl:value-of select="$ra-id"/>&amp;mode=A&amp;tab=participation</xsl:attribute>Participation</a></li>				
 					</xsl:otherwise>
 				</xsl:choose>
-				<xsl:choose>
-					<xsl:when test="$tab='deliveries'">
-						<li id="currenttab"><span>Deliveries</span></li>
-					</xsl:when>
-					<xsl:otherwise>
-						<li><a><xsl:attribute name="href">show.jsv?ACT_DETAILS_ID=<xsl:value-of select="$ra-id"/>&amp;COUNTRY_ID=%%&amp;mode=A&amp;tab=deliveries</xsl:attribute>Deliveries</a></li>				
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:choose>
-					<xsl:when test="$tab='parameters'">
-						<li id="currenttab"><span>Parameters</span></li>
-					</xsl:when>
-					<xsl:otherwise>
-						<li><a><xsl:attribute name="href">show.jsv?mode=M&amp;id=<xsl:value-of select="$ra-id"/>&amp;tab=parameters</xsl:attribute>Parameters</a></li>				
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:if test="(//RowSet/Row/T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != '') or (/XmlData/RowSet[@Name='Spatialhistory']/Row/T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != '') or (/XmlData/RowSet[@Name='History']/Row/T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != '') or (/XmlData/RowSet[@Name='RA']/Row/T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != '')">
+					<xsl:choose>
+						<xsl:when test="$tab='deliveries'">
+							<li id="currenttab"><span>Deliveries</span></li>
+						</xsl:when>
+						<xsl:otherwise>
+							<li><a><xsl:attribute name="href">show.jsv?ACT_DETAILS_ID=<xsl:value-of select="$ra-id"/>&amp;COUNTRY_ID=%%&amp;mode=A&amp;tab=deliveries</xsl:attribute>Deliveries</a></li>				
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
+				<xsl:if test="(//RowSet/Row/T_OBLIGATION/PARAMETERS != '') or (/XmlData/RowSet[@Name='Spatialhistory']/Row/T_OBLIGATION/PARAMETERS != '') or (/XmlData/RowSet[@Name='History']/Row/T_OBLIGATION/PARAMETERS != '') or (/XmlData/RowSet[@Name='RA']/Row/T_OBLIGATION/PARAMETERS != '')">
+					<xsl:choose>
+						<xsl:when test="$tab='parameters'">
+							<li id="currenttab"><span>Parameters</span></li>
+						</xsl:when>
+						<xsl:otherwise>
+							<li><a><xsl:attribute name="href">show.jsv?mode=M&amp;id=<xsl:value-of select="$ra-id"/>&amp;tab=parameters</xsl:attribute>Parameters</a></li>				
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
 				<xsl:choose>
 					<xsl:when test="$tab='history'">
 						<li id="currenttab"><span>History</span></li>
@@ -234,13 +242,38 @@ Legislative instrument</a></div>
 					<xsl:if test="$latest != 'n'">
 						<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
 							<li>
-								<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
-								New obligation</a>
+								<xsl:choose>
+									<xsl:when test="$tab='participation'">
+										<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="/XmlData/RowSet[@Name='Spatialhistory']/Row/T_OBLIGATION/FK_SOURCE_ID"/></xsl:attribute>New obligation</a>
+									</xsl:when>
+									<xsl:when test="$tab='deliveries'">
+										<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="/XmlData/RowSet[@Name='RA']/Row/T_OBLIGATION/FK_SOURCE_ID"/></xsl:attribute>New obligation</a>
+									</xsl:when>
+									<xsl:when test="$tab='history'">
+										<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="/XmlData/RowSet[@Name='History']/Row/T_OBLIGATION/FK_SOURCE_ID"/></xsl:attribute>New obligation</a>
+									</xsl:when>
+									<xsl:otherwise>
+										<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>New obligation</a>
+									</xsl:otherwise>
+								</xsl:choose>
 							</li>
 						</xsl:if>
 						<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
 							<li>
-								<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>Edit obligation</a>
+								<xsl:choose>
+									<xsl:when test="$tab='participation'">
+										<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="/XmlData/RowSet[@Name='Spatialhistory']/Row/T_OBLIGATION/FK_SOURCE_ID"/></xsl:attribute>Edit obligation</a>
+									</xsl:when>
+									<xsl:when test="$tab='deliveries'">
+										<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="/XmlData/RowSet[@Name='RA']/Row/T_OBLIGATION/FK_SOURCE_ID"/></xsl:attribute>Edit obligation</a>
+									</xsl:when>
+									<xsl:when test="$tab='history'">
+										<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="/XmlData/RowSet[@Name='History']/Row/T_OBLIGATION/FK_SOURCE_ID"/></xsl:attribute>Edit obligation</a>
+									</xsl:when>
+									<xsl:otherwise>
+										<a><xsl:attribute name="href">activity.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>Edit obligation</a>
+									</xsl:otherwise>
+								</xsl:choose>
 							</li>
 						</xsl:if>
 						<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':d,'))='true'">
@@ -1234,6 +1267,23 @@ Legislative instrument</a></div>
 				</li>
 			</xsl:for-each>
 		</ul>
+	</xsl:template>
+	
+	<xsl:template name="PageHelp">
+		<xsl:choose>
+			<xsl:when test="$tab='participation'">
+				<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_SPATIALHISTORY')" onclick="pop(this.href);return false;"><span>Page help</span></a>
+			</xsl:when>
+			<xsl:when test="$tab='parameters'">
+				<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_PARAMETERS')" onclick="pop(this.href);return false;"><span>Page help</span></a>
+			</xsl:when>
+			<xsl:when test="$tab='deliveries'">
+				<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_DELIVERIES')" onclick="pop(this.href);return false;"><span>Page help</span></a>
+			</xsl:when>
+			<xsl:otherwise>
+				<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp('HELP_RA')" onclick="pop(this.href);return false;"><span>Page help</span></a>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	<!--xsl:template name="createURL"/-->
 </xsl:stylesheet>

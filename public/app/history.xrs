@@ -38,6 +38,8 @@
 			<PK_RA_ID/>
 			<FK_SOURCE_ID/>
 			<TITLE/>
+			<FK_DELIVERY_COUNTRY_IDS/>
+			<PARAMETERS/>
 		</T_OBLIGATION>
 		<xrs:Constraint>T_OBLIGATION.PK_RA_ID=T_HISTORY.ITEM_ID</xrs:Constraint>
 	</xrs:RowSet>
