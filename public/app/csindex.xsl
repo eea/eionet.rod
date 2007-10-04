@@ -52,9 +52,6 @@ var picklist = new Array();
 
 <div id="operations">
 	<ul>
-		<li>
-			<a href="cssearch">Advanced search</a>
-		</li>
 		<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
 			<li>
 				<a href="javascript:openHarvester()">Harvest</a>
