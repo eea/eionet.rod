@@ -82,11 +82,6 @@
 
 	<div id="workarea">
 	
-	<div id="operations">
-		<ul>
-			<li><a><xsl:attribute name="href">cssearch</xsl:attribute>Advanced search</a></li>
-		</ul>
-	</div>
 	<h1>Reporting overview:
 		<xsl:if test="$sel_country!='0'">
 			<xsl:value-of select="//RowSet[@Name='CountryData']/Row/T_SPATIAL/SPATIAL_NAME"/>
