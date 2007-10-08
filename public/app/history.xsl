@@ -64,7 +64,7 @@
 								Legislative instrument:
 							</xsl:when>
 						</xsl:choose>
-				  ID=<xsl:value-of select="RowSet/Row/T_HISTORY/ITEM_ID"/>
+						ID=<xsl:value-of select="RowSet/Row/T_HISTORY/ITEM_ID"/>
 					 </h1>
 				</xsl:if>
 			
@@ -113,7 +113,8 @@
 		</div>
 
 		<xsl:call-template name="CommonFooter"/>
-		<xsl:template name="PageHelp"/>
 	</xsl:template>
+	<xsl:template name="PageHelp"/>
+	<xsl:template name="createURL"/>
 
 </xsl:stylesheet>

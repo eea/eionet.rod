@@ -34,14 +34,6 @@
 
 <script type="text/javascript">
 
-function openHarvester(){
-	var name = "CSHarvester";
-	var features = "location=no, menubar=no, width=280, height=200, top=40, left=60, resizable=no, SCROLLABLE=no";
-	var w = window.open( "harvester.jsv", name, features);
-	w.focus();
-
-}
-
 var picklist = new Array();
 
 </script>
@@ -54,7 +46,7 @@ var picklist = new Array();
 	<ul>
 		<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
 			<li>
-				<a href="javascript:openHarvester()">Harvest</a>
+				<a href="harvester.jsp">Harvest</a>
 			</li>
 		</xsl:if>
 	</ul>
