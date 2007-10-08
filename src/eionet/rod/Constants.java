@@ -70,6 +70,7 @@ public interface Constants {
    public static final String VERSIONS_QUERY  = "versions.xrs";
 
    public static final String HISTORY_QUERY = "history.xrs";
+   public static final String HARVESTING_HISTORY_QUERY = "harvesthistory.xrs";
    public static final String HISTORY_XSL = "history.xsl";
    public static final String ACTION_HIST_XSL = "actionhist.xsl";
 

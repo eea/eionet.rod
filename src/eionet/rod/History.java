@@ -81,7 +81,12 @@ public class History extends ROServletAC {
       // prepare data source
       String[][] queryPars = {{"TYPE", "'" + item_type + "'" }, {"OTHER", secondParam}};   
 
-      DataSourceIF dataSrc = XMLSource.getXMLSource(PREFIX + HISTORY_QUERY, params.getRequest());
+      DataSourceIF dataSrc = null; 
+      if(item_type != null && item_type.equals("H")){
+    	  dataSrc = XMLSource.getXMLSource(PREFIX + HARVESTING_HISTORY_QUERY, params.getRequest());
+      } else {
+    	  dataSrc = XMLSource.getXMLSource(PREFIX + HISTORY_QUERY, params.getRequest());
+      }
       dataSrc.setParameters(queryPars);
       
       return userInfo(params.getRequest(), dataSrc);
