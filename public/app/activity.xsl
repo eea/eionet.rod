@@ -751,13 +751,13 @@ Legislative instrument</a></div>
 			 
 		<!-- oneCountry=0 one country, one country = 1 all countries -->
 		<xsl:if test="T_OBLIGATION/PARAMETERS != ''">
-		<table border="1" class="datatable">
+		<table class="datatable">
 		
 		<tr>
-			<th scope="col" class="scope-col" style="text-align: left">&#160;Parameters</th>
+			<th scope="col" class="scope-col" style="text-align: left">Parameters</th>
 		</tr>
 		<tr>
-			<td valign="top">
+			<td>
 				<xsl:call-template name="break">
 					<xsl:with-param name="text" select="T_OBLIGATION/PARAMETERS"/>
 				</xsl:call-template>
@@ -770,23 +770,23 @@ Legislative instrument</a></div>
 		</xsl:for-each>
 		
 		<xsl:if test="count(//RowSet[@Name='Activity']/Row/DDPARAM) > 0">
-		<br/>
+		<h2>Parameters from Data Dictionary</h2>
 		<table class="datatable">
+			<col style="width:40%"/>
+			<col style="width:30%"/>
+			<col style="width:30%"/>
 			<tr>
-				<th scope="col" class="scope-col" style="text-align: left" colspan="3" width="100%">Parameters from Data Dictionary</th>
-			</tr>
-			<tr>
-				<th scope="col" class="scope-col" style="text-align: left; border-right: 2px solid white;" width="40%">Parameter name</th>
-				<th scope="col" class="scope-col" style="text-align: left; border-right: 2px solid white;" width="30%">&#160;Table name</th>
-				<th scope="col" class="scope-col" style="text-align: left" width="30%">&#160;Dataset name</th>
+				<th scope="col" class="scope-col">Parameter name</th>
+				<th scope="col" class="scope-col">Table name</th>
+				<th scope="col" class="scope-col">Dataset name</th>
 			</tr>
 			<xsl:for-each select="//RowSet[@Name='Activity']/Row/DDPARAM">
 				<tr>
 					<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">zebraeven</xsl:if></xsl:attribute>
-					<td style="border-right: #c0c0c0 1px solid;">
+					<td>
 						<a href="{ELEMENT_URL}" title="View parameter details in Data Dictionary"><xsl:value-of select="ELEMENT_NAME"/></a>
 					</td>
-					<td style="border-right: #c0c0c0 1px solid;">
+					<td>
 						<xsl:value-of select="TABLE_NAME"/>
 					</td>
 					<td>
