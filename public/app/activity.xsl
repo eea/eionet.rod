@@ -182,14 +182,14 @@ Legislative instrument</a></div>
 						<li><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=A&amp;tab=legislation</xsl:attribute>Legislation</a></li>				
 					</xsl:otherwise>
 				</xsl:choose>
-				<xsl:choose>
+				<!--xsl:choose>
 					<xsl:when test="$tab='participation'">
 						<li id="currenttab"><span>Participation</span></li>
 					</xsl:when>
 					<xsl:otherwise>
 						<li><a><xsl:attribute name="href">show.jsv?ID=<xsl:value-of select="$ra-id"/>&amp;mode=A&amp;tab=participation</xsl:attribute>Participation</a></li>				
 					</xsl:otherwise>
-				</xsl:choose>
+				</xsl:choose-->
 				<xsl:if test="(//RowSet/Row/T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != '') or (/XmlData/RowSet[@Name='Spatialhistory']/Row/T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != '') or (/XmlData/RowSet[@Name='History']/Row/T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != '') or (/XmlData/RowSet[@Name='RA']/Row/T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS != '')">
 					<xsl:choose>
 						<xsl:when test="$tab='deliveries'">
