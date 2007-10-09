@@ -9,7 +9,8 @@
 	<%@ include file="headerinfo.txt" %>
   <title>Previous Versions - ROD</title>
 	<script language = "javascript" src="script/util.js" type="text/javascript"></script>
-    <script language = "javascript" type="text/javascript"> 
+    <script language = "javascript" type="text/javascript">
+    //<![CDATA[ 
     	function harvest( mode ) {
       		var ff = document.f;
       		ff.action = ff.action + '?MODE=' + mode;
@@ -17,6 +18,7 @@
       		document.body.style.cursor='wait';
       		ff.submit();
       	} 
+    //]]>
 	</script>
 </head>
 <body>
