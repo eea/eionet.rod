@@ -8,8 +8,8 @@
 <head>
 	<%@ include file="headerinfo.txt" %>
   <title>Previous Versions - ROD</title>
-	<script language = 'javascript' src='script/util.js'></script>
-    <script language = 'javascript'> 
+	<script language = "javascript" src="script/util.js" type="text/javascript"></script>
+    <script language = "javascript" type="text/javascript"> 
     	function harvest( mode ) {
       		var ff = document.f;
       		ff.action = ff.action + '?MODE=' + mode;
@@ -66,12 +66,12 @@
 				<%
 				}%>	
 				<a href="history.jsv?id=0&amp;entity=H">Show harvesting history</a><br/>
-			    <form align="center" name="f" method="POST" action="harvester.jsp">
+			    <form name="f" method="post" action="harvester.jsp">
 				    <b>Select data, you want to be harvested:</b><br/>
-				    <input style="width: 200px;" type="button" onClick="javascript:harvest(0)" value="All"></input>
-				    <br><input style="width: 200px;" type="button" onClick="javascript:harvest(1)" value="Deliveries"></input> 
-				    <br><input style="width: 200px;" type="button" onClick="javascript:harvest(2)" value="Roles"></input>
-				    <br><input style="width: 200px;" type="button" onClick="javascript:harvest(3)" value="Parameters"></input>
+				    <input style="width: 200px;" type="button" onclick="javascript:harvest(0)" value="All"></input>
+				    <br/><input style="width: 200px;" type="button" onclick="javascript:harvest(1)" value="Deliveries"></input> 
+				    <br/><input style="width: 200px;" type="button" onclick="javascript:harvest(2)" value="Roles"></input>
+				    <br/><input style="width: 200px;" type="button" onclick="javascript:harvest(3)" value="Parameters"></input>
 			    </form>		
 			<%}
 			} else { %>

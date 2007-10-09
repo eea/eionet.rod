@@ -16,8 +16,8 @@
 				<% if (rouser!=null){%>
 					    <li><a href="versions.jsp?id=-1">Global History </a></li>
 				<% } %>
-				<li><a href="show.jsv?id=1&mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
-				<li><a href="rorabrowse.jsv?mode=A&anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
+				<li><a href="show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
+				<li><a href="rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
 				<li><a href="analysis.jsv" title="Database statistics">Database statistics </a></li>
 				<li><a href="cssearch" title="Advanced search">Advanced search </a></li>
 			</ul>
