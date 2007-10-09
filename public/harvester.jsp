@@ -7,14 +7,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<%@ include file="headerinfo.txt" %>
-  <title>Previous Versions - ROD</title>
+  <title>Harvest deliveries, roles and parameters</title>
 	<script language = "javascript" src="script/util.js" type="text/javascript"></script>
     <script language = "javascript" type="text/javascript">
     //<![CDATA[ 
     	function harvest( mode ) {
       		var ff = document.f;
       		ff.action = ff.action + '?MODE=' + mode;
-      		alert('It takes some to harvest the data. Please wait');
       		document.body.style.cursor='wait';
       		ff.submit();
       	} 
@@ -24,10 +23,12 @@
 <body>
 <div id="container">
     <jsp:include page="location.jsp" flush='true'>
-        <jsp:param name="name" value="History of changes"/>
+        <jsp:param name="name" value="Harvest"/>
     </jsp:include>
     <%@ include file="menu.jsp" %>
 <div id="workarea">
+	<h1>Harvest deliveries, roles and parameters</h1>
+	<br/>
 		<%
 		String msg = "";
 		String error1 = "";
@@ -70,6 +71,10 @@
 				<a href="history.jsv?id=0&amp;entity=H">Show harvesting history</a><br/>
 			    <form name="f" method="post" action="harvester.jsp">
 				    <b>Select data, you want to be harvested:</b><br/>
+				    <div class="note-msg">
+					 	<strong>Note</strong>
+					 	<p>It will take some to harvest the data. Please be patient</p>
+					</div>
 				    <input style="width: 200px;" type="button" onclick="javascript:harvest(0)" value="All"></input>
 				    <br/><input style="width: 200px;" type="button" onclick="javascript:harvest(1)" value="Deliveries"></input> 
 				    <br/><input style="width: 200px;" type="button" onclick="javascript:harvest(2)" value="Roles"></input>
