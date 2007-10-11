@@ -8,14 +8,13 @@
 <head>
 	<%@ include file="headerinfo.txt" %>
   <title>Harvest deliveries, roles and parameters</title>
-	<script language = "javascript" src="script/util.js" type="text/javascript"></script>
-    <script language = "javascript" type="text/javascript">
+	<script src="script/util.js" type="text/javascript"></script>
+    <script type="text/javascript">
     //<![CDATA[ 
-    	function harvest( mode ) {
-      		var ff = document.f;
-      		ff.action = ff.action + '?MODE=' + mode;
+    	function setwait(theform) {
       		document.body.style.cursor='wait';
-      		ff.submit();
+					theform.submitbtn.value='Harvesting';
+					return true;
       	} 
     //]]>
 	</script>
@@ -28,7 +27,6 @@
     <%@ include file="menu.jsp" %>
 <div id="workarea">
 	<h1>Harvest deliveries, roles and parameters</h1>
-	<br/>
 		<%
 		String msg = "";
 		String error1 = "";
@@ -39,7 +37,7 @@
 			if  (!acl.checkPermission( rouser.getUserName(), Constants.ACL_UPDATE_PERMISSION )){
 				%>
 					<div class="error-msg">
-						Insufficient permissions
+						Insufficient permission
 					</div>
 				<%
 			} else {
@@ -68,24 +66,30 @@
 					</div>
 				<%
 				}%>	
-				<a href="history.jsv?id=0&amp;entity=H">Show harvesting history</a><br/>
-			    <form name="f" method="post" action="harvester.jsp">
-				    <b>Select data, you want to be harvested:</b><br/>
-				    <div class="note-msg">
-					 	<strong>Note</strong>
-					 	<p>It will take some to harvest the data. Please be patient</p>
-					</div>
-				    <input style="width: 200px;" type="button" onclick="javascript:harvest(0)" value="All"></input>
-				    <br/><input style="width: 200px;" type="button" onclick="javascript:harvest(1)" value="Deliveries"></input> 
-				    <br/><input style="width: 200px;" type="button" onclick="javascript:harvest(2)" value="Roles"></input>
-				    <br/><input style="width: 200px;" type="button" onclick="javascript:harvest(3)" value="Parameters"></input>
+				<ul>
+				<li><a href="history.jsv?id=0&amp;entity=H">Show harvesting history</a></li>
+				</ul>
+					<h2>Select the data you want to be harvested</h2>
+			    <form onsubmit="javascript:setwait(this)" method="post" action="harvester.jsp">
+					<div>
+					  <input type="radio" name="MODE" id="mode0" value="0" checked="checked"/> <label for="mode0">All</label><br/>
+					  <input type="radio" name="MODE" id="mode1" value="1"/> <label for="mode1">Deliveries</label><br/>
+					  <input type="radio" name="MODE" id="mode2" value="2"/> <label for="mode2">Roles</label><br/>
+					  <input type="radio" name="MODE" id="mode3" value="3"/> <label for="mode3">Parameters</label><br/>
+						<input style="width: 200px;" type="submit" id="submitbtn" value="Harvest"/>
+						</div>
 			    </form>		
+					<div class="note-msg">
+					<strong>Note</strong>
+					<p>It will take some to harvest the data. Please be patient</p>
+					</div>
 			<%}
 			} else { %>
-				<br/>
-				<b>Not authenticated! Please verify that you are logged in (for security reasons, <br/>
-				the system will log you out after a period of inactivity). If the problem persists, please <br/>
-				contact the server administrator.</b>
+				<div class="error-msg">
+				Not authenticated! Please verify that you are logged in (for security reasons,
+				the system will log you out after a period of inactivity). If the problem persists, please
+				contact the server administrator.
+				</div>
 			<% } %>
 </div> <!-- workarea -->
 </div>
