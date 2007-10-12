@@ -175,6 +175,7 @@
 	<xsl:template name="LeftToolbar">
 		<xsl:param name="admin">false</xsl:param>
 		<xsl:param name="username"/>
+		<xsl:param name="perm"/>
 		<!-- Toolbar -->
 		<div id="leftcolumn" class="localnav">
 			<ul>
@@ -205,6 +206,9 @@
 				<li><a href="rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
 				<li><a href="analysis.jsv" title="Database statistics">Database statistics </a></li>
 				<li><a href="cssearch" title="Advanced search">Advanced search </a></li>
+				<xsl:if test="contains($perm, ',/Admin/Harvest:u,')='true'">
+					<li><a href="harvester.jsp">Harvest </a></li>
+				</xsl:if>
 			</ul>
 		</div>
 	</xsl:template>

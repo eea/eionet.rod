@@ -40,6 +40,10 @@
 
 	<xsl:include href="util.xsl"/>
 	<xsl:include href="dropdownmenus.xsl"/>
+	
+	<xsl:variable name="permissions">
+		<xsl:value-of select="/XmlData/RowSet/@permissions"/>
+	</xsl:variable>
             
 	<xsl:template match="/">
 		<html xml:lang="en">
@@ -1070,6 +1074,7 @@
 				<xsl:call-template name="LeftToolbar">
 					<xsl:with-param name="admin"><xsl:value-of select="$admin"/></xsl:with-param>
 					<xsl:with-param name="username"><xsl:value-of select="$username"/></xsl:with-param>
+					<xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param>
 				</xsl:call-template>
 				<xsl:apply-templates select="XmlData"/>
 			</div>

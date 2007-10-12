@@ -41,16 +41,6 @@ var picklist = new Array();
 
 <div id="workarea">
 <form action="rorabrowse.jsv" method="get" name="f"><input value="A" name="mode" type="hidden"/></form>
-
-<div id="operations">
-	<ul>
-		<xsl:if test="contains($permissions, ',/Admin/Harvest:u,')='true'">
-			<li>
-				<a href="harvester.jsp">Harvest</a>
-			</li>
-		</xsl:if>
-	</ul>
-</div>
 <h1>Country deadlines</h1>
 <p>
 This part of ROD helps countries co-ordinate and manage their international
