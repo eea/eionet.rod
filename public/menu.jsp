@@ -1,8 +1,10 @@
-<%@ page import="eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.RODUtil" %>
+<%@ page import="eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.RODUtil,eionet.rod.Constants,com.tee.uit.security.*" %>
 <div id="leftcolumn" class="localnav">
  		  <%
 			String appName = getServletContext().getInitParameter(Attrs.APPPARAM);
-			ROUser rouser = (ROUser) session.getAttribute(Attrs.USERPREFIX + appName);%>
+			ROUser rouser = (ROUser) session.getAttribute(Attrs.USERPREFIX + appName);
+			HashMap acls = AccessController.getAcls();
+			AccessControlListIF acl = (AccessControlListIF) acls.get(Constants.ACL_HARVEST_NAME);%>
 			  <ul>
 			    <li><a href="index.html" title="ROD Home">Home </a></li>
 			    <li><a href="deliveries.jsv" title="Country deadlines">Deadlines </a></li>
@@ -20,5 +22,9 @@
 				<li><a href="rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
 				<li><a href="analysis.jsv" title="Database statistics">Database statistics </a></li>
 				<li><a href="cssearch" title="Advanced search">Advanced search </a></li>
+				<%if (rouser!=null){
+					if (acl.checkPermission( rouser.getUserName(), Constants.ACL_UPDATE_PERMISSION )){ %>
+						<li><a href="harvester.jsp">Harvest </a></li>
+				<% }} %>
 			</ul>
 </div>

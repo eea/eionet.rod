@@ -31,8 +31,6 @@
 		String msg = "";
 		String error1 = "";
 		
-		HashMap acls = AccessController.getAcls();
-		AccessControlListIF acl = (AccessControlListIF) acls.get(Constants.ACL_HARVEST_NAME);
 		if (rouser!=null){
 			if  (!acl.checkPermission( rouser.getUserName(), Constants.ACL_UPDATE_PERMISSION )){
 				%>
