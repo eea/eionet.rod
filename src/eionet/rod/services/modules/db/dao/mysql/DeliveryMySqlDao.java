@@ -79,7 +79,14 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 					Integer countryId = getCountryId(country, cMap, connection);
 
 					if (countryId == null)
-						logger.info("!!! Delivery not saved, Country is not in T_SPATIAL " + country);
+						logger.info("!!! Delivery not saved, Country is not in T_SPATIAL " + country +", "
+						+ "Identifier: " + identifier + ", "
+						+ "Title: " + title + ", "
+						+ "Date: " + sdate + ", "
+						+ "Type: " + type + ", "
+						+ "Format: " + format + ", "
+						+ "Coverage: " + coverage + ", "
+						+ "raID: " + raId);
 					else {
 						
 						Date date = null;
