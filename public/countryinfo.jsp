@@ -147,30 +147,11 @@
 					<th scope="row" class="scope-row">Responsible Role</th>
 					<td>
 						<%
-						String person = null;
-						String institute = null;
-						String role_url = null;
-						if(role != null && !role.equals("")){ 
-							Hashtable role_desc = RODServices.getDbService().getRoleDao().getRoleDesc(role+"-"+two_letter);
-							person = (String) role_desc.get("person");
-							institute = (String) role_desc.get("institute");
-							role_url = (String) role_desc.get("role_url");
-						 }%>
-						 <%if(role_url != null && !role_url.equals("")){ %>
-						 	<a href="<%=RODUtil.replaceTags(role_url,true)%>">
-						 <% } %>
-							 <%if(person != null && !person.equals("")){ %>
-							 	<%=RODUtil.replaceTags(person)%>&nbsp;
-							 <% } 
-							 if(institute != null && !institute.equals("")){ %>
-							 	[<%=RODUtil.replaceTags(institute)%>]&nbsp;
-							 <% } 
-							 if(role != null && !role.equals("")){ %>
-							 	(<%=RODUtil.replaceTags(role)%>-<%=two_letter%>)
-							 <% } %>
-						 <%if(role_url != null && !role_url.equals("")){ %>
+						if(role != null && !role.equals("")){ %>
+						 	<a href="responsible.jsp?role=<%=role%>&amp;spatial=<%=two_letter%>">
+							 	<%=role%>-<%=two_letter%>
 						 	</a>
-						 <% } %>
+						  <% } %>
 					</td>
 				</tr>
 				<tr class="zebraeven">
