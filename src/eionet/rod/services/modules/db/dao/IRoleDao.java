@@ -1,6 +1,7 @@
 package eionet.rod.services.modules.db.dao;
 
 import java.util.Hashtable;
+import java.util.Vector;
 
 import eionet.rod.services.ServiceException;
 
@@ -25,11 +26,9 @@ public interface IRoleDao {
 	/**
 	 * Saves roles
 	 * @param role
-	 * @param person
-	 * @param org
 	 * @throws ServiceException
 	 */
-	public void saveRole(Hashtable role, String person, String org) throws ServiceException;
+	public void saveRole(Hashtable role) throws ServiceException;
 
 	/**
 	 * @throws ServiceException
@@ -48,5 +47,13 @@ public interface IRoleDao {
 	 * @throws ServiceException
 	 */
 	public Hashtable getRoleDesc(String role_id) throws ServiceException;
+	
+	/**
+	 * Returns role obligations
+	 * @param role_id
+	 * @return role obligations
+	 * @throws ServiceException
+	 */
+	public Vector getRoleObligations(String role_id) throws ServiceException;
 
 }
