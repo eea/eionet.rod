@@ -322,7 +322,7 @@
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
-				<a>
+				<!--a>
 				<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_URL"/>')</xsl:attribute>
 				<xsl:attribute name="title"><xsl:value-of select="RESPONSIBLE/ROLE_DESCR"/></xsl:attribute>
 							<xsl:call-template name="short">
@@ -332,6 +332,13 @@
 				</a>&#160;
 				<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
 					<img src="images/details.gif" alt="Additional details for logged-in users" border="0"/>
+				</a-->
+				<a>
+					<xsl:attribute name="href">responsible.jsp?role=<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/SPATIAL_TWOLETTER"/></xsl:attribute>
+					<xsl:call-template name="short">
+						<xsl:with-param name="text" select="RESPONSIBLE/ROLE_DESCR"/>
+						<xsl:with-param name="length">15</xsl:with-param>
+					</xsl:call-template>
 				</a>
 				</xsl:otherwise>
 				</xsl:choose>
