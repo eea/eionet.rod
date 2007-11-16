@@ -474,49 +474,7 @@ public class Extractor implements ExtractorConstants {
 		if (role==null)
 			return;
 		
-		String uid="";
-		String orgId="";
-		String orgName=orgId;
-		String fullName=uid;
-		Hashtable person = null;
-		Hashtable org = null;
-
-		Vector occupants = (Vector)role.get("OCCUPANTS");
-		if (occupants!=null && occupants.size()>0)
-			uid = (String)occupants.elementAt(0);
-		
-		if (uid!=null && uid.trim().length()>0){
-			try {
-				person=DirectoryService.getPerson(uid);
-			}
-			catch (DirServiceException dire) {
-				logger.error("Error getting person " + uid + ": " + dire.toString());
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		if (person != null) {
-			fullName=(String)person.get("FULLNAME");
-			orgId=(String)person.get("ORG_ID");
-		}
-
-		if (orgId!=null && orgId.trim().length()>0){
-			try {
-				org =  DirectoryService.getOrganisation(orgId);
-				if (org!=null)
-					orgName=(String)org.get("NAME");
-			}
-			catch (DirServiceException dire) {
-				logger.error("Error getting organisation " + orgId + ": " + dire.toString());
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		daoFactory.getRoleDao().saveRole(role, fullName, orgName);
+		daoFactory.getRoleDao().saveRole(role);
 	}
 	
   /*
