@@ -31,15 +31,16 @@
 	</target>
 
 	<path id="classpath.test">
-		<pathelement path="${classes}"/>
+		<pathelement path="${classes.dir}"/>
 		<fileset dir="../public/WEB-INF/lib">
 			<include name="**/*.jar"/>
 		</fileset>
-		<pathelement location="/var/lib/tomcat4/common/lib/[servletapi4].jar"/>
+		<pathelement location="/var/lib/tomcat4/common/lib/mysql-connector-java.jar"/>
 	</path>
 	<fileset id="fileset.test" dir="${src}">
 		<include name="**/*Test.java"/>
 		<include name="**/*Tests.java"/>
+		<exclude name="**/BaseMySqlDaoTest.java"/>
 	</fileset>
 
   	<target name="test" depends="compile" description="Runs all found unit tests">
