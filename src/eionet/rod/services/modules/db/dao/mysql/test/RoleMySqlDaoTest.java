@@ -11,9 +11,9 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	
 	String role_name = "EPER Data Reporter Test";                        
 	String role_email = "eper-dat-test@roles.eea.eionet.eu.int";                          
-	String role_url = "http://eea.eionet.eu.int:8980/Public/irc/eionet-circle/Home/central_dir_admin?fn=roles&v=eper-dat-se";                                                                                                            
+	String role_url = "http://ldap.eionet.europa.eu:389/Public/irc/eionet-circle/Home/central_dir_admin?fn=roles&v=eper-dat-se";                                                                                                            
 	String role_id  = "eper-dat-test";
-	String role_members_url ="http://eea.eionet.eu.int:8980/Members/irc/eionet-circle/Home/central_dir_admin?fn=roles&v=eper-dat-se";                                                                                                     
+	String role_members_url ="http://ldap.eionet.europa.eu:389/Members/irc/eionet-circle/Home/central_dir_admin?fn=roles&v=eper-dat-se";                                                                                                     
 	String person = "Test user"; 
 	String institute = "Test institute";
 
@@ -52,7 +52,7 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 		role.put("URL_MEMBERS",role_members_url);
 		role.put("DESCRIPTION",role_id);
 		role.put("MAIL",role_email);
-		roleMySqlDao.saveRole(role,person,institute);
+		roleMySqlDao.saveRole(role);
 
 	}
 	
