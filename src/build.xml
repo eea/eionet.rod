@@ -32,14 +32,14 @@
 
 	<path id="classpath.test">
 		<pathelement path="${classes}"/>
-		<fileset dir="${lib}">
+		<fileset dir="../public/WEB-INF/lib">
 			<include name="**/*.jar"/>
 		</fileset>
 		<pathelement location="/var/lib/tomcat4/common/lib/[servletapi4].jar"/>
 	</path>
 	<fileset id="fileset.test" dir="${src}">
-		<include name="**/*Test.java"/>
-		<include name="**/*Tests.java"/>
+		<include name="eionet/test/*Test.java"/>
+		<include name="eionet/test/*Tests.java"/>
 	</fileset>
 
   	<target name="test" depends="compile" description="Runs all found unit tests">
