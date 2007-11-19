@@ -141,31 +141,6 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	}
 
 	/*
-	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getParentObligationId(Integer)'
-	 */
-	public void testGetParentObligationId() throws Exception{
-		String [][] m = obligationMySqlDao.getParentObligationId(new Integer(529));
-		printMatrixResult(m);
-	}
-
-	/*
-	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getLatestVersionId(Integer)'
-	 */
-	public void testGetLatestVersionId() throws Exception{
-		String [][] m = obligationMySqlDao.getLatestVersionId(new Integer(529));
-		printMatrixResult(m);
-	}
-
-	/*
-	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getRestoreObligation(Integer, Integer, int)'
-	 */
-	public void testGetRestoreObligation() throws Exception{
-		int version = 0;
-		obligationMySqlDao.getRestoreObligation(new Integer(529),new Integer(448),version);
-
-	}
-
-	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getObligationIds()'
 	 */
 	public void testGetObligationIds() throws Exception{
