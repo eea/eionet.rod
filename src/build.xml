@@ -29,4 +29,28 @@
 		    includes='**/*.class' basedir='${classes.dir}' />
 		<delete dir='${classes.dir}/eionet' />
 	</target>
+
+	<path id="classpath.test">
+		<pathelement path="${classes}"/>
+		<fileset dir="${lib}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<pathelement location="/var/lib/tomcat4/common/lib/[servletapi4].jar"/>
+	</path>
+	<fileset id="fileset.test" dir="${src}">
+		<include name="**/*Test.java"/>
+		<include name="**/*Tests.java"/>
+	</fileset>
+
+  	<target name="test" depends="compile" description="Runs all found unit tests">
+		<junit haltonfailure="no" failureproperty="unittestFailed" showoutput="yes" printsummary="yes">
+			<classpath refid="classpath.test" />
+			<formatter type="brief" usefile="false"/>
+			<batchtest fork="yes">				
+				<fileset refid="fileset.test"/>
+			</batchtest>
+		</junit>
+		<fail if="unittestFailed" message="One or more unit tests failed."/>
+	</target>
+
 </project>
