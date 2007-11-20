@@ -91,6 +91,10 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 	private static final String q_insert_role_occupants = 
 		"INSERT INTO T_ROLE_OCCUPANTS " + 
 		"SET ROLE_ID=?, PERSON=?, INSTITUTE=?";
+	
+	private static final String q_delete_role_occupants = 
+		"DELETE FROM T_ROLE_OCCUPANTS " + 
+		"WHERE ROLE_ID=?";
 
 	private static final String q_update_role_rollback = 
 		"UPDATE T_ROLE " + 
@@ -116,12 +120,19 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 			
+			preparedStatement = connection.prepareStatement(q_delete_role_occupants);
+			preparedStatement.setString(1, roleId);
+			if (isDebugMode) logQuery(q_delete_role_occupants);
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+			
 			String uid="";
 			String orgId="";
 			String orgName=orgId;
 			String fullName=uid;
 			Hashtable person = null;
 			Hashtable org = null;
+			
 
 			Vector occupants = (Vector)role.get("OCCUPANTS");
 			if (occupants!=null && occupants.size()>0){
@@ -158,6 +169,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 							e.printStackTrace();
 						}
 					}
+					
 					preparedStatement = connection.prepareStatement(q_insert_role_occupants);
 					preparedStatement.setString(1, roleId);
 					preparedStatement.setString(2, fullName);
