@@ -119,13 +119,13 @@
 		<%if(role_url != null && !role_url.equals("")){%>
 		<tr>
 			<th scope="row" class="scope-row">Role URL</th>
-			<td><%=RODUtil.replaceTags(role_url)%></td>
+			<td><%=RODUtil.replaceTags(role_url,false)%></td>
 		</tr>
 		<% } %>
 		<%if(members_url != null && !members_url.equals("")){%>
 		<tr>
 			<th scope="row" class="scope-row">Role members URL</th>
-			<td><%=RODUtil.replaceTags(members_url)%></td>
+			<td><%=RODUtil.replaceTags(members_url,false)%></td>
 		</tr>
 		<% } %>
 		<% 
