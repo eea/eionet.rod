@@ -193,7 +193,7 @@ public class RODUtil {
         
         String retString = ret.toString();
         if (dontCreateHTMLAnchors==false)
-            retString=setAnchors(retString, true, 50);
+            retString=setAnchors(retString, false, 50);
 
         return retString;
     }
