@@ -1134,7 +1134,7 @@ Legislative instrument</a></div>
 										</xsl:call-template>
 									</xsl:when>
 								<xsl:otherwise>
-									<a>
+									<!--a>
 										<xsl:attribute name="title"><xsl:value-of select="T_ROLE/ROLE_DESCR"/></xsl:attribute>
 										<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_URL"/>')</xsl:attribute>
 										<xsl:call-template name="short">
@@ -1144,7 +1144,14 @@ Legislative instrument</a></div>
 									</a>&#160;
 									<img src="images/details.gif" alt="Additional details for logged-in users">
 										<xsl:attribute name="onclick">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-									</img>
+									</img-->
+									<a>
+										<xsl:attribute name="href">responsible.jsp?role=<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/SPATIAL_TWOLETTER"/></xsl:attribute>
+										<xsl:call-template name="short">
+											<xsl:with-param name="text" select="T_ROLE/ROLE_DESCR"/>
+											<xsl:with-param name="length">15</xsl:with-param>
+										</xsl:call-template>
+									</a>
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:if>
