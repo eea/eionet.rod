@@ -107,25 +107,25 @@
 		<%if(name != null && !name.equals("")){%>
 		<tr>
 			<th scope="row" class="scope-row">Role name</th>
-			<td><%=name%></td>
+			<td><%=RODUtil.replaceTags(name)%></td>
 		</tr>
 		<% } %>
 		<%if(email != null && !email.equals("")){%>
 		<tr>
 			<th scope="row" class="scope-row">E-mail</th>
-			<td><%=email%></td>
+			<td><%=RODUtil.replaceTags(email)%></td>
 		</tr>
 		<% } %>
 		<%if(role_url != null && !role_url.equals("")){%>
 		<tr>
 			<th scope="row" class="scope-row">Role URL</th>
-			<td><a href="<%=role_url%>"><%=role_url%></a></td>
+			<td><%=RODUtil.replaceTags(role_url)%></td>
 		</tr>
 		<% } %>
 		<%if(members_url != null && !members_url.equals("")){%>
 		<tr>
 			<th scope="row" class="scope-row">Role members URL</th>
-			<td><a href="<%=members_url%>"><%=members_url%></a></td>
+			<td><%=RODUtil.replaceTags(members_url)%></td>
 		</tr>
 		<% } %>
 		<% 
@@ -139,7 +139,7 @@
 				Hashtable hash = (Hashtable) occupants.elementAt(i);
 				String person = (String)hash.get("person");
 			%>
-				<%=person%>
+				<%=RODUtil.replaceTags(person)%>
 			<%
 				if(i != (occupants.size() - 1)){%>
 					<br/>	
@@ -169,7 +169,7 @@
 				String ra_id = (String)hash.get("ra_id");
 				String sid = (String)hash.get("sid");
 			%>
-				<a href="show.jsv?id=<%=ra_id%>&amp;aid=<%=sid%>&amp;mode=A"><%=title%></a>
+				<a href="show.jsv?id=<%=ra_id%>&amp;aid=<%=sid%>&amp;mode=A"><%=RODUtil.replaceTags(title)%></a>
 			<%
 				if(i != (obligations.size() - 1)){%>
 					<br/>	
