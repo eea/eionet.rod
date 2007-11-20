@@ -38,8 +38,8 @@
 		<pathelement location="/var/lib/tomcat4/common/lib/mysql-connector-java.jar"/>
 	</path>
 	<fileset id="fileset.test" dir="${src}">
-		<include name="**/*Test.java"/>
-		<include name="**/*Tests.java"/>
+		<include name="eionet/test/*Test.java"/>
+		<include name="eionet/test/*Tests.java"/>
 		<exclude name="**/BaseMySqlDaoTest.java"/>
 	</fileset>
 
