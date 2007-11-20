@@ -75,7 +75,7 @@
 <body>
 <div id="container">
     <jsp:include page="location.jsp" flush='true'>
-        <jsp:param name="name" value="Responsibe role"/>
+        <jsp:param name="name" value="Responsible role"/>
     </jsp:include>
     <%@ include file="menu.jsp" %>
 <div id="workarea">
@@ -102,29 +102,29 @@
 		obligations = RODServices.getDbService().getRoleDao().getRoleObligations(role_name);
 	}
 	%>
-	<h1>Responsibe role</h1>
+	<h1>Responsible role</h1>
 	<table class="datatable">
 		<%if(name != null && !name.equals("")){%>
 		<tr>
-			<th>Role name</th>
+			<th scope="row" class="scope-row">Role name</th>
 			<td><%=name%></td>
 		</tr>
 		<% } %>
 		<%if(email != null && !email.equals("")){%>
 		<tr>
-			<th>E-mail</th>
+			<th scope="row" class="scope-row">E-mail</th>
 			<td><%=email%></td>
 		</tr>
 		<% } %>
 		<%if(role_url != null && !role_url.equals("")){%>
 		<tr>
-			<th>Role URL</th>
+			<th scope="row" class="scope-row">Role URL</th>
 			<td><a href="<%=role_url%>"><%=role_url%></a></td>
 		</tr>
 		<% } %>
 		<%if(members_url != null && !members_url.equals("")){%>
 		<tr>
-			<th>Role members URL</th>
+			<th scope="row" class="scope-row">Role members URL</th>
 			<td><a href="<%=members_url%>"><%=members_url%></a></td>
 		</tr>
 		<% } %>
@@ -132,7 +132,7 @@
 		if(occupants != null && occupants.size() > 0){
 			%>
 			<tr>
-				<th>Persons</th>
+				<th scope="row" class="scope-row">Persons</th>
 				<td>
 			<%
 			for (int i=0; i<occupants.size(); i++){
@@ -153,14 +153,14 @@
 		%>
 		<%if(last_harvested != null && !last_harvested.equals("")){%>
 		<tr>
-			<th>Last harvested</th>
+			<th scope="row" class="scope-row">Last harvested</th>
 			<td><%=last_harvested%></td>
 		</tr>
 		<% }
 		if(obligations != null && obligations.size() > 0){
 			%>
 			<tr>
-				<th>Obligations</th>
+				<th scope="row" class="scope-row">Obligations</th>
 				<td>
 			<%
 			for (int i=0; i<obligations.size(); i++){
