@@ -165,7 +165,24 @@
 		<div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div><br/>
 
 		<!-- header -->
-		<table width="100%" class="sortable">
+		<table style="table-layout:fixed; width:100%" class="sortable">
+			<xsl:if test="$rora='A'">
+				<xsl:choose>
+				<xsl:when test="$analysisMode='P'">
+					<col style="width:36%"/>
+					<col style="width:36%"/>
+					<col style="width:10%"/>
+					<col style="width:10%"/>
+					<col style="width:8%"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<col style="width:40%"/>
+					<col style="width:40%"/>
+					<col style="width:10%"/>
+					<col style="width:10%"/>
+				</xsl:otherwise>
+				</xsl:choose>
+			</xsl:if>
 			<thead>
 				<tr>
 				<xsl:if test="$rora='A'">
@@ -237,11 +254,9 @@
 	<xsl:template match="Row">
 		<!--ra-->
 		<xsl:if test="$rora='A'">
-		<td valign="top">
-			<span class="head0n">
+		<td>
 				<a> 
 					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
-					<span class="rowitem">
 							<xsl:choose>
 								<xsl:when test="T_OBLIGATION/TITLE !=''">
 									<xsl:value-of select="T_OBLIGATION/TITLE"/>
@@ -250,71 +265,56 @@
 									Reporting Obligation
 								</xsl:otherwise>
 							</xsl:choose>
-					</span>
 				</a>
 				<xsl:if test="T_OBLIGATION/TERMINATE = 'Y'"><span class="smallfont" style="color: red"> [terminated]</span></xsl:if>
-			</span>&#160;
 		</td>
 		</xsl:if>
-		<td valign="top">
-			<span class="head0n">
+		<td>
 				<a> 
 					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-					<span class="rowitem"><xsl:value-of select="T_SOURCE/TITLE"/></span>
+					<xsl:value-of select="T_SOURCE/TITLE"/>
 				</a>
-			</span>
 		</td>
-		<td valign="top">
-			<span class="head0n">
-					<span class="rowitem">
+		<td>
 					<a title="{T_CLIENT/CLIENT_NAME}"> 
 						<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_OBLIGATION/FK_CLIENT_ID"/></xsl:attribute>
-						<span class="rowitem">
 							<xsl:choose>
 								<xsl:when test="T_CLIENT/CLIENT_ACRONYM != ''"><xsl:value-of select="T_CLIENT/CLIENT_ACRONYM"/></xsl:when>
 								<xsl:otherwise><xsl:value-of select="T_CLIENT/CLIENT_NAME"/></xsl:otherwise>
 							</xsl:choose>
-						</span>
 					</a>
-					</span>
-			</span>
-			&#160;
 		</td>
-		<td valign="top">
-			<span class="rowitem">
-				<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
-				<xsl:choose>
-				<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
-					<xsl:attribute name="style">color:#006666</xsl:attribute>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:attribute name="style">color:#000000</xsl:attribute>
-				</xsl:otherwise>			
-				</xsl:choose>
+		<td>
+			<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
+			<xsl:choose>
+			<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
+				<xsl:attribute name="style">color:#006666</xsl:attribute>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:attribute name="style">color:#000000</xsl:attribute>
+			</xsl:otherwise>			
+			</xsl:choose>
 
-				<xsl:call-template name="short">
-					<xsl:with-param name="text" select="T_OBLIGATION/DEADLINE"/>
-					<xsl:with-param name="length">10</xsl:with-param>
-				</xsl:call-template>
-			
-				<!--xsl:value-of select="T_OBLIGATION/DEADLINE"/-->
+			<xsl:call-template name="short">
+				<xsl:with-param name="text" select="T_OBLIGATION/DEADLINE"/>
+				<xsl:with-param name="length">10</xsl:with-param>
+			</xsl:call-template>
+		
+			<!--xsl:value-of select="T_OBLIGATION/DEADLINE"/-->
 
-			</span>&#160;
 		</td>
 		<xsl:if test="$analysisMode='P'">
-			<td valign="top">
-				<span class="rowitem">
-					<xsl:choose>
-						<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
-							<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%</xsl:attribute>
-							Show list
-							</a>
-						</xsl:when>
-						<xsl:otherwise>
-							None
-						</xsl:otherwise>
-					</xsl:choose>
-				</span>&#160;
+			<td>
+				<xsl:choose>
+					<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
+						<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%</xsl:attribute>
+						Show list
+						</a>
+					</xsl:when>
+					<xsl:otherwise>
+						None
+					</xsl:otherwise>
+				</xsl:choose>
 			</td>
 		</xsl:if>
 	</xsl:template>
@@ -379,7 +379,7 @@
 		<xsl:if test="count(Row) != 0">
 			<tr><td colspan="4" style="border:0">&#160;</td></tr>
 			<tr>
-				<td style="border-bottom: #c0c0c0 1px solid" valign="top" colspan="4">
+				<td style="border-bottom: #c0c0c0 1px solid" colspan="4">
 					<span class="head1">Indirect reporting obligations</span>&#160;<br/>
 				</td>
 			</tr>
@@ -390,80 +390,63 @@
 					</xsl:attribute>
 					<xsl:if test="$rora='A'">
 					<!--td style="border-left: #008080 1px solid; border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid"><img src="images/diamlil.gif" alt=""/></td-->
-					<td valign="top">
-						<span class="head0n">
+					<td>
 							<a> 
 								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
-								<span class="rowitem">
-										<xsl:choose>
-											<xsl:when test="T_OBLIGATION/TITLE !=''">
-												<xsl:value-of select="T_OBLIGATION/TITLE"/>
-											</xsl:when>
-											<xsl:otherwise>
-												Reporting Obligation
-											</xsl:otherwise>
-										</xsl:choose>
-								</span>
-							</a>
-						<xsl:if test="T_OBLIGATION/TERMINATE = 'Y'"><span class="smallfont" style="color:red"> [terminated]</span></xsl:if>
-						</span>&#160;
-					</td>
-					</xsl:if>
-					<td valign="top">
-						<span class="head0n">
-							<a> 
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-								<span class="rowitem"><xsl:value-of select="T_SOURCE/TITLE"/></span>
-							</a>
-						</span>
-					</td>
-					<td valign="top">
-						<span class="head0n">
-							<span class="rowitem">
-							<a title="{T_CLIENT/CLIENT_NAME}"> 
-								<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_OBLIGATION/FK_CLIENT_ID"/></xsl:attribute>
-								<span class="rowitem">
-									<xsl:choose>
-										<xsl:when test="T_CLIENT/CLIENT_ACRONYM != ''"><xsl:value-of select="T_CLIENT/CLIENT_ACRONYM"/></xsl:when>
-										<xsl:otherwise><xsl:value-of select="T_CLIENT/CLIENT_NAME"/></xsl:otherwise>
-									</xsl:choose>
-								</span>
-							</a>
-							</span>
-						</span>
-						&#160;
-					</td>
-					<td valign="top">
-						<span class="rowitem">
-							<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
-							<xsl:choose>
-								<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
-									<xsl:attribute name="style">color:#006666</xsl:attribute>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:attribute name="style">color:#000000</xsl:attribute>
-								</xsl:otherwise>			
-							</xsl:choose>
-							<xsl:call-template name="short">
-								<xsl:with-param name="text" select="T_OBLIGATION/DEADLINE"/>
-								<xsl:with-param name="length">10</xsl:with-param>
-							</xsl:call-template>
-						</span>&#160;
-					</td>
-					<xsl:if test="$analysisMode='P'">
-						<td valign="top">
-							<span class="rowitem">
 								<xsl:choose>
-									<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
-										<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%</xsl:attribute>
-										Show list
-										</a>
+									<xsl:when test="T_OBLIGATION/TITLE !=''">
+										<xsl:value-of select="T_OBLIGATION/TITLE"/>
 									</xsl:when>
 									<xsl:otherwise>
-										None
+										Reporting Obligation
 									</xsl:otherwise>
 								</xsl:choose>
-							</span>&#160;
+							</a>
+						<xsl:if test="T_OBLIGATION/TERMINATE = 'Y'"><span class="smallfont" style="color:red"> [terminated]</span></xsl:if>
+					</td>
+					</xsl:if>
+					<td>
+							<a> 
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+								<xsl:value-of select="T_SOURCE/TITLE"/>
+							</a>
+					</td>
+					<td>
+						<a title="{T_CLIENT/CLIENT_NAME}"> 
+							<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_OBLIGATION/FK_CLIENT_ID"/></xsl:attribute>
+							<xsl:choose>
+								<xsl:when test="T_CLIENT/CLIENT_ACRONYM != ''"><xsl:value-of select="T_CLIENT/CLIENT_ACRONYM"/></xsl:when>
+								<xsl:otherwise><xsl:value-of select="T_CLIENT/CLIENT_NAME"/></xsl:otherwise>
+							</xsl:choose>
+						</a>
+					</td>
+					<td>
+						<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
+						<xsl:choose>
+							<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
+								<xsl:attribute name="style">color:#006666</xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="style">color:#000000</xsl:attribute>
+							</xsl:otherwise>			
+						</xsl:choose>
+						<xsl:call-template name="short">
+							<xsl:with-param name="text" select="T_OBLIGATION/DEADLINE"/>
+							<xsl:with-param name="length">10</xsl:with-param>
+						</xsl:call-template>
+					</td>
+					<xsl:if test="$analysisMode='P'">
+						<td>
+							<xsl:choose>
+								<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
+									<a><xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=%%</xsl:attribute>
+									Show list
+									</a>
+								</xsl:when>
+								<xsl:otherwise>
+									None
+								</xsl:otherwise>
+							</xsl:choose>
 						</td>
 					</xsl:if>
 				</tr>

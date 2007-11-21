@@ -1071,7 +1071,20 @@ Legislative instrument</a></div>
 		
 		
 		<!-- oneCountry=0 one country, one country = 1 all countries -->
-		<table width="100%" class="sortable">
+		<table style="table-layout:fixed; width:100%" class="sortable">
+			<xsl:if test="$allCountries=1">
+			<col style="width:20%"/>
+			<col style="width:25%"/>
+			<col style="width:15%"/>
+			<col style="width:27%"/>
+			<col style="width:13%"/>
+			</xsl:if>
+			<xsl:if test="$allCountries!=1">
+			<col style="width:20%"/>
+			<col style="width:25%"/>
+			<col style="width:25%"/>
+			<col style="width:30%"/>
+			</xsl:if>
 			<thead>
 				<tr>
 				<!-- contact -->

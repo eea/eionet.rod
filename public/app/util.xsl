@@ -389,7 +389,7 @@
 
 		<th scope="col">
 			<xsl:if test="string-length($class) &gt; 0"><xsl:attribute name="class"><xsl:value-of select="$class"/></xsl:attribute></xsl:if>
-			<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+		<!--	<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute> -->
 			<xsl:choose>
 			<!-- the column is sorted A .. Z -->
 				<xsl:when test="contains($cur_sorted, $sorted) and contains($cur_sorted, ' DESC')=false">

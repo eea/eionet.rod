@@ -165,8 +165,16 @@
 		</form>
 	<xsl:variable name="recCount"><xsl:value-of select="count(child::RowSet[@Name='Main']/Row/T_OBLIGATION)"/></xsl:variable>
 	<div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div>	<br/>
-<table width="100%" class="sortable">
+<table style="table-layout:fixed; width:100%" class="sortable">
 	<xsl:if test="count(child::RowSet[@Name='Main']/Row)!=0">
+	<col style="width:40%"/>
+	<col style="width:20%"/>
+	<col style="width:12%"/>
+	<col style="width:16%"/>
+	<col style="width:12%"/>
+	<xsl:if test="$sel_country='0' or $sel_country=''">
+	<col style="width:10%"/> <!-- fix me: adds up to 110%  -->
+	</xsl:if>
 	<thead>
 		<tr>
 		
@@ -228,7 +236,7 @@
 				<xsl:with-param name="width" select="'10%'"/>
 				<xsl:with-param name="cur_sorted" select="$sortorder"/>
 			</xsl:call-template>
-	</xsl:if>
+		</xsl:if>
 
 	<!-- END of header ROW -->
 	</tr>	
@@ -244,129 +252,115 @@
 <!-- table row start -->
 <xsl:for-each select="RowSet[@Name='Main']/Row">
 
-  <tr valign="top">
+  <tr>
 		<xsl:attribute name="class">
 				<xsl:if test="position() mod 2 = 0">even</xsl:if>
 		</xsl:attribute>
 
 	
-	<td  valign="top">
-		<span class="rowitem">
-			<a>
-				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;mode=A</xsl:attribute>
-				<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/TITLE"/></xsl:attribute>
-				<xsl:call-template name="short">
-					<xsl:with-param name="text" select="T_OBLIGATION/TITLE"/>
-					<xsl:with-param name="length">40</xsl:with-param>
-				</xsl:call-template>
-			</a>
-			<xsl:if test="T_SOURCE/SOURCE_CODE!=''">
-				<br/>
-				(<a>
-					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
-					<xsl:value-of select="T_SOURCE/SOURCE_CODE"/>
-				</a>)
-			</xsl:if>
-		</span>&#160;
-	</td>
-
-	<td valign="top">
-		<span class="rowitem">
-			<a>
-				<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
-				<xsl:attribute name="title"><xsl:value-of select="T_CLIENT/CLIENT_NAME"/></xsl:attribute>
-						<xsl:call-template name="short">
-							<xsl:with-param name="text" select="T_CLIENT/CLIENT_DESCR"/>
-							<xsl:with-param name="length">20</xsl:with-param>
-						</xsl:call-template>
-			</a>
-		</span>&#160;
-	</td>
-	<td valign="top">
-		<span class="rowitem">
-			<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
-			<xsl:choose>
-			<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
-				<xsl:attribute name="style">color:#006666</xsl:attribute>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:attribute name="style">color:#000000</xsl:attribute>
-			</xsl:otherwise>			
-			</xsl:choose>
-
+	<td>
+		<a>
+			<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_REPORTING/PK_RO_ID"/>&amp;mode=A</xsl:attribute>
+			<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/TITLE"/></xsl:attribute>
 			<xsl:call-template name="short">
-				<xsl:with-param name="text" select="T_OBLIGATION/DEADLINE"/>
-				<xsl:with-param name="length">10</xsl:with-param>
+				<xsl:with-param name="text" select="T_OBLIGATION/TITLE"/>
+				<xsl:with-param name="length">40</xsl:with-param>
 			</xsl:call-template>
-			
-			<!--xsl:value-of select="T_OBLIGATION/DEADLINE"/-->
-		</span>&#160;
+		</a>
+		<xsl:if test="T_SOURCE/SOURCE_CODE!=''">
+			<br/>
+			(<a>
+				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+				<xsl:value-of select="T_SOURCE/SOURCE_CODE"/>
+			</a>)
+		</xsl:if>
 	</td>
-	<!--td valign="top">
-		<span class="rowitem">
-				<xsl:if test="T_OBLIGATION/DEADLINE2 != '' ">	
-					<xsl:value-of select="T_OBLIGATION/DEADLINE2"/>
-				</xsl:if>
-		</span>&#160;
+
+	<td>
+		<a>
+			<xsl:attribute name="href">client.jsv?id=<xsl:value-of select="T_CLIENT/PK_CLIENT_ID"/></xsl:attribute>
+			<xsl:attribute name="title"><xsl:value-of select="T_CLIENT/CLIENT_NAME"/></xsl:attribute>
+					<xsl:call-template name="short">
+						<xsl:with-param name="text" select="T_CLIENT/CLIENT_DESCR"/>
+						<xsl:with-param name="length">20</xsl:with-param>
+					</xsl:call-template>
+		</a>
+	</td>
+	<td>
+		<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
+		<xsl:choose>
+		<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
+			<xsl:attribute name="style">color:#006666</xsl:attribute>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:attribute name="style">color:#000000</xsl:attribute>
+		</xsl:otherwise>			
+		</xsl:choose>
+
+		<xsl:call-template name="short">
+			<xsl:with-param name="text" select="T_OBLIGATION/DEADLINE"/>
+			<xsl:with-param name="length">10</xsl:with-param>
+		</xsl:call-template>
+		
+		<!--xsl:value-of select="T_OBLIGATION/DEADLINE"/-->
+	</td>
+	<!--td>
+		<xsl:if test="T_OBLIGATION/DEADLINE2 != '' ">	
+			<xsl:value-of select="T_OBLIGATION/DEADLINE2"/>
+		</xsl:if>
 	</td-->
 
-	<td valign="top">
-		<span class="rowitem">
-			<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE != ''">
-				<xsl:choose>
-				<xsl:when test="RESPONSIBLE/ROLE_DESCR=''">
-					<xsl:attribute name="title"><xsl:value-of select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-',T_SPATIAL/SPATIAL_TWOLETTER)"/></xsl:attribute>
-					<xsl:call-template name="short">
-						<xsl:with-param name="text" select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-',T_SPATIAL/SPATIAL_TWOLETTER)"/>
-						<xsl:with-param name="length">25</xsl:with-param>
-					</xsl:call-template>
+	<td>
+		<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE != ''">
+			<xsl:choose>
+			<xsl:when test="RESPONSIBLE/ROLE_DESCR=''">
+				<xsl:attribute name="title"><xsl:value-of select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-',T_SPATIAL/SPATIAL_TWOLETTER)"/></xsl:attribute>
+				<xsl:call-template name="short">
+					<xsl:with-param name="text" select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-',T_SPATIAL/SPATIAL_TWOLETTER)"/>
+					<xsl:with-param name="length">25</xsl:with-param>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+			<!--a>
+			<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_URL"/>')</xsl:attribute>
+			<xsl:attribute name="title"><xsl:value-of select="RESPONSIBLE/ROLE_DESCR"/></xsl:attribute>
+						<xsl:call-template name="short">
+							<xsl:with-param name="text" select="RESPONSIBLE/ROLE_DESCR"/>
+							<xsl:with-param name="length">15</xsl:with-param>
+						</xsl:call-template>
+			</a>&#160;
+			<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
+				<img src="images/details.gif" alt="Additional details for logged-in users" border="0"/>
+			</a-->
+			<a>
+				<xsl:attribute name="href">responsible.jsp?role=<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/SPATIAL_TWOLETTER"/></xsl:attribute>
+				<xsl:call-template name="short">
+					<xsl:with-param name="text" select="RESPONSIBLE/ROLE_DESCR"/>
+					<xsl:with-param name="length">15</xsl:with-param>
+				</xsl:call-template>
+			</a>
+			</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
+	</td>
+	<td>
+		<xsl:choose>
+				<!--xsl:when test="contains(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS, concat(',' , T_SPATIAL/PK_SPATIAL_ID , ',') )='true'"-->
+				<xsl:when test="T_OBLIGATION/HAS_DELIVERY=1">
+					<a>
+					<!--xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>')</xsl:attribute-->
+					<xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/></xsl:attribute>
+						Show list
+					</a>
 				</xsl:when>
 				<xsl:otherwise>
-				<!--a>
-				<xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_URL"/>')</xsl:attribute>
-				<xsl:attribute name="title"><xsl:value-of select="RESPONSIBLE/ROLE_DESCR"/></xsl:attribute>
-							<xsl:call-template name="short">
-								<xsl:with-param name="text" select="RESPONSIBLE/ROLE_DESCR"/>
-								<xsl:with-param name="length">15</xsl:with-param>
-							</xsl:call-template>
-				</a>&#160;
-				<a><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESPONSIBLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-					<img src="images/details.gif" alt="Additional details for logged-in users" border="0"/>
-				</a-->
-				<a>
-					<xsl:attribute name="href">responsible.jsp?role=<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/SPATIAL_TWOLETTER"/></xsl:attribute>
-					<xsl:call-template name="short">
-						<xsl:with-param name="text" select="RESPONSIBLE/ROLE_DESCR"/>
-						<xsl:with-param name="length">15</xsl:with-param>
-					</xsl:call-template>
-				</a>
+						None
 				</xsl:otherwise>
-				</xsl:choose>
-			</xsl:if>
-		</span>&#160;
-	</td>
-	<td valign="top">
-		<span class="rowitem">
-			<xsl:choose>
-					<!--xsl:when test="contains(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS, concat(',' , T_SPATIAL/PK_SPATIAL_ID , ',') )='true'"-->
-					<xsl:when test="T_OBLIGATION/HAS_DELIVERY=1">
-						<a>
-						<!--xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>')</xsl:attribute-->
-						<xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/></xsl:attribute>
-							Show list
-						</a>
-					</xsl:when>
-					<xsl:otherwise>
-							None
-					</xsl:otherwise>
-			</xsl:choose>
-		</span>&#160;
+		</xsl:choose>
 	</td>
 	<xsl:if test="$sel_country='0' or $sel_country=''">
-		<td  valign="top">
-			<span class="rowitem">
-				<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
-			</span>&#160;
+		<td>
+			<xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>
 		</td>
 	</xsl:if>
   </tr>
