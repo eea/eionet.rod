@@ -42,8 +42,8 @@
 		<pathelement location="/usr/share/java/mysql-connector-java.jar"/>
 	</path>
 	<fileset id="fileset.test" dir="${src}">
-		<include name="eionet/rod/**/*Test.java"/>
-		<include name="eionet/rod/**/*Tests.java"/>
+		<include name="**/*Test.java"/>
+		<include name="**/*Tests.java"/>
 		<exclude name="**/BaseMySqlDaoTest.java"/> <!-- Should rename BaseMySqlDaoTest -->
 	</fileset>
 

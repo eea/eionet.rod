@@ -37,7 +37,7 @@ public class RODUtilTest extends TestCase {
 	public void test_isURL() {
 		assertTrue(RODUtil.isURL("http://cdr.eionet.europa.eu/"));
 		assertTrue(RODUtil.isURL("ftp://ftp.eionet.europa.eu/"));
-		assertTrue(RODUtil.isURL("mailto:jaanus.heinlaid@tietoenator.com"));
+		assertFalse(RODUtil.isURL("mailto:jaanus.heinlaid@tietoenator.com"));
 		assertFalse(RODUtil.isURL("XXX"));
 	}
 
