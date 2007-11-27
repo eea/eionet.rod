@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!--
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
@@ -43,37 +42,27 @@
 </xsl:template>
 
 	<xsl:template match="XmlData">
-	<div id="workarea">
-	<h1>Problem</h1>
-	<table cellspacing="7pts" width="600">
-	<xsl:for-each select="Error">
-		<tr valign="top">
-			<td width="10pts"><img src="images/diamlil.gif" vspace="4"/></td>
-			<td colspan="2">
-				<b><xsl:value-of select="text()"/></b>
-			</td>
-		</tr>
-		<xsl:if test="@Reason != ''">
-			<tr valign="top">
-				<td width="10pts">&#160;</td>
-				<td width="10pts">&#160;</td>
-				<td>
-					<xsl:value-of select="@Reason"/>
-					<xsl:if test="Data != ''">
-						when executing <code><xsl:value-of select="Data"/></code>
+		<div id="workarea">
+			<h1>Problem</h1>
+			<xsl:for-each select="Error">
+				<div class="error-msg">
+					<xsl:value-of select="text()"/><br/>
+					<xsl:if test="@Reason != ''">
+						<xsl:value-of select="@Reason"/>
+						<xsl:if test="Data != ''">
+							when executing <code><xsl:value-of select="Data"/></code>
+						</xsl:if>
 					</xsl:if>
-				</td>
-			</tr>
-		</xsl:if>
-	</xsl:for-each>
-	</table>
-	<table cellspacing="7pts">
-		<tr height="40pts" valign="bottom">
-			<td width="10pts">&#160;</td>
-			<td><a href="javascript:history.back()"><span class="Mainfont">[Back]</span></a></td>
-		</tr>
-	</table>
-	</div>
+				</div>
+			</xsl:for-each>
+			<table cellspacing="7pts">
+				<tr height="40pts" valign="bottom">
+					<td width="10pts">&#160;</td>
+					<td><a href="javascript:history.back()"><span class="Mainfont">[Back]</span></a></td>
+				</tr>
+			</table>
+		</div>
+		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
 	<xsl:template name="createURL"/>
 	<xsl:template name="PageHelp"/>
