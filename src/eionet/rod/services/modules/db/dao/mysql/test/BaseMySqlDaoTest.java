@@ -10,13 +10,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.dbunit.DatabaseTestCase;
+import org.dbunit.database.DatabaseConnection;
+import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
+
 
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.RODServices;
 
-import junit.framework.TestCase;
+public class BaseMySqlDaoTest extends DatabaseTestCase {
 
-public class BaseMySqlDaoTest extends TestCase {
+	private FlatXmlDataSet loadedDataSet;
 
 	protected Connection connection;
 
@@ -52,6 +58,21 @@ public class BaseMySqlDaoTest extends TestCase {
 			System.exit(1);
 		}
 
+	}
+
+	protected IDatabaseConnection getConnection() throws Exception
+	{
+	    return new DatabaseConnection(connection);
+	}
+
+	/*
+	 * Load the data which will be inserted for the test - Required by DatabaseTestCase
+	 * The table must already exist
+	 */
+	protected IDataSet getDataSet() throws Exception
+	{
+		loadedDataSet = new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("/seed-roles.xml"));
+		return loadedDataSet;
 	}
 
 	protected static void printVectorResult(Vector vector) {

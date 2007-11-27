@@ -44,7 +44,7 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 		delivery.put("http://www.w3.org/1999/02/22-rdf-syntax-ns#type", tmpVector);
 
 		tmpVector = new Vector();
-		tmpVector.add("http://cdr.eionet.europa.eu/hr/un/colqluv2q/envqluwjg");
+		tmpVector.add("http://cdr.eionet.europa.eu/at/un/colqluv2q/envqluwjg");
 		delivery.put("http://purl.org/dc/elements/1.1/identifier", tmpVector);
 
 		tmpVector = new Vector();
@@ -52,7 +52,7 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 		delivery.put("http://purl.org/dc/elements/1.1/date", tmpVector);
 
 		tmpVector = new Vector();
-		tmpVector.add("Croatia");
+		tmpVector.add("Austria");
 		delivery.put("http://rod.eionet.eu.int/schema.rdf#locality", tmpVector);
 
 		tmpVector = new Vector();
@@ -68,20 +68,22 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 		delivery.put("http://purl.org/dc/elements/1.1/language", tmpVector);
 
 		Map deliveriesMap = new Hashtable();
-		deliveriesMap.put("http://cdr.eionet.europa.eu/hr/un/colqluv2q/envqluwjg", delivery);
+		deliveriesMap.put("http://cdr.eionet.europa.eu/at/un/colqluv2q/envqluwjg", delivery);
 		Vector deliveries = new Vector(1);
 		deliveries.add(deliveriesMap);
 
 		statement = connection.createStatement();
-		resultSet = statement.executeQuery("select PK_RA_ID from T_OBLIGATION where TITLE='Yearly report to the Basel Convention'");
+		resultSet = statement.executeQuery("select PK_RA_ID from T_OBLIGATION where TITLE='PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer'");
+                // FIXME: Need some assert statements here
 		resultSet.next();
 		deliveryMySqlDao.saveDeliveries(new Integer(resultSet.getInt(1)), deliveries, new HashMap());
 
 		resultSet = statement.executeQuery("select max(PK_DELIVERY_ID) from T_DELIVERY");
 		resultSet.next();
+                // FIXME: Need some assert statements here
 		statement.executeUpdate("delete from T_DELIVERY where PK_DELIVERY_ID = " + resultSet.getInt(1));
+                // FIXME: Need some assert statements here
 
-		closeAllResources();
 	}
 
 	/*
@@ -90,10 +92,10 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testRollBackDeliveries() throws Exception {
 		statement = connection.createStatement();
-		resultSet = statement.executeQuery("select PK_RA_ID from T_OBLIGATION where TITLE='Yearly report to the Basel Convention'");
+		resultSet = statement.executeQuery("select PK_RA_ID from T_OBLIGATION where TITLE='PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer'");
 		resultSet.next();
 		deliveryMySqlDao.rollBackDeliveries(new Integer(resultSet.getInt(1)));
-		closeAllResources();
+                // FIXME: Need some assert statements here
 
 	}
 
@@ -103,6 +105,7 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testCommitDeliveries() throws Exception {
 		deliveryMySqlDao.commitDeliveries();
+                // FIXME: Need some assert statements here
 
 	}
 
@@ -112,7 +115,7 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testBackUpDeliveries() throws Exception {
 		deliveryMySqlDao.backUpDeliveries();
-
+                // FIXME: Need some assert statements here
 	}
 
 }

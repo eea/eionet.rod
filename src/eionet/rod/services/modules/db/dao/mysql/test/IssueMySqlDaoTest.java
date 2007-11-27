@@ -29,15 +29,17 @@ public class IssueMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetIssues() throws Exception{
 		Vector v = issueMySqlDao.getIssues();
-		printVectorResult(v);
+		assertEquals(12, v.size());
+//		printVectorResult(v);
 	}
 
 	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.IssueMySqlDao.getObligationIssues(Integer)'
 	 */
 	public void testGetObligationIssues()throws Exception {
-		Vector v = issueMySqlDao.getObligationIssues(new Integer(15));
-		printVectorResult(v);
+		Vector v = issueMySqlDao.getObligationIssues(new Integer(514));
+		assertEquals(2, v.size());
+//		printVectorResult(v);
 	}
 
 	/*
@@ -45,7 +47,8 @@ public class IssueMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetIssueIdPairs() throws Exception{
 		String[][] m = issueMySqlDao.getIssueIdPairs();
-		printMatrixResult(m);
+		assertEquals(12, m.length);
+//		printMatrixResult(m);
 
 	}
 
@@ -53,7 +56,8 @@ public class IssueMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.IssueMySqlDao.getIssues(Integer)'
 	 */
 	public void testGetIssuesInteger() throws Exception{
-		String[][] m = issueMySqlDao.getIssues(new Integer(15));
+		String[][] m = issueMySqlDao.getIssues(new Integer(514));
+		assertEquals(2, m.length);
 		printMatrixResult(m);
 
 	}

@@ -32,7 +32,9 @@ public class SourceMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.SourceMySqlDao.getInstrumentsRSS()'
 	 */
 	public void testGetInstrumentsRSS() throws Exception{
-		printMatrixResult(sourceMySqlDao.getInstrumentsRSS());
+		String [][] m = sourceMySqlDao.getInstrumentsRSS();
+		assertEquals(2, m.length);
+//		printMatrixResult(sourceMySqlDao.getInstrumentsRSS());
 
 	}
 

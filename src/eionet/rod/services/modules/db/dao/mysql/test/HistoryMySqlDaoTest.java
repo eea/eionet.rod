@@ -37,7 +37,9 @@ public class HistoryMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.HistoryMySqlDao.getItemHistory(String, int)'
 	 */
 	public void testGetItemHistory() throws Exception{
-		printMatrixResult(historyMySqlDao.getItemHistory("A",514));
+//		printMatrixResult(historyMySqlDao.getItemHistory("A",514));
+                String[][] matrix = historyMySqlDao.getItemHistory("A",514);
+		assertEquals(7, matrix.length);
 
 	}
 
@@ -45,7 +47,9 @@ public class HistoryMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.HistoryMySqlDao.getDeletedItems(String)'
 	 */
 	public void testGetDeletedItems() throws Exception{
-		printMatrixResult(historyMySqlDao.getDeletedItems("A"));
+                String[][] matrix = historyMySqlDao.getDeletedItems("A");
+		assertEquals(2, matrix.length);
+//		printMatrixResult(historyMySqlDao.getDeletedItems("A"));
 
 	}
 
@@ -55,7 +59,8 @@ public class HistoryMySqlDaoTest extends BaseMySqlDaoTest {
 	public void testGetDeletedItemsVector() throws Exception{
 		Vector v = new Vector(1);
 		v.add(historyMySqlDao.getDeletedItemsVector("A"));
-		printVectorResult(v);
+                assertEquals(1, v.size());
+//		printVectorResult(v);
 
 
 	}
@@ -64,7 +69,8 @@ public class HistoryMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.HistoryMySqlDao.getHistory(Integer, String)'
 	 */
 	public void testGetHistory() throws Exception{
-		printVectorResult(historyMySqlDao.getHistory(514,"T_OBLIGATION"));
+		assertEquals(7, historyMySqlDao.getHistory(514,"T_OBLIGATION").size());
+//		printVectorResult(historyMySqlDao.getHistory(514,"T_OBLIGATION"));
 	}
 
 }

@@ -1,5 +1,5 @@
 package eionet.rod.services.modules.db.dao.mysql.test;
-
+import java.util.Vector;
 import eionet.rod.services.modules.db.dao.mysql.GenericMySqlDao;
 
 public class GenericMySqlDaoTest extends BaseMySqlDaoTest {
@@ -27,7 +27,9 @@ public class GenericMySqlDaoTest extends BaseMySqlDaoTest {
 	 * 'eionet.rod.services.modules.db.dao.mysql.GenericMySqlDao.getTable(String)'
 	 */
 	public void testGetTable() throws Exception {
-		printVectorResult(genericMySqlDao.getTable("T_ISSUE"));
+		Vector v = genericMySqlDao.getTable("T_ISSUE");
+		assertEquals(12, v.size());
+//		printVectorResult(genericMySqlDao.getTable("T_ISSUE"));
 	}
 
 	/*
@@ -35,7 +37,10 @@ public class GenericMySqlDaoTest extends BaseMySqlDaoTest {
 	 * 'eionet.rod.services.modules.db.dao.mysql.GenericMySqlDao.getTableDesc(String)'
 	 */
 	public void testGetTableDesc() throws Exception {
-		printVectorResult(genericMySqlDao.getTable("T_ISSUE"));
+		// FIXME: Doesn't actually test getTableDesc
+		Vector v = genericMySqlDao.getTable("T_ISSUE");
+		assertEquals(12, v.size());
+//		printVectorResult(genericMySqlDao.getTable("T_ISSUE"));
 	}
 
 }

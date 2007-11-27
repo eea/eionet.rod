@@ -21,7 +21,9 @@
 		    ../public/WEB-INF/lib/poi-2.5-final-20040302.jar;
 		    ../public/WEB-INF/lib/junit.jar;
 		    ../public/WEB-INF/lib/casclient.jar;
-		    ../public/WEB-INF/lib/eionet-dir.jar' />
+		    ../public/WEB-INF/lib/eionet-dir.jar;
+                    /usr/share/java/dbunit.jar;
+                    /var/lib/tomcat5/common/lib/[servlet].jar' />
 	</target>
 
 	<target name='buildjar' depends='compile'>
@@ -35,16 +37,18 @@
 		<fileset dir="../public/WEB-INF/lib">
 			<include name="**/*.jar"/>
 		</fileset>
-		<pathelement location="/var/lib/tomcat4/common/lib/mysql-connector-java.jar"/>
+                <pathelement location="/usr/share/java/dbunit.jar"/>
+		<pathelement location="/var/lib/tomcat5/common/lib/[servlet].jar"/>
+		<pathelement location="/usr/share/java/mysql-connector-java.jar"/>
 	</path>
 	<fileset id="fileset.test" dir="${src}">
-		<include name="eionet/test/*Test.java"/>
-		<include name="eionet/test/*Tests.java"/>
-		<exclude name="**/BaseMySqlDaoTest.java"/>
+		<include name="eionet/rod/**/*Test.java"/>
+		<include name="eionet/rod/**/*Tests.java"/>
+		<exclude name="**/BaseMySqlDaoTest.java"/> <!-- Should rename BaseMySqlDaoTest -->
 	</fileset>
 
   	<target name="test" depends="compile" description="Runs all found unit tests">
-		<junit haltonfailure="no" failureproperty="unittestFailed" showoutput="yes" printsummary="yes">
+		<junit haltonfailure="yes" failureproperty="unittestFailed" showoutput="yes" printsummary="yes">
 			<classpath refid="classpath.test" />
 			<formatter type="brief" usefile="false"/>
 			<batchtest fork="yes">				

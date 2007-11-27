@@ -27,20 +27,13 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	}
 
 	protected void setUp() throws Exception {
-		
-		
-		
 		super.setUp();
 	}
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		statement = connection.createStatement();
-		statement.executeUpdate("delete from T_ROLE where PERSON like 'Test user%';");
-		closeAllResources();
 	}
 
-	
 	
 	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.RoleMySqlDao.saveRole(Hashtable, String, String)'
@@ -53,6 +46,7 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 		role.put("DESCRIPTION",role_id);
 		role.put("MAIL",role_email);
 		roleMySqlDao.saveRole(role);
+		// FIXME: Must add assert statement here
 
 	}
 	
@@ -60,15 +54,18 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.RoleMySqlDao.savePerson(String, String, String)'
 	 */
 	public void testSavePerson() throws Exception{
-		
+		// FIXME: Must add assert statement here
 		roleMySqlDao.savePerson(role_id,person +( new Random()).nextInt(), institute +( new Random()).nextInt());
+		// FIXME: Must add assert statement here that tests addiotional record
 	}
 
 	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.RoleMySqlDao.getRoleIds()'
 	 */
 	public void testGetRoleIds() throws Exception{
-		printMatrixResult(roleMySqlDao.getRoleIds());
+//		printMatrixResult(roleMySqlDao.getRoleIds());
+		String [][] m = roleMySqlDao.getRoleIds();
+		assertEquals(1, m.length);
 	}
 
 
@@ -77,6 +74,7 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testBackUpRoles() throws Exception{
 		roleMySqlDao.backUpRoles();
+		// FIXME: Must add assert statement here
 	}
 
 	/*
@@ -84,6 +82,7 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testCommitRoles() throws Exception{
 		roleMySqlDao.commitRoles();
+		// FIXME: Must add assert statement here
 	}
 
 	/*
@@ -91,7 +90,8 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetRoleDesc() throws Exception{
 		Hashtable  ht = roleMySqlDao.getRoleDesc(role_id);
-		System.out.println(ht);
+		// FIXME: Must add assert statement here
+//		System.out.println(ht);
 	}
 
 }

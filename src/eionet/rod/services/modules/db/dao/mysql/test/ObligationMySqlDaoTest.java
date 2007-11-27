@@ -29,7 +29,9 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getDeadlines()'
 	 */
 	public void testGetDeadlines() throws Exception{
-		printMatrixResult(obligationMySqlDao.getDeadlines());
+		String [][] m = obligationMySqlDao.getDeadlines();
+		assertEquals(2, m.length);
+//		printMatrixResult(obligationMySqlDao.getDeadlines());
 
 	}
 
@@ -53,7 +55,8 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetRaData() throws Exception{
 		String [][] m = obligationMySqlDao.getRaData();
-		printMatrixResult(m);
+		assertEquals(2, m.length);
+//		printMatrixResult(m);
 
 	}
 
@@ -62,10 +65,13 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetRespRoles() throws Exception{
 		String[] roles = obligationMySqlDao.getRespRoles();
+		assertEquals(2, roles.length);
+		/*
 		System.out.println("Roles " + "\n");
 		for (int i = 0; i < roles.length; i++) {
 			System.out.println(roles[i]);
 		}
+		*/
 
 	}
 
@@ -74,7 +80,9 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetUpcomingDeadlines() throws Exception{
 		Vector v = obligationMySqlDao.getUpcomingDeadlines((double)2);
-		printVectorResult(v);
+		// FIXME: Need to programmatically insert a deadline into the table that triggers a result
+		assertEquals(0, v.size());
+//		printVectorResult(v);
 
 
 	}
@@ -84,7 +92,8 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetActivities() throws Exception{
 		Vector v = obligationMySqlDao.getActivities();
-		printVectorResult(v);
+		assertEquals(2, v.size());
+//		printVectorResult(v);
 
 
 	}
@@ -94,7 +103,8 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetObligations() throws Exception{
 		Vector v = obligationMySqlDao.getObligations();
-		printVectorResult(v);
+		assertEquals(2, v.size());
+//		printVectorResult(v);
 	}
 
 	/*
@@ -127,7 +137,8 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetObligationById() throws Exception{
 		Vector v = obligationMySqlDao.getObligationById(new Integer(15));
-		printVectorResult(v);
+		assertEquals(1, v.size());
+//		printVectorResult(v);
 
 
 	}
@@ -137,7 +148,8 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetObligationDetail() throws Exception{
 		Vector v = obligationMySqlDao.getObligationDetail(new Integer(15));
-		printVectorResult(v);
+		assertEquals(1, v.size());
+//		printVectorResult(v);
 	}
 
 	/*
@@ -145,7 +157,8 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetObligationIds() throws Exception{
 		String[][] m = obligationMySqlDao.getObligationIds();
-		printMatrixResult(m);
+		assertEquals(2, m.length);
+//		printMatrixResult(m);
 
 	}
 
@@ -154,7 +167,8 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetROComplete() throws Exception{
 		Vector v = obligationMySqlDao.getROComplete();
-		printVectorResult(v);
+		assertEquals(2, v.size());
+//		printVectorResult(v);
 
 	}
 
@@ -163,7 +177,8 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetROSummary() throws Exception{
 		Vector v = obligationMySqlDao.getROSummary();
-		printVectorResult(v);
+		assertEquals(2, v.size());
+//		printVectorResult(v);
 
 	}
 
@@ -172,7 +187,8 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetRODeadlines() throws Exception{
 		Vector v = obligationMySqlDao.getRODeadlines();
-		printVectorResult(v);
+		assertEquals(2, v.size());
+//		printVectorResult(v);
 	}
 
 	/*
@@ -180,7 +196,7 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testDpsirValuesFromExcelToDB() throws Exception{
 		obligationMySqlDao.dpsirValuesFromExcelToDB(15,"D");
-
+		//FIXME: Must add assert statement here
 	}
 
 	/*
@@ -188,6 +204,7 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testHarvestParams() throws Exception{
 		//obligationMySqlDao.harvestParams(new Integer(15));
+		//FIXME: Must add assert statement here
 
 	}
 
