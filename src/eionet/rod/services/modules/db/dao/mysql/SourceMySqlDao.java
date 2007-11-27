@@ -29,7 +29,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_SOURCE_ID, '&#038;mode=S') AS details_url, " + 
 			"DATE_FORMAT(s.LAST_UPDATE, '%Y-%m-%d') AS LAST_UPDATE " + 
 		"FROM T_SOURCE s LEFT OUTER JOIN T_CLIENT c ON s.FK_CLIENT_ID=c.PK_CLIENT_ID " + 
-		"ORDER BY s.ALIAS ";
+		"ORDER BY TITLE ";
 
 	private static final String q_instruments_ids = "SELECT PK_SOURCE_ID FROM T_SOURCE"; 
 	

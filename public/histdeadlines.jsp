@@ -145,7 +145,7 @@
 										}
 										%>
 										<tr class="<%=c%>">
-											<td><a href="show.jsv?id=<%=id%>&aid=<%=source_id%>&mode=A"><%=title%></td>
+											<td><a href="show.jsv?id=<%=id%>&amp;mode=A"><%=title%></td>
 											<td width="80"><%=deadline%></td>
 										</tr>
 										<%

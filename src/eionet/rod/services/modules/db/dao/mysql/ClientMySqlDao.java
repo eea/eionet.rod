@@ -19,7 +19,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 			"PK_CLIENT_ID AS id," + 
 			" {fn concat(?,PK_CLIENT_ID) }  AS uri " + 
 		"FROM T_CLIENT " + 
-		"ORDER BY CLIENT_NAME ";
+		"ORDER BY name ";
     
     private static final String qGetOrganisationNameByID = 
         "SELECT " +

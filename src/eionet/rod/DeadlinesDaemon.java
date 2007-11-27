@@ -162,7 +162,7 @@ public class DeadlinesDaemon {
                     list = new Vector();
                     list.add(events);
                     list.add("http://purl.org/dc/elements/1.1/identifier");
-                    String url = "http://rod.eionet.europa.eu/show.jsv?id="+h.get("id")+"&aid="+h.get("src_id")+"&mode=A";
+                    String url = "http://rod.eionet.europa.eu/show.jsv?id="+h.get("id")+"&mode=A";
                     list.add(url);
                     lists.add(list);
                     

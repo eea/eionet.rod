@@ -256,7 +256,7 @@
 		<xsl:if test="$rora='A'">
 		<td>
 				<a> 
-					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
+					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;mode=A</xsl:attribute>
 							<xsl:choose>
 								<xsl:when test="T_OBLIGATION/TITLE !=''">
 									<xsl:value-of select="T_OBLIGATION/TITLE"/>
@@ -392,7 +392,7 @@
 					<!--td style="border-left: #008080 1px solid; border-right: #c0c0c0 1px solid; border-bottom: #c0c0c0 1px solid"><img src="images/diamlil.gif" alt=""/></td-->
 					<td>
 							<a> 
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;aid=<xsl:value-of select="T_OBLIGATION/FK_SOURCE_ID"/>&amp;mode=A</xsl:attribute>
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;mode=A</xsl:attribute>
 								<xsl:choose>
 									<xsl:when test="T_OBLIGATION/TITLE !=''">
 										<xsl:value-of select="T_OBLIGATION/TITLE"/>

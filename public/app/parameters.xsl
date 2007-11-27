@@ -24,7 +24,7 @@
 	<div class="breadcrumbitem"><a href="index.html">ROD</a></div>
 	<div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;mode=S</xsl:attribute>
 Legislative instrument</a></div>
-	<div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=A</xsl:attribute> Reporting obligation</a></div>
+	<div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;mode=A</xsl:attribute> Reporting obligation</a></div>
 	<div class="breadcrumbitemlast">Parameters</div>
 	<div class="breadcrumbtail"></div>
 </div>

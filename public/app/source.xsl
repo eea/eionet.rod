@@ -293,7 +293,7 @@
 				<xsl:for-each select="Row/T_OBLIGATION">
 					<li>
 							<a>
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A</xsl:attribute>
 								<xsl:choose>
 									<xsl:when test="TITLE != ''">
 										<xsl:value-of select="TITLE"/>

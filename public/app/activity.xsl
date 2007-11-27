@@ -171,7 +171,7 @@ Legislative instrument</a></div>
 						<li id="currenttab"><span>Overview</span></li>
 					</xsl:when>
 					<xsl:otherwise>
-						<li><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=A&amp;tab=overview</xsl:attribute>Overview</a></li>
+						<li><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;mode=A&amp;tab=overview</xsl:attribute>Overview</a></li>
 					</xsl:otherwise>
 				</xsl:choose>
 				<xsl:choose>
@@ -179,7 +179,7 @@ Legislative instrument</a></div>
 						<li id="currenttab"><span>Legislation</span></li>
 					</xsl:when>
 					<xsl:otherwise>
-						<li><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;aid=<xsl:value-of select="$src-id"/>&amp;mode=A&amp;tab=legislation</xsl:attribute>Legislation</a></li>				
+						<li><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$ra-id"/>&amp;mode=A&amp;tab=legislation</xsl:attribute>Legislation</a></li>				
 					</xsl:otherwise>
 				</xsl:choose>
 				<!--xsl:choose>
@@ -1278,7 +1278,7 @@ Legislative instrument</a></div>
 			<xsl:for-each select="SubSet[@Name='Sibling']/Row/T_OBLIGATION">
 				<li>
 					<a>
-						<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A&amp;aid=<xsl:value-of select="FK_SOURCE_ID"/></xsl:attribute>
+						<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_RA_ID"/>&amp;mode=A</xsl:attribute>
 						<xsl:value-of select="TITLE"/>
 					</a>
 					<xsl:if test="AUTHORITY!=''">

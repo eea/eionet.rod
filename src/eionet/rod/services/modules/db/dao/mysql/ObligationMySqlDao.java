@@ -283,7 +283,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"a.TITLE, " + 
 			"IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, " + 
 			"a.LAST_UPDATE, " + 
-			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&aid=', FK_SOURCE_ID, '&mode=A') AS details_url, " + 
+			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&mode=A') AS details_url, " + 
 			"CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri, " + 
 			"IF (TERMINATE='Y', 1, 0) AS 'terminated' " + 
 		"FROM T_OBLIGATION a , T_SOURCE s " + 
@@ -322,7 +322,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"REPLACE(a.TITLE, '&', '&#038;') as TITLE, " + 
 			"IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, " + 
 			"a.LAST_UPDATE, " + 
-			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&#038;aid=', FK_SOURCE_ID, '&#038;mode=A') AS details_url, " + 
+			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&#038;mode=A') AS details_url, " + 
 			"CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri," + 
 			"IF (TERMINATE='Y', 1, 0) AS 'terminated', " + 
 			"a.VALID_SINCE, " + 
@@ -335,7 +335,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 	          rplAmp("a.REPORT_FORMAT_URL", "REPORT_FORMAT_URL") + " " + 
 		"FROM T_OBLIGATION a , T_SOURCE s "+ 
 		"WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " + 
-		"ORDER BY SOURCE_TITLE, TITLE";
+		"ORDER BY TITLE";
 
 	/*
 	 * (non-Javadoc)
@@ -548,7 +548,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"COMMENT as comment, " + 
 			"DATE_COMMENTS as date_comments, " + 
 			"REPORT_FREQ as report_freq, " + 
-			"CONCAT('" + rodDomain + "/show.jsv?id=', " + "PK_RA_ID,'&aid=', FK_SOURCE_ID, '&mode=A') AS details_url " + 
+			"CONCAT('" + rodDomain + "/show.jsv?id=', " + "PK_RA_ID,'&mode=A') AS details_url " + 
 		"FROM T_OBLIGATION " + 
 		"WHERE PK_RA_ID=?";
 
@@ -767,7 +767,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"TITLE, " + 
 			"LAST_UPDATE, " + 
 			"DESCRIPTION, " + 
-			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID,'&aid=', FK_SOURCE_ID, '&mode=A') AS details_url " + 
+			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID,'&mode=A') AS details_url " + 
 		"FROM T_OBLIGATION ";
 
 	/*

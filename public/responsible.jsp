@@ -169,7 +169,7 @@
 				String ra_id = (String)hash.get("ra_id");
 				String sid = (String)hash.get("sid");
 			%>
-				<a href="show.jsv?id=<%=ra_id%>&amp;aid=<%=sid%>&amp;mode=A"><%=RODUtil.replaceTags(title)%></a>
+				<a href="show.jsv?id=<%=ra_id%>&amp;mode=A"><%=RODUtil.replaceTags(title)%></a>
 			<%
 				if(i != (obligations.size() - 1)){%>
 					<br/>	
