@@ -73,30 +73,46 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 		deliveries.add(deliveriesMap);
 
 		statement = connection.createStatement();
+
+		// Check how many deliveries there are in the table before we do anything
+		resultSet = statement.executeQuery("SELECT COUNT(*) FROM T_DELIVERY");
+		resultSet.next();
+		assertEquals(4, resultSet.getInt(1));
+
+		// Get the PK_RA_ID
 		resultSet = statement.executeQuery("select PK_RA_ID from T_OBLIGATION where TITLE='PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer'");
-                // FIXME: Need some assert statements here
 		resultSet.next();
 		deliveryMySqlDao.saveDeliveries(new Integer(resultSet.getInt(1)), deliveries, new HashMap());
 
+		// Check how many deliveries there are in the table after the save
+		resultSet = statement.executeQuery("SELECT COUNT(*) FROM T_DELIVERY");
+		resultSet.next();
+		assertEquals(5, resultSet.getInt(1));
+
+		// Delete the last delivery - not really necessary
 		resultSet = statement.executeQuery("select max(PK_DELIVERY_ID) from T_DELIVERY");
 		resultSet.next();
-                // FIXME: Need some assert statements here
 		statement.executeUpdate("delete from T_DELIVERY where PK_DELIVERY_ID = " + resultSet.getInt(1));
-                // FIXME: Need some assert statements here
-
 	}
 
 	/*
 	 * Test method for
 	 * 'eionet.rod.services.modules.db.dao.mysql.DeliveryMySqlDao.rollBackDeliveries(Integer)'
 	 */
+	/*
+	 * FIXME: We don't do any inserts into the T_DELIVERY file, so there is nothing to roll back
+	 */
 	public void testRollBackDeliveries() throws Exception {
 		statement = connection.createStatement();
 		resultSet = statement.executeQuery("select PK_RA_ID from T_OBLIGATION where TITLE='PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer'");
 		resultSet.next();
+		assertEquals(514, resultSet.getInt(1));
 		deliveryMySqlDao.rollBackDeliveries(new Integer(resultSet.getInt(1)));
-                // FIXME: Need some assert statements here
 
+		// Check how many deliveries there are in the table after the roll back
+		resultSet = statement.executeQuery("SELECT COUNT(*) FROM T_DELIVERY");
+		resultSet.next();
+		assertEquals(4, resultSet.getInt(1));
 	}
 
 	/*
