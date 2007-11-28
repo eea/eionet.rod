@@ -2,9 +2,9 @@ HOW TO RUN UNIT TESTS
 
 FROM ANT:
 
-The database tests WILL EMPTY YOUR DATABASE and load the seed-roles.xml file.
+The database tests WILL EMPTY YOUR DATABASE and load the seed-rod.xml file.
 To prevent this from happening by accident on the Production system, the
-seed-roles.xml IS NOT AUTOMATICALLY installed in ../public/WEB-INF/classes/
+seed-rod.xml IS NOT AUTOMATICALLY installed in ../public/WEB-INF/classes/
 You must do this yourself.
 
 REFERENCES:

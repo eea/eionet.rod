@@ -71,7 +71,7 @@ public class BaseMySqlDaoTest extends DatabaseTestCase {
 	 */
 	protected IDataSet getDataSet() throws Exception
 	{
-		loadedDataSet = new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("/seed-roles.xml"));
+		loadedDataSet = new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("seed-rod.xml"));
 		return loadedDataSet;
 	}
 
