@@ -94,12 +94,15 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 		// Delete the last delivery - not really necessary
 		resultSet = statement.executeQuery("select max(PK_DELIVERY_ID) from T_DELIVERY");
 		resultSet.next();
-		//assertEquals(13499168, resultSet.getInt(1));
+		int delivery_id = resultSet.getInt(1);
+		resultSet = statement.executeQuery("select FK_RA_ID from T_DELIVERY where PK_DELIVERY_ID = "+delivery_id);
+		resultSet.next();
+		assertEquals(514, resultSet.getInt(1));
 		
-		int ret = statement.executeUpdate("delete from T_DELIVERY where PK_DELIVERY_ID = " + resultSet.getInt(1));
+		int ret = statement.executeUpdate("delete from T_DELIVERY where PK_DELIVERY_ID = " + delivery_id);
 		assertEquals(1, ret);
 
-		statement.executeUpdate("delete from T_DELIVERY where PK_DELIVERY_ID = " + resultSet.getInt(1));
+		statement.executeUpdate("delete from T_DELIVERY where PK_DELIVERY_ID = " + delivery_id);
 	}
 
 	/*
