@@ -7,7 +7,7 @@ import eionet.rod.services.modules.db.dao.mysql.RoleMySqlDao;
 
 public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 
-	RoleMySqlDao roleMySqlDao = new RoleMySqlDao(){};
+	RoleMySqlDao roleMySqlDao;
 	
 	String role_name = "EPER Data Reporter Test";                        
 	String role_email = "eper-dat-test@roles.eea.eionet.eu.int";                          
@@ -27,7 +27,7 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	}
 
 	protected void setUp() throws Exception {
-		super.setUp();
+		roleMySqlDao = new RoleMySqlDao();
 	}
 
 	protected void tearDown() throws Exception {
@@ -46,18 +46,22 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 		role.put("DESCRIPTION",role_id);
 		role.put("MAIL",role_email);
 		roleMySqlDao.saveRole(role);
-		// FIXME: Must add assert statement here
+
+		statement = connection.createStatement();
+		resultSet = statement.executeQuery("select ROLE_ID from T_ROLE where ROLE_EMAIL='"+role_email+"'");
+		resultSet.next();
+		assertEquals(role_id,resultSet.getString("ROLE_ID"));
 
 	}
 	
 	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.RoleMySqlDao.savePerson(String, String, String)'
 	 */
-	public void testSavePerson() throws Exception{
-		// FIXME: Must add assert statement here
+	/*public void testSavePerson() throws Exception{
 		roleMySqlDao.savePerson(role_id,person +( new Random()).nextInt(), institute +( new Random()).nextInt());
-		// FIXME: Must add assert statement here that tests addiotional record
-	}
+		  
+		METHOD savePerson is no longer in use - occupants are saved in method saveRole 
+	}*/
 
 	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.RoleMySqlDao.getRoleIds()'
@@ -65,7 +69,7 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	public void testGetRoleIds() throws Exception{
 //		printMatrixResult(roleMySqlDao.getRoleIds());
 		String [][] m = roleMySqlDao.getRoleIds();
-		assertEquals(1, m.length);
+		assertEquals(2, m.length);
 	}
 
 
@@ -74,7 +78,10 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testBackUpRoles() throws Exception{
 		roleMySqlDao.backUpRoles();
-		// FIXME: Must add assert statement here
+		statement = connection.createStatement();
+		resultSet = statement.executeQuery("select count(ROLE_ID) from T_ROLE where STATUS=0");
+		resultSet.next();
+		assertEquals(0, resultSet.getInt(1));
 	}
 
 	/*
@@ -82,7 +89,10 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testCommitRoles() throws Exception{
 		roleMySqlDao.commitRoles();
-		// FIXME: Must add assert statement here
+		statement = connection.createStatement();
+		resultSet = statement.executeQuery("select count(ROLE_ID) from T_ROLE where STATUS=0");
+		resultSet.next();
+		assertEquals(0, resultSet.getInt(1));	
 	}
 
 	/*
@@ -90,7 +100,8 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetRoleDesc() throws Exception{
 		Hashtable  ht = roleMySqlDao.getRoleDesc(role_id);
-		// FIXME: Must add assert statement here
+		assertEquals("eper-dat-test@roles.eea.eionet.eu.int",(String)ht.get("email"));
+		assertEquals(7,ht.size());
 //		System.out.println(ht);
 	}
 

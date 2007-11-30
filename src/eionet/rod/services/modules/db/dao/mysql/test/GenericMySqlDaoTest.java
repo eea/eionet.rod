@@ -37,9 +37,8 @@ public class GenericMySqlDaoTest extends BaseMySqlDaoTest {
 	 * 'eionet.rod.services.modules.db.dao.mysql.GenericMySqlDao.getTableDesc(String)'
 	 */
 	public void testGetTableDesc() throws Exception {
-		// FIXME: Doesn't actually test getTableDesc
-		Vector v = genericMySqlDao.getTable("T_ISSUE");
-		assertEquals(12, v.size());
+		Vector v = genericMySqlDao.getTableDesc("T_ISSUE");
+		assertEquals(4, v.size());
 //		printVectorResult(genericMySqlDao.getTable("T_ISSUE"));
 	}
 

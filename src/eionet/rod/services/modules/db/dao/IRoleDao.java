@@ -8,15 +8,6 @@ import eionet.rod.services.ServiceException;
 public interface IRoleDao {
 
 	/**
-	 * Saves person Full Name + institute name
-	 * @params roleId, Full Name, organisation name
-	 * @param fullName
-	 * @param orgName
-	 * @throws ServiceException
-	 */
-	public void savePerson(String roleId, String fullName, String orgName) throws ServiceException;
-
-	/**
 	 * Returns all role IDs existing in T_ROLE table
 	 * @return All role IDs existing in T_ROLE tablke
 	 * @throws ServiceException

@@ -7,7 +7,7 @@ import eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao;
 
 public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 
-	ObligationMySqlDao obligationMySqlDao = new ObligationMySqlDao();
+	ObligationMySqlDao obligationMySqlDao;
 	
 	public static void main(String[] args) {
 		junit.textui.TestRunner.run(ObligationMySqlDaoTest.class);
@@ -18,7 +18,7 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	}
 
 	protected void setUp() throws Exception {
-		super.setUp();
+		obligationMySqlDao = new ObligationMySqlDao();
 	}
 
 	protected void tearDown() throws Exception {
@@ -80,8 +80,11 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testGetUpcomingDeadlines() throws Exception{
 		Vector v = obligationMySqlDao.getUpcomingDeadlines((double)2);
-		// FIXME: Need to programmatically insert a deadline into the table that triggers a result
 		assertEquals(0, v.size());
+		statement = connection.createStatement();
+		statement.executeUpdate("update T_OBLIGATION SET next_deadline = (CURDATE() + INTERVAL 10 DAY) where PK_RA_ID=15");
+		v = obligationMySqlDao.getUpcomingDeadlines((double)2);
+		assertEquals(1, v.size());
 //		printVectorResult(v);
 
 
@@ -195,18 +198,21 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.dpsirValuesFromExcelToDB(int, String)'
 	 */
 	public void testDpsirValuesFromExcelToDB() throws Exception{
-		obligationMySqlDao.dpsirValuesFromExcelToDB(15,"D");
-		//FIXME: Must add assert statement here
+		obligationMySqlDao.dpsirValuesFromExcelToDB(15,"P");
+		statement = connection.createStatement();
+		resultSet = statement.executeQuery("select DPSIR_P from T_OBLIGATION where PK_RA_ID=15");
+		resultSet.next();
+		assertEquals("yes", resultSet.getString("DPSIR_P"));
 	}
 
 	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.harvestParams(Integer)'
 	 */
-	public void testHarvestParams() throws Exception{
+	/*public void testHarvestParams() throws Exception{
+		//T_PARAMETER, T_PARAMETER_LNK - there is no such tables in ROD db anymore
 		//obligationMySqlDao.harvestParams(new Integer(15));
-		//FIXME: Must add assert statement here
 
-	}
+	}*/
 
 		
 }

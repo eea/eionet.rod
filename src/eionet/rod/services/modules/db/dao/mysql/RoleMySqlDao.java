@@ -17,37 +17,6 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 	public RoleMySqlDao() {
 	}
 
-	private static final String q_update_role = 
-		"UPDATE T_ROLE " + 
-		"SET PERSON=?, INSTITUTE =? " + 
-		"WHERE ROLE_ID=? ";
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eionet.rod.services.modules.db.dao.IRoleDao#savePerson(java.lang.String,
-	 *      java.lang.String, java.lang.String)
-	 */
-	public void savePerson(String roleId, String fullName, String orgName) throws ServiceException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		try {
-			connection = getConnection();
-			preparedStatement = connection.prepareStatement(q_update_role);
-			preparedStatement.setString(1, fullName);
-			preparedStatement.setString(2, orgName);
-			preparedStatement.setString(3, roleId);
-			if (isDebugMode) logQuery(q_update_role);
-			preparedStatement.executeUpdate();
-		} catch (SQLException exception) {
-			logger.error(exception);
-			throw new ServiceException(exception.getMessage());
-		} finally {
-			closeAllResources(null, preparedStatement, connection);
-		}
-
-	}
-
 	private static final String q_roleIds = 
 		"SELECT ROLE_ID, PERSON " + 
 		"FROM T_ROLE";

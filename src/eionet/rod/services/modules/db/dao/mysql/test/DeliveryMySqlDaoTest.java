@@ -82,6 +82,8 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 		// Get the PK_RA_ID
 		resultSet = statement.executeQuery("select PK_RA_ID from T_OBLIGATION where TITLE='PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer'");
 		resultSet.next();
+		assertEquals(514, resultSet.getInt("PK_RA_ID"));
+		
 		deliveryMySqlDao.saveDeliveries(new Integer(resultSet.getInt(1)), deliveries, new HashMap());
 
 		// Check how many deliveries there are in the table after the save
@@ -92,7 +94,15 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 		// Delete the last delivery - not really necessary
 		resultSet = statement.executeQuery("select max(PK_DELIVERY_ID) from T_DELIVERY");
 		resultSet.next();
+<<<<<<< .mine
+		assertEquals(13499168, resultSet.getInt(1));
+		
+		int ret = statement.executeUpdate("delete from T_DELIVERY where PK_DELIVERY_ID = " + resultSet.getInt(1));
+		assertEquals(1, ret);
+
+=======
 		statement.executeUpdate("delete from T_DELIVERY where PK_DELIVERY_ID = " + resultSet.getInt(1));
+>>>>>>> .r4302
 	}
 
 	/*
@@ -108,6 +118,12 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 		resultSet.next();
 		assertEquals(514, resultSet.getInt(1));
 		deliveryMySqlDao.rollBackDeliveries(new Integer(resultSet.getInt(1)));
+<<<<<<< .mine
+		resultSet = statement.executeQuery("select count(PK_DELIVERY_ID) from T_DELIVERY where STATUS=0 AND FK_RA_ID="+resultSet.getInt(1));
+		resultSet.next();
+		assertEquals(0, resultSet.getInt(1));
+=======
+>>>>>>> .r4302
 
 		// Check how many deliveries there are in the table after the roll back
 		resultSet = statement.executeQuery("SELECT COUNT(*) FROM T_DELIVERY");
@@ -121,7 +137,10 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testCommitDeliveries() throws Exception {
 		deliveryMySqlDao.commitDeliveries();
-                // FIXME: Need some assert statements here
+		statement = connection.createStatement();
+		resultSet = statement.executeQuery("select count(PK_DELIVERY_ID) from T_DELIVERY where STATUS=0");
+		resultSet.next();
+		assertEquals(0, resultSet.getInt(1));	
 
 	}
 
@@ -131,7 +150,10 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 	 */
 	public void testBackUpDeliveries() throws Exception {
 		deliveryMySqlDao.backUpDeliveries();
-                // FIXME: Need some assert statements here
+		statement = connection.createStatement();
+		resultSet = statement.executeQuery("select count(PK_DELIVERY_ID) from T_DELIVERY where STATUS=1");
+		resultSet.next();
+		assertEquals(0, resultSet.getInt(1));
 	}
 
 }
