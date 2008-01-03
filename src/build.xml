@@ -6,6 +6,7 @@
 	<!-- set global properties for this build -->
 	<property value='.' name='src' />
 	<property value='../public/WEB-INF/classes' name='classes.dir' />
+	<property name="test" value="../test"/>
 
 	<target name='compile'>
 	    <!-- Compile the java code from ${src} into ${build} -->
@@ -19,10 +20,8 @@
 		    ../public/WEB-INF/lib/xmlrpc.jar;
 		    ../public/WEB-INF/lib/uit-security.jar;
 		    ../public/WEB-INF/lib/poi-2.5-final-20040302.jar;
-		    ../public/WEB-INF/lib/junit.jar;
 		    ../public/WEB-INF/lib/casclient.jar;
 		    ../public/WEB-INF/lib/eionet-dir.jar;
-                    /usr/share/java/dbunit.jar;
                     /var/lib/tomcat5/common/lib/[servlet].jar' />
 	</target>
 
@@ -33,21 +32,31 @@
 	</target>
 
 	<path id="classpath.test">
+		<pathelement path="${test}/build"/>
 		<pathelement path="${classes.dir}"/>
+		<fileset dir="${test}/lib">
+			<include name="*.jar"/>
+		</fileset>
 		<fileset dir="../public/WEB-INF/lib">
 			<include name="**/*.jar"/>
 		</fileset>
-                <pathelement location="/usr/share/java/dbunit.jar"/>
 		<pathelement location="/var/lib/tomcat5/common/lib/[servlet].jar"/>
 		<pathelement location="/usr/share/java/mysql-connector-java.jar"/>
 	</path>
-	<fileset id="fileset.test" dir="${src}">
+	<fileset id="fileset.test" dir="${test}/src">
 		<include name="**/*Test.java"/>
 		<include name="**/*Tests.java"/>
 		<exclude name="**/BaseMySqlDaoTest.java"/> <!-- Should rename BaseMySqlDaoTest -->
 	</fileset>
 
-  	<target name="test" depends="compile" description="Runs all found unit tests">
+	<!-- compile target for compiling unit tests, expects classes-under-test compiled, refers to pre-defined paths -->
+	<target name="compile-tests" depends="compile">
+		<javac srcdir="${test}/src" destdir="${test}/build" source="1.5" target="1.5" debug="on">
+			<classpath refid="classpath.test"/>
+		</javac>
+	</target>
+
+  	<target name="test" depends="compile-tests,seed-tests" description="Runs all found unit tests">
 		<junit haltonfailure="yes" failureproperty="unittestFailed" showoutput="yes" printsummary="yes">
 			<classpath refid="classpath.test" />
 			<formatter type="brief" usefile="false"/>
@@ -57,5 +66,14 @@
 		</junit>
 		<fail if="unittestFailed" message="One or more unit tests failed."/>
 	</target>
+
+        <!-- copies seed for unit tests into the unit tests' build tree -->
+        <target name="seed-tests">
+                <copy todir="${test}/build" overwrite="true">
+                        <fileset dir="${src}">
+                                <include name="**/seed-*.xml"/>
+                        </fileset>
+                </copy>
+        </target>
 
 </project>
