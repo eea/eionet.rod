@@ -1209,15 +1209,15 @@ Legislative instrument</a></div>
 	<!-- EK 050210 template for calculating request URL for sorting -->
 	<xsl:template name="createURL">
 		<xsl:param name="sorted"/>
-		<xsl:variable name="uri">csdeliveries</xsl:variable>
+		<xsl:variable name="uri">show.jsv</xsl:variable>
 		<xsl:variable name="actdetails_param">
-			<xsl:if test="string-length($sel_actdetails) &gt; 0">&amp;amp;ACT_DETAILS_ID=<xsl:value-of select="$sel_actdetails"/></xsl:if>
+			<xsl:if test="string-length($sel_actdetails) &gt; 0">&amp;ACT_DETAILS_ID=<xsl:value-of select="$sel_actdetails"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="country_param">
-			<xsl:if test="string-length($sel_country) &gt; 0">&amp;amp;COUNTRY_ID=<xsl:value-of select="$sel_country"/></xsl:if>
+			<xsl:if test="string-length($sel_country) &gt; 0">&amp;COUNTRY_ID=<xsl:value-of select="$sel_country"/></xsl:if>
 		</xsl:variable>
 		<xsl:variable name="ORD">
-			<xsl:if test="string-length($sorted) &gt; 0">&amp;amp;ORD=<xsl:value-of select="$sorted"/></xsl:if>
+			<xsl:if test="string-length($sorted) &gt; 0">&amp;ORD=<xsl:value-of select="$sorted"/></xsl:if>
 		</xsl:variable>
 		
 		<xsl:variable name="params">
