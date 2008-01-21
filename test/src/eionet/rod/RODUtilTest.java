@@ -9,36 +9,87 @@ import junit.framework.TestCase;
  *
  */
 public class RODUtilTest extends TestCase {
-	
+    
 
-	public void test_replaceTags() {
-		assertEquals(RODUtil.replaceTags("http://cdr.eionet.europa.eu/search?y=1&z=2"),
-                "<a href=\"http://cdr.eionet.europa.eu/search?y=1&amp;z=2\">http://cdr.eionet.europa.eu/search?y=1&amp;z=2</a>");
+    public void test_replaceTags() {
+	assertEquals(
+	"<a href=\"http://cdr.eionet.europa.eu/search?y=1&amp;z=2\">http://cdr.eionet.europa.eu/search?y=1&amp;z=2</a>",
+	RODUtil.replaceTags("http://cdr.eionet.europa.eu/search?y=1&z=2"));
 
-		// Test simple &
-		assertEquals(RODUtil.replaceTags("Fruit & Vegetables"),"Fruit &amp; Vegetables");
+	// Simple &
+	assertEquals("Fruit &amp; Vegetables", RODUtil.replaceTags("Fruit & Vegetables"));
 
-		// Test newline
-		assertEquals(RODUtil.replaceTags("Fruit\nVegetables"),"Fruit<br/>Vegetables");
+	// Simple & with ; appended
+	assertEquals("Fruit &amp;; Vegetables", RODUtil.replaceTags("Fruit &; Vegetables"));
 
-		// Don't create anchors = true
-		assertEquals(RODUtil.replaceTags("http://cdr.eionet.europa.eu/search?y=1&z=7", true),
-                "http://cdr.eionet.europa.eu/search?y=1&amp;z=7");
+	// Long decimal entity (This is the € sign)
+	assertEquals("Grand total: &#8364; 50.000", RODUtil.replaceTags("Grand total: &#8364; 50.000"));
 
-		// Test Unicode char
-		assertEquals(RODUtil.replaceTags("€"),"€");
+	// Simple hex entity
+	assertEquals("Fruit &amp;#x26; Vegetables", RODUtil.replaceTags("Fruit &#x26; Vegetables"));
 
-		// Test HTML tags
-		assertEquals(RODUtil.replaceTags("<div class='Apostrophs'>"),"&lt;div class='Apostrophs'&gt;");
-		assertEquals(RODUtil.replaceTags("<div class=\"Quotes\">"),"&lt;div class=&quot;Quotes&quot;&gt;");
-		assertEquals(RODUtil.replaceTags("<a href=\"http://cnn.org/\">CNN</a>"),"&lt;a href=&quot;http://cnn.org/&quot;&gt;CNN&lt;/a&gt;");
-	}
+	// Long hexadecimal entity (This is the € sign)
+	assertEquals("Grand total: &amp;#x20AC; 50.000", RODUtil.replaceTags("Grand total: &#x20AC; 50.000"));
 
-	public void test_isURL() {
-		assertTrue(RODUtil.isURL("http://cdr.eionet.europa.eu/"));
-		assertTrue(RODUtil.isURL("ftp://ftp.eionet.europa.eu/"));
-		//assertFalse(RODUtil.isURL("mailto:jaanus.heinlaid@tietoenator.com"));
-		assertFalse(RODUtil.isURL("XXX"));
-	}
+	// Already encoded
+	assertEquals("Fruit &amp; Vegetables", RODUtil.replaceTags("Fruit &amp; Vegetables"));
 
+	// Unknown entity
+	assertEquals("Fruit &amp;unknown; Vegetables", RODUtil.replaceTags("Fruit &unknown; Vegetables"));
+
+	// Unusual entity
+	assertEquals("Fruit &euro; Vegetables", RODUtil.replaceTags("Fruit &euro; Vegetables"));
+
+	// Test newline
+	assertEquals("Fruit<br/>Vegetables", RODUtil.replaceTags("Fruit\nVegetables"));
+
+	// Don't create anchors = true
+	assertEquals("http://cdr.eionet.europa.eu/search?y=1&amp;z=7",
+	    RODUtil.replaceTags("http://cdr.eionet.europa.eu/search?y=1&z=7", true));
+
+	// Test Unicode char
+	assertEquals("€", RODUtil.replaceTags("€"));
+
+	// Test HTML tags
+	assertEquals("&lt;div class='Apostrophs'&gt;", RODUtil.replaceTags("<div class='Apostrophs'>"));
+	assertEquals("&lt;div class=&quot;Quotes&quot;&gt;", RODUtil.replaceTags("<div class=\"Quotes\">"));
+	assertEquals("&lt;a href=&quot;http://cnn.org/&quot;&gt;CNN&lt;/a&gt;",
+	    RODUtil.replaceTags("<a href=\"http://cnn.org/\">CNN</a>"));
+    }
+
+    public void test_replaceTags2() {
+	// Unusual entity
+	assertEquals("Fruit &euro; Vegetables", RODUtil.replaceTags("Fruit &euro; Vegetables"));
+
+	// double spaces
+	assertEquals(" &nbsp;", RODUtil.replaceTags2("  "));
+
+	// enclosed double spaces
+	assertEquals("X &nbsp;X", RODUtil.replaceTags2("X  X"));
+    }
+
+    public void test_isURL() {
+	assertTrue(RODUtil.isURL("http://cdr.eionet.europa.eu/"));
+	assertTrue(RODUtil.isURL("ftp://ftp.eionet.europa.eu/"));
+	//assertFalse(RODUtil.isURL("mailto:jaanus.heinlaid@tietoenator.com"));
+	assertFalse(RODUtil.isURL("XXX"));
+    }
+
+    public void test_threeDots() {
+	assertEquals("Fahrvergnügen", RODUtil.threeDots("Fahrvergnügen", 13));
+	assertEquals("http://en....", RODUtil.threeDots("http://en.wikipedia.org/wiki/Fahrvergnügen", 10));
+    }
+
+    public void test_setAnchors() {
+	// Simple check
+	assertEquals("<a href=\"http://en.wikipedia.org/wiki/Fahrvergnügen\">http://en....</a>", RODUtil.setAnchors("http://en.wikipedia.org/wiki/Fahrvergnügen", false, 10));
+
+	// Check with popup
+	assertEquals("<a target=\"_blank\" href=\"http://en.wikipedia.org/wiki/Fahrvergnügen\">http://en....</a>", RODUtil.setAnchors("http://en.wikipedia.org/wiki/Fahrvergnügen", true, 10));
+
+	// setAnchors doesn't escape &-signs
+	// Setting cutlinks to 0 does not do what the documentation says it does
+	assertEquals("<a href=\"http://cdr.eionet.europa.eu/search?y=1&z=2\">...</a>",
+	RODUtil.setAnchors("http://cdr.eionet.europa.eu/search?y=1&z=2", false, 0));
+    }
 }
