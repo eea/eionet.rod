@@ -160,9 +160,9 @@ public class RODUtil {
             ret.append("&lt;");
           else if (c == '>')
             ret.append("&gt;");
-          else if (c == '\"')
+          else if (c == '"')
               ret.append("&quot;");
-          else if (c == '\"')
+          else if (c == '\'')
               ret.append("&#039;");
           else if (c == '\\')
               ret.append("&#092;");

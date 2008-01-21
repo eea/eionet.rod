@@ -51,7 +51,7 @@ public class RODUtilTest extends TestCase {
 	assertEquals("€", RODUtil.replaceTags("€"));
 
 	// Test HTML tags
-	assertEquals("&lt;div class='Apostrophs'&gt;", RODUtil.replaceTags("<div class='Apostrophs'>"));
+	assertEquals("&lt;div class=&#039;Apostrophs&#039;&gt;", RODUtil.replaceTags("<div class='Apostrophs'>"));
 	assertEquals("&lt;div class=&quot;Quotes&quot;&gt;", RODUtil.replaceTags("<div class=\"Quotes\">"));
 	assertEquals("&lt;a href=&quot;http://cnn.org/&quot;&gt;CNN&lt;/a&gt;",
 	    RODUtil.replaceTags("<a href=\"http://cnn.org/\">CNN</a>"));
