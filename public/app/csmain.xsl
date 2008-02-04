@@ -314,15 +314,16 @@
 		<xsl:if test="T_OBLIGATION/RESPONSIBLE_ROLE != ''">
 			<xsl:choose>
 			<xsl:when test="RESPONSIBLE/ROLE_DESCR=''">
-				<xsl:attribute name="title"><xsl:value-of select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-',T_SPATIAL/SPATIAL_TWOLETTER)"/></xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="T_SPATIAL/SPATIAL_ISMEMBERCOUNTRY='Y'">
+						<xsl:attribute name="title"><xsl:value-of select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-mc-',T_SPATIAL/SPATIAL_TWOLETTER)"/></xsl:attribute>
 						<xsl:call-template name="short">
 							<xsl:with-param name="text" select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-mc-',T_SPATIAL/SPATIAL_TWOLETTER)"/>
-							<xsl:with-param name="length">25</xsl:with-param>
+							<xsl:with-param name="length">35</xsl:with-param>
 						</xsl:call-template>
 					</xsl:when>
 					<xsl:otherwise>
+						<xsl:attribute name="title"><xsl:value-of select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-cc-',T_SPATIAL/SPATIAL_TWOLETTER)"/></xsl:attribute>
 						<xsl:call-template name="short">
 							<xsl:with-param name="text" select="concat(T_OBLIGATION/RESPONSIBLE_ROLE,'-cc-',T_SPATIAL/SPATIAL_TWOLETTER)"/>
 							<xsl:with-param name="length">35</xsl:with-param>
