@@ -34,6 +34,7 @@
 			<PK_SPATIAL_ID/>
 			<SPATIAL_NAME/>
 			<SPATIAL_TYPE/>
+			<SPATIAL_ISMEMBERCOUNTRY/>
 		</T_SPATIAL>
 		<xrs:Ordering>SPATIAL_NAME</xrs:Ordering>
 	</xrs:RowSet>

@@ -258,7 +258,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 		try {
 			connection = getConnection();
 			preparedStatement = connection.prepareStatement(q_update_role_status);
-			preparedStatement.setInt(1, 1);
+			preparedStatement.setInt(1, 0);
 			if (isDebugMode) logQuery(q_update_role_status);
 			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {

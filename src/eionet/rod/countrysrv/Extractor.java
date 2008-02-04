@@ -299,9 +299,14 @@ public class Extractor implements ExtractorConstants {
             	attrs.put(raNs , raIdPref + "/" + raData[i][0]);      // PREFIX + RA ID
             	attrs.put(predRdfType , deliveryNs[ij]);      // http://rod.eionet.eu.int/schema.rdf#Delivery
             	prms.setElementAt(attrs, 0);
-
+            	
             	Vector deliveries = (Vector)crClient.getValue(CONTREG_GETENTRIES_METHOD, prms);
                 log("Received " + deliveries.size() + " deliveries(" + deliveryNs[ij] + ") for RA: " + raData[i][1]);
+                
+                /*Vector xxx = new Vector();
+                if (new Integer(raData[i][0]).intValue() == 524){
+                	xxx = deliveries;
+                }*/
 
                 allDeliveries = validateDeliveries(allDeliveries, deliveries);
                 total_count[ij] += deliveries.size();

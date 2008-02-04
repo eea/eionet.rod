@@ -1159,7 +1159,7 @@ Legislative instrument</a></div>
 										<xsl:attribute name="onclick">javascript:openCirca('<xsl:value-of select="T_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
 									</img-->
 									<a>
-										<xsl:attribute name="href">responsible.jsp?role=<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/SPATIAL_TWOLETTER"/></xsl:attribute>
+										<xsl:attribute name="href">responsible.jsp?role=<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/SPATIAL_TWOLETTER"/>&amp;member=<xsl:value-of select="T_SPATIAL/SPATIAL_ISMEMBERCOUNTRY"/></xsl:attribute>
 										<xsl:call-template name="short">
 											<xsl:with-param name="text" select="T_ROLE/ROLE_DESCR"/>
 											<xsl:with-param name="length">15</xsl:with-param>

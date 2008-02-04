@@ -175,6 +175,7 @@ public class CSSearchStatement extends QueryStatement implements Constants {
       vFields.add(new FieldInfo("PK_SPATIAL_ID", "T_SPATIAL"));
       vFields.add(new FieldInfo("SPATIAL_NAME", "T_SPATIAL"));
       vFields.add(new FieldInfo("SPATIAL_TWOLETTER", "T_SPATIAL"));
+      vFields.add(new FieldInfo("SPATIAL_ISMEMBERCOUNTRY", "T_SPATIAL"));
 
       vTables.add(new TableInfo("T_SOURCE", "T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID", TableInfo.OUTER_JOIN));
       vFields.add(new FieldInfo("PK_SOURCE_ID", "T_SOURCE"));

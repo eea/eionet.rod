@@ -82,9 +82,18 @@
 	<%
 	String role_name = request.getParameter("role");
 	String spatial = request.getParameter("spatial");
+	String member = request.getParameter("member");
 	String id = "";
+	String rt = "";
+	if(member != null){
+		if(member.equalsIgnoreCase("Y")){
+			rt = "mc";
+		} else if(member.equalsIgnoreCase("N")){
+			rt = "cc";
+		}
+	}
 	if(role_name != null && spatial != null){
-		id = role_name + "-" + spatial;
+		id = role_name + "-" + rt + "-" + spatial;
 		id = id.toLowerCase();
 	}
 	

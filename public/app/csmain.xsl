@@ -333,7 +333,7 @@
 				<img src="images/details.gif" alt="Additional details for logged-in users" border="0"/>
 			</a-->
 			<a>
-				<xsl:attribute name="href">responsible.jsp?role=<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/SPATIAL_TWOLETTER"/></xsl:attribute>
+				<xsl:attribute name="href">responsible.jsp?role=<xsl:value-of select="T_OBLIGATION/RESPONSIBLE_ROLE"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/SPATIAL_TWOLETTER"/>&amp;member=<xsl:value-of select="T_SPATIAL/SPATIAL_ISMEMBERCOUNTRY"/></xsl:attribute>
 				<xsl:call-template name="short">
 					<xsl:with-param name="text" select="RESPONSIBLE/ROLE_DESCR"/>
 					<xsl:with-param name="length">15</xsl:with-param>

@@ -173,7 +173,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		"WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' ";
 
 	private final static String qCountryResponsibleRole = 
-		"SELECT DISTINCT CONCAT(a.RESPONSIBLE_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo " + 
+		"SELECT DISTINCT CONCAT(a.RESPONSIBLE_ROLE, '-' , (CASE s.SPATIAL_ISMEMBERCOUNTRY WHEN 'Y' THEN 'mc' WHEN 'N' THEN 'cc' END), '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo " + 
 		"FROM T_OBLIGATION a, T_SPATIAL s,  T_RASPATIAL_LNK sl " + 
 		"WHERE  a.RESPONSIBLE_ROLE_SUF=1 " + 
 			"AND sl.FK_RA_ID=a.PK_RA_ID " + 
@@ -191,7 +191,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"AND COORDINATOR_ROLE <> '' ";
 
 	private final static String qCountryCoordinatorRole = 
-		"SELECT DISTINCT CONCAT(a.COORDINATOR_ROLE, '-' , LCASE(s.SPATIAL_TWOLETTER)) " + 
+		"SELECT DISTINCT CONCAT(a.COORDINATOR_ROLE, '-' , (CASE s.SPATIAL_ISMEMBERCOUNTRY WHEN 'Y' THEN 'mc' WHEN 'N' THEN 'cc' END), '-' , LCASE(s.SPATIAL_TWOLETTER)) " + 
 		"FROM T_OBLIGATION a, T_SPATIAL s,  T_RASPATIAL_LNK sl  " + 
 		"WHERE  a.COORDINATOR_ROLE_SUF=1 " + 
 			"AND sl.FK_RA_ID=a.PK_RA_ID " + 
