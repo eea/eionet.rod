@@ -234,5 +234,41 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 		return ret;
 		
 	}
+	
+	private static final String q_check_twoletter = 
+		"SELECT SPATIAL_NAME AS name " + 
+		"FROM T_SPATIAL " + 
+		"WHERE SPATIAL_TWOLETTER =?";
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.ISpatialDao#checkCountry(java.lang.String)
+	 */
+	public boolean checkCountry(String twoletter) throws ServiceException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		Hashtable result = null;
+
+		try {
+			connection = getConnection();
+			preparedStatement = connection.prepareStatement(q_check_twoletter);
+			preparedStatement.setString(1, twoletter);
+			logQuery(q_check_twoletter);
+			result = _getHashtable(preparedStatement);
+			if(result != null && result.size() > 0){
+				return true;
+			}
+			
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+
+		return false;
+	}
 
 }

@@ -1,4 +1,31 @@
 <%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.ROUser,java.text.*,eionet.rod.services.RODServices,eionet.rod.RODUtil"%>
+
+<%
+	String role_name = request.getParameter("role");
+	String spatial = request.getParameter("spatial");
+	String member = request.getParameter("member");
+	
+	String id = "";
+	String rt = "";
+	if(member != null){
+		if(member.equalsIgnoreCase("Y")){
+			rt = "mc";
+		} else if(member.equalsIgnoreCase("N")){
+			rt = "cc";
+		}
+	}
+	if(role_name != null && spatial != null){
+		id = role_name + "-" + rt + "-" + spatial;
+		id = id.toLowerCase();
+	}
+	
+	if(role_name == null || role_name.equals("") || spatial == null || spatial.equals("") || member == null || member.equals("")){
+		response.sendError(response.SC_NOT_FOUND, "No such role");
+	} else if(!RODServices.getDbService().getRoleDao().checkRole(role_name) || !RODServices.getDbService().getSpatialDao().checkCountry(spatial)){
+		response.sendError(response.SC_NOT_FOUND, "No such role");
+	}
+%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -80,23 +107,7 @@
     <%@ include file="menu.jsp" %>
 <div id="workarea">
 	<%
-	String role_name = request.getParameter("role");
-	String spatial = request.getParameter("spatial");
-	String member = request.getParameter("member");
-	String id = "";
-	String rt = "";
-	if(member != null){
-		if(member.equalsIgnoreCase("Y")){
-			rt = "mc";
-		} else if(member.equalsIgnoreCase("N")){
-			rt = "cc";
-		}
-	}
-	if(role_name != null && spatial != null){
-		id = role_name + "-" + rt + "-" + spatial;
-		id = id.toLowerCase();
-	}
-	
+
 	Hashtable role = RODServices.getDbService().getRoleDao().getRoleDesc(id);
 	String name = (String)role.get("name");
 	String email = (String)role.get("email");

@@ -57,4 +57,11 @@ public interface ISpatialDao {
 	 * @throws ServiceException
 	 */
 	public Hashtable getCountryInfo(int ra_id, int spatial_id) throws ServiceException ;
+	
+	/**
+	 * Returns true if country twoletter exists
+	 * @param twoletter
+	 * @throws ServiceException
+	 */
+	public boolean checkCountry(String twoletter) throws ServiceException;
 }

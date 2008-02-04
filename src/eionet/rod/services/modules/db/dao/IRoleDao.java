@@ -46,5 +46,12 @@ public interface IRoleDao {
 	 * @throws ServiceException
 	 */
 	public Vector getRoleObligations(String role_id) throws ServiceException;
+	
+	/**
+	 * Returns true if role exists
+	 * @param role_id
+	 * @throws ServiceException
+	 */
+	public boolean checkRole(String role_id) throws ServiceException;
 
 }

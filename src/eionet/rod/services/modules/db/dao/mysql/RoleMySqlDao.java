@@ -386,5 +386,40 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 
 		return result != null ? result : new Vector();
 	}
+	
+	private static final String q_check_role = 
+		"SELECT ROLE_ID FROM T_ROLE " + 
+		"WHERE ROLE_ID =? ";
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IRoleDao#checkRole(java.lang.String)
+	 */
+	public boolean checkRole(String role_id) throws ServiceException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		Hashtable result = null;
+
+		try {
+			connection = getConnection();
+			preparedStatement = connection.prepareStatement(q_check_role);
+			preparedStatement.setString(1, role_id);
+			logQuery(q_check_role);
+			result = _getHashtable(preparedStatement);
+			if(result != null && result.size() > 0){
+				return true;
+			}
+			
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+
+		return false;
+	}
 
 }
