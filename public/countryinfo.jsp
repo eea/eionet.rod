@@ -81,6 +81,17 @@
 	<%
 		String ra_id = request.getParameter("ra-id");
 		String spatial_id = request.getParameter("spatial");
+		String member = request.getParameter("member");
+		
+		String rt = "";
+		if(member != null){
+			if(member.equalsIgnoreCase("Y")){
+				rt = "mc";
+			} else if(member.equalsIgnoreCase("N")){
+				rt = "cc";
+			}
+		}
+		
 		String vol = request.getParameter("vol");
 		Hashtable hash = RODServices.getDbService().getSpatialDao().getCountryInfo(Integer.valueOf(ra_id).intValue(), Integer.valueOf(spatial_id).intValue() );
 		
@@ -148,8 +159,8 @@
 					<td>
 						<%
 						if(role != null && !role.equals("")){ %>
-						 	<a href="responsible.jsp?role=<%=role%>&amp;spatial=<%=two_letter%>">
-							 	<%=role%>-<%=two_letter%>
+						 	<a href="responsible.jsp?role=<%=role%>&amp;member=<%=member%>&amp;spatial=<%=two_letter%>">
+							 	<%=role%>-<%=rt%>-<%=two_letter%>
 						 	</a>
 						  <% } %>
 					</td>

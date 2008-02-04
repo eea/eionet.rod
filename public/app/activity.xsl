@@ -1228,7 +1228,7 @@ Legislative instrument</a></div>
 	
 	<xsl:template match="//RowSet[@Name='Spatial']">
 		<xsl:for-each select="Row">
-			<a><xsl:attribute name="href">countryinfo.jsp?ra-id=<xsl:value-of select="$ra-id"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>&amp;vol=<xsl:value-of select="T_RASPATIAL_LNK/VOLUNTARY"/></xsl:attribute>
+			<a><xsl:attribute name="href">countryinfo.jsp?ra-id=<xsl:value-of select="$ra-id"/>&amp;spatial=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>&amp;member=<xsl:value-of select="T_SPATIAL/SPATIAL_ISMEMBERCOUNTRY"/>&amp;vol=<xsl:value-of select="T_RASPATIAL_LNK/VOLUNTARY"/></xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="T_RASPATIAL_LNK/VOLUNTARY='Y'">
 						<span title="Informal participation in the reporting obligation"><xsl:value-of select="T_SPATIAL/SPATIAL_NAME"/>*</span>
