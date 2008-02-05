@@ -141,14 +141,15 @@ public class CSSearchStatement extends QueryStatement implements Constants {
       FieldInfo o3 = new FieldInfo("HAS_DELIVERY","T_OBLIGATION");
       o3.setFieldExpr("FK_DELIVERY_COUNTRY_IDS REGEXP CONCAT(',',T_SPATIAL.PK_SPATIAL_ID,',') AS HAS_DELIVERY");
       vFields.add(o3);
-
+      
       // ROLE
-      TableInfo resp = new TableInfo("T_ROLE", "CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=RESPONSIBLE.ROLE_ID" , TableInfo.OUTER_JOIN);
+      TableInfo resp = new TableInfo("T_ROLE", "CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',IF(T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y','mc','cc'),'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=RESPONSIBLE.ROLE_ID" , TableInfo.OUTER_JOIN);
       resp.setAlias("RESPONSIBLE");
       vTables.add(resp);
 
       FieldInfo r1 = new FieldInfo("ROLE_DESCR", "RESPONSIBLE");
-      r1.setFieldExpr("IF(PERSON != '', IF(INSTITUTE='', PERSON, CONCAT(PERSON, ' [', INSTITUTE, ']')), ROLE_NAME) AS ROLE_DESCR");
+      //r1.setFieldExpr("IF(PERSON != '', IF(INSTITUTE='', PERSON, CONCAT(PERSON, ' [', INSTITUTE, ']')), ROLE_NAME) AS ROLE_DESCR");
+      r1.setFieldExpr("ROLE_NAME AS ROLE_DESCR");
       vFields.add(r1);
       vFields.add(new FieldInfo("ROLE_URL","RESPONSIBLE"));
       vFields.add(new FieldInfo("ROLE_MEMBERS_URL","RESPONSIBLE"));

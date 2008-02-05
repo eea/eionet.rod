@@ -21,7 +21,7 @@
 	
 	if(role_name == null || role_name.equals("") || spatial == null || spatial.equals("") || member == null || member.equals("")){
 		response.sendError(response.SC_NOT_FOUND, "No such role");
-	} else if(!RODServices.getDbService().getRoleDao().checkRole(role_name) || !RODServices.getDbService().getSpatialDao().checkCountry(spatial) || (!member.equals("Y") && !member.equals("N"))){
+	} else if(!RODServices.getDbService().getRoleDao().checkRole(id) || !RODServices.getDbService().getSpatialDao().checkCountry(spatial) || (!member.equals("Y") && !member.equals("N"))){
 		response.sendError(response.SC_NOT_FOUND, "No such role");
 	}
 %>
