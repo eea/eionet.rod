@@ -218,7 +218,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			connection = getConnection();
 			for (int i = 0; i < respRolesQueries.length; i++) {
 				if (isDebugMode) logQuery(respRolesQueries[i]);
-				preparedStatement = connection.prepareStatement(qCountryResponsibleRole);
+				preparedStatement = connection.prepareStatement(respRolesQueries[i]);
 				resultSet = preparedStatement.executeQuery();
 				String[][] result = getResults(resultSet);
 				resultSet.close();
