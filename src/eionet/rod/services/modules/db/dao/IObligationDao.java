@@ -243,5 +243,12 @@ public interface IObligationDao {
 	 * @throws ServiceException
 	 */
 	public List getObligationsBySource(Integer sourceId) throws ServiceException;
+	
+	/**
+	 * Returns true if obligation id exists
+	 * @param id
+	 * @throws ServiceException
+	 */
+	public boolean checkObligationById(String id) throws ServiceException;
 }
 

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -1066,5 +1067,41 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		}
 		
 		return obligations;
+	}
+	
+	private static final String q_check_obligationid = 
+		"SELECT PK_RA_ID AS id " + 
+		"FROM T_OBLIGATION " + 
+		"WHERE PK_RA_ID =?";
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IObligationDao#checkObligationById(java.lang.String)
+	 */
+	public boolean checkObligationById(String id) throws ServiceException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		Hashtable result = null;
+
+		try {
+			connection = getConnection();
+			preparedStatement = connection.prepareStatement(q_check_obligationid);
+			preparedStatement.setString(1, id);
+			logQuery(q_check_obligationid);
+			result = _getHashtable(preparedStatement);
+			if(result != null && result.size() > 0){
+				return true;
+			}
+			
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+
+		return false;
 	}
 }

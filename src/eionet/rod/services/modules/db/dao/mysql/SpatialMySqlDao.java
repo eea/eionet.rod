@@ -236,7 +236,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 	}
 	
 	private static final String q_check_twoletter = 
-		"SELECT SPATIAL_NAME AS name " + 
+		"SELECT PK_SPATIAL_ID AS id " + 
 		"FROM T_SPATIAL " + 
 		"WHERE SPATIAL_TWOLETTER =?";
 	
@@ -256,6 +256,42 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 			preparedStatement = connection.prepareStatement(q_check_twoletter);
 			preparedStatement.setString(1, twoletter);
 			logQuery(q_check_twoletter);
+			result = _getHashtable(preparedStatement);
+			if(result != null && result.size() > 0){
+				return true;
+			}
+			
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+
+		return false;
+	}
+	
+	private static final String q_check_countryid = 
+		"SELECT PK_SPATIAL_ID AS id " + 
+		"FROM T_SPATIAL " + 
+		"WHERE PK_SPATIAL_ID =?";
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.ISpatialDao#checkCountryById(java.lang.String)
+	 */
+	public boolean checkCountryById(String id) throws ServiceException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		Hashtable result = null;
+
+		try {
+			connection = getConnection();
+			preparedStatement = connection.prepareStatement(q_check_countryid);
+			preparedStatement.setString(1, id);
+			logQuery(q_check_countryid);
 			result = _getHashtable(preparedStatement);
 			if(result != null && result.size() > 0){
 				return true;

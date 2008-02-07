@@ -1,4 +1,20 @@
-<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,java.util.*,eionet.rod.services.RODServices,eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.services.FileServiceIF,eionet.rod.RODUtil,eionet.rod.countrysrv.servlets.Subscribe"%>
+<%@page contentType="text/html;charset=UTF-8" import="java.util.*,java.io.*,eionet.rod.services.RODServices,eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.services.FileServiceIF,eionet.rod.RODUtil,eionet.rod.countrysrv.servlets.Subscribe"%>
+
+<%
+	String ra_id = request.getParameter("ra-id");
+	String spatial_id = request.getParameter("spatial");
+	String member = request.getParameter("member");
+	boolean show_content = true;
+	
+	if(ra_id == null || ra_id.equals("") || spatial_id == null || spatial_id.equals("") || member == null || member.equals("")){
+		show_content = false;
+		response.sendError(response.SC_NOT_FOUND);
+	} else if(!RODServices.getDbService().getObligationDao().checkObligationById(ra_id) || !RODServices.getDbService().getSpatialDao().checkCountryById(spatial_id) || (!member.equals("Y") && !member.equals("N"))){
+		show_content = false;
+		response.sendError(response.SC_NOT_FOUND);
+	}
+%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -79,9 +95,7 @@
 <div id="workarea">
 
 	<%
-		String ra_id = request.getParameter("ra-id");
-		String spatial_id = request.getParameter("spatial");
-		String member = request.getParameter("member");
+	if(show_content){
 		
 		String rt = "";
 		if(member != null){
@@ -181,6 +195,7 @@
 					</td>
 				</tr>
 			</table>
+	<% } %>
 </div> <!-- workarea -->
 </div>
 <jsp:include page="footer.jsp" flush="true"/>

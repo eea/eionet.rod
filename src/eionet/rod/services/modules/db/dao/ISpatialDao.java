@@ -64,4 +64,11 @@ public interface ISpatialDao {
 	 * @throws ServiceException
 	 */
 	public boolean checkCountry(String twoletter) throws ServiceException;
+	
+	/**
+	 * Returns true if country id exists
+	 * @param id
+	 * @throws ServiceException
+	 */
+	public boolean checkCountryById(String id) throws ServiceException;
 }
