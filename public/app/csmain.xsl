@@ -381,6 +381,10 @@
 <!-- end of table row -->
   </table>
 	<!-- 8 -->
+	<p style="text-align:center">
+	Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.<br/>
+        There can be a delay of up to one day before they show up.
+	</p>
 
 
   </div> <!-- workarea -->

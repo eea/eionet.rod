@@ -191,6 +191,12 @@
 									<a href="<%=RODUtil.replaceTags(url,true)%>"><%=RODUtil.replaceTags(title)%></a><br/>
 								<%
 							}
+							if(deliveries.size() > 0){ %>
+								<p style="text-align:center">
+									Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.<br/>
+							        There can be a delay of up to one day before they show up.
+								</p>	
+							<% }
 						%>
 					</td>
 				</tr>
