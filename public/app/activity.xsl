@@ -127,13 +127,13 @@ Legislative instrument</a></div>
 				function delActivity() {
 					if (confirm("Do you want to delete the reporting obligation?")){
 						var u = window.location.href;
-						document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/REDIRECT_URL"].value = u;
-						document.f.submit();
+						document.forms["f"].elements["/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/REDIRECT_URL"].value = u;
+						document.forms["f"].submit();
 					}
 				}
 			]]>
 			</script>
-			<form name="f" method="POST" action="activity.jsv">
+			<form id="f" method="POST" action="activity.jsv">
 				<input type="hidden" name="dom-update-mode" value="D"/>
 				<input type="hidden" name="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/PK_RA_ID">
 					<xsl:attribute name="value"><xsl:value-of select="$ra-id"/></xsl:attribute>

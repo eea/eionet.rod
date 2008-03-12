@@ -47,14 +47,7 @@
 					// Sets focus on form's first element
 					//
 					function setFocus(formName) {
-						if(document.all) {
-							if(document.all(formName).elements[0])
-								document.all(formName).elements[0].focus();
-						}
-						else {
-							if(document.forms[formName].elements[0])
-								document.forms[formName].elements[0].focus();
-						}
+						document.getElementById("title").focus();
 					}
 					
 					function openViewHelpSameWindow(ID){
@@ -96,7 +89,7 @@
 									<b>Title:&#160;</b>
 								</td>
 								<td align="left">
-									<input type="text" size="70" maxlength="255">
+									<input type="text" id="title" size="70" maxlength="255">
 										<xsl:attribute name="name">/XmlData/RowSet/Row/T_HELP/HELP_TITLE</xsl:attribute>
 										<xsl:attribute name="value"><xsl:value-of select="/XmlData/RowSet/Row/T_HELP/HELP_TITLE"/></xsl:attribute>
 									</input>

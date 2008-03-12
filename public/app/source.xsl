@@ -71,13 +71,13 @@
 				function delLegislation() {
 					if (confirm("Do you want to delete the current legislative instrument\nwith all related reporting obligations and activities?")){
 						var u = window.location.href;
-						document.f.elements["/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/REDIRECT_URL"].value = u;
-						document.f.submit();
+						document.forms["f"].elements["/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/REDIRECT_URL"].value = u;
+						document.forms["f"].submit();
 					}
 				}
 			]]>
 			</script>
-			<form name="f" method="POST" action="source.jsv">
+			<form id="f" method="POST" action="source.jsv">
 				<input type="hidden" name="dom-update-mode" value="D"/>
 				<input type="hidden" name="/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/PK_SOURCE_ID">
 					<xsl:attribute name="value"><xsl:value-of select="$src-id"/></xsl:attribute>

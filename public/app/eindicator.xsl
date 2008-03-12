@@ -41,8 +41,8 @@
 			<script type="text/javascript" src="pageops.js"></script>
 			<script lang="JavaScript">
 					function check() {
-						if (document.f.elements["dom-update-mode"].value=="D")	
-							document.f.submit();
+						if (document.forms["f"].elements["dom-update-mode"].value=="D")	
+							document.forms["f"].submit();
 					}
 			</script>
 			
@@ -63,7 +63,7 @@
 			</div>
 			<div id="workarea" style="clear:right">
 			<h2>Add or edit indicator</h2>
-				<form name="f" method="POST" action="indicator.jsv">		
+				<form id="f" method="POST" action="indicator.jsv">		
 					<input type="hidden" name="dom-update-mode">
 						<xsl:attribute name="value">
 							<xsl:choose>

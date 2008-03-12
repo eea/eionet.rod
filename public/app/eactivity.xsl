@@ -87,7 +87,7 @@
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='Activity']/Row">
-		<form name="f" method="POST" action="activity.jsv">
+		<form id="f" method="POST" action="activity.jsv">
 		<input type="hidden" name="silent" value="0"/> <!--silent save -->
 		<input type="hidden" name="dom-update-mode">
 			<xsl:attribute name="value">
@@ -628,7 +628,7 @@
 					<td>
 						<select name="info_lnk" multiple="multiple" style="width:180px">
 							<xsl:attribute name="onchange">
-								var txt =document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkInfo']/Row/T_INFO_LNK/FK_INFO_IDS"];
+								var txt =document.forms["f"].elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkInfo']/Row/T_INFO_LNK/FK_INFO_IDS"];
 								changeMulti(txt, this);
 							</xsl:attribute>
 							<xsl:for-each select="//RowSet[@Name='InfoType']/T_LOOKUP">
@@ -949,36 +949,36 @@
 	</form>
 			<script type="text/javascript">
 
-				var txtInfo=document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkInfo']/Row/T_INFO_LNK/FK_INFO_IDS"];
-				var lnkInfo=document.f.info_lnk;
+				var txtInfo=document.forms["f"].elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkInfo']/Row/T_INFO_LNK/FK_INFO_IDS"];
+				var lnkInfo=document.forms["f"].info_lnk;
 				
 				//pre selects type-of info values
 				selectMultilist(txtInfo, lnkInfo);
 				
-				var lnkIssue = document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkIssue']/Row/T_RAISSUE_LNK/FK_ISSUE_ID"].options;
-				var issueLst = document.f.issue_list.options;
+				var lnkIssue = document.forms["f"].elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkIssue']/Row/T_RAISSUE_LNK/FK_ISSUE_ID"].options;
+				var issueLst = document.forms["f"].issue_list.options;
 
 				inclSelect(lnkIssue, issueLst);
 
-				//var lnkPar = document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkPar']/Row/T_PARAMETER_LNK/FK_PARAMETER_ID"].options;
-				//var parLst = document.f.par_list.options;
+				//var lnkPar = document.forms["f"].elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkPar']/Row/T_PARAMETER_LNK/FK_PARAMETER_ID"].options;
+				//var parLst = document.forms["f"].par_list.options;
 
 				//inclSelect(lnkPar, parLst);
 
 
-				var lnkSpatial = document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkSpatial']/Row/T_RASPATIAL_LNK/FK_SPATIAL_ID"].options;
-				var spatialLst = document.f.spatial_list.options;
+				var lnkSpatial = document.forms["f"].elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='LnkSpatial']/Row/T_RASPATIAL_LNK/FK_SPATIAL_ID"].options;
+				var spatialLst = document.forms["f"].spatial_list.options;
 				inclSelect(lnkSpatial, spatialLst);
 
 
-				var lnkVoluntaryCountries = document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='VoluntaryCountries']/Row/T_RASPATIAL_LNK/FK_SPATIAL_ID"].options;
-				var countryLst = document.f.country_list.options;
+				var lnkVoluntaryCountries = document.forms["f"].elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='VoluntaryCountries']/Row/T_RASPATIAL_LNK/FK_SPATIAL_ID"].options;
+				var countryLst = document.forms["f"].country_list.options;
 
 				inclSelect(lnkVoluntaryCountries, countryLst);
 
 
-					var lnkClients = document.f.elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='CCClients']/Row/T_CLIENT_LNK/FK_CLIENT_ID"].options;
-					var clientLst = document.f.client_list.options;
+					var lnkClients = document.forms["f"].elements["/XmlData/RowSet[@Name='Activity']/Row/SubSet[@Name='CCClients']/Row/T_CLIENT_LNK/FK_CLIENT_ID"].options;
+					var clientLst = document.forms["f"].client_list.options;
 
 					inclSelect(lnkClients, clientLst);
 
@@ -1199,7 +1199,7 @@
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='SpatialType']">
-		<select name="spatial_type" onchange="fillclist(this.options[this.selectedIndex].value,document.f.spatial_list);" style="visibility:hidden" disabled="disabled">
+		<select name="spatial_type" onchange="fillclist(this.options[this.selectedIndex].value,document.forms['f'].spatial_list);" style="visibility:hidden" disabled="disabled">
 			<xsl:for-each select="T_LOOKUP">
 				<option>
 					<xsl:attribute name="value">
@@ -1226,7 +1226,7 @@
 		</select>
 
 		<script type="text/javascript">
-			fillclist('C',document.f.spatial_list)
+			fillclist('C',document.forms["f"].spatial_list)
 		</script>		
 
 	</xsl:template>

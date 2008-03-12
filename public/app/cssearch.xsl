@@ -110,20 +110,20 @@ function checkDateFormat(dateString){
 
 function doSearch(){
 
-	var c = document.f.COUNTRY_ID;
+	var c = document.forms["f"].COUNTRY_ID;
 
 	if (c.options[c.selectedIndex].value == -1 )
 		alert("Please select a country");
 	else {
 	
-		if( document.f.DATE_1.value=='' )
-			document.f.DATE_1.value = "dd/mm/yyyy";
+		if( document.forms["f"].DATE_1.value=='' )
+			document.forms["f"].DATE_1.value = "dd/mm/yyyy";
 
-		if( document.f.DATE_2.value=='' )
-			document.f.DATE_2.value = "dd/mm/yyyy";
+		if( document.forms["f"].DATE_2.value=='' )
+			document.forms["f"].DATE_2.value = "dd/mm/yyyy";
 		
 	
-		document.f.submit();
+		document.forms["f"].submit();
 	}
 }
 
@@ -145,7 +145,7 @@ function submitSearchForm() {
 
 	 <div id="workarea">
 		<h1>Advanced search</h1>
-		<form name="x1" method="get" action="csmain">
+		<form id="x1" method="get" action="csmain">
 		<table cellspacing="0" cellpadding="2" class="main">
 				 <tr>
 						<td colspan="2" width="94%" bgcolor="#FFFFFF" class="head">

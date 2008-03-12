@@ -159,7 +159,7 @@
 
 					function checkStatus() {
 						if (isChanged) {
-							var mode = document.f.elements["dom-update-mode"];
+							var mode = document.forms["f"].elements["dom-update-mode"];
 							if (mode == 'D') mode = 'U';
 							save("Save data?", false);
 						}
@@ -182,14 +182,14 @@
 					}
 
 					function del() {
-						document.f.elements["dom-update-mode"].value="D";
+						document.forms["f"].elements["dom-update-mode"].value="D";
 						save(null,false);
 					}
 
 					function save(text,silent) {
 						var i, j;
 						//alert("save");
-						var mode = document.f.elements["dom-update-mode"];
+						var mode = document.forms["f"].elements["dom-update-mode"];
 						var bDelete = (mode.value == 'D');
 
 						for (i=0; i < compulsory.length; ++i) {
@@ -212,8 +212,8 @@
 
 						if (!bDelete) {
 							// check once more all values before sending to server
-							for (i = 0; i < document.f.length; ++i) {
-								elem = document.f.elements[i];
+							for (i = 0; i < document.forms["f"].length; ++i) {
+								elem = document.forms["f"].elements[i];
 								elem.disabled = false;
 
 								if (elem.type == 'text' && elem.onchange != null) {
@@ -229,7 +229,7 @@
 										}
 									}
 								}//end-if onchange
-							}//end-for document.f.elements
+							}//end-for document.forms["f"].elements
 						   // select all options of the specified selects
 							for (i = 0; i < selects.length; ++i) {
 								selValues(selects[i][0]);
@@ -237,7 +237,7 @@
 						}//end-if !bDelete
 
 						
-						document.f.submit();
+						document.forms["f"].submit();
 						isChanged = false;
 
 						return true;
@@ -304,8 +304,8 @@
 							sel[i].selected = true;
 						}
 					}
-
-					var browser = document.all ? 'E' : 'N';
+					
+					
 					function mvValues(selFrom, selTo, unit) {
 						var i, count = 0;
 						var optsLen;
@@ -335,29 +335,17 @@
 									newText = newText + ' [' + unit.text + ']';
 								}
 
-								// add to
-								if (browser == 'E') {
-									var opt = document.createElement("option");
-									selTo.add(opt);
-									opt.text = newText;
-									opt.value = newVal;
-								}
-								else if (browser == 'N') {
-									var opt = new Option(newText, newVal, false, false);
-									selTo[selTo.length] = opt;
-								}
+								var opt = document.createElement("option");
+								selTo.add(opt);
+								opt.text = newText;
+								opt.value = newVal;
 							}
 						}
 						
 						// remove from	
 						count = 0;
 						for (i = selected.length-1; i >= 0; --i) {
-							if (browser == 'E') {
-								selFrom.remove(selected[i]);
-							}
-							else if (browser == 'N') {
-								selFrom[selected[i]] = null;
-							}
+							selFrom[selected[i]] = null;
 						}
 					}
 
@@ -467,16 +455,10 @@
 										} */
 							
 										// add to
-										if (browser == 'E') {
-											var opt = document.createElement("option");
-											selTo.add(opt);
-											opt.text = newText;
-											opt.value = newVal;
-										}
-										else if (browser == 'N') {
-											var opt = new Option(newText, newVal, false, false);
-											selTo[selTo.length] = opt;
-										}
+										var opt = document.createElement("option");
+										selTo.add(opt);
+										opt.text = newText;
+										opt.value = newVal;
 									} else {
 										alert("       No country can be participating both formally and voluntarily." + '\n' + "To report it voluntarily you must first remove it from formally reporting list-box.")
 									}
@@ -534,16 +516,10 @@
 									} */
 						
 									// add to
-									if (browser == 'E') {
-										var opt = document.createElement("option");
-										selTo.add(opt);
-										opt.text = newText;
-										opt.value = newVal;
-									}
-									else if (browser == 'N') {
-										var opt = new Option(newText, newVal, false, false);
-										selTo[selTo.length] = opt;
-									}
+									var opt = document.createElement("option");
+									selTo.add(opt);
+									opt.text = newText;
+									opt.value = newVal;
 								}
 							}
 						}
@@ -650,16 +626,10 @@
 										}
 							
 										// add to
-										if (browser == 'E') {
-											var opt = document.createElement("option");
-											selTo.add(opt);
-											opt.text = newText;
-											opt.value = newVal;
-										}
-										else if (browser == 'N') {
-											var opt = new Option(newText, newVal, false, false);
-											selTo[selTo.length] = opt;
-										}
+										var opt = document.createElement("option");
+										selTo.add(opt);
+										opt.text = newText;
+										opt.value = newVal;
 									} else {
 										alert("       No country can be participating both formally and voluntarily." + '\n' + "To report it formally you must first remove it from voluntarily reporting list-box.")
 									}
@@ -722,16 +692,10 @@
 									}
 						
 									// add to
-									if (browser == 'E') {
-										var opt = document.createElement("option");
-										selTo.add(opt);
-										opt.text = newText;
-										opt.value = newVal;
-									}
-									else if (browser == 'N') {
-										var opt = new Option(newText, newVal, false, false);
-										selTo[selTo.length] = opt;
-									}
+									var opt = document.createElement("option");
+									selTo.add(opt);
+									opt.text = newText;
+									opt.value = newVal;
 								}
 							}
 						}
@@ -740,12 +704,7 @@
 					function delValues(selFrom) {
 						for (i = selFrom.length-1; i >= 0; --i) {
 						  if (selFrom[i].selected) {
-							if (browser == 'E') {
-								selFrom.remove(i);
-							}
-							else if (browser == 'N') {
-								selFrom[i] = null;
-							}
+							selFrom[i] = null;
 						  }
 						}
 					}
@@ -816,9 +775,6 @@
 
 					function warn(field, msg) {
 						alert(msg);
-						if (browser == 'N') {
-							field.select();
-						}
 						field.focus();
 					}
 

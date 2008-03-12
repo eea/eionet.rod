@@ -39,14 +39,7 @@
 		// Sets focus on form's first element
 		//
 		function setFocus(formName) {
-			if(document.all) {
-				if(document.all(formName).elements[0])
-					document.all(formName).elements[0].focus();
-			}
-			else {
-				if(document.forms[formName].elements[0])
-					document.forms[formName].elements[0].focus();
-			}
+			document.getElementById("name").focus();
 		}
 	//]]>
 	</script>
@@ -61,7 +54,7 @@
 				<tr>
 					<td align="right"><b>Name:&#160;</b></td>
 					<td align="left">
-						<input type="text" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_NAME" size="40" maxlength="255"></input>
+						<input type="text" id="name" name="/XmlData/RowSet/Row/T_CLIENT/CLIENT_NAME" size="40" maxlength="255"></input>
 					</td>
 				</tr>
 				<tr>

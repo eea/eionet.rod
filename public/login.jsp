@@ -5,7 +5,7 @@
 <link href="eionet.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body bgcolor="#f0f0f0" onload="document.f.elements[0].focus()">
+<body bgcolor="#f0f0f0" onload="document.forms['LOGIN'].elements[0].focus()">
 <!--form name="f" id="LOGIN" method="POST" action="login_servlet"-->
 <table width="200">
 	<tr><td colspan="2"><span class="head1">Administrator login</span></td></tr>
