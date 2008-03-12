@@ -81,7 +81,7 @@
 			</table>
 
 			<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
-				<form name="f1" method="POST" action="editperiod">
+				<form id="f1" method="POST" action="editperiod">
 					<span style="font-weight: bold;">Edit period:</span>
 					<fieldset>
 						<input type="hidden"><xsl:attribute name="name">ra_id</xsl:attribute><xsl:attribute name="value"><xsl:value-of select="$ra-id"/></xsl:attribute></input>

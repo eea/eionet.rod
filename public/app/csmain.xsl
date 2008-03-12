@@ -108,7 +108,7 @@
 	</h1>
 
 	<!-- 8 -->
-	<form name="ff" method="get" action="csmain" class="notprintable">
+	<form id="ff" method="get" action="csmain" class="notprintable">
 	<table cellspacing="0" cellpadding="3" width="600" border="0">
 			<tr>
 				<td valign="middle" width="33%" class="select_issue">Select issue:</td>

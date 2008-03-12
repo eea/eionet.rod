@@ -11,7 +11,7 @@
 	<tr><td colspan="2"><span class="head1">Administrator login</span></td></tr>
 	<tr><td>&nbsp;</td></tr>
 	<tr>
-	<form name="f" id="LOGIN" method="POST" action="login_servlet">
+	<form id="LOGIN" method="POST" action="login_servlet">
 	
 		<td style="color:#999"><span class="Mainfont">User name:</span></td>
 		<td align="right"><input id="USERNAME" type="text" name="j_username" size="15" maxlength="50"width="200" style="width:200"/></td>

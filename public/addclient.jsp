@@ -33,8 +33,8 @@
 
 
 		function doPost() {
-			document.clientForm.submit();
-			//alert(document.clientForm.elements["/XmlData/RowSet/Row/T_CLIENT/CLIENT_ACRONYM"].value);
+			document.forms["clientForm"].submit();
+			//alert(document.forms["clientForm"].elements["/XmlData/RowSet/Row/T_CLIENT/CLIENT_ACRONYM"].value);
 		}
 		// Sets focus on form's first element
 		//
@@ -49,7 +49,7 @@
 	<!--body onLoad="setFocus('clientForm')"-->
 		<center>
 		<h2>Add Client Organisation</h2>
-		<form name="clientForm" method="post" action="addclient.jsv" charset="iso-8859-1">
+		<form id="clientForm" method="post" action="addclient.jsv" charset="iso-8859-1">
 			<table width='100%' border="0">
 				<tr>
 					<td align="right"><b>Name:&#160;</b></td>

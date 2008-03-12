@@ -217,26 +217,6 @@ function openClient(ID){
 
 }
 */
-var picklist = new Array();
-
-function fillPicklist(type,list,text) {
-      var i,js;
-	for (i = list.length; i > 0; --i)
-		list.options[i] = null;
-	list.options[0] = new Option("Choose a group","-1");
-	j = 1;
-	for (i = 0; i < picklist.length; i++) {
-	  s = new String(picklist[i]);
-	  pvalue = s.substring(0,s.indexOf(":"));
-	  ptext = s.substring(s.indexOf(":")+1,s.lastIndexOf(":"));
-	  ptype = s.substring(s.lastIndexOf(":")+1,s.lastIndexOf(":")+2);
-	  if (ptype.valueOf() == type) {
-	  	list.options[j] = new Option(ptext.valueOf(), pvalue.valueOf()+":"+ptext.valueOf());
-	  	j++;
-	  }
-	} 
-	list.options[0].selected = true;
-}
 
 function chkUrl(fld) {
 		var s = fld.value;

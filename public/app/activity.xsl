@@ -864,7 +864,7 @@ Legislative instrument</a></div>
 			</table-->
 
 			<xsl:if test="contains($permissions, concat(',/obligations/',$ra-id,':u,'))='true'">
-				<form name="f1" method="POST" action="editperiod">
+				<form id="f1" method="POST" action="editperiod">
 					<span style="font-weight: bold;">Edit period:</span>
 					<fieldset>
 						<input type="hidden"><xsl:attribute name="name">ra_id</xsl:attribute><xsl:attribute name="value"><xsl:value-of select="$ra-id"/></xsl:attribute></input>
@@ -953,7 +953,7 @@ Legislative instrument</a></div>
 			<xsl:if test="$spatialID = T_SPATIAL/PK_SPATIAL_ID">
 				<xsl:if test="$spatialHistoryID = T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID">
 				
-					<form name="f2" method="POST" action="editperiod">
+					<form id="f2" method="POST" action="editperiod">
 						<input type="hidden">
 							<xsl:attribute name="name">spatialHistoryID</xsl:attribute>
 							<xsl:attribute name="value"><xsl:value-of select="T_SPATIAL_HISTORY/PK_SPATIAL_HISTORY_ID"/></xsl:attribute>

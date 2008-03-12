@@ -717,16 +717,21 @@
 					      var i,js;
 						for (i = list.length; i > 0; --i)
 							list.options[i] = null;
-						list.options[0] = new Option("Choose a group","-1");
-						j = 1;
+						var opt = document.createElement("option");
+						opt.text = "Choose a group";
+						opt.value = "-1";
+						list.options.add(opt);
+						
 						for (i = 0; i < picklist.length; i++) {
 						  s = new String(picklist[i]);
 						  pvalue = s.substring(0,s.indexOf(":"));
 						  ptext = s.substring(s.indexOf(":")+1,s.lastIndexOf(":"));
 						  ptype = s.substring(s.lastIndexOf(":")+1,s.lastIndexOf(":")+2);
 						  if (ptype.valueOf() == type) {
-							list.options[j] = new Option(ptext.valueOf(), pvalue.valueOf());
-							j++;
+							opt = document.createElement("option");
+							opt.text = ptext.valueOf();
+							opt.value = pvalue.valueOf();
+							list.options.add(otp);
 						  }
 						} 
 						list.options[0] = null;
@@ -737,7 +742,12 @@
 					      var i,js;
 						for (i = list.length; i > 0; --i)
 							list.options[i] = null;
-						list.options[0] = new Option("Choose a group","-1");
+						
+						var opt = document.createElement("option");
+						opt.text = "Choose a group";
+						opt.value = "-1";
+						list.options.add(opt);
+						
 						j = 1;
 						for (i = 0; i < clist.length; i++) {
 						  s = clist[i].split(":");
@@ -746,8 +756,10 @@
 						  ptype = s[2];
 						  pismember = s[3];
 						  if (ptype.valueOf() == type) {
-							list.options[j] = new Option(ptext.valueOf(), pvalue.valueOf());
-							j++;
+							opt = document.createElement("option");
+							opt.text = ptext.valueOf();
+							opt.value = pvalue.valueOf();
+							list.options.add(otp);
 						  }
 						} 
 						list.options[0] = null;
@@ -757,6 +769,7 @@
 
 					function fillMultilist(type,list,text) {
 					      var i,js;
+					      var opt;
 						for (i = list.length; i > 0; --i)
 							list.options[i] = null;
 						j = 0;
@@ -767,8 +780,10 @@
 						  li = s.length-s.lastIndexOf(":");
 						  ptype = s.substring(s.lastIndexOf(":")+1,s.lastIndexOf(":")+li);
 						  if (ptype.valueOf() == type) {
-							list.options[j] = new Option(ptext.valueOf(), pvalue.valueOf());
-							j++;
+							opt = document.createElement("option");
+							opt.text = ptext.valueOf();
+							opt.value = pvalue.valueOf();
+							list.options.add(otp);
 						  }
 						} 
 					}

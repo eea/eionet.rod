@@ -45,7 +45,7 @@
 	<xsl:template match="XmlData">
 		<div id="workarea">
 			<h1>Edit Client Organisation</h1>
-			<form name="editClientForm" method="post" action="editclient.jsv">
+			<form id="editClientForm" method="post" action="editclient.jsv">
 				<table width="650" border="0">
 					<tr valign="top">
 						<th align="right"><label for="name">Name:</label></th>

@@ -58,7 +58,7 @@
 					<![CDATA[
 						function saveHelp() {
 							//alert("1");
-							document.helpForm.submit();
+							document.forms["helpForm"].submit();
 							//alert("2");
 						//	window.close();
 						}
@@ -82,7 +82,7 @@
 				</div>
 				<div id="workarea" style="clear:right">
 					<h3>Edit Help Text</h3>
-					<form name="helpForm" method="post" action="help.jsv">
+					<form id="helpForm" method="post" action="help.jsv">
 						<table width="100%">
 							<tr>
 								<td align="left">

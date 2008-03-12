@@ -289,7 +289,7 @@
 		<xsl:param name="sel_country"/>
 		<xsl:param name="terminated"/>
 		
-		<form name="x1" method="get" action="rorabrowse.jsv" class="notprintable">
+		<form id="x1" method="get" action="rorabrowse.jsv" class="notprintable">
 		<input type="hidden" name="mode" value="A"></input>
 		<table class="formtable" border="0" width="530" cellspacing="0" cellpadding="2"  style="border: 1px solid #008080">
 				 <tr>
