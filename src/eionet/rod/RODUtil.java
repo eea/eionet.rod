@@ -25,12 +25,12 @@ package eionet.rod;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
-
-import com.tee.uit.security.AccessControlListIF;
-
 
 public class RODUtil {
     
@@ -63,6 +63,21 @@ public class RODUtil {
 		}
 		else
 			return s;
+	}
+	
+	/*
+	 * 
+	 */
+	public static Date getDate(String s){
+		if (s == null) return null;
+		Date date = null;
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			date = sdf.parse(s);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
 	}
     
     public static String replaceTags2(String string) {
