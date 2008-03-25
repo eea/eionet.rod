@@ -1,10 +1,7 @@
 package eionet.rod;
 
-
-import java.util.Date;
 import eionet.rod.RODUtil;
 import junit.framework.TestCase;
-import java.text.ParseException;
 
 
 /**
@@ -119,19 +116,15 @@ public class RODUtilTest extends TestCase {
                 false, 0));
     }
 
+    // Testing correct syntax
     public void test_getDate() {
         assertEquals("Sat Mar 22 00:00:00 CET 2008",
                 RODUtil.getDate("22/03/2008").toString());
     }
     
-    // Writing bad date syntax will make tomcat drop the application.
-    // Very severe for such a simple filter
+    // Having a bad syntax will cause the method to return null
+    // .. and print stack trace
     public void test_getDateWithDashes() {
-        try {
-            assertEquals(null, RODUtil.getDate("22-03-2008").toString());
-        } catch (NullPointerException e) {
-            return;
-        }
-        fail("Expected NullPointerException");
+            assertEquals(null, RODUtil.getDate("22-03-2008"));
     }
 }
