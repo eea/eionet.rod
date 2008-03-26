@@ -91,10 +91,32 @@ public class RODUtilTest extends TestCase {
     }
 
     public void test_threeDots() {
-        assertEquals("Fahrvergnügen", RODUtil.threeDots("Fahrvergnügen", 14));
+        assertEquals("Fahrvergnügen", RODUtil.threeDots("Fahrvergnügen", 13));
+        assertEquals("Königsschloß und ...", RODUtil.threeDots("Königsschloß und Papstgefängnis", 17));
         assertEquals("http://en....",
                 RODUtil.threeDots("http://en.wikipedia.org/wiki/Fahrvergnügen",
                 10));
+    }
+
+    public void test_threeDotsElektra() {
+        // Verify that threeDots() can handle "Elektra" in the Greek alphabet
+        char data[] = { 
+            '\u03a4', '\u03af', '\u03c4', '\u03bb', '\u03bf', '\u03c2', '\u003a',
+            '\u0020',
+            '\u0397', '\u03bb', '\u03ad', '\u03ba', '\u03c4', '\u03c1', '\u03b1'
+        };
+        assertEquals("Τίτλος: Ηλέκτρα", RODUtil.threeDots(new String(data), 60));
+    }
+
+    public void test_threeDotsElektra6() {
+        // Verify that threeDots() can cut after 6 greek characters
+        // Ensure that it fails if javac's charset is not UNICODE
+        char data[] = { 
+            '\u03a4', '\u03af', '\u03c4', '\u03bb', '\u03bf', '\u03c2', '\u003a',
+            '\u0020',
+            '\u0397', '\u03bb', '\u03ad', '\u03ba', '\u03c4', '\u03c1', '\u03b1'
+        };
+        assertEquals("Τίτλος...", RODUtil.threeDots(new String(data), 6));
     }
 
     public void test_setAnchors() {
@@ -120,9 +142,9 @@ public class RODUtilTest extends TestCase {
 
     // Testing correct syntax
     public void test_getDate() {
-    	Date date = RODUtil.getDate("22/03/2008");
+        Date date = RODUtil.getDate("22/03/2008");
         assertEquals(date.getDate(),22);
-        assertEquals(date.getMonth(),02);
+        assertEquals(date.getMonth(),02); // The value 0 represents January
         assertEquals(date.getYear(),108);
     }
     
