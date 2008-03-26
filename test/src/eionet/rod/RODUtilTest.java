@@ -1,5 +1,7 @@
 package eionet.rod;
 
+import java.util.Date;
+
 import eionet.rod.RODUtil;
 import junit.framework.TestCase;
 
@@ -89,7 +91,7 @@ public class RODUtilTest extends TestCase {
     }
 
     public void test_threeDots() {
-        assertEquals("Fahrvergnügen", RODUtil.threeDots("Fahrvergnügen", 13));
+        assertEquals("Fahrvergnügen", RODUtil.threeDots("Fahrvergnügen", 14));
         assertEquals("http://en....",
                 RODUtil.threeDots("http://en.wikipedia.org/wiki/Fahrvergnügen",
                 10));
@@ -118,8 +120,15 @@ public class RODUtilTest extends TestCase {
 
     // Testing correct syntax
     public void test_getDate() {
-        assertEquals("Sat Mar 22 00:00:00 CET 2008",
-                RODUtil.getDate("22/03/2008").toString());
+    	Date date = RODUtil.getDate("22/03/2008");
+        assertEquals(date.getDate(),22);
+        assertEquals(date.getMonth(),02);
+        assertEquals(date.getYear(),108);
+    }
+    
+    // Testing getDate() with empty string param
+    public void test_getEmptyDate() {
+        assertNull(RODUtil.getDate(""));
     }
     
     // Having a bad syntax will cause the method to return null

@@ -69,13 +69,14 @@ public class RODUtil {
 	 * 
 	 */
 	public static Date getDate(String s){
-		if (s == null) return null;
+		if (s == null || s.equals("")) return null;
 		Date date = null;
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			date = sdf.parse(s);
 		} catch (ParseException e) {
 			e.printStackTrace();
+			return null;
 		}
 		return date;
 	}
