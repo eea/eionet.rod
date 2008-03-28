@@ -1199,7 +1199,7 @@
 	</xsl:template>
 
 	<xsl:template match="RowSet[@Name='SpatialType']">
-		<select name="spatial_type" onchange="fillclist(this.options[this.selectedIndex].value,document.forms['f'].spatial_list);" style="visibility:hidden" disabled="disabled">
+		<select name="spatial_type" onchange="fillclist(this.options[this.selectedIndex].value,document.f.spatial_list);" style="visibility:hidden" disabled="disabled">
 			<xsl:for-each select="T_LOOKUP">
 				<option>
 					<xsl:attribute name="value">
@@ -1217,6 +1217,7 @@
 				clist.push("<xsl:value-of select="PK_SPATIAL_ID"/>:<xsl:value-of select="SPATIAL_NAME"/>:<xsl:value-of select="SPATIAL_TYPE"/>:<xsl:value-of select="SPATIAL_TWOLETTER"/>");
 			</xsl:for-each>	  
 		</script>
+		
 		<select multiple="multiple" size="9" name="spatial_list" class="multiple">
 			<option><xsl:attribute name="value">0</xsl:attribute>All EU countries</option>
 			<xsl:for-each select="T_SPATIAL">
@@ -1226,7 +1227,7 @@
 		</select>
 
 		<script type="text/javascript">
-			fillclist('C',document.forms["f"].spatial_list)
+			fillclist('C',document.f.spatial_list);
 		</script>		
 
 	</xsl:template>
