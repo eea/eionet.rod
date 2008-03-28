@@ -152,6 +152,7 @@
 		<xsl:if test = "not(java:eionet.rod.EionetCASFilter.isCasLoggedUser($req))">
 			<script type="text/javascript">
 				<![CDATA[
+//<![CDATA[
 					function get_cookie( cookie_name )
 					{
 					  var results = document.cookie.match ( cookie_name + '=(.*?)(;|$)' );
@@ -169,6 +170,7 @@
 					window.location=eionetCookieLoginURL;
 				}
 				]]>
+// ]]&gt;
 			</script>
 		</xsl:if>
 
