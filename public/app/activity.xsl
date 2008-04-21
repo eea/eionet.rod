@@ -382,6 +382,21 @@ Legislative instrument</a></div>
 					</td>
 					<td>&#160;</td>
 				</tr>
+				<tr class="zebraodd">
+					<th scope="row" class="scope-row">Legislative instrument title</th>
+					<td>
+						<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+							<xsl:choose>
+								<xsl:when test="T_SOURCE/ALIAS != ''">
+									<xsl:value-of select="T_SOURCE/ALIAS"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="T_SOURCE/TITLE"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</a>
+					</td>
+				</tr>
 				<tr>
 					<td colspan="3" class="dark_green_heading">
 						Reporting dates and guidelines
