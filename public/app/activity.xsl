@@ -589,9 +589,16 @@ Legislative instrument</a></div>
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">Data used for</th>
 					<td>
-						<a><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/></xsl:attribute>
-							<xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/>
-						</a>
+						<xsl:choose>
+							<xsl:when test="T_OBLIGATION/DATA_USED_FOR_URL != ''">
+								<a><xsl:attribute name="href"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR_URL"/></xsl:attribute>
+									<xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/>
+								</a>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</td>
 					<td></td>
 				</tr>

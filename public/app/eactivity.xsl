@@ -383,14 +383,26 @@
 					</td>
 				</tr>
 				<tr class="zebraeven">
-					<td class="border_right"><span class="label">Data used for</span></td>
+					<td class="border_right"><span class="label">Data used for (name)</span></td>
+					<td class="border_right center">
+						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_DATAUSEDFOR</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
+					</td>
+					<td>
+						<input type="text" size="68">
+							<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR/@XPath"/></xsl:attribute>
+							<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/></xsl:attribute>
+						</input>
+					</td>
+				</tr>
+				<tr class="zebraodd">
+					<td class="border_right"><span class="label">Data used for (URL)</span></td>
 					<td class="border_right center">
 						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_DATAUSEDFOR</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
 					</td>
 					<td>
 						<input type="text" size="68" onchange="chkUrl(this); changed()">
-							<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR/@XPath"/></xsl:attribute>
-							<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR"/></xsl:attribute>
+							<xsl:attribute name="name"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR_URL/@XPath"/></xsl:attribute>
+							<xsl:attribute name="value"><xsl:value-of select="T_OBLIGATION/DATA_USED_FOR_URL"/></xsl:attribute>
 						</input>
 					</td>
 				</tr>
