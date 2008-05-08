@@ -340,7 +340,6 @@ Legislative instrument</a></div>
 			<table class="datatable">
 			<col style="width:30%" />
 			<col style="width:65%" />
-			<col style="width:5%" />
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Title</th>
 					<td>
@@ -355,7 +354,6 @@ Legislative instrument</a></div>
 							</xsl:otherwise>
 						</xsl:choose>
 					</td>
-					<td>&#160;</td>
 				</tr>
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">Description</th>
@@ -380,7 +378,6 @@ Legislative instrument</a></div>
 							)
 						</xsl:if>&#160;
 					</td>
-					<td>&#160;</td>
 				</tr>
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Legislative instrument title</th>
@@ -398,7 +395,7 @@ Legislative instrument</a></div>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" class="dark_green_heading">
+					<td colspan="2" class="dark_green_heading">
 						Reporting dates and guidelines
 					</td>
 				</tr>
@@ -426,8 +423,6 @@ Legislative instrument</a></div>
 						</xsl:otherwise>
 						</xsl:choose>
 					</td>
-					<td class="center">
-					</td>
 				</tr>
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">National reporting contacts</th>
@@ -454,27 +449,18 @@ Legislative instrument</a></div>
 						</xsl:otherwise>
 						</xsl:choose>
 					</td>
-					<td class="center">
-						<!--xsl:if test="RESP_ROLE/ROLE_ID!=''">
-							<a title="Role details on CIRCA"><xsl:attribute name="href">javascript:openCirca('<xsl:value-of select="RESP_ROLE/ROLE_MEMBERS_URL"/>')</xsl:attribute>
-								<img src="images/details.gif" alt="Additional details for logged-in users" border="0"/>
-							</a>
-						</xsl:if-->
-					</td>
 				</tr>
 				<!--tr valign="top">
 					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Baseline reporting date</span></td>
 					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:value-of select="T_OBLIGATION/FIRST_REPORTING"/>
 					</td>
-					<td style="border-right: 1px solid #C0C0C0"></td>
 				</tr-->
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Reporting frequency</th>
 					<td>
 						<xsl:call-template name="RAReportingFrequency"/>
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">Next report due</th>
@@ -495,14 +481,12 @@ Legislative instrument</a></div>
 							</xsl:otherwise>
 						</xsl:choose>
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Date comments</th>
 					<td>
 						<xsl:value-of select="T_OBLIGATION/DATE_COMMENTS"/>&#160;
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">Report to</th>
@@ -518,15 +502,12 @@ Legislative instrument</a></div>
 							</xsl:otherwise>
 						</xsl:choose>
 					</td>
-					<td>
-					</td>
 				</tr>
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Other clients using this reporting</th>
 					<td>
 						<xsl:call-template name="OtherClients"/>
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Reporting guidelines</th>
@@ -552,7 +533,6 @@ Legislative instrument</a></div>
 							[Valid since <xsl:value-of select="T_OBLIGATION/VALID_SINCE"/>]
 						</xsl:if>&#160;
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">Extra information</th>
@@ -561,7 +541,6 @@ Legislative instrument</a></div>
 								 <xsl:with-param name="text" select="T_OBLIGATION/REPORTING_FORMAT"/>
 							</xsl:call-template>&#160;
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Principle repository</th>
@@ -584,7 +563,6 @@ Legislative instrument</a></div>
 							</xsl:otherwise>
 						</xsl:choose>&#160;
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">Data used for</th>
@@ -600,14 +578,12 @@ Legislative instrument</a></div>
 							</xsl:otherwise>
 						</xsl:choose>
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Type of information reported</th>
 					<td>
 						<xsl:apply-templates select="SubSet[@Name='InfoType']"/>
 					</td>
-					<td></td>
 				</tr>
 		</table>
 	</xsl:if>
@@ -617,9 +593,8 @@ Legislative instrument</a></div>
 			<table class="datatable">
 			<col style="width:30%" />
 			<col style="width:65%" />
-			<col style="width:5%" />
 				<tr>
-					<td colspan="3" class="dark_green_heading">Legal framework</td>
+					<td colspan="2" class="dark_green_heading">Legal framework</td>
 				</tr>
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Legislative instrument title</th>
@@ -638,31 +613,23 @@ Legislative instrument</a></div>
 							&#160;[<xsl:value-of select="T_OBLIGATION/AUTHORITY"/>]
 						</xsl:if>
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">Sibling reporting obligations</th>
 					<td>
 						<xsl:call-template name="Sibling"/>
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Type of obligation</th>
 					<td>
 						<xsl:value-of select="T_LOOKUP/C_TERM"/>
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">Countries</th>
 					<td>
 						<xsl:apply-templates select="//RowSet[@Name='Spatial']"/>
-					</td>
-					<td class="center">
-						<!--a title="History of participation"><xsl:attribute name="href">spatialhistory.jsv?ID=<xsl:value-of select="$ra-id"/></xsl:attribute>
-							<img src="images/details.gif" alt="Status of country participation" border="0"/>
-						</a-->
 					</td>
 				</tr>
 				<tr class="zebraodd">
@@ -670,7 +637,6 @@ Legislative instrument</a></div>
 					<td>
 						<xsl:apply-templates select="//RowSet[@Name='EnvIssue']"/>&#160;
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">General comments</th>
@@ -679,7 +645,6 @@ Legislative instrument</a></div>
 							 <xsl:with-param name="text" select="T_OBLIGATION/COMMENT"/>
 						</xsl:call-template>&#160;
 					</td>
-					<td></td>
 				</tr>
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">DPSIR</th>
@@ -700,14 +665,12 @@ Legislative instrument</a></div>
 							<acronym title="Response">R</acronym>&#160;
 						</xsl:if>
 					</td>
-					<td></td>
 				</tr>
 				<!--tr valign="top"   bgcolor="#ECECEC">
 					<td style="border-right: 1px solid #C0C0C0"><span class="head0">Authority giving rise to the obligation</span></td>
 					<td style="border-right: 1px solid #C0C0C0">
 						<xsl:value-of select="T_OBLIGATION/AUTHORITY"/>
 					</td>
-					<td></td>
 				</tr-->
 		</table>
 	</xsl:if>
