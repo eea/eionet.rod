@@ -339,7 +339,7 @@ Legislative instrument</a></div>
 			<h1>Reporting obligation for <xsl:value-of select="T_OBLIGATION/TITLE"/></h1>
 			<table class="datatable">
 			<col style="width:30%" />
-			<col style="width:65%" />
+			<col style="width:70%" />
 				<tr class="zebraodd">
 					<th scope="row" class="scope-row">Title</th>
 					<td>
@@ -592,7 +592,7 @@ Legislative instrument</a></div>
 			<h1>Legislation for: <xsl:value-of select="T_OBLIGATION/TITLE"/></h1>
 			<table class="datatable">
 			<col style="width:30%" />
-			<col style="width:65%" />
+			<col style="width:70%" />
 				<tr>
 					<td colspan="2" class="dark_green_heading">Legal framework</td>
 				</tr>
