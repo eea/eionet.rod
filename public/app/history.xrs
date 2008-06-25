@@ -33,7 +33,7 @@
 			<TIME_STAMP expression="DATE_FORMAT(LOG_TIME, '%d/%m/%Y %H:%i') AS TIME_STAMP"/>
 		</T_HISTORY>
 		<xrs:Constraint>(ITEM_TYPE=@TYPE ) AND @OTHER</xrs:Constraint>
-		<xrs:Ordering>LOG_TIME</xrs:Ordering>
+		<xrs:Ordering>LOG_TIME DESC</xrs:Ordering>
 		<T_OBLIGATION>
 			<PK_RA_ID/>
 			<FK_SOURCE_ID/>
