@@ -1,96 +1,188 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:eor="http://dublincore.org/2000/03/13/eor#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
-	<eor:Schema rdf:about="">
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+	<rdf:Description rdf:about="">
 		<rdfs:label>Obligations schema</rdfs:label>
-	</eor:Schema>
+                <!-- Any benefit in declaring this an OWL schema? -->
+	</rdf:Description>
+
 	<rdfs:Class rdf:ID="Obligation">
 		<rdfs:label>Reporting Obligation</rdfs:label>
+                <rdfs:comment>A reporting obligation contains information about what to deliver, deadline and who must deliver</rdfs:comment>
 	</rdfs:Class>
+
 	<!-- Also known as dataflow -->
 	<rdf:Property rdf:ID="obligation">
 		<rdfs:label>Obligation</rdfs:label>
 		<rdfs:range rdf:resource="#Obligation"/>
+                <rdfs:domain rdf:resource="#Delivery"/>
+                <rdfs:domain rdf:resource="#Referral"/>
 	</rdf:Property>
+
 	<rdfs:Class rdf:ID="Instrument">
 		<rdfs:label>Legislation Instrument</rdfs:label>
+                <rdfs:comment>A legal instrument is a law, directive or agreement describing one or more reporting obligations</rdfs:comment>
 	</rdfs:Class>
+
 	<!-- Used by obligations to refer to the instrument with an rdf:resource attribute -->
 	<rdf:Property rdf:ID="instrument">
 		<rdfs:label>Legislation Instrument</rdfs:label>
 		<rdfs:range rdf:resource="#Instrument"/>
+		<rdfs:domain rdf:resource="#Obligation"/>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/relation"/>
 	</rdf:Property>
+
 	<!-- A Delivery is the combination of an Envelope and its contents. -->
 	<rdfs:Class rdf:ID="Delivery" rdfs:label="Reportnet Delivery"/>
+
 	<rdfs:Class rdf:ID="Referral" rdfs:label="Repository Referral"/>
+
 	<rdfs:Class rdf:ID="Locality">
 		<rdfs:label>Locality</rdfs:label>
-		<rdfs:comment>This is a limited list of localities
-    that deliver to the repository</rdfs:comment>
+		<rdfs:comment>This is a limited list of localities that deliver to the repository</rdfs:comment>
 	</rdfs:Class>
+
 	<rdf:Property rdf:ID="locality">
 		<rdfs:label>Locality</rdfs:label>
 		<rdfs:range rdf:resource="#Locality"/>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/coverage"/>
 	</rdf:Property>
+
+	<rdf:Property rdf:ID="released">
+		<rdfs:label>Release date</rdfs:label>
+		<rdfs:domain rdf:resource="#Delivery"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="period">
+		<rdfs:label>Delivery period</rdfs:label>
+		<rdfs:domain rdf:resource="#Delivery"/>
+		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/coverage"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="xmlSchema">
+		<rdfs:label>XML Schema/DTD</rdfs:label>
+                <!-- Used by files -->
+	</rdf:Property>
+
 	<rdf:Property rdf:ID="loccode">
 		<rdfs:label>ROD Locality code</rdfs:label>
-		<rdfs:range rdf:resource="#Locality"/>
 		<rdfs:comment>Sometimes this is an ISO country code,
     but ROD can also contain "local" localities</rdfs:comment>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/coverage"/>
 	</rdf:Property>
+
 	<rdfs:Class rdf:ID="Issue">
 		<rdfs:label>Environmental issue</rdfs:label>
 	</rdfs:Class>
+
 	<!-- Used by obligations to refer to an environmental issue with an rdf:resource attribute -->
 	<rdf:Property rdf:ID="issue">
 		<rdfs:label>Environmental issue</rdfs:label>
 		<rdfs:range rdf:resource="#Issue"/>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/subject"/>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="celexref">
 		<rdfs:label>CELEX reference</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+                <rdfs:domain rdf:resource="#Instrument"/>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="terminated">
 		<rdfs:label>Obligation Terminated</rdfs:label>
+                <rdfs:domain rdf:resource="#Obligation"/>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="eea_primary">
 		<rdfs:label>EIONET Priority Data Flow</rdfs:label>
+                <rdfs:domain rdf:resource="#Obligation"/>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="comment">
 		<rdfs:label>General Comment</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/description"/>
+                <rdfs:domain rdf:resource="#Obligation"/>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="client">
 		<rdfs:label>Client</rdfs:label>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="responsiblerole">
 		<rdfs:label>Role responsible for reporting</rdfs:label>
+                <rdfs:domain rdf:resource="#Obligation"/>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="nextdeadline">
 		<rdfs:label>Date of Delivery</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/date"/>
+                <rdfs:domain rdf:resource="#Obligation"/>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="nextdeadline2">
 		<rdfs:label>Next Deadline</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/date"/>
+                <rdfs:domain rdf:resource="#Obligation"/>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="guidelines">
 		<rdfs:label>Guidelines for reporting</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/description"/>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="guidelines_url">
 		<rdfs:label>Guidelines link</rdfs:label>
+                <rdfs:domain rdf:resource="#Instrument"/>
+                <rdfs:domain rdf:resource="#Obligation"/>
 	</rdf:Property>
+
 	<rdf:Property rdf:ID="details_url">
 		<rdfs:label>Information link</rdfs:label>
+                <rdfs:domain rdf:resource="#Obligation"/>
+                <rdfs:domain rdf:resource="#Instrument"/>
 	</rdf:Property>
+
+	<rdf:Property rdf:ID="file">
+		<rdfs:label>Delivered file</rdfs:label>
+                <rdfs:domain rdf:resource="#Delivery"/>
+                <rdfs:comment>This predicate gets special treatment by CR. It will be checked periodically for existence</rdfs:comment>
+	</rdf:Property>
+
         <!-- Notifications -->
 	<rdfs:Class rdf:ID="Deadlineevent" rdfs:label="Approaching deadline"/>
 
 	<rdf:Property rdf:ID="event_type"> <!-- Used by notifications -->
 		<rdfs:label>Event type</rdfs:label>
 	</rdf:Property>
+
+        <!-- Table relationships (experimental) -->
+	<rdfs:Class rdf:ID="Index">
+		<rdfs:label>Index</rdfs:label>
+		<rdfs:comment>An index on a relational database table</rdfs:comment>
+	</rdfs:Class>
+
+	<rdf:Property rdf:ID="has_index">
+		<rdfs:label>Index</rdfs:label>
+                <rdfs:domain rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+                <rdfs:range rdf:resource="#Index"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="has_key">
+		<rdfs:label>Key</rdfs:label>
+                <rdfs:domain rdf:resource="#Index"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="references">
+		<rdfs:label>References</rdfs:label>
+                <rdfs:range rdf:resource="#Index"/>
+                <rdfs:domain rdf:resource="#Index"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="key_type_is">
+		<rdfs:label>Key type</rdfs:label>
+                <rdfs:domain rdf:resource="#Index"/>
+                <rdfs:comment>Specifies whether key is 'Unique' or 'Multiple'</rdfs:comment>
+	</rdf:Property>
+
 </rdf:RDF>
