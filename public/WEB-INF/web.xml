@@ -41,7 +41,8 @@
 	    <filter-class>eionet.rod.EionetCASFilter</filter-class>
 	    <init-param>
 	      <param-name>edu.yale.its.tp.cas.client.filter.loginUrl</param-name>
-	      <param-value>https://sso.eionet.europa.eu/login</param-value>
+	      <!--param-value>https://sso.eionet.europa.eu/login</param-value-->
+	      <param-value>http://localhost:8080/webrod/login.jsp</param-value>
 	    </init-param>
 	    <init-param>
 	      <param-name>edu.yale.its.tp.cas.client.filter.validateUrl</param-name>

@@ -12,9 +12,22 @@ td.select_issue {
 	font-size: 0.8em;
 }
 
+td.select_client {
+	border-top: #008080 1px solid;
+	font-family: Verdana, sans-serif;
+	text-decoration: none;
+	font-weight: bold;
+	color: black;
+	font-size: 0.8em;
+}
+
 td.issues {
 	border-left: #008080 1px solid; 
 	border-right: #C0C0C0 1px solid; 
+	border-bottom: #008080 1px solid;
+}
+
+td.client {
 	border-bottom: #008080 1px solid;
 }
 
@@ -25,7 +38,15 @@ select.issues {
 	background-color: #ffffff;
 }
 
+select.client {
+	font-size: 9pt; 
+	width: 240px; 
+	color: #000000; 
+	background-color: #ffffff;
+}
+
 td.select_deadline {
+	border-right: #C0C0C0 1px solid; 
 	border-top: #008080 1px solid;
 	font-family: Verdana, sans-serif;
 	text-decoration: none;
@@ -36,6 +57,7 @@ td.select_deadline {
 
 td.deadlines {
 	border-bottom: #008080 1px solid;
+	border-right: #C0C0C0 1px solid; 
 }
 
 select.deadlines {

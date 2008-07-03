@@ -111,9 +111,10 @@
 	<form id="ff" method="get" action="csmain" class="notprintable">
 	<table cellspacing="0" cellpadding="3" width="600" border="0">
 			<tr>
-				<td valign="middle" width="33%" class="select_issue">Select issue:</td>
-				<td valign="middle" width="19%" class="select_deadline">Select deadline:</td>
-				<td valign="middle" width="7%" class="help_btn">
+				<td valign="middle" width="30%" class="select_issue">Select issue:</td>
+				<td valign="middle" width="20%" class="select_deadline">Select deadline:</td>
+				<td valign="middle" width="40%" class="select_client">Select client:</td>
+				<td valign="middle" width="10%" class="help_btn">
 					<p align="right">
 					<xsl:call-template name="Help"><xsl:with-param name="id">HELP_CSMAIN1</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param><xsl:with-param name="green">Y</xsl:with-param></xsl:call-template>
 					</p>
@@ -145,26 +146,31 @@
 						<option value="4"><xsl:if test="$sel_period='4'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>Previous months</option>
 					</select>
 				</td>
+				<td valign="middle" class="client">
+					<select class="client" size="1" name="CLIENT_ID">
+						<option value="" selected="selected">All clients</option>
+						<xsl:apply-templates select="RowSet[@Name='Client']"/>
+					</select>
+				</td>
 				<td valign="middle" align="right" class="go_btn">
-
-					<input type="hidden" name="CLIENT_ID">
+					<!--input type="hidden" name="CLIENT_ID">
 						<xsl:attribute name="value">
 							<xsl:value-of select="$sel_client"/>
 						</xsl:attribute>
-					</input>
+					</input-->
 					<input type="hidden" name="COUNTRY_ID">
 						<xsl:attribute name="value">
 							<xsl:value-of select="$sel_country"/>
 						</xsl:attribute>
 					</input>
-
 					<xsl:call-template name="go"/>
 				</td>
 			</tr>
 			</table>
 		</form>
 	<xsl:variable name="recCount"><xsl:value-of select="count(child::RowSet[@Name='Main']/Row/T_OBLIGATION)"/></xsl:variable>
-	<div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div>	<br/>
+	<div class="smallfont" style="font-size: 8pt; font-weight: bold">[<xsl:value-of select="$recCount"/> record(s) returned]</div><br/>
+	<div class="smallfont" style="font-size: 10pt; font-weight: normal">The list includes also recently passed deadlines, until 10% of the time difference between last deadline<br/>and next deadline has passed - 3 days for a monthly deadline, 36 days for a yearly deadline etc.</div><br/>
 <table style="table-layout:fixed; width:100%" class="sortable">
 	<xsl:if test="count(child::RowSet[@Name='Main']/Row)!=0">
 	<col style="width:40%"/>
@@ -408,6 +414,19 @@
 							<xsl:attribute name="selected">selected</xsl:attribute>
 					</xsl:if>
 				<xsl:value-of select="ISSUE_NAME"/>
+			</option>
+		</xsl:for-each>
+	</xsl:template>
+	
+	<xsl:template match="RowSet[@Name='Client']">
+
+		<xsl:for-each select="Row/T_CLIENT">
+			<option>
+				<xsl:attribute name="value"><xsl:value-of select="PK_CLIENT_ID"/></xsl:attribute>
+					<xsl:if test="PK_CLIENT_ID=$sel_client">
+						<xsl:attribute name="selected">selected</xsl:attribute>
+					</xsl:if>
+				<xsl:value-of select="CLIENT_NAME"/>
 			</option>
 		</xsl:for-each>
 	</xsl:template>
