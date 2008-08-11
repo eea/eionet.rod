@@ -1,7 +1,9 @@
 package eionet.rod.services.modules.db.dao.mysql.test;
 
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.CountryDTO;
 import eionet.rod.services.modules.db.dao.mysql.SpatialMySqlDao;
 
 public class SpatialMySqlDaoTest extends BaseMySqlDaoTest {
@@ -66,6 +68,22 @@ public class SpatialMySqlDaoTest extends BaseMySqlDaoTest {
 	public void testGetObligationCountries() throws Exception{
 //		printVectorResult(spatialMySqlDao.getObligationCountries(15)) ;
 		Vector v = spatialMySqlDao.getObligationCountries(15);
+		assertEquals(2, v.size());
+	}
+	
+	/*
+	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.SpatialMySqlDao.getMemberCountries()'
+	 */
+	public void testGetMemberCountries() throws Exception{
+		List<CountryDTO> v = spatialMySqlDao.getMemberCountries();
+		assertEquals(1, v.size());
+	}
+	
+	/*
+	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.SpatialMySqlDao.getNonMemberCountries()'
+	 */
+	public void testGetNonMemberCountries() throws Exception{
+		List<CountryDTO> v = spatialMySqlDao.getNonMemberCountries();
 		assertEquals(2, v.size());
 	}
 

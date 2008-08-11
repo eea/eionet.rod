@@ -1,8 +1,10 @@
 package eionet.rod.services.modules.db.dao;
 
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.CountryDTO;
 import eionet.rod.services.ServiceException;
 
 public interface ISpatialDao {
@@ -71,4 +73,18 @@ public interface ISpatialDao {
 	 * @throws ServiceException
 	 */
 	public boolean checkCountryById(String id) throws ServiceException;
+	
+	/**
+	 * Returns member countries from the DB
+	 * @return member countries from the DB
+	 * @throws ServiceException
+	 */
+	public List<CountryDTO> getMemberCountries() throws ServiceException;
+	
+	/**
+	 * Returns non member countries from the DB
+	 * @return non member countries from the DB
+	 * @throws ServiceException
+	 */
+	public List<CountryDTO> getNonMemberCountries() throws ServiceException;
 }

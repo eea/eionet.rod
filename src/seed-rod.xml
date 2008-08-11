@@ -168,7 +168,7 @@
 NH3 (ammonia)(mass/time)
 NMVOCs (non-methane volatile organic compounds)(mass/time)
 NOx (nitrogen oxides)(mass/time)
-SO2 (sulphur dioxide)(mass/time)" VALIDATED_BY="" EEA_PRIMARY="0" EEA_CORE="0" FLAGGED="0" AUTHORITY="" OVERLAP_URL="" DPSIR_D="yes" DPSIR_P="" DPSIR_S="" DPSIR_I="" DPSIR_R="" DATA_USED_FOR=""/>
+SO2 (sulphur dioxide)(mass/time)" VALIDATED_BY="" EEA_PRIMARY="1" EEA_CORE="1" FLAGGED="0" AUTHORITY="" OVERLAP_URL="" DPSIR_D="yes" DPSIR_P="" DPSIR_S="" DPSIR_I="" DPSIR_R="" DATA_USED_FOR=""/>
 
 <!-- Obligation 514 -->
   <T_OBLIGATION PK_RA_ID="514" FK_SOURCE_ID="170"
@@ -184,7 +184,7 @@ SO2 (sulphur dioxide)(mass/time)" VALIDATED_BY="" EEA_PRIMARY="0" EEA_CORE="0" F
     NATIONAL_CONTACT_URL="" COORDINATOR_ROLE="" COORDINATOR_ROLE_SUF="0"
     COORDINATOR="" COORDINATOR_URL="" PARAMETERS=""
     VALIDATED_BY="Alan Simcock (OSPAR) 17/06/2005"
-    EEA_PRIMARY="0" EEA_CORE="0" FLAGGED="0" AUTHORITY="" OVERLAP_URL=""
+    EEA_PRIMARY="0" EEA_CORE="0" FLAGGED="1" AUTHORITY="" OVERLAP_URL="www"
     DPSIR_D="" DPSIR_P="yes" DPSIR_S="" DPSIR_I="" DPSIR_R="yes" DATA_USED_FOR=""/>
 
   <T_RAISSUE_LNK FK_ISSUE_ID="1" FK_RA_ID="15"/>

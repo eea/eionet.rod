@@ -50,7 +50,7 @@
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem eionetaccronym"><a href="http://www.eionet.europa.eu">Eionet</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
- <div class="breadcrumbitem"><a href="deliveries.jsv">Deadlines</a></div>
+ <div class="breadcrumbitem"><a href="deliveries">Deadlines</a></div>
  <div class="breadcrumbitemlast">Country</div>
  <div class="breadcrumbtail"></div>
 </div>

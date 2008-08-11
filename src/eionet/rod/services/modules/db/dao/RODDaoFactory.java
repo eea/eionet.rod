@@ -31,6 +31,7 @@ public abstract class RODDaoFactory {
 	   public abstract ISpatialHistoryDao getSpatialHistoryDao();
 	   public abstract IUndoDao getUndoDao();
 	   public abstract IAclDao getAclDao();
+	   public abstract IAnalysisDao getAnalysisDao();
 	   
 
 }

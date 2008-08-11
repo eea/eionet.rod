@@ -3,9 +3,14 @@ package eionet.rod.services.modules.db.dao.mysql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.util.sql.SQLUtil;
+import eionet.rod.dto.CountryDTO;
+import eionet.rod.dto.readers.CountryDTOReader;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.ISpatialDao;
@@ -306,5 +311,79 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 
 		return false;
 	}
+	
+	/** */
+	private static final String q_member_countries = 
+		"SELECT " +
+		"PK_SPATIAL_ID, " + 
+		"SPATIAL_NAME " +
+		"FROM T_SPATIAL " +
+		"WHERE SPATIAL_TYPE='C' AND SPATIAL_ISMEMBERCOUNTRY='Y' AND SPATIAL_TWOLETTER <> 'EU' " + 
+		"ORDER BY SPATIAL_NAME ";
+		
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISpatialDao#getMemberCountries()
+     */
+    public List<CountryDTO> getMemberCountries() throws ServiceException {
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		CountryDTOReader rsReader = new CountryDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(q_member_countries, values, rsReader, conn);
+			List<CountryDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /** */
+	private static final String q_non_member_countries = 
+		"SELECT " +
+		"PK_SPATIAL_ID, " + 
+		"SPATIAL_NAME " +
+		"FROM T_SPATIAL " +
+		"WHERE SPATIAL_TYPE='C' AND SPATIAL_ISMEMBERCOUNTRY='N' AND SPATIAL_TWOLETTER <> 'EU' " + 
+		"ORDER BY SPATIAL_NAME ";
+		
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISpatialDao#getNonMemberCountries()
+     */
+    public List<CountryDTO> getNonMemberCountries() throws ServiceException {
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		CountryDTOReader rsReader = new CountryDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(q_non_member_countries, values, rsReader, conn);
+			List<CountryDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
 
 }

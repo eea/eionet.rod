@@ -180,7 +180,7 @@
 		<div id="leftcolumn" class="localnav">
 			<ul>
 				<li><a href="index.html" title="ROD Home">Home </a></li>
-				<li><a href="deliveries.jsv" title="Country deadlines">Deadlines </a></li>
+				<li><a href="deliveries" title="Country deadlines">Deadlines </a></li>
 				<li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations </a></li>
 				<xsl:choose>
 					 <xsl:when test="contains($admin,'true')='true'">
@@ -204,7 +204,7 @@
 				</xsl:if>
 				<li><a href="show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
 				<li><a href="rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
-				<li><a href="analysis.jsv" title="Database statistics">Database statistics </a></li>
+				<li><a href="analysis" title="Database statistics">Database statistics </a></li>
 				<li><a href="cssearch" title="Advanced search">Advanced search </a></li>
 				<xsl:if test="contains($perm, ',/Admin/Harvest:u,')='true'">
 					<li><a href="harvester.jsp">Harvest </a></li>

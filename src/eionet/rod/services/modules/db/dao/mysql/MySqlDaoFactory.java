@@ -14,6 +14,7 @@ import eionet.rod.services.modules.db.dao.ISourceDao;
 import eionet.rod.services.modules.db.dao.ISpatialDao;
 import eionet.rod.services.modules.db.dao.ISpatialHistoryDao;
 import eionet.rod.services.modules.db.dao.IUndoDao;
+import eionet.rod.services.modules.db.dao.IAnalysisDao;
 import eionet.rod.services.modules.db.dao.RODDaoFactory;
 
 public class MySqlDaoFactory extends RODDaoFactory {
@@ -48,6 +49,8 @@ public class MySqlDaoFactory extends RODDaoFactory {
 	private IUndoDao undoDao = new UndoMySqlDao();
 	
 	private IAclDao aclDao = new AclMySqlDao();
+	
+	private IAnalysisDao analysisDao = new AnalysisMySqlDao();
 
 	public IClientDao getClientDao() {
 		return clientDao;
@@ -105,4 +108,7 @@ public class MySqlDaoFactory extends RODDaoFactory {
 		return aclDao;
 	}
 	
+	public IAnalysisDao getAnalysisDao() {
+		return analysisDao;
+	}
 }

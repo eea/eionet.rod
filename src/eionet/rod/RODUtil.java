@@ -279,5 +279,14 @@ public class RODUtil {
         
         return true;
     }
+    
+    /**
+     * 
+     * @param s
+     * @return
+     */
+    public static boolean isNullOrEmpty(String s){
+    	return s==null || s.length()==0;
+    }
 
 }

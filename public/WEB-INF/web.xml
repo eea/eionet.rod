@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     "http://java.sun.com/dtd/web-app_2_3.dtd">
-<web-app>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
 	<display-name>ROD</display-name>
 	<description>EIONET ROD application</description>
 	<context-param>
@@ -41,8 +45,7 @@
 	    <filter-class>eionet.rod.EionetCASFilter</filter-class>
 	    <init-param>
 	      <param-name>edu.yale.its.tp.cas.client.filter.loginUrl</param-name>
-	      <!--param-value>https://sso.eionet.europa.eu/login</param-value-->
-	      <param-value>http://localhost:8080/webrod/login.jsp</param-value>
+	      <param-value>https://sso.eionet.europa.eu/login</param-value>
 	    </init-param>
 	    <init-param>
 	      <param-name>edu.yale.its.tp.cas.client.filter.validateUrl</param-name>
@@ -69,32 +72,63 @@
 	      <param-value>true</param-value>
 	    </init-param>
 	</filter>
+	
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!--              Configuration of the Stripes Filter.                   -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<filter>
+		<description>
+			Provides essential configuration and request processing services
+			for the Stripes framework.
+		</description>
+		<display-name>Stripes Filter</display-name>
+		<filter-name>StripesFilter</filter-name>
+		<filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
+
+		<!-- Optional init parameters for the Stripes Filter. -->
+		<init-param>
+			<param-name>ActionResolver.UrlFilters</param-name>
+			<param-value>WEB-INF/classes</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ActionResolver.PackageFilters</param-name>
+			<param-value>eionet.rod.web.action.*</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ActionBeanContext.Class</param-name>
+			<param-value>eionet.rod.web.context.RODActionBeanContext</param-value>
+		</init-param>
+	</filter>
 
 	<!-- Filter Mappings -->
 	<filter-mapping>
-    	<filter-name>Browser cache controller</filter-name>
+		<filter-name>Browser cache controller</filter-name>
 		<url-pattern>*.jsv</url-pattern>
   	</filter-mapping>	
 	<filter-mapping>
-    	<filter-name>Browser cache controller</filter-name>
+		<filter-name>Browser cache controller</filter-name>
 		<servlet-name>index</servlet-name>
   	</filter-mapping>	
 	<filter-mapping>
-    	<filter-name>CAS Filter</filter-name>
+		<filter-name>CAS Filter</filter-name>
 		<url-pattern>/login</url-pattern>
   	</filter-mapping>
 	<filter-mapping>
-    	<filter-name>CAS Filter</filter-name>
+		<filter-name>CAS Filter</filter-name>
 		<url-pattern>/eionetCookieLogin/*</url-pattern>		
   	</filter-mapping>  	
 	<filter-mapping>
-    	<filter-name>CAS Filter</filter-name>
+		<filter-name>CAS Filter</filter-name>
 		<url-pattern>/versions.jsp</url-pattern>		
   	</filter-mapping>  	
 	<filter-mapping>
-    	<filter-name>CAS Filter</filter-name>
+		<filter-name>CAS Filter</filter-name>
 		<url-pattern>/subscribe.jsp</url-pattern>		
-  	</filter-mapping>  	
+  	</filter-mapping>	
+	<filter-mapping>
+		<filter-name>StripesFilter</filter-name>
+		<url-pattern>/*</url-pattern>		
+  	</filter-mapping>	
 	<servlet>
 		<servlet-name>gentext</servlet-name>
 		<servlet-class>eionet.rod.TxtServlet</servlet-class>
@@ -102,10 +136,6 @@
 	<servlet>
 		<servlet-name>indicator</servlet-name>
 		<servlet-class>eionet.rod.Indicator</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>analysis</servlet-name>
-		<servlet-class>eionet.rod.Analysis</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>index</servlet-name>
@@ -138,10 +168,6 @@
 	<servlet>
 		<servlet-name>editclient</servlet-name>
 		<servlet-class>eionet.rod.EditClient</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>csindex</servlet-name>
-		<servlet-class>eionet.rod.countrysrv.servlets.Index</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>csmain</servlet-name>
@@ -276,10 +302,6 @@
 		<url-pattern>/index.html</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>analysis</servlet-name>
-		<url-pattern>/analysis.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>activity</servlet-name>
 		<url-pattern>/activity.jsv</url-pattern>
 	</servlet-mapping>
@@ -310,10 +332,6 @@
 	<servlet-mapping>
 		<servlet-name>editclient</servlet-name>
 		<url-pattern>/editclient.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>csindex</servlet-name>
-		<url-pattern>/deliveries.jsv</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>csmain</servlet-name>
@@ -423,6 +441,23 @@
 		<servlet-name>rorabrowse</servlet-name>
 		<url-pattern>/rorabrowse.jsv</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+			
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/analysis</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/deliveries</url-pattern>
+	</servlet-mapping>
+
 	<session-config>
 		<session-timeout>600</session-timeout>
 		<!-- minutes -->
