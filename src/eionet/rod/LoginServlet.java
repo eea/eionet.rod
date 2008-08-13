@@ -43,7 +43,7 @@ import com.tee.util.Util;
  * @version 1.02
  */
 
-public class LoginServlet extends BaseServletAC {
+public class LoginServlet2 extends BaseServletAC {
 // dummy implementations
 
 /**
@@ -60,45 +60,27 @@ public class LoginServlet extends BaseServletAC {
    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
       
-       String username = req.getParameter("j_username");
-       String password = req.getParameter("j_password");
-       
-       String rd = req.getParameter("rd");
-     
-       AppUserIF user = XDBApplication.getAuthenticator();
+      String rd = req.getParameter("rd");
+    
+      AppUserIF user = XDBApplication.getAuthenticator();
 
-       if (user.authenticate(username, password) == true) {
+      	// IMPORTANT user is alredy logged via CAS ***************************************
+      	 user.authenticate(req.getRemoteUser(), null); 
+         // store the authenticated user object to current session
+         allocSession(req, user);
+         // close current window
+         //printPage(res, "<html><script>alert('Logged to WebROD as administrator')</script></html>");
 
-          // store the authenticated user object to current session
-          allocSession(req, user);
-          // close current window
-          //printPage(res, "<html><script>alert('Logged to WebROD as administrator')</script></html>");
-
-          String location = "index.html";
-          if(rd != null && rd.equals("subscribe")){
-              location = "subscribe.jsp";
-          }
-          //String location = "test.html";         
-          // DBG
-          if (Logger.enable(5))
-             Logger.log("Redirecting to " + location);
-          res.sendRedirect(location);
-       }
-       else {
-         //allocSession(req,user);
-
-          String loginError = null;
-          try {
-           loginError = XDBApplication.getLoginError(); 
-         } catch (GeneralException ge ) {
+         String location = "index.html";
+         if(rd != null && rd.equals("subscribe")){
+             location = "subscribe.jsp";
          }
+         //String location = "test.html";         
+         // DBG
+         if (Logger.enable(5))
+            Logger.log("Redirecting to " + location);
+         res.sendRedirect(location);
+      }
 
-          freeSession(req);
-          if ( loginError != null)
-            res.sendRedirect(loginError);
-           else
-             printPage(res, "<html>Login failed. Please verify that your user name and password are typed in correctly and in correct case. If the problem persists, please contact the server administrator.</html>");
-   
-       }
-   }
+
 }
