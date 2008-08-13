@@ -43,7 +43,7 @@ import com.tee.util.Util;
  * @version 1.02
  */
 
-public class LoginServlet2 extends BaseServletAC {
+public class LoginServlet extends BaseServletAC {
 // dummy implementations
 
 /**
