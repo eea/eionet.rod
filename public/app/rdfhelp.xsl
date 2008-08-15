@@ -48,54 +48,6 @@
 		<div id="workarea">
 		<h1>XML and Data Extraction Help</h1>
 		<xsl:value-of select="//HLP_AREA[AREA_ID='RSSHelp']/HTML" disable-output-escaping="yes"/>
-<!--table cellspacing="0" cellpadding="0" width="590" border="0">
-<tr><td>
-
-<p>
-<h2>RDF</h2>
-<b><a href="obligations">Reporting Obligations</a></b><br/>
-Lists all Reporting Obligations with linked countries and environmental issues<br/>
-<b><a href="instruments">Legislative Instruments</a><br/></b>
-Lists all Legislative Instruments<br/>
-<b><a href="countries">Countries</a><br/></b>
-Lists all Countries<br/>
-</p>
-<hr/>
-<p>
-<h2>RSS</h2>
-<b><a href="events.rss">Reporting Obligation deadlines</a></b><br/>
-Used for Eionet calendar, lists all reporting obligations with deadline. 
-Only obligations having a deadline are listed<br/>
-<b><a href="obligations.rss">Reporting Obligations</a></b><br/>
-Lists all obligations linked to specified environmental issues<br/>
-<span class="smallfont">Usage: http://rod.eionet.europa.eu/obligations.rss?issues=[issueId1],[issueId2],... [issueIdN]</span><br/>
-The issue ID's are the primary key values of T_ISSUE table of ROD database.<br/>
-<b><a href="instruments.rss">Legislative Instruments</a></b><br/>
-Lists all legislative instruments<br/>
-</p>
-<hr/>
-
-<p>
-<h2>XML - RPC</h2>
-<b>XML RPC Router:</b> http://rod.eionet.europa.eu/rpcrouter<br/>
-<b>Service name:</b> WebRODService<br/>
-<br/>
-Methods<br/>
-<b>getActivities()</b>:returns an ARRAY of STRUCTs that contains all the obligations in 
-an ARRAY, with each obligation&apos;s information put into a STRUCT<br/>
-<b>getROComplete()</b>:returns an ARRAY of STRUCTs that contains all the obligations in 
-an ARRAY, with each obligation&apos;s information put into a STRUCT, All the fields of the obligations are returned<br/>
-<b>getROSummary()</b>:returns an ARRAY of STRUCTs that contains all the obligations in 
-an ARRAY, with each obligation&apos;s information put into a STRUCT. The STRUCT contains link to obligation, title, 
-last update and description<br/>
-<b>getRODeadlines()</b>:returns an ARRAY of STRUCTs that contains all the obligations in 
-an ARRAY, with each obligation&apos;s information put into a STRUCT. The STRUCT 
-contains the reporting client name and the next deadline<br/>
-
-</p>
-
-</td></tr>
-</table-->
 		</div>
 		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
