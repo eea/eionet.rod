@@ -88,7 +88,7 @@
 		<!-- Optional init parameters for the Stripes Filter. -->
 		<init-param>
 			<param-name>ActionResolver.UrlFilters</param-name>
-			<param-value>WEB-INF/classes</param-value>
+			<param-value>WEB-INF/lib/rod.jar</param-value>
 		</init-param>
 		<init-param>
 			<param-name>ActionResolver.PackageFilters</param-name>
@@ -204,10 +204,6 @@
 	<servlet>
 		<servlet-name>csdeliveries</servlet-name>
 		<servlet-class>eionet.rod.countrysrv.servlets.Deliveries</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>cssearch</servlet-name>
-		<servlet-class>eionet.rod.countrysrv.servlets.Search</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>rpcrouter</servlet-name>
@@ -370,10 +366,6 @@
 		<url-pattern>/csdeliveries</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>cssearch</servlet-name>
-		<url-pattern>/cssearch</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>rpcrouter</servlet-name>
 		<url-pattern>/rpcrouter</url-pattern>
 	</servlet-mapping>
@@ -456,6 +448,11 @@
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/deliveries</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/cssearch</url-pattern>
 	</servlet-mapping>
 
 	<session-config>
