@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -14,9 +15,16 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import com.tee.util.Util;
+import com.tee.xmlserver.FieldInfo;
 
+import eionet.rod.RODUtil;
+import eionet.rod.dto.CSSearchDTO;
+import eionet.rod.dto.CountryDTO;
+import eionet.rod.dto.readers.CSSearchDTOReader;
+import eionet.rod.dto.readers.CountryDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IObligationDao;
+import eionet.rod.util.sql.SQLUtil;
 
 public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
@@ -1103,5 +1111,168 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		}
 
 		return false;
+	}
+	
+	private String getSearchSql(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, boolean union, String order) throws ServiceException {
+		
+		StringBuilder q_obligations_list = new StringBuilder( 
+    		"SELECT DISTINCT T_OBLIGATION.PK_RA_ID, T_OBLIGATION.TITLE, T_OBLIGATION.RESPONSIBLE_ROLE, T_OBLIGATION.NEXT_REPORTING, T_OBLIGATION.NEXT_DEADLINE, ");
+		if(union)
+			q_obligations_list.append("T_OBLIGATION.NEXT_DEADLINE2 AS DEADLINE, T_OBLIGATION.NEXT_DEADLINE AS DEADLINE2, ");
+		else
+			q_obligations_list.append("IF(T_OBLIGATION.NEXT_DEADLINE IS NULL, T_OBLIGATION.NEXT_REPORTING, T_OBLIGATION.NEXT_DEADLINE) AS DEADLINE, T_OBLIGATION.NEXT_DEADLINE2 AS DEADLINE2, ");
+			
+		q_obligations_list.append("T_OBLIGATION.TERMINATE, T_OBLIGATION.FK_SOURCE_ID, T_OBLIGATION.FK_CLIENT_ID AS CLIENTID, T_OBLIGATION.FK_DELIVERY_COUNTRY_IDS, " +
+    		"T_OBLIGATION.FK_DELIVERY_COUNTRY_IDS REGEXP CONCAT(',',T_SPATIAL.PK_SPATIAL_ID,',') AS HAS_DELIVERY, T_ROLE.ROLE_NAME AS ROLE_DESCR, T_ROLE.ROLE_URL, T_ROLE.ROLE_MEMBERS_URL, " +
+    		"T_CLIENT_LNK.FK_CLIENT_ID, T_CLIENT_LNK.FK_OBJECT_ID, T_CLIENT_LNK.TYPE, T_CLIENT_LNK.STATUS, " +
+    		"T_CLIENT.PK_CLIENT_ID, T_CLIENT.CLIENT_NAME, IF(T_CLIENT.CLIENT_ACRONYM='', T_CLIENT.CLIENT_NAME, T_CLIENT.CLIENT_ACRONYM) AS CLIENT_DESCR, " +
+    		"T_RASPATIAL_LNK.FK_RA_ID, T_RASPATIAL_LNK.FK_SPATIAL_ID, T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_SPATIAL.SPATIAL_TWOLETTER, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY, " +
+    		"T_SOURCE.PK_SOURCE_ID, T_SOURCE.SOURCE_CODE ");
+    	if (!Util.nullString(issueId) && !issueId.equals("0")) {
+    		q_obligations_list.append(", T_RAISSUE_LNK.FK_RA_ID, T_RAISSUE_LNK.FK_ISSUE_ID ");
+    	}
+    	q_obligations_list.append(
+    		"FROM T_OBLIGATION LEFT JOIN T_ROLE ON CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',IF(T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y','mc','cc'),'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID " +
+    		"LEFT JOIN T_CLIENT_LNK ON T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID " +
+    		"LEFT JOIN T_CLIENT ON T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID,T_RASPATIAL_LNK " +
+    		"LEFT JOIN T_SPATIAL ON T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID " +
+    		"LEFT JOIN T_SOURCE ON T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID ");
+    	if (!Util.nullString(issueId) && !issueId.equals("0")) {
+        	q_obligations_list.append("INNER JOIN T_RAISSUE_LNK ON T_OBLIGATION.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID ");
+        }
+    	
+    	q_obligations_list.append("WHERE T_RASPATIAL_LNK.FK_RA_ID=T_OBLIGATION.PK_RA_ID AND TERMINATE='N' ");
+    	
+    	if (union){
+    		q_obligations_list.append("AND NEXT_DEADLINE2 IS NOT NULL ");
+    		q_obligations_list.append("AND NEXT_DEADLINE2 != NEXT_DEADLINE ");
+        }
+    	
+    	if (!Util.nullString(spatialId))
+    		q_obligations_list.append("AND PK_SPATIAL_ID=").append(Util.strLiteral(spatialId)).append(" ");
+    	
+    	if (!Util.nullString(clientId) && !clientId.equals("0") )
+    		q_obligations_list.append("AND PK_CLIENT_ID=").append(Util.strLiteral(clientId)).append(" ");
+    	
+    	if (!Util.nullString(issueId) && !issueId.equals("0")) 
+    		q_obligations_list.append("AND FK_ISSUE_ID=").append(Util.strLiteral(issueId)).append(" ");
+    	
+    	if ((date1 != null && !date1.equals("dd/mm/yyyy")) || (date2 != null && !date2.equals("dd/mm/yyyy")) || dlCase != null){
+    		q_obligations_list.append(handleDeadlines(dlCase, date1, date2, union));
+    	}
+    	
+    	if(union){
+    		if(!RODUtil.isNullOrEmpty(order))
+    			q_obligations_list.append("ORDER BY ").append(order);
+    		else
+    			q_obligations_list.append("ORDER BY TITLE");
+    	}
+    	
+    	return q_obligations_list.toString();
+	}
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#getSearchObligationsList()
+     */
+    public List<CSSearchDTO> getSearchObligationsList(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, String order) throws ServiceException {
+    	
+    	String sql = getSearchSql(spatialId, clientId, issueId, date1, date2, dlCase, false, order);
+    	String sql_union = getSearchSql(spatialId, clientId, issueId, date1, date2, dlCase, true, order);
+    	
+    	String query = sql + " UNION " + sql_union;
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		CSSearchDTOReader rsReader = new CSSearchDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<CSSearchDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    private String handleDeadlines(String dlCase, String date1, String date2, boolean union) {
+    	String ret = "";
+    	if ( dlCase != null ) { //selected in combo
+           Calendar today = Calendar.getInstance();
+           //all Deadlines
+           if (dlCase.equals("0")) {
+        	   date1 ="dd/mm/yyyy";
+        	   date2 ="dd/mm/yyyy";
+           }
+           //next month
+           else if (dlCase.equals("1")) {
+        	   date1=getDate(today);
+        	   today.add(Calendar.MONTH, 1);
+        	   date2=getDate(today);
+           }
+           //next 3 months
+           else if (dlCase.equals("2")) {
+        	   date1=getDate(today);
+             	today.add(Calendar.MONTH, 3);
+             	date2=getDate(today);
+           }
+           //next 6 months
+           else if (dlCase.equals("3")) {
+        	   date1=getDate(today);
+        	   today.add(Calendar.MONTH, 6);
+        	   date2=getDate(today);
+           }
+           //passed
+           else if (dlCase.equals("4")) {
+        	   date2=getDate(today);
+        	   today.add(Calendar.MONTH, -3);
+        	   date1=getDate(today);
+           }
+        }
+
+        if (date1.equals("dd/mm/yyyy"))
+        	date1 ="00/00/0000";
+
+        date1=cnvDate(date1);
+
+        if (date2.equals("dd/mm/yyyy"))
+        	date2="31/12/9999";
+
+        date2=cnvDate(date2);
+        if (union)
+        	ret = "AND ((NEXT_DEADLINE2 >= '" + date1 + "' AND NEXT_DEADLINE2 <= '" + date2 + "')) ";
+        else
+        	ret = "AND ((NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "')) ";
+        return ret;
+    }
+
+    // dd/mm/yyyy -> yyyy-mm-dd
+	private String cnvDate(String date ){
+		date = date.substring(6) +"-"+  date.substring(3,5) +"-"+  date.substring(0,2);
+		return date;
+	}
+	
+	//formats Calendar object date to dd/mm/yyyy
+	private String getDate(Calendar cal) {
+		String day = Integer.toString( cal.get( Calendar.DATE) );
+	    if (day.length() == 1)
+	    	day  ="0" + day;
+	    String month = Integer.toString( cal.get( Calendar.MONTH) +1 );
+	    if (month.length() == 1)
+	    	month  ="0" + month;
+
+	    String year = Integer.toString( cal.get( Calendar.YEAR) );
+
+	    return day + "/" + month + "/" + year;
 	}
 }

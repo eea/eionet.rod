@@ -260,3 +260,84 @@ function openCirca(url){
 	function redirect(url){
 		document.location=url;
 	}
+	
+	function checkDate(oControl){
+	if ( checkDateFormat(oControl.value) == 1  )
+		oControl.value = 'dd/mm/yyyy' ;
+
+	}
+
+	function checkDateFormat(dateString){ 
+			
+		day = dateString.substring(0, dateString.indexOf("/")); 
+		if(dateString == '' || dateString == 'dd/mm/yyyy' )
+			return 0;
+		if((isNaN(day)) || (day.length != "2")){ 
+			alert("Day " + day + " is not in a correct format."); 
+			return 1; 
+		} 
+		else if(day > 31 || day < 1){
+			alert("Day " + day + "is not correct "); 
+			return 1;
+		}
+		month = dateString.substring(dateString.indexOf("/") + 1, dateString.lastIndexOf("/")); 
+		if((isNaN(month)) || (month.length != "2")){ 
+			alert("Month " + month + " is not in a correct format."); 
+			return 1; 
+		}                
+		else if(month > 12 || month < 1 ){ 
+			alert("Month " + month + " is not correct."); 
+			return 1; 
+		}               
+		   
+		year = dateString.substring(dateString.lastIndexOf("/") + 1); 
+		if((isNaN(year)) || (year.length != "4")){ 
+			alert("Year " + year + " is not in correct format."); 
+			return 1; 
+		} 
+		if (day > 30 && ( month == 4 || month == 6 || month == 9 || month == 11   )  ){ 
+			alert("There are 30 days in this month."); 
+			return 1; 
+		} 
+		if (day > 29 &&  month == 2){ 
+			alert("There are max 29 days in February"); 
+			return 1; 
+		}
+		var bY;
+		bY = false;
+		if ( year/4 == Math.floor(year/4 )   )
+			bY = true;
+		  
+		if (day == 29 &&  month == 2 &&  bY == false){ 
+			alert("In this year there are 28 days in February."); 
+			return 1;
+		}
+		if (day == '' || month == '' || year == ''){
+			alert('Error in date format');
+			return 1;
+		}
+		return 0; 
+	}//end-checkDateFormath 
+
+	//
+
+	function doSearch(){
+		var c = document.forms["f"].COUNTRY_ID;
+		if (c.options[c.selectedIndex].value == -1 )
+			alert("Please select a country");
+		else {
+			if( document.forms["f"].DATE_1.value=='' )
+				document.forms["f"].DATE_1.value = "dd/mm/yyyy";
+			if( document.forms["f"].DATE_2.value=='' )
+				document.forms["f"].DATE_2.value = "dd/mm/yyyy";
+			document.forms["f"].submit();
+		}
+	}
+
+	function submitSearchForm() {
+		if(document.forms["x1"].ISSUE_ID.selectedIndex == 0 &&
+		   document.forms["x1"].COUNTRY_ID.selectedIndex == 0)
+			alert("Please select a country or an issue.");
+		else
+			document.forms["x1"].submit();   
+	}

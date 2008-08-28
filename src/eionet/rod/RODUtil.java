@@ -66,6 +66,14 @@ public class RODUtil {
 	}
 	
 	/*
+    * 
+    */
+	public static String concatRole(String param1, String param2, String param3){
+		
+		return param1 + param2 + param3;
+	}
+	
+	/*
 	 * 
 	 */
 	public static Date getDate(String s){

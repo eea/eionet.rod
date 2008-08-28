@@ -372,3 +372,16 @@ td.spatial_label {
 	float:right;
 	padding-top:10px;
 }
+
+th.sorted a,th.sortable a {
+	background-repeat: no-repeat;
+	background-position: right;
+}
+
+th.order1 a {
+	background-image: url(images/sortdown.gif);
+}
+
+th.order2 a {
+	background-image: url(images/sortup.gif);
+}

@@ -68,6 +68,7 @@
 		    public/WEB-INF/lib/uit-client.jar;
 		    public/WEB-INF/lib/uit-server.jar;
 		    ${servletapi.jar};
+		    ${servlet.jar};
 		    public/WEB-INF/lib/log4j.jar;
 		    public/WEB-INF/lib/xmlrpc.jar;
 		    public/WEB-INF/lib/uit-security.jar;
@@ -76,7 +77,11 @@
 		    public/WEB-INF/lib/junit.jar;
 		    public/WEB-INF/lib/stripes-1.4.3.jar;
 		    public/WEB-INF/lib/commons-logging-1.1.jar;
-			public/WEB-INF/lib/casclient.jar;' />
+		    public/WEB-INF/lib/commons-beanutils-1.7.0.jar;
+		    public/WEB-INF/lib/commons-lang-2.3.jar;
+		    public/WEB-INF/lib/commons-collections-3.1.jar;
+		    public/WEB-INF/lib/displaytag-1.1.1.jar;
+		    public/WEB-INF/lib/casclient.jar;' />
 	</target>
 
 	<target name='buildjar' depends='compile' description="creates rod.jar into WB-INF/lib">

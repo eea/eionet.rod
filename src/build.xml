@@ -24,6 +24,10 @@
 		    ../public/WEB-INF/lib/eionet-dir.jar;
 		    ../public/WEB-INF/lib/stripes-1.4.3.jar;
 		    ../public/WEB-INF/lib/commons-logging-1.1.jar;
+		    ../public/WEB-INF/lib/commons-beanutils-1.7.0.jar;
+		    ../public/WEB-INF/lib/commons-lang-2.3.jar;
+		    ../public/WEB-INF/lib/commons-collections-3.1.jar;
+		    ../public/WEB-INF/lib/displaytag-1.1.1.jar;
                     /var/lib/tomcat5/common/lib/[servlet].jar' />
 	</target>
 

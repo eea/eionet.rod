@@ -87,4 +87,11 @@ public interface ISpatialDao {
 	 * @throws ServiceException
 	 */
 	public List<CountryDTO> getNonMemberCountries() throws ServiceException;
+	
+	/**
+	 * Returns all countries from the DB
+	 * @return all countries from the DB as list of CountryDTOs
+	 * @throws ServiceException
+	 */
+	public List<CountryDTO> getCountriesList() throws ServiceException;
 }

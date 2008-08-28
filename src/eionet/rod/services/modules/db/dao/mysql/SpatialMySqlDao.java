@@ -385,5 +385,42 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 			catch (SQLException e){}
 		}
     }
+    
+    /** */
+	private static final String q_countries_list = 
+		"SELECT " +
+		"PK_SPATIAL_ID, " +
+		"SPATIAL_NAME " +
+		"FROM T_SPATIAL " +
+		"WHERE SPATIAL_TYPE='C' " + 
+		"ORDER BY SPATIAL_NAME ";
+		
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISpatialDao#getCountriesList()
+     */
+    public List<CountryDTO> getCountriesList() throws ServiceException {
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		CountryDTOReader rsReader = new CountryDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(q_countries_list, values, rsReader, conn);
+			List<CountryDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
 
 }

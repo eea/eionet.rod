@@ -4,11 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.ClientDTO;
+import eionet.rod.dto.IssueDTO;
+import eionet.rod.dto.readers.ClientDTOReader;
+import eionet.rod.dto.readers.IssueDTOReader;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IClientDao;
+import eionet.rod.util.sql.SQLUtil;
 
 public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 
@@ -218,6 +225,43 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 		} finally {
 			closeAllResources(null, preparedStatement, connection);
 		}		
+	}
+	
+	private static final String qClientsList = 
+		"SELECT DISTINCT c.PK_CLIENT_ID, " + 
+		"CONCAT( IF(c.CLIENT_ACRONYM != '', CONCAT(c.CLIENT_ACRONYM, ' - '), ''), LEFT(c.CLIENT_NAME, 50), IF( LENGTH(c.CLIENT_NAME) > 50 ,'...', '')   ) AS CLIENT_NAME " + 
+		"FROM T_CLIENT c, T_CLIENT_LNK cl, T_OBLIGATION o " + 
+		"WHERE cl.TYPE='A' AND cl.STATUS='M' AND cl.FK_CLIENT_ID=c.PK_CLIENT_ID AND o.PK_RA_ID=cl.FK_OBJECT_ID " +
+		"ORDER BY CLIENT_NAME ";
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IClientDao#getClientsList()
+	 */
+	public List<ClientDTO> getClientsList() throws ServiceException {
+
+		List<Object> values = new ArrayList<Object>();
+		
+		Connection conn = null;
+		ClientDTOReader rsReader = new ClientDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(qClientsList, values, rsReader, conn);
+			List<ClientDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+
 	}
 
 }

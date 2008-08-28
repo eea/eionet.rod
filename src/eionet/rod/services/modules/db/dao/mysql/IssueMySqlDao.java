@@ -4,11 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.CountryDTO;
+import eionet.rod.dto.IssueDTO;
+import eionet.rod.dto.readers.CountryDTOReader;
+import eionet.rod.dto.readers.IssueDTOReader;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IIssueDao;
+import eionet.rod.util.sql.SQLUtil;
 
 public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
 
@@ -142,6 +149,41 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
 		}
 
 		return result != null ? result : new String[][] {};
+	}
+	
+	private static final String qIssuesList = 
+		"SELECT ISSUE_NAME, PK_ISSUE_ID " + 
+		"FROM T_ISSUE " + 
+		"ORDER BY ISSUE_NAME ";
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IIssueDao#getIssuesList()
+	 */
+	public List<IssueDTO> getIssuesList() throws ServiceException {
+
+		List<Object> values = new ArrayList<Object>();
+		
+		Connection conn = null;
+		IssueDTOReader rsReader = new IssueDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(qIssuesList, values, rsReader, conn);
+			List<IssueDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+
 	}
 
 }

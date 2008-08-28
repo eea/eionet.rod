@@ -22,7 +22,7 @@
 			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/print.css" media="print" />
 			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/handheld.css" media="handheld" />		
 			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/screen.css" media="screen" title="Eionet 2007 style" />
-			<link rel="stylesheet" type="text/css" href="eionet2007.css" media="screen" title="Eionet 2007 style"/>
+			<link rel="stylesheet" type="text/css" href="<c:url value="/eionet2007.css"/>" media="screen" title="Eionet 2007 style"/>
 			<link rel="shortcut icon" href="<c:url value="/favicon.ico"/>" type="image/x-icon" />
 			<script type="text/javascript" src="<c:url value="/script/util.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/pageops.js"/>"></script>

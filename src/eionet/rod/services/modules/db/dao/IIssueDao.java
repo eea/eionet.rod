@@ -1,7 +1,9 @@
 package eionet.rod.services.modules.db.dao;
 
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.IssueDTO;
 import eionet.rod.services.ServiceException;
 
 public interface IIssueDao {
@@ -33,5 +35,11 @@ public interface IIssueDao {
 	 * @throws ServiceException
 	 */
 	public String[][] getIssues(Integer raId) throws ServiceException;
+	
+	/**
+	 * @return list of all issues
+	 * @throws ServiceException
+	 */
+	public List<IssueDTO> getIssuesList() throws ServiceException;
 
 }

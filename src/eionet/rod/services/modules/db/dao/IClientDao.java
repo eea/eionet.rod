@@ -1,7 +1,9 @@
 package eionet.rod.services.modules.db.dao;
 
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.ClientDTO;
 import eionet.rod.services.ServiceException;
 
 public interface IClientDao {
@@ -60,4 +62,10 @@ public interface IClientDao {
 	 * @throws ServiceException
 	 */
 	public void deleteParameterLink(Integer objectId) throws ServiceException;
+	
+	/**
+     * @return all clients as list of ClientDTOs
+     * @throws ServiceException
+     */
+	public List<ClientDTO> getClientsList() throws ServiceException;
 }

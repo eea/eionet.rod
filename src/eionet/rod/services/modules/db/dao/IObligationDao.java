@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import eionet.rod.dto.CSSearchDTO;
 import eionet.rod.services.ServiceException;
 
 /**
@@ -250,5 +251,18 @@ public interface IObligationDao {
 	 * @throws ServiceException
 	 */
 	public boolean checkObligationById(String id) throws ServiceException;
+	
+	/**
+	 * Returns search list for cssearch
+	 * @param spatialId
+	 * @param clientId
+	 * @param issueId
+	 * @param date1
+	 * @param date2
+	 * @param dlCase
+	 * @param order
+	 * @throws ServiceException
+	 */
+	public List<CSSearchDTO> getSearchObligationsList(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, String order) throws ServiceException;
 }
 
