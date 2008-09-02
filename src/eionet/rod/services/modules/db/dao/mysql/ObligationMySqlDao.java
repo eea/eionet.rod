@@ -1131,17 +1131,21 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     	if (!Util.nullString(issueId) && !issueId.equals("0")) {
     		q_obligations_list.append(", T_RAISSUE_LNK.FK_RA_ID, T_RAISSUE_LNK.FK_ISSUE_ID ");
     	}
-    	q_obligations_list.append(
-    		"FROM T_OBLIGATION LEFT JOIN T_ROLE ON CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',IF(T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y','mc','cc'),'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID " +
-    		"LEFT JOIN T_CLIENT_LNK ON T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID " +
-    		"LEFT JOIN T_CLIENT ON T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID,T_RASPATIAL_LNK " +
-    		"LEFT JOIN T_SPATIAL ON T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID " +
-    		"LEFT JOIN T_SOURCE ON T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID ");
+    	q_obligations_list.append("FROM ");
     	if (!Util.nullString(issueId) && !issueId.equals("0")) {
-        	q_obligations_list.append("INNER JOIN T_RAISSUE_LNK ON T_OBLIGATION.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID ");
+        	q_obligations_list.append("(");
+        }
+    	q_obligations_list.append("(T_RASPATIAL_LNK LEFT JOIN T_SPATIAL ON T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID) " +
+    		"JOIN T_OBLIGATION ON T_RASPATIAL_LNK.FK_RA_ID=T_OBLIGATION.PK_RA_ID " +
+    		"LEFT JOIN T_SOURCE ON T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID " +
+    		"LEFT JOIN T_ROLE ON CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',IF(T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y','mc','cc'),'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID " +
+    		"LEFT JOIN T_CLIENT_LNK ON T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID " +
+    		"LEFT JOIN T_CLIENT ON T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID ");
+    	if (!Util.nullString(issueId) && !issueId.equals("0")) {
+        	q_obligations_list.append(") JOIN T_RAISSUE_LNK ON T_OBLIGATION.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID ");
         }
     	
-    	q_obligations_list.append("WHERE T_RASPATIAL_LNK.FK_RA_ID=T_OBLIGATION.PK_RA_ID AND TERMINATE='N' ");
+    	q_obligations_list.append("WHERE TERMINATE='N' ");
     	
     	if (union){
     		q_obligations_list.append("AND NEXT_DEADLINE2 IS NOT NULL ");
