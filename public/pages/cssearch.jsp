@@ -22,7 +22,7 @@
 							<stripes:label for="spatialId">For a country</stripes:label>
 						</td>
 						<td class="dat">
-							<stripes:select name="spatialId" id="spatialId" class="dat" style="width:223" size="1">
+							<stripes:select name="spatialId" id="spatialId" class="dat" size="1">
 								<stripes:option value="" label="Any country"/>
 								<stripes:options-collection collection="${actionBean.countries}" label="name" value="countryId"/>
 							</stripes:select>
@@ -33,7 +33,7 @@
 							<stripes:label for="issueId">For an issue</stripes:label>
 						</td>
 						<td class="dat">
-							<stripes:select name="issueId" id="issueId" class="dat" style="width:223">
+							<stripes:select name="issueId" id="issueId" class="dat">
 								<stripes:option value="" label="All issues"/>
 								<stripes:options-collection collection="${actionBean.issues}" label="name" value="issueId"/>
 							</stripes:select>
@@ -44,7 +44,7 @@
 							<stripes:label for="clientId">For an organisation</stripes:label>
 						</td>
 						<td class="dat">
-							<stripes:select name="clientId" id="clientId" class="dat" style="width:350">
+							<stripes:select name="clientId" id="clientId" class="dat">
 								<stripes:option value="" label="Any organisation"/>
 								<stripes:options-collection collection="${actionBean.clients}" label="name" value="clientId"/>
 							</stripes:select>
