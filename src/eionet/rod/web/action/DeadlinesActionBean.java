@@ -20,8 +20,10 @@ public class DeadlinesActionBean extends AbstractRODActionBean {
 	
 	private List<CountryDTO> memberCountries;
 	private List<CountryDTO> nonMemberCountries;
-	private int membersCount;
-	private int nonMembersCount;
+	private int membersCount1;
+	private int membersCount2;
+	private int nonMembersCount1;
+	private int nonMembersCount2;
 	
 	/**
 	 * 
@@ -32,9 +34,32 @@ public class DeadlinesActionBean extends AbstractRODActionBean {
 		memberCountries = RODServices.getDbService().getSpatialDao().getMemberCountries();
 		nonMemberCountries = RODServices.getDbService().getSpatialDao().getNonMemberCountries();
 		
-		membersCount = memberCountries.size() / 3;
-		nonMembersCount = nonMemberCountries.size() / 3;
+		int memberSize = memberCountries.size();
+		int cnt = memberSize / 3;
+		if((memberSize - (cnt * 3)) == 0){
+			membersCount1 = cnt;
+			membersCount2 = cnt * 2; 
+		} else if ((memberSize - (cnt * 3)) == 1){
+			membersCount1 = cnt + 1;
+			membersCount2 = (cnt * 2) + 1;
+		} else if ((memberSize - (cnt * 3)) == 2){
+			membersCount1 = cnt + 1;
+			membersCount2 = (cnt + 1) * 2;
+		}		
 		
+		int nonMemberSize = nonMemberCountries.size();
+		int cnt2 = nonMemberSize / 3;
+		if((nonMemberSize - (cnt2 * 3)) == 0){
+			nonMembersCount1 = cnt2;
+			nonMembersCount2 = cnt2 * 2; 
+		} else if ((nonMemberSize - (cnt2 * 3)) == 1){
+			nonMembersCount1 = cnt2 + 1;
+			nonMembersCount2 = (cnt2 * 2) + 1;
+		} else if ((nonMemberSize - (cnt2 * 3)) == 2){
+			nonMembersCount1 = cnt2 + 1;
+			nonMembersCount2 = (cnt2 + 1) * 2;
+		}		
+				
 		return new ForwardResolution("/pages/deadlines.jsp");
 	}
 
@@ -46,14 +71,6 @@ public class DeadlinesActionBean extends AbstractRODActionBean {
 		this.nonMemberCountries = nonMemberCountries;
 	}
 
-	public int getNonMembersCount() {
-		return nonMembersCount;
-	}
-
-	public void setNonMembersCount(int nonMembersCount) {
-		this.nonMembersCount = nonMembersCount;
-	}
-
 	public List<CountryDTO> getMemberCountries() {
 		return memberCountries;
 	}
@@ -62,12 +79,36 @@ public class DeadlinesActionBean extends AbstractRODActionBean {
 		this.memberCountries = memberCountries;
 	}
 
-	public int getMembersCount() {
-		return membersCount;
+	public int getMembersCount1() {
+		return membersCount1;
 	}
 
-	public void setMembersCount(int membersCount) {
-		this.membersCount = membersCount;
+	public void setMembersCount1(int membersCount1) {
+		this.membersCount1 = membersCount1;
+	}
+
+	public int getMembersCount2() {
+		return membersCount2;
+	}
+
+	public void setMembersCount2(int membersCount2) {
+		this.membersCount2 = membersCount2;
+	}
+
+	public int getNonMembersCount1() {
+		return nonMembersCount1;
+	}
+
+	public void setNonMembersCount1(int nonMembersCount1) {
+		this.nonMembersCount1 = nonMembersCount1;
+	}
+
+	public int getNonMembersCount2() {
+		return nonMembersCount2;
+	}
+
+	public void setNonMembersCount2(int nonMembersCount2) {
+		this.nonMembersCount2 = nonMembersCount2;
 	}
 
 }

@@ -22,7 +22,7 @@
 			</tr>
 			<tr>
 				<td bgcolor="#FFFFFF" style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
-					<c:forEach items="${actionBean.memberCountries}" begin="0" end="${actionBean.membersCount - 1}" var="country" varStatus="loop">
+					<c:forEach items="${actionBean.memberCountries}" begin="0" end="${actionBean.membersCount1 - 1}" var="country" varStatus="loop">
 							<img src="images/Folder_icon.gif" alt=""/>
 							<stripes:link href="/cssearch" event="search">
 								${country.name}
@@ -35,7 +35,7 @@
 					</c:forEach>
 				</td>
 				<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
-					<c:forEach items="${actionBean.memberCountries}" begin="${actionBean.membersCount}" end="${(actionBean.membersCount*2) - 1}" var="country" varStatus="loop">
+					<c:forEach items="${actionBean.memberCountries}" begin="${actionBean.membersCount1}" end="${actionBean.membersCount2 - 1}" var="country" varStatus="loop">
 							<img src="images/Folder_icon.gif" alt=""/>
 							<stripes:link href="/cssearch" event="search">
 								${country.name}
@@ -48,7 +48,7 @@
 					</c:forEach>
 				</td>
 				<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="top">
-					<c:forEach items="${actionBean.memberCountries}" begin="${actionBean.membersCount*2}" var="country" varStatus="loop">
+					<c:forEach items="${actionBean.memberCountries}" begin="${actionBean.membersCount2}" var="country" varStatus="loop">
 							<img src="images/Folder_icon.gif" alt=""/>
 							<stripes:link href="/cssearch" event="search">
 								${country.name}
@@ -66,7 +66,7 @@
 			</tr>
 			<tr>
 				<td bgcolor="#FFFFFF" style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
-					<c:forEach items="${actionBean.nonMemberCountries}" begin="0" end="${actionBean.nonMembersCount - 1}" var="country" varStatus="loop">
+					<c:forEach items="${actionBean.nonMemberCountries}" begin="0" end="${actionBean.nonMembersCount1 - 1}" var="country" varStatus="loop">
 							<img src="images/Folder_icon.gif" alt=""/>
 							<stripes:link href="/cssearch" event="search">
 								${country.name}
@@ -79,7 +79,7 @@
 					</c:forEach>
 				</td>
 				<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
-					<c:forEach items="${actionBean.nonMemberCountries}" begin="${actionBean.nonMembersCount}" end="${(actionBean.nonMembersCount*2) - 1}" var="country" varStatus="loop">
+					<c:forEach items="${actionBean.nonMemberCountries}" begin="${actionBean.nonMembersCount1}" end="${actionBean.nonMembersCount2 - 1}" var="country" varStatus="loop">
 							<img src="images/Folder_icon.gif" alt=""/>
 							<stripes:link href="/cssearch" event="search">
 								${country.name}
@@ -92,7 +92,7 @@
 					</c:forEach>
 				</td>
 				<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="top">
-					<c:forEach items="${actionBean.nonMemberCountries}" begin="${actionBean.nonMembersCount*2}" var="country" varStatus="loop">
+					<c:forEach items="${actionBean.nonMemberCountries}" begin="${actionBean.nonMembersCount2}" var="country" varStatus="loop">
 							<img src="images/Folder_icon.gif" alt=""/>
 							<stripes:link href="/cssearch" event="search">
 								${country.name}
