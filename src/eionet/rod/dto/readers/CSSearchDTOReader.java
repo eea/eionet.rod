@@ -51,7 +51,7 @@ public class CSSearchDTOReader extends ResultSetBaseReader {
 		searchDTO.setSpatialLnkFKObligationId(new Integer(rs.getInt("FK_RA_ID")));
 		
 		searchDTO.setSpatialId(new Integer(rs.getInt("PK_SPATIAL_ID")));
-		searchDTO.setSpatialName(rs.getString("SPATIAL_NAME"));
+		searchDTO.setSpatialName(rs.getString("SPATIAL_NAME")); 
 		searchDTO.setSpatialTwoLetter(rs.getString("SPATIAL_TWOLETTER"));
 		searchDTO.setSpatialIsMember(rs.getString("SPATIAL_ISMEMBERCOUNTRY"));
 		

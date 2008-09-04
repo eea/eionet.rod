@@ -55,15 +55,18 @@ public class CSMainTableDecorator extends TableDecorator{
 		
 		StringBuilder ret = new StringBuilder();
 		CSSearchDTO search = (CSSearchDTO) getCurrentRowObject();
-		ret.append("<div title='").append(search.getObligationDeadline());
-		if(RODUtil.isNullOrEmpty(search.getObligationNextDeadline())){
-			ret.append("' style='color:#006666'>");
+		String nextDeadline = search.getObligationNextDeadline();
+		String nextReporting = search.getObligationNextReporting();
+		if(RODUtil.isNullOrEmpty(nextDeadline)){
+			ret.append("<div title='").append(nextReporting).append("' style='color:#006666'>");
+			ret.append(RODUtil.threeDots(nextReporting, 10));
+			ret.append("</div>");
 		} else {
-			ret.append("' style='color:#000000'>");
+			ret.append("<div title='").append(nextDeadline).append("' style='color:#000000'>");
+			ret.append(RODUtil.threeDots(nextDeadline, 10));
+			ret.append("</div>");
 		}
-		ret.append(RODUtil.threeDots(search.getObligationDeadline(), 10));
-		ret.append("</div>");
-		
+	
 		return ret.toString();
 	}
 	
