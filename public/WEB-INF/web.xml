@@ -88,7 +88,7 @@
 		<!-- Optional init parameters for the Stripes Filter. -->
 		<init-param>
 			<param-name>ActionResolver.UrlFilters</param-name>
-			<param-value>WEB-INF/lib/rod.jar</param-value>
+			<param-value>WEB-INF/classes/rod.jar</param-value>
 		</init-param>
 		<init-param>
 			<param-name>ActionResolver.PackageFilters</param-name>
@@ -168,10 +168,6 @@
 	<servlet>
 		<servlet-name>editclient</servlet-name>
 		<servlet-class>eionet.rod.EditClient</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>csmain</servlet-name>
-		<servlet-class>eionet.rod.countrysrv.servlets.Main</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Subscribe</servlet-name>
@@ -330,10 +326,6 @@
 		<url-pattern>/editclient.jsv</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>csmain</servlet-name>
-		<url-pattern>/csmain</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>Subscribe</servlet-name>
 		<url-pattern>/Subscribe</url-pattern>
 	</servlet-mapping>
@@ -453,6 +445,11 @@
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/cssearch</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/csmain</url-pattern>
 	</servlet-mapping>
 
 	<session-config>

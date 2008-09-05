@@ -9,7 +9,7 @@
         <h1>Reporting overview<c:if test="${!empty actionBean.spatialName}">: ${actionBean.spatialName}</c:if>
         </h1>
         
-        <stripes:form action="/cssearch" method="get">
+        <stripes:form action="/csmain" method="get">
         	<table cellspacing="0" cellpadding="3" width="600" border="0">
 				<tr>
 					<td valign="middle" width="30%" class="select_issue">Select issue:</td>
