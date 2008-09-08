@@ -285,20 +285,24 @@
 					</a>
 		</td>
 		<td>
-			<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/DEADLINE"/></xsl:attribute>
 			<xsl:choose>
-			<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
-				<xsl:attribute name="style">color:#006666</xsl:attribute>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:attribute name="style">color:#000000</xsl:attribute>
-			</xsl:otherwise>			
+				<xsl:when test="T_OBLIGATION/NEXT_DEADLINE=''">
+					<xsl:attribute name="style">color:#006666</xsl:attribute>
+					<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/NEXT_REPORTING"/></xsl:attribute>
+					<xsl:call-template name="short">
+						<xsl:with-param name="text" select="T_OBLIGATION/NEXT_REPORTING"/>
+						<xsl:with-param name="length">10</xsl:with-param>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:attribute name="style">color:#000000</xsl:attribute>
+					<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/NEXT_DEADLINE"/></xsl:attribute>
+					<xsl:call-template name="short">
+						<xsl:with-param name="text" select="T_OBLIGATION/NEXT_DEADLINE"/>
+						<xsl:with-param name="length">10</xsl:with-param>
+					</xsl:call-template>
+				</xsl:otherwise>			
 			</xsl:choose>
-
-			<xsl:call-template name="short">
-				<xsl:with-param name="text" select="T_OBLIGATION/DEADLINE"/>
-				<xsl:with-param name="length">10</xsl:with-param>
-			</xsl:call-template>
 		
 			<!--xsl:value-of select="T_OBLIGATION/DEADLINE"/-->
 
