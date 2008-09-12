@@ -198,10 +198,6 @@
 		<servlet-class>eionet.rod.DummyServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>csdeliveries</servlet-name>
-		<servlet-class>eionet.rod.countrysrv.servlets.Deliveries</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>rpcrouter</servlet-name>
 		<servlet-class>com.tee.uit.servlets.XmlRpcRouter</servlet-class>
 	</servlet>
@@ -354,10 +350,6 @@
 		<url-pattern>/DummyServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>csdeliveries</servlet-name>
-		<url-pattern>/csdeliveries</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>rpcrouter</servlet-name>
 		<url-pattern>/rpcrouter</url-pattern>
 	</servlet-mapping>
@@ -450,6 +442,11 @@
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/csmain</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/csdeliveries</url-pattern>
 	</servlet-mapping>
 
 	<session-config>

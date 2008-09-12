@@ -366,7 +366,7 @@
 				<xsl:when test="T_OBLIGATION/HAS_DELIVERY=1">
 					<a>
 					<!--xsl:attribute name="href">javascript:openPopup('csdeliveries', 'ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/>')</xsl:attribute-->
-					<xsl:attribute name="href">csdeliveries?ACT_DETAILS_ID=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;COUNTRY_ID=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/></xsl:attribute>
+					<xsl:attribute name="href">csdeliveries?actDetailsId=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/>&amp;spatialId=<xsl:value-of select="T_SPATIAL/PK_SPATIAL_ID"/></xsl:attribute>
 						Show list
 					</a>
 				</xsl:when>

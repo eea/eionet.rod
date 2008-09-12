@@ -30,24 +30,20 @@
 		</head>
 		<body>
 			<div id="container">
-				<%
-				String appName = getServletContext().getInitParameter(Attrs.APPPARAM);
-				ROUser rouser = (ROUser) session.getAttribute(Attrs.USERPREFIX + appName);
-				%>
 				<div id="toolribbon">
 					<div id="lefttools">
 						<a id="eealink" href="http://www.eea.europa.eu/">EEA</a>
 						<a id="ewlink" href="http://www.ewindows.eu.org/">EnviroWindows</a>
 				    </div>
 				    <div id="righttools">
-				    	<%  
-							if (rouser!=null){
-							%>
-							<a id="logoutlink" href="logout_servlet" title="Logout">Logout <%=rouser.getUserName()%></a><%
-						}
-						else{ %>
-							<a id="loginlink" href="login.jsp" title="Login">Login</a><%
-						}%>
+						<c:choose>
+                        	<c:when test="${empty actionBean.userName}">    
+                        		<a href="${actionBean.loginURL}" id="loginlink" title="Login">Login</a>
+					    	</c:when>
+	                        <c:otherwise>
+								<a href="logout_servlet" id="logoutlink" title="Logout">Logout ${actionBean.userName}</a>
+	                        </c:otherwise>
+	                    </c:choose>
 						<a id="printlink" title="Print this page" href="javascript:this.print();"><span>Print</span></a>
 				        <a id="fullscreenlink" href="javascript:toggleFullScreenMode()" title="Switch to/from full screen mode"><span>Switch to/from full screen mode</span></a>
 				        <a id="acronymlink" href="http://www.eionet.europa.eu/acronyms" title="Look up acronyms"><span>Acronyms</span></a>
@@ -90,43 +86,67 @@
 				</div>
 				
 				<div id="leftcolumn" class="localnav">
-				<%
-					HashMap acls = AccessController.getAcls();
-					AccessControlListIF acl = (AccessControlListIF) acls.get(Constants.ACL_HARVEST_NAME);%>
 					<ul>
 						<li><a href="index.html" title="ROD Home">Home </a></li>
 						<li><a href="deliveries" title="Country deadlines">Deadlines </a></li>
 						<li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations </a></li>
-						<% if (rouser!=null){%>
-							<li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe </a></li>
-						<% } else { %>
-							<li><a href="login.jsp?rd=subscribe" title="Create a UNS Subscription">Subscribe </a></li>
-						<% } %>
+						<c:choose>
+                        	<c:when test="${empty actionBean.userName}">    
+                        		<li><a href="login.jsp?rd=subscribe" title="Create a UNS Subscription">Subscribe </a></li>
+					    	</c:when>
+	                        <c:otherwise>
+								<li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe </a></li>
+	                        </c:otherwise>
+	                    </c:choose>
 						<li><a href="text.jsv?mode=H" title="General Help">Help </a></li>
-						<% if (rouser!=null){%>
+						<c:if test="${!empty actionBean.userName}">
 							<li><a href="versions.jsp?id=-1">Global History </a></li>
-						<% } %>
+						</c:if>
 						<li><a href="show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
 						<li><a href="rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
 						<li><a href="analysis" title="Database statistics">Database statistics </a></li>
 						<li><a href="cssearch" title="Advanced search">Advanced search </a></li>
-						<%if (rouser!=null){
-							if (acl.checkPermission( rouser.getUserName(), Constants.ACL_UPDATE_PERMISSION )){ %>
-								<li><a href="harvester.jsp">Harvest </a></li>
-						<% }} %>
+						<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName, '/Admin/Harvest', 'u')}">
+							<li><a href="harvester.jsp">Harvest </a></li>
+						</c:if>
 					</ul>
 				</div>
 
 				<div id="workarea">
+					<stripes:layout-component name="errors">
+						<stripes:errors/>
+					</stripes:layout-component>
+					
+					<stripes:layout-component name="messages">
+						<c:choose>
+							<c:when test="${actionBean.context.severity == 1}">
+								<div class="system-msg">
+									<stripes:messages/>
+								</div>
+							</c:when>
+							<c:when test="${actionBean.context.severity == 2}">
+								<div class="caution-msg">
+									<strong>Warning ...</strong>		
+									<stripes:messages/>
+								</div>
+							</c:when>
+							<c:when test="${actionBean.context.severity == 3}">
+								<div class="warning-msg">
+									<strong>Errors ...</strong>		
+									<stripes:messages/>
+								</div>
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
+					</stripes:layout-component>
+					
 					<stripes:layout-component name="contents"/>
 				</div>
-				<%
-				String last_update = RODServices.getDbService().getGenericlDao().getLastUpdate();
-				%>
 				<div id="pagefoot">
 					<a href="text.jsv?mode=D">Disclaimer</a>
 					| Last updated: 
-					<a href="analysis.jsv"><%=last_update%></a>
+					<a href="analysis.jsv">${actionBean.lastUpdate}</a>
 					|	<a href="mailto:helpdesk@eionet.europa.eu?subject=Feedback%20from%20the%20ROD%20website">Feedback </a>
 					<br/>
 					<b><a href="http://www.eea.europa.eu">European Environment Agency</a></b>

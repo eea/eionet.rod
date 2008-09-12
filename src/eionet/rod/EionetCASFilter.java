@@ -109,7 +109,21 @@ public class EionetCASFilter extends CASFilter {
 		request.getSession(true).setAttribute("afterLogin",request.getRequestURL().toString() + (request.getQueryString() != null ? ("?" +request.getQueryString()):"" ));
 		return CAS_LOGIN_URL + "?service=" + request.getScheme() + "://" + SERVER_NAME + request.getContextPath() + "/login";
 	}
+	
+	public static String getCASLoginURLTemp(HttpServletRequest req) {
+		
+		StringBuffer sb = new StringBuffer(CAS_LOGIN_URL);
+		sb.append("?service=");
+		sb.append(req.getScheme());
+		sb.append("://");
+		sb.append(SERVER_NAME);
+		if (!req.getContextPath().equals("")) {
+			sb.append(req.getContextPath());
+		}
+		sb.append("/login");
 
+		return sb.toString();
+	}
 						  	
 	public static String getCASLoginURL(HttpServletRequest req, boolean forSubscription) {
 		req.getSession(true).setAttribute("afterLogin",req.getRequestURL().toString() + (req.getQueryString() != null ? ("?" +req.getQueryString()):"" ));

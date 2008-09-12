@@ -112,8 +112,8 @@ public class CSMainTableDecorator extends TableDecorator{
 		StringBuilder ret = new StringBuilder();
 		CSSearchDTO search = (CSSearchDTO) getCurrentRowObject();
 		if(search.getObligationHasDelivery() == 1){
-			ret.append("<a href='csdeliveries?ACT_DETAILS_ID=").append(search.getObligationId());
-			ret.append("&COUNTRY_ID=").append(search.getSpatialId()).append("'>Show list</a>");
+			ret.append("<a href='csdeliveries?actDetailsId=").append(search.getObligationId());
+			ret.append("&spatialId=").append(search.getSpatialId()).append("'>Show list</a>");
 		} else {
 			ret.append("None");
 		}

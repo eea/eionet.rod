@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.CSDeliveryDTO;
 import eionet.rod.dto.ClientDTO;
 import eionet.rod.dto.IssueDTO;
+import eionet.rod.dto.readers.CSDeliveryDTOReader;
 import eionet.rod.dto.readers.ClientDTOReader;
 import eionet.rod.dto.readers.IssueDTOReader;
 import eionet.rod.services.FileServiceIF;
@@ -263,5 +265,39 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 		}
 
 	}
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.IClientDao#getDeliveryClients()
+     */
+    public List<ClientDTO> getDeliveryClients(String actDetailsId) throws ServiceException {
+    	
+    	String query = "SELECT T_CLIENT.PK_CLIENT_ID, T_CLIENT.CLIENT_NAME " +
+    		"FROM T_CLIENT, T_CLIENT_LNK " +
+    		"WHERE T_CLIENT_LNK.FK_OBJECT_ID = " + actDetailsId + " AND T_CLIENT.PK_CLIENT_ID=T_CLIENT_LNK.FK_CLIENT_ID " +
+    		"AND T_CLIENT_LNK.STATUS='C' AND T_CLIENT_LNK.TYPE='A'";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		ClientDTOReader rsReader = new ClientDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<ClientDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
 
 }

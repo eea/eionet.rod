@@ -1,8 +1,11 @@
 package eionet.rod.services.modules.db.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.CSDeliveryDTO;
+import eionet.rod.dto.CSDeliveryDataDTO;
 import eionet.rod.services.ServiceException;
 
 public interface IDeliveryDao {
@@ -31,5 +34,18 @@ public interface IDeliveryDao {
 	 * @throws ServiceException
 	 */
 	public void backUpDeliveries() throws ServiceException;
+	
+	/**
+	 * @param actDetailsId
+	 * @param spatialId
+	 * @throws ServiceException
+	 */
+	public List<CSDeliveryDTO> getCSDeliveriesList(String actDetailsId, String spatialId) throws ServiceException;
+	
+	/**
+	 * @param actDetailsId
+	 * @throws ServiceException
+	 */
+	public CSDeliveryDataDTO getDeliveryData(String actDetailsId) throws ServiceException;
 
 }

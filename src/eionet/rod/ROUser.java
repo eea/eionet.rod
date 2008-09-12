@@ -27,9 +27,15 @@ import com.tee.xmlserver.*;
 import java.sql.*;
 import java.util.Vector;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import eionet.directory.DirectoryService;
+
+import com.tee.uit.security.AccessControlListIF;
+import com.tee.uit.security.AccessController;
 import com.tee.uit.security.AuthMechanism;
-import com.tee.xmlserver.caucho.CDBPool;
+import com.tee.uit.security.SignOnException;
 /**
  * <P>WebROD specific implementation of the <CODE>com.tee.xmlserver.AppUserIF</CODE> interface. 
  * Uses database to authenticate users.</P>
@@ -39,6 +45,9 @@ import com.tee.xmlserver.caucho.CDBPool;
  */
 
 public class ROUser implements AppUserIF {
+	
+   /** */
+
    protected boolean authented = false;
    protected String user = null;
    protected String password = null;
@@ -163,6 +172,35 @@ public class ROUser implements AppUserIF {
  */
    public String toString() {
       return (user == null ? "" : user );
-    }
+   }
+   
+   /**
+	 * 
+	 * @param userName
+	 * @param aclPath
+	 * @param prm
+	 * @return
+	 */
+	public static boolean hasPermission(String userName, String aclPath, String prm){
+
+		if (RODUtil.isNullOrEmpty(userName) || RODUtil.isNullOrEmpty(aclPath) || RODUtil.isNullOrEmpty(prm))
+			return false;
+		
+		boolean result = false;
+		try{
+			AccessControlListIF acl = AccessController.getAcl(aclPath);
+			if (acl!=null){
+				result = acl.checkPermission(userName, prm);
+				Logger.log("User " + userName + " " + (result ? "has" : "does not have") + " permission " + prm + " in acl \"" + aclPath + "\"");
+			}
+			else
+				Logger.log("acl \"" + aclPath + "\" not found!");
+		}
+		catch (SignOnException soe){
+			Logger.log(soe.toString(), soe);
+		}
+		
+		return result;
+	}
 
 }

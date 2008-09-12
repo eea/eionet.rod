@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import eionet.rod.Attrs;
+import eionet.rod.EionetCASFilter;
 import eionet.rod.ROUser;
 
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -20,6 +21,8 @@ import net.sourceforge.stripes.action.ActionBeanContext;
  *
  */
 public class RODActionBeanContext extends ActionBeanContext {
+	
+	private int severity;
 	
 	/**
 	 * Wrapper method for {@link ServletRequest#getParameter(String)}.
@@ -50,7 +53,25 @@ public class RODActionBeanContext extends ActionBeanContext {
 	 */
 	public ROUser getROUser() {
 		String appName = getServletContext().getInitParameter(Attrs.APPPARAM);
-		return (ROUser) getRequest().getSession().getAttribute(Attrs.USERPREFIX + appName);
+		ROUser user = (ROUser) getRequest().getSession().getAttribute(Attrs.USERPREFIX + appName);
+		return user;
+	}
+	
+	/**
+	 * A wrapper for {@link EionetCASFilter#getCASLoginURL(javax.servlet.http.HttpServletRequest)}.
+	 * 
+	 * @return central authentication system login URL.
+	 */
+	public String getCASLoginURL() {
+		return EionetCASFilter.getCASLoginURLTemp(getRequest());
+	}
+
+	public int getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(int severity) {
+		this.severity = severity;
 	}
 	
 	

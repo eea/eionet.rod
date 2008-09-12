@@ -120,12 +120,19 @@ public interface Constants {
    public static final String SPATIAL_RIVER ="R";
    public static final String SPATIAL_LAKE ="L";
    public static final String SPATIAL_RESERVOIR ="O";
+   
+   /** */
+   public static final int SEVERITY_INFO = 1;
+   public static final int SEVERITY_CAUTION = 2;
+   public static final int SEVERITY_WARNING = 3;
 
   //Prop names
   static final String ROD_URL_EVENTS ="rod.url.events";
   //static final String ROD_URL_OBLIGATIONS ="rod.url.obligations";
   static final String ROD_URL_ACTIVITIES ="rod.url.activities";  
-  static final String ROD_URL_INSTRUMENTS ="rod.url.instruments";  
+  static final String ROD_URL_INSTRUMENTS ="rod.url.instruments";
+  
+  
 
   /**
 * Properties file name

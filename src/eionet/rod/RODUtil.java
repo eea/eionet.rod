@@ -296,5 +296,20 @@ public class RODUtil {
     public static boolean isNullOrEmpty(String s){
     	return s==null || s.length()==0;
     }
+    
+    /**
+     * 
+     * @param s
+     * @return
+     */
+    public static boolean isNumber(String s){
+    	boolean ret = true;
+    	try {    
+    		new Integer(s).intValue(); 
+    	} catch (NumberFormatException e) { 
+    		ret = false;
+    	}
+    	return ret;
+    }
 
 }

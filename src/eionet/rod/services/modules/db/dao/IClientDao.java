@@ -68,4 +68,11 @@ public interface IClientDao {
      * @throws ServiceException
      */
 	public List<ClientDTO> getClientsList() throws ServiceException;
+	
+	/**
+	 * Returns clients for csdeliveries page
+	 * @param actDetailsId
+	 * @throws ServiceException
+	 */
+	public List<ClientDTO> getDeliveryClients(String actDetailsId) throws ServiceException;
 }
