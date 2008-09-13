@@ -34,7 +34,7 @@
 			<FORMAT/>
 			<COVERAGE/>
 		</T_DELIVERY>
-		<T_OBLIGATION relation="T_DELIVERY.FK_RA_ID=T_OBLIGATION.PK_RA_ID" reltype="inner">
+		<T_OBLIGATION relation="T_DELIVERY.FK_RA_ID=T_OBLIGATION.PK_RA_ID" reltype="outer">
 			<PK_RA_ID/>
 			<FK_SOURCE_ID/>
 			<TITLE/>
@@ -47,7 +47,7 @@
 			<FK_DELIVERY_COUNTRY_IDS/>
 			<PARAMETERS/>
 		</T_OBLIGATION>
-		<T_SPATIAL relation="T_SPATIAL.PK_SPATIAL_ID=T_DELIVERY.FK_SPATIAL_ID" reltype="inner">
+		<T_SPATIAL relation="T_SPATIAL.PK_SPATIAL_ID=T_DELIVERY.FK_SPATIAL_ID" reltype="outer">
 			<PK_SPATIAL_ID/>
 			<SPATIAL_NAME/>
 			<SPATIAL_TWOLETTER/>
@@ -111,7 +111,7 @@
 				<PK_CLIENT_ID/>
 				<CLIENT_NAME/>
 			</T_CLIENT>
-			<xrs:Constraint>STATUS="C" AND TYPE="A"</xrs:Constraint>
+			<xrs:Constraint>STATUS='C' AND TYPE='A'</xrs:Constraint>
 		</xrs:SubSet>
 	</xrs:RowSet>
 	<xrs:RowSet name="Dummy">

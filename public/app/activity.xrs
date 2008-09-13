@@ -93,7 +93,7 @@
 			<ROLE_URL/>
 			<ROLE_MEMBERS_URL/>
 		</T_ROLE>
-		<T_LOOKUP relation="T_LOOKUP.C_VALUE=T_OBLIGATION.LEGAL_MORAL AND T_LOOKUP.CATEGORY='2'">
+		<T_LOOKUP relation="T_LOOKUP.C_VALUE=T_OBLIGATION.LEGAL_MORAL AND T_LOOKUP.CATEGORY='2'" reltype="outer">
 			<C_VALUE/>
 			<C_TERM/>
 		</T_LOOKUP>
@@ -148,7 +148,7 @@
 				<PK_CLIENT_ID/>
 				<CLIENT_NAME expression="CONCAT(LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
 			</T_CLIENT>
-			<xrs:Constraint>STATUS="C" AND TYPE="A"</xrs:Constraint>
+			<xrs:Constraint>STATUS='C' AND TYPE='A'</xrs:Constraint>
 		</xrs:SubSet>
 	</xrs:RowSet>
 	<xrs:RowSet name="EnvIssue">
