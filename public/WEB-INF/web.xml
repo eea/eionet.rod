@@ -88,7 +88,7 @@
 		<!-- Optional init parameters for the Stripes Filter. -->
 		<init-param>
 			<param-name>ActionResolver.UrlFilters</param-name>
-			<param-value>WEB-INF/classes/rod.jar</param-value>
+			<param-value>WEB-INF/lib/rod.jar</param-value>
 		</init-param>
 		<init-param>
 			<param-name>ActionResolver.PackageFilters</param-name>
