@@ -51,7 +51,7 @@
 			</table>
         </stripes:form>
         <div class="smallfont" style="font-size: 10pt; font-weight: normal">The list includes also recently passed deadlines, until 10% of the time difference between last deadline<br/>and next deadline has passed - 3 days for a monthly deadline, 36 days for a yearly deadline etc.</div><br/>
-        <display:table name="${actionBean.searchList}" class="sortable" pagesize="50" sort="list" id="listItem" htmlId="listItem" requestURI="/cssearch" decorator="eionet.rod.web.util.CSMainTableDecorator" style="width:100%">
+        <display:table name="${actionBean.searchList}" class="sortable" pagesize="50" sort="list" id="listItem" htmlId="listItem" requestURI="/csmain" decorator="eionet.rod.web.util.CSMainTableDecorator" style="width:100%">
 		
 			<display:column property="title" title="Reporting obligation" sortable="true" sortProperty="obligationTitle"/>
 			<display:column property="client" title="Reporting to" sortable="true" sortProperty="clientDescr"/>
