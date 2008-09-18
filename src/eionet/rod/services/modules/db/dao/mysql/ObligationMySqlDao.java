@@ -328,20 +328,20 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		"SELECT " + 
 			"a.PK_RA_ID, " + 
 			"s.PK_SOURCE_ID, " + 
-			"REPLACE(a.TITLE, '&', '&#038;') as TITLE, " + 
+			"a.TITLE AS TITLE, " + 
 			"IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, " + 
 			"a.LAST_UPDATE, " + 
 			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&#038;mode=A') AS details_url, " + 
 			"CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri," + 
 			"IF (TERMINATE='Y', 1, 0) AS 'terminated', " + 
 			"a.VALID_SINCE, " + 
-			"a.EEA_PRIMARY, " + rplAmp("a.RESPONSIBLE_ROLE", "RESPONSIBLE_ROLE") + " , " + 
-			 rplAmp("a.DESCRIPTION", "DESCRIPTION") + " , " +
-			"a.NEXT_DEADLINE, " + "a.NEXT_DEADLINE2, " + 
-	          rplAmp("a.COMMENT", "COMMENT") + ", " + 
-	          rplAmp("a.REPORTING_FORMAT", "REPORTING_FORMAT") + ", " +	          
-	          rplAmp("a.FORMAT_NAME", "FORMAT_NAME") + ", " + 
-	          rplAmp("a.REPORT_FORMAT_URL", "REPORT_FORMAT_URL") + " " + 
+			"a.EEA_PRIMARY, a.RESPONSIBLE_ROLE AS RESPONSIBLE_ROLE, " + 
+			"a.DESCRIPTION AS DESCRIPTION, " +
+			"a.NEXT_DEADLINE, a.NEXT_DEADLINE2, " + 
+	        "a.COMMENT AS COMMENT, " + 
+	        "a.REPORTING_FORMAT AS REPORTING_FORMAT, " +	          
+	        "a.FORMAT_NAME AS FORMAT_NAME, " + 
+	        "a.REPORT_FORMAT_URL AS REPORT_FORMAT_URL " + 
 		"FROM T_OBLIGATION a , T_SOURCE s "+ 
 		"WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " + 
 		"ORDER BY TITLE";

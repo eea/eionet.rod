@@ -213,10 +213,12 @@
 							  for (int i=0; i<organisations.size(); i++){
 							   Hashtable hash3 = (Hashtable) organisations.elementAt(i);
 							   String name3 = (String)hash3.get("name");
-							   name3 = RODUtil.threeDots(name3,OPTION_MAXLEN);
+							   String name3_short = RODUtil.threeDots(name3,OPTION_MAXLEN);
+							   name3 = RODUtil.replaceTags(name3);
+							   name3_short = RODUtil.replaceTags(name3_short);
 							   String id3 = (String)hash3.get("uri");
 							    %>
-							    <option><%=name3%></option>
+							    <option value="<%=name3%>"><%=name3_short%></option>
 							    <%
 							   }
 							  %>
@@ -254,10 +256,11 @@
 							  for (int i=0; i<obligations.size(); i++){
 							   Hashtable hash4 = (Hashtable) obligations.elementAt(i);
 							   String name4 = (String)hash4.get("TITLE");
-							   name4 = RODUtil.threeDots(name4,OPTION_MAXLEN);
-							   String id4 = (String)hash4.get("uri");
+							   String name4_short = RODUtil.threeDots(name4,OPTION_MAXLEN);
+							   name4_short = RODUtil.replaceTags(name4_short);
+							   name4 = RODUtil.replaceTags(name4);
 							    %>
-							    <option><%=name4%></option>
+							    <option value="<%=name4%>"><%=name4_short%></option>
 							    <%
 							   }
 							  %>
@@ -297,6 +300,7 @@
 								   Hashtable hash = (Hashtable) instruments.elementAt(i);
 								   String name = (String)hash.get("TITLE");
 								   name = RODUtil.threeDots(name,OPTION_MAXLEN);
+							   	   name = RODUtil.replaceTags(name);
 								    %>
 								    <option><%=name%></option>
 								    <%
