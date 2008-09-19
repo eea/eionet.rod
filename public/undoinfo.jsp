@@ -187,9 +187,9 @@
 									<td><%=RODUtil.replaceTags(tabel)%></td>
 									<td><%=sub_trans_nr%></td>
 									<td><%=RODUtil.replaceTags(col)%></td>
-									<td><%=RODUtil.replaceTags(value)%></td>
+									<td><%=RODUtil.replaceTags(value, true)%></td>
 									<% if(!op.equals("D") && !op.equals("UD") && !op.equals("UDD")){ %>
-										<td style="<%=c2%>"><%=RODUtil.replaceTags(currentValue)%></td>
+										<td style="<%=c2%>"><%=RODUtil.replaceTags(currentValue, true)%></td>
 									<% } %>
 								</tr>
 							<% 	s++;
