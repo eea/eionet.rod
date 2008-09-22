@@ -35,8 +35,8 @@ public class CSDeliveriesTableDecorator extends TableDecorator{
 					ret.append("</div>");
 				}
 			} else {
-				ret.append("<a href='responsible.jsp?role=").append(delivery.getObligationRespRole()).append("&spatial=");
-				ret.append(delivery.getSpatialTwoLetter()).append("&member=").append(delivery.getSpatialIsMember()).append("'>");
+				ret.append("<a href='responsible.jsp?role=").append(delivery.getObligationRespRole()).append("&amp;spatial=");
+				ret.append(delivery.getSpatialTwoLetter()).append("&amp;member=").append(delivery.getSpatialIsMember()).append("'>");
 				ret.append(RODUtil.threeDots(delivery.getRoleName(), 15));
 				ret.append("</a>");
 			}

@@ -2,8 +2,10 @@ package eionet.rod.services.modules.db.dao;
 
 import java.sql.Connection;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.VersionDTO;
 import eionet.rod.services.ServiceException;
 
 /**
@@ -11,7 +13,7 @@ import eionet.rod.services.ServiceException;
  *
  */
 public interface IUndoDao {
-
+	
 	/**
 	 * @param id
 	 * @param tab
@@ -20,6 +22,22 @@ public interface IUndoDao {
 	 * @throws ServiceException
 	 */
 	public Hashtable getPreviousActions(String id, String tab, String id_field) throws ServiceException;
+	
+	/**
+	 * Returns all previous actions
+	 * @return
+	 * @throws ServiceException
+	 */
+	public List<VersionDTO> getPreviousActionsGeneral() throws ServiceException;
+	
+	/**
+	 * @param id
+	 * @param tab
+	 * @param id_field
+	 * @return
+	 * @throws ServiceException
+	 */
+	public List<VersionDTO> getPreviousActionsReportSpecific(String id, String tab, String id_field) throws ServiceException;
 
 	/**
 	 * Insert obligations related to instrument into T_UNDO table
@@ -87,6 +105,16 @@ public interface IUndoDao {
 	 * @throws ServiceException
 	 */
 	public String getUndoUser(long ts, String tab) throws ServiceException;
+	
+	/**
+	 * Returns undo object id
+	 * @param ts
+	 * @param tab
+	 * @param col
+	 * @return
+	 * @throws ServiceException
+	 */
+	public String getUndoObjetcId(long ts, String tab, String col) throws ServiceException;
 
 	/**
 	 * @param id

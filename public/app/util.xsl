@@ -200,7 +200,7 @@
 				</xsl:choose>
 				<li><a href="text.jsv?mode=H" title="General Help">Help </a></li>
 				<xsl:if test="contains($admin,'true')='true'">
-					<li><a href="versions.jsp?id=-1">Global history </a></li>
+					<li><a href="versions?id=-1">Global history </a></li>
 				</xsl:if>
 				<li><a href="show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
 				<li><a href="rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>

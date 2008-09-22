@@ -124,7 +124,7 @@
 								</xsl:if>
 								<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':u,'))='true'">
 									<li>
-										<a><xsl:attribute name="href">versions.jsp?id=<xsl:value-of select="$src-id"/>&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID</xsl:attribute>
+										<a><xsl:attribute name="href">versions?id=<xsl:value-of select="$src-id"/>&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID</xsl:attribute>
 										Show history</a>
 									</li>
 								</xsl:if>

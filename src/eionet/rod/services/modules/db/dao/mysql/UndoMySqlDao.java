@@ -7,9 +7,11 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -17,11 +19,16 @@ import com.tee.uit.security.AccessController;
 import com.tee.uit.security.SignOnException;
 
 
+import eionet.rod.dto.ClientDTO;
+import eionet.rod.dto.VersionDTO;
+import eionet.rod.dto.readers.ClientDTOReader;
+import eionet.rod.dto.readers.VersionDTOReader;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IHistoryDao;
 import eionet.rod.services.modules.db.dao.IUndoDao;
+import eionet.rod.util.sql.SQLUtil;
 
 public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
@@ -132,6 +139,78 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
 		return ret;
 	}
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.IUndoDao#getPreviousActionsGeneral()
+     */
+    public List<VersionDTO> getPreviousActionsGeneral() throws ServiceException {
+    	
+    	String query = "select undo_time, col, tab, operation, value, show_object " + 
+    		"from T_UNDO " + 
+    		"WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') " + 
+    			"AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' " + 
+    		"ORDER BY undo_time DESC";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		VersionDTOReader rsReader = new VersionDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<VersionDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.IUndoDao#getPreviousActionsReportSpecific()
+     */
+    public List<VersionDTO> getPreviousActionsReportSpecific(String id, String tab, String id_field) throws ServiceException {
+    	
+    	String query = "select undo_time, col, tab, operation, value, show_object " + 
+    		"from T_UNDO WHERE " + 
+    			"col = '" + id_field + "' " + 
+    			"AND value = '" + id + "' " + 
+    			"AND tab = '" + tab + "' " +
+    			"AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') " + 
+    		"ORDER BY undo_time DESC";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		VersionDTOReader rsReader = new VersionDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<VersionDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
 
 	private static final String qDeletedFromUndo = 
 		"select undo_time, col, tab, operation, value, show_object " + 
@@ -882,6 +961,41 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 			preparedStatement.setString(2, "K");
 			preparedStatement.setString(3, tab);
 			if (isDebugMode) logQuery(qSelectUndoByTableAndOperation);
+			ua = _executeStringQuery(preparedStatement);
+		} catch (SQLException e) {
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, con);
+		}
+		if (ua.length > 0) return ua[0][0];
+
+		return null;
+	}
+	
+	private static final String q_undo_object_id = 
+		"SELECT value " + 
+		"FROM T_UNDO " + 
+		"WHERE undo_time=? AND tab=? AND col=?";
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IUndoDao#getUndoObjetcId(long,
+	 *      java.lang.String, java.lang.String)
+	 */
+	public String getUndoObjetcId(long ts, String tab, String col) throws ServiceException {
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		String[][] ua = {};
+
+		try {
+			con = getConnection();
+			preparedStatement = con.prepareStatement(q_undo_object_id);
+			preparedStatement.setLong(1, ts);
+			preparedStatement.setString(2, tab);
+			preparedStatement.setString(3, col);
+			if (isDebugMode) logQuery(q_undo_object_id);
 			ua = _executeStringQuery(preparedStatement);
 		} catch (SQLException e) {
 			logger.error(e);

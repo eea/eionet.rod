@@ -19,11 +19,11 @@ public class CSMainTableDecorator extends TableDecorator{
 		
 		StringBuilder ret = new StringBuilder();
 		CSSearchDTO search = (CSSearchDTO) getCurrentRowObject();
-		ret.append("<a href='show.jsv?id=").append(search.getObligationId()).append("&mode=A'>");
+		ret.append("<a href='show.jsv?id=").append(search.getObligationId()).append("&amp;mode=A'>");
 		ret.append(RODUtil.threeDots(search.getObligationTitle(), 40));
 		ret.append("</a>");
 		if(!RODUtil.isNullOrEmpty(search.getSourceCode())){
-			ret.append("<br/><a href='show.jsv?id=").append(search.getSourceId()).append("&mode=S'>");
+			ret.append("<br/><a href='show.jsv?id=").append(search.getSourceId()).append("&amp;mode=S'>");
 			ret.append(search.getSourceCode());
 			ret.append("</a>");
 		}
@@ -93,8 +93,8 @@ public class CSMainTableDecorator extends TableDecorator{
 					ret.append("</div>");
 				}
 			} else {
-				ret.append("<a href='responsible.jsp?role=").append(search.getObligationRespRole()).append("&spatial=");
-				ret.append(search.getSpatialTwoLetter()).append("&member=").append(search.getSpatialIsMember()).append("'>");
+				ret.append("<a href='responsible.jsp?role=").append(search.getObligationRespRole()).append("&amp;spatial=");
+				ret.append(search.getSpatialTwoLetter()).append("&amp;member=").append(search.getSpatialIsMember()).append("'>");
 				ret.append(RODUtil.threeDots(search.getRoleDescr(), 15));
 				ret.append("</a>");
 			}
@@ -113,7 +113,7 @@ public class CSMainTableDecorator extends TableDecorator{
 		CSSearchDTO search = (CSSearchDTO) getCurrentRowObject();
 		if(search.getObligationHasDelivery() == 1){
 			ret.append("<a href='csdeliveries?actDetailsId=").append(search.getObligationId());
-			ret.append("&spatialId=").append(search.getSpatialId()).append("'>Show list</a>");
+			ret.append("&amp;spatialId=").append(search.getSpatialId()).append("'>Show list</a>");
 		} else {
 			ret.append("None");
 		}
