@@ -152,5 +152,5 @@
 		<xsl:call-template name="CommonFooter"/>
 	</xsl:template>
 	<xsl:template name="PageHelp"/>
-
+	<xsl:template name="createURL"/>
 </xsl:stylesheet>
