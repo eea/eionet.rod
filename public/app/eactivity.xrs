@@ -124,7 +124,7 @@
 				<CLIENT_NAME expression="CONCAT( IF(CLIENT_ACRONYM != '', CONCAT(CLIENT_ACRONYM, ' - '), ''),  LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) &gt; 50 ,'...', '')   ) AS CLIENT_NAME"/>
 				<!--CLIENT_ACRONYM/-->
 			</T_CLIENT>
-			<xrs:Constraint>STATUS="C" AND TYPE="A"</xrs:Constraint>
+			<xrs:Constraint>STATUS='C' AND TYPE='A'</xrs:Constraint>
 		</xrs:SubSet>
 		<xrs:SubSet name="LnkInfo" relation="T_OBLIGATION.PK_RA_ID=T_INFO_LNK.FK_RA_ID">
 			<T_INFO_LNK>

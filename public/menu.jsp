@@ -16,7 +16,7 @@
 			    <% } %>
 			    <li><a href="text.jsv?mode=H" title="General Help">Help </a></li>
 				<% if (rouser!=null){%>
-					    <li><a href="versions?id=-1">Global History </a></li>
+					    <li><a href="versions">Global History </a></li>
 				<% } %>
 				<li><a href="show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
 				<li><a href="rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>

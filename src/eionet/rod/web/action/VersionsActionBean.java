@@ -31,7 +31,7 @@ public class VersionsActionBean extends AbstractRODActionBean {
 	@DefaultHandler
 	public Resolution init() throws ServiceException {
 		
-		if(id != null && id.equals("-1"))
+		if(id == null || id.equals("") || id.equals("-1"))
 			versions = RODServices.getDbService().getUndoDao().getPreviousActionsGeneral();
 		else
 			versions = RODServices.getDbService().getUndoDao().getPreviousActionsReportSpecific(id, tab, id_field);
