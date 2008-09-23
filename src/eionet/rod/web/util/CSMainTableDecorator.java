@@ -98,6 +98,8 @@ public class CSMainTableDecorator extends TableDecorator{
 				ret.append(RODUtil.threeDots(search.getRoleDescr(), 15));
 				ret.append("</a>");
 			}
+		} else {
+			ret.append(search.getSpatialName());
 		}
 		
 		return ret.toString();
