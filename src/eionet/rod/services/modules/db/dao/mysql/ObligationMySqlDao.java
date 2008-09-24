@@ -18,9 +18,9 @@ import com.tee.util.Util;
 import com.tee.xmlserver.FieldInfo;
 
 import eionet.rod.RODUtil;
-import eionet.rod.dto.CSSearchDTO;
+import eionet.rod.dto.SearchDTO;
 import eionet.rod.dto.CountryDTO;
-import eionet.rod.dto.readers.CSSearchDTOReader;
+import eionet.rod.dto.readers.SearchDTOReader;
 import eionet.rod.dto.readers.CountryDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IObligationDao;
@@ -1180,7 +1180,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      * 
      * @see eionet.rod.dao.IObligationDao#getSearchObligationsList()
      */
-    public List<CSSearchDTO> getSearchObligationsList(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, String order) throws ServiceException {
+    public List<SearchDTO> getSearchObligationsList(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, String order) throws ServiceException {
     	
     	String sql = getSearchSql(spatialId, clientId, issueId, date1, date2, dlCase, false, order);
     	String sql_union = getSearchSql(spatialId, clientId, issueId, date1, date2, dlCase, true, order);
@@ -1190,11 +1190,11 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     	List<Object> values = new ArrayList<Object>();
 				
 		Connection conn = null;
-		CSSearchDTOReader rsReader = new CSSearchDTOReader();
+		SearchDTOReader rsReader = new SearchDTOReader();
 		try{
 			conn = getConnection();
 			SQLUtil.executeQuery(query, values, rsReader, conn);
-			List<CSSearchDTO>  list = rsReader.getResultList();
+			List<SearchDTO>  list = rsReader.getResultList();
 			return list;
 		}
 		catch (Exception e){

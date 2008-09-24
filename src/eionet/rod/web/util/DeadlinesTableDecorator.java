@@ -2,14 +2,14 @@ package eionet.rod.web.util;
 
 import org.displaytag.decorator.TableDecorator;
 import eionet.rod.RODUtil;
-import eionet.rod.dto.CSSearchDTO;
+import eionet.rod.dto.SearchDTO;
 
 /**
  * 
  * @author altnyris
  *
  */
-public class CSMainTableDecorator extends TableDecorator{
+public class DeadlinesTableDecorator extends TableDecorator{
 	
 	/**
 	 * 
@@ -18,7 +18,7 @@ public class CSMainTableDecorator extends TableDecorator{
 	public String getTitle(){
 		
 		StringBuilder ret = new StringBuilder();
-		CSSearchDTO search = (CSSearchDTO) getCurrentRowObject();
+		SearchDTO search = (SearchDTO) getCurrentRowObject();
 		ret.append("<a href='show.jsv?id=").append(search.getObligationId()).append("&amp;mode=A'>");
 		ret.append(RODUtil.threeDots(search.getObligationTitle(), 40));
 		ret.append("</a>");
@@ -38,7 +38,7 @@ public class CSMainTableDecorator extends TableDecorator{
 	public String getClient(){
 		
 		StringBuilder ret = new StringBuilder();
-		CSSearchDTO search = (CSSearchDTO) getCurrentRowObject();
+		SearchDTO search = (SearchDTO) getCurrentRowObject();
 		ret.append("<a href='client.jsv?id=").append(search.getClientId()).append("' title='");
 		ret.append(search.getClientName()).append("'>");
 		ret.append(RODUtil.threeDots(search.getClientDescr(), 20));
@@ -54,7 +54,7 @@ public class CSMainTableDecorator extends TableDecorator{
 	public String getDeadline(){
 		
 		StringBuilder ret = new StringBuilder();
-		CSSearchDTO search = (CSSearchDTO) getCurrentRowObject();
+		SearchDTO search = (SearchDTO) getCurrentRowObject();
 		String nextDeadline = search.getObligationNextDeadline();
 		String nextReporting = search.getObligationNextReporting();
 		if(RODUtil.isNullOrEmpty(nextDeadline)){
@@ -78,7 +78,7 @@ public class CSMainTableDecorator extends TableDecorator{
 		
 		StringBuilder ret = new StringBuilder();
 		ret.append("");
-		CSSearchDTO search = (CSSearchDTO) getCurrentRowObject();
+		SearchDTO search = (SearchDTO) getCurrentRowObject();
 		if(!RODUtil.isNullOrEmpty(search.getObligationRespRole())){
 			if(RODUtil.isNullOrEmpty(search.getRoleDescr())){
 				if(search.getSpatialIsMember().equals("Y")){
@@ -112,9 +112,9 @@ public class CSMainTableDecorator extends TableDecorator{
 	public String getHasDelivery(){
 		
 		StringBuilder ret = new StringBuilder();
-		CSSearchDTO search = (CSSearchDTO) getCurrentRowObject();
+		SearchDTO search = (SearchDTO) getCurrentRowObject();
 		if(search.getObligationHasDelivery() == 1){
-			ret.append("<a href='csdeliveries?actDetailsId=").append(search.getObligationId());
+			ret.append("<a href='countrydeliveries?actDetailsId=").append(search.getObligationId());
 			ret.append("&amp;spatialId=").append(search.getSpatialId()).append("'>Show list</a>");
 		} else {
 			ret.append("None");

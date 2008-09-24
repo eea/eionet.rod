@@ -5,14 +5,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import eionet.rod.dto.CSSearchDTO;
+import eionet.rod.dto.SearchDTO;
 import eionet.rod.dto.ClientDTO;
 import eionet.rod.util.sql.ResultSetBaseReader;
 
-public class CSSearchDTOReader extends ResultSetBaseReader {
+public class SearchDTOReader extends ResultSetBaseReader {
 	
 	/** */
-	List<CSSearchDTO> resultList = new ArrayList<CSSearchDTO>();
+	List<SearchDTO> resultList = new ArrayList<SearchDTO>();
 	
 	/*
 	 * (non-Javadoc)
@@ -20,7 +20,7 @@ public class CSSearchDTOReader extends ResultSetBaseReader {
 	 */
 	public void readRow(ResultSet rs) throws SQLException {
 		
-		CSSearchDTO searchDTO = new CSSearchDTO();
+		SearchDTO searchDTO = new SearchDTO();
 		searchDTO.setObligationId(new Integer(rs.getInt("PK_RA_ID")));
 		searchDTO.setObligationTitle(rs.getString("TITLE"));
 		searchDTO.setObligationRespRole(rs.getString("RESPONSIBLE_ROLE"));
@@ -64,7 +64,7 @@ public class CSSearchDTOReader extends ResultSetBaseReader {
 	/**
 	 * @return the resultList
 	 */
-	public List<CSSearchDTO> getResultList() {
+	public List<SearchDTO> getResultList() {
 		return resultList;
 	}
 

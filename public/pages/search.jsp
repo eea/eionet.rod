@@ -7,7 +7,7 @@
 	<stripes:layout-component name="contents">
 
         <h1>Advanced search</h1>
-        <stripes:form action="/csmain" method="get">
+        <stripes:form action="/deadlines" method="get">
 			<table cellspacing="0" cellpadding="2" class="main">
 					 <tr>
 							<td colspan="2" width="94%" bgcolor="#FFFFFF" class="head">

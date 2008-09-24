@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class CSDeliveryDTO implements java.io.Serializable{
+public class CountryDeliveryDTO implements java.io.Serializable{
 	
 	//Fields from T_DELIVERY table
 	private Integer deliveryId;

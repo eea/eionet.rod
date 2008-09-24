@@ -6,109 +6,150 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
+
+import eionet.rod.RODUtil;
+import eionet.rod.dto.SearchDTO;
+import eionet.rod.dto.ClientDTO;
 import eionet.rod.dto.CountryDTO;
+import eionet.rod.dto.IssueDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
  * 
- * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
+ * @author altnyris
  *
  */
-@UrlBinding("/deliveries")
+@UrlBinding("/deadlines")
 public class DeadlinesActionBean extends AbstractRODActionBean {
+
+	private List<CountryDTO> countries;
+	private List<IssueDTO> issues;
+	private List<ClientDTO> clients;
 	
-	private List<CountryDTO> memberCountries;
-	private List<CountryDTO> nonMemberCountries;
-	private int membersCount1;
-	private int membersCount2;
-	private int nonMembersCount1;
-	private int nonMembersCount2;
+	private List<SearchDTO> searchList;
 	
-	/**
+	private String spatialId;
+	private String spatialName;
+	private String issueId;
+	private String clientId;
+	private String deadlines;
+	private String date1;
+	private String date2;
+	private String order;
+	
+	
+	/** 
 	 * 
 	 * @return
 	 */
 	@DefaultHandler
-	public Resolution init() throws ServiceException {
-		memberCountries = RODServices.getDbService().getSpatialDao().getMemberCountries();
-		nonMemberCountries = RODServices.getDbService().getSpatialDao().getNonMemberCountries();
+	public Resolution search() throws ServiceException {
+		countries = RODServices.getDbService().getSpatialDao().getCountriesList();
+		issues = RODServices.getDbService().getIssueDao().getIssuesList();
+		clients = RODServices.getDbService().getClientDao().getClientsList();
 		
-		int memberSize = memberCountries.size();
-		int cnt = memberSize / 3;
-		if((memberSize - (cnt * 3)) == 0){
-			membersCount1 = cnt;
-			membersCount2 = cnt * 2; 
-		} else if ((memberSize - (cnt * 3)) == 1){
-			membersCount1 = cnt + 1;
-			membersCount2 = (cnt * 2) + 1;
-		} else if ((memberSize - (cnt * 3)) == 2){
-			membersCount1 = cnt + 1;
-			membersCount2 = (cnt + 1) * 2;
-		}		
-		
-		int nonMemberSize = nonMemberCountries.size();
-		int cnt2 = nonMemberSize / 3;
-		if((nonMemberSize - (cnt2 * 3)) == 0){
-			nonMembersCount1 = cnt2;
-			nonMembersCount2 = cnt2 * 2; 
-		} else if ((nonMemberSize - (cnt2 * 3)) == 1){
-			nonMembersCount1 = cnt2 + 1;
-			nonMembersCount2 = (cnt2 * 2) + 1;
-		} else if ((nonMemberSize - (cnt2 * 3)) == 2){
-			nonMembersCount1 = cnt2 + 1;
-			nonMembersCount2 = (cnt2 + 1) * 2;
-		}		
-				
+		if(!RODUtil.isNullOrEmpty(spatialId))
+			spatialName = RODServices.getDbService().getSpatialDao().getCountryById(new Integer(spatialId).intValue());
+    	
+		searchList = RODServices.getDbService().getObligationDao().getSearchObligationsList(spatialId, clientId, issueId, date1, date2, deadlines, order);
 		return new ForwardResolution("/pages/deadlines.jsp");
 	}
-
-	public List<CountryDTO> getNonMemberCountries() {
-		return nonMemberCountries;
+	
+	public List<CountryDTO> getCountries() {
+		return countries;
 	}
 
-	public void setNonMemberCountries(List<CountryDTO> nonMemberCountries) {
-		this.nonMemberCountries = nonMemberCountries;
+	public void setCountries(List<CountryDTO> countries) {
+		this.countries = countries;
 	}
 
-	public List<CountryDTO> getMemberCountries() {
-		return memberCountries;
+	public List<IssueDTO> getIssues() {
+		return issues;
 	}
 
-	public void setMemberCountries(List<CountryDTO> memberCountries) {
-		this.memberCountries = memberCountries;
+	public void setIssues(List<IssueDTO> issues) {
+		this.issues = issues;
 	}
 
-	public int getMembersCount1() {
-		return membersCount1;
+	public List<ClientDTO> getClients() {
+		return clients;
 	}
 
-	public void setMembersCount1(int membersCount1) {
-		this.membersCount1 = membersCount1;
+	public void setClients(List<ClientDTO> clients) {
+		this.clients = clients;
 	}
 
-	public int getMembersCount2() {
-		return membersCount2;
+	public String getSpatialId() {
+		return spatialId;
 	}
 
-	public void setMembersCount2(int membersCount2) {
-		this.membersCount2 = membersCount2;
+	public void setSpatialId(String spatialId) {
+		this.spatialId = spatialId;
 	}
 
-	public int getNonMembersCount1() {
-		return nonMembersCount1;
+	public String getIssueId() {
+		return issueId;
 	}
 
-	public void setNonMembersCount1(int nonMembersCount1) {
-		this.nonMembersCount1 = nonMembersCount1;
+	public void setIssueId(String issueId) {
+		this.issueId = issueId;
 	}
 
-	public int getNonMembersCount2() {
-		return nonMembersCount2;
+	public String getClientId() {
+		return clientId;
 	}
 
-	public void setNonMembersCount2(int nonMembersCount2) {
-		this.nonMembersCount2 = nonMembersCount2;
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
 	}
 
+	public List<SearchDTO> getSearchList() {
+		return searchList;
+	}
+
+	public void setSearchList(List<SearchDTO> searchList) {
+		this.searchList = searchList;
+	}
+
+	public String getDate1() {
+		return date1;
+	}
+
+	public void setDate1(String date1) {
+		this.date1 = date1;
+	}
+
+	public String getDate2() {
+		return date2;
+	}
+
+	public void setDate2(String date2) {
+		this.date2 = date2;
+	}
+
+	public String getDeadlines() {
+		return deadlines;
+	}
+
+	public void setDeadlines(String deadlines) {
+		this.deadlines = deadlines;
+	}
+
+	public String getSpatialName() {
+		return spatialName;
+	}
+
+	public void setSpatialName(String spatialName) {
+		this.spatialName = spatialName;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+	
 }

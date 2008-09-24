@@ -123,7 +123,7 @@ of ROD and CDR by using the advanced search.
 </xsl:template>
 <xsl:template name="COUNTRYNAME">
 	<img src="images/Folder_icon.gif" alt=""/>
-	<a><xsl:attribute name="href">csmain?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&amp;ORD=NEXT_REPORTING, DEADLINE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
+	<a><xsl:attribute name="href">deadlines?COUNTRY_ID=<xsl:value-of select="PK_SPATIAL_ID"/>&amp;ORD=NEXT_REPORTING, DEADLINE</xsl:attribute><xsl:value-of select="SPATIAL_NAME"/></a>
 	<br/>
 </xsl:template>
 <xsl:template name="createURL"/>

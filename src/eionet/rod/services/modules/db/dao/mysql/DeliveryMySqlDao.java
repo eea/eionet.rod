@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Vector;
 
 import eionet.rod.RODUtil;
-import eionet.rod.dto.CSDeliveryDTO;
-import eionet.rod.dto.CSDeliveryDataDTO;
-import eionet.rod.dto.readers.CSDeliveryDTOReader;
+import eionet.rod.dto.CountryDeliveryDTO;
+import eionet.rod.dto.CountryDeliveryDataDTO;
+import eionet.rod.dto.readers.CountryDeliveryDTOReader;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IDeliveryDao;
@@ -260,20 +260,20 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 	/*
      * (non-Javadoc)
      * 
-     * @see eionet.rod.dao.IDeliveryDao#getCSDeliveriesList()
+     * @see eionet.rod.dao.IDeliveryDao#getCountryDeliveriesList()
      */
-    public List<CSDeliveryDTO> getCSDeliveriesList(String actDetailsId, String spatialId) throws ServiceException {
+    public List<CountryDeliveryDTO> getCountyDeliveriesList(String actDetailsId, String spatialId) throws ServiceException {
     	
     	String query = getDeliveriesListSql(actDetailsId, spatialId);
     	
     	List<Object> values = new ArrayList<Object>();
 				
 		Connection conn = null;
-		CSDeliveryDTOReader rsReader = new CSDeliveryDTOReader();
+		CountryDeliveryDTOReader rsReader = new CountryDeliveryDTOReader();
 		try{
 			conn = getConnection();
 			SQLUtil.executeQuery(query, values, rsReader, conn);
-			List<CSDeliveryDTO>  list = rsReader.getResultList();
+			List<CountryDeliveryDTO>  list = rsReader.getResultList();
 			return list;
 		}
 		catch (Exception e){
@@ -302,9 +302,9 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
      * 
      * @see eionet.rod.dao.IDeliveryDao#getDeliveryData()
      */
-	public CSDeliveryDataDTO getDeliveryData(String actDetailsId) throws ServiceException {
+	public CountryDeliveryDataDTO getDeliveryData(String actDetailsId) throws ServiceException {
 		
-		CSDeliveryDataDTO ret = new CSDeliveryDataDTO();
+		CountryDeliveryDataDTO ret = new CountryDeliveryDataDTO();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;

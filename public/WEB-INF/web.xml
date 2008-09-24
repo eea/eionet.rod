@@ -431,22 +431,22 @@
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/deliveries</url-pattern>
+		<url-pattern>/countries</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/cssearch</url-pattern>
+		<url-pattern>/search</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/csmain</url-pattern>
+		<url-pattern>/deadlines</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/csdeliveries</url-pattern>
+		<url-pattern>/countrydeliveries</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

@@ -2,15 +2,15 @@ package eionet.rod.web.util;
 
 import org.displaytag.decorator.TableDecorator;
 import eionet.rod.RODUtil;
-import eionet.rod.dto.CSDeliveryDTO;
-import eionet.rod.dto.CSSearchDTO;
+import eionet.rod.dto.CountryDeliveryDTO;
+import eionet.rod.dto.SearchDTO;
 
 /**
  * 
  * @author altnyris
  *
  */
-public class CSDeliveriesTableDecorator extends TableDecorator{
+public class CountryDeliveriesTableDecorator extends TableDecorator{
 	
 	/**
 	 * 
@@ -20,7 +20,7 @@ public class CSDeliveriesTableDecorator extends TableDecorator{
 		
 		StringBuilder ret = new StringBuilder();
 		ret.append("");
-		CSDeliveryDTO delivery = (CSDeliveryDTO) getCurrentRowObject();
+		CountryDeliveryDTO delivery = (CountryDeliveryDTO) getCurrentRowObject();
 		if(!RODUtil.isNullOrEmpty(delivery.getObligationRespRole())){
 			if(RODUtil.isNullOrEmpty(delivery.getRoleName())){
 				if(delivery.getSpatialIsMember().equals("Y")){
@@ -52,7 +52,7 @@ public class CSDeliveriesTableDecorator extends TableDecorator{
 	public String getTitle(){
 		
 		StringBuilder ret = new StringBuilder();
-		CSDeliveryDTO delivery = (CSDeliveryDTO) getCurrentRowObject();
+		CountryDeliveryDTO delivery = (CountryDeliveryDTO) getCurrentRowObject();
 		ret.append("<a href='").append(delivery.getDeliveryUrl()).append("'>");
 		ret.append(delivery.getDeliveryTitle());
 		ret.append("</a>");
@@ -67,7 +67,7 @@ public class CSDeliveriesTableDecorator extends TableDecorator{
 	public String getDate(){
 		
 		StringBuilder ret = new StringBuilder();
-		CSDeliveryDTO delivery = (CSDeliveryDTO) getCurrentRowObject();
+		CountryDeliveryDTO delivery = (CountryDeliveryDTO) getCurrentRowObject();
 		if(!delivery.getDeliveryUploadDate().equals("0000-00-00"))
 			ret.append(delivery.getDeliveryUploadDate());
 		else

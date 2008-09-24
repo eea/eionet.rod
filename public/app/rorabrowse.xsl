@@ -311,7 +311,7 @@
 			<td>
 				<xsl:choose>
 					<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
-						<a><xsl:attribute name="href">csdeliveries?actDetailsId=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/></xsl:attribute>
+						<a><xsl:attribute name="href">countrydeliveries?actDetailsId=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/></xsl:attribute>
 						Show list
 						</a>
 					</xsl:when>
@@ -443,7 +443,7 @@
 						<td>
 							<xsl:choose>
 								<xsl:when test="string-length(T_OBLIGATION/FK_DELIVERY_COUNTRY_IDS) &gt; 0">
-									<a><xsl:attribute name="href">csdeliveries?actDetailsId=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/></xsl:attribute>
+									<a><xsl:attribute name="href">countrydeliveries?actDetailsId=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/></xsl:attribute>
 									Show list
 									</a>
 								</xsl:when>

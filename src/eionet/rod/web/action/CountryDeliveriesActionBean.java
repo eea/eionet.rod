@@ -8,8 +8,8 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import eionet.rod.Constants;
 import eionet.rod.RODUtil;
-import eionet.rod.dto.CSDeliveryDTO;
-import eionet.rod.dto.CSDeliveryDataDTO;
+import eionet.rod.dto.CountryDeliveryDTO;
+import eionet.rod.dto.CountryDeliveryDataDTO;
 import eionet.rod.dto.ClientDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
@@ -19,11 +19,11 @@ import eionet.rod.services.ServiceException;
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
  *
  */
-@UrlBinding("/csdeliveries")
-public class CSDeliveriesActionBean extends AbstractRODActionBean {
+@UrlBinding("/countrydeliveries")
+public class CountryDeliveriesActionBean extends AbstractRODActionBean {
 	
-	private List<CSDeliveryDTO> deliveries;
-	private CSDeliveryDataDTO deliveryData;
+	private List<CountryDeliveryDTO> deliveries;
+	private CountryDeliveryDataDTO deliveryData;
 	private List<ClientDTO> clients;
 	private String actDetailsId;
 	private String spatialId;
@@ -42,7 +42,7 @@ public class CSDeliveriesActionBean extends AbstractRODActionBean {
 			if(!RODUtil.isNullOrEmpty(spatialId) && !RODUtil.isNumber(spatialId))
 				handleRodException("spatialId has to be a number!", Constants.SEVERITY_WARNING);
 			else{
-				deliveries = RODServices.getDbService().getDeliveryDao().getCSDeliveriesList(actDetailsId, spatialId);
+				deliveries = RODServices.getDbService().getDeliveryDao().getCountyDeliveriesList(actDetailsId, spatialId);
 				deliveryData = RODServices.getDbService().getDeliveryDao().getDeliveryData(actDetailsId);
 				reportFreq = reportFreqMsg(deliveryData);
 				clients = RODServices.getDbService().getClientDao().getDeliveryClients(actDetailsId);
@@ -59,10 +59,10 @@ public class CSDeliveriesActionBean extends AbstractRODActionBean {
 			handleRodException("actDetailsId is not defined or is not a number", Constants.SEVERITY_WARNING);
 		}
 				
-		return new ForwardResolution("/pages/csdeliveries.jsp");
+		return new ForwardResolution("/pages/countrydeliveries.jsp");
 	}
 	
-	private String reportFreqMsg(CSDeliveryDataDTO deliveryData) {
+	private String reportFreqMsg(CountryDeliveryDataDTO deliveryData) {
 		
 		String ret = "";
 		
@@ -87,11 +87,11 @@ public class CSDeliveriesActionBean extends AbstractRODActionBean {
 		return ret;
 	}
 
-	public List<CSDeliveryDTO> getDeliveries() {
+	public List<CountryDeliveryDTO> getDeliveries() {
 		return deliveries;
 	}
 
-	public void setDeliveries(List<CSDeliveryDTO> deliveries) {
+	public void setDeliveries(List<CountryDeliveryDTO> deliveries) {
 		this.deliveries = deliveries;
 	}
 
@@ -119,11 +119,11 @@ public class CSDeliveriesActionBean extends AbstractRODActionBean {
 		this.spatialName = spatialName;
 	}
 
-	public CSDeliveryDataDTO getDeliveryData() {
+	public CountryDeliveryDataDTO getDeliveryData() {
 		return deliveryData;
 	}
 
-	public void setDeliveryData(CSDeliveryDataDTO deliveryData) {
+	public void setDeliveryData(CountryDeliveryDataDTO deliveryData) {
 		this.deliveryData = deliveryData;
 	}
 

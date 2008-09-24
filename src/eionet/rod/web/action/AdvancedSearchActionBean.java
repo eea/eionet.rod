@@ -18,7 +18,7 @@ import eionet.rod.services.ServiceException;
  * @author altnyris
  *
  */
-@UrlBinding("/cssearch")
+@UrlBinding("/search")
 public class AdvancedSearchActionBean extends AbstractRODActionBean {
 
 	private List<CountryDTO> countries;
@@ -35,7 +35,7 @@ public class AdvancedSearchActionBean extends AbstractRODActionBean {
 		issues = RODServices.getDbService().getIssueDao().getIssuesList();
 		clients = RODServices.getDbService().getClientDao().getClientsList();
 			
-		return new ForwardResolution("/pages/cssearch.jsp");
+		return new ForwardResolution("/pages/search.jsp");
 	}
 	
 	public List<CountryDTO> getCountries() {

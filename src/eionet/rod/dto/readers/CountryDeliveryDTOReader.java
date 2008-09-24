@@ -5,13 +5,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import eionet.rod.dto.CSDeliveryDTO;
+import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.util.sql.ResultSetBaseReader;
 
-public class CSDeliveryDTOReader extends ResultSetBaseReader {
+public class CountryDeliveryDTOReader extends ResultSetBaseReader {
 	
 	/** */
-	List<CSDeliveryDTO> resultList = new ArrayList<CSDeliveryDTO>();
+	List<CountryDeliveryDTO> resultList = new ArrayList<CountryDeliveryDTO>();
 	
 	/*
 	 * (non-Javadoc)
@@ -19,7 +19,7 @@ public class CSDeliveryDTOReader extends ResultSetBaseReader {
 	 */
 	public void readRow(ResultSet rs) throws SQLException {
 		
-		CSDeliveryDTO deliveryDTO = new CSDeliveryDTO();
+		CountryDeliveryDTO deliveryDTO = new CountryDeliveryDTO();
 		
 		deliveryDTO.setDeliveryId(new Integer(rs.getInt("PK_DELIVERY_ID")));
 		deliveryDTO.setDeliveryFKObligationId(new Integer(rs.getInt("FK_RA_ID")));
@@ -66,7 +66,7 @@ public class CSDeliveryDTOReader extends ResultSetBaseReader {
 	/**
 	 * @return the resultList
 	 */
-	public List<CSDeliveryDTO> getResultList() {
+	public List<CountryDeliveryDTO> getResultList() {
 		return resultList;
 	}
 

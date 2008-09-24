@@ -2,86 +2,69 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
-<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Country deadlines">
+<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Advanced search">
 
 	<stripes:layout-component name="contents">
-	
-        <h1>Country deadlines</h1>
-        <p>
-		This part of ROD helps countries co-ordinate and manage their international
-		reporting obligations. It provides information about when countries have to
-		report, who is responsible for reporting, and to which organisation the data
-		set should be delivered. It is geared towards EEA member countries. You can
-		browse national deliveries by choosing a country below or query the contents
-		of ROD and CDR by using the advanced search. 
+
+        <h1>Reporting overview<c:if test="${!empty actionBean.spatialName}">: ${actionBean.spatialName}</c:if>
+        </h1>
+        
+        <stripes:form action="/deadlines" method="get">
+        	<table cellspacing="0" cellpadding="3" width="600" border="0">
+				<tr>
+					<td valign="middle" width="30%" class="select_issue">Select issue:</td>
+					<td valign="middle" width="20%" class="select_deadline">Select deadline:</td>
+					<td valign="middle" width="40%" class="select_client">Select client:</td>
+					<td valign="middle" width="10%" class="help_btn">
+						<p align="right">
+							<a href="javascript:openViewHelp('HELP_CSMAIN1')"><img src="images/info_icon.gif" alt="Show help" border="0"/></a>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td valign="middle" class="issues">
+						<stripes:select name="issueId" class="issues" size="1">
+							<stripes:option value="0" label="All issues"/>
+		    				<stripes:options-collection collection="${actionBean.issues}" label="name" value="issueId"/>
+						</stripes:select>
+					</td>
+					<td valign="middle" class="deadlines">
+						<stripes:select name="deadlines" class="deadlines" size="1">
+							<stripes:option value="0" label="All deadlines"/>
+		    				<stripes:option value="1" label="In the next month"/>
+		    				<stripes:option value="2" label="In the next 3 months"/>
+		    				<stripes:option value="3" label="In the next 6 months"/>
+		    				<stripes:option value="4" label="Previous months"/>
+						</stripes:select>
+					</td>
+					<td valign="middle" class="client">
+						<stripes:select name="clientId" class="client" size="1">
+							<stripes:option value="" label="All clients"/>
+							<stripes:options-collection collection="${actionBean.clients}" label="name" value="clientId"/>
+						</stripes:select>
+					</td>
+					<td valign="middle" align="right" class="go_btn">
+						<stripes:hidden name="spatialId"/>
+						<stripes:submit name="search" value="GO" class="go_btn"/>
+					</td>
+				</tr>
+			</table>
+        </stripes:form>
+        <div class="smallfont" style="font-size: 10pt; font-weight: normal">The list includes also recently passed deadlines, until 10% of the time difference between last deadline<br/>and next deadline has passed - 3 days for a monthly deadline, 36 days for a yearly deadline etc.</div><br/>
+        <display:table name="${actionBean.searchList}" class="sortable" pagesize="50" sort="list" id="listItem" htmlId="listItem" requestURI="/deadlines" decorator="eionet.rod.web.util.DeadlinesTableDecorator" style="width:100%">
+		
+			<display:column property="title" title="Reporting obligation" sortable="true" sortProperty="obligationTitle"/>
+			<display:column property="client" title="Reporting to" sortable="true" sortProperty="clientDescr"/>
+			<display:column property="deadline" title="Deadline" sortable="true" sortProperty="obligationDeadline"/>
+			<display:column property="role" title="Responsible" sortable="true"/>
+			<display:column property="hasDelivery" title="Deliveries" sortable="true" sortProperty="obligationHasDelivery"/>
+			
+		</display:table>
+		
+		<p style="text-align:center">
+			Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.<br/>
+	        There can be a delay of up to one day before they show up.
 		</p>
-        <table cellspacing="0" style="width: 650px;">
-			<colgroup span="3" width="33%"/>
-			<tr valign="top">
-				<th align="left" colspan="3"><b>EEA member countries</b></th>
-			</tr>
-			<tr>
-				<td bgcolor="#FFFFFF" style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
-					<c:forEach items="${actionBean.memberCountries}" begin="0" end="${actionBean.membersCount1 - 1}" var="country" varStatus="loop">
-							<img src="images/Folder_icon.gif" alt=""/>
-							<a href="csmain?spatialId=${country.countryId}&order=NEXT_REPORTING,DEADLINE">${country.name}</a>
-							<c:if test="${!loop.last}">
-								<br/>
-							</c:if>
-					</c:forEach>
-				</td>
-				<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
-					<c:forEach items="${actionBean.memberCountries}" begin="${actionBean.membersCount1}" end="${actionBean.membersCount2 - 1}" var="country" varStatus="loop">
-							<img src="images/Folder_icon.gif" alt=""/>
-							<a href="csmain?spatialId=${country.countryId}&order=NEXT_REPORTING,DEADLINE">${country.name}</a>
-							<c:if test="${!loop.last}">
-								<br/>
-							</c:if>
-					</c:forEach>
-				</td>
-				<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="top">
-					<c:forEach items="${actionBean.memberCountries}" begin="${actionBean.membersCount2}" var="country" varStatus="loop">
-							<img src="images/Folder_icon.gif" alt=""/>
-							<a href="csmain?spatialId=${country.countryId}&order=NEXT_REPORTING,DEADLINE">${country.name}</a>
-							<c:if test="${!loop.last}">
-								<br/>
-							</c:if>
-					</c:forEach>
-				</td>
-			</tr>
-			<tr valign="top">
-				<th align="left" colspan="3"><b>Other countries </b></th>
-			</tr>
-			<tr>
-				<td bgcolor="#FFFFFF" style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
-					<c:forEach items="${actionBean.nonMemberCountries}" begin="0" end="${actionBean.nonMembersCount1 - 1}" var="country" varStatus="loop">
-							<img src="images/Folder_icon.gif" alt=""/>
-							<a href="csmain?spatialId=${country.countryId}&order=NEXT_REPORTING,DEADLINE">${country.name}</a>
-							<c:if test="${!loop.last}">
-								<br/>
-							</c:if>
-					</c:forEach>
-				</td>
-				<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
-					<c:forEach items="${actionBean.nonMemberCountries}" begin="${actionBean.nonMembersCount1}" end="${actionBean.nonMembersCount2 - 1}" var="country" varStatus="loop">
-							<img src="images/Folder_icon.gif" alt=""/>
-							<a href="csmain?spatialId=${country.countryId}&order=NEXT_REPORTING,DEADLINE">${country.name}</a>
-							<c:if test="${!loop.last}">
-								<br/>
-							</c:if>
-					</c:forEach>
-				</td>
-				<td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="top">
-					<c:forEach items="${actionBean.nonMemberCountries}" begin="${actionBean.nonMembersCount2}" var="country" varStatus="loop">
-							<img src="images/Folder_icon.gif" alt=""/>
-							<a href="csmain?spatialId=${country.countryId}&order=NEXT_REPORTING,DEADLINE">${country.name}</a>
-							<c:if test="${!loop.last}">
-								<br/>
-							</c:if>
-					</c:forEach>
-				</td>
-			</tr>
-		</table>
         
 	</stripes:layout-component>
 </stripes:layout-render>

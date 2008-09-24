@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import eionet.rod.dto.CSDeliveryDTO;
+import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.dto.ClientDTO;
 import eionet.rod.dto.IssueDTO;
-import eionet.rod.dto.readers.CSDeliveryDTOReader;
+import eionet.rod.dto.readers.CountryDeliveryDTOReader;
 import eionet.rod.dto.readers.ClientDTOReader;
 import eionet.rod.dto.readers.IssueDTOReader;
 import eionet.rod.services.FileServiceIF;
