@@ -160,7 +160,7 @@ function submitSearchForm() {
 						<label for="countryid">For a country</label>
 					</td>
 					<td class="dat">
-						<select id="countryid" name="COUNTRY_ID" class="dat" style="width:223" size="1">
+						<select id="countryid" name="COUNTRY_ID" class="dat" style="width:223px" size="1">
 							<option value="">Any country</option>
 							<xsl:call-template name="SpatialTemplate2">
 								<xsl:with-param name ="type">C</xsl:with-param>
@@ -173,7 +173,7 @@ function submitSearchForm() {
 					<td bgcolor="#FFFFFF" class="lab"><label for="issueid">For an issue</label>
 					</td>
 					<td class="dat">
-						<select id="issueid" name="ISSUE_ID" style="width:223" class="dat">
+						<select id="issueid" name="ISSUE_ID" style="width:223px" class="dat">
 								<option value="">All issues</option>
 								<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 						</select>

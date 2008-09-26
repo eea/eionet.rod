@@ -320,7 +320,7 @@
 				<tr>
 					<td align="left" bgcolor="#FFFFFF"><b>Issue</b></td>
 					<td style="border-left: 1px solid #C0C0C0">
-							<select name="env_issue" style="font-size: 9pt; color: #000000; width:223">
+							<select name="env_issue" style="font-size: 9pt; color: #000000; width:223px">
 									<option value="-1">All issues</option>
 									<xsl:apply-templates select="RowSet[@Name='EnvIssue']"/>
 							</select>
@@ -330,7 +330,7 @@
 				<tr>
 					<td valign="middle" align="left" bgcolor="#FFFFFF"><b>Organisation</b></td>
 					<td style="border-left: 1px solid #C0C0C0">
-								<select name="client" style="color: #000000; font-size: 9pt; width:300" size="1">
+								<select name="client" style="color: #000000; font-size: 9pt; width:300px" size="1">
 										<option value="-1">Any organisation</option>
 										<xsl:apply-templates select="RowSet[@Name='Client']"/>
 								</select>
