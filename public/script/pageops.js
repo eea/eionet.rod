@@ -93,14 +93,16 @@ function fullscreenModeLoad() {
 function startList() {
     if (document.all && document.getElementById) {
         navRoot = document.getElementById("dropdowns");
-        for (i=0; i<navRoot.childNodes.length; i++) {
-            node = navRoot.childNodes[i];
-            if (node.nodeName=="LI") {
-                node.onmouseover=function() {
-                    addClassName(this, 'over');
-                }
-                node.onmouseout=function() {
-                    removeClassName(this, 'over');
+        if (navRoot) {
+            for (i=0; i<navRoot.childNodes.length; i++) {
+                node = navRoot.childNodes[i];
+                if (node.nodeName=="LI") {
+                    node.onmouseover=function() {
+                        addClassName(this, 'over');
+                    }
+                    node.onmouseout=function() {
+                        removeClassName(this, 'over');
+                    }
                 }
             }
         }
