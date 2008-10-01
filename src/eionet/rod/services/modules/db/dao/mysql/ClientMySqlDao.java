@@ -269,13 +269,13 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 	/*
      * (non-Javadoc)
      * 
-     * @see eionet.rod.services.modules.db.dao.IClientDao#getDeliveryClients()
+     * @see eionet.rod.services.modules.db.dao.IClientDao#getClients()
      */
-    public List<ClientDTO> getDeliveryClients(String actDetailsId) throws ServiceException {
+    public List<ClientDTO> getClients(String objectId) throws ServiceException {
     	
     	String query = "SELECT T_CLIENT.PK_CLIENT_ID, T_CLIENT.CLIENT_NAME " +
     		"FROM T_CLIENT, T_CLIENT_LNK " +
-    		"WHERE T_CLIENT_LNK.FK_OBJECT_ID = " + actDetailsId + " AND T_CLIENT.PK_CLIENT_ID=T_CLIENT_LNK.FK_CLIENT_ID " +
+    		"WHERE T_CLIENT_LNK.FK_OBJECT_ID = " + objectId + " AND T_CLIENT.PK_CLIENT_ID=T_CLIENT_LNK.FK_CLIENT_ID " +
     		"AND T_CLIENT_LNK.STATUS='C' AND T_CLIENT_LNK.TYPE='A'";
     	
     	List<Object> values = new ArrayList<Object>();

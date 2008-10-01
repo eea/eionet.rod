@@ -94,4 +94,11 @@ public interface ISpatialDao {
 	 * @throws ServiceException
 	 */
 	public List<CountryDTO> getCountriesList() throws ServiceException;
+	
+	/**
+	 * Returns countries for obligation
+	 * @param obligation id
+	 * @throws ServiceException
+	 */
+	public List<CountryDTO> getObligationCountriesList(String id) throws ServiceException;
 }

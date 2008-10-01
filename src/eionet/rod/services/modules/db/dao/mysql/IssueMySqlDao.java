@@ -185,5 +185,41 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
 		}
 
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IIssueDao#getObligationIssuesList(java.lang.String)
+	 */
+	public List<IssueDTO> getObligationIssuesList(String obligationId) throws ServiceException {
+
+		List<Object> values = new ArrayList<Object>();
+		
+		String qObligationIssuesList = 
+			"SELECT T_ISSUE.ISSUE_NAME, T_ISSUE.PK_ISSUE_ID " + 
+			"FROM T_ISSUE, T_RAISSUE_LNK " + 
+			"WHERE T_RAISSUE_LNK.FK_ISSUE_ID=T_ISSUE.PK_ISSUE_ID AND T_RAISSUE_LNK.FK_RA_ID=" + obligationId + " " +
+			"ORDER BY T_ISSUE.ISSUE_NAME ";
+		
+		Connection conn = null;
+		IssueDTOReader rsReader = new IssueDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(qObligationIssuesList, values, rsReader, conn);
+			List<IssueDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+
+	}
 
 }

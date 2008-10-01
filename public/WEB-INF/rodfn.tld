@@ -24,5 +24,17 @@
 			${hasPermission("roug", "/", "u")}
 		</example>
 	</function>
+
+	<function>
+		<description>
+			Encodes the string
+	 	</description>
+		<name>replaceTags</name>
+		<function-class>eionet.rod.web.util.JstlFunctions</function-class>
+		<function-signature>java.lang.String replaceTags(java.lang.String)</function-signature>
+		<example>
+			${replaceTags("text")}
+		</example>
+	</function>
 	
 </taglib>

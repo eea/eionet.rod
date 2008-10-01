@@ -143,7 +143,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 		return result != null ? result : new Vector();
 
 	}
-
+	
 	private static final String q_country_id_pairs = 
 		"SELECT PK_SPATIAL_ID, SPATIAL_NAME " + 
 		"FROM T_SPATIAL " + 
@@ -314,12 +314,11 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 	
 	/** */
 	private static final String q_member_countries = 
-		"SELECT " +
-		"PK_SPATIAL_ID, " + 
-		"SPATIAL_NAME " +
-		"FROM T_SPATIAL " +
-		"WHERE SPATIAL_TYPE='C' AND SPATIAL_ISMEMBERCOUNTRY='Y' AND SPATIAL_TWOLETTER <> 'EU' " + 
-		"ORDER BY SPATIAL_NAME ";
+		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_RASPATIAL_LNK.VOLUNTARY, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY " +
+		"FROM T_SPATIAL, T_RASPATIAL_LNK " +
+		"WHERE T_SPATIAL.SPATIAL_TYPE='C' AND T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y' AND T_SPATIAL.SPATIAL_TWOLETTER <> 'EU' " +
+		"AND T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID " + 
+		"ORDER BY T_SPATIAL.SPATIAL_NAME ";
 		
 	/*
      * (non-Javadoc)
@@ -351,12 +350,11 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
     
     /** */
 	private static final String q_non_member_countries = 
-		"SELECT " +
-		"PK_SPATIAL_ID, " + 
-		"SPATIAL_NAME " +
-		"FROM T_SPATIAL " +
-		"WHERE SPATIAL_TYPE='C' AND SPATIAL_ISMEMBERCOUNTRY='N' AND SPATIAL_TWOLETTER <> 'EU' " + 
-		"ORDER BY SPATIAL_NAME ";
+		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_RASPATIAL_LNK.VOLUNTARY, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY " +
+		"FROM T_SPATIAL, T_RASPATIAL_LNK " +
+		"WHERE T_SPATIAL.SPATIAL_TYPE='C' AND T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='N' AND T_SPATIAL.SPATIAL_TWOLETTER <> 'EU' " +
+		"AND T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID " + 
+		"ORDER BY T_SPATIAL.SPATIAL_NAME ";
 		
 	/*
      * (non-Javadoc)
@@ -388,12 +386,10 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
     
     /** */
 	private static final String q_countries_list = 
-		"SELECT " +
-		"PK_SPATIAL_ID, " +
-		"SPATIAL_NAME " +
-		"FROM T_SPATIAL " +
-		"WHERE SPATIAL_TYPE='C' " + 
-		"ORDER BY SPATIAL_NAME ";
+		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_RASPATIAL_LNK.VOLUNTARY, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY " +
+		"FROM T_SPATIAL, T_RASPATIAL_LNK " +
+		"WHERE T_SPATIAL.SPATIAL_TYPE='C' AND T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID " + 
+		"ORDER BY T_SPATIAL.SPATIAL_NAME ";
 		
 	/*
      * (non-Javadoc)
@@ -408,6 +404,40 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 		try{
 			conn = getConnection();
 			SQLUtil.executeQuery(q_countries_list, values, rsReader, conn);
+			List<CountryDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISpatialDao#getObligationCountriesList()
+     */
+    public List<CountryDTO> getObligationCountriesList(String id) throws ServiceException {
+    	List<Object> values = new ArrayList<Object>();
+    	
+    	String q_obligation_countries_list = 
+    		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_RASPATIAL_LNK.VOLUNTARY, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY " +
+    		"FROM T_SPATIAL, T_RASPATIAL_LNK " +
+    		"WHERE T_RASPATIAL_LNK.FK_RA_ID=" + id + " AND T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID " + 
+    		"ORDER BY T_SPATIAL.SPATIAL_NAME ";
+				
+		Connection conn = null;
+		CountryDTOReader rsReader = new CountryDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(q_obligation_countries_list, values, rsReader, conn);
 			List<CountryDTO>  list = rsReader.getResultList();
 			return list;
 		}

@@ -18,10 +18,18 @@ import com.tee.util.Util;
 import com.tee.xmlserver.FieldInfo;
 
 import eionet.rod.RODUtil;
+import eionet.rod.dto.CountryDeliveryDTO;
+import eionet.rod.dto.CountryDeliveryDataDTO;
+import eionet.rod.dto.LookupDTO;
+import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.dto.SearchDTO;
 import eionet.rod.dto.CountryDTO;
+import eionet.rod.dto.SiblingObligationDTO;
+import eionet.rod.dto.readers.CountryDeliveryDTOReader;
+import eionet.rod.dto.readers.LookupDTOReader;
 import eionet.rod.dto.readers.SearchDTOReader;
 import eionet.rod.dto.readers.CountryDTOReader;
+import eionet.rod.dto.readers.SiblingObligationDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IObligationDao;
 import eionet.rod.util.sql.SQLUtil;
@@ -1279,5 +1287,210 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
 	    return day + "/" + month + "/" + year;
 	}
+	
+	private static final String q_obligation_factsheet =
+		"SELECT OB.PK_RA_ID, OB.FK_SOURCE_ID, DATE_FORMAT(OB.VALID_SINCE, '%d/%m/%Y') AS VALID_SINCE, DATE_FORMAT(OB.VALID_TO, '%d/%m/%Y') AS VALID_TO, " +
+		"OB.TITLE, OB.LAST_HARVESTED, OB.TERMINATE, " +
+		"OB.REPORT_FREQ_MONTHS, IF(OB.NEXT_DEADLINE, DATE_FORMAT(OB.NEXT_DEADLINE, '%d/%m/%Y'), '') AS NEXT_DEADLINE, " +
+		"OB.FORMAT_NAME, OB.REPORT_FORMAT_URL, OB.RESPONSIBLE_ROLE, OB.REPORT_FORMAT_URL, OB.REPORT_FREQ, OB.REPORT_FREQ_DETAIL, " +
+		"REPLACE(REPLACE(OB.REPORTING_FORMAT, '\r\n', '\n'), '\r', '\n') AS REPORTING_FORMAT, " +
+		"IF(OB.FIRST_REPORTING, DATE_FORMAT(OB.FIRST_REPORTING, '%d/%m/%Y'), '') AS FIRST_REPORTING, " +
+		"OB.NEXT_REPORTING, OB.DATE_COMMENTS, DATE_FORMAT(OB.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE, " +
+		"REPLACE(REPLACE(OB.COMMENT, '\r\n', '\n'), '\r', '\n') AS COMMENT, OB.FK_DELIVERY_COUNTRY_IDS, " +
+		"DATE_FORMAT(OB.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE, " +
+		"DATE_FORMAT(OB.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED, " +
+		"OB.RM_VERIFIED_BY, OB.LOCATION_PTR, OB.LOCATION_INFO, OB.DATA_USED_FOR, OB.DATA_USED_FOR_URL, " +
+		"OB.FK_CLIENT_ID, OB.RESPONSIBLE_ROLE_SUF, OB.NATIONAL_CONTACT, OB.NATIONAL_CONTACT_URL, " +
+		"REPLACE(REPLACE(OB.DESCRIPTION, '\r\n', '\n'), '\r', '\n') AS DESCRIPTION, " +
+		"OB.COORDINATOR_ROLE, OB.COORDINATOR_ROLE_SUF, OB.COORDINATOR, OB.COORDINATOR_URL, OB.AUTHORITY, OB.EEA_PRIMARY, " +
+		"OB.PARAMETERS, OB.OVERLAP_URL, OB.EEA_CORE, OB.FLAGGED, OB.DPSIR_D, OB.DPSIR_P, OB.DPSIR_S, OB.DPSIR_I, OB.DPSIR_R, " +
+		"SO.PK_SOURCE_ID, SO.TITLE AS SOURCE_TITLE, SO.ALIAS, SO.CELEX_REF, SO.SOURCE_CODE, " +
+		"CONCAT('Reporting obligation for ', SO.ALIAS, ' ', SO.SOURCE_CODE) AS PAGETITLE, " +
+		"RRO.ROLE_ID AS R_ROLE_ID, RRO.ROLE_NAME AS R_ROLE_NAME, RRO.ROLE_URL AS R_ROLE_URL, RRO.ROLE_MEMBERS_URL AS R_ROLE_MEMBERS_URL, " +
+		"CRO.ROLE_ID AS C_ROLE_ID, CRO.ROLE_NAME AS C_ROLE_NAME, CRO.ROLE_URL AS C_ROLE_URL, CRO.ROLE_MEMBERS_URL AS C_ROLE_MEMBERS_URL, " +
+		"LU.C_VALUE, LU.C_TERM, " +
+		"CLK.FK_CLIENT_ID AS CLK_FK_CLIENT_ID, CLK.FK_OBJECT_ID, CLK.TYPE, CLK.STATUS, " +			
+		"CL.PK_CLIENT_ID, CL.CLIENT_NAME " +
+		"FROM T_OBLIGATION OB " +
+		"LEFT JOIN T_SOURCE SO ON SO.PK_SOURCE_ID = OB.FK_SOURCE_ID " +
+		"LEFT JOIN T_ROLE RRO ON RRO.ROLE_ID=OB.RESPONSIBLE_ROLE " +
+		"LEFT JOIN T_ROLE CRO ON CRO.ROLE_ID=OB.COORDINATOR_ROLE " +
+		"LEFT JOIN T_LOOKUP LU ON LU.C_VALUE=OB.LEGAL_MORAL AND LU.CATEGORY='2' " +
+		"LEFT JOIN T_CLIENT_LNK CLK ON CLK.TYPE='A' AND CLK.STATUS='M' AND CLK.FK_OBJECT_ID=OB.PK_RA_ID " +
+		"LEFT JOIN T_CLIENT CL ON CLK.FK_CLIENT_ID=CL.PK_CLIENT_ID " +
+		"WHERE OB.PK_RA_ID=?";
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#getObligationFactsheet()
+     */
+	public ObligationFactsheetDTO getObligationFactsheet(String obligationId) throws ServiceException {
+		
+		ObligationFactsheetDTO ret = new ObligationFactsheetDTO();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			connection = getConnection();
+			if (isDebugMode) logQuery(q_obligation_factsheet);
+			preparedStatement = connection.prepareStatement(q_obligation_factsheet);
+			preparedStatement.setString(1,obligationId);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				
+				ret.setObligationId(rs.getString("PK_RA_ID"));
+				ret.setFkSourceId(rs.getString("FK_SOURCE_ID"));
+				ret.setValidSince(rs.getString("VALID_SINCE"));
+				ret.setValidTo(rs.getString("VALID_TO"));
+				ret.setTitle(rs.getString("TITLE"));
+				ret.setFormatName(rs.getString("FORMAT_NAME"));
+				ret.setReportFormatUrl(rs.getString("REPORT_FORMAT_URL"));
+				ret.setReportFreq(rs.getString("REPORT_FREQ"));
+				ret.setReportFreqDetail(rs.getString("REPORT_FREQ_DETAIL"));
+				ret.setReportingFormat(rs.getString("REPORTING_FORMAT"));
+				ret.setNextReporting(rs.getString("NEXT_REPORTING"));
+				ret.setDateComments(rs.getString("DATE_COMMENTS"));
+				ret.setTerminate(rs.getString("TERMINATE"));
+				ret.setLastUpdate(rs.getString("LAST_UPDATE"));
+				ret.setComment(rs.getString("COMMENT"));
+				ret.setResponsibleRole(rs.getString("RESPONSIBLE_ROLE"));
+				ret.setNextDeadline(rs.getString("NEXT_DEADLINE"));
+				ret.setFirstReporting(rs.getString("FIRST_REPORTING"));
+				ret.setReportFreqMonths(new Integer(rs.getInt("REPORT_FREQ_MONTHS")));
+				ret.setFkDeliveryCountryIds(rs.getString("FK_DELIVERY_COUNTRY_IDS"));
+				ret.setRmNextUpdate(rs.getString("RM_NEXT_UPDATE"));
+				ret.setRmVerified(rs.getString("RM_VERIFIED"));
+				ret.setRmVerifiedBy(rs.getString("RM_VERIFIED_BY"));
+				ret.setLocationPtr(rs.getString("LOCATION_PTR"));
+				ret.setLocationInfo(rs.getString("LOCATION_INFO"));
+				ret.setDataUsedFor(rs.getString("DATA_USED_FOR"));
+				ret.setDataUsedForUrl(rs.getString("DATA_USED_FOR_URL"));
+				ret.setFkClientId(rs.getString("FK_CLIENT_ID"));
+				ret.setDescription(rs.getString("DESCRIPTION"));
+				ret.setResponsibleRoleSuf(rs.getString("RESPONSIBLE_ROLE_SUF"));
+				ret.setNationalContact(rs.getString("NATIONAL_CONTACT"));
+				ret.setNationalContactUrl(rs.getString("NATIONAL_CONTACT_URL"));
+				ret.setCoordinatorRole(rs.getString("COORDINATOR_ROLE"));
+				ret.setCoordinatorRoleSuf(rs.getString("COORDINATOR_ROLE_SUF"));
+				ret.setCoordinator(rs.getString("COORDINATOR"));
+				ret.setCoordinatorUrl(rs.getString("COORDINATOR_URL"));
+				ret.setAuthority(rs.getString("AUTHORITY"));
+				ret.setEeaPrimary(new Integer(rs.getInt("EEA_PRIMARY")));
+				ret.setParameters(rs.getString("PARAMETERS"));
+				ret.setOverlapUrl(rs.getString("OVERLAP_URL"));
+				ret.setEeaCore(new Integer(rs.getInt("EEA_CORE")));
+				ret.setFlagged(new Integer(rs.getInt("FLAGGED")));
+				ret.setDpsirD(rs.getString("DPSIR_D"));
+				ret.setDpsirP(rs.getString("DPSIR_P"));
+				ret.setDpsirS(rs.getString("DPSIR_S"));
+				ret.setDpsirI(rs.getString("DPSIR_I"));
+				ret.setDpsirR(rs.getString("DPSIR_R"));
+				
+				ret.setSourceId(rs.getString("PK_SOURCE_ID"));
+				ret.setSourceTitle(rs.getString("SOURCE_TITLE"));
+				ret.setSourceAlias(rs.getString("ALIAS"));
+				ret.setSourceCelexRef(rs.getString("CELEX_REF"));
+				ret.setSourceCode(rs.getString("SOURCE_CODE"));
+				ret.setSourcePageTitle(rs.getString("PAGETITLE"));
+				
+				ret.setRespRoleId(rs.getString("R_ROLE_ID"));
+				ret.setRespRoleName(rs.getString("R_ROLE_NAME"));
+				ret.setRespRoleUrl(rs.getString("R_ROLE_URL"));
+				ret.setRespRoleMembersUrl(rs.getString("R_ROLE_MEMBERS_URL"));
+				
+				ret.setCoordRoleId(rs.getString("C_ROLE_ID"));
+				ret.setCoordRoleName(rs.getString("C_ROLE_NAME"));
+				ret.setCoordRoleUrl(rs.getString("C_ROLE_URL"));
+				ret.setCoordRoleMembersUrl(rs.getString("C_ROLE_MEMBERS_URL"));
+				
+				ret.setLookupCValue(rs.getString("C_VALUE"));
+				ret.setLookupCTerm(rs.getString("C_TERM"));
+				
+				ret.setClientLnkFKClientId(rs.getString("CLK_FK_CLIENT_ID"));
+				ret.setClientLnkFKObjectId(rs.getString("FK_OBJECT_ID"));
+				ret.setClientLnkType(rs.getString("TYPE"));
+				ret.setClientLnkStatus(rs.getString("STATUS"));
+				
+				ret.setClientId(rs.getString("PK_CLIENT_ID"));
+				ret.setClientName(rs.getString("CLIENT_NAME"));
+				
+			}	
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+		
+		return ret;
+	}
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#getLookupList()
+     */
+    public List<LookupDTO> getLookupList(String obligationId) throws ServiceException {
+    	
+    	String query = "SELECT T_LOOKUP.C_TERM, T_LOOKUP.C_VALUE " +
+		"FROM T_LOOKUP, T_INFO_LNK " +
+		"WHERE T_INFO_LNK.FK_RA_ID = " + obligationId + " AND T_LOOKUP.C_VALUE=T_INFO_LNK.FK_INFO_ID AND CATEGORY='I'";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		LookupDTOReader rsReader = new LookupDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<LookupDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#getSiblingObligations()
+     */
+    public List<SiblingObligationDTO> getSiblingObligations(String obligationId) throws ServiceException {
+    	
+    	String query = "SELECT o2.PK_RA_ID, o2.FK_SOURCE_ID, o2.TITLE, o2.AUTHORITY " +
+		"FROM T_OBLIGATION o1, T_OBLIGATION o2, T_SOURCE " +
+		"WHERE T_SOURCE.PK_SOURCE_ID=o1.FK_SOURCE_ID AND o1.PK_RA_ID = "+obligationId+" AND o2.PK_RA_ID != "+obligationId+" AND o2.FK_SOURCE_ID = T_SOURCE.PK_SOURCE_ID " +
+		"ORDER BY o2.TITLE";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		SiblingObligationDTOReader rsReader = new SiblingObligationDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<SiblingObligationDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
 
 }

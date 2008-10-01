@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import eionet.rod.dto.LookupDTO;
+import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.dto.SearchDTO;
+import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.services.ServiceException;
 
 /**
@@ -264,5 +267,26 @@ public interface IObligationDao {
 	 * @throws ServiceException
 	 */
 	public List<SearchDTO> getSearchObligationsList(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, String order) throws ServiceException;
+	
+	/**
+	 * Returns obligation factsheet
+	 * @param obligationId
+	 * @throws ServiceException
+	 */
+	public ObligationFactsheetDTO getObligationFactsheet(String obligationId) throws ServiceException;
+	
+	/**
+	 * Returns t_lookup info for obligation
+	 * @param obligationId
+	 * @throws ServiceException
+	 */
+	public List<LookupDTO> getLookupList(String obligationId) throws ServiceException;
+	
+	/**
+	 * Returns sibling obligations for legislation tab
+	 * @param obligationId
+	 * @throws ServiceException
+	 */
+	public List<SiblingObligationDTO> getSiblingObligations(String obligationId) throws ServiceException;
 }
 

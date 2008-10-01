@@ -436,6 +436,11 @@
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/obligation</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/search</url-pattern>
 	</servlet-mapping>
 	

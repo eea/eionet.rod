@@ -13,6 +13,8 @@ public class CountryDTO implements java.io.Serializable{
 	private String isMemberCountry;
 	private String type;
 	
+	private String voluntary;
+	
 	/**
 	 * 
 	 */
@@ -57,5 +59,13 @@ public class CountryDTO implements java.io.Serializable{
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getVoluntary() {
+		return voluntary;
+	}
+
+	public void setVoluntary(String voluntary) {
+		this.voluntary = voluntary;
 	}
 }

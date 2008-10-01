@@ -70,9 +70,9 @@ public interface IClientDao {
 	public List<ClientDTO> getClientsList() throws ServiceException;
 	
 	/**
-	 * Returns clients for csdeliveries page
-	 * @param actDetailsId
+	 * Returns clients
+	 * @param objectId
 	 * @throws ServiceException
 	 */
-	public List<ClientDTO> getDeliveryClients(String actDetailsId) throws ServiceException;
+	public List<ClientDTO> getClients(String objectId) throws ServiceException;
 }

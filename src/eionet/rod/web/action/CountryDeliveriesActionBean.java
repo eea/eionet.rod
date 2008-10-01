@@ -45,7 +45,7 @@ public class CountryDeliveriesActionBean extends AbstractRODActionBean {
 				deliveries = RODServices.getDbService().getDeliveryDao().getCountyDeliveriesList(actDetailsId, spatialId);
 				deliveryData = RODServices.getDbService().getDeliveryDao().getDeliveryData(actDetailsId);
 				reportFreq = reportFreqMsg(deliveryData);
-				clients = RODServices.getDbService().getClientDao().getDeliveryClients(actDetailsId);
+				clients = RODServices.getDbService().getClientDao().getClients(actDetailsId);
 				
 				if(!RODUtil.isNullOrEmpty(spatialId)){
 					spatialName = RODServices.getDbService().getSpatialDao().getCountryById(new Integer(spatialId).intValue());
