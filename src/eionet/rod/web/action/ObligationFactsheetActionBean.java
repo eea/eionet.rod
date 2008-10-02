@@ -6,10 +6,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import com.tee.uit.client.ServiceClientIF;
 import com.tee.uit.client.ServiceClients;
 import com.tee.xmlserver.GeneralException;
