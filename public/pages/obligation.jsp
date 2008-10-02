@@ -18,7 +18,7 @@
 					}
 				}
 			</script>
-			<form id="f" method="POST" action="activity.jsv">
+			<form id="f" method="POST" action="${pageContext.request.contextPath}/activity.jsv">
 				<input type="hidden" name="dom-update-mode" value="D"/>
 				<input type="hidden" name="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/PK_RA_ID" value="${actionBean.id}"/>
 				<input type="hidden" name="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID" value="${actionBean.obligation.sourceId}">
@@ -33,7 +33,7 @@
 	    				<li id="currenttab"><span>Overview</span></li>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<li><a href="obligation?id=${actionBean.id}&amp;tab=overview">Overview</a></li>
+	    				<li><a href="${pageContext.request.contextPath}/obligation/${actionBean.id}/overview">Overview</a></li>
 	    			</c:otherwise>
 	    		</c:choose>
 	    		<c:choose>
@@ -41,7 +41,7 @@
 	    				<li id="currenttab"><span>Legislation</span></li>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<li><a href="obligation?id=${actionBean.id}&amp;tab=legislation">Legislation</a></li>
+	    				<li><a href="${pageContext.request.contextPath}/obligation/${actionBean.id}/legislation">Legislation</a></li>
 	    			</c:otherwise>
 	    		</c:choose>
 	    		<c:if test="${!empty actionBean.obligation.fkDeliveryCountryIds}">
@@ -50,7 +50,7 @@
 		    				<li id="currenttab"><span>Deliveries</span></li>
 		    			</c:when>
 		    			<c:otherwise>
-		    				<li><a href="obligation?id=${actionBean.id}&amp;tab=deliveries">Deliveries</a></li>
+		    				<li><a href="${pageContext.request.contextPath}/obligation/${actionBean.id}/deliveries">Deliveries</a></li>
 		    			</c:otherwise>
 		    		</c:choose>
 		    	</c:if>
@@ -60,7 +60,7 @@
 		    				<li id="currenttab"><span>Parameters</span></li>
 		    			</c:when>
 		    			<c:otherwise>
-		    				<li><a href="obligation?id=${actionBean.id}&amp;tab=parameters">Parameters</a></li>
+		    				<li><a href="${pageContext.request.contextPath}/obligation/${actionBean.id}/parameters">Parameters</a></li>
 		    			</c:otherwise>
 		    		</c:choose>
 		    	</c:if>
@@ -69,7 +69,7 @@
 	    				<li id="currenttab"><span>History</span></li>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<li><a href="obligation?id=${actionBean.id}&amp;tab=history">History</a></li>
+	    				<li><a href="${pageContext.request.contextPath}/obligation/${actionBean.id}/history">History</a></li>
 	    			</c:otherwise>
 	    		</c:choose>
 			</ul>
@@ -77,10 +77,10 @@
 		<div id="operations">
 			<ul>
 				<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,'/obligations','i')}">
-					<li><a href="activity.jsv?id=-1&amp;aid=${actionBean.obligation.fkSourceId}">New obligation</a></li>
+					<li><a href="${pageContext.request.contextPath}/activity.jsv?id=-1&amp;aid=${actionBean.obligation.fkSourceId}">New obligation</a></li>
 				</c:if>
 				<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-					<li><a href="activity.jsv?id=${actionBean.id}&amp;aid=${actionBean.obligation.fkSourceId}">Edit obligation</a></li>
+					<li><a href="${pageContext.request.contextPath}/activity.jsv?id=${actionBean.id}&amp;aid=${actionBean.obligation.fkSourceId}">Edit obligation</a></li>
 				</c:if>
 				<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'d')}">
 					<li><a href="javascript:delActivity()">Delete obligation</a></li>
@@ -89,7 +89,7 @@
 					<li><a href="javascript:openHelpList('RO')">Field descriptions</a></li>
 				</c:if>
 				<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-					<li><a href="subscribe.jsp?id=${actionBean.id}">Subscribe</a></li>
+					<li><a href="${pageContext.request.contextPath}/subscribe.jsp?id=${actionBean.id}">Subscribe</a></li>
 				</c:if>
 			</ul>
 		</div>

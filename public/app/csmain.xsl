@@ -266,7 +266,7 @@
 	
 	<td>
 		<a>
-			<xsl:attribute name="href">obligation?id=<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/></xsl:attribute>
+			<xsl:attribute name="href">obligation/<xsl:value-of select="T_OBLIGATION/PK_RA_ID"/></xsl:attribute>
 			<xsl:attribute name="title"><xsl:value-of select="T_OBLIGATION/TITLE"/></xsl:attribute>
 			<xsl:call-template name="short">
 				<xsl:with-param name="text" select="T_OBLIGATION/TITLE"/>

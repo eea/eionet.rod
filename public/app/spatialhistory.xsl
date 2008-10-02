@@ -55,7 +55,7 @@
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem eionetaccronym"><a href="http://www.eionet.europa.eu">Eionet</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
- <div class="breadcrumbitem"><a><xsl:attribute name="href">obligation?id=<xsl:value-of select="$ra-id"/></xsl:attribute>
+ <div class="breadcrumbitem"><a><xsl:attribute name="href">obligation/<xsl:value-of select="$ra-id"/></xsl:attribute>
  Reporting obligation</a></div>
  <div class="breadcrumbitemlast">Status of participation</div>
  <div class="breadcrumbtail"></div>

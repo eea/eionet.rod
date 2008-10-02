@@ -125,7 +125,7 @@
 						<xsl:for-each select="RowSet[@Name='DirectObligations']/Row/T_OBLIGATION">
 								<tr>
 									<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
-									<td><a><xsl:attribute name="href">obligation?id=<xsl:value-of select="PK_RA_ID"/></xsl:attribute><xsl:value-of select="PK_RA_ID"/></a></td>
+									<td><a><xsl:attribute name="href">obligation/<xsl:value-of select="PK_RA_ID"/></xsl:attribute><xsl:value-of select="PK_RA_ID"/></a></td>
 									<td><xsl:value-of select="TITLE"/>&#160;
 									<xsl:if test="TERMINATE ='Y'">
 										<em>Terminated</em>
@@ -147,7 +147,7 @@
 						<xsl:for-each select="RowSet[@Name='IndirectObligations']/Row/T_OBLIGATION">
 								<tr>
 									<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
-									<td><a><xsl:attribute name="href">obligation?id=<xsl:value-of select="PK_RA_ID"/></xsl:attribute><xsl:value-of select="PK_RA_ID"/></a></td>
+									<td><a><xsl:attribute name="href">obligation/<xsl:value-of select="PK_RA_ID"/></xsl:attribute><xsl:value-of select="PK_RA_ID"/></a></td>
 									<td><xsl:value-of select="TITLE"/>&#160;
 									<xsl:if test="TERMINATE ='Y'">
 										<em>Terminated</em>

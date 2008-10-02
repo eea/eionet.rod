@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.displaytag.decorator.TableDecorator;
+
+import eionet.rod.ROUser;
 import eionet.rod.dto.VersionDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
@@ -109,9 +111,12 @@ public class VersionsTableDecorator extends TableDecorator{
 		
 		try{
 			if(!ver.getOperation().equals("D") || RODServices.getDbService().getGenericlDao().isIdAvailable(ver.getValue(),ver.getTab())){
-				ret.append("<input type='radio' name='group' value='");
-				ret.append(ver.getUndoTime()).append(",").append(ver.getTab()).append(",").append(ver.getOperation()).append(",").append(ver.getValue());
-				ret.append("'/>");
+				String aclPath = "/obligations/" + ver.getValue();
+				if(ROUser.hasPermission(getUser(), aclPath, "u")){
+					ret.append("<input type='radio' name='group' value='");
+					ret.append(ver.getUndoTime()).append(",").append(ver.getTab()).append(",").append(ver.getOperation()).append(",").append(ver.getValue());
+					ret.append("'/>");
+				}
 			}
 		} catch(ServiceException e) {
 			e.printStackTrace();

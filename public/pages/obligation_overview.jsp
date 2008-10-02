@@ -52,7 +52,7 @@
 		<tr class="zebraodd">
 			<th scope="row" class="scope-row">Legislative instrument title</th>
 			<td>
-				<a href="show.jsv?id=${actionBean.obligation.sourceId}&amp;mode=S">
+				<a href="${pageContext.request.contextPath}/show.jsv?id=${actionBean.obligation.sourceId}&amp;mode=S">
 					<c:choose>
 		    			<c:when test="${!empty actionBean.obligation.sourceAlias}">
 		    				${actionBean.obligation.sourceAlias}
@@ -173,7 +173,7 @@
 			<td>
 				<c:choose>
 	    			<c:when test="${!empty actionBean.obligation.clientId}">
-						<a href="client.jsv?id=${actionBean.obligation.clientId}">
+						<a href="${pageContext.request.contextPath}/client.jsv?id=${actionBean.obligation.clientId}">
 							${actionBean.obligation.clientName}
 						</a>
 	    			</c:when>
@@ -189,7 +189,7 @@
 				<ul class="menu">
 					<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
 						<li>
-							<a href="client.jsv?id=${client.clientId}">
+							<a href="${pageContext.request.contextPath}/client.jsv?id=${client.clientId}">
 								${client.name}
 							</a>
 						</li>

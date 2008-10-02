@@ -3,6 +3,7 @@ package eionet.rod.web.action;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.w3c.dom.Element;
@@ -58,6 +59,14 @@ public class ObligationFactsheetActionBean extends AbstractRODActionBean {
 	 */
 	@DefaultHandler
 	public Resolution overview() throws ServiceException {
+		
+		String pathInfo = getContext().getRequest().getPathInfo();
+		if(!RODUtil.isNullOrEmpty(pathInfo)){
+			StringTokenizer st = new StringTokenizer(pathInfo,"/");
+			id = st.nextToken();
+			if(st.hasMoreElements())
+				tab = st.nextToken();		
+		}
 		
 		if(!RODUtil.isNullOrEmpty(id) && RODUtil.isNumber(id)){
 			obligation = RODServices.getDbService().getObligationDao().getObligationFactsheet(id);

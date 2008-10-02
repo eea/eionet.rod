@@ -41,7 +41,7 @@
                         		<a href="${actionBean.loginURL}" id="loginlink" title="Login">Login</a>
 					    	</c:when>
 	                        <c:otherwise>
-								<a href="logout_servlet" id="logoutlink" title="Logout">Logout ${actionBean.userName}</a>
+								<a href="${pageContext.request.contextPath}/logout_servlet" id="logoutlink" title="Logout">Logout ${actionBean.userName}</a>
 	                        </c:otherwise>
 	                    </c:choose>
 						<a id="printlink" title="Print this page" href="javascript:this.print();"><span>Print</span></a>
@@ -87,27 +87,20 @@
 				
 				<div id="leftcolumn" class="localnav">
 					<ul>
-						<li><a href="index.html" title="ROD Home">Home </a></li>
-						<li><a href="countries" title="Country deadlines">Deadlines </a></li>
-						<li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations </a></li>
-						<c:choose>
-                        	<c:when test="${empty actionBean.userName}">    
-                        		<li><a href="login.jsp?rd=subscribe" title="Create a UNS Subscription">Subscribe </a></li>
-					    	</c:when>
-	                        <c:otherwise>
-								<li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe </a></li>
-	                        </c:otherwise>
-	                    </c:choose>
-						<li><a href="text.jsv?mode=H" title="General Help">Help </a></li>
+						<li><a href="${pageContext.request.contextPath}/index.html" title="ROD Home">Home </a></li>
+						<li><a href="${pageContext.request.contextPath}/countries" title="Country deadlines">Deadlines </a></li>
+						<li><a href="${pageContext.request.contextPath}/rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations </a></li>
+						<li><a href="${pageContext.request.contextPath}/subscribe.jsp" title="Create a UNS Subscription">Subscribe </a></li>
+						<li><a href="${pageContext.request.contextPath}/text.jsv?mode=H" title="General Help">Help </a></li>
 						<c:if test="${!empty actionBean.userName}">
-							<li><a href="versions">Global History </a></li>
+							<li><a href="${pageContext.request.contextPath}/versions">Global History </a></li>
 						</c:if>
-						<li><a href="show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
-						<li><a href="rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
-						<li><a href="analysis" title="Database statistics">Database statistics </a></li>
-						<li><a href="search" title="Advanced search">Advanced search </a></li>
+						<li><a href="${pageContext.request.contextPath}/show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
+						<li><a href="${pageContext.request.contextPath}/rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
+						<li><a href="${pageContext.request.contextPath}/analysis" title="Database statistics">Database statistics </a></li>
+						<li><a href="${pageContext.request.contextPath}/search" title="Advanced search">Advanced search </a></li>
 						<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName, '/Admin/Harvest', 'u')}">
-							<li><a href="harvester.jsp">Harvest </a></li>
+							<li><a href="${pageContext.request.contextPath}/harvester.jsp">Harvest </a></li>
 						</c:if>
 					</ul>
 				</div>

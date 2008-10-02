@@ -13,7 +13,7 @@
 		<tr class="zebraodd">
 			<th scope="row" class="scope-row">Legislative instrument title</th>
 			<td>
-				<a href="show.jsv?id=${actionBean.obligation.sourceId}&amp;mode=S">
+				<a href="${pageContext.request.contextPath}/show.jsv?id=${actionBean.obligation.sourceId}&amp;mode=S">
 					<c:choose>
 		    			<c:when test="${!empty actionBean.obligation.sourceAlias}">
 		    				${actionBean.obligation.sourceAlias}
@@ -34,7 +34,7 @@
 				<ul class="menu">
 					<c:forEach items="${actionBean.siblingObligations}" var="obligation" varStatus="loop">
 						<li>
-							<a href="obligation?id=${obligation.obligationId}">
+							<a href="${pageContext.request.contextPath}/obligation/${obligation.obligationId}">
 								${obligation.title}
 							</a>
 							<c:if test="${!empty obligation.authority}">
@@ -55,7 +55,7 @@
 			<th scope="row" class="scope-row">Countries</th>
 			<td>
 				<c:forEach items="${actionBean.countries}" var="country" varStatus="loop">
-					<a href="countryinfo.jsp?ra-id=${actionBean.id}&amp;spatial=${country.countryId}&amp;member=${country.isMemberCountry}&amp;vol=${country.voluntary}">
+					<a href="${pageContext.request.contextPath}/countryinfo.jsp?ra-id=${actionBean.id}&amp;spatial=${country.countryId}&amp;member=${country.isMemberCountry}&amp;vol=${country.voluntary}">
 						<c:choose>
 			    			<c:when test="${country.voluntary == 'Y'}">
 			    				<span title="Informal participation in the reporting obligation">${country.name}*</span>

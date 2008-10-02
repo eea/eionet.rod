@@ -49,7 +49,7 @@
 		<xsl:otherwise>
 			 <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;mode=S</xsl:attribute>
 Legislative instrument</a></div>
-			 <div class="breadcrumbitem"><a><xsl:attribute name="href">obligation?id=<xsl:value-of select="$sel_actdetails"/></xsl:attribute> Reporting obligation</a></div>
+			 <div class="breadcrumbitem"><a><xsl:attribute name="href">obligation/<xsl:value-of select="$sel_actdetails"/></xsl:attribute> Reporting obligation</a></div>
 		</xsl:otherwise>
 	</xsl:choose>
 	<div class="breadcrumbitemlast">Deliveries</div>
