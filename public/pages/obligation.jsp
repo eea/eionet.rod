@@ -33,7 +33,7 @@
 	    				<li id="currenttab"><span>Overview</span></li>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<li><a href="${pageContext.request.contextPath}/obligation/${actionBean.id}/overview">Overview</a></li>
+	    				<li><a href="${pageContext.request.contextPath}/obligations/${actionBean.id}/overview">Overview</a></li>
 	    			</c:otherwise>
 	    		</c:choose>
 	    		<c:choose>
@@ -41,7 +41,7 @@
 	    				<li id="currenttab"><span>Legislation</span></li>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<li><a href="${pageContext.request.contextPath}/obligation/${actionBean.id}/legislation">Legislation</a></li>
+	    				<li><a href="${pageContext.request.contextPath}/obligations/${actionBean.id}/legislation">Legislation</a></li>
 	    			</c:otherwise>
 	    		</c:choose>
 	    		<c:if test="${!empty actionBean.obligation.fkDeliveryCountryIds}">
@@ -50,7 +50,7 @@
 		    				<li id="currenttab"><span>Deliveries</span></li>
 		    			</c:when>
 		    			<c:otherwise>
-		    				<li><a href="${pageContext.request.contextPath}/obligation/${actionBean.id}/deliveries">Deliveries</a></li>
+		    				<li><a href="${pageContext.request.contextPath}/obligations/${actionBean.id}/deliveries">Deliveries</a></li>
 		    			</c:otherwise>
 		    		</c:choose>
 		    	</c:if>
@@ -60,7 +60,7 @@
 		    				<li id="currenttab"><span>Parameters</span></li>
 		    			</c:when>
 		    			<c:otherwise>
-		    				<li><a href="${pageContext.request.contextPath}/obligation/${actionBean.id}/parameters">Parameters</a></li>
+		    				<li><a href="${pageContext.request.contextPath}/obligations/${actionBean.id}/parameters">Parameters</a></li>
 		    			</c:otherwise>
 		    		</c:choose>
 		    	</c:if>
@@ -69,7 +69,7 @@
 	    				<li id="currenttab"><span>History</span></li>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<li><a href="${pageContext.request.contextPath}/obligation/${actionBean.id}/history">History</a></li>
+	    				<li><a href="${pageContext.request.contextPath}/obligations/${actionBean.id}/history">History</a></li>
 	    			</c:otherwise>
 	    		</c:choose>
 			</ul>

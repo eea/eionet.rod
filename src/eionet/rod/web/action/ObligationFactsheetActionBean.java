@@ -33,7 +33,7 @@ import eionet.rod.services.ServiceException;
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
  *
  */
-@UrlBinding("/obligation")
+@UrlBinding("/obligations")
 public class ObligationFactsheetActionBean extends AbstractRODActionBean {
 	
 	private ObligationFactsheetDTO obligation;

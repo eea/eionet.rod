@@ -436,7 +436,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/obligation/*</url-pattern>
+		<url-pattern>/obligations/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

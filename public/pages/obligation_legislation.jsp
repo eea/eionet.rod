@@ -34,7 +34,7 @@
 				<ul class="menu">
 					<c:forEach items="${actionBean.siblingObligations}" var="obligation" varStatus="loop">
 						<li>
-							<a href="${pageContext.request.contextPath}/obligation/${obligation.obligationId}">
+							<a href="${pageContext.request.contextPath}/obligations/${obligation.obligationId}">
 								${obligation.title}
 							</a>
 							<c:if test="${!empty obligation.authority}">
