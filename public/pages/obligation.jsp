@@ -17,6 +17,14 @@
 						document.forms["f"].submit();
 					}
 				}
+				
+				function openFieldDescriptions(mode){
+					var url = "${pageContext.request.contextPath}/helplist.jsv?mode=" + mode;
+					var name = "Help";
+					var features = "location=no, menubar=no, width=730, height=480, top=100, left=200, scrollbars=yes, resizable=yes";
+					var w = window.open(url,name,features);
+					w.focus();
+				}
 			</script>
 			<form id="f" method="POST" action="${pageContext.request.contextPath}/activity.jsv">
 				<input type="hidden" name="dom-update-mode" value="D"/>
@@ -86,7 +94,7 @@
 					<li><a href="javascript:delActivity()">Delete obligation</a></li>
 				</c:if>
 				<c:if test="${actionBean.isUserLoggedIn}">
-					<li><a href="javascript:openHelpList('RO')">Field descriptions</a></li>
+					<li><a href="javascript:openFieldDescriptions('RO')">Field descriptions</a></li>
 				</c:if>
 				<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
 					<li><a href="${pageContext.request.contextPath}/subscribe.jsp?id=${actionBean.id}">Subscribe</a></li>
