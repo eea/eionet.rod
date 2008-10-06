@@ -27,9 +27,6 @@ import com.tee.xmlserver.*;
 import java.sql.*;
 import java.util.Vector;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import eionet.directory.DirectoryService;
 
 import com.tee.uit.security.AccessControlListIF;

@@ -9,7 +9,7 @@
 <c:set var="perm_name" value="/obligations/${actionBean.id}"></c:set>
 <c:choose>
 	<c:when test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-		<form id="form" method="post" action="undo">
+		<form id="form" method="post" action="${pageContext.request.contextPath}/undo">
 			<display:table name="${actionBean.versions}" class="datatable" pagesize="50" sort="list" id="listItem" htmlId="listItem" requestURI="/versions" decorator="eionet.rod.web.util.VersionsTableDecorator">
 			    <display:caption style="text-align:right;"><input type="submit" name="action" value="Undo selected"/></display:caption>
 				<display:column property="time" title="Time"/>

@@ -59,7 +59,8 @@ public class ObligationFactsheetActionBean extends AbstractRODActionBean {
 		String pathInfo = getContext().getRequest().getPathInfo();
 		if(!RODUtil.isNullOrEmpty(pathInfo)){
 			StringTokenizer st = new StringTokenizer(pathInfo,"/");
-			id = st.nextToken();
+			if(st.hasMoreElements())
+				id = st.nextToken();
 			if(st.hasMoreElements())
 				tab = st.nextToken();		
 		}

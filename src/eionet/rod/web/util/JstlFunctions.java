@@ -23,13 +23,21 @@ public class JstlFunctions {
 	
 	/**
 	 * 
-	 * @param target
-	 * @param from
-	 * @param to
+	 * @param in
 	 * @return
 	 */
 	public static String replaceTags(String in) {
 		return RODUtil.replaceTags(in);
+	}
+	
+	/**
+	 * 
+	 * @param in
+	 * @param length
+	 * @return
+	 */
+	public static String threeDots(String in, Integer length) {
+		return RODUtil.threeDots(in, length.intValue());
 	}
 
 

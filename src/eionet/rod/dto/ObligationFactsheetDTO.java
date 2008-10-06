@@ -62,7 +62,6 @@ public class ObligationFactsheetDTO implements java.io.Serializable{
 	private String sourceAlias;
 	private String sourceCelexRef;
 	private String sourceCode;
-	private String sourcePageTitle;
 	
 	//Fields from RESP_ROLE table
 	private String respRoleId;
@@ -615,16 +614,6 @@ public class ObligationFactsheetDTO implements java.io.Serializable{
 
 	public void setSourceCode(String sourceCode) {
 		this.sourceCode = sourceCode;
-	}
-
-
-	public String getSourcePageTitle() {
-		return sourcePageTitle;
-	}
-
-
-	public void setSourcePageTitle(String sourcePageTitle) {
-		this.sourcePageTitle = sourcePageTitle;
 	}
 
 

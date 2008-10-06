@@ -364,12 +364,10 @@ public class Activity extends ROEditServletAC {
         reDirect=(reDirect==null ? "0" : reDirect);
 
 
-         String location = "show.jsv?" +
+         String location = "" +
             ((curRecord != null) ?
-               "id=" + curRecord + 
-               "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID") +
-               "&mode=A" :
-               "id=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID") +
+               "obligations/" + curRecord :
+               "show.jsv?id=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID") +
                //req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID") +
                 "&mode=S") ; 
                /*+ "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_ACTIVITY/FK_SOURCE_ID") +

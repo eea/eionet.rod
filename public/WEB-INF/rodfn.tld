@@ -36,5 +36,17 @@
 			${replaceTags("text")}
 		</example>
 	</function>
+
+	<function>
+		<description>
+			Cuts the string to the given length and adds three dots to the end
+	 	</description>
+		<name>threeDots</name>
+		<function-class>eionet.rod.web.util.JstlFunctions</function-class>
+		<function-signature>java.lang.String threeDots(java.lang.String, java.lang.Integer)</function-signature>
+		<example>
+			${threeDots("text",25)}
+		</example>
+	</function>
 	
 </taglib>

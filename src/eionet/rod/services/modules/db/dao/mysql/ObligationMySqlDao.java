@@ -1305,7 +1305,6 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		"OB.COORDINATOR_ROLE, OB.COORDINATOR_ROLE_SUF, OB.COORDINATOR, OB.COORDINATOR_URL, OB.AUTHORITY, OB.EEA_PRIMARY, " +
 		"OB.PARAMETERS, OB.OVERLAP_URL, OB.EEA_CORE, OB.FLAGGED, OB.DPSIR_D, OB.DPSIR_P, OB.DPSIR_S, OB.DPSIR_I, OB.DPSIR_R, " +
 		"SO.PK_SOURCE_ID, SO.TITLE AS SOURCE_TITLE, SO.ALIAS, SO.CELEX_REF, SO.SOURCE_CODE, " +
-		"CONCAT('Reporting obligation for ', SO.ALIAS, ' ', SO.SOURCE_CODE) AS PAGETITLE, " +
 		"RRO.ROLE_ID AS R_ROLE_ID, RRO.ROLE_NAME AS R_ROLE_NAME, RRO.ROLE_URL AS R_ROLE_URL, RRO.ROLE_MEMBERS_URL AS R_ROLE_MEMBERS_URL, " +
 		"CRO.ROLE_ID AS C_ROLE_ID, CRO.ROLE_NAME AS C_ROLE_NAME, CRO.ROLE_URL AS C_ROLE_URL, CRO.ROLE_MEMBERS_URL AS C_ROLE_MEMBERS_URL, " +
 		"LU.C_VALUE, LU.C_TERM, " +
@@ -1392,7 +1391,6 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 				ret.setSourceAlias(rs.getString("ALIAS"));
 				ret.setSourceCelexRef(rs.getString("CELEX_REF"));
 				ret.setSourceCode(rs.getString("SOURCE_CODE"));
-				ret.setSourcePageTitle(rs.getString("PAGETITLE"));
 				
 				ret.setRespRoleId(rs.getString("R_ROLE_ID"));
 				ret.setRespRoleName(rs.getString("R_ROLE_NAME"));

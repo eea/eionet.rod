@@ -4,8 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.displaytag.decorator.TableDecorator;
 
+import eionet.rod.Attrs;
 import eionet.rod.ROUser;
 import eionet.rod.dto.VersionDTO;
 import eionet.rod.services.RODServices;
@@ -48,8 +51,11 @@ public class VersionsTableDecorator extends TableDecorator{
 		} catch(ServiceException e) {
 			e.printStackTrace();
 		}
+
+		HttpServletRequest req = (HttpServletRequest) getPageContext().getRequest();
+		String path = req.getContextPath();
 		
-		ret.append("<a href='undoinfo.jsp?ts=").append(ver.getUndoTime()).append("&amp;tab=").append(ver.getTab());
+		ret.append("<a href='").append(path).append("/undoinfo.jsp?ts=").append(ver.getUndoTime()).append("&amp;tab=").append(ver.getTab());
 		ret.append("&amp;op=").append(ver.getOperation()).append("&amp;id=").append(ver.getValue()).append("&amp;user=").append(user).append("'>");
 		if(ver.getTab().equals("T_OBLIGATION"))
 			ret.append("/obligations/").append(ver.getValue());
@@ -110,9 +116,13 @@ public class VersionsTableDecorator extends TableDecorator{
 		VersionDTO ver = (VersionDTO) getCurrentRowObject();
 		
 		try{
+			HttpServletRequest req = (HttpServletRequest) getPageContext().getRequest();
+			String appName = getPageContext().getServletContext().getInitParameter(Attrs.APPPARAM);
+			ROUser user = (ROUser) req.getSession().getAttribute(Attrs.USERPREFIX + appName);
+			
 			if(!ver.getOperation().equals("D") || RODServices.getDbService().getGenericlDao().isIdAvailable(ver.getValue(),ver.getTab())){
 				String aclPath = "/obligations/" + ver.getValue();
-				if(ROUser.hasPermission(getUser(), aclPath, "u")){
+				if(user != null && ROUser.hasPermission(user.getUserName(), aclPath, "u")){
 					ret.append("<input type='radio' name='group' value='");
 					ret.append(ver.getUndoTime()).append(",").append(ver.getTab()).append(",").append(ver.getOperation()).append(",").append(ver.getValue());
 					ret.append("'/>");
