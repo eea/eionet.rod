@@ -1,9 +1,10 @@
 package eionet.rod.web.util;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.displaytag.decorator.TableDecorator;
 import eionet.rod.RODUtil;
 import eionet.rod.dto.CountryDeliveryDTO;
-import eionet.rod.dto.SearchDTO;
 
 /**
  * 
@@ -21,6 +22,8 @@ public class CountryDeliveriesTableDecorator extends TableDecorator{
 		StringBuilder ret = new StringBuilder();
 		ret.append("");
 		CountryDeliveryDTO delivery = (CountryDeliveryDTO) getCurrentRowObject();
+		HttpServletRequest req = (HttpServletRequest) getPageContext().getRequest();
+		String path = req.getContextPath();
 		if(!RODUtil.isNullOrEmpty(delivery.getObligationRespRole())){
 			if(RODUtil.isNullOrEmpty(delivery.getRoleName())){
 				if(delivery.getSpatialIsMember().equals("Y")){
@@ -35,7 +38,7 @@ public class CountryDeliveriesTableDecorator extends TableDecorator{
 					ret.append("</div>");
 				}
 			} else {
-				ret.append("<a href='responsible.jsp?role=").append(delivery.getObligationRespRole()).append("&amp;spatial=");
+				ret.append("<a href='").append(path).append("/responsible.jsp?role=").append(delivery.getObligationRespRole()).append("&amp;spatial=");
 				ret.append(delivery.getSpatialTwoLetter()).append("&amp;member=").append(delivery.getSpatialIsMember()).append("'>");
 				ret.append(RODUtil.threeDots(delivery.getRoleName(), 15));
 				ret.append("</a>");
@@ -64,16 +67,16 @@ public class CountryDeliveriesTableDecorator extends TableDecorator{
 	 * 
 	 * @return
 	 */
-	public String getDate(){
+	public String getDate(){ 
 		
 		StringBuilder ret = new StringBuilder();
 		CountryDeliveryDTO delivery = (CountryDeliveryDTO) getCurrentRowObject();
-		if(!delivery.getDeliveryUploadDate().equals("0000-00-00"))
+		if(delivery.getDeliveryUploadDate() != null && !delivery.getDeliveryUploadDate().equals("0000-00-00"))
 			ret.append(delivery.getDeliveryUploadDate());
 		else
 			ret.append("&lt;No date&gt;");
-		
+		 
 		return ret.toString();
-	}
+	} 
 
 }

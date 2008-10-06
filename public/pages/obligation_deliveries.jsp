@@ -6,7 +6,7 @@
 	Deliveries for ${actionBean.obligation.title}
 </h1>
 
-<display:table name="${actionBean.deliveries}" class="sortable" pagesize="50" sort="list" id="listItem" htmlId="listItem" requestURI="/countrydeliveries" decorator="eionet.rod.web.util.CountryDeliveriesTableDecorator" style="width:100%">
+<display:table name="${actionBean.deliveries}" class="sortable" pagesize="50" sort="list" id="listItem" htmlId="listItem" requestURI="/obligations/${actionBean.id}/deliveries" decorator="eionet.rod.web.util.CountryDeliveriesTableDecorator" style="width:100%">
 		
 	<display:column property="contact" title="Contact" sortable="true" sortProperty="roleName"/>
 	<display:column property="title" title="Delivery Title" sortable="true" sortProperty="deliveryTitle"/>
