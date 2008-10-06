@@ -122,7 +122,9 @@ public class VersionsTableDecorator extends TableDecorator{
 			
 			if(!ver.getOperation().equals("D") || RODServices.getDbService().getGenericlDao().isIdAvailable(ver.getValue(),ver.getTab())){
 				String aclPath = "/obligations/" + ver.getValue();
-				if(user != null && ROUser.hasPermission(user.getUserName(), aclPath, "u")){
+				if(ver.getTab().equals("T_SOURCE"))
+					aclPath = "/instruments/" + ver.getValue();
+				if((!ver.getOperation().equals("D") && user != null && ROUser.hasPermission(user.getUserName(), aclPath, "u")) || (ver.getOperation().equals("D") && user != null && user.getUserName().equals(getUser()))){
 					ret.append("<input type='radio' name='group' value='");
 					ret.append(ver.getUndoTime()).append(",").append(ver.getTab()).append(",").append(ver.getOperation()).append(",").append(ver.getValue());
 					ret.append("'/>");
