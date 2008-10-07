@@ -281,10 +281,11 @@
 						<% } %>
 			<% } %>
 		<% } else { %>
-		<br/>
-		<b>Not authenticated! Please verify that you are logged in (for security reasons, <br/>
-		the system will log you out after a period of inactivity). If the problem persists, please <br/>
-		contact the server administrator.</b>
+		<div class="error-msg">
+		Not authenticated! Please verify that you are logged in (for security reasons,
+		the system will log you out after a period of inactivity). If the problem persists, please 
+		contact the server administrator.
+		</div>
 		<% } %>
 </div> <!-- workarea -->
 </div>
