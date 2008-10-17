@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Vector;
 
 import eionet.rod.dto.CountryDTO;
+import eionet.rod.dto.ObligationCountryDTO;
 import eionet.rod.services.ServiceException;
 
 public interface ISpatialDao {
@@ -100,5 +101,5 @@ public interface ISpatialDao {
 	 * @param obligation id
 	 * @throws ServiceException
 	 */
-	public List<CountryDTO> getObligationCountriesList(String id) throws ServiceException;
+	public List<ObligationCountryDTO> getObligationCountriesList(String id) throws ServiceException;
 }

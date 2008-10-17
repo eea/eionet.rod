@@ -15,7 +15,7 @@ import eionet.rod.services.ServiceException;
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
  *
  */
-@UrlBinding("/countries")
+@UrlBinding("/countrydeadlines")
 public class CountriesActionBean extends AbstractRODActionBean {
 	
 	private List<CountryDTO> memberCountries;
@@ -60,7 +60,7 @@ public class CountriesActionBean extends AbstractRODActionBean {
 			nonMembersCount2 = (cnt2 + 1) * 2;
 		}		
 				
-		return new ForwardResolution("/pages/countries.jsp");
+		return new ForwardResolution("/pages/countrydeadlines.jsp");
 	}
 
 	public List<CountryDTO> getNonMemberCountries() {

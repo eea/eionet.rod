@@ -9,11 +9,7 @@ public class CountryDTO implements java.io.Serializable{
 	
 	private Integer countryId;
 	private String name;
-	private String twoLetter;
-	private String isMemberCountry;
-	private String type;
 	
-	private String voluntary;
 	
 	/**
 	 * 
@@ -37,35 +33,4 @@ public class CountryDTO implements java.io.Serializable{
 		this.name = name;
 	}
 
-	public String getTwoLetter() {
-		return twoLetter;
-	}
-
-	public void setTwoLetter(String twoLetter) {
-		this.twoLetter = twoLetter;
-	}
-
-	public String getIsMemberCountry() {
-		return isMemberCountry;
-	}
-
-	public void setIsMemberCountry(String isMemberCountry) {
-		this.isMemberCountry = isMemberCountry;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getVoluntary() {
-		return voluntary;
-	}
-
-	public void setVoluntary(String voluntary) {
-		this.voluntary = voluntary;
-	}
 }

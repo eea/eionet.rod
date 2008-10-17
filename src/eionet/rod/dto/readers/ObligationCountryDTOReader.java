@@ -5,13 +5,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import eionet.rod.dto.CountryDTO;
+import eionet.rod.dto.ObligationCountryDTO;
 import eionet.rod.util.sql.ResultSetBaseReader;
 
-public class CountryDTOReader extends ResultSetBaseReader {
+public class ObligationCountryDTOReader extends ResultSetBaseReader {
 	
 	/** */
-	List<CountryDTO> resultList = new ArrayList<CountryDTO>();
+	List<ObligationCountryDTO> resultList = new ArrayList<ObligationCountryDTO>();
 	
 	/*
 	 * (non-Javadoc)
@@ -19,9 +19,11 @@ public class CountryDTOReader extends ResultSetBaseReader {
 	 */
 	public void readRow(ResultSet rs) throws SQLException {
 
-		CountryDTO countryDTO = new CountryDTO();
+		ObligationCountryDTO countryDTO = new ObligationCountryDTO();
 		countryDTO.setCountryId(new Integer(rs.getInt("PK_SPATIAL_ID")));
 		countryDTO.setName(rs.getString("SPATIAL_NAME"));
+		countryDTO.setVoluntary(rs.getString("VOLUNTARY"));
+		countryDTO.setIsMemberCountry(rs.getString("SPATIAL_ISMEMBERCOUNTRY"));
 		
 		resultList.add(countryDTO);
 	}
@@ -29,7 +31,7 @@ public class CountryDTOReader extends ResultSetBaseReader {
 	/**
 	 * @return the resultListAAA
 	 */
-	public List<CountryDTO> getResultList() {
+	public List<ObligationCountryDTO> getResultList() {
 		return resultList;
 	}
 

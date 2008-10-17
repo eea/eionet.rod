@@ -93,7 +93,7 @@
 				<div id="leftcolumn" class="localnav">
 					<ul>
 						<li><a href="${pageContext.request.contextPath}/index.html" title="ROD Home">Home </a></li>
-						<li><a href="${pageContext.request.contextPath}/countries" title="Country deadlines">Deadlines </a></li>
+						<li><a href="${pageContext.request.contextPath}/countrydeadlines" title="Country deadlines">Country deadlines </a></li>
 						<li><a href="${pageContext.request.contextPath}/rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations </a></li>
 						<li><a href="${pageContext.request.contextPath}/subscribe.jsp" title="Create a UNS Subscription">Subscribe </a></li>
 						<li><a href="${pageContext.request.contextPath}/text.jsv?mode=H" title="General Help">Help </a></li>

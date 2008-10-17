@@ -431,7 +431,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/countries</url-pattern>
+		<url-pattern>/countrydeadlines</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

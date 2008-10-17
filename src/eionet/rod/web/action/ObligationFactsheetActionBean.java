@@ -17,11 +17,11 @@ import net.sourceforge.stripes.action.UrlBinding;
 import eionet.rod.Constants;
 import eionet.rod.RODUtil;
 import eionet.rod.dto.ClientDTO;
-import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.dto.DDParamDTO;
 import eionet.rod.dto.IssueDTO;
 import eionet.rod.dto.LookupDTO;
+import eionet.rod.dto.ObligationCountryDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.dto.VersionDTO;
@@ -45,7 +45,7 @@ public class ObligationFactsheetActionBean extends AbstractRODActionBean {
 	private String spatialId;
 	private List<VersionDTO> versions;
 	private List<SiblingObligationDTO> siblingObligations;
-	private List<CountryDTO> countries;
+	private List<ObligationCountryDTO> countries;
 	private List<IssueDTO> issues;
 	private List<DDParamDTO> ddparameters;
 	
@@ -202,12 +202,12 @@ public class ObligationFactsheetActionBean extends AbstractRODActionBean {
 	}
 
 
-	public List<CountryDTO> getCountries() {
+	public List<ObligationCountryDTO> getCountries() {
 		return countries;
 	}
 
 
-	public void setCountries(List<CountryDTO> countries) {
+	public void setCountries(List<ObligationCountryDTO> countries) {
 		this.countries = countries;
 	}
 
