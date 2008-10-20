@@ -186,15 +186,17 @@
 		<tr class="zebraodd">
 			<th scope="row" class="scope-row">Other clients using this reporting</th>
 			<td>
-				<ul class="menu">
-					<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
-						<li>
-							<a href="${pageContext.request.contextPath}/client.jsv?id=${client.clientId}">
-								${client.name}
-							</a>
-						</li>
-					</c:forEach>
-				</ul>
+				<c:if test="${fn:length(actionBean.clients) > 0}">
+					<ul class="menu">
+						<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
+							<li>
+								<a href="${pageContext.request.contextPath}/client.jsv?id=${client.clientId}">
+									${client.name}
+								</a>
+							</li>
+						</c:forEach>
+					</ul>
+				</c:if>
 			</td>
 		</tr>
 		<tr class="zebraodd">

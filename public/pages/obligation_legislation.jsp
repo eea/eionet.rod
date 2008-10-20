@@ -31,18 +31,20 @@
 		<tr class="zebraeven">
 			<th scope="row" class="scope-row">Sibling reporting obligations</th>
 			<td>
-				<ul class="menu">
-					<c:forEach items="${actionBean.siblingObligations}" var="obligation" varStatus="loop">
-						<li>
-							<a href="${pageContext.request.contextPath}/obligations/${obligation.obligationId}">
-								${obligation.title}
-							</a>
-							<c:if test="${!empty obligation.authority}">
-								&#160;[${obligation.authority}]
-							</c:if>
-						</li>
-					</c:forEach>
-				</ul>
+				<c:if test="${fn:length(actionBean.siblingObligations) > 0}">
+					<ul class="menu">
+						<c:forEach items="${actionBean.siblingObligations}" var="obligation" varStatus="loop">
+							<li>
+								<a href="${pageContext.request.contextPath}/obligations/${obligation.obligationId}">
+									${obligation.title}
+								</a>
+								<c:if test="${!empty obligation.authority}">
+									&#160;[${obligation.authority}]
+								</c:if>
+							</li>
+						</c:forEach>
+					</ul>
+				</c:if>
 			</td>
 		</tr>
 		<tr class="zebraodd">

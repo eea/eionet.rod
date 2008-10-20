@@ -82,25 +82,25 @@
 	    		</c:choose>
 			</ul>
 		</div>
-		<div id="operations">
-			<ul>
-				<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,'/obligations','i')}">
-					<li><a href="${pageContext.request.contextPath}/activity.jsv?id=-1&amp;aid=${actionBean.obligation.fkSourceId}">New obligation</a></li>
-				</c:if>
-				<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-					<li><a href="${pageContext.request.contextPath}/activity.jsv?id=${actionBean.id}&amp;aid=${actionBean.obligation.fkSourceId}">Edit obligation</a></li>
-				</c:if>
-				<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'d')}">
-					<li><a href="javascript:delActivity()">Delete obligation</a></li>
-				</c:if>
-				<c:if test="${actionBean.isUserLoggedIn}">
+		<c:if test="${actionBean.isUserLoggedIn}">
+			<div id="operations">
+				<ul>
+					<c:if test="${rodfn:hasPermission(actionBean.userName,'/obligations','i')}">
+						<li><a href="${pageContext.request.contextPath}/activity.jsv?id=-1&amp;aid=${actionBean.obligation.fkSourceId}">New obligation</a></li>
+					</c:if>
+					<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
+						<li><a href="${pageContext.request.contextPath}/activity.jsv?id=${actionBean.id}&amp;aid=${actionBean.obligation.fkSourceId}">Edit obligation</a></li>
+					</c:if>
+					<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'d')}">
+						<li><a href="javascript:delActivity()">Delete obligation</a></li>
+					</c:if>
 					<li><a href="javascript:openFieldDescriptions('RO')">Field descriptions</a></li>
-				</c:if>
-				<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-					<li><a href="${pageContext.request.contextPath}/subscribe.jsp?id=${actionBean.id}">Subscribe</a></li>
-				</c:if>
-			</ul>
-		</div>
+					<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
+						<li><a href="${pageContext.request.contextPath}/subscribe.jsp?id=${actionBean.id}">Subscribe</a></li>
+					</c:if>
+				</ul>
+			</div>
+		</c:if>
 		
 		<c:choose>
 			<c:when test="${empty actionBean.tab || actionBean.tab == 'overview'}">
