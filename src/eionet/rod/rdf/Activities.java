@@ -28,6 +28,7 @@ import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 
+import eionet.rod.RODUtil;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
@@ -95,6 +96,15 @@ public class Activities extends RDFServletAC {
         formatName = repFormatUrl;
 
       String detailsUrl = (String)act.get("details_url");
+      
+      title = RODUtil.replaceTags(title);
+      description = RODUtil.replaceTags(description);
+      comment = RODUtil.replaceTags(comment);
+      respRole = RODUtil.replaceTags(respRole);
+      repFormat = RODUtil.replaceTags(repFormat);
+      formatName = RODUtil.replaceTags(formatName);
+      repFormatUrl = RODUtil.replaceTags(repFormatUrl);
+      detailsUrl = RODUtil.replaceTags(detailsUrl);
 
 
       //s.append("<rod:Obligation rdf:ID=\"ra-").append(pk).append("\">")
