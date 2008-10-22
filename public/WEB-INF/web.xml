@@ -72,6 +72,14 @@
 	      <param-value>true</param-value>
 	    </init-param>
 	</filter>
+	<filter>
+	    <filter-name>Character encoding</filter-name>
+	    <filter-class>eionet.rod.SetCharacterEncodingFilter</filter-class>
+	    <init-param>
+	      <param-name>encoding</param-name>
+	      <param-value>utf-8</param-value>
+	    </init-param>
+	</filter>
 	
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<!--              Configuration of the Stripes Filter.                   -->
@@ -103,6 +111,10 @@
 	<!-- Filter Mappings -->
 	<filter-mapping>
 		<filter-name>Browser cache controller</filter-name>
+		<url-pattern>*.jsv</url-pattern>
+  	</filter-mapping>	
+	<filter-mapping>
+		<filter-name>Character encoding</filter-name>
 		<url-pattern>*.jsv</url-pattern>
   	</filter-mapping>	
 	<filter-mapping>

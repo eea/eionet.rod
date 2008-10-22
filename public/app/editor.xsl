@@ -28,7 +28,7 @@
 	xmlns:java="http://xml.apache.org/xslt/java"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<!--xsl:output indent="yes"/-->   
-	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" omit-xml-declaration="yes"  encoding="UTF-8"/>   
+	<xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" omit-xml-declaration="yes" encoding="UTF-8"/>   
 	<!--xsl:output indent="yes" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd" omit-xml-declaration="yes"/-->   
 
 	<xsl:variable name="admin">
@@ -48,7 +48,6 @@
 	<xsl:template match="/">
 		<html xml:lang="en">
 			<head>
-				<meta content="text/html; CHARSET=UTF-8" http-equiv="Content-Type"/>
 				<meta name="title" content="EEA - Reporting Obligations Database" />
 				<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
 				<meta name="keywords" content="reporting obligations, environmental legislation, environmental reporting, environmental dataflows, European Environment Agency, EEA, European, Environmental information, Environmental portal, Eionet, Reportnet, air, waste, water, biodiversity" />

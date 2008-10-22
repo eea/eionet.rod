@@ -46,8 +46,8 @@ public class ObligationFactsheetActionBean extends AbstractRODActionBean {
 	private List<VersionDTO> versions;
 	private List<SiblingObligationDTO> siblingObligations;
 	private List<ObligationCountryDTO> countries;
-	private List<IssueDTO> issues;
-	private List<DDParamDTO> ddparameters;
+	private List<IssueDTO> issues; 
+	private List<DDParamDTO> ddparameters; 
 	
 	/**
 	 * 
@@ -66,8 +66,8 @@ public class ObligationFactsheetActionBean extends AbstractRODActionBean {
 		}
 		
 		if(!RODUtil.isNullOrEmpty(id) && RODUtil.isNumber(id)){
-			obligation = RODServices.getDbService().getObligationDao().getObligationFactsheet(id);
-			if(RODUtil.isNullOrEmpty(tab) || tab.equals("overview")){
+			obligation = RODServices.getDbService().getObligationDao().getObligationFactsheet(id); 
+			if(RODUtil.isNullOrEmpty(tab) || tab.equals("overview")){ 
 				clients = RODServices.getDbService().getClientDao().getClients(id);
 				infoTypeList = RODServices.getDbService().getObligationDao().getLookupList(id);
 			} else if(tab.equals("legislation")){
