@@ -97,14 +97,14 @@ public class Activities extends RDFServletAC {
 
       String detailsUrl = (String)act.get("details_url");
       
-      title = RODUtil.replaceTags(title);
-      description = RODUtil.replaceTags(description);
-      comment = RODUtil.replaceTags(comment);
-      respRole = RODUtil.replaceTags(respRole);
-      repFormat = RODUtil.replaceTags(repFormat);
-      formatName = RODUtil.replaceTags(formatName);
-      repFormatUrl = RODUtil.replaceTags(repFormatUrl);
-      detailsUrl = RODUtil.replaceTags(detailsUrl);
+      title = RODUtil.replaceTags(title, true, true);
+      description = RODUtil.replaceTags(description, true, true);
+      comment = RODUtil.replaceTags(comment, true, true);
+      respRole = RODUtil.replaceTags(respRole, true, true);
+      repFormat = RODUtil.replaceTags(repFormat, true, true);
+      formatName = RODUtil.replaceTags(formatName, true, true);
+      repFormatUrl = RODUtil.replaceTags(repFormatUrl, true, true);
+      detailsUrl = RODUtil.replaceTags(detailsUrl, true, true);
 
 
       //s.append("<rod:Obligation rdf:ID=\"ra-").append(pk).append("\">")
