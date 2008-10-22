@@ -68,19 +68,21 @@ public class CountryDeliveriesActionBean extends AbstractRODActionBean {
 		
 		if(deliveryData != null){
 			String freq = deliveryData.getObligationReportFreqMonths();
-			if(deliveryData.getObligationTerminate().equals("N")){
-				if(freq.equals("0"))
-					ret = "One time only";
-				else if(freq.equals("1"))
-					ret = "Monthly";
-				else if(freq.equals("12"))
-					ret = "Annually";
-				else if(deliveryData.getObligationNextDeadline().length() == 0)
-					ret = "&#160;";
-				else
-					ret = "Every " + freq + "months";
-			} else {
-				ret = "<span class=\"warning\">terminated</span>";
+			if(!RODUtil.isNullOrEmpty(freq)){
+				if(deliveryData.getObligationTerminate().equals("N")){
+					if(freq.equals("0"))
+						ret = "One time only";
+					else if(freq.equals("1"))
+						ret = "Monthly";
+					else if(freq.equals("12"))
+						ret = "Annually";
+					else if(deliveryData.getObligationNextDeadline().length() == 0)
+						ret = "&#160;";
+					else
+						ret = "Every " + freq + "months";
+				} else {
+					ret = "<span class=\"warning\">terminated</span>";
+				}
 			}
 		}
 		

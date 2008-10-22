@@ -33,6 +33,17 @@ public class JstlFunctions {
 	/**
 	 * 
 	 * @param in
+	 * @param dontCreateHTMLAnchors
+	 * @param dontCreateHTMLLineBreaks
+	 * @return
+	 */
+	public static String replaceTags(String in, boolean dontCreateHTMLAnchors, boolean dontCreateHTMLLineBreaks ) {
+		return RODUtil.replaceTags(in, dontCreateHTMLAnchors, dontCreateHTMLLineBreaks);
+	}
+	
+	/**
+	 * 
+	 * @param in
 	 * @param length
 	 * @return
 	 */

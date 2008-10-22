@@ -39,6 +39,18 @@
 
 	<function>
 		<description>
+			Encodes the string.
+	 	</description>
+		<name>replaceTags2</name>
+		<function-class>eionet.rod.web.util.JstlFunctions</function-class>
+		<function-signature>java.lang.String replaceTags(java.lang.String, boolean, boolean)</function-signature>
+		<example>
+			${replaceTags2("text", true, true)}
+		</example>
+	</function>
+
+	<function>
+		<description>
 			Cuts the string to the given length and adds three dots to the end
 	 	</description>
 		<name>threeDots</name>

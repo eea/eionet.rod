@@ -17,7 +17,7 @@
         	</c:if>
 			<tr>
 				<th scope="row" class="scope-row">Reporting obligation:</th>
-				<td>${actionBean.deliveryData.obligationTitle}</td>
+				<td>${rodfn:replaceTags(actionBean.deliveryData.obligationTitle)}</td>
 			</tr>
 			<tr>
 				<th scope="row" class="scope-row">Reporting frequency:</th>
@@ -25,19 +25,19 @@
 			</tr>
 			<tr>
 				<th scope="row" class="scope-row">Client organisation:</th>
-				<td><a href="client.jsv?id=${actionBean.deliveryData.clientId}">${actionBean.deliveryData.clientName}</a></td>
+				<td><a href="client.jsv?id=${actionBean.deliveryData.clientId}">${rodfn:replaceTags(actionBean.deliveryData.clientName)}</a></td>
 			</tr>
 			<tr>
 				<th scope="row" class="scope-row">Other clients using this reporting:</th>
 				<td>
 					<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
-						<a href="client.jsv?id=${client.clientId}">${client.name}</a><br/>
+						<a href="client.jsv?id=${client.clientId}">${rodfn:replaceTags(client.name)}</a><br/>
 					</c:forEach>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row" class="scope-row">Reporting guidelines:</th>
-				<td><a href="${actionBean.deliveryData.obligationReportFormatUrl}">${actionBean.deliveryData.obligationFormatName}</a></td>
+				<td><a href="${rodfn:replaceTags2(actionBean.deliveryData.obligationReportFormatUrl, true, true)}">${rodfn:replaceTags(actionBean.deliveryData.obligationFormatName)}</a></td>
 			</tr>
 		</table>
         
