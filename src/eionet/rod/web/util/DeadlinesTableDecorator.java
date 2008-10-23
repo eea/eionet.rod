@@ -19,7 +19,7 @@ public class DeadlinesTableDecorator extends TableDecorator{
 		
 		StringBuilder ret = new StringBuilder();
 		SearchDTO search = (SearchDTO) getCurrentRowObject();
-		ret.append("<a href='show.jsv?id=").append(search.getObligationId()).append("&amp;mode=A'>");
+		ret.append("<a href='obligations/").append(search.getObligationId()).append("'>");
 		ret.append(RODUtil.threeDots(search.getObligationTitle(), 40));
 		ret.append("</a>");
 		if(!RODUtil.isNullOrEmpty(search.getSourceCode())){
