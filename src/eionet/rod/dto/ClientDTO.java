@@ -9,6 +9,7 @@ public class ClientDTO implements java.io.Serializable{
 	
 	private Integer clientId;
 	private String name;
+	private String acronym;
 	
 	/**
 	 * 
@@ -30,6 +31,14 @@ public class ClientDTO implements java.io.Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getAcronym() {
+		return acronym;
+	}
+
+	public void setAcronym(String acronym) {
+		this.acronym = acronym;
 	}
 
 	

@@ -22,6 +22,7 @@ public class ClientDTOReader extends ResultSetBaseReader {
 		ClientDTO clientDTO = new ClientDTO();
 		clientDTO.setClientId(new Integer(rs.getInt("PK_CLIENT_ID")));
 		clientDTO.setName(rs.getString("CLIENT_NAME"));
+		clientDTO.setAcronym(rs.getString("CLIENT_ACRONYM"));
 		
 		resultList.add(clientDTO);
 	}

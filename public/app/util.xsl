@@ -182,6 +182,7 @@
 				<li><a href="index.html" title="ROD Home">Home </a></li>
 				<li><a href="countrydeadlines" title="Country deadlines">Country deadlines </a></li>
 				<li><a href="rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations </a></li>
+				<li><a href="clients" title="Clients">Clients </a></li>
 				<xsl:choose>
 					 <xsl:when test="contains($admin,'true')='true'">
 						<li><a href="subscribe.jsp" title="Create a UNS Subscription">Subscribe </a></li>

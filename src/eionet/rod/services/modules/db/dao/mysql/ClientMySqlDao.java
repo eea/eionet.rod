@@ -230,7 +230,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 	}
 	
 	private static final String qClientsList = 
-		"SELECT DISTINCT c.PK_CLIENT_ID, " + 
+		"SELECT DISTINCT c.PK_CLIENT_ID, c.CLIENT_ACRONYM, " + 
 		"CONCAT( IF(c.CLIENT_ACRONYM != '', CONCAT(c.CLIENT_ACRONYM, ' - '), ''), LEFT(c.CLIENT_NAME, 50), IF( LENGTH(c.CLIENT_NAME) > 50 ,'...', '')   ) AS CLIENT_NAME " + 
 		"FROM T_CLIENT c, T_CLIENT_LNK cl, T_OBLIGATION o " + 
 		"WHERE cl.TYPE='A' AND cl.STATUS='M' AND cl.FK_CLIENT_ID=c.PK_CLIENT_ID AND o.PK_RA_ID=cl.FK_OBJECT_ID " +
@@ -273,10 +273,43 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
      */
     public List<ClientDTO> getClients(String objectId) throws ServiceException {
     	
-    	String query = "SELECT T_CLIENT.PK_CLIENT_ID, T_CLIENT.CLIENT_NAME " +
+    	String query = "SELECT T_CLIENT.PK_CLIENT_ID, T_CLIENT.CLIENT_NAME, T_CLIENT.CLIENT_ACRONYM " +
     		"FROM T_CLIENT, T_CLIENT_LNK " +
     		"WHERE T_CLIENT_LNK.FK_OBJECT_ID = " + objectId + " AND T_CLIENT.PK_CLIENT_ID=T_CLIENT_LNK.FK_CLIENT_ID " +
     		"AND T_CLIENT_LNK.STATUS='C' AND T_CLIENT_LNK.TYPE='A'";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		ClientDTOReader rsReader = new ClientDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<ClientDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.IClientDao#getAllClients()
+     */
+    public List<ClientDTO> getAllClients() throws ServiceException {
+    	
+    	String query = "SELECT PK_CLIENT_ID, CLIENT_NAME, CLIENT_ACRONYM " +
+    		"FROM T_CLIENT " +
+    		"ORDER BY CLIENT_NAME";
     	
     	List<Object> values = new ArrayList<Object>();
 				

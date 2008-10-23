@@ -75,4 +75,10 @@ public interface IClientDao {
 	 * @throws ServiceException
 	 */
 	public List<ClientDTO> getClients(String objectId) throws ServiceException;
+	
+	/**
+	 * Returns list of all clients
+	 * @throws ServiceException
+	 */
+	public List<ClientDTO> getAllClients() throws ServiceException;
 }
