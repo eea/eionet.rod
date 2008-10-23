@@ -56,8 +56,8 @@ public class CountryDeliveriesTableDecorator extends TableDecorator{
 		
 		StringBuilder ret = new StringBuilder();
 		CountryDeliveryDTO delivery = (CountryDeliveryDTO) getCurrentRowObject();
-		ret.append("<a href='").append(delivery.getDeliveryUrl()).append("'>");
-		ret.append(delivery.getDeliveryTitle());
+		ret.append("<a href='").append(RODUtil.replaceTags(delivery.getDeliveryUrl(), true, true)).append("'>");
+		ret.append(RODUtil.replaceTags(delivery.getDeliveryTitle(), true, true));
 		ret.append("</a>");
 		
 		return ret.toString();
