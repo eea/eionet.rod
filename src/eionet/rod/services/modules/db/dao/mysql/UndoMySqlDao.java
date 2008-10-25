@@ -1,5 +1,6 @@
 package eionet.rod.services.modules.db.dao.mysql;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -19,6 +21,7 @@ import com.tee.uit.security.AccessController;
 import com.tee.uit.security.SignOnException;
 
 
+import eionet.rod.RODUtil;
 import eionet.rod.dto.ClientDTO;
 import eionet.rod.dto.VersionDTO;
 import eionet.rod.dto.readers.ClientDTOReader;
@@ -1111,5 +1114,151 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 		}		
 	
 	}
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.IUndoDao#getRODHistory(String id)
+     */
+    public List<VersionDTO> getRODHistory(String id) throws ServiceException {
+    	
+    	String query = "select undo_time, col, tab, operation, value, show_object " + 
+    		"from T_UNDO " + 
+    		"WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') " + 
+    		"AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' ";
+    	if(!RODUtil.isNullOrEmpty(id))
+    		query = query + "AND value='"+id+"' ";
+    	
+    	query = query + "ORDER BY undo_time DESC LIMIT 100";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		VersionDTOReader rsReader = new VersionDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<VersionDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    private static final String qSelectUndoObjectTitle = 
+		"SELECT value FROM T_UNDO " + 
+		"WHERE undo_time=? AND col=? AND tab=?";
+    
+    /*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IUndoDao#getUndoObjectTitle(long,
+	 *      java.lang.String)
+	 */
+	public String getUndoObjectTitle(long ts, String tab) throws ServiceException {
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		String[][] ua = {};
+
+		try {
+			con = getConnection();
+			preparedStatement = con.prepareStatement(qSelectUndoObjectTitle);
+			preparedStatement.setLong(1, ts);
+			preparedStatement.setString(2, "TITLE");
+			preparedStatement.setString(3, tab);
+			if (isDebugMode) logQuery(qSelectUndoObjectTitle);
+			ua = _executeStringQuery(preparedStatement);
+		} catch (SQLException e) {
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, con);
+		}
+		if (ua.length > 0) return ua[0][0];
+
+		return null;
+	}
+	
+	private static final String qSelectUndoByUser = 
+		"SELECT undo_time FROM T_UNDO " + 
+		"WHERE operation=? AND value=? " +
+		"ORDER BY undo_time DESC LIMIT 100";
+	
+	private static final String qSelectUndoListByUndoTime = 
+		"SELECT undo_time, col, tab, operation, value, show_object " + 
+		"FROM T_UNDO " + 
+		"WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') " + 
+		"AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' " +
+		"AND undo_time=?";
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.IUndoDao#getRODHistoryByUser()
+     */
+    public List<VersionDTO> getRODHistoryByUser(String username) throws ServiceException {
+    	
+    	List<VersionDTO> ret = new ArrayList<VersionDTO>();
+    	
+    	PreparedStatement preparedStatement = null;
+    	ResultSet rs = null;
+    	Vector<Hashtable> utlist = null;
+				
+		Connection conn = null;
+		VersionDTOReader rsReader = new VersionDTOReader();
+		try{
+			conn = getConnection();
+			
+			preparedStatement = conn.prepareStatement(qSelectUndoByUser);
+			preparedStatement.setString(1, "K");
+			preparedStatement.setString(2, username);
+			if (isDebugMode) logQuery(qSelectUndoByUser);
+			utlist = _getVectorOfHashes(preparedStatement);
+			
+			for(Iterator it = utlist.iterator(); it.hasNext(); ){
+				Hashtable hash = (Hashtable)it.next();
+				String utime = (String) hash.get("undo_time");
+				
+				preparedStatement = conn.prepareStatement(qSelectUndoListByUndoTime);
+				preparedStatement.setString(1, utime);
+				rs = preparedStatement.executeQuery();
+				VersionDTO ver = new VersionDTO();
+				while(rs.next()){
+					ver.setUndoTime(rs.getString("undo_time"));
+					ver.setCol(rs.getString("col"));
+					ver.setTab(rs.getString("tab"));
+					ver.setOperation(rs.getString("operation"));
+					
+					Blob blob = rs.getBlob("value");
+					byte[] bdata = blob.getBytes(1, (int) blob.length());
+					String value = new String(bdata);
+					ver.setValue(value);
+					
+					ver.setShowObject(rs.getString("show_object"));
+				}
+				ret.add(ver);				
+			}
+
+			return ret;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
 	
 }

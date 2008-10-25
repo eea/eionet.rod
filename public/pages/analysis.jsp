@@ -59,6 +59,16 @@
 					<a href="javascript:openViewHelp('HELP_ANALYSIS_FLAGGED')"><img src="images/info_icon.gif" alt="Show help" border="0"/></a>
 				</td>
 			</tr>
+			<tr>
+				<td class="border_right">100 most recent ROD updates</td>
+				<td align="center" class="border_right">100</td>
+				<td align="center">
+						<a href="rodhistory">Show list</a>
+				</td>
+				<td align="center" class="border_left">
+					&nbsp;
+				</td>
+			</tr>
 		</table>
         
 	</stripes:layout-component>

@@ -475,6 +475,11 @@
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/clients</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/rodhistory</url-pattern>
+	</servlet-mapping>
 
 	<session-config>
 		<session-timeout>600</session-timeout>

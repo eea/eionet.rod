@@ -138,4 +138,27 @@ public interface IUndoDao {
 	 * @throws ServiceException
 	 */
 	public void insertIntoUndo(long ts, String table, String column, String state, String quotes, String isPrimary, String value, int rowCnt , String show) throws ServiceException;
+	
+	/**
+	 * @return 100 most recent ROD updates
+	 * @param id
+	 * @throws ServiceException
+	 */
+	public List<VersionDTO> getRODHistory(String id) throws ServiceException;
+	
+	/**
+	 * Returns undo object title
+	 * @param ts
+	 * @param tab
+	 * @return
+	 * @throws ServiceException
+	 */
+	public String getUndoObjectTitle(long ts, String tab) throws ServiceException;
+	
+	/**
+	 * @return 100 users most recent ROD updates
+	 * @param username
+	 * @throws ServiceException
+	 */
+	public List<VersionDTO> getRODHistoryByUser(String username) throws ServiceException;
 }
