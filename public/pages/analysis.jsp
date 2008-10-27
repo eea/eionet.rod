@@ -28,7 +28,7 @@
 				</td>
 			</tr>
 			<tr class="zebraeven">
-				<td>Number of reporting obligations used for the EIONET Priority Data flows</td>
+				<td>Number of reporting obligations used for the Eionet Priority Data flows</td>
 				<td class="center"><c:out value="${actionBean.eeaPriority}"/></td>
 				<td class="center">
 					<c:if test="${actionBean.eeaPriority > 0}">
@@ -64,7 +64,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>100 most recent ROD updates</td>
+				<td>Most recent ROD updates</td>
 				<td class="center">100</td>
 				<td class="center">
 						<a href="updatehistory">Show list</a>
