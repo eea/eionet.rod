@@ -1118,9 +1118,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 	/*
      * (non-Javadoc)
      * 
-     * @see eionet.rod.services.modules.db.dao.IUndoDao#getRODHistory(String id)
+     * @see eionet.rod.services.modules.db.dao.IUndoDao#getUpdateHistory(String id, String object)
      */
-    public List<VersionDTO> getRODHistory(String id) throws ServiceException {
+    public List<VersionDTO> getUpdateHistory(String id, String object) throws ServiceException {
     	
     	String query = "select undo_time, col, tab, operation, value, show_object " + 
     		"from T_UNDO " + 
@@ -1128,6 +1128,14 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
     		"AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' ";
     	if(!RODUtil.isNullOrEmpty(id))
     		query = query + "AND value='"+id+"' ";
+    	if(!RODUtil.isNullOrEmpty(object)){
+    		String obj = "";
+    		if(object.equals("A"))
+    			obj = "T_OBLIGATION";
+    		else if(object.equals("S"))
+    			obj = "T_SOURCE";
+    		query = query + "AND tab='"+obj+"' ";
+    	}
     	
     	query = query + "ORDER BY undo_time DESC LIMIT 100";
     	
@@ -1202,9 +1210,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 	/*
      * (non-Javadoc)
      * 
-     * @see eionet.rod.services.modules.db.dao.IUndoDao#getRODHistoryByUser()
+     * @see eionet.rod.services.modules.db.dao.IUndoDao#getUpdateHistoryByUser()
      */
-    public List<VersionDTO> getRODHistoryByUser(String username) throws ServiceException {
+    public List<VersionDTO> getUpdateHistoryByUser(String username) throws ServiceException {
     	
     	List<VersionDTO> ret = new ArrayList<VersionDTO>();
     	

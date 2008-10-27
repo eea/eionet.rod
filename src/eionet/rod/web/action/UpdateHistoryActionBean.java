@@ -16,12 +16,13 @@ import eionet.rod.services.ServiceException;
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
  *
  */
-@UrlBinding("/rodhistory")
-public class RODHistoryActionBean extends AbstractRODActionBean {
+@UrlBinding("/updatehistory")
+public class UpdateHistoryActionBean extends AbstractRODActionBean {
 	
 	private List<VersionDTO> list;
 	private String username;
-	private String objectId;
+	private String id;
+	private String object;
 
 	/**
 	 * 
@@ -31,10 +32,10 @@ public class RODHistoryActionBean extends AbstractRODActionBean {
 	public Resolution init() throws ServiceException {
 		
 		if(!RODUtil.isNullOrEmpty(username))
-			list = RODServices.getDbService().getUndoDao().getRODHistoryByUser(username);
+			list = RODServices.getDbService().getUndoDao().getUpdateHistoryByUser(username);
 		else
-			list = RODServices.getDbService().getUndoDao().getRODHistory(objectId);
-		return new ForwardResolution("/pages/rodhistory.jsp");
+			list = RODServices.getDbService().getUndoDao().getUpdateHistory(id, object);
+		return new ForwardResolution("/pages/updatehistory.jsp");
 
 	}
 
@@ -54,15 +55,21 @@ public class RODHistoryActionBean extends AbstractRODActionBean {
 		this.username = username;
 	}
 
-	public String getObjectId() {
-		return objectId;
+	public String getId() {
+		return id;
 	}
 
-	public void setObjectId(String objectId) {
-		this.objectId = objectId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
+	public String getObject() {
+		return object;
+	}
 
+	public void setObject(String object) {
+		this.object = object;
+	}
 
 
 }

@@ -63,7 +63,7 @@
 				<td class="border_right">100 most recent ROD updates</td>
 				<td align="center" class="border_right">100</td>
 				<td align="center">
-						<a href="rodhistory">Show list</a>
+						<a href="updatehistory">Show list</a>
 				</td>
 				<td align="center" class="border_left">
 					&nbsp;

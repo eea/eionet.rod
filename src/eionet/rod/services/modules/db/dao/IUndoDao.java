@@ -142,9 +142,10 @@ public interface IUndoDao {
 	/**
 	 * @return 100 most recent ROD updates
 	 * @param id
+	 * @param object
 	 * @throws ServiceException
 	 */
-	public List<VersionDTO> getRODHistory(String id) throws ServiceException;
+	public List<VersionDTO> getUpdateHistory(String id, String object) throws ServiceException;
 	
 	/**
 	 * Returns undo object title
@@ -160,5 +161,5 @@ public interface IUndoDao {
 	 * @param username
 	 * @throws ServiceException
 	 */
-	public List<VersionDTO> getRODHistoryByUser(String username) throws ServiceException;
+	public List<VersionDTO> getUpdateHistoryByUser(String username) throws ServiceException;
 }

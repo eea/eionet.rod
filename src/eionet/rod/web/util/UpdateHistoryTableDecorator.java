@@ -16,7 +16,7 @@ import eionet.rod.services.ServiceException;
  * @author altnyris
  *
  */
-public class RODHistoryTableDecorator extends TableDecorator{
+public class UpdateHistoryTableDecorator extends TableDecorator{
 	
 	/** 
 	 * 
@@ -55,13 +55,15 @@ public class RODHistoryTableDecorator extends TableDecorator{
 	 */
 	public String getObject(){
 		
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		VersionDTO ver = (VersionDTO) getCurrentRowObject();
 		
+		String id = ver.getValue();
+		
 		if(ver.getTab().equals("T_OBLIGATION"))
-			ret = "obligation";
+			ret.append("<a href='updatehistory?id=").append(id).append("&amp;object=A").append("'>").append("/obligations/").append(id).append("</a>");
 		else if(ver.getTab().equals("T_SOURCE"))
-			ret = "instrument";
+			ret.append("<a href='updatehistory?id=").append(id).append("&amp;object=S").append("'>").append("/instruments/").append(id).append("</a>");
 			
 		return ret.toString();
 	}
@@ -103,22 +105,7 @@ public class RODHistoryTableDecorator extends TableDecorator{
 		} catch(ServiceException e) {
 			e.printStackTrace();
 		}
-		ret.append("<a href='rodhistory?username=").append(user).append("'>").append(user).append("</a>");
-		
-		return ret.toString();
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getItemid(){
-		
-		StringBuilder ret = new StringBuilder();
-		VersionDTO ver = (VersionDTO) getCurrentRowObject();
-		String id = ver.getValue();
-		
-		ret.append("<a href='rodhistory?objectId=").append(id).append("'>").append(id).append("</a>");
+		ret.append("<a href='updatehistory?username=").append(user).append("'>").append(user).append("</a>");
 		
 		return ret.toString();
 	}

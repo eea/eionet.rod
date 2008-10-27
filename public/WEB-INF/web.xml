@@ -478,7 +478,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/rodhistory</url-pattern>
+		<url-pattern>/updatehistory</url-pattern>
 	</servlet-mapping>
 
 	<session-config>
