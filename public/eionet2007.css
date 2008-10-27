@@ -2,8 +2,8 @@
 
 /* start Reporting overview searchfields */
 td.select_issue {
-	border-left: #008080 1px solid; 
-	border-right: #C0C0C0 1px solid; 
+	border-left: #008080 1px solid;
+	border-right: #C0C0C0 1px solid;
 	border-top: #008080 1px solid;
 	font-family: Verdana, sans-serif;
 	text-decoration: none;
@@ -22,8 +22,8 @@ td.select_client {
 }
 
 td.issues {
-	border-left: #008080 1px solid; 
-	border-right: #C0C0C0 1px solid; 
+	border-left: #008080 1px solid;
+	border-right: #C0C0C0 1px solid;
 	border-bottom: #008080 1px solid;
 }
 
@@ -32,21 +32,21 @@ td.client {
 }
 
 select.issues {
-	font-size: 9pt; 
-	width: 240px; 
-	color: #000000; 
+	font-size: 9pt;
+	width: 240px;
+	color: #000000;
 	background-color: #ffffff;
 }
 
 select.client {
-	font-size: 9pt; 
-	width: 240px; 
-	color: #000000; 
+	font-size: 9pt;
+	width: 240px;
+	color: #000000;
 	background-color: #ffffff;
 }
 
 td.select_deadline {
-	border-right: #C0C0C0 1px solid; 
+	border-right: #C0C0C0 1px solid;
 	border-top: #008080 1px solid;
 	font-family: Verdana, sans-serif;
 	text-decoration: none;
@@ -57,41 +57,41 @@ td.select_deadline {
 
 td.deadlines {
 	border-bottom: #008080 1px solid;
-	border-right: #C0C0C0 1px solid; 
+	border-right: #C0C0C0 1px solid;
 }
 
 select.deadlines {
-	font-size: 9pt; 
-	width: 129px; 
-	color: #000000; 
+	font-size: 9pt;
+	width: 129px;
+	color: #000000;
 	background-color: #ffffff
 }
 
 td.help_btn {
-	border-right: #008080 1px solid; 
+	border-right: #008080 1px solid;
 	border-top: #008080 1px solid;
 }
 
 td.go_btn {
-	border-right: #008080 1px solid; 
+	border-right: #008080 1px solid;
 	border-bottom: #008080 1px solid;
 }
 /* end Reporting overview searchfields */
 
 td.dark_green_heading {
-	background-color:#006666; 
-	color: white; 
+	background-color:#006666;
+	color: white;
 	font-weight:bold;
 }
 
 /*Directory role not found for */
 .role_not_found {
-	color: #000000; 
+	color: #000000;
 	font-weight:bold;
 }
 
 .terminated {
-	color: red; 
+	color: red;
 }
 
 tr.zebraeven {
@@ -113,17 +113,17 @@ td.border_left {
 
 /*start eactivity, esource */
 .label {
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
-	font-size: 9pt; 
-	font-style: normal; 
-	line-height: normal; 
-	font-weight: bold; 
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9pt;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
 	text-decoration: none;
 }
 
 div.main {
-	border: 1px solid #006666; 
-	width: 615px; 
+	border: 1px solid #006666;
+	width: 615px;
 	background: #cfe4ff;
 }
 
@@ -140,27 +140,27 @@ select.multiple {
 }
 
 td.save {
-	border-top: 3px solid #B7DBDB; 
-	height: 40px; 
+	border-top: 3px solid #B7DBDB;
+	height: 40px;
 	background:#008080;
 }
 
 input.btn {
-	font-weight: bold; 
-	color: #000000; 
+	font-weight: bold;
+	color: #000000;
 	background-image: url('images/bgr_form_buttons.jpg');
 }
 
 input.arrow_btns {
-	width: 80px; 
+	width: 80px;
 	background-image: url('images/bgr_form_buttons.jpg');
 }
 
 input.indicator_btns {
-	color: #000000; 
-	font-family: Verdana; 
-	font-size: 8pt; 
-	font-weight: bold; 
+	color: #000000;
+	font-family: Verdana;
+	font-size: 8pt;
+	font-weight: bold;
 	background-image: url('images/bgr_form_buttons_wide.jpg');
 }
 
@@ -174,7 +174,7 @@ td.or {
 }
 
 td.important {
-	border-top: 1px solid #000000; 
+	border-top: 1px solid #000000;
 	border-bottom: 1px solid #000000;
 	background: #FFCA95;
 	text-align: left;
@@ -183,9 +183,9 @@ td.important {
 
 /* start Historival Deadlines */
 td.headline {
-	border-top: #008080 1px solid; 
-	border-left: #008080 1px solid; 
-	border-bottom: #008080 1px solid; 
+	border-top: #008080 1px solid;
+	border-left: #008080 1px solid;
+	border-bottom: #008080 1px solid;
 	border-right: #008080 1px solid;
 	background: #FFFFFF;
 	font-size: 0.8em;
@@ -193,8 +193,8 @@ td.headline {
 }
 
 td.search {
-	border-left: #c0c0c0 1px solid; 
-	border-right: #c0c0c0 1px solid; 
+	border-left: #c0c0c0 1px solid;
+	border-right: #c0c0c0 1px solid;
 	border-bottom: #c0c0c0 1px solid;
 }
 /* end Historival Deadlines */
@@ -205,7 +205,7 @@ table.main{
 }
 
 td.head {
-	border-bottom:1px solid #008080; 
+	border-bottom:1px solid #008080;
 }
 
 td.lab {
@@ -219,12 +219,12 @@ td.dat {
 }
 
 select.dat {
-	color: #000000; 
-	font-size: 9pt; 
+	color: #000000;
+	font-size: 9pt;
 }
 
 input.dat {
-	color: #000000; 
+	color: #000000;
 	font-size: 10pt;
 }
 /* end csssearch */
@@ -237,34 +237,34 @@ td.indicator_label {
 /* end eindicator */
 
 input.go_btn {
-	font-family: Verdana; 
-	font-size: 10pt; 
-	color: #000000; 
-	text-align: Center; 
-	background-color: #CBDCDC; 
-	font-weight: bold; 
-	border-left: 1px solid #008080; 
-	border-right: 2px solid #006666; 
-	border-top: 1px solid #008080; 
+	font-family: Verdana;
+	font-size: 10pt;
+	color: #000000;
+	text-align: Center;
+	background-color: #CBDCDC;
+	font-weight: bold;
+	border-left: 1px solid #008080;
+	border-right: 2px solid #006666;
+	border-top: 1px solid #008080;
 	border-bottom: 2px solid #006666;
 }
 
 .headsmall {
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
-	font-size: 7pt; 
-	font-style: normal; 
-	line-height: normal; 
-	font-weight: bold; 
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
 	text-decoration: none;
 }
 
 .head1 {
-	font-size: 13pt; 
+	font-size: 13pt;
 	color: #006666;
-	font-style: normal; 
-	line-height: normal; 
-	font-weight: bold; 
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	text-decoration: none;
 }
 
@@ -274,17 +274,17 @@ input.go_btn {
 
 /* start Legislative instruments hierarchy*/
 #hierarchy {
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
-	font-size: 9pt; 
-	font-style: normal; 
-	line-height: normal; 
-	font-weight: bold; 
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9pt;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
 	text-decoration: none;
 }
 
 #hierarchy div.main {
-	background-color: white; 
-	width:606px; 
+	background-color: white;
+	width:606px;
 	border: 1px solid #006666;
 }
 
@@ -293,11 +293,11 @@ input.go_btn {
 }
 
 #hierarchy .eurlex {
-	font-size: 10pt; 
+	font-size: 10pt;
 }
 
 #hierarchy .normal_weight {
-	font-weight: normal; 
+	font-weight: normal;
 }
 
 #hierarchy .topcategory {
@@ -333,7 +333,20 @@ td.spatial_label {
 }
 /* end spatialhistory*/
 
-} /* screen media */
+/* start Analysis */
+#analysis {
+	border-collapse: collapse;
+	border: #c0c0c0 1px solid;
+}
+
+#analysis td {
+	padding: 5px;
+	margin: 0px;
+	border: #c0c0c0 1px solid;
+}
+/* end Analysis */
+
+
 .popup {
 	margin:30px;
 	background-image: none;
@@ -385,3 +398,5 @@ th.order1 a {
 th.order2 a {
 	background-image: url(images/sortup.gif);
 }
+
+} /* screen media */
