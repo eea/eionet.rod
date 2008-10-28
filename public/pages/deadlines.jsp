@@ -6,7 +6,7 @@
 
 	<stripes:layout-component name="contents">
 
-        <h1>Reporting overview<c:if test="${!empty actionBean.spatialName}">: ${actionBean.spatialName}</c:if>
+        <h1>Reporting overview<c:if test="${!empty actionBean.spatialName}">: ${rodfn:replaceTags(actionBean.spatialName)}</c:if>
         </h1>
         
         <stripes:form action="/deadlines" method="get">

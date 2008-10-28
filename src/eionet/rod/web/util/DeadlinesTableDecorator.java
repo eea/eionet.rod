@@ -20,11 +20,11 @@ public class DeadlinesTableDecorator extends TableDecorator{
 		StringBuilder ret = new StringBuilder();
 		SearchDTO search = (SearchDTO) getCurrentRowObject();
 		ret.append("<a href='obligations/").append(search.getObligationId()).append("'>");
-		ret.append(RODUtil.threeDots(search.getObligationTitle(), 40));
+		ret.append(RODUtil.replaceTags(RODUtil.threeDots(search.getObligationTitle(), 40), true, true));
 		ret.append("</a>");
 		if(!RODUtil.isNullOrEmpty(search.getSourceCode())){
 			ret.append("<br/><a href='show.jsv?id=").append(search.getSourceId()).append("&amp;mode=S'>");
-			ret.append(search.getSourceCode());
+			ret.append(RODUtil.replaceTags(search.getSourceCode(), true, true));
 			ret.append("</a>");
 		}
 		
@@ -40,8 +40,8 @@ public class DeadlinesTableDecorator extends TableDecorator{
 		StringBuilder ret = new StringBuilder();
 		SearchDTO search = (SearchDTO) getCurrentRowObject();
 		ret.append("<a href='client.jsv?id=").append(search.getClientId()).append("' title='");
-		ret.append(search.getClientName()).append("'>");
-		ret.append(RODUtil.threeDots(search.getClientDescr(), 20));
+		ret.append(RODUtil.replaceTags(search.getClientName(), true, true)).append("'>");
+		ret.append(RODUtil.replaceTags(RODUtil.threeDots(search.getClientDescr(), 20), true, true));
 		ret.append("</a>");
 		
 		return ret.toString();
@@ -84,22 +84,22 @@ public class DeadlinesTableDecorator extends TableDecorator{
 				if(search.getSpatialIsMember().equals("Y")){
 					String rolemc = search.getObligationRespRole() + "-mc-" + search.getSpatialTwoLetter();
 					ret.append("<div title='").append(rolemc).append("'>");
-					ret.append(RODUtil.threeDots(rolemc, 35));
+					ret.append(RODUtil.replaceTags(RODUtil.threeDots(rolemc, 35), true, true));
 					ret.append("</div>");
 				} else {
 					String rolecc = search.getObligationRespRole() + "-cc-" + search.getSpatialTwoLetter();
 					ret.append("<div title='").append(rolecc).append("'>");
-					ret.append(RODUtil.threeDots(rolecc, 35));
+					ret.append(RODUtil.replaceTags(RODUtil.threeDots(rolecc, 35), true, true));
 					ret.append("</div>");
 				}
 			} else {
 				ret.append("<a href='responsible.jsp?role=").append(search.getObligationRespRole()).append("&amp;spatial=");
 				ret.append(search.getSpatialTwoLetter()).append("&amp;member=").append(search.getSpatialIsMember()).append("'>");
-				ret.append(RODUtil.threeDots(search.getRoleDescr(), 15));
+				ret.append(RODUtil.replaceTags(RODUtil.threeDots(search.getRoleDescr(), 15), true, true));
 				ret.append("</a>");
 			}
 		} else {
-			ret.append(search.getSpatialName());
+			ret.append(RODUtil.replaceTags(search.getSpatialName(), true, true));
 		}
 		
 		return ret.toString();
