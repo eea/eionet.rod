@@ -2,7 +2,7 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
-<h1>Legislation for: ${actionBean.obligation.title}</h1>
+<h1>Legislation for: ${rodfn:replaceTags(actionBean.obligation.title)}</h1>
 
 <table class="datatable">
 	<col style="width:30%" />
@@ -16,10 +16,10 @@
 				<a href="${pageContext.request.contextPath}/show.jsv?id=${actionBean.obligation.sourceId}&amp;mode=S">
 					<c:choose>
 		    			<c:when test="${!empty actionBean.obligation.sourceAlias}">
-		    				${actionBean.obligation.sourceAlias}
+		    				${rodfn:replaceTags(actionBean.obligation.sourceAlias)}
 		    			</c:when>
 		    			<c:otherwise>
-		    				${actionBean.obligation.sourceTitle}
+		    				${rodfn:replaceTags(actionBean.obligation.sourceTitle)}
 		    			</c:otherwise>
 		    		</c:choose>
 				</a>
@@ -36,7 +36,7 @@
 						<c:forEach items="${actionBean.siblingObligations}" var="obligation" varStatus="loop">
 							<li>
 								<a href="${pageContext.request.contextPath}/obligations/${obligation.obligationId}">
-									${obligation.title}
+									${rodfn:replaceTags(obligation.title)}
 								</a>
 								<c:if test="${!empty obligation.authority}">
 									&#160;[${obligation.authority}]
@@ -60,10 +60,10 @@
 					<a href="${pageContext.request.contextPath}/countryinfo.jsp?ra-id=${actionBean.id}&amp;spatial=${country.countryId}&amp;member=${country.isMemberCountry}&amp;vol=${country.voluntary}">
 						<c:choose>
 			    			<c:when test="${country.voluntary == 'Y'}">
-			    				<span title="Informal participation in the reporting obligation">${country.name}*</span>
+			    				<span title="Informal participation in the reporting obligation">${rodfn:replaceTags(country.name)}*</span>
 			    			</c:when>
 			    			<c:otherwise>
-			    				${country.name}
+			    				${rodfn:replaceTags(country.name)}
 			    			</c:otherwise>
 			    		</c:choose>
 					</a><c:if test="${!loop.last}">,</c:if>
@@ -74,7 +74,7 @@
 			<th scope="row" class="scope-row">Environmental issues</th>
 			<td>
 				<c:forEach items="${actionBean.issues}" var="issue" varStatus="loop">
-					${issue.name}<c:if test="${!loop.last}">,</c:if>
+					${rodfn:replaceTags(issue.name)}<c:if test="${!loop.last}">,</c:if>
 				</c:forEach>
 				&#160;
 			</td>

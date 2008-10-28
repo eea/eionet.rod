@@ -3,7 +3,7 @@
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
 <h1>
-	Deliveries for ${actionBean.obligation.title}
+	Deliveries for ${rodfn:replaceTags(actionBean.obligation.title)}
 </h1>
 
 <display:table name="${actionBean.deliveries}" class="sortable" pagesize="50" sort="list" id="listItem" htmlId="listItem" requestURI="/obligations/${actionBean.id}/deliveries" decorator="eionet.rod.web.util.CountryDeliveriesTableDecorator" style="width:100%">
@@ -12,6 +12,6 @@
 	<display:column property="title" title="Delivery Title" sortable="true" sortProperty="deliveryTitle"/>
 	<display:column property="date" title="Delivery Date" sortable="true" sortProperty="deliveryUploadDate"/>
 	<display:column property="deliveryCoverage" title="Period covered" sortable="true"/>
-	<display:column property="spatialName" title="Country" sortable="true"/>
+	<display:column property="spatialName" title="Country" sortable="true" decorator="eionet.rod.web.util.ReplaceTagsWrapper"/>
 	
 </display:table>

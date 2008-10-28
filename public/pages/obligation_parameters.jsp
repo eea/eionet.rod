@@ -2,7 +2,7 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
-<h1>Parameters for ${actionBean.obligation.title}</h1>
+<h1>Parameters for ${rodfn:replaceTags(actionBean.obligation.title)}</h1>
 
 <c:if test="${!empty actionBean.obligation.parameters}">
 	<table class="datatable">
@@ -30,7 +30,7 @@
 		<c:forEach items="${actionBean.ddparameters}" var="param" varStatus="loop">
 			<td>
 				<a href="${param.elementUrl}" title="View parameter details in Data Dictionary">
-					${param.elementName}
+					${rodfn:replaceTags(param.elementName)}
 				</a>
 			</td>
 			<td>${param.tableName}</td>

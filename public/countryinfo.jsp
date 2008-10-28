@@ -115,7 +115,7 @@
 		
 	%>
 	
-	<h1><%=country%></h1>
+	<h1><%=RODUtil.replaceTags(country)%></h1>
    		
 	   	<table class="datatable">
 	   	<col style="width:30%" />

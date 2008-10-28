@@ -8,7 +8,7 @@
 			Reporting Obligation
 		</c:when>
 		<c:otherwise>
-			Reporting obligation for ${actionBean.obligation.title}
+			Reporting obligation for ${rodfn:replaceTags(actionBean.obligation.title)}
 		</c:otherwise>
 	</c:choose>
 </h1>
@@ -24,7 +24,7 @@
 	    				Reporting Obligation
 	    			</c:when>
 	    			<c:otherwise>
-	    				Reporting obligation for ${actionBean.obligation.title}
+	    				Reporting obligation for ${rodfn:replaceTags(actionBean.obligation.title)}
 	    			</c:otherwise>
 	    		</c:choose>
 			</td>
@@ -45,7 +45,7 @@
 				</c:if>
 				<c:if test="${!empty actionBean.obligation.overlapUrl}">
 					<br/>Delivery process or content of this obligation overlaps with another reporting obligation (
-					<a href="${actionBean.obligation.overlapUrl}">${actionBean.obligation.overlapUrl}</a>)
+					<a href="${rodfn:replaceTags2(actionBean.obligation.overlapUrl, true, true)}">${rodfn:replaceTags2(actionBean.obligation.overlapUrl, true, true)}</a>)
 				</c:if>
 			</td>
 		</tr>
@@ -55,10 +55,10 @@
 				<a href="${pageContext.request.contextPath}/show.jsv?id=${actionBean.obligation.sourceId}&amp;mode=S">
 					<c:choose>
 		    			<c:when test="${!empty actionBean.obligation.sourceAlias}">
-		    				${actionBean.obligation.sourceAlias}
+		    				${rodfn:replaceTags(actionBean.obligation.sourceAlias)}
 		    			</c:when>
 		    			<c:otherwise>
-		    				${actionBean.obligation.sourceTitle}
+		    				${rodfn:replaceTags(actionBean.obligation.sourceTitle)}
 		    			</c:otherwise>
 		    		</c:choose>
 				</a>	
@@ -74,19 +74,19 @@
 			<td>
 				<c:choose>
 	    			<c:when test="${!empty actionBean.obligation.coordRoleId}">
-	    				<a title="Public role information" href="javascript:openCirca('${actionBean.obligation.coordRoleUrl}')">
-	    					${actionBean.obligation.coordRoleName} (${actionBean.obligation.coordRoleId})
+	    				<a title="Public role information" href="javascript:openCirca('${rodfn:replaceTags2(actionBean.obligation.coordRoleUrl, true, true)}')">
+	    					${rodfn:replaceTags(actionBean.obligation.coordRoleName)} (${rodfn:replaceTags(actionBean.obligation.coordRoleId)})
 	    				</a><br/>
-	    				<a title="Role details on CIRCA for members" href="javascript:openCirca('${actionBean.obligation.coordRoleMembersUrl}')">
+	    				<a title="Role details on CIRCA for members" href="javascript:openCirca('${rodfn:replaceTags2(actionBean.obligation.coordRoleMembersUrl, true, true)}')">
 	    					Additional details for logged-in users
 	    				</a>
 	    			</c:when>
 	    			<c:otherwise>
 	    				<c:if test="${!empty actionBean.obligation.coordinatorRole}">
-							<div class="role_not_found">Directory role not found for '${actionBean.obligation.coordinatorRole}'</div><br/>
+							<div class="role_not_found">Directory role not found for '${rodfn:replaceTags(actionBean.obligation.coordinatorRole)}'</div><br/>
 						</c:if>
-						${actionBean.obligation.coordinator}
-						<a href="${actionBean.obligation.coordinatorUrl}">${actionBean.obligation.coordinatorUrl}</a>
+						${rodfn:replaceTags(actionBean.obligation.coordinator)}
+						<a href="${rodfn:replaceTags2(actionBean.obligation.coordinatorUrl, true, true)}">${rodfn:replaceTags2(actionBean.obligation.coordinatorUrl, true, true)}</a>
 	    			</c:otherwise>
 	    		</c:choose>
 			</td>
@@ -96,19 +96,19 @@
 			<td>
 				<c:choose>
 	    			<c:when test="${!empty actionBean.obligation.respRoleId}">
-	    				<a title="Public role information" href="javascript:openCirca('${actionBean.obligation.respRoleUrl}')">
-	    					${actionBean.obligation.respRoleName} (${actionBean.obligation.respRoleId})
+	    				<a title="Public role information" href="javascript:openCirca('${rodfn:replaceTags2(actionBean.obligation.respRoleUrl, true, true)}')">
+	    					${rodfn:replaceTags(actionBean.obligation.respRoleName)} (${rodfn:replaceTags(actionBean.obligation.respRoleId)})
 	    				</a><br/>
-	    				<a title="Role details on CIRCA" href="javascript:openCirca('${actionBean.obligation.respRoleMembersUrl}')">
+	    				<a title="Role details on CIRCA" href="javascript:openCirca('${rodfn:replaceTags2(actionBean.obligation.respRoleMembersUrl, true, true)}')">
 	    					Additional details for logged-in users
 	    				</a>
 	    			</c:when>
 	    			<c:otherwise>
 	    				<c:if test="${!empty actionBean.obligation.responsibleRole}">
-							<div class="role_not_found">Directory role not found for '${actionBean.obligation.responsibleRole}'</div><br/>
+							<div class="role_not_found">Directory role not found for '${rodfn:replaceTags(actionBean.obligation.responsibleRole)}'</div><br/>
 						</c:if>
-						${actionBean.obligation.nationalContact}
-						<a href="${actionBean.obligation.nationalContactUrl}">${actionBean.obligation.nationalContactUrl}</a>
+						${rodfn:replaceTags(actionBean.obligation.nationalContact)}
+						<a href="${rodfn:replaceTags2(actionBean.obligation.nationalContactUrl, true, true)}">${rodfn:replaceTags2(actionBean.obligation.nationalContactUrl, true, true)}</a>
 	    			</c:otherwise>
 	    		</c:choose>
 			</td>
@@ -165,7 +165,7 @@
 		<tr class="zebraodd">
 			<th scope="row" class="scope-row">Date comments</th>
 			<td>
-				${actionBean.obligation.dateComments}&#160;
+				${rodfn:replaceTags(actionBean.obligation.dateComments)}&#160;
 			</td>
 		</tr>
 		<tr class="zebraeven">
@@ -174,11 +174,11 @@
 				<c:choose>
 	    			<c:when test="${!empty actionBean.obligation.clientId}">
 						<a href="${pageContext.request.contextPath}/client.jsv?id=${actionBean.obligation.clientId}">
-							${actionBean.obligation.clientName}
+							${rodfn:replaceTags(actionBean.obligation.clientName)}
 						</a>
 	    			</c:when>
 	    			<c:otherwise>
-	    				${actionBean.obligation.clientName}
+	    				${rodfn:replaceTags(actionBean.obligation.clientName)}
 	    			</c:otherwise>
 	    		</c:choose>	
 			</td>
@@ -191,7 +191,7 @@
 						<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
 							<li>
 								<a href="${pageContext.request.contextPath}/client.jsv?id=${client.clientId}">
-									${client.name}
+									${rodfn:replaceTags(client.name)}
 								</a>
 							</li>
 						</c:forEach>
@@ -204,19 +204,19 @@
 			<td>
 				<c:choose>
 	    			<c:when test="${!empty actionBean.obligation.reportFormatUrl}">
-						<a href="${actionBean.obligation.reportFormatUrl}">
+						<a href="${rodfn:replaceTags2(actionBean.obligation.reportFormatUrl, true, true)}">
 							<c:choose>
 				    			<c:when test="${!empty actionBean.obligation.formatName}">
-									${actionBean.obligation.formatName}
+									${rodfn:replaceTags(actionBean.obligation.formatName)}
 				    			</c:when>
 				    			<c:otherwise>
-				    				${actionBean.obligation.reportFormatUrl}
+				    				${rodfn:replaceTags2(actionBean.obligation.reportFormatUrl, true, true)}
 				    			</c:otherwise>
 				    		</c:choose>
 						</a>
 	    			</c:when>
 	    			<c:otherwise>
-	    				${actionBean.obligation.formatName}
+	    				${rodfn:replaceTags(actionBean.obligation.formatName)}
 	    			</c:otherwise>
 	    		</c:choose>		
 	    		<c:if test="${!empty actionBean.obligation.validSince}">
@@ -247,7 +247,7 @@
 						</a>
 	    			</c:when>
 	    			<c:otherwise>
-	    				${actionBean.obligation.locationInfo}
+	    				${rodfn:replaceTags(actionBean.obligation.locationInfo)}
 	    			</c:otherwise>
 	    		</c:choose>&#160;	
 			</td>

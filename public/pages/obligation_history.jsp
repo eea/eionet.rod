@@ -3,7 +3,7 @@
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
 <h1>
-	History of ${actionBean.obligation.title}
+	History of ${rodfn:replaceTags(actionBean.obligation.title)}
 </h1>
 
 <c:set var="perm_name" value="/obligations/${actionBean.id}"></c:set>
