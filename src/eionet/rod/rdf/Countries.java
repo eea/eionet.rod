@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletException;
 
+import eionet.rod.RODUtil;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.WebRODService;
 
@@ -57,7 +58,7 @@ public class Countries extends RDFServletAC {
       String iso = (String)act.get("iso");
 
       s.append("<rod:Locality rdf:about='").append(uri).append("'>")
-        .append("<rdfs:label>").append(name).append("</rdfs:label>")
+        .append("<rdfs:label>").append(RODUtil.replaceTags(name, true, true)).append("</rdfs:label>")
         .append("<rod:loccode>").append(iso).append("</rod:loccode>")
         .append("</rod:Locality>");
 
