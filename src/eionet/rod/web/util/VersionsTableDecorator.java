@@ -120,7 +120,7 @@ public class VersionsTableDecorator extends TableDecorator{
 			String appName = getPageContext().getServletContext().getInitParameter(Attrs.APPPARAM);
 			ROUser user = (ROUser) req.getSession().getAttribute(Attrs.USERPREFIX + appName);
 			
-			if(!ver.getOperation().equals("D") || RODServices.getDbService().getGenericlDao().isIdAvailable(ver.getValue(),ver.getTab())){
+			if(ver.getOperation().equals("D") || (!ver.getOperation().equals("D") && !RODServices.getDbService().getGenericlDao().isIdAvailable(ver.getValue(),ver.getTab()))){
 				String aclPath = "/obligations/" + ver.getValue();
 				if(ver.getTab().equals("T_SOURCE"))
 					aclPath = "/instruments/" + ver.getValue();
