@@ -1,6 +1,7 @@
 package eionet.rod.web.action;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -12,17 +13,20 @@ import com.tee.xmlserver.GeneralException;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import eionet.rod.Constants;
 import eionet.rod.RODUtil;
 import eionet.rod.dto.ClientDTO;
+import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.dto.DDParamDTO;
 import eionet.rod.dto.IssueDTO;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationCountryDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
+import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.dto.VersionDTO;
 import eionet.rod.services.RODServices;
@@ -34,7 +38,7 @@ import eionet.rod.services.ServiceException;
  *
  */
 @UrlBinding("/obligations")
-public class ObligationFactsheetActionBean extends AbstractRODActionBean {
+public class ObligationsActionBean extends AbstractRODActionBean {
 	
 	private ObligationFactsheetDTO obligation;
 	private String id;
@@ -47,15 +51,30 @@ public class ObligationFactsheetActionBean extends AbstractRODActionBean {
 	private List<SiblingObligationDTO> siblingObligations;
 	private List<ObligationCountryDTO> countries;
 	private List<IssueDTO> issues; 
-	private List<DDParamDTO> ddparameters; 
+	private List<DDParamDTO> ddparameters;
+	
+	private String anmode;
+	private List<ObligationsListDTO> obligations;
+	private List<ObligationsListDTO> indirectObligations;
+	private List<CountryDTO> formCountries;
+	private List<IssueDTO> formIssues;
+	private List<ClientDTO> formClients;
+	private String country;
+	private String issue;
+	private String client;
+	private String terminated;
+	private String countryName;
+	private String issueName;
+	private String clientName;
 	
 	/**
 	 * 
 	 * @return
 	 */
 	@DefaultHandler
-	public Resolution overview() throws ServiceException {
+	public Resolution init() throws ServiceException {
 		
+		String forwardPage = "/pages/obligation.jsp";
 		String pathInfo = getContext().getRequest().getPathInfo();
 		if(!RODUtil.isNullOrEmpty(pathInfo)){
 			StringTokenizer st = new StringTokenizer(pathInfo,"/");
@@ -81,11 +100,47 @@ public class ObligationFactsheetActionBean extends AbstractRODActionBean {
 			} else if(tab.equals("parameters")){
 				ddparameters = getDDParams();
 			}
+		} else if(RODUtil.isNullOrEmpty(id)){
+			
+			String accept = getContext().getRequest().getHeader("accept");
+			if(accept.equals("application/rdf+xml"))
+				return new RedirectResolution("/obligations.rdf");
+			
+			formCountries = RODServices.getDbService().getSpatialDao().getCountriesList();
+			formIssues = RODServices.getDbService().getIssueDao().getIssuesList();
+			formClients = RODServices.getDbService().getClientDao().getClientsList();
+			
+			obligations = RODServices.getDbService().getObligationDao().getObligationsList(anmode, null, null, null, null, false);
+			forwardPage = "/pages/obligations.jsp";
 		} else {
-			handleRodException("Obligation ID is not defined or is not a number!", Constants.SEVERITY_WARNING);
+			handleRodException("Obligation ID has to be a number!", Constants.SEVERITY_WARNING);
 		}
 		
-		return new ForwardResolution("/pages/obligation.jsp");
+		return new ForwardResolution(forwardPage);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Resolution filter() throws ServiceException {
+		
+		formCountries = RODServices.getDbService().getSpatialDao().getCountriesList();
+		formIssues = RODServices.getDbService().getIssueDao().getIssuesList();
+		formClients = RODServices.getDbService().getClientDao().getClientsList();
+		
+		if(!RODUtil.isNullOrEmpty(country) && !country.equals("-1"))
+			countryName = RODServices.getDbService().getSpatialDao().getCountryById(new Integer(country).intValue());
+		if(!RODUtil.isNullOrEmpty(client) && !client.equals("-1"))
+			clientName = RODServices.getDbService().getClientDao().getOrganisationNameByID(client);
+		if(!RODUtil.isNullOrEmpty(issue) && !issue.equals("-1"))
+			issueName = RODServices.getDbService().getIssueDao().getIssueNameById(issue);		
+		
+		obligations = RODServices.getDbService().getObligationDao().getObligationsList(anmode, country, issue, client, terminated, false);
+		if(!RODUtil.isNullOrEmpty(client) && !client.equals("-1"))
+			indirectObligations = RODServices.getDbService().getObligationDao().getObligationsList(anmode, country, issue, client, terminated, true);
+		
+		return new ForwardResolution("/pages/obligations.jsp");
 	}
 	
 	private List<DDParamDTO> getDDParams(){
@@ -227,6 +282,110 @@ public class ObligationFactsheetActionBean extends AbstractRODActionBean {
 
 	public void setDdparameters(List<DDParamDTO> ddparameters) {
 		this.ddparameters = ddparameters;
+	}
+
+	public List<ObligationsListDTO> getObligations() {
+		return obligations;
+	}
+
+	public void setObligations(List<ObligationsListDTO> obligations) {
+		this.obligations = obligations;
+	}
+
+	public String getAnmode() {
+		return anmode;
+	}
+
+	public void setAnmode(String anmode) {
+		this.anmode = anmode;
+	}
+
+	public List<CountryDTO> getFormCountries() {
+		return formCountries;
+	}
+
+	public void setFormCountries(List<CountryDTO> formCountries) {
+		this.formCountries = formCountries;
+	}
+
+	public List<IssueDTO> getFormIssues() {
+		return formIssues;
+	}
+
+	public void setFormIssues(List<IssueDTO> formIssues) {
+		this.formIssues = formIssues;
+	}
+
+	public List<ClientDTO> getFormClients() {
+		return formClients;
+	}
+
+	public void setFormClients(List<ClientDTO> formClients) {
+		this.formClients = formClients;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getIssue() {
+		return issue;
+	}
+
+	public void setIssue(String issue) {
+		this.issue = issue;
+	}
+
+	public String getClient() {
+		return client;
+	}
+
+	public void setClient(String client) {
+		this.client = client;
+	}
+
+	public String getTerminated() {
+		return terminated;
+	}
+
+	public void setTerminated(String terminated) {
+		this.terminated = terminated;
+	}
+
+	public List<ObligationsListDTO> getIndirectObligations() {
+		return indirectObligations;
+	}
+
+	public void setIndirectObligations(List<ObligationsListDTO> indirectObligations) {
+		this.indirectObligations = indirectObligations;
+	}
+
+	public String getCountryName() {
+		return countryName;
+	}
+
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
+	}
+
+	public String getIssueName() {
+		return issueName;
+	}
+
+	public void setIssueName(String issueName) {
+		this.issueName = issueName;
+	}
+
+	public String getClientName() {
+		return clientName;
+	}
+
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
 	}
 
 

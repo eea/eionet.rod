@@ -22,11 +22,13 @@ import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.dto.CountryDeliveryDataDTO;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
+import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SearchDTO;
 import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.dto.readers.CountryDeliveryDTOReader;
 import eionet.rod.dto.readers.LookupDTOReader;
+import eionet.rod.dto.readers.ObligationsListDTOReader;
 import eionet.rod.dto.readers.SearchDTOReader;
 import eionet.rod.dto.readers.CountryDTOReader;
 import eionet.rod.dto.readers.SiblingObligationDTOReader;
@@ -1477,6 +1479,75 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			conn = getConnection();
 			SQLUtil.executeQuery(query, values, rsReader, conn);
 			List<SiblingObligationDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#getObligationsList(String anmode, String country, String issue, String client, String terminated, boolean ccClients)
+     */
+    public List<ObligationsListDTO> getObligationsList(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException {
+    	
+    	StringBuilder query = new StringBuilder();
+    	query.append("SELECT DISTINCT o.PK_RA_ID, o.TITLE, o.NEXT_DEADLINE, o.NEXT_REPORTING, o.FK_DELIVERY_COUNTRY_IDS, o.TERMINATE, " +
+    	"s.PK_SOURCE_ID, s.TITLE AS SOURCE_TITLE, " +
+    	"c.PK_CLIENT_ID, c.CLIENT_NAME, IF(c.CLIENT_ACRONYM='', c.CLIENT_NAME, c.CLIENT_ACRONYM) AS CLIENT_DESCR " +
+		"FROM T_OBLIGATION o, T_SOURCE s, T_CLIENT c ");
+		if(!RODUtil.isNullOrEmpty(country) && !country.equals("-1"))
+			query.append(", T_RASPATIAL_LNK r ");
+    	if(!RODUtil.isNullOrEmpty(issue) && !issue.equals("-1"))
+    		query.append(", T_RAISSUE_LNK i ");
+    	if(!RODUtil.isNullOrEmpty(client) && !client.equals("-1"))
+    		query.append(", T_CLIENT_LNK cl ");
+    	
+    	query.append("WHERE s.PK_SOURCE_ID=o.FK_SOURCE_ID AND c.PK_CLIENT_ID = o.FK_CLIENT_ID ");
+    	
+    	if(!RODUtil.isNullOrEmpty(country) && !country.equals("-1"))
+    		query.append("AND o.PK_RA_ID = r.FK_RA_ID AND r.FK_SPATIAL_ID = ").append(country).append(" ");
+    	if(!RODUtil.isNullOrEmpty(issue) && !issue.equals("-1"))
+    		query.append("AND o.PK_RA_ID = i.FK_RA_ID AND i.FK_ISSUE_ID = ").append(issue).append(" ");
+    	if(!RODUtil.isNullOrEmpty(client) && !client.equals("-1")){
+    		if(ccClients)
+    			query.append("AND cl.STATUS='C' ");
+    		else
+    			query.append("AND cl.STATUS='M' ");
+    		query.append("AND o.PK_RA_ID = cl.FK_OBJECT_ID AND cl.TYPE='A' AND cl.FK_CLIENT_ID = ").append(client).append(" ");
+    	}
+    	if(RODUtil.isNullOrEmpty(terminated) || !terminated.equals("Y"))
+    		query.append("AND o.TERMINATE = 'N' ");
+    	
+		if(!RODUtil.isNullOrEmpty(anmode)){
+			if(anmode.equals("C"))
+				query.append("AND o.EEA_CORE='1' ");
+			else if(anmode.equals("P"))
+				query.append("AND o.EEA_PRIMARY='1' ");
+			else if(anmode.equals("O"))
+				query.append("AND LENGTH(o.OVERLAP_URL)>0 ");
+			else if(anmode.equals("F"))
+				query.append("AND o.FLAGGED='1' ");
+		}		
+		query.append("ORDER BY o.TITLE");
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		ObligationsListDTOReader rsReader = new ObligationsListDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query.toString(), values, rsReader, conn);
+			List<ObligationsListDTO>  list = rsReader.getResultList();
 			return list;
 		}
 		catch (Exception e){

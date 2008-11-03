@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
+import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SearchDTO;
 import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.services.ServiceException;
@@ -288,5 +289,17 @@ public interface IObligationDao {
 	 * @throws ServiceException
 	 */
 	public List<SiblingObligationDTO> getSiblingObligations(String obligationId) throws ServiceException;
+	
+	/**
+	 * Returns list of obligations
+	 * @param anmode
+	 * @param country
+	 * @param issue
+	 * @param client
+	 * @param terminated
+	 * @param ccClients
+	 * @throws ServiceException
+	 */
+	public List<ObligationsListDTO> getObligationsList(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException;
 }
 

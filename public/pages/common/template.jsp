@@ -28,7 +28,14 @@
 			<script type="text/javascript" src="<c:url value="/script/pageops.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/mark_special_links.js"/>"></script>
 		</head>
-		<body>
+		<c:choose>
+        	<c:when test="${!empty colClass}">
+        		<body class="${colClass}">
+			</c:when>
+			<c:otherwise>
+				<body>
+			</c:otherwise>
+		</c:choose>
 			<div id="container">
 				<div id="toolribbon">
 					<div id="lefttools">
@@ -94,7 +101,7 @@
 					<ul>
 						<li><a href="${pageContext.request.contextPath}/index.html" title="ROD Home">Home </a></li>
 						<li><a href="${pageContext.request.contextPath}/countrydeadlines" title="Country deadlines">Country deadlines </a></li>
-						<li><a href="${pageContext.request.contextPath}/rorabrowse.jsv?mode=A" title="Reporting Obligations">Obligations </a></li>
+						<li><a href="${pageContext.request.contextPath}/obligations" title="Reporting Obligations">Obligations </a></li>
 						<li><a href="${pageContext.request.contextPath}/clients" title="Clients">Clients </a></li>
 						<li><a href="${pageContext.request.contextPath}/subscribe.jsp" title="Create a UNS Subscription">Subscribe </a></li>
 						<li><a href="${pageContext.request.contextPath}/text.jsv?mode=H" title="General Help">Help </a></li>
@@ -102,7 +109,7 @@
 							<li><a href="${pageContext.request.contextPath}/versions">Global History </a></li>
 						</c:if>
 						<li><a href="${pageContext.request.contextPath}/show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
-						<li><a href="${pageContext.request.contextPath}/rorabrowse.jsv?mode=A&amp;anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
+						<li><a href="${pageContext.request.contextPath}/obligations?anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
 						<li><a href="${pageContext.request.contextPath}/analysis" title="Database statistics">Database statistics </a></li>
 						<li><a href="${pageContext.request.contextPath}/search" title="Advanced search">Advanced search </a></li>
 						<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName, '/Admin/Harvest', 'u')}">
@@ -110,6 +117,12 @@
 						</c:if>
 					</ul>
 				</div>
+				
+				<c:if test="${colClass == 'threecolumn'}">
+					<div id="rightcolumn" class="quickjumps">
+						<stripes:layout-component name="rightColumn"/>
+					</div>
+				</c:if>
 
 				<div id="workarea">
 					<stripes:layout-component name="errors">

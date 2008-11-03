@@ -34,4 +34,11 @@ public interface IGenericDao {
 	 * @throws ServiceException
 	 */
 	public String getLastUpdate() throws ServiceException ;
+	
+	/**
+	 * @param area_id
+	 * @return html_text
+	 * @throws ServiceException
+	 */
+	public String getHelpAreaHtml(String area_id) throws ServiceException;
 }

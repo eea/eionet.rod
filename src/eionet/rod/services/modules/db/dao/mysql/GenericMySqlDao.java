@@ -203,5 +203,35 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
 		return ret;
 
 	}
+	
+	private static final String q_html_by_area_id = 
+		"SELECT HTML AS name " + 
+		"FROM HLP_AREA " + 
+		"WHERE AREA_ID =?";
+
+	/* (non-Javadoc)
+	 * @see eionet.rod.services.modules.db.dao.IGenericDao#getHelpAreaText(String area_id)
+	 */
+	public String getHelpAreaHtml(String area_id) throws ServiceException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		String result = null;
+		String[][] m = null;
+		try {
+			connection = getConnection();
+			preparedStatement = connection.prepareStatement(q_html_by_area_id);
+			preparedStatement.setString(1, area_id);
+			if (isDebugMode) logQuery(q_html_by_area_id);
+			m = _executeStringQuery(preparedStatement);
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+		if (m.length > 0) result = m[0][0];
+
+		return result;
+	}
 
 }

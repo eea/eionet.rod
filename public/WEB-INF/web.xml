@@ -150,10 +150,6 @@
 		<servlet-class>eionet.rod.Indicator</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>index</servlet-name>
-		<servlet-class>eionet.rod.Index</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>viewhelp</servlet-name>
 		<servlet-class>eionet.rod.ViewHelp</servlet-class>
 	</servlet>
@@ -298,10 +294,6 @@
 		<url-pattern>/spatialhistory.jsv</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>index</servlet-name>
-		<url-pattern>/index.html</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>activity</servlet-name>
 		<url-pattern>/activity.jsv</url-pattern>
 	</servlet-mapping>
@@ -383,7 +375,7 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>obligations_rdf</servlet-name>
-		<url-pattern>/obligations</url-pattern>
+		<url-pattern>/obligations.rdf</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>countries_rdf</servlet-name>
@@ -435,6 +427,11 @@
 		<servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/index.html</url-pattern>
+	</servlet-mapping>
 			
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
@@ -449,6 +446,11 @@
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/obligations/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/obligations</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

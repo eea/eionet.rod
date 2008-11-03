@@ -48,5 +48,12 @@ public interface IIssueDao {
 	 * @throws ServiceException
 	 */
 	public List<IssueDTO> getObligationIssuesList(String obligationId) throws ServiceException;
+	
+	/**
+	 * @return issue name
+	 * @param issue id
+	 * @throws ServiceException
+	 */
+	public String getIssueNameById(String id) throws ServiceException;
 
 }

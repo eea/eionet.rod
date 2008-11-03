@@ -221,5 +221,35 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
 		}
 
 	}
+	
+	private static final String q_issue_name_by_id = 
+		"SELECT ISSUE_NAME AS name " + 
+		"FROM T_ISSUE " + 
+		"WHERE PK_ISSUE_ID =?";
+
+	/* (non-Javadoc)
+	 * @see eionet.rod.services.modules.db.dao.IIssueDao#getCountryById(String id)
+	 */
+	public String getIssueNameById(String id) throws ServiceException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		String result = null;
+		String[][] m = null;
+		try {
+			connection = getConnection();
+			preparedStatement = connection.prepareStatement(q_issue_name_by_id);
+			preparedStatement.setString(1, id);
+			if (isDebugMode) logQuery(q_issue_name_by_id);
+			m = _executeStringQuery(preparedStatement);
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+		if (m.length > 0) result = m[0][0];
+
+		return result;
+	}
 
 }

@@ -20,7 +20,7 @@
 				<td class="center"><c:out value="${actionBean.eeaCore}"/></td>
 				<td class="center">
 					<c:if test="${actionBean.eeaCore > 0}">
-						<a href="rorabrowse.jsv?mode=A&amp;anmode=C">Show list</a>
+						<a href="obligations?anmode=C">Show list</a>
 					</c:if>
 				</td>
 				<td class="center">
@@ -32,7 +32,7 @@
 				<td class="center"><c:out value="${actionBean.eeaPriority}"/></td>
 				<td class="center">
 					<c:if test="${actionBean.eeaPriority > 0}">
-						<a href="rorabrowse.jsv?mode=A&amp;anmode=P">Show list</a>
+						<a href="obligations?anmode=P">Show list</a>
 					</c:if>
 				</td>
 				<td class="center">
@@ -44,7 +44,7 @@
 				<td class="center"><c:out value="${actionBean.overlapRa}"/> </td>
 				<td class="center">
 					<c:if test="${actionBean.overlapRa > 0}">
-						<a href="rorabrowse.jsv?mode=A&amp;anmode=O">Show list</a>
+						<a href="obligations?anmode=O">Show list</a>
 					</c:if>
 				</td>
 				<td class="center">
@@ -56,7 +56,7 @@
 				<td class="center"><c:out value="${actionBean.flaggedRa}"/></td>
 				<td class="center">
 					<c:if test="${actionBean.flaggedRa > 0}">
-						<a href="rorabrowse.jsv?mode=A&amp;anmode=F">Show list</a>
+						<a href="obligations?anmode=F">Show list</a>
 					</c:if>
 				</td>
 				<td class="center">
