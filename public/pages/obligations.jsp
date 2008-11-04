@@ -99,30 +99,32 @@
 			</table>
 		</stripes:form>
         
-        
-        <display:table name="${actionBean.obligations}" class="sortable" pagesize="150" sort="list" id="listItem" htmlId="listItem" requestURI="/obligations" decorator="eionet.rod.web.util.ObligationsTableDecorator" style="width:100%">
-		
-			<display:column property="title" title="Reporting obligation" sortable="true" sortProperty="obligationTitle"/>
-			<display:column property="instrument" title="Legislative instrument" sortable="true" sortProperty="sourceTitle"/>
-			<display:column property="client" title="Report to" sortable="true" sortProperty="clientDescr"/>
-			<display:column property="deadline" title="Deadline" sortable="true"/>
-			<c:if test="${actionBean.anmode == 'P'}">
-				<display:column property="deliveries" title="Deliveries" sortable="true"/>
-			</c:if>
+        <c:if test="${!empty actionBean.obligations}">
+	        <display:table name="${actionBean.obligations}" class="sortable" pagesize="150" sort="list" id="listItem" htmlId="listItem" requestURI="/obligations" decorator="eionet.rod.web.util.ObligationsTableDecorator" style="width:100%">
 			
-		</display:table>
+				<display:column property="title" title="Reporting obligation" sortable="true" sortProperty="obligationTitle"/>
+				<display:column property="instrument" title="Legislative instrument" sortable="true" sortProperty="sourceTitle"/>
+				<display:column property="client" title="Report to" sortable="true" sortProperty="clientDescr"/>
+				<display:column property="deadline" title="Deadline" sortable="true"/>
+				<c:if test="${actionBean.anmode == 'P'}">
+					<display:column property="deliveries" title="Deliveries" sortable="true"/>
+				</c:if>
+				
+			</display:table>
+		</c:if>
 		<br/><br/>
-		<display:table name="${actionBean.indirectObligations}" class="sortable" pagesize="150" sort="list" id="listItem2" htmlId="listItem2" requestURI="/obligations" decorator="eionet.rod.web.util.ObligationsTableDecorator" style="width:100%">
-			<display:caption><span class="head1">Indirect reporting obligations</span></display:caption>
-			<display:column property="title" title="Reporting obligation" sortable="true" sortProperty="obligationTitle"/>
-			<display:column property="instrument" title="Legislative instrument" sortable="true" sortProperty="sourceTitle"/>
-			<display:column property="client" title="Report to" sortable="true" sortProperty="clientDescr"/>
-			<display:column property="deadline" title="Deadline" sortable="true"/>
-			<c:if test="${actionBean.anmode == 'P'}">
-				<display:column property="deliveries" title="Deliveries" sortable="true"/>
-			</c:if>
-			
-		</display:table>
-		
+		<c:if test="${!empty actionBean.indirectObligations}">
+			<display:table name="${actionBean.indirectObligations}" class="sortable" pagesize="150" sort="list" id="listItem2" htmlId="listItem2" requestURI="/obligations" decorator="eionet.rod.web.util.ObligationsTableDecorator" style="width:100%">
+				<display:caption><span class="head1">Indirect reporting obligations</span></display:caption>
+				<display:column property="title" title="Reporting obligation" sortable="true" sortProperty="obligationTitle"/>
+				<display:column property="instrument" title="Legislative instrument" sortable="true" sortProperty="sourceTitle"/>
+				<display:column property="client" title="Report to" sortable="true" sortProperty="clientDescr"/>
+				<display:column property="deadline" title="Deadline" sortable="true"/>
+				<c:if test="${actionBean.anmode == 'P'}">
+					<display:column property="deliveries" title="Deliveries" sortable="true"/>
+				</c:if>
+				
+			</display:table>
+		</c:if>
 	</stripes:layout-component>
 </stripes:layout-render>
