@@ -65,7 +65,7 @@
 				</div> <!-- toolribbon -->
 				
 				<div id="pagehead">
-				    <a href="/"><img src="images/eea-print-logo.gif" alt="Logo" id="logo" /></a>
+				    <a href="/"><img src="${pageContext.request.contextPath}/images/eea-print-logo.gif" alt="Logo" id="logo" /></a>
 				    <div id="networktitle">Eionet</div>
 				    <div id="sitetitle">Reporting Obligations Database (ROD)</div>
 				    <div id="sitetagline">This service is part of Reportnet</div>
