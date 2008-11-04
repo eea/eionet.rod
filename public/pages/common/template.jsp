@@ -7,15 +7,27 @@
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 		<head>
+			<title>
+				<c:choose>
+		        	<c:when test="${empty pageTitle}">
+		        		EEA Reporting Obligations Database
+					</c:when>
+					<c:otherwise>
+						${pageTitle}
+					</c:otherwise>
+				</c:choose>
+			</title>
+			
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-			<meta name="Publisher" content="EEA, The European Environment Agency" />
-			<meta name="Rights" content="Copyright EEA Copenhagen 2003-2008" />
-			
-			<title>EEA Reporting Obligations Database - ${pageTitle}</title>
-			
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-			<meta name="description" content="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations." />
-			<meta name="keywords" content="reporting obligations, environmental legislation, environmental reporting, environmental dataflows, European Environment Agency, EEA, European, Environmental information, Environmental portal, Eionet, Reportnet, air, waste, water, biodiversity" />
+			<c:choose>
+	        	<c:when test="${empty desc}">
+	        		<c:set var="description" value="The EEA's reporting obligations database (ROD) contains information describing environmental reporting obligations that countries have towards international organisations."></c:set>
+				</c:when>
+				<c:otherwise>
+					<c:set var="description" value="${desc}"></c:set>
+				</c:otherwise>
+			</c:choose>
+			<meta name="description" content="${description}"/>
 			<meta name="Publisher" content="EEA, The European Environment Agency" />
 			<meta name="Rights" content="Copyright EEA Copenhagen 2003-2006" />
 		

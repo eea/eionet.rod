@@ -2,7 +2,7 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
-<stripes:layout-render name="/pages/common/template.jsp" pageTitle="${rodfn:replaceTags(actionBean.obligation.title)} - ROD - Eionet" bread2="Obligations" bread2Url="obligations" bread3="${rodfn:replaceTags(actionBean.obligation.title)}">
+<stripes:layout-render name="/pages/common/template.jsp" pageTitle="${rodfn:replaceTags(actionBean.obligation.title)} - ROD - Eionet" bread2="Obligations" bread2Url="obligations" bread3="${rodfn:replaceTags(actionBean.obligation.title)}" desc="${rodfn:replaceTags2(actionBean.obligation.description,true,true)}">
 
 	<stripes:layout-component name="contents">
 		
