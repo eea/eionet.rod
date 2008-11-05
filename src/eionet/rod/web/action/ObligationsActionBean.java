@@ -98,12 +98,12 @@ public class ObligationsActionBean extends AbstractRODActionBean {
 			} else if(tab.equals("history")){
 				versions = RODServices.getDbService().getUndoDao().getPreviousActionsReportSpecific(id, "T_OBLIGATION", "PK_RA_ID");
 			} else if(tab.equals("parameters")){
-				ddparameters = getDDParams();
+				ddparameters = getDDParams(); 
 			}
 		} else if(RODUtil.isNullOrEmpty(id)){
 			
 			String accept = getContext().getRequest().getHeader("accept");
-			if(accept.equals("application/rdf+xml"))
+			if(accept != null && accept.equals("application/rdf+xml"))
 				return new RedirectResolution("/obligations.rdf");
 			
 			formCountries = RODServices.getDbService().getSpatialDao().getCountriesList();
