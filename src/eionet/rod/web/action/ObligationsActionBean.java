@@ -1,11 +1,12 @@
 package eionet.rod.web.action;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.tee.uit.client.ServiceClientIF;
 import com.tee.uit.client.ServiceClients;
@@ -15,6 +16,7 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import eionet.rod.Constants;
 import eionet.rod.RODUtil;
@@ -29,6 +31,8 @@ import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.dto.VersionDTO;
+import eionet.rod.rdf.Activities;
+import eionet.rod.rdf.RDFServletAC;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
@@ -102,9 +106,19 @@ public class ObligationsActionBean extends AbstractRODActionBean {
 			}
 		} else if(RODUtil.isNullOrEmpty(id)){
 			
-			String accept = getContext().getRequest().getHeader("accept");
-			if(accept != null && accept.equals("application/rdf+xml"))
-				return new RedirectResolution("/obligations.rdf");
+			String acceptHeader = getContext().getRequest().getHeader("accept");
+			String[] accept = acceptHeader.split(",");
+			if(accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
+
+				return new StreamingResolution("application/rdf+xml;charset=UTF-8") {
+				    public void stream(HttpServletResponse response) throws Exception {
+				    	Activities act = new Activities();
+				    	String rdf = act.getRdf(getContext().getRequest());
+				    	response.getWriter().write(rdf);
+				    }
+				}.setFilename("obligations.rdf");
+
+			}
 			
 			formCountries = RODServices.getDbService().getSpatialDao().getCountriesList();
 			formIssues = RODServices.getDbService().getIssueDao().getIssuesList();

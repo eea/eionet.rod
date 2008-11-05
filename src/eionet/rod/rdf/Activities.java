@@ -24,6 +24,8 @@
 package eionet.rod.rdf;
 
 import java.util.Hashtable;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,9 +53,55 @@ public class Activities extends RDFServletAC {
   private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace + dcNs +
     "xmlns:eor=\"http://dublincore.org/2000/03/13/eor#\" " +
     "xmlns:dcterms='http://purl.org/dc/terms/'";
+  
+  public String getRdf(HttpServletRequest req) throws ServiceException {
+	  	try {
+	  		props = ResourceBundle.getBundle(PROP_FILE);
+	  	} catch (MissingResourceException mre) {
+	  		mre.printStackTrace();
+	  	}
+
+		if (activitiesNamespace == null)
+			activitiesNamespace = props.getString(ROD_URL_NS);
+	
+		if (instrumentsNamespace == null)
+			try {
+				instrumentsNamespace = props.getString(ROD_LI_NS);
+			} catch (MissingResourceException mre ) {
+				instrumentsNamespace="http://rod.eionet.eu.int/instruments/";
+			}
+	
+		if (issuesNamespace == null)
+			try {
+				issuesNamespace = props.getString(ROD_ISSUES_NS);
+			} catch (MissingResourceException mre ) {
+				issuesNamespace="http://rod.eionet.eu.int/issues/";
+			}
+	
+		if (spatialNamespace == null)
+			try {
+				spatialNamespace = props.getString("spatial.namespace");
+			} catch (MissingResourceException mre ) {
+				issuesNamespace="http://rod.eionet.eu.int/spatial/";
+			}
+	
+	
+		if (obligationsNamespace == null)
+			obligationsNamespace = props.getString(ROD_URL_RO_NS);
+
+		if (rodSchemaNamespace == null)
+			try {
+				rodSchemaNamespace=props.getString("schema.namespace");
+		        //quite likely it will not change
+			} catch (MissingResourceException mre ) {
+		        rodSchemaNamespace="http://rod.eionet.eu.int/schema.rdf";
+			}
+		
+		return generateRDF(req);
+  	}
 
 
-  protected  String generateRDF(HttpServletRequest req) throws ServiceException {
+  protected String generateRDF(HttpServletRequest req) throws ServiceException {
 
     StringBuffer s = new StringBuffer();
     s.append(rdfHeader);
