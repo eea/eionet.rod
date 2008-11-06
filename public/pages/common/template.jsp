@@ -84,7 +84,7 @@
 				</div> <!-- pagehead -->
 				
 				<div id="menuribbon">
-					<%@ include file="/pages/common/dropdownmenus.txt" %>
+					<%@ include file="/dropdownmenus.txt" %>
 				</div>
 				
 				<div class="breadcrumbtrail">
