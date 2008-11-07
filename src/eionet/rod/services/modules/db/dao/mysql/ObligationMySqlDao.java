@@ -22,12 +22,14 @@ import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.dto.CountryDeliveryDataDTO;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
+import eionet.rod.dto.ObligationsDueDTO;
 import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SearchDTO;
 import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.dto.readers.CountryDeliveryDTOReader;
 import eionet.rod.dto.readers.LookupDTOReader;
+import eionet.rod.dto.readers.ObligationsDueDTOReader;
 import eionet.rod.dto.readers.ObligationsListDTOReader;
 import eionet.rod.dto.readers.SearchDTOReader;
 import eionet.rod.dto.readers.CountryDTOReader;
@@ -1548,6 +1550,38 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			conn = getConnection();
 			SQLUtil.executeQuery(query.toString(), values, rsReader, conn);
 			List<ObligationsListDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#getObligationsDue()
+     */
+    public List<ObligationsDueDTO> getObligationsDue() throws ServiceException {
+    	
+    	String query = "SELECT PK_RA_ID, TITLE, LAST_UPDATE, VALIDATED_BY, RM_NEXT_UPDATE, RM_VERIFIED, RM_VERIFIED_BY " +
+		"FROM T_OBLIGATION ORDER BY RM_NEXT_UPDATE";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		ObligationsDueDTOReader rsReader = new ObligationsDueDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<ObligationsDueDTO>  list = rsReader.getResultList();
 			return list;
 		}
 		catch (Exception e){

@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
+import eionet.rod.dto.ObligationsDueDTO;
 import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SearchDTO;
 import eionet.rod.dto.SiblingObligationDTO;
@@ -301,5 +302,11 @@ public interface IObligationDao {
 	 * @throws ServiceException
 	 */
 	public List<ObligationsListDTO> getObligationsList(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException;
+	
+	/**
+	 * Returns obligations ordered by next update
+	 * @throws ServiceException
+	 */
+	public List<ObligationsDueDTO> getObligationsDue() throws ServiceException;
 }
 

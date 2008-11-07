@@ -73,6 +73,30 @@
 					&nbsp;
 				</td>
 			</tr>
+			<tr class="zebraeven">
+				<td>Legal instruments sorted on next update</td>
+				<td class="center"><c:out value="${actionBean.instrumentsDue}"/></td>
+				<td class="center">
+					<c:if test="${actionBean.instrumentsDue > 0}">
+						<a href="instruments">Show list</a>
+					</c:if>
+				</td>
+				<td class="center">
+					&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td>Obligations due for update</td>
+				<td class="center"><c:out value="${actionBean.totalRa}"/></td>
+				<td class="center">
+					<c:if test="${actionBean.totalRa > 0}">
+						<a href="obligationsdue">Show list</a>
+					</c:if>
+				</td>
+				<td class="center">
+					&nbsp;
+				</td>
+			</tr>
 		</table>
         
 	</stripes:layout-component>

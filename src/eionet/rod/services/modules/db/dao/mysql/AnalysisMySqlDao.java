@@ -153,4 +153,16 @@ public class AnalysisMySqlDao extends MySqlBaseDao implements IAnalysisDao {
 	public int getFlaggedRa() throws ServiceException {
 		return getIntValue(getFlaggedRa);
 	}
+	
+	private static final String getInstrumentsDueQuery = 
+		"SELECT COUNT(PK_SOURCE_ID) AS TOTAL_SOURCE FROM T_SOURCE ";
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getInstrumentsDue()
+	 */
+	public int getInstrumentsDue() throws ServiceException {
+		return getIntValue(getInstrumentsDueQuery);
+	}
 }

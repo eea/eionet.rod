@@ -4,10 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.InstrumentsDueDTO;
+import eionet.rod.dto.SiblingObligationDTO;
+import eionet.rod.dto.readers.InstrumentsDueDTOReader;
+import eionet.rod.dto.readers.SiblingObligationDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.ISourceDao;
+import eionet.rod.util.sql.SQLUtil;
 
 public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
@@ -246,6 +253,38 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
           }
 
           return res != null ? res : "";
+      }
+      
+      /*
+       * (non-Javadoc)
+       * 
+       * @see eionet.rod.dao.ISourceDao#getInstrumentsDue()
+       */
+      public List<InstrumentsDueDTO> getInstrumentsDue() throws ServiceException {
+      	
+      	String query = "SELECT PK_SOURCE_ID, TITLE, RM_NEXT_UPDATE, RM_VERIFIED, RM_VERIFIED_BY " +
+  		"FROM T_SOURCE ORDER BY RM_NEXT_UPDATE";
+      	
+      	List<Object> values = new ArrayList<Object>();
+  				
+  		Connection conn = null;
+  		InstrumentsDueDTOReader rsReader = new InstrumentsDueDTOReader();
+  		try{
+  			conn = getConnection();
+  			SQLUtil.executeQuery(query, values, rsReader, conn);
+  			List<InstrumentsDueDTO>  list = rsReader.getResultList();
+  			return list;
+  		}
+  		catch (Exception e){
+  			logger.error(e);
+  			throw new ServiceException(e.getMessage());
+  		}
+  		finally{
+  			try{
+  				if (conn!=null) conn.close();
+  			}
+  			catch (SQLException e){}
+  		}
       }
 	
 }

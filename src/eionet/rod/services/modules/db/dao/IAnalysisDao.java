@@ -55,5 +55,11 @@ public interface IAnalysisDao {
 	 * @throws ServiceException
 	 */
 	public int getFlaggedRa() throws ServiceException;
+	
+	/**
+	 * Number of instruments 
+	 * @throws ServiceException
+	 */
+	public int getInstrumentsDue() throws ServiceException;
 
 }

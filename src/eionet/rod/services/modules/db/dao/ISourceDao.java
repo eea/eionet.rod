@@ -1,7 +1,9 @@
 package eionet.rod.services.modules.db.dao;
 
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.InstrumentsDueDTO;
 import eionet.rod.services.ServiceException;
 
 public interface ISourceDao {
@@ -63,6 +65,13 @@ public interface ISourceDao {
      * @throws ServiceException
      */
     public String getDGEnvName(String value) throws ServiceException ;  
+    
+    /**
+     * Returns legal instruments sorted on next update
+     * @return legal instruments sorted on next update
+     * @throws ServiceException
+     */
+    public List<InstrumentsDueDTO> getInstrumentsDue() throws ServiceException;
 	
 	
 	

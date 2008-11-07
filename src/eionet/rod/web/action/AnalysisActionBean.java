@@ -20,9 +20,6 @@ import net.sourceforge.stripes.action.UrlBinding;
 @UrlBinding("/analysis")
 public class AnalysisActionBean extends AbstractRODActionBean {
 	
-	/** */
-	private static Log logger = LogFactory.getLog(AnalysisActionBean.class);
-	
 	private int totalRa;
 	private String lastUpdateRa;
 	private int totalLi;
@@ -31,6 +28,7 @@ public class AnalysisActionBean extends AbstractRODActionBean {
 	private int eeaPriority;
 	private int overlapRa;
 	private int flaggedRa;
+	private int instrumentsDue;
 	
 	/**
 	 * 
@@ -46,6 +44,7 @@ public class AnalysisActionBean extends AbstractRODActionBean {
 		eeaPriority = RODServices.getDbService().getAnalysisDao().getEeaPriority();
 		overlapRa = RODServices.getDbService().getAnalysisDao().getOverlapRa();
 		flaggedRa = RODServices.getDbService().getAnalysisDao().getFlaggedRa();
+		instrumentsDue = RODServices.getDbService().getAnalysisDao().getInstrumentsDue();
 		
 		return new ForwardResolution("/pages/analysis.jsp");
 	}
@@ -112,6 +111,14 @@ public class AnalysisActionBean extends AbstractRODActionBean {
 
 	public void setFlaggedRa(int flaggedRa) {
 		this.flaggedRa = flaggedRa;
+	}
+
+	public int getInstrumentsDue() {
+		return instrumentsDue;
+	}
+
+	public void setInstrumentsDue(int instrumentsDue) {
+		this.instrumentsDue = instrumentsDue;
 	}
 	
 
