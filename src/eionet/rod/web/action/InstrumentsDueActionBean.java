@@ -16,8 +16,8 @@ import eionet.rod.services.ServiceException;
  * @author altnyris
  *
  */
-@UrlBinding("/instruments")
-public class InstrumentsActionBean extends AbstractRODActionBean {
+@UrlBinding("/instrumentsdue")
+public class InstrumentsDueActionBean extends AbstractRODActionBean {
 
 	private List<InstrumentsDueDTO> instruments;
 	
@@ -29,7 +29,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean {
 	public Resolution init() throws ServiceException {
 		instruments = RODServices.getDbService().getSourceDao().getInstrumentsDue();
 			
-		return new ForwardResolution("/pages/instruments.jsp");
+		return new ForwardResolution("/pages/instrumentsdue.jsp");
 	}
 
 	public List<InstrumentsDueDTO> getInstruments() {

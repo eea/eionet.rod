@@ -460,7 +460,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/instruments</url-pattern>
+		<url-pattern>/instrumentsdue</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

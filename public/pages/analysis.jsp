@@ -78,7 +78,7 @@
 				<td class="center"><c:out value="${actionBean.instrumentsDue}"/></td>
 				<td class="center">
 					<c:if test="${actionBean.instrumentsDue > 0}">
-						<a href="instruments">Show list</a>
+						<a href="instrumentsdue">Show list</a>
 					</c:if>
 				</td>
 				<td class="center">

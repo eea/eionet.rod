@@ -8,7 +8,7 @@
 
         <h1>Legal instruments sorted on next update</h1>
 
-        <display:table name="${actionBean.instruments}" class="sortable" sort="list" id="listItem" htmlId="listItem" requestURI="/instruments">
+        <display:table name="${actionBean.instruments}" class="sortable" sort="list" id="listItem" htmlId="listItem" requestURI="/instrumentsdue">
 		
 			<display:column property="instrumentId" title="Id" sortable="true"/>
 			<display:column property="title" title="Title" sortable="true" href="show.jsv?mode=S" paramId="id" paramProperty="instrumentId" decorator="eionet.rod.web.util.ReplaceTagsWrapper"/>
