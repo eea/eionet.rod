@@ -304,7 +304,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"a.TITLE, " + 
 			"IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, " + 
 			"a.LAST_UPDATE, " + 
-			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID, '&mode=A') AS details_url, " + 
+			"CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url, " + 
 			"CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri, " + 
 			"IF (TERMINATE='Y', 1, 0) AS 'terminated' " + 
 		"FROM T_OBLIGATION a , T_SOURCE s " + 
