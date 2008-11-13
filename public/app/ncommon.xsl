@@ -135,11 +135,21 @@
 		<meta name="Publisher" content="EEA, The European Environment Agency" />
 		<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
 
+		<!--[if IE]>
+			<style type="text/css" media="screen">
+				body {
+					behavior: url(http://192.168.10.65:8080/webrod/csshover.htc);
+				}
+			</style>
+		<![endif]-->
+
+
 		<title><xsl:call-template name="PageTitle"/></title>
 		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/print.css" media="print" />
 		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/handheld.css" media="handheld" />		
 		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/screen.css" media="screen" title="Eionet 2007 style" />
 		<link rel="stylesheet" type="text/css" href="eionet2007.css" media="screen" title="Eionet 2007 style"/>
+		
 		<link rel="alternate" type="application/rdf+xml" title="All Obligations" href="http://rod.eionet.europa.eu/obligations"/>
 		<link rel="alternate" type="application/rdf+xml" title="All Localities" href="http://rod.eionet.europa.eu/countries"/>
 		<link rel="alternate" type="application/rdf+xml" title="All Legal instruments" href="http://rod.eionet.europa.eu/instruments"/>
@@ -148,7 +158,7 @@
 		<script type="text/javascript" src="script/util.js"></script>
 		<script type="text/javascript" src="script/pageops.js"></script>
                 <script type="text/javascript" src="script/mark_special_links.js"></script>
-
+		
 		<xsl:if test = "not(java:eionet.rod.EionetCASFilter.isCasLoggedUser($req))">
 			<script type="text/javascript">
 				<![CDATA[

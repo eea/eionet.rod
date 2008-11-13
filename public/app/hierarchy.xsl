@@ -64,26 +64,30 @@
 		<!-- page -->
 		<div id="workarea">
 		<!-- page title -->
-			<div id="operations">
-				<ul>
-					<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
-						<li>
-							<a>
-								<xsl:attribute name="href">history.jsp?item_type=L</xsl:attribute>
-								Deleted records
-							</a>
-						</li>
-					</xsl:if>
-					<xsl:if test="contains($permissions, ',/instruments:i,')='true'">
-						<li>
-							<a>
-								<xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
-								New instrument
-							</a>
-						</li>
-					</xsl:if>	
-				</ul>
-			</div>
+			<ul id="dropdown-operations">
+				<li><a href="#">Operations</a>
+					<ul>
+						<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
+							<li>
+								<a>
+									<xsl:attribute name="href">history.jsp?item_type=L</xsl:attribute>
+									<xsl:attribute name="class">link-plain</xsl:attribute>
+									Deleted records
+								</a>
+							</li>
+						</xsl:if>
+						<xsl:if test="contains($permissions, ',/instruments:i,')='true'">
+							<li>
+								<a>
+									<xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
+									<xsl:attribute name="class">link-plain</xsl:attribute>
+									New instrument
+								</a>
+							</li>
+						</xsl:if>	
+					</ul>
+				</li>
+			</ul>
 	   <h1>Legislative instruments</h1>
 	   <div id="hierarchy">
 		   <div class="main">

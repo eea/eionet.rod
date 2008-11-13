@@ -7,16 +7,14 @@
 	<stripes:layout-component name="contents">
 	
 		<c:if test="${actionBean.isUserLoggedIn}">
-			<div id="operations">
-				<ul>
-					<c:if test="${rodfn:hasPermission(actionBean.userName,'/Admin','v')}">
-						<li><a href="history.jsp?item_type=O">Show deleted</a></li>
-					</c:if>
-					<c:if test="${rodfn:hasPermission(actionBean.userName,'/obligations','i')}">
-						<li><a href="show.jsv?id=1&amp;mode=X">New obligation</a></li>
-					</c:if>
-				</ul>
-			</div>
+			<ul id="dropdown-operations">
+				<li><a href="#">Operations</a>
+					<ul>
+			      		<li><a class="link-plain" href="history.jsp?item_type=O">Show deleted</a></li>
+			      		<li><a class="link-plain" href="show.jsv?id=1&amp;mode=X">New obligation</a></li>
+					</ul>
+				</li>
+			</ul>
 		</c:if>
 
         <h1>Reporting obligations

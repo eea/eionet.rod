@@ -30,7 +30,14 @@
 			<meta name="description" content="${description}"/>
 			<meta name="Publisher" content="EEA, The European Environment Agency" />
 			<meta name="Rights" content="Copyright EEA Copenhagen 2003-2006" />
-		
+			
+			<!--[if IE]>
+			<style type="text/css" media="screen">
+				body {
+					behavior: url(<c:url value="/csshover.htc"/>);
+				}
+			</style>
+			<![endif]-->
 			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/print.css" media="print" />
 			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/handheld.css" media="handheld" />		
 			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/screen.css" media="screen" title="Eionet 2007 style" />
@@ -39,6 +46,7 @@
 			<script type="text/javascript" src="<c:url value="/script/util.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/pageops.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/mark_special_links.js"/>"></script>
+			
 		</head>
 		<c:choose>
         	<c:when test="${!empty colClass}">

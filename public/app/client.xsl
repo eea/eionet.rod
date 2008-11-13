@@ -51,16 +51,19 @@
 	<xsl:template match="XmlData">
 		<div id="workarea">
 			<xsl:if test="contains($permissions, ',/obligations:c,')='true'">
-				<div id="operations">
-					<ul>
-						<li>
-							<a>
-							<xsl:attribute name="href">eclient.jsv?id=<xsl:value-of select='$client-id'/></xsl:attribute>
-							Edit Organisation
-							</a>
-						</li>
-					</ul>
-				</div>
+				<ul id="dropdown-operations">
+					<li><a href="#">Operations</a>
+						<ul>
+							<li>
+								<a>
+								<xsl:attribute name="href">eclient.jsv?id=<xsl:value-of select='$client-id'/></xsl:attribute>
+								<xsl:attribute name="class">link-plain</xsl:attribute>
+								Edit Organisation
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</xsl:if>
 			<h1>Reporting client or issuer details</h1>
 			<table border="0">

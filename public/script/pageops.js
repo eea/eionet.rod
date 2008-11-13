@@ -90,9 +90,9 @@ function fullscreenModeLoad() {
     }
 };
 
-function startList() {
+function startListImpl(name) {
     if (document.all && document.getElementById) {
-        navRoot = document.getElementById("dropdowns");
+        navRoot = document.getElementById(name);
         if (navRoot) {
             for (i=0; i<navRoot.childNodes.length; i++) {
                 node = navRoot.childNodes[i];
@@ -108,6 +108,12 @@ function startList() {
         }
     }
 }
+
+function startList() {
+	startListImpl("dropdowns");
+	startListImpl("dropdown-operations");
+}
+
 
 /* Use attachEvent for IE */
 function addEvent(obj, evType, fn){

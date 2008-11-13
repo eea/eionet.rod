@@ -88,54 +88,61 @@
 
 		<!-- page -->
 		<div id="workarea">
-						<div id="operations">
-							<ul>
-								<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
-									<li>
-										<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
-										New obligation</a>
-									</li>
-								</xsl:if>
-								<xsl:if test="contains($permissions, ',/instruments:i,')='true'">
-									<li>
-										<a><xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
-										New instrument</a>
-									</li>
-								</xsl:if>
-								<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':u,'))='true'">
-									<li>
-										<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
-										Edit instrument</a>
-									</li>
-								</xsl:if>
-								<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':d,'))='true'">
-									<li>
-										<a href="javascript:delLegislation()">
-										Delete instrument</a>
-									</li>
-								</xsl:if>
-								<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':u,'))='true'">
-									<li>
-										<a>
-											<xsl:attribute name="href">subscribe.jsp?sid=<xsl:value-of select="$src-id"/></xsl:attribute>
-											Subscribe
-										</a>
-									</li>
-								</xsl:if>
-								<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':u,'))='true'">
-									<li>
-										<a><xsl:attribute name="href">versions?id=<xsl:value-of select="$src-id"/>&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID</xsl:attribute>
-										Show history</a>
-									</li>
-								</xsl:if>
-								<xsl:if test="$admin='true'">
-									<li>
-										<a href="javascript:openHelpList('LI')">Field descriptions</a>
-									</li>
-								</xsl:if>
-							</ul>
-						</div>
-					<h1>Legislative instrument details: <xsl:value-of select="T_SOURCE/ALIAS"/></h1>
+			<ul id="dropdown-operations">
+				<li><a href="#">Operations</a>
+					<ul>
+						<xsl:if test="contains($permissions, ',/obligations:i,')='true'">
+							<li>
+								<a><xsl:attribute name="href">activity.jsv?id=-1&amp;aid=<xsl:value-of select="$src-id"/></xsl:attribute>
+								<xsl:attribute name="class">link-plain</xsl:attribute>
+								New obligation</a>
+							</li>
+						</xsl:if>
+						<xsl:if test="contains($permissions, ',/instruments:i,')='true'">
+							<li>
+								<a><xsl:attribute name="href">source.jsv?id=-1</xsl:attribute>
+								<xsl:attribute name="class">link-plain</xsl:attribute>
+								New instrument</a>
+							</li>
+						</xsl:if>
+						<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':u,'))='true'">
+							<li>
+								<a><xsl:attribute name="href">source.jsv?id=<xsl:value-of select="$src-id"/></xsl:attribute>
+								<xsl:attribute name="class">link-plain</xsl:attribute>
+								Edit instrument</a>
+							</li>
+						</xsl:if>
+						<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':d,'))='true'">
+							<li>
+								<a href="javascript:delLegislation()">
+								Delete instrument</a>
+							</li>
+						</xsl:if>
+						<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':u,'))='true'">
+							<li>
+								<a>
+									<xsl:attribute name="href">subscribe.jsp?sid=<xsl:value-of select="$src-id"/></xsl:attribute>
+									<xsl:attribute name="class">link-plain</xsl:attribute>
+									Subscribe
+								</a>
+							</li>
+						</xsl:if>
+						<xsl:if test="contains($permissions, concat(',/instruments/',$src-id,':u,'))='true'">
+							<li>
+								<a><xsl:attribute name="href">versions?id=<xsl:value-of select="$src-id"/>&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID</xsl:attribute>
+								<xsl:attribute name="class">link-plain</xsl:attribute>
+								Show history</a>
+							</li>
+						</xsl:if>
+						<xsl:if test="$admin='true'">
+							<li>
+								<a href="javascript:openHelpList('LI')">Field descriptions</a>
+							</li>
+						</xsl:if>
+					</ul>
+				</li>
+			</ul>
+			<h1>Legislative instrument details: <xsl:value-of select="T_SOURCE/ALIAS"/></h1>
 
 				<table class="datatable">
 				<col style="width:25%" />
