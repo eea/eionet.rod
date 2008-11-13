@@ -13,7 +13,7 @@
 	</c:choose>
 </h1>
 
-<table class="datatable">
+<table class="datatable" style="width:100%">
 	<col style="width:30%" />
 	<col style="width:70%" />
 		<tr class="zebraodd">
