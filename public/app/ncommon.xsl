@@ -135,15 +135,6 @@
 		<meta name="Publisher" content="EEA, The European Environment Agency" />
 		<meta name="Rights" content="Copyright EEA Copenhagen 2003" />
 
-		<!--[if IE]>
-			<style type="text/css" media="screen">
-				body {
-					behavior: url(http://192.168.10.65:8080/webrod/csshover.htc);
-				}
-			</style>
-		<![endif]-->
-
-
 		<title><xsl:call-template name="PageTitle"/></title>
 		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/print.css" media="print" />
 		<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/handheld.css" media="handheld" />		
