@@ -84,7 +84,7 @@ public class EionetCASFilter extends CASFilter {
 					if (location != null)
 						httpResponse.sendRedirect(location);
 					else
-						request.getRequestDispatcher("/").forward(request,response);
+						httpResponse.sendRedirect(httpRequest.getContextPath());
 					return;
 				}
 			}
