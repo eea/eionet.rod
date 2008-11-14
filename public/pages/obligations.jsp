@@ -10,7 +10,7 @@
 			<ul id="dropdown-operations">
 				<li><a href="#">Operations</a>
 					<ul>
-			      		<li><a class="link-plain" href="history.jsp?item_type=O">Show deleted</a></li>
+			      		<li><a class="link-plain" href="updatehistory?type=O">Show deleted</a></li>
 			      		<li><a class="link-plain" href="show.jsv?id=1&amp;mode=X">New obligation</a></li>
 					</ul>
 				</li>

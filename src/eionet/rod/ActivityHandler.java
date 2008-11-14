@@ -136,7 +136,6 @@ public class ActivityHandler extends ROHandler {
           if (delSelf) {
 				undoDao.insertIntoUndo(null, raID, "D", "T_OBLIGATION", "PK_RA_ID", ts, "", show, null);
 				obligationDao.deleteObligation(obligationID);
-				HistoryLogger.logActivityHistory(raID, this.user.getUserName(), DELETE_RECORD, "");
 			}
       }catch (Exception e){
           e.printStackTrace();
@@ -281,7 +280,7 @@ public class ActivityHandler extends ROHandler {
       	 if (state != DELETE_RECORD && !gen.getFieldValue("FK_CLIENT_ID").equals("0"))
       		 	clientDao.insertClientLink(Integer.valueOf(gen.getFieldValue("FK_CLIENT_ID")),Integer.valueOf(id),"M","A");
 
-         HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
+         //HistoryLogger.logActivityHistory(id,this.user.getUserName(), state, gen.getFieldValue("TITLE"));
 
          if (servlet != null)
             servlet.setCurrentID(id);
@@ -362,7 +361,7 @@ public class ActivityHandler extends ROHandler {
 
             //handle history
             //if (spatialType.equals("C"))
-            HistoryLogger.logSpatialHistory(id, spatialId, voluntary);
+            //HistoryLogger.logSpatialHistory(id, spatialId, voluntary);
 
            
          }

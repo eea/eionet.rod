@@ -1268,5 +1268,47 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 			catch (SQLException e){}
 		}
     }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.IUndoDao#getDeleted(String type)
+     */
+    public List<VersionDTO> getDeleted(String type) throws ServiceException {
+    	
+    	String query = "select undo_time, col, tab, operation, value, show_object " + 
+    		"from T_UNDO WHERE ";
+    	if(!RODUtil.isNullOrEmpty(type)){
+    		String obj = "";
+    		if(type.equals("O"))
+    			obj = "PK_RA_ID";
+    		else if(type.equals("S"))
+    			obj = "PK_SOURCE_ID";
+    		query = query + "col='"+obj+"' ";
+    	}
+    	
+    	query = query + "AND operation='D' AND show_object='y' ORDER BY undo_time DESC";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		VersionDTOReader rsReader = new VersionDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<VersionDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
 	
 }

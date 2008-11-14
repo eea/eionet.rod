@@ -23,6 +23,7 @@ public class UpdateHistoryActionBean extends AbstractRODActionBean {
 	private String username;
 	private String id;
 	private String object;
+	private String type;
 
 	/**
 	 * 
@@ -33,6 +34,8 @@ public class UpdateHistoryActionBean extends AbstractRODActionBean {
 		
 		if(!RODUtil.isNullOrEmpty(username))
 			list = RODServices.getDbService().getUndoDao().getUpdateHistoryByUser(username);
+		if(!RODUtil.isNullOrEmpty(type))
+			list = RODServices.getDbService().getUndoDao().getDeleted(type);
 		else
 			list = RODServices.getDbService().getUndoDao().getUpdateHistory(id, object);
 		return new ForwardResolution("/pages/updatehistory.jsp");
@@ -69,6 +72,14 @@ public class UpdateHistoryActionBean extends AbstractRODActionBean {
 
 	public void setObject(String object) {
 		this.object = object;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 

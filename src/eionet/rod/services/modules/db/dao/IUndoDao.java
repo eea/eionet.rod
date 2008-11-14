@@ -162,4 +162,11 @@ public interface IUndoDao {
 	 * @throws ServiceException
 	 */
 	public List<VersionDTO> getUpdateHistoryByUser(String username) throws ServiceException;
+	
+	/**
+	 * @return deleted obligations/instruments
+	 * @param type
+	 * @throws ServiceException
+	 */
+	public List<VersionDTO> getDeleted(String type) throws ServiceException;
 }

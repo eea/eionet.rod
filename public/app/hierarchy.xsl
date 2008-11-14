@@ -70,7 +70,7 @@
 						<xsl:if test="contains($permissions, ',/Admin:v,')='true'">
 							<li>
 								<a>
-									<xsl:attribute name="href">history.jsp?item_type=L</xsl:attribute>
+									<xsl:attribute name="href">updatehistory?type=S</xsl:attribute>
 									<xsl:attribute name="class">link-plain</xsl:attribute>
 									Deleted records
 								</a>

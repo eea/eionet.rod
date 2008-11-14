@@ -127,7 +127,6 @@ public class SourceHandler extends ActivityHandler {
             undoDao.insertIntoUndo(null,srcID, "D", "T_SOURCE", "PK_SOURCE_ID",ts,"","y",null);
             // delete legislative act itself
             sourceDao.deleteSource(Integer.valueOf(srcID));
-            HistoryLogger.logLegisgationHistory(srcID,this.user.getUserName(), DELETE_RECORD, "");          
           }
        }catch (Exception e){
            Logger.log("SourceHandler.DELETE_SOURCE", e);
@@ -243,9 +242,6 @@ public class SourceHandler extends ActivityHandler {
 
           if ( clientId != null && !clientId.trim().equals(""))
 		    	  clientDao.insertClientLink(Integer.valueOf(clientId), Integer.valueOf(id), "M","S");
-
-
-        logHistory(gen);
           
          if (servlet != null)
             servlet.setCurrentID(id);
@@ -335,9 +331,5 @@ public class SourceHandler extends ActivityHandler {
 		}
 		
 	}   
-   
-   private void logHistory(SQLGenerator gen ) {
-      HistoryLogger.logLegisgationHistory(id, this.user.getUserName(), gen.getState(), gen.getFieldValue("TITLE"));   
-   }
    
 }
