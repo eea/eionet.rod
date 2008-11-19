@@ -125,8 +125,6 @@ public class Show extends ROServletAC {
          return PREFIX + HIERARCHYX_XSL;
       else if (mode.equals(ACTIVITY_MODE))
          return PREFIX + ACTIVITY_XSL;
-      else if (mode.equals(INDICATORS_MODE))
-         return PREFIX + INDICATORS_XSL;
       else if (mode.equals(PARAMETERS_MODE))
          return PREFIX + ACTIVITY_XSL;
 
@@ -257,8 +255,6 @@ public class Show extends ROServletAC {
             qrySrc = PREFIX + SOURCE_QUERY;
          else if (mode.equals(HIERARCHY_MODE) || mode.equals(HIERARCHYX_MODE)) 
             qrySrc = PREFIX + HIERARCHY_QUERY;
-         else if (mode.equals(INDICATORS_MODE))
-            qrySrc = PREFIX + INDICATORS_QUERY;
          else if (mode.equals(ACTIVITY_MODE))
             qrySrc = PREFIX + ACTIVITY_QUERY;
          else if (mode.equals(PARAMETERS_MODE)) 

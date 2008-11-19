@@ -62,8 +62,6 @@ public interface Constants {
    public static final String HIERARCHY_QUERY  = "hierarchy.xrs";
    public static final String HIERARCHYX_XSL = "hierarchyx.xsl";
 
-   public static final String INDICATORS_XSL = "indicators.xsl";
-   public static final String INDICATORS_QUERY  = "indicators.xrs";
    public static final String ACTIVITY_XSL = "activity.xsl";
    public static final String ACTIVITY_QUERY  = "activity.xrs";
    
@@ -81,13 +79,10 @@ public interface Constants {
    public static final String SOURCE_MODE = "S";
    public static final String HIERARCHY_MODE = "C";
    public static final String HIERARCHYX_MODE = "X";
-   public static final String INDICATORS_MODE = "I";
    public static final String ACTIVITY_MODE = "A";
    public static final String PARAMETERS_MODE = "M";
 
    // editor
-   public static final String E_INDICATOR_XRS = "eindicator.xrs";
-   public static final String E_INDICATOR_XSL = "eindicator.xsl";   
    public static final String E_SOURCE_XSL = "esource.xsl";
    public static final String E_SOURCE_QUERY  = "esource.xrs";
    public static final String E_REPORTING_XSL = "ereporting.xsl";

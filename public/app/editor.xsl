@@ -99,20 +99,6 @@
 						document.forms["f"].silent.value=0; 
 						}
 
-					function updIndicator(id, raId) {
-						document.forms["f"].silent.value=1;
-						save(null,true);
-						openPopup('indicator.jsv', 'id=' + id + '&aid=' + raId);
-						document.forms["f"].silent.value=0;
-						}
-
-					function delIndicator(id, raId, srcId) {
-						document.forms["f"].silent.value=1;
-						save(null,true);
-						openPopup('indicator.jsv', 'dom-update-mode=D&id=' + id + '&aid=' + raId + '&srcid=' + srcId);
-						document.forms["f"].silent.value=0; 
-					} 
-
 					function chkValue(chkBox, fldName) {
 						chkValue(chkBox, fldName, false);
 					}

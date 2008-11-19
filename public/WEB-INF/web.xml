@@ -146,10 +146,6 @@
 		<servlet-class>eionet.rod.TxtServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>indicator</servlet-name>
-		<servlet-class>eionet.rod.Indicator</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>viewhelp</servlet-name>
 		<servlet-class>eionet.rod.ViewHelp</servlet-class>
 	</servlet>
@@ -284,10 +280,6 @@
 	<servlet-mapping>
 		<servlet-name>gentext</servlet-name>
 		<url-pattern>/text.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>indicator</servlet-name>
-		<url-pattern>/indicator.jsv</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>spatialhistory</servlet-name>

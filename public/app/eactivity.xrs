@@ -174,16 +174,6 @@
 			<xrs:Ordering>T_SPATIAL.SPATIAL_NAME</xrs:Ordering>
 			<xrs:Constraint>T_RASPATIAL_LNK.VOLUNTARY='Y' AND T_SPATIAL.SPATIAL_TYPE='C'</xrs:Constraint>
 		</xrs:SubSet>
-		<xrs:SubSet name="Indicators" relation="T_OBLIGATION.PK_RA_ID=T_INDICATOR.FK_RA_ID">
-			<T_INDICATOR>
-				<PK_INDICATOR_ID/>
-				<FK_RA_ID/>
-				<NUMBER/>
-				<TITLE/>
-				<URL/>
-				<OWNER/>
-			</T_INDICATOR>
-		</xrs:SubSet>
 	</xrs:RowSet>
 	<xrs:RowSet name="YesNo" omitRow="true">
 		<T_LOOKUP>

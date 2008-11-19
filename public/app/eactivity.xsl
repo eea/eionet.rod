@@ -853,19 +853,6 @@
 					</td>
 				</tr>
 				<tr class="zebraeven">
-					<td class="border_right"><span class="label">Indicators</span></td>
-					<td class="border_right center">
-						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_INDICATORS</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
-					</td>
-					<td>
-					</td>
-				</tr>
-				<tr valign="top" bgcolor="#FFFFFF" >
-					<td colspan="3">
-						<xsl:apply-templates select="SubSet[@Name='Indicators']"/>								
-					</td>
-				</tr>
-				<tr class="zebraeven">
 					<td class="border_right"><span class="label">General comments</span></td>
 					<td class="border_right center">
 						<xsl:call-template name="Help"><xsl:with-param name="id">HELP_RA_COMMENT</xsl:with-param><xsl:with-param name="perm"><xsl:value-of select="$permissions"/></xsl:with-param></xsl:call-template>
@@ -1123,58 +1110,6 @@
 			</xsl:for-each>
 		</select>
 	</xsl:template>
-
-	<xsl:template match="SubSet[@Name='Indicators']">
-		 <table border="1" width="100%" cellspacing="0" style="bordercolorlight:#C0C0C0; bordercolordark:#C0C0C0">
-	     <tr valign="top" align="left">
-					<th width="23%">Title</th>
-          <th width="13%">Number</th>
-          <th width="28%">URL</th>
-          <th width="23%">Owner</th>
-          <th width="7%"></th>
-          <th width="7%"></th>
-       </tr>
-			 <xsl:for-each select="Row">
-					<tr bgcolor="#FFFFFF">
-						<td><xsl:value-of select="T_INDICATOR/TITLE"/></td>					
-						<td><xsl:value-of select="T_INDICATOR/NUMBER"/></td>
-						<td><xsl:value-of select="T_INDICATOR/URL"/></td>
-						<td><xsl:value-of select="T_INDICATOR/OWNER"/></td>
-						<td><input type="button" value="Edit" class="indicator_btns" name="edit">
-								<xsl:attribute name="onclick">javascript:updIndicator('<xsl:value-of select="T_INDICATOR/PK_INDICATOR_ID"/>','<xsl:value-of select="T_INDICATOR/FK_RA_ID"/>')</xsl:attribute>
-							</input>
-						</td>
-					<td>
-						<input type="hidden" name="/XmlData/RowSet[@Name='Indicator']/Row/T_INDICATOR/PK_INDICATOR_ID">
-								<xsl:attribute name="value"><xsl:value-of select="T_INDICATOR/PK_INDICATOR_ID"/></xsl:attribute>
-						</input>
-						<input type="button" value="Delete" class="indicator_btns" name="delete">
-							<xsl:attribute name="onclick">javascript:delIndicator('<xsl:value-of select="T_INDICATOR/PK_INDICATOR_ID"/>','<xsl:value-of select="T_INDICATOR/FK_RA_ID"/>', '<xsl:value-of select="T_INDICATOR/FK_RA_ID"/>', '<xsl:value-of select="$src-id"/>')</xsl:attribute>
-						</input>
-					</td>
-				</tr>
-			 </xsl:for-each>
-			 <tr bgcolor="#008080">
-				<td colspan="2"></td>
-				<td colspan="2">
-						<input type="button" value="Add new indicator" class="indicator_btns" style="font-size: 10pt; " name="addIndicator">
-							<xsl:attribute name="onclick">
-							<xsl:choose>
-								<xsl:when test="//RowSet[@skeleton='1']">
-									alert("You have to save this obligation first before adding any indicators");
-								</xsl:when>
-							<xsl:otherwise>
-								updIndicator('-1','<xsl:value-of select="//XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/PK_RA_ID"/>');
-							</xsl:otherwise>
-							</xsl:choose>
-							</xsl:attribute>
-						</input>
-				</td>
-				<td colspan="2"></td>
-			 </tr>
-		</table>
-	</xsl:template>
-
 
 	<xsl:template match="SubSet[@Name='LnkSpatial']">
 		<select multiple="multiple" size="9" class="multiple">
