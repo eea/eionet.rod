@@ -42,13 +42,13 @@ public class IndexActionBean extends AbstractRODActionBean {
 		formClients = RODServices.getDbService().getClientDao().getClientsList();
 		
 		return new ForwardResolution("/pages/index.jsp");
-	}
-
+	} 
+ 
 
 	public List<CountryDTO> getFormCountries() {
 		return formCountries;
 	}
-
+ 
 
 	public void setFormCountries(List<CountryDTO> formCountries) {
 		this.formCountries = formCountries;

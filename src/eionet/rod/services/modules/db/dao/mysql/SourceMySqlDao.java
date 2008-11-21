@@ -8,7 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.InstrumentDTO;
+import eionet.rod.dto.InstrumentFactsheetDTO;
+import eionet.rod.dto.InstrumentObligationDTO;
+import eionet.rod.dto.InstrumentParentDTO;
 import eionet.rod.dto.InstrumentsDueDTO;
+import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.dto.readers.InstrumentsDueDTOReader;
 import eionet.rod.dto.readers.SiblingObligationDTOReader;
@@ -33,7 +38,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 			"REPLACE(s.CELEX_REF, '&', '&#038;') AS CELEX_REF, " + 
 			"REPLACE(s.TITLE, '&', '&#038;') AS TITLE, " + 
 			"REPLACE(s.TITLE, '&', '&#038;') AS TITLE, " + 
-			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_SOURCE_ID, '&#038;mode=S') AS details_url, " + 
+			"CONCAT('" + rodDomain + "/instruments/', PK_SOURCE_ID) AS details_url, " + 
 			"DATE_FORMAT(s.LAST_UPDATE, '%Y-%m-%d') AS LAST_UPDATE " + 
 		"FROM T_SOURCE s LEFT OUTER JOIN T_CLIENT c ON s.FK_CLIENT_ID=c.PK_CLIENT_ID " + 
 		"ORDER BY TITLE ";
@@ -101,7 +106,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 		"SELECT " + 
 			"PK_SOURCE_ID, " + 
 			"REPLACE(TITLE, '&', '&#038;') AS TITLE, " + 
-			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_SOURCE_ID, '&amp;mode=S') AS LINK, " + 
+			"CONCAT('" + rodDomain + "/instruments/', PK_SOURCE_ID) AS LINK, " + 
 			"REPLACE(COMMENT, '&', '&#038;') AS COMMENT " + 
 		"FROM T_SOURCE " + 
 		"ORDER BY PK_SOURCE_ID ";
@@ -286,5 +291,190 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
   			catch (SQLException e){}
   		}
       }
+      
+      private static final String q_instrument_factsheet =
+  		"SELECT SO.PK_SOURCE_ID, SO.SOURCE_CODE, SO.CELEX_REF, SO.TITLE, SO.ALIAS, SO.URL, " +
+  		"SO.ISSUED_BY_URL, CONCAT(LEFT(SO.ISSUED_BY_URL, 40), IF( LENGTH(SO.ISSUED_BY_URL) > 40 ,'...', '')) AS ISSUED_BY_URL_LABEL, " +
+  		"SO.SECRETARIAT, SO.SECRETARIAT_URL, SO.ABSTRACT, IF(SO.VALID_FROM, DATE_FORMAT(SO.VALID_FROM,'%d/%m/%Y'), '') AS VALID_FROM, " +
+  		"IF(SO.EC_ACCESSION, DATE_FORMAT(SO.EC_ACCESSION,'%d/%m/%Y'), '') AS EC_ACCESSION, " +
+  		"IF(SO.EC_ENTRY_INTO_FORCE, DATE_FORMAT(SO.EC_ENTRY_INTO_FORCE,'%d/%m/%Y'), '') AS EC_ENTRY_INTO_FORCE, SO.COMMENT, " +
+  		"DATE_FORMAT(SO.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE, DATE_FORMAT(SO.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE, " +
+  		"DATE_FORMAT(SO.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED, SO.RM_VERIFIED_BY, SO.RM_VALIDATED_BY, SO.GEOGRAPHIC_SCOPE, SO.DGENV_REVIEW, " +
+  		"CL.FK_CLIENT_ID, CL.FK_OBJECT_ID, CL.STATUS, CL.TYPE, " +
+  		"C.PK_CLIENT_ID, C.CLIENT_NAME " +
+  		"FROM T_SOURCE SO, T_CLIENT_LNK CL, T_CLIENT C " +
+  		"WHERE SO.PK_SOURCE_ID=? AND CL.TYPE='S' AND CL.STATUS='M' AND CL.FK_OBJECT_ID=SO.PK_SOURCE_ID AND C.PK_CLIENT_ID = CL.FK_CLIENT_ID";
+      
+      private static final String q_parent_instruments =
+    	"SELECT SC.PK_CLASS_ID, SC.CLASSIFICATOR, SC.CLASS_NAME " +
+    	"FROM T_SOURCE_CLASS SC, T_SOURCE_LNK SL, T_SOURCE SO " +
+    	"WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID = SL.FK_SOURCE_CHILD_ID AND SL.FK_SOURCE_PARENT_ID = SC.PK_CLASS_ID AND SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='C'";
+      
+      private static final String q_related_instruments =
+  		"SELECT LSOURCE.PK_SOURCE_ID, LSOURCE.TITLE, LSOURCE.ALIAS " +
+  		"FROM T_SOURCE_LNK SL, T_SOURCE LSOURCE, T_SOURCE SO " +
+  		"WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=SL.FK_SOURCE_PARENT_ID AND SL.FK_SOURCE_CHILD_ID=LSOURCE.PK_SOURCE_ID AND SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='S'";
+      
+      private static final String q_origin_instruments =
+    		"SELECT LSOURCE.PK_SOURCE_ID, LSOURCE.TITLE, LSOURCE.ALIAS " +
+    		"FROM T_SOURCE_LNK SL, T_SOURCE LSOURCE, T_SOURCE SO " +
+    		"WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=SL.FK_SOURCE_CHILD_ID AND SL.FK_SOURCE_PARENT_ID=LSOURCE.PK_SOURCE_ID AND SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='S'";
+      
+      private static final String q_instrument_obligations =
+  		"SELECT OB.PK_RA_ID, OB.TITLE, OB.AUTHORITY " +
+  		"FROM T_OBLIGATION OB, T_SOURCE SO " +
+  		"WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=OB.FK_SOURCE_ID";
+      
+      /*
+       * (non-Javadoc)
+       * 
+       * @see eionet.rod.dao.ISourceDao#getInstrumentFactsheet(String id)
+       */
+      public InstrumentFactsheetDTO getInstrumentFactsheet(String id) throws ServiceException {
+      	
+    	InstrumentFactsheetDTO ret = new InstrumentFactsheetDTO();
+  		Connection connection = null;
+  		PreparedStatement preparedStatement = null;
+  		ResultSet rs = null;
+  		ResultSet sub_rs = null;
+  		
+  		List<InstrumentParentDTO> parents = new ArrayList<InstrumentParentDTO>();
+  		List<InstrumentDTO> relatedInstruments = new ArrayList<InstrumentDTO>();
+  		List<InstrumentObligationDTO> obligations = new ArrayList<InstrumentObligationDTO>();
+  		
+  		try {
+  			connection = getConnection();
+  			if (isDebugMode) logQuery(q_instrument_factsheet);
+  			preparedStatement = connection.prepareStatement(q_instrument_factsheet);
+  			preparedStatement.setString(1,id);
+  			rs = preparedStatement.executeQuery();
+  			while(rs.next()){
+  				ret.setSourceId(new Integer(rs.getInt("PK_SOURCE_ID")));
+  				ret.setSourceTitle(rs.getString("TITLE"));
+				ret.setSourceAlias(rs.getString("ALIAS"));
+				ret.setSourceCelexRef(rs.getString("CELEX_REF"));
+				ret.setSourceCode(rs.getString("SOURCE_CODE"));
+				ret.setSourceUrl(rs.getString("URL"));
+				ret.setSourceIssuedByUrl(rs.getString("ISSUED_BY_URL"));
+				ret.setSourceIssuedByUrlLabel(rs.getString("ISSUED_BY_URL_LABEL"));
+				ret.setSourceSecretariat(rs.getString("SECRETARIAT"));
+				ret.setSourceSecretariatUrl(rs.getString("SECRETARIAT_URL"));
+				ret.setSourceAbstract(rs.getString("ABSTRACT"));
+				ret.setSourceValidFrom(rs.getString("VALID_FROM"));
+				ret.setSourceEcAccession(rs.getString("EC_ACCESSION"));
+				ret.setSourceEcEntryIntoForce(rs.getString("EC_ENTRY_INTO_FORCE"));
+				ret.setSourceComment(rs.getString("COMMENT"));
+				ret.setSourceLastUpdate(rs.getString("LAST_UPDATE"));
+				ret.setSourceNextUpdate(rs.getString("RM_NEXT_UPDATE"));
+				ret.setSourceVerified(rs.getString("RM_VERIFIED"));
+				ret.setSourceVerifiedBy(rs.getString("RM_VERIFIED_BY"));
+				ret.setSourceGeographicScope(rs.getString("GEOGRAPHIC_SCOPE"));
+				ret.setSourceDgenvReview(rs.getString("DGENV_REVIEW"));
+				
+				ret.setClientLnkFKClientId(new Integer(rs.getInt("FK_CLIENT_ID")));
+				ret.setClientLnkFKObjectId(new Integer(rs.getInt("FK_OBJECT_ID")));
+				ret.setClientLnkStatus(rs.getString("STATUS"));
+				ret.setClientLnkType(rs.getString("TYPE"));
+				
+				ret.setClientId(new Integer(rs.getInt("PK_CLIENT_ID")));
+				ret.setClientName(rs.getString("CLIENT_NAME"));
+				
+				preparedStatement = connection.prepareStatement(q_parent_instruments);
+	  			preparedStatement.setString(1,id);
+	  			sub_rs = preparedStatement.executeQuery();
+	  			while(sub_rs.next()){
+	  				InstrumentParentDTO parent = new InstrumentParentDTO();
+	  				parent.setClassId(new Integer(sub_rs.getInt("PK_CLASS_ID")));
+	  				parent.setClassificator(sub_rs.getString("CLASSIFICATOR"));
+	  				parent.setClassName(sub_rs.getString("CLASS_NAME"));
+	  				parents.add(parent);
+	  			}
+	  			ret.setParents(parents);
+	  			
+				preparedStatement = connection.prepareStatement(q_origin_instruments);
+	  			preparedStatement.setString(1,id);
+	  			sub_rs = preparedStatement.executeQuery();
+	  			while(sub_rs.next()){
+	  				InstrumentDTO origin = new InstrumentDTO();
+	  				origin.setSourceId(new Integer(sub_rs.getInt("PK_SOURCE_ID")));
+	  				origin.setSourceTitle(sub_rs.getString("TITLE"));
+	  				origin.setSourceAlias(sub_rs.getString("ALIAS"));
+	  				ret.setOrigin(origin);
+	  			}
+	  			
+	  			preparedStatement = connection.prepareStatement(q_related_instruments);
+	  			preparedStatement.setString(1,id);
+	  			sub_rs = preparedStatement.executeQuery();
+	  			while(sub_rs.next()){
+	  				InstrumentDTO instrument = new InstrumentDTO();
+	  				instrument.setSourceId(new Integer(sub_rs.getInt("PK_SOURCE_ID")));
+	  				instrument.setSourceTitle(sub_rs.getString("TITLE"));
+	  				instrument.setSourceAlias(sub_rs.getString("ALIAS"));
+	  				relatedInstruments.add(instrument);
+	  			}
+	  			ret.setRelatedInstruments(relatedInstruments);
+	  			
+	  			preparedStatement = connection.prepareStatement(q_instrument_obligations);
+	  			preparedStatement.setString(1,id);
+	  			sub_rs = preparedStatement.executeQuery();
+	  			while(sub_rs.next()){
+	  				InstrumentObligationDTO obligation = new InstrumentObligationDTO();
+	  				obligation.setObligationId(new Integer(sub_rs.getInt("PK_RA_ID")));
+	  				obligation.setTitle(sub_rs.getString("TITLE"));
+	  				obligation.setAuthority(sub_rs.getString("AUTHORITY"));
+	  				obligations.add(obligation);
+	  			}
+	  			ret.setObligations(obligations);
+
+  			}	
+  		} catch (SQLException exception) {
+  			logger.error(exception);
+  			throw new ServiceException(exception.getMessage());
+  		} finally {
+  			closeAllResources(null, preparedStatement, connection);
+  		}
+  		
+  		return ret;
+      }
+      
+      private final static String q_instrument_DGEnv = 
+          "SELECT " + 
+              "L.C_TERM AS name " + 
+          "FROM T_LOOKUP L, T_SOURCE S " +
+          "WHERE S.PK_SOURCE_ID=? AND S.DGENV_REVIEW=L.C_VALUE AND L.CATEGORY='DGS' ";
+
+      /*
+       * (non-Javadoc)
+       * 
+       * @see eionet.rod.services.modules.db.dao.ISourceDao#getDGEnvNameByInstrumentId(java.lang.String)
+       */
+	    public String getDGEnvNameByInstrumentId(String id) throws ServiceException {
+	        Connection connection = null;
+	        ResultSet resultSet = null;
+	        PreparedStatement preparedStatement = null;
+	        String[][] result = null;
+	        String res = null;
+	
+	        try {
+	            connection = getConnection();
+	            preparedStatement = connection.prepareStatement(q_instrument_DGEnv);
+	            preparedStatement.setString(1, id);
+	            if (isDebugMode) logQuery(q_instrument_DGEnv);
+	            resultSet = preparedStatement.executeQuery();
+	            result = getResults(resultSet);
+	            resultSet.close();
+	            preparedStatement.close();
+	            if(result.length > 0){
+	                res = result[0][0];
+	            }
+	        } catch (SQLException exception) {
+	            logger.error(exception);
+	            throw new ServiceException(exception.getMessage());
+	        } finally {
+	            closeAllResources(resultSet, preparedStatement, connection);
+	        }
+	
+	        return res != null ? res : "";
+	    }
 	
 }

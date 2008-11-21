@@ -569,7 +569,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"COMMENT as comment, " + 
 			"DATE_COMMENTS as date_comments, " + 
 			"REPORT_FREQ as report_freq, " + 
-			"CONCAT('" + rodDomain + "/show.jsv?id=', " + "PK_RA_ID,'&mode=A') AS details_url " + 
+			"CONCAT('" + rodDomain + "/obligations/', " + "PK_RA_ID) AS details_url " + 
 		"FROM T_OBLIGATION " + 
 		"WHERE PK_RA_ID=?";
 
@@ -788,7 +788,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"TITLE, " + 
 			"LAST_UPDATE, " + 
 			"DESCRIPTION, " + 
-			"CONCAT('" + rodDomain + "/show.jsv?id=', PK_RA_ID,'&mode=A') AS details_url " + 
+			"CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url " + 
 		"FROM T_OBLIGATION ";
 
 	/*

@@ -359,7 +359,7 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>instruments_rdf</servlet-name>
-		<url-pattern>/instruments</url-pattern>
+		<url-pattern>/instruments.rdf</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>instruments_rss</servlet-name>
@@ -448,6 +448,11 @@
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/obligationsdue</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/instruments/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

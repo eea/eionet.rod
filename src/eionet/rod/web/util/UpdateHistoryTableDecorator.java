@@ -39,7 +39,7 @@ public class UpdateHistoryTableDecorator extends TableDecorator{
 			if(ver.getTab().equals("T_OBLIGATION"))
 				ret.append("<a href='obligations/").append(ver.getValue()).append("'>");
 			else if(ver.getTab().equals("T_SOURCE"))
-				ret.append("<a href='show.jsv?id=").append(ver.getValue()).append("&amp;mode=S'>");
+				ret.append("<a href='instruments/").append(ver.getValue()).append("'>");
 				
 			ret.append(title).append("</a>");
 		} else {

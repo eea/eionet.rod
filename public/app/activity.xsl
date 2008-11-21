@@ -111,7 +111,7 @@
  <div class="breadcrumbhead">You are here:</div>
  <div class="breadcrumbitem eionetaccronym"><a href="http://www.eionet.europa.eu">Eionet</a></div>
  <div class="breadcrumbitem"><a href="index.html">ROD</a></div>
- <div class="breadcrumbitem"><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="$src-id"/>&amp;mode=S</xsl:attribute>
+ <div class="breadcrumbitem"><a><xsl:attribute name="href">instruments/<xsl:value-of select="$src-id"/></xsl:attribute>
 Legislative instrument</a></div>
  <div class="breadcrumbitemlast">Reporting obligation</div>
  <div class="breadcrumbtail"></div>

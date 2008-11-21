@@ -38,7 +38,7 @@ public class VersionsTableDecorator extends TableDecorator{
 	
 	/** 
 	 * 
-	 * @return
+	 * @return 
 	 */
 	public String getObject(){
 		

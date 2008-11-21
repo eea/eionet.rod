@@ -276,7 +276,7 @@
 		<xsl:if test="T_SOURCE/SOURCE_CODE!=''">
 			<br/>
 			(<a>
-				<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+				<xsl:attribute name="href">instruments/<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/></xsl:attribute>
 				<xsl:value-of select="T_SOURCE/SOURCE_CODE"/>
 			</a>)
 		</xsl:if>

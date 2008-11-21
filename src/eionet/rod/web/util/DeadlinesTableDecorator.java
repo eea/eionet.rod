@@ -23,7 +23,7 @@ public class DeadlinesTableDecorator extends TableDecorator{
 		ret.append(RODUtil.replaceTags(RODUtil.threeDots(search.getObligationTitle(), 40), true, true));
 		ret.append("</a>");
 		if(!RODUtil.isNullOrEmpty(search.getSourceCode())){
-			ret.append("<br/><a href='show.jsv?id=").append(search.getSourceId()).append("&amp;mode=S'>");
+			ret.append("<br/><a href='instruments/").append(search.getSourceId()).append("'>");
 			ret.append(RODUtil.replaceTags(search.getSourceCode(), true, true));
 			ret.append("</a>");
 		}

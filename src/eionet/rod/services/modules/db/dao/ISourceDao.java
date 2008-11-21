@@ -3,6 +3,7 @@ package eionet.rod.services.modules.db.dao;
 import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.InstrumentFactsheetDTO;
 import eionet.rod.dto.InstrumentsDueDTO;
 import eionet.rod.services.ServiceException;
 
@@ -72,7 +73,21 @@ public interface ISourceDao {
      * @throws ServiceException
      */
     public List<InstrumentsDueDTO> getInstrumentsDue() throws ServiceException;
-	
-	
+    
+    /**
+     * Returns instrument factsheet by id
+     * @param id
+     * @return instrument factsheet by id
+     * @throws ServiceException
+     */
+    public InstrumentFactsheetDTO getInstrumentFactsheet(String id) throws ServiceException;
+    
+    /**
+     * Returns dgenv name by instrument id
+     * @param id
+     * @return dgenv name by instrument id
+     * @throws ServiceException
+     */
+    public String getDGEnvNameByInstrumentId(String id) throws ServiceException;
 	
 }

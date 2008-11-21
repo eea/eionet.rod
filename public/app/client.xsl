@@ -172,7 +172,7 @@
 						<xsl:for-each select="RowSet[@Name='DirectInstruments']/Row/T_SOURCE">
 								<tr>
 									<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
-									<td><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute><xsl:value-of select="PK_SOURCE_ID"/></a></td>
+									<td><a><xsl:attribute name="href">instruments/<xsl:value-of select="PK_SOURCE_ID"/></xsl:attribute><xsl:value-of select="PK_SOURCE_ID"/></a></td>
 									<td><xsl:value-of select="ALIAS"/></td>
 								</tr>
 						</xsl:for-each>
@@ -190,7 +190,7 @@
 						<xsl:for-each select="RowSet[@Name='IndirectInstruments']/Row/T_SOURCE">
 								<tr>
 									<xsl:attribute name="class"><xsl:if test="position() mod 2 = 0">even</xsl:if></xsl:attribute>
-									<td><a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute><xsl:value-of select="PK_SOURCE_ID"/></a></td>
+									<td><a><xsl:attribute name="href">instruments/<xsl:value-of select="PK_SOURCE_ID"/></xsl:attribute><xsl:value-of select="PK_SOURCE_ID"/></a></td>
 									<td><xsl:value-of select="ALIAS"/></td>
 								</tr>
 						</xsl:for-each>

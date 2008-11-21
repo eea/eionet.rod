@@ -72,6 +72,9 @@
 								<a href="${pageContext.request.contextPath}/logout_servlet" id="logoutlink" title="Logout">Logout ${actionBean.userName}</a>
 	                        </c:otherwise>
 	                    </c:choose>
+	                    <c:if test="${!empty help}">
+	                    	<a id="pagehelplink" title="Get help on this page" href="javascript:openViewHelp2('${pageContext.request.contextPath}','${help}')"><span>Page help</span></a>
+	                    </c:if>
 						<a id="printlink" title="Print this page" href="javascript:this.print();"><span>Print</span></a>
 				        <a id="fullscreenlink" href="javascript:toggleFullScreenMode()" title="Switch to/from full screen mode"><span>Switch to/from full screen mode</span></a>
 				        <a id="acronymlink" href="http://www.eionet.europa.eu/acronyms" title="Look up acronyms"><span>Acronyms</span></a>

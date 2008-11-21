@@ -121,10 +121,32 @@ function openViewHelp(ID){
 }
 
 //
+// Opens view help window
+//
+function openViewHelp2(path, ID){
+	var url = path + "/viewhelp.jsv?helpID=" + ID;
+	var name = "Help";
+	var features = "location=no, menubar=no, width=730, height=480, top=100, left=200, scrollbars=yes, resizable=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+}
+
+//
 // Opens help list window
 //
 function openHelpList(mode){
 	var url = "helplist.jsv?mode=" + mode;
+	var name = "Help";
+	var features = "location=no, menubar=no, width=730, height=480, top=100, left=200, scrollbars=yes, resizable=yes";
+	var w = window.open(url,name,features);
+	w.focus();
+}
+
+//
+// Opens help list window
+//
+function openHelpList2(path, mode){
+	var url = path + "/helplist.jsv?mode=" + mode;
 	var name = "Help";
 	var features = "location=no, menubar=no, width=730, height=480, top=100, left=200, scrollbars=yes, resizable=yes";
 	var w = window.open(url,name,features);

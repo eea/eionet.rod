@@ -162,7 +162,7 @@
 				<xsl:for-each select="Row">
 					<li>
 							<a>
-								<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+								<xsl:attribute name="href">instruments/<xsl:value-of select="T_SOURCE/PK_SOURCE_ID"/></xsl:attribute>
 								<xsl:choose>
 									<xsl:when test="T_SOURCE/ALIAS != ''">
 										<span class="normal_weight"><xsl:value-of select="T_SOURCE/ALIAS"/></span>
@@ -188,7 +188,7 @@
 							<xsl:if test="PARENT_SOURCE/PK_SOURCE_ID != ''">
 									Parent legislative instrument: 
 									<a>
-										<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PARENT_SOURCE/PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+										<xsl:attribute name="href">instruments/<xsl:value-of select="PARENT_SOURCE/PK_SOURCE_ID"/></xsl:attribute>
 										<xsl:choose>
 											<xsl:when test="PARENT_SOURCE/ALIAS != ''">
 												<span class="normal_weight"><xsl:value-of select="PARENT_SOURCE/ALIAS"/></span>

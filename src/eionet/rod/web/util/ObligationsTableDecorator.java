@@ -40,7 +40,7 @@ public class ObligationsTableDecorator extends TableDecorator{
 		
 		StringBuilder ret = new StringBuilder();
 		ObligationsListDTO obligation = (ObligationsListDTO) getCurrentRowObject();
-		ret.append("<a href='show.jsv?id=").append(obligation.getSourceId()).append("&amp;mode=S'>");
+		ret.append("<a href='instruments/").append(obligation.getSourceId()).append("'>");
 		ret.append(RODUtil.replaceTags(obligation.getSourceTitle(), true, true));
 		ret.append("</a>");
 		

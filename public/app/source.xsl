@@ -338,7 +338,7 @@
 			<th scope="row" class="scope-row">Parent legislative instrument</th>
 			<td>
 				<a>
-					<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+					<xsl:attribute name="href">instruments/<xsl:value-of select="PK_SOURCE_ID"/></xsl:attribute>
 					<xsl:choose>
 						<xsl:when test="ALIAS != ''">
 							<xsl:value-of select="ALIAS"/>
@@ -359,7 +359,7 @@
 				<td>
 					<xsl:for-each select="Row/LSOURCE">
 						<a>
-							<xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_SOURCE_ID"/>&amp;mode=S</xsl:attribute>
+							<xsl:attribute name="href">instruments/<xsl:value-of select="PK_SOURCE_ID"/></xsl:attribute>
 							<xsl:choose>
 								<xsl:when test="ALIAS != ''">
 									<xsl:value-of select="ALIAS"/>

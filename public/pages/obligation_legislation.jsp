@@ -13,7 +13,7 @@
 		<tr class="zebraodd">
 			<th scope="row" class="scope-row">Legislative instrument title</th>
 			<td>
-				<a href="${pageContext.request.contextPath}/show.jsv?id=${actionBean.obligation.sourceId}&amp;mode=S">
+				<a href="${pageContext.request.contextPath}/instruments/${actionBean.obligation.sourceId}">
 					<c:choose>
 		    			<c:when test="${!empty actionBean.obligation.sourceAlias}">
 		    				${rodfn:replaceTags(actionBean.obligation.sourceAlias)}
