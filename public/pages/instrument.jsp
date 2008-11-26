@@ -67,7 +67,7 @@
 									<c:if test="${!empty parent.classificator}">
 										${rodfn:replaceTags(parent.classificator)}&#160;
 									</c:if>
-									<a href="show.jsv?id=${parent.classId}&amp;mode=C">
+									<a href="instruments?id=${parent.classId}">
 										<span class="head0">${rodfn:replaceTags(parent.className)}</span>
 									</a>
 								</li>

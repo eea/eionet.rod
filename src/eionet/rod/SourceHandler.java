@@ -178,7 +178,7 @@ public class SourceHandler extends ActivityHandler {
 		            undoDao.insertIntoUndo(null,id, "U", "T_CLIENT_LNK", "FK_OBJECT_ID",ts,"AND TYPE='S'","y",null);
                 }
             
-            String url = "show.jsv?id="+id+"&mode=S";
+            String url = "instruments/"+id;
             
 			undoDao.insertIntoUndo(ts,tblName,"REDIRECT_URL","L","y","n",url,0,"n");
 			undoDao.insertIntoUndo(ts,tblName,"A_USER","K","y","n",userName,0,"n");

@@ -48,7 +48,7 @@ public class EditPeriod extends HttpServlet {
         } catch (Exception e){
             e.printStackTrace();
         }
-        res.sendRedirect("show.jsv?ID="+ra_id+"&mode=A&tab=participation");
+        res.sendRedirect("obligations/"+ra_id+"/participation");
         
     }
 

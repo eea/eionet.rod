@@ -348,7 +348,7 @@ public class Activity extends ROEditServletAC {
                       list.add("http://purl.org/dc/elements/1.1/identifier");
                       String ra_id = gen.getFieldValue("PK_RA_ID");
                       String src_id = gen.getFieldValue("FK_SOURCE_ID");
-                      String url = "http://rod.eionet.europa.eu/show.jsv?id="+obligationID+"&mode=A";
+                      String url = "http://rod.eionet.europa.eu/obligations/"+obligationID;
                       list.add(url);
                       
                       lists.add(list);
@@ -367,11 +367,7 @@ public class Activity extends ROEditServletAC {
          String location = "" +
             ((curRecord != null) ?
                "obligations/" + curRecord :
-               "show.jsv?id=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID") +
-               //req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID") +
-                "&mode=S") ; 
-               /*+ "&aid=" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_ACTIVITY/FK_SOURCE_ID") +
-               "&mode=R&page=0") ; */
+               "instruments/" + req.getParameter("/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID"));
          // DBG         
          if (Logger.enable(5))
             Logger.log("Redirecting to " + location);

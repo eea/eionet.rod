@@ -3,18 +3,23 @@ package eionet.rod.services.modules.db.dao.mysql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.RODUtil;
+import eionet.rod.dto.HierarchyInstrumentDTO;
 import eionet.rod.dto.InstrumentDTO;
 import eionet.rod.dto.InstrumentFactsheetDTO;
 import eionet.rod.dto.InstrumentObligationDTO;
 import eionet.rod.dto.InstrumentParentDTO;
 import eionet.rod.dto.InstrumentsDueDTO;
+import eionet.rod.dto.InstrumentsListDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.dto.SiblingObligationDTO;
+import eionet.rod.dto.readers.HierarchyInstrumentDTOReader;
 import eionet.rod.dto.readers.InstrumentsDueDTOReader;
 import eionet.rod.dto.readers.SiblingObligationDTOReader;
 import eionet.rod.services.ServiceException;
@@ -476,5 +481,155 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 	
 	        return res != null ? res : "";
 	    }
+	    
+	  private static final String q_hierarchy_instrument =
+		  "SELECT SC.PK_CLASS_ID, SC.CLASSIFICATOR, SC.CLASS_NAME, SL.FK_SOURCE_PARENT_ID " +
+		  "FROM T_SOURCE_CLASS SC, T_SOURCE_LNK SL " +
+		  "WHERE SC.PK_CLASS_ID=? AND SC.PK_CLASS_ID=SL.FK_SOURCE_CHILD_ID AND SL.CHILD_TYPE='C' AND SL.PARENT_TYPE='C' " +
+		  "ORDER BY SC.CLASSIFICATOR";
+	    
+	  /*
+       * (non-Javadoc)
+       * 
+       * @see eionet.rod.dao.ISourceDao#getHierarchyInstrument(String id)
+       */
+      public InstrumentsListDTO getHierarchyInstrument(String id) throws ServiceException {
+      	
+    	InstrumentsListDTO ret = new InstrumentsListDTO();
+  		Connection connection = null;
+  		PreparedStatement preparedStatement = null;
+  		ResultSet rs = null;
+  		
+  		try {
+  			connection = getConnection();
+  			if (isDebugMode) logQuery(q_hierarchy_instrument);
+  			preparedStatement = connection.prepareStatement(q_hierarchy_instrument);
+  			preparedStatement.setString(1,id);
+  			rs = preparedStatement.executeQuery();
+  			while(rs.next()){
+  				ret.setClassId(new Integer(rs.getInt("PK_CLASS_ID")));
+  				ret.setClassificator(rs.getString("CLASSIFICATOR"));
+  				ret.setClassName(rs.getString("CLASS_NAME"));
+  				ret.setParentId(rs.getString("FK_SOURCE_PARENT_ID"));
+		
+  			}	
+  		} catch (SQLException exception) {
+  			logger.error(exception);
+  			throw new ServiceException(exception.getMessage());
+  		} finally {
+  			closeAllResources(null, preparedStatement, connection);
+  		}
+  		
+  		return ret;
+      }
+      
+      private static final String q_hierarchy =
+		  "SELECT SC.PK_CLASS_ID, SC.CLASSIFICATOR, SC.CLASS_NAME, SL.FK_SOURCE_PARENT_ID " +
+		  "FROM T_SOURCE_CLASS SC_PARENT, T_SOURCE_CLASS SC, T_SOURCE_LNK SL " +
+		  "WHERE SC_PARENT.PK_CLASS_ID=? AND SC_PARENT.PK_CLASS_ID=SL.FK_SOURCE_PARENT_ID AND SL.FK_SOURCE_CHILD_ID=SC.PK_CLASS_ID AND SL.CHILD_TYPE='C' AND SL.PARENT_TYPE='C' " +
+		  "ORDER BY SC.CLASSIFICATOR";
+      
+      private static final String q_hierarchy_cnt =
+		  "SELECT COUNT(*) " +
+		  "FROM T_SOURCE_CLASS SC_PARENT, T_SOURCE_CLASS SC, T_SOURCE_LNK SL " +
+		  "WHERE SC_PARENT.PK_CLASS_ID=? AND SC_PARENT.PK_CLASS_ID=SL.FK_SOURCE_PARENT_ID AND SL.FK_SOURCE_CHILD_ID=SC.PK_CLASS_ID AND SL.CHILD_TYPE='C' AND SL.PARENT_TYPE='C' " +
+		  "ORDER BY SC.CLASSIFICATOR";
+      
+      /*
+       * (non-Javadoc)
+       * 
+       * @see eionet.rod.dao.ISourceDao#getHierarchy(String id, boolean hasParent)
+       */
+      public String getHierarchy(String id, boolean hasParent) throws ServiceException {
+    	  
+    	String newLine = "\n";
+      	
+    	StringBuilder ret = new StringBuilder();
+  		Connection connection = null;
+  		PreparedStatement preparedStatement = null;
+  		ResultSet rs = null;
+  		
+  		try {
+  			connection = getConnection();
+  			
+  			preparedStatement = connection.prepareStatement(q_hierarchy_cnt);
+  			preparedStatement.setString(1,id);
+  			rs = preparedStatement.executeQuery();
+  			int cnt = 0;
+  			while(rs.next())
+  				cnt = rs.getInt(1);
+  			
+  			if (isDebugMode) logQuery(q_hierarchy);
+  			preparedStatement = connection.prepareStatement(q_hierarchy);
+  			preparedStatement.setString(1,id);
+  			rs = preparedStatement.executeQuery();
+  			String style = "category";
+  			if(!hasParent)
+  				style = "topcategory";
+  			
+  			if(cnt > 0){
+  				ret.append("<ul class='").append(style).append("'>").append(newLine);
+	  			while(rs.next()){
+	  				String child_id = rs.getString("PK_CLASS_ID");
+	  				String classificator = rs.getString("CLASSIFICATOR");
+	  				String className = rs.getString("CLASS_NAME");
+	  				ret.append("<li>").append(newLine);
+	  				if(hasParent){
+	  					if(!RODUtil.isNullOrEmpty(classificator))
+	  						ret.append(classificator).append("&#160;").append(newLine);
+	  				}
+	  				ret.append("<a href='instruments?id=").append(child_id).append("'>").append(className).append("</a>").append(newLine);
+	  				ret.append(getHierarchy(child_id, true));
+	  				ret.append("</li>").append(newLine);
+	  			}	
+	  			ret.append("</ul>").append(newLine);
+  			}
+  		} catch (SQLException exception) {
+  			logger.error(exception);
+  			throw new ServiceException(exception.getMessage());
+  		} finally {
+  			closeAllResources(null, preparedStatement, connection);
+  		}
+  		
+  		return ret.toString();
+      }
+	    
+      /*
+       * (non-Javadoc)
+       * 
+       * @see eionet.rod.dao.ISourceDao#getHierarchyInstruments(String id)
+       */
+      public List<HierarchyInstrumentDTO> getHierarchyInstruments(String id) throws ServiceException {
+      	
+    	String query =
+    		"SELECT S.PK_SOURCE_ID, S.TITLE, S.ALIAS, S.URL, " +
+    		"PS.PK_SOURCE_ID AS PARENT_ID, PS.TITLE AS PARENT_TITLE, PS.ALIAS AS PARENT_ALIAS, PS.URL AS PARENT_URL " +
+    		"FROM T_SOURCE_CLASS SC JOIN T_SOURCE_LNK SL ON SC.PK_CLASS_ID=SL.FK_SOURCE_PARENT_ID " +
+    		"JOIN T_SOURCE S ON SL.FK_SOURCE_CHILD_ID=S.PK_SOURCE_ID " +
+    		"LEFT OUTER JOIN T_SOURCE_LNK PSL ON PSL.FK_SOURCE_CHILD_ID=S.PK_SOURCE_ID AND PSL.CHILD_TYPE='S' AND PSL.PARENT_TYPE='S' " +
+    		"LEFT OUTER JOIN T_SOURCE PS ON PS.PK_SOURCE_ID=PSL.FK_SOURCE_PARENT_ID " +
+    		"WHERE SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='C' AND SC.PK_CLASS_ID=" +id+ " ORDER BY S.TITLE";
+      	
+      	List<Object> values = new ArrayList<Object>();
+  				
+  		Connection conn = null;
+  		HierarchyInstrumentDTOReader rsReader = new HierarchyInstrumentDTOReader();
+  		try{
+  			conn = getConnection();
+  			SQLUtil.executeQuery(query, values, rsReader, conn);
+  			List<HierarchyInstrumentDTO>  list = rsReader.getResultList();
+  			return list;
+  		}
+  		catch (Exception e){
+  			logger.error(e);
+  			throw new ServiceException(e.getMessage());
+  		}
+  		finally{
+  			try{
+  				if (conn!=null) conn.close();
+  			}
+  			catch (SQLException e){}
+  		}
+      }
 	
 }

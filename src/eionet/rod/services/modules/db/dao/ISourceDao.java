@@ -3,8 +3,10 @@ package eionet.rod.services.modules.db.dao;
 import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.HierarchyInstrumentDTO;
 import eionet.rod.dto.InstrumentFactsheetDTO;
 import eionet.rod.dto.InstrumentsDueDTO;
+import eionet.rod.dto.InstrumentsListDTO;
 import eionet.rod.services.ServiceException;
 
 public interface ISourceDao {
@@ -89,5 +91,27 @@ public interface ISourceDao {
      * @throws ServiceException
      */
     public String getDGEnvNameByInstrumentId(String id) throws ServiceException;
+    
+    /**
+     * Returns instrument for hierarchy
+     * @param id
+     * @throws ServiceException
+     */
+    public InstrumentsListDTO getHierarchyInstrument(String id) throws ServiceException;
+    
+    /**
+     * Returns instruments hierarchy
+     * @param id
+     * @param hasParent
+     * @throws ServiceException
+     */
+    public String getHierarchy(String id, boolean hasParent) throws ServiceException;
+    
+    /**
+     * Returns hierarchy instruments
+     * @param id
+     * @throws ServiceException
+     */
+    public List<HierarchyInstrumentDTO> getHierarchyInstruments(String id) throws ServiceException;
 	
 }

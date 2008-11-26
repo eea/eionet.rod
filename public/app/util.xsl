@@ -203,7 +203,7 @@
 				<xsl:if test="contains($admin,'true')='true'">
 					<li><a href="versions">Global history </a></li>
 				</xsl:if>
-				<li><a href="show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
+				<li><a href="instruments" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
 				<li><a href="obligations?anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
 				<li><a href="analysis" title="Database statistics">Database statistics </a></li>
 				<li><a href="search" title="Advanced search">Advanced search </a></li>

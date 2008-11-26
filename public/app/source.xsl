@@ -326,7 +326,7 @@
 				<xsl:if test="CLASSIFICATOR!=''">
 					<xsl:value-of select="CLASSIFICATOR"/>&#160;
 				</xsl:if>
-				<a><xsl:attribute name="href">show.jsv?id=<xsl:value-of select="PK_CLASS_ID"/>&amp;mode=C</xsl:attribute>
+				<a><xsl:attribute name="href">instruments?id=<xsl:value-of select="PK_CLASS_ID"/></xsl:attribute>
 				<span class="head0"><xsl:value-of select="CLASS_NAME"/></span></a>
 			</li>
 		</xsl:for-each>

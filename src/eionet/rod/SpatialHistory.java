@@ -73,7 +73,7 @@ public class SpatialHistory extends ROServletAC {
        String id = req.getParameter("ID");
        try {
           appDoGet(req, res);
-          res.sendRedirect("show.jsv?ID="+id+"&mode=A&tab=participation");
+          res.sendRedirect("obligations/"+id+"/participation");
 
        } catch (Exception e) {
              throw new GeneralException(e, e.getMessage());

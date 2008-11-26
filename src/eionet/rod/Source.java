@@ -253,7 +253,7 @@ public class Source extends ROEditServletAC {
                       list = new Vector();
                       list.add(events);
                       list.add("http://purl.org/dc/elements/1.1/identifier");
-                      String url = "http://rod.eionet.europa.eu/show.jsv?id=" + curRecord + "&mode=S";
+                      String url = "http://rod.eionet.europa.eu/instruments/" + curRecord;
                       list.add(url);
                       
                       lists.add(list);
@@ -271,13 +271,13 @@ public class Source extends ROEditServletAC {
          String location = null;
          //checkPermissions(req);         
          if (curRecord != null) {
-            location = "show.jsv?id=" + curRecord + "&mode=S";
+            location = "instruments/" + curRecord;
          }
          else {
             // try to show the parent legislation hierarchy page
             String parent = req.getParameter("/XmlData/RowSet[@Name='Source']/Row/SubSet[@Name='LnkParent']/Row/T_SOURCE_LNK/FK_SOURCE_PARENT_ID");
             if ( !Util.nullString(parent) ) {
-               location = "show.jsv?id=" + parent + "&mode=C";
+               location = "instruments?id=" + parent;
             }
             else {
                // try to show parent topic page

@@ -132,7 +132,7 @@
 						<c:if test="${!empty actionBean.userName}">
 							<li><a href="${pageContext.request.contextPath}/versions">Global History </a></li>
 						</c:if>
-						<li><a href="${pageContext.request.contextPath}/show.jsv?id=1&amp;mode=C" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
+						<li><a href="${pageContext.request.contextPath}/instruments" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
 						<li><a href="${pageContext.request.contextPath}/obligations?anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
 						<li><a href="${pageContext.request.contextPath}/analysis" title="Database statistics">Database statistics </a></li>
 						<li><a href="${pageContext.request.contextPath}/search" title="Advanced search">Advanced search </a></li>
