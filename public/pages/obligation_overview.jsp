@@ -8,7 +8,7 @@
 			Reporting Obligation
 		</c:when>
 		<c:otherwise>
-			Reporting obligation for ${rodfn:replaceTags(actionBean.obligation.title)}
+			Reporting obligation for: ${rodfn:replaceTags(actionBean.obligation.title)}
 		</c:otherwise>
 	</c:choose>
 </h1>
@@ -24,7 +24,7 @@
 	    				Reporting Obligation
 	    			</c:when>
 	    			<c:otherwise>
-	    				Reporting obligation for ${rodfn:replaceTags(actionBean.obligation.title)}
+	    				${rodfn:replaceTags(actionBean.obligation.title)}
 	    			</c:otherwise>
 	    		</c:choose>
 			</td>
