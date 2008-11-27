@@ -6,7 +6,7 @@
 
 	<stripes:layout-component name="contents">
 		
-		<c:set var="perm_name" value="/instruments/${actionBean.id}"></c:set>	
+		<c:set var="perm_name" value="/instruments/${actionBean.instId}"></c:set>	
 	
 		<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'d')}">
 			<script type="text/javascript">
@@ -20,7 +20,7 @@
 			</script>
 			<form id="f" method="POST" action="${pageContext.request.contextPath}/source.jsv">
 				<input type="hidden" name="dom-update-mode" value="D"/>
-				<input type="hidden" name="/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/PK_SOURCE_ID" value="${actionBean.id}"/>
+				<input type="hidden" name="/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/PK_SOURCE_ID" value="${actionBean.instId}"/>
 				<input type="hidden" name="/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/REDIRECT_URL" value=""/>
 			</form>
 		</c:if>
@@ -30,22 +30,22 @@
 				<li><a href="#">Operations</a>
 					<ul>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,'/obligations','i')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/activity.jsv?id=-1&amp;aid=${actionBean.id}">New obligation</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/activity.jsv?id=-1&amp;aid=${actionBean.instId}">New obligation</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,'/instruments','i')}">
 							<li><a class="link-plain" href="${pageContext.request.contextPath}/source.jsv?id=-1">New instrument</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/source.jsv?id=${actionBean.id}">Edit instrument</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/source.jsv?id=${actionBean.instId}">Edit instrument</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'d')}">
 							<li><a href="javascript:delLegislation()">Delete instrument</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/subscribe.jsp?sid=${actionBean.id}">Subscribe</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/subscribe.jsp?sid=${actionBean.instId}">Subscribe</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/versions?id=${actionBean.id}&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID">Show history</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/versions?id=${actionBean.instId}&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID">Show history</a></li>
 						</c:if>
 						<li><a href="javascript:openHelpList2('${pageContext.request.contextPath}','LI')">Field descriptions</a></li>
 					</ul>
