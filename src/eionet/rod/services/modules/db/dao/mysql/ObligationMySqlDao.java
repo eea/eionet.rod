@@ -1361,7 +1361,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 				ret.setResponsibleRole(rs.getString("RESPONSIBLE_ROLE"));
 				ret.setNextDeadline(rs.getString("NEXT_DEADLINE"));
 				ret.setFirstReporting(rs.getString("FIRST_REPORTING"));
-				ret.setReportFreqMonths(new Integer(rs.getInt("REPORT_FREQ_MONTHS")));
+				ret.setReportFreqMonths(rs.getString("REPORT_FREQ_MONTHS"));
 				ret.setFkDeliveryCountryIds(rs.getString("FK_DELIVERY_COUNTRY_IDS"));
 				ret.setRmNextUpdate(rs.getString("RM_NEXT_UPDATE"));
 				ret.setRmVerified(rs.getString("RM_VERIFIED"));

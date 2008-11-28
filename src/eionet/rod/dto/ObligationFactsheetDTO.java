@@ -27,7 +27,7 @@ public class ObligationFactsheetDTO implements java.io.Serializable{
 	private String responsibleRole;
 	private String nextDeadline;
 	private String firstReporting;
-	private int reportFreqMonths;
+	private String reportFreqMonths;
 	private String fkDeliveryCountryIds;
 	private String rmNextUpdate;
 	private String rmVerified;
@@ -287,12 +287,12 @@ public class ObligationFactsheetDTO implements java.io.Serializable{
 	}
 
 
-	public int getReportFreqMonths() {
+	public String getReportFreqMonths() {
 		return reportFreqMonths;
 	}
 
 
-	public void setReportFreqMonths(int reportFreqMonths) {
+	public void setReportFreqMonths(String reportFreqMonths) {
 		this.reportFreqMonths = reportFreqMonths;
 	}
 

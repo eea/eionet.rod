@@ -119,13 +119,16 @@
 				<c:choose>
 	    			<c:when test="${actionBean.obligation.terminate == 'N'}">
 	    				<c:choose>
-			    			<c:when test="${actionBean.obligation.reportFreqMonths == 0}">
+	    					<c:when test="${empty actionBean.obligation.reportFreqMonths}">
+			    				&#160;
+			    			</c:when>
+			    			<c:when test="${actionBean.obligation.reportFreqMonths == '0'}">
 			    				One time only
 			    			</c:when>
-			    			<c:when test="${actionBean.obligation.reportFreqMonths == 1}">
+			    			<c:when test="${actionBean.obligation.reportFreqMonths == '1'}">
 			    				Monthly
 			    			</c:when>
-			    			<c:when test="${actionBean.obligation.reportFreqMonths == 12}">
+			    			<c:when test="${actionBean.obligation.reportFreqMonths == '12'}">
 			    				Annually
 			    			</c:when>
 			    			<c:when test="${fn:length(actionBean.obligation.nextDeadline) == 0}">
