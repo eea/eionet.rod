@@ -1330,7 +1330,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      */
 	public ObligationFactsheetDTO getObligationFactsheet(String obligationId) throws ServiceException {
 		
-		ObligationFactsheetDTO ret = new ObligationFactsheetDTO();
+		ObligationFactsheetDTO ret = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -1342,6 +1342,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			rs = preparedStatement.executeQuery();
 			while(rs.next()){
 				
+				ret = new ObligationFactsheetDTO();
 				ret.setObligationId(rs.getString("PK_RA_ID"));
 				ret.setFkSourceId(rs.getString("FK_SOURCE_ID"));
 				ret.setValidSince(rs.getString("VALID_SINCE"));

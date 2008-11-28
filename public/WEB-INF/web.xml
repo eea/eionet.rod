@@ -92,16 +92,14 @@
 		<display-name>Stripes Filter</display-name>
 		<filter-name>StripesFilter</filter-name>
 		<filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
+		
+		<init-param>
+			<param-name>ActionResolver.Packages</param-name>
+			<param-value>eionet.rod</param-value>
+		</init-param>
 
 		<!-- Optional init parameters for the Stripes Filter. -->
-		<init-param>
-			<param-name>ActionResolver.UrlFilters</param-name>
-			<param-value>WEB-INF/lib/rod.jar</param-value>
-		</init-param>
-		<init-param>
-			<param-name>ActionResolver.PackageFilters</param-name>
-			<param-value>eionet.rod.web.action.*</param-value>
-		</init-param>
+
 		<init-param>
 			<param-name>ActionBeanContext.Class</param-name>
 			<param-value>eionet.rod.web.context.RODActionBeanContext</param-value>
@@ -514,6 +512,11 @@
 			<url-pattern>/app/*</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
+	  <!--Error handling page-->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/pages/common/404.jsp</location>
+	</error-page>
 	<!-- force the entire application to security constraint CONFIDENTIAL -->
 	<!-- as a result the non-SSL connector will redirect using the redirectPort
        value to the SSL connector -->

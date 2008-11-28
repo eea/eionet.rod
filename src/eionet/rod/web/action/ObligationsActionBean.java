@@ -13,6 +13,7 @@ import com.tee.uit.client.ServiceClients;
 import com.tee.xmlserver.GeneralException;
 
 import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ErrorResolution;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -88,8 +89,11 @@ public class ObligationsActionBean extends AbstractRODActionBean {
 				tab = st.nextToken();		
 		}
 		
-		if(!RODUtil.isNullOrEmpty(id) && RODUtil.isNumber(id)){
+		if(!RODUtil.isNullOrEmpty(id)){
 			obligation = RODServices.getDbService().getObligationDao().getObligationFactsheet(id); 
+			if(obligation == null || !RODUtil.isNumber(id)){
+				return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
+			}
 			if(RODUtil.isNullOrEmpty(tab) || tab.equals("overview")){ 
 				clients = RODServices.getDbService().getClientDao().getClients(id);
 				infoTypeList = RODServices.getDbService().getObligationDao().getLookupList(id);

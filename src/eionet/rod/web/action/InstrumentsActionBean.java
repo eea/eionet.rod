@@ -1,12 +1,16 @@
 package eionet.rod.web.action;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ErrorResolution;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -39,7 +43,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean {
 	 * @return
 	 */
 	@DefaultHandler
-	public Resolution init() throws ServiceException {
+	public Resolution init() throws ServiceException, IOException, ServletException {
 		
 		String forwardPage = "/pages/instrument.jsp";
 		String pathInfo = getContext().getRequest().getPathInfo();
@@ -52,8 +56,12 @@ public class InstrumentsActionBean extends AbstractRODActionBean {
 		String acceptHeader = getContext().getRequest().getHeader("accept");
 		String[] accept = acceptHeader.split(",");
 		
-		if(!RODUtil.isNullOrEmpty(instId) && RODUtil.isNumber(instId)){
+		if(!RODUtil.isNullOrEmpty(instId)){
 			instrument = RODServices.getDbService().getSourceDao().getInstrumentFactsheet(instId);
+			if(instrument == null || !RODUtil.isNumber(instId)){
+				return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
+			}
+				
 			dgenv = RODServices.getDbService().getSourceDao().getDGEnvNameByInstrumentId(instId);
 		} else if(RODUtil.isNullOrEmpty(instId) && accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
 			return new StreamingResolution("application/rdf+xml;charset=UTF-8") {

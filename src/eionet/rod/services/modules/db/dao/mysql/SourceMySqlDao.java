@@ -337,7 +337,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
        */
       public InstrumentFactsheetDTO getInstrumentFactsheet(String id) throws ServiceException {
       	
-    	InstrumentFactsheetDTO ret = new InstrumentFactsheetDTO();
+    	InstrumentFactsheetDTO ret = null;
   		Connection connection = null;
   		PreparedStatement preparedStatement = null;
   		ResultSet rs = null;
@@ -354,6 +354,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
   			preparedStatement.setString(1,id);
   			rs = preparedStatement.executeQuery();
   			while(rs.next()){
+  				ret = new InstrumentFactsheetDTO();
   				ret.setSourceId(new Integer(rs.getInt("PK_SOURCE_ID")));
   				ret.setSourceTitle(rs.getString("TITLE"));
 				ret.setSourceAlias(rs.getString("ALIAS"));
