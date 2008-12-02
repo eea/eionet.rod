@@ -2,12 +2,10 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
-<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Documentation">
-
-	<stripes:layout-component name="contents">
-
-        <c:choose>
-			<c:when test="${empty actionBean.areaId}">
+<c:choose>
+	<c:when test="${empty actionBean.areaId}">
+		<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Documentation">
+			<stripes:layout-component name="contents">
 				<h1>Documentation</h1>
 				<c:if test="${!empty actionBean.docList}">
 					<ul>
@@ -18,12 +16,14 @@
 						</c:forEach>
 					</ul>
 				</c:if>
-			</c:when>
-			<c:otherwise>
+			</stripes:layout-component>
+		</stripes:layout-render>
+	</c:when>
+	<c:otherwise>
+		<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Documentation" bread2="Documentation" bread2Url="documentation" bread3="${rodfn:replaceTags(actionBean.doc.description)}">
+			<stripes:layout-component name="contents">
 				${actionBean.doc.html}
-			</c:otherwise>
-		</c:choose>
-
-        
-	</stripes:layout-component>
-</stripes:layout-render>
+			</stripes:layout-component>
+		</stripes:layout-render>
+	</c:otherwise>
+</c:choose>
