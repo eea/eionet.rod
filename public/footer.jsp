@@ -3,7 +3,7 @@
 String last_update = RODServices.getDbService().getGenericlDao().getLastUpdate();
 %>
 <div id="pagefoot">
-	<a href="text.jsv?mode=D">Disclaimer</a>
+	<a href="documentation/Disclaimer">Disclaimer</a>
 	| Last updated: 
 	<a href="analysis.jsv"><%=last_update%></a>
 	|	<a href="mailto:helpdesk@eionet.europa.eu?subject=Feedback%20from%20the%20ROD%20website">Feedback </a>

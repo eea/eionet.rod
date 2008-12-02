@@ -15,7 +15,6 @@ import com.tee.xmlserver.GeneralException;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ErrorResolution;
 import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -33,7 +32,6 @@ import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.dto.VersionDTO;
 import eionet.rod.rdf.Activities;
-import eionet.rod.rdf.RDFServletAC;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 

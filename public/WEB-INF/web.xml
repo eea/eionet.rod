@@ -437,11 +437,7 @@
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/obligations/*</url-pattern>
 	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/obligations</url-pattern>
-	</servlet-mapping>
+
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
@@ -451,6 +447,11 @@
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/instruments/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/documentation/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

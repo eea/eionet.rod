@@ -128,7 +128,7 @@
 						<li><a href="${pageContext.request.contextPath}/obligations" title="Reporting Obligations">Obligations </a></li>
 						<li><a href="${pageContext.request.contextPath}/clients" title="Clients">Clients </a></li>
 						<li><a href="${pageContext.request.contextPath}/subscribe.jsp" title="Create a UNS Subscription">Subscribe </a></li>
-						<li><a href="${pageContext.request.contextPath}/text.jsv?mode=H" title="General Help">Help </a></li>
+						<li><a href="${pageContext.request.contextPath}/documentation/Help" title="General Help">Help </a></li>
 						<c:if test="${!empty actionBean.userName}">
 							<li><a href="${pageContext.request.contextPath}/versions">Global History </a></li>
 						</c:if>
@@ -180,9 +180,9 @@
 					<stripes:layout-component name="contents"/>
 				</div>
 				<div id="pagefoot">
-					<a href="text.jsv?mode=D">Disclaimer</a>
+					<a href="${pageContext.request.contextPath}/documentation/Disclaimer">Disclaimer</a>
 					| Last updated: 
-					<a href="analysis.jsv">${actionBean.lastUpdate}</a>
+					<a href="${pageContext.request.contextPath}/analysis.jsv">${actionBean.lastUpdate}</a>
 					|	<a href="mailto:helpdesk@eionet.europa.eu?subject=Feedback%20from%20the%20ROD%20website">Feedback </a>
 					<br/>
 					<b><a href="http://www.eea.europa.eu">European Environment Agency</a></b>

@@ -7,12 +7,19 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.DocumentationDTO;
+import eionet.rod.dto.HierarchyInstrumentDTO;
+import eionet.rod.dto.readers.DocumentationDTOReader;
+import eionet.rod.dto.readers.HierarchyInstrumentDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IGenericDao;
+import eionet.rod.util.sql.SQLUtil;
 
 public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
 
@@ -232,6 +239,78 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
 		if (m.length > 0) result = m[0][0];
 
 		return result;
+	}
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISourceDao#getDocList()
+     */
+    public List<DocumentationDTO> getDocList() throws ServiceException {
+    	
+    	String query =
+	  		"SELECT AREA_ID, SCREEN_ID, DESCRIPTION, HTML " +
+	  		"FROM HLP_AREA " +
+	  		"WHERE SCREEN_ID='documentation'";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		DocumentationDTOReader rsReader = new DocumentationDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<DocumentationDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    private static final String q_get_doc = 
+    	"SELECT AREA_ID, SCREEN_ID, DESCRIPTION, HTML " +
+  		"FROM HLP_AREA " +
+  		"WHERE AREA_ID=?";
+    
+    /* (non-Javadoc)
+	 * @see eionet.rod.services.modules.db.dao.IGenericDao#getDoc(String area_id)
+	 */
+	public DocumentationDTO getDoc(String area_id) throws ServiceException {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		DocumentationDTO ret = null;
+
+		try {
+			connection = getConnection();
+			preparedStatement = connection.prepareStatement(q_get_doc);
+			preparedStatement.setString(1, area_id);
+			if (isDebugMode) logQuery(q_get_doc);
+			rs = preparedStatement.executeQuery();
+  			while(rs.next()){
+  				ret = new DocumentationDTO();
+  				ret.setAreaId(rs.getString("AREA_ID"));
+  				ret.setScreenId(rs.getString("SCREEN_ID"));
+  				ret.setDescription(rs.getString("DESCRIPTION"));
+  				ret.setHtml(rs.getString("HTML"));
+  			}
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+
+		return ret;
 	}
 
 }

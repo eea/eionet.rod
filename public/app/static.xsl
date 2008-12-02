@@ -48,7 +48,7 @@
 		Reporting obligations are requirements to provide information agreed between countries and international bodies such as the EEA or international conventions. Reporting 		obligations provide the basis for most environmental information flows. 
 		<br/><br/><div class="head1">What does ROD cover?</div>
 		ROD includes all environmental reporting obligations that EEA member countries have towards DG environment, European marine conventions, Eurostat, OECD, UN, UNECE, as well 		as the EEA itself.
-		To learn more about ROD, the status of the contents and the intended users, please check out the <a href="text.jsv?mode=H">general help</a>. 
+		To learn more about ROD, the status of the contents and the intended users, please check out the <a href="documentation/Help">general help</a>. 
 	</xsl:template>
 
 	<xsl:template name="IntroductoryTitle">
@@ -87,6 +87,6 @@
 
 	<xsl:template name="Feedback_URL">mailto:helpdesk@eionet.europa.eu?subject=Feedback from the ROD website</xsl:template>
 
-	<xsl:template name="Disclaimer_URL">text.jsv?mode=D</xsl:template>
+	<xsl:template name="Disclaimer_URL">documentation/Disclaimer</xsl:template>
 
 </xsl:stylesheet>

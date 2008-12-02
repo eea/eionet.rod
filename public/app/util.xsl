@@ -199,7 +199,7 @@
 						</li>					
 					</xsl:otherwise>
 				</xsl:choose>
-				<li><a href="text.jsv?mode=H" title="General Help">Help </a></li>
+				<li><a href="documentation/Help" title="General Help">Help </a></li>
 				<xsl:if test="contains($admin,'true')='true'">
 					<li><a href="versions">Global history </a></li>
 				</xsl:if>

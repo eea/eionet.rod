@@ -15,7 +15,7 @@
 			    <% } else { %>
 			    	<li><a href="login.jsp?rd=subscribe" title="Create a UNS Subscription">Subscribe </a></li>
 			    <% } %>
-			    <li><a href="text.jsv?mode=H" title="General Help">Help </a></li>
+			    <li><a href="documentation/Help" title="General Help">Help </a></li>
 				<% if (rouser!=null){%>
 					    <li><a href="versions">Global History </a></li>
 				<% } %>
