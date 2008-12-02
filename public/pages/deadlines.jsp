@@ -25,7 +25,9 @@
 					<td valign="middle" class="issues">
 						<stripes:select name="issueId" class="issues" size="1">
 							<stripes:option value="0" label="All issues"/>
-		    				<stripes:options-collection collection="${actionBean.issues}" label="name" value="issueId"/>
+		    				<c:forEach items="${actionBean.issues}" var="issue" varStatus="loop">
+		    					<stripes:option value="${issue.issueId}" label="${issue.name}"/>
+		    				</c:forEach>
 						</stripes:select>
 					</td>
 					<td valign="middle" class="deadlines">
@@ -40,7 +42,9 @@
 					<td valign="middle" class="client">
 						<stripes:select name="clientId" class="client" size="1">
 							<stripes:option value="" label="All clients"/>
-							<stripes:options-collection collection="${actionBean.clients}" label="name" value="clientId"/>
+							<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
+		    					<stripes:option value="${client.clientId}" label="${client.name}"/>
+		    				</c:forEach>
 						</stripes:select>
 					</td>
 					<td valign="middle" align="right" class="go_btn">

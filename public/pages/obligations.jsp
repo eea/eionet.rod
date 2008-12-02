@@ -59,7 +59,9 @@
 						<td style="border-left: 1px solid #C0C0C0">
 							<stripes:select name="country" style="color: #000000; font-size: 9pt; width:223px" size="1">
 								<stripes:option value="-1" label="Any country"/>
-			    				<stripes:options-collection collection="${actionBean.formCountries}" label="name" value="countryId"/>
+			    				<c:forEach items="${actionBean.formCountries}" var="country" varStatus="loop">
+			    					<stripes:option value="${country.countryId}" label="${country.name}"/>
+			    				</c:forEach>
 							</stripes:select>
 						</td>
 						<td rowspan="4" valign="middle" style="border-left: 1px solid #C0C0C0">
@@ -73,7 +75,9 @@
 						<td style="border-left: 1px solid #C0C0C0">
 							<stripes:select name="issue" style="font-size: 9pt; color: #000000; width:223px">
 								<stripes:option value="-1" label="All issues"/>
-			    				<stripes:options-collection collection="${actionBean.formIssues}" label="name" value="issueId"/>
+			    				<c:forEach items="${actionBean.formIssues}" var="issue" varStatus="loop">
+			    					<stripes:option value="${issue.issueId}" label="${issue.name}"/>
+			    				</c:forEach>
 							</stripes:select>
 						</td>
 					</tr>
@@ -83,7 +87,9 @@
 						<td style="border-left: 1px solid #C0C0C0">
 							<stripes:select name="client" style="color: #000000; font-size: 9pt; width:300px" size="1">
 								<stripes:option value="-1" label="Any organisation"/>
-								<stripes:options-collection collection="${actionBean.formClients}" label="name" value="clientId"/>
+								<c:forEach items="${actionBean.formClients}" var="client" varStatus="loop">
+			    					<stripes:option value="${client.clientId}" label="${client.name}"/>
+			    				</c:forEach>
 							</stripes:select>
 						</td>
 					</tr>

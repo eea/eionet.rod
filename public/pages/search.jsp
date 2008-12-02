@@ -24,7 +24,9 @@
 						<td class="dat">
 							<stripes:select name="spatialId" id="spatialId" class="dat" size="1">
 								<stripes:option value="" label="Any country"/>
-								<stripes:options-collection collection="${actionBean.countries}" label="name" value="countryId"/>
+								<c:forEach items="${actionBean.countries}" var="country" varStatus="loop">
+			    					<stripes:option value="${country.countryId}" label="${country.name}"/>
+			    				</c:forEach>
 							</stripes:select>
 						</td>
 					</tr>
@@ -35,7 +37,9 @@
 						<td class="dat">
 							<stripes:select name="issueId" id="issueId" class="dat">
 								<stripes:option value="" label="All issues"/>
-								<stripes:options-collection collection="${actionBean.issues}" label="name" value="issueId"/>
+								<c:forEach items="${actionBean.issues}" var="issue" varStatus="loop">
+			    					<stripes:option value="${issue.issueId}" label="${issue.name}"/>
+			    				</c:forEach>
 							</stripes:select>
 						</td>
 					</tr>
@@ -46,7 +50,9 @@
 						<td class="dat">
 							<stripes:select name="clientId" id="clientId" class="dat">
 								<stripes:option value="" label="Any organisation"/>
-								<stripes:options-collection collection="${actionBean.clients}" label="name" value="clientId"/>
+								<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
+			    					<stripes:option value="${client.clientId}" label="${client.name}"/>
+			    				</c:forEach>
 							</stripes:select>
 						</td>
 					</tr>
