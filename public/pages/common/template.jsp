@@ -109,12 +109,12 @@
                     		<div class="breadcrumbitemlast">ROD</div>
 						</c:when>
 						<c:when test="${(!empty bread2) && (!empty bread3)}">
-                    		<div class="breadcrumbitem"><a href="${pageContext.request.contextPath}">ROD</a></div>
+                    		<div class="breadcrumbitem"><a href="${pageContext.request.contextPath}/">ROD</a></div>
                     		<div class="breadcrumbitem"><a href="${pageContext.request.contextPath}/${bread2Url}">${bread2}</a></div>
                     		<div class="breadcrumbitemlast">${rodfn:threeDots(bread3,25)}</div>
 						</c:when>
 						<c:otherwise>
-							<div class="breadcrumbitem"><a href="${pageContext.request.contextPath}">ROD</a></div>
+							<div class="breadcrumbitem"><a href="${pageContext.request.contextPath}/">ROD</a></div>
  							<div class="breadcrumbitemlast">${fn:escapeXml(pageTitle)}</div>
 						</c:otherwise>
 					</c:choose>
