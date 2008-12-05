@@ -176,7 +176,7 @@
 			<td>
 				<c:choose>
 	    			<c:when test="${!empty actionBean.obligation.clientId}">
-						<a href="${pageContext.request.contextPath}/client.jsv?id=${actionBean.obligation.clientId}">
+						<a href="${pageContext.request.contextPath}/clients/${actionBean.obligation.clientId}">
 							${rodfn:replaceTags(actionBean.obligation.clientName)}
 						</a>
 	    			</c:when>
@@ -193,7 +193,7 @@
 					<ul class="menu">
 						<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
 							<li>
-								<a href="${pageContext.request.contextPath}/client.jsv?id=${client.clientId}">
+								<a href="${pageContext.request.contextPath}/clients/${client.clientId}">
 									${rodfn:replaceTags(client.name)}
 								</a>
 							</li>

@@ -25,13 +25,13 @@
 			</tr>
 			<tr>
 				<th scope="row" class="scope-row">Client organisation:</th>
-				<td><a href="client.jsv?id=${actionBean.deliveryData.clientId}">${rodfn:replaceTags(actionBean.deliveryData.clientName)}</a></td>
+				<td><a href="clients/${actionBean.deliveryData.clientId}">${rodfn:replaceTags(actionBean.deliveryData.clientName)}</a></td>
 			</tr>
 			<tr>
 				<th scope="row" class="scope-row">Other clients using this reporting:</th>
 				<td>
 					<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
-						<a href="client.jsv?id=${client.clientId}">${rodfn:replaceTags(client.name)}</a><br/>
+						<a href="clients/${client.clientId}">${rodfn:replaceTags(client.name)}</a><br/>
 					</c:forEach>
 				</td>
 			</tr>

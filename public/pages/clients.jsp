@@ -8,9 +8,9 @@
 
         <h1>Clients</h1>
 
-        <display:table name="${actionBean.clients}" class="sortable" sort="list" id="listItem" htmlId="listItem" requestURI="/clients">
+        <display:table name="${actionBean.clients}" class="sortable" sort="list" id="listItem" htmlId="listItem" requestURI="/clients" decorator="eionet.rod.web.util.ClientsTableDecorator">
 		
-			<display:column property="name" title="Client name" sortable="true" href="client.jsv" paramId="id" paramProperty="clientId" decorator="eionet.rod.web.util.ReplaceTagsWrapper"/>
+			<display:column property="clientName" title="Client name" sortable="true"/>
 			<display:column property="acronym" title="Client acronym" sortable="true" decorator="eionet.rod.web.util.ReplaceTagsWrapper"/>
 			
 		</display:table>

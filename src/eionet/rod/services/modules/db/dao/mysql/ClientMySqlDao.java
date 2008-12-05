@@ -10,7 +10,12 @@ import java.util.Vector;
 
 import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.dto.ClientDTO;
+import eionet.rod.dto.InstrumentDTO;
+import eionet.rod.dto.InstrumentFactsheetDTO;
+import eionet.rod.dto.InstrumentObligationDTO;
+import eionet.rod.dto.InstrumentParentDTO;
 import eionet.rod.dto.IssueDTO;
+import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.dto.readers.CountryDeliveryDTOReader;
 import eionet.rod.dto.readers.ClientDTOReader;
 import eionet.rod.dto.readers.IssueDTOReader;
@@ -322,6 +327,172 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 			return list;
 		}
 		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    private static final String q_client_factsheet =
+    	"SELECT PK_CLIENT_ID, CLIENT_NAME, CLIENT_SHORT_NAME, CLIENT_ADDRESS, CLIENT_ACRONYM, " +
+    	"CLIENT_URL, CLIENT_EMAIL, POSTAL_CODE, CITY, DESCRIPTION, COUNTRY " +
+    	"FROM T_CLIENT WHERE PK_CLIENT_ID=?";
+    
+    private static final String q_direct_obligations =
+    	"SELECT PK_RA_ID, FK_SOURCE_ID, TITLE, TERMINATE " +
+    	"FROM T_OBLIGATION " +
+    	"WHERE FK_CLIENT_ID=? ORDER BY TITLE";
+    
+    private static final String q_indirect_obligations =
+    	"SELECT O.PK_RA_ID, O.FK_SOURCE_ID, O.TITLE, O.TERMINATE " +
+    	"FROM T_OBLIGATION O, T_CLIENT_LNK CL " +
+    	"WHERE CL.FK_CLIENT_ID =? AND CL.TYPE='A' AND CL.FK_OBJECT_ID=O.PK_RA_ID AND O.FK_CLIENT_ID != CL.FK_CLIENT_ID " +
+    	"ORDER BY O.TITLE";
+    
+    private static final String q_direct_instruments =
+    	"SELECT PK_SOURCE_ID, ALIAS " +
+    	"FROM T_SOURCE " +
+    	"WHERE FK_CLIENT_ID=? ORDER BY ALIAS";
+    
+    private static final String q_indirect_instruments =
+    	"SELECT S.PK_SOURCE_ID, S.ALIAS " +
+    	"FROM T_SOURCE S, T_CLIENT_LNK CL " +
+    	"WHERE CL.FK_CLIENT_ID =? AND CL.TYPE='S' AND CL.FK_OBJECT_ID=S.PK_SOURCE_ID AND S.FK_CLIENT_ID != CL.FK_CLIENT_ID " +
+    	"ORDER BY S.ALIAS";
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IClientDao#getClientFactsheet(String id)
+     */
+    public ClientDTO getClientFactsheet(String id) throws ServiceException {
+    	
+    	ClientDTO ret = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		ResultSet sub_rs = null;
+		
+		List<ObligationFactsheetDTO> directObligations = new ArrayList<ObligationFactsheetDTO>();
+		List<ObligationFactsheetDTO> indirectObligations = new ArrayList<ObligationFactsheetDTO>();
+		List<InstrumentDTO> directInstruments = new ArrayList<InstrumentDTO>();
+		List<InstrumentDTO> indirectInstruments = new ArrayList<InstrumentDTO>();
+		
+		try {
+			connection = getConnection();
+			if (isDebugMode) logQuery(q_client_factsheet);
+			preparedStatement = connection.prepareStatement(q_client_factsheet);
+			preparedStatement.setString(1,id);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				ret = new ClientDTO();
+				ret.setClientId(new Integer(rs.getInt("PK_CLIENT_ID")));
+				ret.setName(rs.getString("CLIENT_NAME"));
+				ret.setAcronym(rs.getString("CLIENT_ACRONYM"));
+				ret.setShortName(rs.getString("CLIENT_SHORT_NAME"));
+				ret.setAddress(rs.getString("CLIENT_ADDRESS"));
+				ret.setUrl(rs.getString("CLIENT_URL"));
+				ret.setEmail(rs.getString("CLIENT_EMAIL"));
+				ret.setPostalCode(rs.getString("POSTAL_CODE"));
+				ret.setCity(rs.getString("CITY"));
+				ret.setDescription(rs.getString("DESCRIPTION"));
+				ret.setCountry(rs.getString("COUNTRY"));
+				
+				preparedStatement = connection.prepareStatement(q_direct_obligations);
+	  			preparedStatement.setString(1,id);
+	  			sub_rs = preparedStatement.executeQuery();
+	  			while(sub_rs.next()){
+	  				ObligationFactsheetDTO obligation = new ObligationFactsheetDTO();
+	  				obligation.setObligationId(sub_rs.getString("PK_RA_ID"));
+	  				obligation.setFkSourceId(sub_rs.getString("FK_SOURCE_ID"));
+	  				obligation.setTitle(sub_rs.getString("TITLE"));
+	  				obligation.setTerminate(sub_rs.getString("TERMINATE"));
+	  				directObligations.add(obligation);
+	  			}
+	  			ret.setDirectObligations(directObligations);
+	  			
+	  			preparedStatement = connection.prepareStatement(q_indirect_obligations);
+	  			preparedStatement.setString(1,id);
+	  			sub_rs = preparedStatement.executeQuery();
+	  			while(sub_rs.next()){
+	  				ObligationFactsheetDTO obligation = new ObligationFactsheetDTO();
+	  				obligation.setObligationId(sub_rs.getString("PK_RA_ID"));
+	  				obligation.setFkSourceId(sub_rs.getString("FK_SOURCE_ID"));
+	  				obligation.setTitle(sub_rs.getString("TITLE"));
+	  				obligation.setTerminate(sub_rs.getString("TERMINATE"));
+	  				indirectObligations.add(obligation);
+	  			}
+	  			ret.setIndirectObligations(indirectObligations);
+	  			
+	  			preparedStatement = connection.prepareStatement(q_direct_instruments);
+	  			preparedStatement.setString(1,id);
+	  			sub_rs = preparedStatement.executeQuery();
+	  			while(sub_rs.next()){
+	  				InstrumentDTO instrument = new InstrumentDTO();
+	  				instrument.setSourceId(new Integer(sub_rs.getInt("PK_SOURCE_ID")));
+	  				instrument.setSourceAlias(sub_rs.getString("ALIAS"));
+	  				directInstruments.add(instrument);
+	  			}
+	  			ret.setDirectInstruments(directInstruments);
+	  			
+	  			preparedStatement = connection.prepareStatement(q_indirect_instruments);
+	  			preparedStatement.setString(1,id);
+	  			sub_rs = preparedStatement.executeQuery();
+	  			while(sub_rs.next()){
+	  				InstrumentDTO instrument = new InstrumentDTO();
+	  				instrument.setSourceId(new Integer(sub_rs.getInt("PK_SOURCE_ID")));
+	  				instrument.setSourceAlias(sub_rs.getString("ALIAS"));
+	  				indirectInstruments.add(instrument);
+	  			}
+	  			ret.setIndirectInstruments(indirectInstruments);
+
+			}	
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+		
+		return ret;
+    }
+    
+    /** */
+	private static final String editClientSQL = "UPDATE T_CLIENT SET CLIENT_NAME=?, CLIENT_SHORT_NAME=?, " +
+			"CLIENT_ACRONYM=?, CLIENT_ADDRESS=?, CLIENT_URL=?, POSTAL_CODE=?, CLIENT_EMAIL=?, CITY=?, COUNTRY=?, DESCRIPTION=? " +
+			"WHERE PK_CLIENT_ID=?";
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IClientDao#getClientFactsheet(ClientDTO client)
+     */
+    public void editClient(ClientDTO client) throws ServiceException {
+    	    	
+    	List<Object> values = new ArrayList<Object>();
+		values.add(client.getName());
+		values.add(client.getShortName());
+		values.add(client.getAcronym());
+		values.add(client.getAddress());
+		values.add(client.getUrl());
+		values.add(client.getPostalCode());
+		values.add(client.getEmail());
+		values.add(client.getCity());
+		values.add(client.getCountry());
+		values.add(client.getDescription());
+		values.add(client.getClientId());
+		
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			SQLUtil.executeUpdate(editClientSQL, values, conn);
+			
+		}catch (Exception e){
 			logger.error(e);
 			throw new ServiceException(e.getMessage());
 		}

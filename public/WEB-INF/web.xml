@@ -116,6 +116,10 @@
 		<url-pattern>*.jsv</url-pattern>
   	</filter-mapping>	
 	<filter-mapping>
+		<filter-name>Character encoding</filter-name>
+		<url-pattern>/clients</url-pattern>
+  	</filter-mapping>	
+	<filter-mapping>
 		<filter-name>Browser cache controller</filter-name>
 		<servlet-name>index</servlet-name>
   	</filter-mapping>	
@@ -437,7 +441,6 @@
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/obligations/*</url-pattern>
 	</servlet-mapping>
-
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
@@ -447,6 +450,11 @@
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/instruments/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/clients/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
@@ -477,11 +485,6 @@
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/versions</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/clients</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

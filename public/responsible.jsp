@@ -68,7 +68,7 @@
 		/*
 		function openClient(ID){
 		
-			var url = "client.jsv?id=" + ID;
+			var url = "clients/" + ID;
 			var name = "Client";
 			var features = "location=no, menubar=no, width=650, height=500, top=50, left=50, scrollbars=no, resizable=yes";
 			var w = window.open(url,name,features);

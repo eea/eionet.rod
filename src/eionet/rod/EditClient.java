@@ -60,7 +60,7 @@ public class EditClient extends ROEditServletAC {
    
    protected void appDoPost(HttpServletRequest req, HttpServletResponse res) throws XSQLException {
        try {
-        String location = "client.jsv?" + "id=" + req.getParameter("/XmlData/RowSet/Row/T_CLIENT/PK_CLIENT_ID");
+        String location = "clients/" + req.getParameter("/XmlData/RowSet/Row/T_CLIENT/PK_CLIENT_ID");
         res.sendRedirect(location);
        } catch(java.io.IOException e) {
            throw new XSQLException(e, "Error in redirection");

@@ -111,7 +111,7 @@
 				<tr class="zebraeven">
 					<th scope="row" class="scope-row">Issued by</th>
 					<td>
-						<a href="${pageContext.request.contextPath}/client.jsv?id=${actionBean.instrument.clientId}">
+						<a href="${pageContext.request.contextPath}/clients/${actionBean.instrument.clientId}">
 							${rodfn:replaceTags(actionBean.instrument.clientName)}
 						</a>
 					</td>

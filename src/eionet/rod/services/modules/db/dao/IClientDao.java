@@ -81,4 +81,18 @@ public interface IClientDao {
 	 * @throws ServiceException
 	 */
 	public List<ClientDTO> getAllClients() throws ServiceException;
+	
+	/**
+	 * Returns client factsheet
+	 * @param clientId
+	 * @throws ServiceException
+	 */
+	public ClientDTO getClientFactsheet(String id) throws ServiceException;
+	
+	/**
+	 * Updates client
+	 * @param client
+	 * @throws ServiceException
+	 */
+	public void editClient(ClientDTO client) throws ServiceException;
 }
