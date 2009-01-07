@@ -26,6 +26,7 @@ public class ObligationFactsheetDTO implements java.io.Serializable{
 	private String comment;
 	private String responsibleRole;
 	private String nextDeadline;
+	private String nextDeadline2;
 	private String firstReporting;
 	private String reportFreqMonths;
 	private String fkDeliveryCountryIds;
@@ -47,6 +48,7 @@ public class ObligationFactsheetDTO implements java.io.Serializable{
 	private String authority;
 	private int eeaPrimary;
 	private String parameters;
+	private String validatedBy;
 	private String overlapUrl;
 	private int eeaCore;
 	private int flagged;
@@ -55,6 +57,8 @@ public class ObligationFactsheetDTO implements java.io.Serializable{
 	private String dpsirS;
 	private String dpsirI;
 	private String dpsirR;
+	
+	private String legalMoral;
 	
 	//Fields from T_SOURCE table
 	private String sourceId;
@@ -274,6 +278,16 @@ public class ObligationFactsheetDTO implements java.io.Serializable{
 
 	public void setNextDeadline(String nextDeadline) {
 		this.nextDeadline = nextDeadline;
+	}
+
+
+	public String getNextDeadline2() {
+		return nextDeadline2;
+	}
+
+
+	public void setNextDeadline2(String nextDeadline2) {
+		this.nextDeadline2 = nextDeadline2;
 	}
 
 
@@ -567,6 +581,16 @@ public class ObligationFactsheetDTO implements java.io.Serializable{
 	}
 
 
+	public String getLegalMoral() {
+		return legalMoral;
+	}
+
+
+	public void setLegalMoral(String legalMoral) {
+		this.legalMoral = legalMoral;
+	}
+
+
 	public String getSourceId() {
 		return sourceId;
 	}
@@ -774,6 +798,16 @@ public class ObligationFactsheetDTO implements java.io.Serializable{
 
 	public void setClientName(String clientName) {
 		this.clientName = clientName;
+	}
+
+
+	public String getValidatedBy() {
+		return validatedBy;
+	}
+
+
+	public void setValidatedBy(String validatedBy) {
+		this.validatedBy = validatedBy;
 	}
 
 		

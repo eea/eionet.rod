@@ -120,6 +120,7 @@ public interface Constants {
    public static final int SEVERITY_INFO = 1;
    public static final int SEVERITY_CAUTION = 2;
    public static final int SEVERITY_WARNING = 3;
+   public static final int SEVERITY_VALIDATION = 4;
 
   //Prop names
   static final String ROD_URL_EVENTS ="rod.url.events";

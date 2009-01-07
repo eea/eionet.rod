@@ -5,12 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.IssueDTO;
-import eionet.rod.dto.readers.CountryDTOReader;
 import eionet.rod.dto.readers.IssueDTOReader;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.ServiceException;
@@ -222,6 +221,54 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
 
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IIssueDao#getObligationIssuesList(List<String> issueIds)
+	 */
+	public List<IssueDTO> getObligationIssuesList(List<String> issueIds) throws ServiceException {
+		
+		StringBuilder ids = new StringBuilder();
+    	if(issueIds != null){
+	    	for(Iterator<String> it = issueIds.iterator(); it.hasNext(); ){
+	    		String id = it.next();
+	    		ids.append(id);
+	    		if(it.hasNext())
+	    			ids.append(",");
+	    	}
+    	} else {
+    		return null;
+    	}
+
+		List<Object> values = new ArrayList<Object>();
+		
+		String qObligationIssuesList = 
+			"SELECT ISSUE_NAME, PK_ISSUE_ID " + 
+			"FROM T_ISSUE " + 
+			"WHERE PK_ISSUE_ID IN ("+ids.toString()+") " +
+			"ORDER BY ISSUE_NAME ";
+		
+		Connection conn = null;
+		IssueDTOReader rsReader = new IssueDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(qObligationIssuesList, values, rsReader, conn);
+			List<IssueDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+
+	}
+	
 	private static final String q_issue_name_by_id = 
 		"SELECT ISSUE_NAME AS name " + 
 		"FROM T_ISSUE " + 
@@ -250,6 +297,37 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
 		if (m.length > 0) result = m[0][0];
 
 		return result;
+	}
+	
+	private static final String q_insert_obligation_issue = 
+		"INSERT INTO T_RAISSUE_LNK (FK_ISSUE_ID, FK_RA_ID) VALUES (?,?)";
+
+	/* (non-Javadoc)
+	 * @see eionet.rod.services.modules.db.dao.IIssueDao#insertObligationIssues(String obligationId, List<String> selectedIssues)
+	 */
+	public void insertObligationIssues(String obligationId, List<String> selectedIssues) throws ServiceException {
+		List<Object> values = null;
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			for(Iterator<String> it = selectedIssues.iterator(); it.hasNext();){
+				String issueId = it.next();
+				values = new ArrayList<Object>();
+				values.add(issueId);
+				values.add(obligationId);
+				SQLUtil.executeUpdate(q_insert_obligation_issue, values, conn);
+			}
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}	
+			catch (SQLException e){}
+		}
 	}
 
 }

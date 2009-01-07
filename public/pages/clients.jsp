@@ -5,6 +5,20 @@
 <stripes:layout-render name="/pages/common/template.jsp" pageTitle="Clients">
 
 	<stripes:layout-component name="contents">
+	
+		<c:if test="${actionBean.isUserLoggedIn}">
+			<ul id="dropdown-operations">
+				<li><a href="#">Operations</a>
+					<ul>
+						<li>
+			      			<stripes:link href="/clients" event="add">
+								New Organisation
+							</stripes:link>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</c:if>
 
         <h1>Clients</h1>
 

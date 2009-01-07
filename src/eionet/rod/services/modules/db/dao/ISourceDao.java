@@ -103,9 +103,10 @@ public interface ISourceDao {
      * Returns instruments hierarchy
      * @param id
      * @param hasParent
+     * @param mode
      * @throws ServiceException
      */
-    public String getHierarchy(String id, boolean hasParent) throws ServiceException;
+    public String getHierarchy(String id, boolean hasParent, String mode) throws ServiceException;
     
     /**
      * Returns hierarchy instruments

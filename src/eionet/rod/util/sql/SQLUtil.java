@@ -7,9 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.HashMap;
 
 /**
  * 
@@ -150,5 +148,29 @@ public class SQLUtil {
 			pstmt.setObject(i+1, values.get(i));
 		}
 		return pstmt;
+	}
+	
+	/**
+	 * 
+	 * @param conn
+	 * @return
+	 * @throws SQLException
+	 */
+	public static Integer getLastInsertID(Connection conn) throws SQLException{
+		
+		ResultSet rs = null;
+		Statement stmt = null;
+		try{
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select last_insert_id()");
+			return (rs!=null && rs.next()) ? new Integer(rs.getInt(1)) : null;
+		}
+		finally{
+			try{
+				if (rs!=null) rs.close();
+				if (stmt!=null) stmt.close();
+			}
+			catch (SQLException e){}
+		}
 	}
 }

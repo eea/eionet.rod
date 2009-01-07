@@ -16,6 +16,11 @@
 								<stripes:param name="client.clientId" value="${actionBean.clientId}"/>
 							</stripes:link>
 						</li>
+						<li>
+			      			<stripes:link href="/clients" event="add">
+								New Organisation
+							</stripes:link>
+						</li>
 					</ul>
 				</li>
 			</ul>

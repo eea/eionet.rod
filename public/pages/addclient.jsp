@@ -2,27 +2,21 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
-<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Edit Client Organisation">
+<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Add Client Organisation">
 
 	<stripes:layout-component name="contents">
 		
-		<h1>Edit Client Organisation</h1>
+		<h1>Add Client Organisation</h1>
 		
 		<stripes:form action="/clients" method="post">
 			<stripes:hidden name="client.clientId"/>
 			<table class="formtable">
-				<col style="width:160px"/>
-				<col style="width:490px"/>
+				<col style="width:120px"/>
+				<col style="width:300px"/>
 				<tr>
 					<td><label class="question" for="name">Name</label></td>
 					<td>
 						<stripes:text name="client.name" size="68" maxlength="255" id="name"/>
-					</td>
-				</tr>
-				<tr>
-					<td><label class="question" for="shortname">Short Name</label></td>
-					<td>
-						<stripes:text name="client.shortName" size="68" maxlength="100" id="shortname"/>
 					</td>
 				</tr>
 				<tr>
@@ -63,7 +57,13 @@
 					</td>
 				</tr>
 				<tr>
-					<td><label class="question" for="description">Description</label></td>
+					<td><label class="question" for="email">Email</label></td>
+					<td>
+						<stripes:text name="client.email" size="68" maxlength="255" id="email"/>
+					</td>
+				</tr>
+				<tr>
+					<td><label class="question" for="description">Comments</label></td>
 					<td>
 						<stripes:textarea name="client.description" rows="4" cols="53" id="description"/>
 					</td>
@@ -71,7 +71,7 @@
 				<tr>
 					<td></td>
 					<td>
-						<stripes:submit name="edit" value="OK" style="width:6em"/>  
+						<stripes:submit name="add" value="OK" style="width:6em"/>  
 						<stripes:button name="cancel" onclick="javascript:history.back()" value="Cancel" style="width:6em"/>  
 					</td>
 				</tr>

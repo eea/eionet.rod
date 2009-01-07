@@ -161,7 +161,7 @@ public class ObligationsActionBean extends AbstractRODActionBean {
 	
 	private List<DDParamDTO> getDDParams(){
 		
-		List<DDParamDTO> retList = new ArrayList<DDParamDTO>();
+		List<DDParamDTO> retList = new ArrayList<DDParamDTO>(); 
 		
 		try {
 			String serviceName  = "DataDictService";
@@ -190,6 +190,17 @@ public class ObligationsActionBean extends AbstractRODActionBean {
 		}
 		return retList;
 	}
+	
+	/**
+     * 
+     * @return
+     * @throws DAOException
+     */
+    public Resolution edit() throws ServiceException {
+    	Resolution resolution = new ForwardResolution("/pages/editobligation.jsp");
+    	obligation = RODServices.getDbService().getObligationDao().getObligationFactsheet(id);
+    	return resolution;
+    }
 
 
 	public ObligationFactsheetDTO getObligation() {

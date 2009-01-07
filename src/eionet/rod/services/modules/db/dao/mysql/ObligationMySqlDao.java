@@ -18,6 +18,7 @@ import com.tee.util.Util;
 import com.tee.xmlserver.FieldInfo;
 
 import eionet.rod.RODUtil;
+import eionet.rod.dto.ClientDTO;
 import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.dto.CountryDeliveryDataDTO;
 import eionet.rod.dto.LookupDTO;
@@ -1296,6 +1297,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		"SELECT OB.PK_RA_ID, OB.FK_SOURCE_ID, DATE_FORMAT(OB.VALID_SINCE, '%d/%m/%Y') AS VALID_SINCE, DATE_FORMAT(OB.VALID_TO, '%d/%m/%Y') AS VALID_TO, " +
 		"OB.TITLE, OB.LAST_HARVESTED, OB.TERMINATE, " +
 		"OB.REPORT_FREQ_MONTHS, IF(OB.NEXT_DEADLINE, DATE_FORMAT(OB.NEXT_DEADLINE, '%d/%m/%Y'), '') AS NEXT_DEADLINE, " +
+		"IF(OB.NEXT_DEADLINE2, DATE_FORMAT(OB.NEXT_DEADLINE2, '%d/%m/%Y'), '') AS NEXT_DEADLINE2, " +
 		"OB.FORMAT_NAME, OB.REPORT_FORMAT_URL, OB.RESPONSIBLE_ROLE, OB.REPORT_FORMAT_URL, OB.REPORT_FREQ, OB.REPORT_FREQ_DETAIL, " +
 		"REPLACE(REPLACE(OB.REPORTING_FORMAT, '\r\n', '\n'), '\r', '\n') AS REPORTING_FORMAT, " +
 		"IF(OB.FIRST_REPORTING, DATE_FORMAT(OB.FIRST_REPORTING, '%d/%m/%Y'), '') AS FIRST_REPORTING, " +
@@ -1307,7 +1309,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		"OB.FK_CLIENT_ID, OB.RESPONSIBLE_ROLE_SUF, OB.NATIONAL_CONTACT, OB.NATIONAL_CONTACT_URL, " +
 		"REPLACE(REPLACE(OB.DESCRIPTION, '\r\n', '\n'), '\r', '\n') AS DESCRIPTION, " +
 		"OB.COORDINATOR_ROLE, OB.COORDINATOR_ROLE_SUF, OB.COORDINATOR, OB.COORDINATOR_URL, OB.AUTHORITY, OB.EEA_PRIMARY, " +
-		"OB.PARAMETERS, OB.OVERLAP_URL, OB.EEA_CORE, OB.FLAGGED, OB.DPSIR_D, OB.DPSIR_P, OB.DPSIR_S, OB.DPSIR_I, OB.DPSIR_R, " +
+		"OB.PARAMETERS, OB.VALIDATED_BY, OB.LEGAL_MORAL, OB.OVERLAP_URL, OB.EEA_CORE, OB.FLAGGED, OB.DPSIR_D, OB.DPSIR_P, OB.DPSIR_S, OB.DPSIR_I, OB.DPSIR_R, " +
 		"SO.PK_SOURCE_ID, SO.TITLE AS SOURCE_TITLE, SO.ALIAS, SO.CELEX_REF, SO.SOURCE_CODE, " +
 		"RRO.ROLE_ID AS R_ROLE_ID, RRO.ROLE_NAME AS R_ROLE_NAME, RRO.ROLE_URL AS R_ROLE_URL, RRO.ROLE_MEMBERS_URL AS R_ROLE_MEMBERS_URL, " +
 		"CRO.ROLE_ID AS C_ROLE_ID, CRO.ROLE_NAME AS C_ROLE_NAME, CRO.ROLE_URL AS C_ROLE_URL, CRO.ROLE_MEMBERS_URL AS C_ROLE_MEMBERS_URL, " +
@@ -1360,6 +1362,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 				ret.setComment(rs.getString("COMMENT"));
 				ret.setResponsibleRole(rs.getString("RESPONSIBLE_ROLE"));
 				ret.setNextDeadline(rs.getString("NEXT_DEADLINE"));
+				ret.setNextDeadline2(rs.getString("NEXT_DEADLINE2"));
 				ret.setFirstReporting(rs.getString("FIRST_REPORTING"));
 				ret.setReportFreqMonths(rs.getString("REPORT_FREQ_MONTHS"));
 				ret.setFkDeliveryCountryIds(rs.getString("FK_DELIVERY_COUNTRY_IDS"));
@@ -1382,6 +1385,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 				ret.setAuthority(rs.getString("AUTHORITY"));
 				ret.setEeaPrimary(new Integer(rs.getInt("EEA_PRIMARY")));
 				ret.setParameters(rs.getString("PARAMETERS"));
+				ret.setValidatedBy(rs.getString("VALIDATED_BY"));
+				ret.setLegalMoral(rs.getString("LEGAL_MORAL"));
 				ret.setOverlapUrl(rs.getString("OVERLAP_URL"));
 				ret.setEeaCore(new Integer(rs.getInt("EEA_CORE")));
 				ret.setFlagged(new Integer(rs.getInt("FLAGGED")));
@@ -1439,6 +1444,39 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     	String query = "SELECT T_LOOKUP.C_TERM, T_LOOKUP.C_VALUE " +
 		"FROM T_LOOKUP, T_INFO_LNK " +
 		"WHERE T_INFO_LNK.FK_RA_ID = " + obligationId + " AND T_LOOKUP.C_VALUE=T_INFO_LNK.FK_INFO_ID AND CATEGORY='I'";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		LookupDTOReader rsReader = new LookupDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<LookupDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#getLookupListByCategory(String cat)
+     */
+    public List<LookupDTO> getLookupListByCategory(String cat) throws ServiceException {
+    	
+    	String query = "SELECT C_TERM, C_VALUE " +
+		"FROM T_LOOKUP " +
+		"WHERE CATEGORY='"+cat+"' ORDER BY C_TERM";
     	
     	List<Object> values = new ArrayList<Object>();
 				
@@ -1595,6 +1633,178 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			}
 			catch (SQLException e){}
 		}
+    }
+    
+    /** */
+	private static final String editObligationSQL = "UPDATE T_OBLIGATION SET " +
+			"TITLE=?, DESCRIPTION=?, FIRST_REPORTING=?, VALID_TO=?, REPORT_FREQ_MONTHS=?, " +
+			"NEXT_DEADLINE=?, NEXT_DEADLINE2=?, TERMINATE=?, NEXT_REPORTING=?, DATE_COMMENTS=?, " +
+			"FORMAT_NAME=?, REPORT_FORMAT_URL=?, VALID_SINCE=?, REPORTING_FORMAT=?, LOCATION_INFO=?, " +
+			"LOCATION_PTR=?, DATA_USED_FOR=?, DATA_USED_FOR_URL=?, COORDINATOR_ROLE=?, " +
+			"COORDINATOR_ROLE_SUF=?, COORDINATOR=?, COORDINATOR_URL=?, RESPONSIBLE_ROLE=?, " +
+			"RESPONSIBLE_ROLE_SUF=?, NATIONAL_CONTACT=?, NATIONAL_CONTACT_URL=?, LEGAL_MORAL=?, " +
+			"PARAMETERS=?, EEA_PRIMARY=?, EEA_CORE=?, FLAGGED=?, DPSIR_D=?, DPSIR_P=?, DPSIR_S=?, " +
+			"DPSIR_I=?, DPSIR_R=?, OVERLAP_URL=?, COMMENT=?, AUTHORITY=?, RM_VERIFIED=?, " +
+			"RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, VALIDATED_BY=?, LAST_UPDATE=CURDATE(), FK_CLIENT_ID=? " +
+			"WHERE PK_RA_ID=?";
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#editObligation(ObligationFactsheetDTO obligation)
+     */
+    public void editObligation(ObligationFactsheetDTO obligation) throws ServiceException {
+    	    	
+    	List<Object> values = new ArrayList<Object>();
+		values.add(obligation.getTitle());
+		values.add(obligation.getDescription());
+		values.add(RODUtil.str2Date(obligation.getFirstReporting()));
+		values.add(RODUtil.str2Date(obligation.getValidTo()));
+		values.add(obligation.getReportFreqMonths());
+		values.add(RODUtil.str2Date(obligation.getNextDeadline()));
+		values.add(RODUtil.str2Date(obligation.getNextDeadline2()));
+		values.add(obligation.getTerminate());
+		values.add(obligation.getNextReporting());
+		values.add(obligation.getDateComments());
+		values.add(obligation.getFormatName());
+		values.add(obligation.getReportFormatUrl());
+		values.add(RODUtil.str2Date(obligation.getValidSince()));
+		values.add(obligation.getReportingFormat());
+		values.add(obligation.getLocationInfo());
+		values.add(obligation.getLocationPtr());
+		values.add(obligation.getDataUsedFor());
+		values.add(obligation.getDataUsedForUrl());
+		values.add(obligation.getCoordinatorRole());
+		values.add(obligation.getCoordinatorRoleSuf());
+		values.add(obligation.getCoordinator());
+		values.add(obligation.getCoordinatorUrl());
+		values.add(obligation.getResponsibleRole());
+		values.add(obligation.getResponsibleRoleSuf());
+		values.add(obligation.getNationalContact());
+		values.add(obligation.getNationalContactUrl());
+		values.add(obligation.getLegalMoral());
+		values.add(obligation.getParameters());
+		values.add(obligation.getEeaPrimary());
+		values.add(obligation.getEeaCore());
+		values.add(obligation.getFlagged());
+		values.add(obligation.getDpsirD());
+		values.add(obligation.getDpsirP());
+		values.add(obligation.getDpsirS());
+		values.add(obligation.getDpsirI());
+		values.add(obligation.getDpsirR());
+		values.add(obligation.getOverlapUrl());
+		values.add(obligation.getComment());
+		values.add(obligation.getAuthority());
+		values.add(RODUtil.str2Date(obligation.getRmVerified()));
+		values.add(obligation.getRmVerifiedBy());
+		values.add(RODUtil.str2Date(obligation.getRmNextUpdate()));
+		values.add(obligation.getValidatedBy());
+		values.add(obligation.getFkClientId());
+		
+		values.add(obligation.getObligationId());		
+		
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			SQLUtil.executeUpdate(editObligationSQL, values, conn);
+			
+		}catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+	/** */
+	private static final String insertObligationSQL = "INSERT INTO T_OBLIGATION SET " +
+			"TITLE=?, DESCRIPTION=?, FIRST_REPORTING=?, VALID_TO=?, REPORT_FREQ_MONTHS=?, " +
+			"NEXT_DEADLINE=?, NEXT_DEADLINE2=?, TERMINATE=?, NEXT_REPORTING=?, DATE_COMMENTS=?, " +
+			"FORMAT_NAME=?, REPORT_FORMAT_URL=?, VALID_SINCE=?, REPORTING_FORMAT=?, LOCATION_INFO=?, " +
+			"LOCATION_PTR=?, DATA_USED_FOR=?, DATA_USED_FOR_URL=?, COORDINATOR_ROLE=?, " +
+			"COORDINATOR_ROLE_SUF=?, COORDINATOR=?, COORDINATOR_URL=?, RESPONSIBLE_ROLE=?, " +
+			"RESPONSIBLE_ROLE_SUF=?, NATIONAL_CONTACT=?, NATIONAL_CONTACT_URL=?, LEGAL_MORAL=?, " +
+			"PARAMETERS=?, EEA_PRIMARY=?, EEA_CORE=?, FLAGGED=?, DPSIR_D=?, DPSIR_P=?, DPSIR_S=?, " +
+			"DPSIR_I=?, DPSIR_R=?, OVERLAP_URL=?, COMMENT=?, AUTHORITY=?, RM_VERIFIED=?, " +
+			"RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, VALIDATED_BY=?, LAST_UPDATE=CURDATE(), FK_CLIENT_ID=?, FK_SOURCE_ID=?";
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#insertObligation(ObligationFactsheetDTO obligation)
+     */
+    public Integer insertObligation(ObligationFactsheetDTO obligation) throws ServiceException {
+    	    	
+    	List<Object> values = new ArrayList<Object>();
+		values.add(obligation.getTitle());
+		values.add(obligation.getDescription());
+		values.add(RODUtil.str2Date(obligation.getFirstReporting()));
+		values.add(RODUtil.str2Date(obligation.getValidTo()));
+		values.add(obligation.getReportFreqMonths());
+		values.add(RODUtil.str2Date(obligation.getNextDeadline()));
+		values.add(RODUtil.str2Date(obligation.getNextDeadline2()));
+		values.add(obligation.getTerminate());
+		values.add(obligation.getNextReporting());
+		values.add(obligation.getDateComments());
+		values.add(obligation.getFormatName());
+		values.add(obligation.getReportFormatUrl());
+		values.add(RODUtil.str2Date(obligation.getValidSince()));
+		values.add(obligation.getReportingFormat());
+		values.add(obligation.getLocationInfo());
+		values.add(obligation.getLocationPtr());
+		values.add(obligation.getDataUsedFor());
+		values.add(obligation.getDataUsedForUrl());
+		values.add(obligation.getCoordinatorRole());
+		values.add(obligation.getCoordinatorRoleSuf());
+		values.add(obligation.getCoordinator());
+		values.add(obligation.getCoordinatorUrl());
+		values.add(obligation.getResponsibleRole());
+		values.add(obligation.getResponsibleRoleSuf());
+		values.add(obligation.getNationalContact());
+		values.add(obligation.getNationalContactUrl());
+		values.add(obligation.getLegalMoral());
+		values.add(obligation.getParameters());
+		values.add(obligation.getEeaPrimary());
+		values.add(obligation.getEeaCore());
+		values.add(obligation.getFlagged());
+		values.add(obligation.getDpsirD());
+		values.add(obligation.getDpsirP());
+		values.add(obligation.getDpsirS());
+		values.add(obligation.getDpsirI());
+		values.add(obligation.getDpsirR());
+		values.add(obligation.getOverlapUrl());
+		values.add(obligation.getComment());
+		values.add(obligation.getAuthority());
+		values.add(RODUtil.str2Date(obligation.getRmVerified()));
+		values.add(obligation.getRmVerifiedBy());
+		values.add(RODUtil.str2Date(obligation.getRmNextUpdate()));
+		values.add(obligation.getValidatedBy());
+		values.add(obligation.getFkClientId());
+		values.add(obligation.getFkSourceId());
+		
+		Integer obligationId = null;
+		
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			SQLUtil.executeUpdate(insertObligationSQL, values, conn);
+			obligationId = SQLUtil.getLastInsertID(conn);
+			
+		}catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+		return obligationId;
     }
 
 }

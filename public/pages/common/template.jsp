@@ -47,11 +47,14 @@
 			<script type="text/javascript" src="<c:url value="/script/util.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/pageops.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/mark_special_links.js"/>"></script>
-			
+			<script type="text/javascript" src="<c:url value="/script/editor.js"/>"></script>
 		</head>
 		<c:choose>
         	<c:when test="${!empty colClass}">
         		<body class="${colClass}">
+			</c:when>
+			<c:when test="${!empty unLoad}">
+        		<body onunload="checkStatus()">
 			</c:when>
 			<c:otherwise>
 				<body>
@@ -149,10 +152,7 @@
 				</c:if>
 
 				<div id="workarea">
-					<stripes:layout-component name="errors">
-						<stripes:errors/>
-					</stripes:layout-component>
-					
+				
 					<stripes:layout-component name="messages">
 						<c:choose>
 							<c:when test="${actionBean.context.severity == 1}">
@@ -170,6 +170,13 @@
 								<div class="warning-msg">
 									<strong>Errors ...</strong>		
 									<stripes:messages/>
+								</div>
+							</c:when>
+							<c:when test="${actionBean.context.severity == 4}">
+								<div class="error-msg">Please correct the flagged fields before continuing
+									<ul>
+										<stripes:messages/>
+									</ul>
 								</div>
 							</c:when>
 							<c:otherwise>

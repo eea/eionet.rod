@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.RODUtil;
 import eionet.rod.util.sql.SQLUtil;
 import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.ObligationCountryDTO;
@@ -316,7 +318,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 	
 	/** */
 	private static final String q_member_countries = 
-		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME " +
+		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_SPATIAL.SPATIAL_TYPE, T_SPATIAL.SPATIAL_TWOLETTER " +
 		"FROM T_SPATIAL " +
 		"WHERE T_SPATIAL.SPATIAL_TYPE='C' AND T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y' AND T_SPATIAL.SPATIAL_TWOLETTER <> 'EU' " +
 		"ORDER BY T_SPATIAL.SPATIAL_NAME ";
@@ -324,7 +326,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 	/*
      * (non-Javadoc)
      * 
-     * @see eionet.rod.dao.ISpatialDao#getMemberCountries()
+     * @see eionet.rod.services.modules.db.dao.ISpatialDao#getMemberCountries()
      */
     public List<CountryDTO> getMemberCountries() throws ServiceException {
     	List<Object> values = new ArrayList<Object>();
@@ -351,7 +353,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
     
     /** */
 	private static final String q_non_member_countries = 
-		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME " +
+		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_SPATIAL.SPATIAL_TYPE, T_SPATIAL.SPATIAL_TWOLETTER " +
 		"FROM T_SPATIAL " +
 		"WHERE T_SPATIAL.SPATIAL_TYPE='C' AND T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='N' AND T_SPATIAL.SPATIAL_TWOLETTER <> 'EU' " +
 		"ORDER BY T_SPATIAL.SPATIAL_NAME ";
@@ -359,7 +361,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 	/*
      * (non-Javadoc)
      * 
-     * @see eionet.rod.dao.ISpatialDao#getNonMemberCountries()
+     * @see eionet.rod.services.modules.db.dao.ISpatialDao#getNonMemberCountries()
      */
     public List<CountryDTO> getNonMemberCountries() throws ServiceException {
     	List<Object> values = new ArrayList<Object>();
@@ -386,15 +388,15 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
     
     /** */
 	private static final String q_countries_list = 
-		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME " +
+		"SELECT PK_SPATIAL_ID, SPATIAL_NAME, SPATIAL_TYPE, SPATIAL_TWOLETTER " +
 		"FROM T_SPATIAL " +
-		"WHERE T_SPATIAL.SPATIAL_TYPE='C' " + 
-		"ORDER BY T_SPATIAL.SPATIAL_NAME ";
+		"WHERE SPATIAL_TYPE='C' " + 
+		"ORDER BY SPATIAL_NAME ";
 		
 	/*
      * (non-Javadoc)
      * 
-     * @see eionet.rod.dao.ISpatialDao#getCountriesList()
+     * @see eionet.rod.services.modules.db.dao.ISpatialDao#getCountriesList()
      */
     public List<CountryDTO> getCountriesList() throws ServiceException {
     	List<Object> values = new ArrayList<Object>();
@@ -422,7 +424,93 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
     /*
      * (non-Javadoc)
      * 
-     * @see eionet.rod.dao.ISpatialDao#getObligationCountriesList()
+     * @see eionet.rod.services.modules.db.dao.ISpatialDao#getCountriesList(List<String> countryIds)
+     */
+    public List<CountryDTO> getObligationCountriesList(List<String> countryIds) throws ServiceException {
+    	
+    	StringBuilder ids = new StringBuilder();
+    	if(countryIds != null){
+	    	for(Iterator<String> it = countryIds.iterator(); it.hasNext(); ){
+	    		String id = it.next();
+	    		ids.append(id);
+	    		if(it.hasNext())
+	    			ids.append(",");
+	    	}
+    	} else {
+    		return null;
+    	}
+    	
+    	String query = "SELECT PK_SPATIAL_ID, SPATIAL_NAME, SPATIAL_TYPE, SPATIAL_TWOLETTER " +
+    		"FROM T_SPATIAL " +
+    		"WHERE T_SPATIAL.PK_SPATIAL_ID IN ("+ids.toString()+") " +
+    		"ORDER BY SPATIAL_NAME";
+    	
+    	List<Object> values = new ArrayList<Object>();
+    	    			
+		Connection conn = null;
+		CountryDTOReader rsReader = new CountryDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<CountryDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.ISpatialDao#getObligationCountriesList()
+     */
+    public List<CountryDTO> getEditObligationCountriesList(String id, String voluntary) throws ServiceException {
+    	List<Object> values = new ArrayList<Object>();
+    	
+    	String q_obligation_countries_list = 
+    		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_SPATIAL.SPATIAL_TYPE, T_SPATIAL.SPATIAL_TWOLETTER " +
+    		"FROM T_SPATIAL, T_RASPATIAL_LNK " +
+    		"WHERE T_RASPATIAL_LNK.FK_RA_ID=" + id + " AND T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID ";
+    	
+    	if(!RODUtil.isNullOrEmpty(voluntary) && voluntary.equals("N"))
+    		q_obligation_countries_list = q_obligation_countries_list + "AND T_RASPATIAL_LNK.VOLUNTARY!='Y' ";
+    	else if(!RODUtil.isNullOrEmpty(voluntary) && voluntary.equals("Y"))
+    		q_obligation_countries_list = q_obligation_countries_list + "AND T_RASPATIAL_LNK.VOLUNTARY='Y' AND T_SPATIAL.SPATIAL_TYPE='C' ";
+    		
+    	q_obligation_countries_list = q_obligation_countries_list + "ORDER BY T_SPATIAL.SPATIAL_NAME ";
+				
+		Connection conn = null;
+		CountryDTOReader rsReader = new CountryDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(q_obligation_countries_list, values, rsReader, conn);
+			List<CountryDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.ISpatialDao#getObligationCountriesList(String id)
      */
     public List<ObligationCountryDTO> getObligationCountriesList(String id) throws ServiceException {
     	List<Object> values = new ArrayList<Object>();
@@ -430,8 +518,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
     	String q_obligation_countries_list = 
     		"SELECT T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_RASPATIAL_LNK.VOLUNTARY, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY " +
     		"FROM T_SPATIAL, T_RASPATIAL_LNK " +
-    		"WHERE T_RASPATIAL_LNK.FK_RA_ID=" + id + " AND T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID " + 
-    		"ORDER BY T_SPATIAL.SPATIAL_NAME ";
+    		"WHERE T_RASPATIAL_LNK.FK_RA_ID=" + id + " AND T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID ";
+    	
+    	q_obligation_countries_list = q_obligation_countries_list + "ORDER BY T_SPATIAL.SPATIAL_NAME ";
 				
 		Connection conn = null;
 		ObligationCountryDTOReader rsReader = new ObligationCountryDTOReader();
@@ -452,5 +541,37 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 			catch (SQLException e){}
 		}
     }
+    
+    private static final String q_insert_obligation_countries = 
+		"INSERT INTO T_RASPATIAL_LNK (FK_SPATIAL_ID, FK_RA_ID, VOLUNTARY) VALUES (?,?,?)";
+
+	/* (non-Javadoc)
+	 * @see eionet.rod.services.modules.db.dao.ISpatialDao#insertObligationCountries(String obligationId, List<String> selectedCountries, String voluntary)
+	 */
+	public void insertObligationCountries(String obligationId, List<String> selectedCountries, String voluntary) throws ServiceException {
+		List<Object> values = null;
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			for(Iterator<String> it = selectedCountries.iterator(); it.hasNext();){
+				String countryId = it.next();
+				values = new ArrayList<Object>();
+				values.add(countryId);
+				values.add(obligationId);
+				values.add(voluntary);
+				SQLUtil.executeUpdate(q_insert_obligation_countries, values, conn);
+			}
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}	
+			catch (SQLException e){}
+		}
+	}
 
 }

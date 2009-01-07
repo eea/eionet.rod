@@ -8,32 +8,6 @@
 		
 		<c:set var="perm_name" value="/obligations/${actionBean.id}"></c:set>	
 	
-		<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'d')}">
-			<script type="text/javascript">
-				function delActivity() {
-					if (confirm("Do you want to delete the reporting obligation?")){
-						var u = window.location.href;
-						document.forms["f"].elements["/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/REDIRECT_URL"].value = u;
-						document.forms["f"].submit();
-					}
-				}
-				
-				function openFieldDescriptions(mode){
-					var url = "${pageContext.request.contextPath}/helplist.jsv?mode=" + mode;
-					var name = "Help";
-					var features = "location=no, menubar=no, width=730, height=480, top=100, left=200, scrollbars=yes, resizable=yes";
-					var w = window.open(url,name,features);
-					w.focus();
-				}
-			</script>
-			<form id="f" method="POST" action="${pageContext.request.contextPath}/activity.jsv">
-				<input type="hidden" name="dom-update-mode" value="D"/>
-				<input type="hidden" name="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/PK_RA_ID" value="${actionBean.id}"/>
-				<input type="hidden" name="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/FK_SOURCE_ID" value="${actionBean.obligation.sourceId}">
-				<input type="hidden" name="/XmlData/RowSet[@Name='Activity']/Row/T_OBLIGATION/REDIRECT_URL" value=""></input>
-			</form>
-		</c:if>
-
         <div id="tabbedmenu">
 			<ul>
 				<c:choose>
@@ -87,15 +61,20 @@
 				<li><a href="#">Operations</a>
 					<ul>
 			      		<c:if test="${rodfn:hasPermission(actionBean.userName,'/obligations','i')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/activity.jsv?id=-1&amp;aid=${actionBean.obligation.fkSourceId}">New obligation</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/eobligation?id=-1&amp;aid=${actionBean.obligation.fkSourceId}">New obligation</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/activity.jsv?id=${actionBean.id}&amp;aid=${actionBean.obligation.fkSourceId}">Edit obligation</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/eobligation?id=${actionBean.id}">Edit obligation</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'d')}">
-							<li><a href="javascript:delActivity()">Delete obligation</a></li>
+							<li>
+				      			<stripes:link href="/eobligation" event="delete" onclick="javascript:return confirm('Do you want to delete the reporting obligation?')">
+									Delete obligation
+									<stripes:param name="id" value="${actionBean.id}"/>
+								</stripes:link>
+							</li>
 						</c:if>
-						<li><a href="javascript:openFieldDescriptions('RO')">Field descriptions</a></li>
+						<li><a href="javascript:openHelpList2('${pageContext.request.contextPath}','RO')">Field descriptions</a></li>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
 							<li><a class="link-plain" href="${pageContext.request.contextPath}/subscribe.jsp?id=${actionBean.id}">Subscribe</a></li>
 						</c:if>

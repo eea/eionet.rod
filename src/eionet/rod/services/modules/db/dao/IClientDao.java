@@ -77,6 +77,13 @@ public interface IClientDao {
 	public List<ClientDTO> getClients(String objectId) throws ServiceException;
 	
 	/**
+	 * Returns clients
+	 * @param clientIds
+	 * @throws ServiceException
+	 */
+	public List<ClientDTO> getClients(List<String> clientIds) throws ServiceException;
+	
+	/**
 	 * Returns list of all clients
 	 * @throws ServiceException
 	 */
@@ -95,4 +102,19 @@ public interface IClientDao {
 	 * @throws ServiceException
 	 */
 	public void editClient(ClientDTO client) throws ServiceException;
+	
+	/**
+	 * Inserts new client
+	 * @param client
+	 * @throws ServiceException
+	 */
+	public Integer addClient(ClientDTO client) throws ServiceException;
+	
+	/**
+	 * Inserts obligation clients
+	 * @param obligation ID
+	 * @param list of selected clients
+	 * @throws ServiceException
+	 */
+	public void insertObligationClients(String obligationId, List<String> selectedClients) throws ServiceException;
 }

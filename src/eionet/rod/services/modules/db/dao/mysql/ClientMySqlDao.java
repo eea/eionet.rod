@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import eionet.rod.dto.CountryDeliveryDTO;
@@ -308,6 +310,52 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
     /*
      * (non-Javadoc)
      * 
+     * @see eionet.rod.services.modules.db.dao.IClientDao#getClients(List<String> clientIds)
+     */
+    public List<ClientDTO> getClients(List<String> clientIds) throws ServiceException {
+    	
+    	StringBuilder ids = new StringBuilder();
+    	if(clientIds != null){
+	    	for(Iterator<String> it = clientIds.iterator(); it.hasNext(); ){
+	    		String id = it.next();
+	    		ids.append(id);
+	    		if(it.hasNext())
+	    			ids.append(",");
+	    	}
+    	} else {
+    		return null;
+    	}
+    	
+    	String query = "SELECT PK_CLIENT_ID, CLIENT_NAME, CLIENT_ACRONYM " +
+    		"FROM T_CLIENT " +
+    		"WHERE PK_CLIENT_ID IN ("+ids.toString()+") " +
+    		"ORDER BY CLIENT_NAME";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		ClientDTOReader rsReader = new ClientDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<ClientDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
      * @see eionet.rod.services.modules.db.dao.IClientDao#getAllClients()
      */
     public List<ClientDTO> getAllClients() throws ServiceException {
@@ -368,7 +416,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
     /*
      * (non-Javadoc)
      * 
-     * @see eionet.rod.dao.IClientDao#getClientFactsheet(String id)
+     * @see eionet.rod.services.modules.db.dao.IClientDao#getClientFactsheet(String id)
      */
     public ClientDTO getClientFactsheet(String id) throws ServiceException {
     	
@@ -470,7 +518,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 	/*
      * (non-Javadoc)
      * 
-     * @see eionet.rod.dao.IClientDao#getClientFactsheet(ClientDTO client)
+     * @see eionet.rod.services.modules.db.dao.IClientDao#editClient(ClientDTO client)
      */
     public void editClient(ClientDTO client) throws ServiceException {
     	    	
@@ -503,5 +551,81 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 			catch (SQLException e){}
 		}
     }
+    
+    /** */
+	private static final String addClientSQL = "INSERT INTO T_CLIENT SET CLIENT_NAME=?, " +
+			"CLIENT_ACRONYM=?, CLIENT_ADDRESS=?, CLIENT_URL=?, POSTAL_CODE=?, CLIENT_EMAIL=?, CITY=?, COUNTRY=?, DESCRIPTION=?";
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.IClientDao#addClient(ClientDTO client)
+     */
+    public Integer addClient(ClientDTO client) throws ServiceException {
+    	
+    	Integer clientId = null;
+    	    	
+    	List<Object> values = new ArrayList<Object>();
+		values.add(client.getName());
+		values.add(client.getAcronym());
+		values.add(client.getAddress());
+		values.add(client.getUrl());
+		values.add(client.getPostalCode());
+		values.add(client.getEmail());
+		values.add(client.getCity());
+		values.add(client.getCountry());
+		values.add(client.getDescription());
+		
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			SQLUtil.executeUpdate(addClientSQL, values, conn);
+			clientId = SQLUtil.getLastInsertID(conn);
+			
+		}catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+		return clientId;
+    }
+    
+    private static final String q_insert_obligation_client = 
+		"INSERT INTO T_CLIENT_LNK (FK_CLIENT_ID, FK_OBJECT_ID, TYPE, STATUS) VALUES (?,?,?,?)";
+
+	/* (non-Javadoc)
+	 * @see eionet.rod.services.modules.db.dao.IClientDao#insertObligationIssues(String obligationId, List<String> selectedClients)
+	 */
+	public void insertObligationClients(String obligationId, List<String> selectedClients) throws ServiceException {
+		List<Object> values = null;
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			for(Iterator<String> it = selectedClients.iterator(); it.hasNext();){
+				String clientId = it.next();
+				values = new ArrayList<Object>();
+				values.add(clientId);
+				values.add(obligationId);
+				values.add("A");
+				values.add("C");
+				SQLUtil.executeUpdate(q_insert_obligation_client, values, conn);
+			}
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}	
+			catch (SQLException e){}
+		}
+	}
 
 }

@@ -37,6 +37,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean {
 	private String id;
 	private String dgenv;
 	private String hierarchyTree;
+	private String mode;
 	
 	/**
 	 * 
@@ -80,11 +81,14 @@ public class InstrumentsActionBean extends AbstractRODActionBean {
 			if(RODUtil.isNullOrEmpty(parentId))				
 				hasParent = false;
 			
-			hierarchyTree = RODServices.getDbService().getSourceDao().getHierarchy(id, hasParent);
+			hierarchyTree = RODServices.getDbService().getSourceDao().getHierarchy(id, hasParent, mode);
 			
 			hierarchyInstruments = RODServices.getDbService().getSourceDao().getHierarchyInstruments(id);
 			
-			forwardPage = "/pages/instruments.jsp";
+			if(mode != null && mode.equals("X"))
+				forwardPage = "/pages/instrumentsx.jsp";
+			else
+				forwardPage = "/pages/instruments.jsp";
 		}
 		
 		return new ForwardResolution(forwardPage);
@@ -145,6 +149,14 @@ public class InstrumentsActionBean extends AbstractRODActionBean {
 	public void setHierarchyInstruments(
 			List<HierarchyInstrumentDTO> hierarchyInstruments) {
 		this.hierarchyInstruments = hierarchyInstruments;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 	
 	

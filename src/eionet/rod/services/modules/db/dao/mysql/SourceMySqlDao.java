@@ -541,7 +541,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
        * 
        * @see eionet.rod.dao.ISourceDao#getHierarchy(String id, boolean hasParent)
        */
-      public String getHierarchy(String id, boolean hasParent) throws ServiceException {
+      public String getHierarchy(String id, boolean hasParent, String mode) throws ServiceException {
     	  
     	String newLine = "\n";
       	
@@ -579,8 +579,11 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 	  					if(!RODUtil.isNullOrEmpty(classificator))
 	  						ret.append(classificator).append("&#160;").append(newLine);
 	  				}
-	  				ret.append("<a href='instruments?id=").append(child_id).append("'>").append(className).append("</a>").append(newLine);
-	  				ret.append(getHierarchy(child_id, true));
+	  				ret.append("<a href='instruments?id=").append(child_id);
+	  				if(mode != null && mode.equals("X"))
+	  					ret.append("&amp;mode=X");
+	  				ret.append("'>").append(className).append("</a>").append(newLine);
+	  				ret.append(getHierarchy(child_id, true, mode));
 	  				ret.append("</li>").append(newLine);
 	  			}	
 	  			ret.append("</ul>").append(newLine);

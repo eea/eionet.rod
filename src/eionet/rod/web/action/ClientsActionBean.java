@@ -10,6 +10,8 @@ import net.sourceforge.stripes.action.ErrorResolution;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.validation.Validate;
+import net.sourceforge.stripes.validation.ValidateNestedProperties;
 
 import eionet.rod.Constants;
 import eionet.rod.RODUtil;
@@ -27,6 +29,8 @@ import eionet.rod.services.ServiceException;
 public class ClientsActionBean extends AbstractRODActionBean {
 
 	private List<ClientDTO> clients;
+	@ValidateNestedProperties({
+		@Validate(field = "url", on ={"edit","add"}, mask = "^((ht|f)tps?://).*")})
 	private ClientDTO client;
 	private String clientId;
 	
@@ -74,6 +78,29 @@ public class ClientsActionBean extends AbstractRODActionBean {
 			}
 			client = RODServices.getDbService().getClientDao().getClientFactsheet(new Integer(client.getClientId()).toString());
 			clientId = new Integer(client.getClientId()).toString();
+		}
+		else
+			handleRodException(getBundle().getString("not.permitted"), Constants.SEVERITY_WARNING);
+		
+        return resolution;
+    }
+    
+    /**
+     * 
+     * @return
+     * @throws DAOException
+     */
+    public Resolution add() throws ServiceException {
+    	
+    	Resolution resolution = new ForwardResolution("/pages/addclient.jsp");
+		if(ROUser.hasPermission(getUserName(),Constants.ACL_CLIENT_NAME,Constants.ACL_INSERT_PERMISSION)){
+			if (isPostRequest()){
+				Integer cId = RODServices.getDbService().getClientDao().addClient(client);
+				clientId = cId.toString();
+				showMessage(getBundle().getString("insert.success"));
+				resolution = new ForwardResolution("/pages/client.jsp");
+			}
+			client = RODServices.getDbService().getClientDao().getClientFactsheet(clientId);
 		}
 		else
 			handleRodException(getBundle().getString("not.permitted"), Constants.SEVERITY_WARNING);

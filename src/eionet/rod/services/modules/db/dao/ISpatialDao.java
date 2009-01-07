@@ -97,9 +97,33 @@ public interface ISpatialDao {
 	public List<CountryDTO> getCountriesList() throws ServiceException;
 	
 	/**
+	 * Returns countries list from the DB
+	 * @param list of country ids
+	 * @return countries from the DB as list of ObligationCountryDTOs
+	 * @throws ServiceException
+	 */
+	public List<CountryDTO> getObligationCountriesList(List<String> countryIds) throws ServiceException;
+	
+	/**
 	 * Returns countries for obligation
 	 * @param obligation id
 	 * @throws ServiceException
 	 */
 	public List<ObligationCountryDTO> getObligationCountriesList(String id) throws ServiceException;
+	
+	/**
+	 * Returns countries for obligation
+	 * @param obligation id, is voluntary
+	 * @throws ServiceException
+	 */
+	public List<CountryDTO> getEditObligationCountriesList(String id, String voluntary) throws ServiceException;
+	
+	/**
+	 * @param obligation id
+	 * @param list of selected countries
+	 * @param voluntary
+	 * @throws ServiceException
+	 */
+	public void insertObligationCountries(String obligationId, List<String> selectedCountries, String voluntary) throws ServiceException;
+
 }

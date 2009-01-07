@@ -285,6 +285,13 @@ public interface IObligationDao {
 	public List<LookupDTO> getLookupList(String obligationId) throws ServiceException;
 	
 	/**
+	 * Returns t_lookup info by category
+	 * @param category
+	 * @throws ServiceException
+	 */
+	public List<LookupDTO> getLookupListByCategory(String cat) throws ServiceException;
+	
+	/**
 	 * Returns sibling obligations for legislation tab
 	 * @param obligationId
 	 * @throws ServiceException
@@ -308,5 +315,20 @@ public interface IObligationDao {
 	 * @throws ServiceException
 	 */
 	public List<ObligationsDueDTO> getObligationsDue() throws ServiceException;
+	
+	/**
+	 * Updates obligation
+	 * @param obligationId
+	 * @throws ServiceException
+	 */
+	public void editObligation(ObligationFactsheetDTO obligation) throws ServiceException;
+	
+	/**
+	 * Updates obligation
+	 * @param obligationDTO
+	 * @return obligation ID
+	 * @throws ServiceException
+	 */
+	public Integer insertObligation(ObligationFactsheetDTO obligation) throws ServiceException;
 }
 

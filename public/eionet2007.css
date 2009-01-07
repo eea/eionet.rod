@@ -486,5 +486,159 @@ th.order2 a {
 	width: 144px;
 }
 
+/* REDESIGNED PART START */
+
+table.formtable {
+	width: 100%;
+}
+.formtable .labelcol {
+	width: 25%;
+}
+.formtable .entrycol {
+	width: 75%;
+}
+
+table.fancyselect {
+}
+
+input.full {
+	width: 99%;
+}
+textarea.full {
+	width: 99%;
+	height: 10em;
+}
+.error-hint {
+/*	position: relative;
+	top: 0px;
+	left: 0px;
+*/
+	font-size: 80%;
+	margin: 2px;
+	padding: 2px;
+	border: 1px dotted black;
+	background-color: #ffff80;
+	color: black;
+}
+.input-hint {
+	font-size: 80%;
+	vertical-align:top;
+}
+
+a.field-help span {
+	display: none;
+}
+a.field-help {
+	display:inline-block;
+	float:right;
+	height: 15px;
+	color: #315076;
+	text-decoration: none;
+	vertical-align: top;
+	padding: 0 0 3px 15px;
+	background: url('images/info_icon.gif') top left no-repeat;
+	cursor: help;
+}
+
+input.arrow_btn {
+	width: 80px; 
+}
+
+input.btn {
+	font-weight: bold; 
+	color: #000000; 
+}
+
+div.arrow_btnbox {
+	text-align:center;
+	margin: 0 10px;
+	padding:40px 0;
+}
+
+select.multiple {
+	width:300px;
+	height:200px
+}
+/* REDESIGNED PART END */
+
+
+
+tr.zebraeven {
+	background-color: #f6f6f6;
+}
+
+tr.even {
+	background-color: #f6f6f6;
+}
+/* */
+
+td.border_right {
+	border-right: 1px solid #C0C0C0;
+}
+
+td.border_left {
+	border-left: 1px solid #C0C0C0;
+}
+
+/*start eactivity, esource */
+.label {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: bold; 
+	text-decoration: none;
+}
+
+div.main {
+	border: 1px solid #006666; 
+	width: 615px; 
+	background: #cfe4ff;
+}
+
+
+td.save {
+	border-top: 3 solid #B7DBDB; 
+	height: 40px; 
+	background:#00446a;
+}
+
+
+
+/*edit instrument form objects that has the same width */
+.es_object {
+	width: 400px;
+}
+
+td.or {
+	border-bottom:1px solid #C0C0C0;
+}
+
+td.important {
+	border-top: 1px solid #000000; 
+	border-bottom: 1px solid #000000;
+	background: #FFCA95;
+	text-align: left;
+}
+/*end eactivity, esource */
+
+
+} /* screen media */
+
+
+.localservice {
+    margin: 2em 1em 0em 1em;
+    background-color: #a5ced1;
+    padding: 0.5em;
+    text-align: center;
+}
+
+.localservice h2 {
+    padding-top: 0;
+    margin-top: 0;
+    font-size: 120%;
+}
+
+
 
 } /* screen media */
