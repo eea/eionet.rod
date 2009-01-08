@@ -83,8 +83,8 @@
 				        <a id="acronymlink" href="http://www.eionet.europa.eu/acronyms" title="Look up acronyms"><span>Acronyms</span></a>
 				        <form action="http://search.eionet.europa.eu/search.jsp" method="get">
 							<div id="freesrchform"><label for="freesrchfld">Search</label>
-								<input type="text" id="freesrchfld" name="query"/>
-				
+								<input type="text" id="freesrchfld" name="query" onfocus="if(this.value=='Search ROD')this.value='';" onblur="if(this.value=='')this.value='Search ROD';" value="Search ROD" size="10"/>
+								<input value="rod.eionet.europa.eu" name="qp_site" type="hidden"/>
 								<input id="freesrchbtn" type="image" src="<c:url value="/images/button_go.gif"/>" alt="Go"/>
 							</div>
 						</form>
