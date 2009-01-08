@@ -6,7 +6,7 @@
 
 	<stripes:layout-component name="contents">
 	
-		<c:if test="${actionBean.isUserLoggedIn}">
+		<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,'/Client','i')}">
 			<ul id="dropdown-operations">
 				<li><a href="#">Operations</a>
 					<ul>

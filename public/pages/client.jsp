@@ -6,21 +6,25 @@
 
 	<stripes:layout-component name="contents">
 		
-		<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,'/obligations','c')}">
+		<c:if test="${actionBean.isUserLoggedIn && (rodfn:hasPermission(actionBean.userName,'/Client','u') || rodfn:hasPermission(actionBean.userName,'/Client','i'))}">
 			<ul id="dropdown-operations">
 				<li><a href="#">Operations</a>
 					<ul>
-						<li>
-							<stripes:link href="/clients" event="edit">
-								Edit Organisation
-								<stripes:param name="client.clientId" value="${actionBean.clientId}"/>
-							</stripes:link>
-						</li>
-						<li>
-			      			<stripes:link href="/clients" event="add">
-								New Organisation
-							</stripes:link>
-						</li>
+						<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,'/Client','u')}">
+							<li>
+								<stripes:link href="/clients" event="edit">
+									Edit Organisation
+									<stripes:param name="client.clientId" value="${actionBean.clientId}"/>
+								</stripes:link>
+							</li>
+						</c:if>						
+						<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,'/Client','i')}">
+							<li>
+				      			<stripes:link href="/clients" event="add">
+									New Organisation
+								</stripes:link>
+							</li>
+						</c:if>
 					</ul>
 				</li>
 			</ul>
