@@ -13,37 +13,40 @@
 		<br/>
 		
 		<stripes:form action="/obligations" method="get" id="x1" class="notprintable">
-			<table class="formtable" border="0" width="530" cellspacing="0" cellpadding="2"  style="border: 1px solid #008080">
+			<table id="categorysearch">
+			<col style="width: 30%"/>
+			<col style="width: 65%"/>
+			<col style="width: 5%"/>
 					 <tr>
-							<td colspan="2" width="95%" bgcolor="#FFFFFF" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
+							<td colspan="2">
 								<b>Show reporting obligations</b>
 							</td>
-							<td bgcolor="#FFFFFF" align="center" style="border-bottom: 1px solid #008080; border-right: 1px solid #C0C0C0">
+							<td class="center">
 								<a href="javascript:openViewHelp('HELP_SEARCH1')"><img src="images/info_icon.gif" alt="Show help" border="0"/></a>
 							</td>
 					</tr>
 					<tr>
-						<td valign="top" bgcolor="#FFFFFF">
-								<b>Country</b>
+						<td>
+								<label class="question">Country</label>
 						</td>
-						<td style="border-left: 1px solid #C0C0C0">
-							<stripes:select name="country" style="color: #000000; font-size: 9pt; width:223px" size="1">
+						<td>
+							<stripes:select name="country" size="1">
 								<stripes:option value="-1" label="Any country"/>
 			    				<c:forEach items="${actionBean.formCountries}" var="country" varStatus="loop">
 			    					<stripes:option value="${country.countryId}" label="${country.name}"/>
 			    				</c:forEach>
 							</stripes:select>
 						</td>
-						<td rowspan="4" valign="middle" style="border-left: 1px solid #C0C0C0">
+						<td rowspan="4" style="vertical-align:middle">
 							<stripes:hidden name="id"/>
 							<stripes:submit name="filter" value="GO" class="go_btn"/>
 						</td>
 					</tr>
 	
 					<tr>
-						<td align="left" bgcolor="#FFFFFF"><b>Issue</b></td>
-						<td style="border-left: 1px solid #C0C0C0">
-							<stripes:select name="issue" style="font-size: 9pt; color: #000000; width:223px">
+						<td><label class="question">Issue</label></td>
+						<td>
+							<stripes:select name="issue" style="width:223px">
 								<stripes:option value="-1" label="All issues"/>
 			    				<c:forEach items="${actionBean.formIssues}" var="issue" varStatus="loop">
 			    					<stripes:option value="${issue.issueId}" label="${issue.name}"/>
@@ -53,9 +56,9 @@
 					</tr>
 	
 					<tr>
-						<td valign="middle" align="left" bgcolor="#FFFFFF"><b>Organisation</b></td>
-						<td style="border-left: 1px solid #C0C0C0">
-							<stripes:select name="client" style="color: #000000; font-size: 9pt; width:300px" size="1">
+						<td><label class="question">Organisation</label></td>
+						<td>
+							<stripes:select name="client" style="width:300px" size="1">
 								<stripes:option value="-1" label="Any organisation"/>
 								<c:forEach items="${actionBean.formClients}" var="client" varStatus="loop">
 			    					<stripes:option value="${client.clientId}" label="${client.name}"/>
@@ -64,10 +67,10 @@
 						</td>
 					</tr>
 					<tr>
-						<td bgcolor="#FFFFFF">&#160;</td>
-						<td valign="middle" align="left" style="border-left: 1px solid #C0C0C0" bgcolor="#FFFFFF">
+						<td>&#160;</td>
+						<td>
 							<stripes:checkbox name="terminated" id="isterminated" value="Y"/>
-							<b><label for="isterminated">Include terminated obligations</label></b>
+							<label for="isterminated">Include terminated obligations</label>
 						</td>
 					</tr>
 			</table>
@@ -79,10 +82,10 @@
 			<input value="rod.eionet.europa.eu" name="qp_site" type="hidden"/>
 			<table width="530" style="border: 1px solid #006666">
 				<tr>
-					<td valign="middle" width="30%">
+					<td style="vertical-align:middle" width="30%">
 						<label for="queryfld" style="font-weight:bold">Search ROD website:</label>
 					</td>
-					<td valign="middle">
+					<td style="vertical-align:middle">
 						<input type="text" name="query" id="queryfld" size="44" maxlength="255" value=""/>&#160;
 						<input type="submit" value="GO" name="GO" class="go_btn"></input>
 					</td>

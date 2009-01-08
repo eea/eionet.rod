@@ -333,6 +333,17 @@ td.spatial_label {
 }
 /* end spatialhistory*/
 
+#categorysearch {
+	border-collapse: collapse;
+	border: 1px solid #008080;
+}
+
+#categorysearch td {
+	padding: 5px;
+	margin: 0px;
+	border: #c0c0c0 1px solid;
+}
+
 /* start Analysis */
 #analysis {
 	border-collapse: collapse;
