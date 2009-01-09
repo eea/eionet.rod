@@ -97,7 +97,7 @@ public class AddEditObligationActionBean extends AbstractRODActionBean implement
 	private String tab;
 	
 	private IUndoDao undoDao;
-	private IObligationDao obligationDao;
+	private IObligationDao obligationDao; 
 	private long ts;
 	
 	private boolean hasErrors = false;

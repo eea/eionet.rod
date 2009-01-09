@@ -92,7 +92,15 @@ function changed() {
 	isChanged = true;
 }
 
-function changedReporting(first, freq, next, to, terminate, next2) {
+function changedReporting() {
+
+	var first = document.forms['f'].elements['obligation.firstReporting'];
+	var freq = document.forms['f'].elements['obligation.reportFreqMonths'];
+	var next = document.forms['f'].elements['obligation.nextDeadline'];
+	var to = document.forms['f'].elements['obligation.validTo'];
+	var terminate = document.forms['f'].elements['obligation.terminate'];
+	var next2 = document.forms['f'].elements['obligation.nextDeadline2'];
+
 	changed();
 
 	var utcMonth;
@@ -195,47 +203,50 @@ function checkDateSimple(field) {
 	rVal = new Object;
 	var s = field.value;
 	
-	if(s.length == 0)
+	if(s.length == 0) {
+		clearwarning(field);
 		return false; 
-
+	}
+	
 	var re = /([0-9]{2})\/([0-9]{2})\/([0-9]{4})/;
 	
 	if(s.length != 10 || !re.test(s)) {
-		//alert("Invalid date format. Date needs to be in dd/mm/yyyy format.");
+		setwarning(field, "Invalid date format. Date needs to be in dd/mm/yyyy format.");
 		return false;
 	}
-
 	rVal.dx = RegExp.$1;
 	rVal.mx = RegExp.$2;
 	rVal.yx = RegExp.$3;
 
 	if(rVal.mx < 1 || rVal.mx > 12) {
-		//alert("Invalid date.");
+		setwarning(field, "Invalid date.");
 		return false;
 	}
 	else if ((rVal.dx < 1) || 
 				((rVal.mx == 1 || rVal.mx == 3 || rVal.mx == 5 || rVal.mx == 7 || rVal.mx == 8 || rVal.mx == 10 || rVal.mx == 12) && rVal.dx > 31) ||
 				((rVal.mx == 4 || rVal.mx == 6 || rVal.mx == 9 || rVal.mx == 11) && rVal.dx > 30) ||
 				(rVal.mx == 2 && rVal.dx > 29)) {
-		//alert("Invalid date.");
+		setwarning(field, "Invalid date.");
 		return false;
 	}
-
+	clearwarning(field);
 	return rVal;
 }
 
 function checkNumberSimple(field) {
 	var s = field.value;
 	
-	if(s.length == 0)
+	if(s.length == 0) {
+		clearwarning(field);
 		return -1; 
+	}
 	
 	var fx = parseInt(field.value);
 	if(isNaN(fx) || fx < 0) {
-		//alert("Invalid reporting frequency. Positive, whole number expected.");
+		setwarning(field, "Invalid reporting frequency. Positive, whole number expected.");
 		return -1;
 	}
-
+	clearwarning(field);
 	return fx;
 }
 
@@ -566,3 +577,57 @@ function checkStatus() {
 			editBtn.click();
 	}
 }
+
+//JavaScript based validation START
+
+function clearwarning(field) {
+	removeClassName(field, 'error');
+	fid = field.id;
+	if (fid) {
+		msgobj = document.getElementById("error-" + fid);
+		if (msgobj) 
+			msgobj.parentNode.removeChild(msgobj);
+	}
+}
+
+function setwarning(field, msg) {
+	addClassName(field, 'error');
+	msgtext = document.createTextNode(msg);
+	fid = field.id;
+	if (fid) {
+		msgobj = document.getElementById("error-" + fid);
+		if (msgobj) {
+			msgobj.replaceChild(msgtext, msgobj.firstChild);
+			msgobj.appendChild(msgtext);
+		} else {
+			msgobj = document.createElement('div');
+			msgobj.id = "error-" + fid;
+			msgobj.className = "error-hint";
+			msgobj.appendChild(msgtext);
+			field.parentNode.appendChild(msgobj);
+		}
+	} else {
+		alert(msg);
+	}
+	field.focus();
+}
+
+function checkMdText(field) {
+	var s = field.value;
+	if (s.length == 0) {
+		setwarning(field, 'Field is mandatory');
+	} else {
+		clearwarning(field);
+	}
+}
+
+function chkUrl(fld) {
+	var s = fld.value;
+	if ( s != "" &&  (s.substr(0,7) != "http://") && (s.substr(0,8) != "https://") && (s.substr(0,6) != "ftp://") )	{
+		setwarning(fld, "Wrong URL format");
+	} else {
+		clearwarning(fld);
+	}
+}
+
+//JavaScript based validation END

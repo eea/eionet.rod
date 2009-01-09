@@ -25,7 +25,7 @@
 			                <stripes:label for="title" class="required question">Title</stripes:label>
 						</td>
 						<td>
-							<stripes:text name="obligation.title" size="68" onchange="changed()" class="full" id="title"/>
+							<stripes:text name="obligation.title" size="68" onchange="checkMdText(this); changed()" class="full" id="title" title="This is a short identifier for the reporting obligation. The field should show the name that is commonly used for this obligation and ideally reflect the type of reporting or information collected."/>
 							<stripes:errors field="obligation.title"/>
 						</td>
 		            </tr>
@@ -35,7 +35,7 @@
 			                <stripes:label for="description" class="required question">Description</stripes:label>
 						</td>
 						<td>
-							<stripes:textarea name="obligation.description" cols="55" rows="5" onchange="changed()" class="full" id="description"/>
+							<stripes:textarea name="obligation.description" cols="55" rows="5" onchange="checkMdText(this); changed()" class="full" id="description" title="This is for a short description of the reporting obligation to expand on the title. Guide length: three lines or less."/>
 							<stripes:errors field="obligation.description"/>
 						</td>
 		            </tr>
@@ -51,7 +51,7 @@
 			                <stripes:label for="first_reporting" class="question">Baseline reporting date</stripes:label>
 						</td>
 						<td>
-							<stripes:text name="obligation.firstReporting" size="30" onchange="changedReporting(document.f.elements['obligation.firstReporting'], document.f.elements['obligation.reportFreqMonths'], document.f.elements['obligation.nextDeadline'], document.f.elements['obligation.validTo'], document.f.elements['obligation.terminate'], document.f.elements['obligation.nextDeadline2'])" class="date" id="first_reporting"/>
+							<stripes:text name="obligation.firstReporting" size="30" onchange="changedReporting()" class="date" id="first_reporting"/>
 							<span class="input-hint">(dd/mm/yyyy)</span>
 							<stripes:errors field="obligation.firstReporting"/>
 						</td>
@@ -62,7 +62,7 @@
 			                <stripes:label for="valid_to" class="question">Valid to</stripes:label>
 						</td>
 						<td>
-							<stripes:text name="obligation.validTo" size="30" onchange="changedReporting(document.f.elements['obligation.firstReporting'], document.f.elements['obligation.reportFreqMonths'], document.f.elements['obligation.nextDeadline'], document.f.elements['obligation.validTo'], document.f.elements['obligation.terminate'], document.f.elements['obligation.nextDeadline2'])" class="date" id="valid_to"/>
+							<stripes:text name="obligation.validTo" size="30" onchange="changedReporting()" class="date" id="valid_to"/>
 							<span class="input-hint">(dd/mm/yyyy)</span>
 							<stripes:errors field="obligation.validTo"/>
 						</td>
@@ -73,7 +73,7 @@
 			                <stripes:label for="report_freq_months" class="question">Reporting frequency in months</stripes:label>
 						</td>
 						<td>
-							<stripes:text name="obligation.reportFreqMonths" size="30" onchange="changedReporting(document.f.elements['obligation.firstReporting'], document.f.elements['obligation.reportFreqMonths'], document.f.elements['obligation.nextDeadline'], document.f.elements['obligation.validTo'], document.f.elements['obligation.terminate'], document.f.elements['obligation.nextDeadline2'])" class="date" id="report_freq_months"/>
+							<stripes:text name="obligation.reportFreqMonths" size="30" onchange="changedReporting()" class="date" id="report_freq_months"/>
 							<span class="input-hint">For one-time-only reporting, enter 0 and choose a reasonable Valid to</span>
 						</td>
 					</tr>
@@ -190,7 +190,7 @@
 				                <stripes:label for="obligation.reportFormatUrl" class="question">URL to reporting guidelines</stripes:label>
               				</td>
               				<td>
-              					<stripes:text name="obligation.reportFormatUrl" size="68" onchange="changed()" class="full" id="obligation.reportFormatUrl"/>
+              					<stripes:text name="obligation.reportFormatUrl" size="68" onchange="chkUrl(this); changed()" class="full" id="obligation.reportFormatUrl"/>
               					<stripes:errors field="obligation.reportFormatUrl"/>
               				</td>
             			</tr>
@@ -200,7 +200,7 @@
 				                <stripes:label for="obligation.validSince" class="question">Format valid since</stripes:label>
               				</td>
               				<td>
-                				<stripes:text name="obligation.validSince" size="30" onchange="changed()" class="date" id="obligation.validSince"/>
+                				<stripes:text name="obligation.validSince" size="30" onchange="checkDateSimple(this); changed()" class="date" id="obligation.validSince"/>
                 				<span class="input-hint">(dd/mm/yyyy)</span>
                 				<stripes:errors field="obligation.validSince"/>
               				</td>
@@ -229,7 +229,7 @@
 				                <stripes:label for="obligation.locationPtr" class="question">URL to repository</stripes:label>
               				</td>
               				<td>
-              					<stripes:text name="obligation.locationPtr" size="68" onchange="changed()" class="full" id="obligation.locationPtr"/>
+              					<stripes:text name="obligation.locationPtr" size="68" onchange="chkUrl(this); changed()" class="full" id="obligation.locationPtr"/>
               					<stripes:errors field="obligation.locationPtr"/>
               				</td>
             			</tr>
@@ -248,7 +248,7 @@
 				                <stripes:label for="obligation.dataUsedForUrl" class="question">Data used for (URL)</stripes:label>
               				</td>
               				<td>
-              					<stripes:text name="obligation.dataUsedForUrl" size="68" onchange="changed()" class="full" id="obligation.dataUsedForUrl"/>
+              					<stripes:text name="obligation.dataUsedForUrl" size="68" onchange="chkUrl(this); changed()" class="full" id="obligation.dataUsedForUrl"/>
               					<stripes:errors field="obligation.dataUsedForUrl"/>
               				</td>
             			</tr>
@@ -371,7 +371,7 @@
 		                      		<stripes:text name="obligation.coordinator" size="15" onchange="changed()" id="obligation.coordinator"/>
 		                      		
 		                      		<stripes:label for="obligation.coordinatorUrl">URL</stripes:label>
-		                      		<stripes:text name="obligation.coordinatorUrl" size="33" onchange="changed()" id="obligation.coordinatorUrl"/>
+		                      		<stripes:text name="obligation.coordinatorUrl" size="33" onchange="chkUrl(this); changed()" id="obligation.coordinatorUrl"/>
 		                      		<stripes:errors field="obligation.coordinatorUrl"/>
 								</li>
 		                	</ul>
@@ -399,7 +399,7 @@
 		                      		<stripes:text name="obligation.nationalContact" size="15" onchange="changed()" id="obligation.nationalContact"/>
 		                      		
 		                      		<stripes:label for="obligation.nationalContactUrl">URL</stripes:label>
-		                      		<stripes:text name="obligation.nationalContactUrl" size="33" onchange="changed()" id="obligation.nationalContactUrl"/>
+		                      		<stripes:text name="obligation.nationalContactUrl" size="33" onchange="chkUrl(this); changed()" id="obligation.nationalContactUrl"/>
 		                      		<stripes:errors field="obligation.nationalContactUrl"/>
 								</li>
 		                	</ul>
@@ -530,7 +530,7 @@
                 			<stripes:label for="obligation.overlapUrl" class="question">URL of overlapping obligation</stripes:label>
               			</td>
               			<td>
-                			<stripes:text name="obligation.overlapUrl" size="68" onchange="changed()" class="full" id="obligation.overlapUrl"/>
+                			<stripes:text name="obligation.overlapUrl" size="68" onchange="chkUrl(this); changed()" class="full" id="obligation.overlapUrl"/>
 		                    <stripes:errors field="obligation.overlapUrl"/>
              			</td>
             		</tr>
@@ -564,7 +564,7 @@
                 			<stripes:label for="obligation.rmVerified" class="question">Verified</stripes:label>
               			</td>
               			<td>
-              				<stripes:text name="obligation.rmVerified" size="30" class="date" id="obligation.rmVerified"/>
+              				<stripes:text name="obligation.rmVerified" size="30" class="date" id="obligation.rmVerified" onchange="checkDateSimple(this); changed()"/>
                   			<span class="input-hint">(dd/mm/yyyy)</span>
                   			<stripes:errors field="obligation.rmVerified"/>
 						</td>
@@ -575,7 +575,7 @@
                 			<stripes:label for="obligation.rmVerifiedBy" class="question">Verified by</stripes:label>
               			</td>
               			<td>
-                			<stripes:text name="obligation.rmVerifiedBy" size="68" class="full" id="obligation.rmVerifiedBy"/>
+                			<stripes:text name="obligation.rmVerifiedBy" size="68" class="full" id="obligation.rmVerifiedBy" onchange="changed()"/>
               			</td>
             		</tr>
             		<tr>
@@ -584,7 +584,7 @@
                 			<stripes:label for="obligation.rmNextUpdate" class="question">Next update due</stripes:label>
               			</td>
               			<td>
-              				<stripes:text name="obligation.rmNextUpdate" size="30" class="date" id="obligation.rmNextUpdate"/>
+              				<stripes:text name="obligation.rmNextUpdate" size="30" class="date" id="obligation.rmNextUpdate" onchange="checkDateSimple(this); changed()" />
                   			<span class="input-hint">(dd/mm/yyyy)</span>
                   			<stripes:errors field="obligation.rmNextUpdate"/>
 						</td>
@@ -595,7 +595,7 @@
                 			<stripes:label for="obligation.validatedBy" class="question">Validated by</stripes:label>
               			</td>
               			<td>
-                			<stripes:text name="obligation.validatedBy" size="68" class="full" id="obligation.validatedBy"/>
+                			<stripes:text name="obligation.validatedBy" size="68" class="full" id="obligation.validatedBy" onchange="changed()"/>
               			</td>
             		</tr>
             	</table>
