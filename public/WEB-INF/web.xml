@@ -121,7 +121,7 @@
   	</filter-mapping>	
 	<filter-mapping>
 		<filter-name>Character encoding</filter-name>
-		<url-pattern>/eobligation</url-pattern>
+		<url-pattern>/obligations</url-pattern>
   	</filter-mapping>	
 	<filter-mapping>
 		<filter-name>Browser cache controller</filter-name>
@@ -449,11 +449,6 @@
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/obligationsdue</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/eobligation</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

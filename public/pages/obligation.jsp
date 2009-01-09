@@ -61,14 +61,14 @@
 				<li><a href="#">Operations</a>
 					<ul>
 			      		<c:if test="${rodfn:hasPermission(actionBean.userName,'/obligations','i')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/eobligation?id=-1&amp;aid=${actionBean.obligation.fkSourceId}">New obligation</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/obligations/new/${actionBean.obligation.fkSourceId}">New obligation</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/eobligation?id=${actionBean.id}">Edit obligation</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/obligations/${actionBean.id}/edit">Edit obligation</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'d')}">
 							<li>
-				      			<stripes:link href="/eobligation" event="delete" onclick="javascript:return confirm('Do you want to delete the reporting obligation?')">
+				      			<stripes:link href="/obligations" event="delete" onclick="javascript:return confirm('Do you want to delete the reporting obligation?')">
 									Delete obligation
 									<stripes:param name="id" value="${actionBean.id}"/>
 								</stripes:link>

@@ -26,7 +26,7 @@
 				<ul class="topcategory">
 					<c:forEach items="${actionBean.hierarchyInstruments}" var="instrument" varStatus="loop">
 						<li>
-							<a href="${pageContext.request.contextPath}/eobligation?id=-1&amp;aid=${instrument.sourceId}">
+							<a href="${pageContext.request.contextPath}/obligations/new/${instrument.sourceId}">
 								<c:choose>
 					    			<c:when test="${!empty instrument.sourceAlias}">
 										<span class="normal_weight">${rodfn:replaceTags(instrument.sourceAlias)}</span>

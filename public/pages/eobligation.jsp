@@ -8,7 +8,7 @@
 
 		<h1>Edit Reporting Obligation for </h1>
 		
-		<stripes:form action="/eobligation" method="post" name="f">
+		<stripes:form action="/obligations" method="post" name="f">
 			<stripes:hidden name="id"/>
 			<stripes:hidden name="aid"/>
 			<stripes:hidden name="obligation.obligationId"/>
@@ -274,14 +274,14 @@
 	                    				<script type="text/javascript">
 	                    					//<![CDATA[
 											clist.push("0:All EU Countries:C:");
-											<c:forEach items="${actionBean.countries}" var="country" varStatus="loop">
+											<c:forEach items="${actionBean.allcountries}" var="country" varStatus="loop">
 												clist.push("${country.countryId}:${country.name}:${country.type}:${country.twoletter}");
 											</c:forEach>
 											//]]>
 										</script>
 										<stripes:select name="forCountries" id="forCountries" multiple="true" size="9" class="multiple"> 
 											<stripes:option value="0" label="All EU countries"/>
-						    				<c:forEach items="${actionBean.countries}" var="country" varStatus="loop">
+						    				<c:forEach items="${actionBean.allcountries}" var="country" varStatus="loop">
 						    					<stripes:option value="${country.countryId}" label="${country.name}"/>
 						    				</c:forEach>
 									  	</stripes:select>
@@ -325,7 +325,7 @@
 		                    		<td align="left">
 		                      			<stripes:select name="volCountries" id="volCountries" multiple="true" size="9" class="multiple"> 
 											<stripes:option value="0" label="All EU countries"/>
-						    				<c:forEach items="${actionBean.countries}" var="country" varStatus="loop">
+						    				<c:forEach items="${actionBean.allcountries}" var="country" varStatus="loop">
 						    					<stripes:option value="${country.countryId}" label="${country.name}"/>
 						    				</c:forEach>
 									  	</stripes:select>
@@ -622,7 +622,14 @@
 								<stripes:submit name="edit" id="editBtn" value="Save changes" class="btn" onclick="javascript:selectAll()"/>
 							</c:otherwise>
 						</c:choose>
-						<stripes:button name="cancel" onclick="javascript:history.back()" value="Exit" class="btn"/>  
+						<c:choose>
+							<c:when test="${!empty actionBean.id && actionBean.id == 'new'}">
+								<stripes:button name="cancel" onclick="location.href='${pageContext.request.contextPath}/obligations'" value="Exit" class="btn"/>  
+							</c:when>
+							<c:otherwise>
+								<stripes:button name="cancel" onclick="location.href='${pageContext.request.contextPath}/obligations/${actionBean.id}'" value="Exit" class="btn"/>  
+							</c:otherwise>
+						</c:choose>
 		 			</td>
             	</tr>
           </table>

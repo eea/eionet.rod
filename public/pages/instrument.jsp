@@ -30,7 +30,7 @@
 				<li><a href="#">Operations</a>
 					<ul>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,'/obligations','i')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/eobligation?id=-1&amp;aid=${actionBean.instId}">New obligation</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/obligations/new/${actionBean.instId}">New obligation</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,'/instruments','i')}">
 							<li><a class="link-plain" href="${pageContext.request.contextPath}/source.jsv?id=-1">New instrument</a></li>
