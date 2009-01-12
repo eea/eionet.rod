@@ -129,7 +129,19 @@
 				<c:forEach items="${actionBean.client.directInstruments}" var="instrument" varStatus="loop">
 					<tr ${loop.index % 2 == 0 ? 'class="even"' : ''}>
 						<td><a href="${pageContext.request.contextPath}/instruments/${instrument.sourceId}">${instrument.sourceId}</a></td>
-						<td>${instrument.sourceAlias}</td>
+						<td>
+							<c:choose>
+				    			<c:when test="${!empty instrument.sourceAlias}">
+									${instrument.sourceAlias}
+				    			</c:when>
+				    			<c:when test="${!empty instrument.sourceLegalName}">
+									${instrument.sourceLegalName}
+				    			</c:when>
+				    			<c:otherwise>
+				    				${instrument.sourceTitle}
+				    			</c:otherwise>
+				    		</c:choose>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -145,7 +157,19 @@
 				<c:forEach items="${actionBean.client.indirectInstruments}" var="instrument" varStatus="loop">
 					<tr ${loop.index % 2 == 0 ? 'class="even"' : ''}>
 						<td><a href="${pageContext.request.contextPath}/instruments/${instrument.sourceId}">${instrument.sourceId}</a></td>
-						<td>${instrument.alias}</td>
+						<td>
+							<c:choose>
+				    			<c:when test="${!empty instrument.sourceAlias}">
+									${instrument.sourceAlias}
+				    			</c:when>
+				    			<c:when test="${!empty instrument.sourceLegalName}">
+									${instrument.sourceLegalName}
+				    			</c:when>
+				    			<c:otherwise>
+				    				${instrument.sourceTitle}
+				    			</c:otherwise>
+				    		</c:choose>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>

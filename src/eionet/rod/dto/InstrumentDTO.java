@@ -11,6 +11,7 @@ public class InstrumentDTO implements java.io.Serializable{
 	private int sourceId;
 	private String sourceTitle;
 	private String sourceAlias;
+	private String sourceLegalName;
 		
 	
 	/**
@@ -47,6 +48,16 @@ public class InstrumentDTO implements java.io.Serializable{
 
 	public void setSourceAlias(String sourceAlias) {
 		this.sourceAlias = sourceAlias;
+	}
+
+
+	public String getSourceLegalName() {
+		return sourceLegalName;
+	}
+
+
+	public void setSourceLegalName(String sourceLegalName) {
+		this.sourceLegalName = sourceLegalName;
 	}
 
 

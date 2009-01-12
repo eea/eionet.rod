@@ -403,12 +403,12 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
     	"ORDER BY O.TITLE";
     
     private static final String q_direct_instruments =
-    	"SELECT PK_SOURCE_ID, ALIAS " +
+    	"SELECT PK_SOURCE_ID, ALIAS, LEGAL_NAME, TITLE " +
     	"FROM T_SOURCE " +
     	"WHERE FK_CLIENT_ID=? ORDER BY ALIAS";
     
     private static final String q_indirect_instruments =
-    	"SELECT S.PK_SOURCE_ID, S.ALIAS " +
+    	"SELECT S.PK_SOURCE_ID, S.ALIAS, S.LEGAL_NAME, S.TITLE " +
     	"FROM T_SOURCE S, T_CLIENT_LNK CL " +
     	"WHERE CL.FK_CLIENT_ID =? AND CL.TYPE='S' AND CL.FK_OBJECT_ID=S.PK_SOURCE_ID AND S.FK_CLIENT_ID != CL.FK_CLIENT_ID " +
     	"ORDER BY S.ALIAS";
@@ -484,6 +484,8 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 	  				InstrumentDTO instrument = new InstrumentDTO();
 	  				instrument.setSourceId(new Integer(sub_rs.getInt("PK_SOURCE_ID")));
 	  				instrument.setSourceAlias(sub_rs.getString("ALIAS"));
+	  				instrument.setSourceLegalName(sub_rs.getString("LEGAL_NAME"));
+	  				instrument.setSourceTitle(sub_rs.getString("TITLE"));
 	  				directInstruments.add(instrument);
 	  			}
 	  			ret.setDirectInstruments(directInstruments);
@@ -495,6 +497,8 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 	  				InstrumentDTO instrument = new InstrumentDTO();
 	  				instrument.setSourceId(new Integer(sub_rs.getInt("PK_SOURCE_ID")));
 	  				instrument.setSourceAlias(sub_rs.getString("ALIAS"));
+	  				instrument.setSourceLegalName(sub_rs.getString("LEGAL_NAME"));
+	  				instrument.setSourceTitle(sub_rs.getString("TITLE"));
 	  				indirectInstruments.add(instrument);
 	  			}
 	  			ret.setIndirectInstruments(indirectInstruments);
