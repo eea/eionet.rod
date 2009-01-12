@@ -2,7 +2,7 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
-<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Reporting client or issuer details" bread2="Clients" bread2Url="clients" bread3="Client information">
+<stripes:layout-render name="/pages/common/template.jsp" pageTitle="${rodfn:replaceTags(actionBean.client.name)} - ROD - Eionet" bread2="Clients" bread2Url="clients" bread3="Client information">
 
 	<stripes:layout-component name="contents">
 		
