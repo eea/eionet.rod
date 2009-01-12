@@ -55,7 +55,7 @@ public class ObligationsTableDecorator extends TableDecorator{
 		
 		StringBuilder ret = new StringBuilder();
 		ObligationsListDTO obligation = (ObligationsListDTO) getCurrentRowObject();
-		ret.append("<a href='client.jsv?id=").append(obligation.getClientId()).append("' title='");
+		ret.append("<a href='clients/").append(obligation.getClientId()).append("' title='");
 		ret.append(RODUtil.replaceTags(obligation.getClientName(), true, true)).append("'>");
 		ret.append(RODUtil.replaceTags(obligation.getClientDescr(), true, true));
 		ret.append("</a>");

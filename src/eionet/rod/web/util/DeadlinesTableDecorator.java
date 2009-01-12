@@ -39,7 +39,7 @@ public class DeadlinesTableDecorator extends TableDecorator{
 		
 		StringBuilder ret = new StringBuilder();
 		SearchDTO search = (SearchDTO) getCurrentRowObject();
-		ret.append("<a href='client.jsv?id=").append(search.getClientId()).append("' title='");
+		ret.append("<a href='clients/").append(search.getClientId()).append("' title='");
 		ret.append(RODUtil.replaceTags(search.getClientName(), true, true)).append("'>");
 		ret.append(RODUtil.replaceTags(RODUtil.threeDots(search.getClientDescr(), 20), true, true));
 		ret.append("</a>");
