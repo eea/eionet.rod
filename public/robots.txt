@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /obligationsdue
+Disallow: /updatehistory
+Disallow: /instrumentsdue
