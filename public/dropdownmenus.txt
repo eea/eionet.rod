@@ -1,5 +1,7 @@
-<ul id="dropdowns">
-         <li><a href="http://www.eionet.europa.eu/">Services</a>
+<!-- Last updated: 2009-01-16T10:09:31Z
+     To update download http://www.eionet.europa.eu/dropdownmenus.txt -->
+        <ul id="dropdowns">
+         <li><a href="http://www.eionet.europa.eu/services">Services</a>
           <ul>
            <li><a href="http://nmc.eionet.europa.eu/">Helpdesk</a></li>
            <li><a href="http://eea.eionet.europa.eu/Public/irc/eionet-circle/Home/main">CIRCA</a></li>
@@ -19,7 +21,7 @@
            <li><a href="http://dd.eionet.europa.eu/">Data Dictionary</a></li>
            <li><a href="http://cr.eionet.europa.eu/">Content Registry</a></li>
            <li><a href="http://converters.eionet.europa.eu/">Conversion service</a></li>
-           <li><a href="http://dampos.eea.europa.eu/">Dam Positioning</a></li>
+           <li><a href="http://dampos.eionet.europa.eu/">Dam Positioning</a></li>
           </ul>
          </li>
          <li><a href="http://www.eionet.europa.eu/tools">Tools</a>
@@ -34,12 +36,12 @@
            <li><a href="http://www.eionet.europa.eu/gemet">GEMET Thesaurus</a></li>
           </ul>
          </li>
-         <li><a href="http://www.eionet.europa.eu/topics">Topics</a>
+         <li><a href="http://www.eionet.europa.eu/topics">Topics (ETCs)</a>
           <ul>
            <li><a href="http://air-climate.eionet.europa.eu/">Air &amp; Climate Change</a></li>
            <li><a href="http://biodiversity.eionet.europa.eu/">Biological Diversity</a></li>
-           <li><a href="http://terrestrial.eionet.europa.eu/">Land Use &amp; Spatial Information</a></li>
-           <li><a href="http://waste.eionet.europa.eu/">Resource and Waste Management</a></li>
+           <li><a href="http://etc-lusi.eionet.europa.eu/">Land Use &amp; Spatial Information</a></li>
+           <li><a href="http://etc-scp.eionet.europa.eu/">Sustainable Consumption and Production</a></li>
            <li><a href="http://water.eionet.europa.eu/">Water</a></li>
           </ul>
          </li>
