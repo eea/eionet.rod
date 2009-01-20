@@ -512,6 +512,9 @@ table.formtable {
 table.fancyselect {
 }
 
+select.full {
+	width: 100%;
+}
 input.full {
 	width: 99%;
 }
