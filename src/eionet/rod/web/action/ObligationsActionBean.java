@@ -407,7 +407,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         	return new ForwardResolution("/pages/eobligation.jsp");
 		}
 		
-		processAddDelete("U", userName);
+		processEditDelete("U", userName);
 			
 		if(RODUtil.isNullOrEmpty(obligation.getReportFreqMonths()))
 			obligation.setReportFreqMonths("NULL");
@@ -461,7 +461,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         	return new ForwardResolution("/pages/obligation.jsp");
 		}
 		
-		processAddDelete("D", userName);
+		processEditDelete("D", userName);
 		
 		instId = obligation.getFkSourceId();
 		instrument = RODServices.getDbService().getSourceDao().getInstrumentFactsheet(instId);
@@ -496,7 +496,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 		}
     }
     
-    private void processAddDelete(String state, String userName) throws ServiceException {
+    private void processEditDelete(String state, String userName) throws ServiceException {
     	
     	undoDao = RODServices.getDbService().getUndoDao();
     	obligationDao = RODServices.getDbService().getObligationDao();
@@ -526,10 +526,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 			//don't worry about the role saving if something wrong
 		}
     	
-		delActivity(state);
+		delActivity(state, "y");
     }
     
-    private void delActivity(String op) throws ServiceException {
+    public void delActivity(String op, String show) throws ServiceException {
     	
     	Integer obligationID = new Integer(id);
     	
@@ -541,16 +541,16 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 		undoDao.insertTransactionInfo(id, "A", "T_OBLIGATION", "PK_RA_ID", ts, "");
 		undoDao.insertTransactionInfo(id, "A", "T_HISTORIC_DEADLINES", "FK_RA_ID", ts, "");
     	
-		undoDao.insertIntoUndo(null, id, op, "T_RAISSUE_LNK", "FK_RA_ID", ts, "", "y", null);
+		undoDao.insertIntoUndo(null, id, op, "T_RAISSUE_LNK", "FK_RA_ID", ts, "", show, null);
     	// delete linked environmental issues
     	obligationDao.deleteIssueLink(obligationID);
-    	undoDao.insertIntoUndo(null, id, op, "T_RASPATIAL_LNK", "FK_RA_ID", ts, "", "y", null);
+    	undoDao.insertIntoUndo(null, id, op, "T_RASPATIAL_LNK", "FK_RA_ID", ts, "", show, null);
     	// delete linked countries
     	obligationDao.deleteSpatialLink(obligationID);
-    	undoDao.insertIntoUndo(null, id, op, "T_INFO_LNK", "FK_RA_ID", ts, "", "y", null);
+    	undoDao.insertIntoUndo(null, id, op, "T_INFO_LNK", "FK_RA_ID", ts, "", show, null);
 		// delete linked info
     	obligationDao.deleteInfoLink(obligationID);
-    	undoDao.insertIntoUndo(null, id, op, "T_HISTORIC_DEADLINES", "FK_RA_ID", ts, "", "y", null);
+    	undoDao.insertIntoUndo(null, id, op, "T_HISTORIC_DEADLINES", "FK_RA_ID", ts, "", show, null);
 		// delete linked historical deadlines
 		RODServices.getDbService().getHistoricDeadlineDao().deleteByObligationId(obligationID);
 		
@@ -566,13 +566,13 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
 		
-		undoDao.insertIntoUndo(null, id, op, "T_CLIENT_LNK", "FK_OBJECT_ID", ts, "AND TYPE='A'", "y", null);
+		undoDao.insertIntoUndo(null, id, op, "T_CLIENT_LNK", "FK_OBJECT_ID", ts, "AND TYPE='A'", show, null);
 		RODServices.getDbService().getClientDao().deleteObligationLink(obligationID);
 
 		RODServices.getDbService().getSpatialHistoryDao().updateEndDateForObligation(obligationID);
 		
 		if(op != null && op.equals("D")){
-			undoDao.insertIntoUndo(null, id, "D", "T_OBLIGATION", "PK_RA_ID", ts, "", "y", null);
+			undoDao.insertIntoUndo(null, id, "D", "T_OBLIGATION", "PK_RA_ID", ts, "", show, null);
 			obligationDao.deleteObligation(obligationID);
 		}
     }
@@ -1349,5 +1349,29 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 
 	public void setSelIssues(List<String> selIssues) {
 		this.selIssues = selIssues;
+	}
+
+	public IUndoDao getUndoDao() {
+		return undoDao;
+	}
+
+	public void setUndoDao(IUndoDao undoDao) {
+		this.undoDao = undoDao;
+	}
+
+	public IObligationDao getObligationDao() {
+		return obligationDao;
+	}
+
+	public void setObligationDao(IObligationDao obligationDao) {
+		this.obligationDao = obligationDao;
+	}
+
+	public long getTs() {
+		return ts;
+	}
+
+	public void setTs(long ts) {
+		this.ts = ts;
 	}
 }

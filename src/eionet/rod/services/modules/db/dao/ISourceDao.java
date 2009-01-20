@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Vector;
 
 import eionet.rod.dto.HierarchyInstrumentDTO;
+import eionet.rod.dto.InstrumentDTO;
 import eionet.rod.dto.InstrumentFactsheetDTO;
 import eionet.rod.dto.InstrumentsDueDTO;
 import eionet.rod.dto.InstrumentsListDTO;
+import eionet.rod.dto.LookupDTO;
+import eionet.rod.dto.SourceClassDTO;
 import eionet.rod.services.ServiceException;
 
 public interface ISourceDao {
@@ -114,5 +117,73 @@ public interface ISourceDao {
      * @throws ServiceException
      */
     public List<HierarchyInstrumentDTO> getHierarchyInstruments(String id) throws ServiceException;
+    
+    /**
+     * Returns lookups list
+     * @param category
+     * @throws ServiceException
+     */
+    public List<LookupDTO> getLookupList(String category) throws ServiceException;
+    
+    /**
+     * Returns list of all instruments except instrument with given id
+     * @param ID of current instrument
+     * @return list of all instruments except instrument with given id
+     * @throws ServiceException
+     */
+    public List<InstrumentDTO> getParentInstrumentsList(String id) throws ServiceException;
+    
+    /**
+     * @param ID of child instrument
+     * @return parent instrument ID
+     * @throws ServiceException
+     */
+    public String getParentInstrumentId(String childId) throws ServiceException;
+    
+    /**
+     * @return list of all records from T_SOURCE_CLASS table
+     * @throws ServiceException
+     */
+    public List<SourceClassDTO> getAllSourceClasses() throws ServiceException;
+    
+    /**
+     * @param instrument ID
+     * @return list of source classes for current instrument
+     * @throws ServiceException
+     */
+    public List<SourceClassDTO> getSourceClassesByInstrumentId(String id) throws ServiceException;
+    
+    /**
+     * @param list of selected source class IDs
+     * @return list of selected source class objects
+     * @throws ServiceException
+     */
+    public List<SourceClassDTO> getInstrumentSourceClassesList(List<String> scIds) throws ServiceException;
+    
+    /**
+     * @param instrument DTO
+     * @throws ServiceException
+     */
+    public void editInstrument(InstrumentFactsheetDTO instrument) throws ServiceException;
+    
+    /**
+     * @param instrument ID
+     * @param parent instrument ID
+     * @throws ServiceException
+     */
+    public void addParentInstrument(String instId, String parentInstrumentId) throws ServiceException;
+    
+    /**
+     * @param instrument ID
+     * @param list of linked sources IDs
+     * @throws ServiceException
+     */
+    public void addLinkedSources(String instId, List<String> selectedSourceClasses) throws ServiceException;
+    
+    /**
+     * @param instrument DTO
+     * @throws ServiceException
+     */
+    public Integer addInstrument(InstrumentFactsheetDTO instrument) throws ServiceException;
 	
 }

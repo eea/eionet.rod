@@ -8,23 +8,6 @@
 		
 		<c:set var="perm_name" value="/instruments/${actionBean.instId}"></c:set>	
 	
-		<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName,perm_name,'d')}">
-			<script type="text/javascript">
-				function delLegislation() {
-					if (confirm("Do you want to delete the current legislative instrument\nwith all related reporting obligations and activities?")){
-						var u = window.location.href;
-						document.forms["f"].elements["/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/REDIRECT_URL"].value = u;
-						document.forms["f"].submit();
-					}
-				}
-			</script>
-			<form id="f" method="POST" action="${pageContext.request.contextPath}/source.jsv">
-				<input type="hidden" name="dom-update-mode" value="D"/>
-				<input type="hidden" name="/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/PK_SOURCE_ID" value="${actionBean.instId}"/>
-				<input type="hidden" name="/XmlData/RowSet[@Name='Source']/Row/T_SOURCE/REDIRECT_URL" value=""/>
-			</form>
-		</c:if>
-		
 		<c:if test="${actionBean.isUserLoggedIn}">
 			<ul id="dropdown-operations">
 				<li><a href="#">Operations</a>
@@ -33,13 +16,18 @@
 							<li><a class="link-plain" href="${pageContext.request.contextPath}/obligations/new/${actionBean.instId}">New obligation</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,'/instruments','i')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/source.jsv?id=-1">New instrument</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/instruments/new">New instrument</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/source.jsv?id=${actionBean.instId}">Edit instrument</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/instruments/${actionBean.instId}/edit">Edit instrument</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'d')}">
-							<li><a href="javascript:delLegislation()">Delete instrument</a></li>
+							<li>
+								<stripes:link href="/instruments" event="delete" onclick="javascript:return confirm('Do you want to delete the current legislative instrument\nwith all related reporting obligations and activities?')">
+									Delete instrument
+									<stripes:param name="instId" value="${actionBean.instId}"/>
+								</stripes:link>
+							</li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
 							<li><a class="link-plain" href="${pageContext.request.contextPath}/subscribe.jsp?sid=${actionBean.instId}">Subscribe</a></li>

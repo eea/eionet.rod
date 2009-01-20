@@ -3,9 +3,9 @@ package eionet.rod.services.modules.db.dao.mysql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -17,11 +17,14 @@ import eionet.rod.dto.InstrumentObligationDTO;
 import eionet.rod.dto.InstrumentParentDTO;
 import eionet.rod.dto.InstrumentsDueDTO;
 import eionet.rod.dto.InstrumentsListDTO;
+import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
-import eionet.rod.dto.SiblingObligationDTO;
+import eionet.rod.dto.SourceClassDTO;
 import eionet.rod.dto.readers.HierarchyInstrumentDTOReader;
+import eionet.rod.dto.readers.InstrumentDTOReader;
 import eionet.rod.dto.readers.InstrumentsDueDTOReader;
-import eionet.rod.dto.readers.SiblingObligationDTOReader;
+import eionet.rod.dto.readers.LookupDTOReader;
+import eionet.rod.dto.readers.SourceClassDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.ISourceDao;
 import eionet.rod.util.sql.SQLUtil;
@@ -298,13 +301,13 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
       }
       
       private static final String q_instrument_factsheet =
-  		"SELECT SO.PK_SOURCE_ID, SO.SOURCE_CODE, SO.CELEX_REF, SO.TITLE, SO.ALIAS, SO.URL, " +
+  		"SELECT SO.PK_SOURCE_ID, SO.SOURCE_CODE, SO.CELEX_REF, SO.TITLE, SO.LEGAL_NAME, SO.ALIAS, SO.URL, SO.FK_CLIENT_ID, " +
   		"SO.ISSUED_BY_URL, CONCAT(LEFT(SO.ISSUED_BY_URL, 40), IF( LENGTH(SO.ISSUED_BY_URL) > 40 ,'...', '')) AS ISSUED_BY_URL_LABEL, " +
   		"SO.SECRETARIAT, SO.SECRETARIAT_URL, SO.ABSTRACT, IF(SO.VALID_FROM, DATE_FORMAT(SO.VALID_FROM,'%d/%m/%Y'), '') AS VALID_FROM, " +
   		"IF(SO.EC_ACCESSION, DATE_FORMAT(SO.EC_ACCESSION,'%d/%m/%Y'), '') AS EC_ACCESSION, " +
   		"IF(SO.EC_ENTRY_INTO_FORCE, DATE_FORMAT(SO.EC_ENTRY_INTO_FORCE,'%d/%m/%Y'), '') AS EC_ENTRY_INTO_FORCE, SO.COMMENT, " +
   		"DATE_FORMAT(SO.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE, DATE_FORMAT(SO.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE, " +
-  		"DATE_FORMAT(SO.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED, SO.RM_VERIFIED_BY, SO.RM_VALIDATED_BY, SO.GEOGRAPHIC_SCOPE, SO.DGENV_REVIEW, " +
+  		"DATE_FORMAT(SO.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED, SO.RM_VERIFIED_BY, SO.RM_VALIDATED_BY, SO.RM_VALIDATED_BY, SO.GEOGRAPHIC_SCOPE, SO.DGENV_REVIEW, SO.DRAFT, " +
   		"CL.FK_CLIENT_ID, CL.FK_OBJECT_ID, CL.STATUS, CL.TYPE, " +
   		"C.PK_CLIENT_ID, C.CLIENT_NAME " +
   		"FROM T_SOURCE SO, T_CLIENT_LNK CL, T_CLIENT C " +
@@ -357,6 +360,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
   				ret = new InstrumentFactsheetDTO();
   				ret.setSourceId(new Integer(rs.getInt("PK_SOURCE_ID")));
   				ret.setSourceTitle(rs.getString("TITLE"));
+  				ret.setSourceLegalName(rs.getString("LEGAL_NAME"));
 				ret.setSourceAlias(rs.getString("ALIAS"));
 				ret.setSourceCelexRef(rs.getString("CELEX_REF"));
 				ret.setSourceCode(rs.getString("SOURCE_CODE"));
@@ -374,8 +378,11 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 				ret.setSourceNextUpdate(rs.getString("RM_NEXT_UPDATE"));
 				ret.setSourceVerified(rs.getString("RM_VERIFIED"));
 				ret.setSourceVerifiedBy(rs.getString("RM_VERIFIED_BY"));
+				ret.setSourceValidatedBy(rs.getString("RM_VALIDATED_BY"));
 				ret.setSourceGeographicScope(rs.getString("GEOGRAPHIC_SCOPE"));
 				ret.setSourceDgenvReview(rs.getString("DGENV_REVIEW"));
+				ret.setSourceDraft(rs.getString("DRAFT"));
+				ret.setSourceFKClientId(rs.getString("FK_CLIENT_ID"));
 				
 				ret.setClientLnkFKClientId(new Integer(rs.getInt("FK_CLIENT_ID")));
 				ret.setClientLnkFKObjectId(new Integer(rs.getInt("FK_OBJECT_ID")));
@@ -635,5 +642,391 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
   			catch (SQLException e){}
   		}
       }
+      
+      /*
+       * (non-Javadoc)
+       * 
+       * @see eionet.rod.dao.ISourceDao#getLookupList(String category)
+       */
+      public List<LookupDTO> getLookupList(String category) throws ServiceException {
+      	
+      	String query = "SELECT C_TERM, C_VALUE " +
+  		"FROM T_LOOKUP " +
+  		"WHERE CATEGORY='"+category+"' ORDER BY C_TERM";
+      	
+      	List<Object> values = new ArrayList<Object>();
+  				
+  		Connection conn = null;
+  		LookupDTOReader rsReader = new LookupDTOReader();
+  		try{
+  			conn = getConnection();
+  			SQLUtil.executeQuery(query, values, rsReader, conn);
+  			List<LookupDTO>  list = rsReader.getResultList();
+  			return list;
+  		}
+  		catch (Exception e){
+  			logger.error(e);
+  			throw new ServiceException(e.getMessage());
+  		}
+  		finally{
+  			try{
+  				if (conn!=null) conn.close();
+  			}
+  			catch (SQLException e){}
+  		}
+      }
+      
+      /*
+       * (non-Javadoc)
+       * 
+       * @see eionet.rod.dao.ISourceDao#getParentInstrumentsList(String id)
+       */
+      public List<InstrumentDTO> getParentInstrumentsList(String id) throws ServiceException {
+      	
+      	String query = "SELECT PK_SOURCE_ID, CONCAT(IF(ALIAS != '', CONCAT(ALIAS, ' - '), ''),  TITLE) AS TITLE " +
+  		"FROM T_SOURCE WHERE PK_SOURCE_ID != "+id+" ORDER BY TITLE";
+      	
+      	List<Object> values = new ArrayList<Object>();
+  				
+  		Connection conn = null;
+  		InstrumentDTOReader rsReader = new InstrumentDTOReader();
+  		try{
+  			conn = getConnection();
+  			SQLUtil.executeQuery(query, values, rsReader, conn);
+  			List<InstrumentDTO>  list = rsReader.getResultList();
+  			return list;
+  		}
+  		catch (Exception e){
+  			logger.error(e);
+  			throw new ServiceException(e.getMessage());
+  		}
+  		finally{
+  			try{
+  				if (conn!=null) conn.close();
+  			}
+  			catch (SQLException e){}
+  		}
+      }
+      
+      private final static String qParentInstrumentId = 
+          "SELECT FK_SOURCE_PARENT_ID " + 
+          "FROM T_SOURCE_LNK WHERE FK_SOURCE_CHILD_ID=? AND CHILD_TYPE = 'S' AND PARENT_TYPE = 'S'";
+
+      /*
+       * (non-Javadoc)
+       * 
+       * @see eionet.rod.services.modules.db.dao.ISourceDao#getParentInstrumentId(String childId)
+       */
+    public String getParentInstrumentId(String childId) throws ServiceException {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        String[][] result = null;
+        String res = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(qParentInstrumentId);
+            preparedStatement.setString(1, childId);
+            if (isDebugMode) logQuery(qParentInstrumentId);
+            resultSet = preparedStatement.executeQuery();
+            result = getResults(resultSet);
+            resultSet.close();
+            preparedStatement.close();
+            if(result.length > 0){
+                res = result[0][0];
+            }
+        } catch (SQLException exception) {
+            logger.error(exception);
+            throw new ServiceException(exception.getMessage());
+        } finally {
+            closeAllResources(resultSet, preparedStatement, connection);
+        }
+
+        return res != null ? res : "";
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISourceDao#getAllSourceClasses()
+     */
+    public List<SourceClassDTO> getAllSourceClasses() throws ServiceException {
+    	
+    	String query = "SELECT PK_CLASS_ID, CLASSIFICATOR, CLASS_NAME " +
+		"FROM T_SOURCE_CLASS WHERE CLASS_NAME != '' ORDER BY CLASSIFICATOR";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		SourceClassDTOReader rsReader = new SourceClassDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<SourceClassDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISourceDao#getSourceClassesByInstrumentId(String id)
+     */
+    public List<SourceClassDTO> getSourceClassesByInstrumentId(String id) throws ServiceException {
+    	
+    	String query = "SELECT T_SOURCE_CLASS.PK_CLASS_ID, T_SOURCE_CLASS.CLASSIFICATOR, T_SOURCE_CLASS.CLASS_NAME, " +
+    			"T_SOURCE_LNK.FK_SOURCE_PARENT_ID " +
+    			"FROM T_SOURCE_LNK, T_SOURCE_CLASS WHERE T_SOURCE_LNK.FK_SOURCE_CHILD_ID = " +id+ " " +
+    			"AND T_SOURCE_LNK.FK_SOURCE_PARENT_ID=T_SOURCE_CLASS.PK_CLASS_ID " +
+    			"AND T_SOURCE_LNK.PARENT_TYPE='C' AND T_SOURCE_LNK.CHILD_TYPE='S' " +
+    			"ORDER BY CLASSIFICATOR";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		SourceClassDTOReader rsReader = new SourceClassDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<SourceClassDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    /*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.dao.ISourceDao#getInstrumentSourceClassesList(List<String> scIds)
+	 */
+	public List<SourceClassDTO> getInstrumentSourceClassesList(List<String> scIds) throws ServiceException {
+		
+		StringBuilder ids = new StringBuilder();
+    	if(scIds != null){
+	    	for(Iterator<String> it = scIds.iterator(); it.hasNext(); ){
+	    		String id = it.next();
+	    		ids.append(id);
+	    		if(it.hasNext())
+	    			ids.append(",");
+	    	}
+    	} else {
+    		return null;
+    	}
+
+		List<Object> values = new ArrayList<Object>();
+		
+		String qObligationIssuesList = 
+			"SELECT PK_CLASS_ID, CLASSIFICATOR, CLASS_NAME " + 
+			"FROM T_SOURCE_CLASS " + 
+			"WHERE PK_CLASS_ID IN ("+ids.toString()+") " +
+			"ORDER BY CLASSIFICATOR ";
+		
+		Connection conn = null;
+		SourceClassDTOReader rsReader = new SourceClassDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(qObligationIssuesList, values, rsReader, conn);
+			List<SourceClassDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+
+	}
 	
+	/** */
+	private static final String editSourceSQL = "UPDATE T_SOURCE SET " +
+			"TITLE=?, ALIAS=?, SOURCE_CODE=?, DRAFT=?, URL=?, CELEX_REF=?, " +
+			"FK_CLIENT_ID=?, ISSUED_BY_URL=?, DGENV_REVIEW=?, VALID_FROM=?, GEOGRAPHIC_SCOPE=?, ABSTRACT=?, " +
+			"COMMENT=?, EC_ENTRY_INTO_FORCE=?, EC_ACCESSION=?, SECRETARIAT=?, SECRETARIAT_URL=?, RM_VERIFIED=?, " +
+			"RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, RM_VALIDATED_BY=?, LAST_UPDATE=CURDATE() " +
+			"WHERE PK_SOURCE_ID=?";
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISourceDao#editInstrument(InstrumentFactsheetDTO instrument)
+     */
+    public void editInstrument(InstrumentFactsheetDTO instrument) throws ServiceException {
+    	    	
+    	List<Object> values = new ArrayList<Object>();
+		values.add(instrument.getSourceTitle());
+		values.add(instrument.getSourceAlias());
+		values.add(instrument.getSourceCode());
+		values.add(instrument.getSourceDraft());
+		values.add(instrument.getSourceUrl());
+		values.add(instrument.getSourceCelexRef());
+		values.add(instrument.getSourceFKClientId());
+		values.add(instrument.getSourceIssuedByUrl());
+		values.add(instrument.getSourceDgenvReview());
+		values.add(RODUtil.str2Date(instrument.getSourceValidFrom()));
+		values.add(instrument.getSourceGeographicScope());
+		values.add(instrument.getSourceAbstract());
+		values.add(instrument.getSourceComment());
+		values.add(RODUtil.str2Date(instrument.getSourceEcEntryIntoForce()));
+		values.add(RODUtil.str2Date(instrument.getSourceEcAccession()));
+		values.add(instrument.getSourceSecretariat());
+		values.add(instrument.getSourceSecretariatUrl());
+		values.add(RODUtil.str2Date(instrument.getSourceVerified()));
+		values.add(instrument.getSourceVerifiedBy());
+		values.add(RODUtil.str2Date(instrument.getSourceNextUpdate()));
+		values.add(instrument.getSourceValidatedBy());
+		
+		values.add(instrument.getSourceId());		
+		
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			SQLUtil.executeUpdate(editSourceSQL, values, conn);
+			
+		}catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    private static final String q_insert_parent_instrument = 
+		"INSERT INTO T_SOURCE_LNK (FK_SOURCE_PARENT_ID, FK_SOURCE_CHILD_ID, CHILD_TYPE, PARENT_TYPE) VALUES (?,?,'S','S')";
+	
+    public void addParentInstrument(String instId, String parentInstrumentId) throws ServiceException {
+    	List<Object> values = null;
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			values = new ArrayList<Object>();
+			values.add(parentInstrumentId);
+			values.add(instId);
+			SQLUtil.executeUpdate(q_insert_parent_instrument, values, conn);
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}	
+			catch (SQLException e){}
+		}
+    }
+    
+    private static final String q_insert_linked_sources = 
+		"INSERT INTO T_SOURCE_LNK (FK_SOURCE_PARENT_ID, FK_SOURCE_CHILD_ID, CHILD_TYPE, PARENT_TYPE) VALUES (?,?,'S','C')";
+	
+    public void addLinkedSources(String instId, List<String> selectedSourceClasses) throws ServiceException {
+    	List<Object> values = null;
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			for(Iterator<String> it = selectedSourceClasses.iterator(); it.hasNext();){
+				String sourceId = it.next();
+				values = new ArrayList<Object>();
+				values.add(sourceId);
+				values.add(instId);
+				SQLUtil.executeUpdate(q_insert_linked_sources, values, conn);
+			}
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}	
+			catch (SQLException e){}
+		}
+    }
+    
+    /** */
+	private static final String addSourceSQL = "INSERT INTO T_SOURCE SET " +
+			"TITLE=?, ALIAS=?, SOURCE_CODE=?, DRAFT=?, URL=?, CELEX_REF=?, " +
+			"FK_CLIENT_ID=?, ISSUED_BY_URL=?, DGENV_REVIEW=?, VALID_FROM=?, GEOGRAPHIC_SCOPE=?, ABSTRACT=?, " +
+			"COMMENT=?, EC_ENTRY_INTO_FORCE=?, EC_ACCESSION=?, SECRETARIAT=?, SECRETARIAT_URL=?, RM_VERIFIED=?, " +
+			"RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, RM_VALIDATED_BY=?, LAST_UPDATE=CURDATE()";
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISourceDao#addInstrument(InstrumentFactsheetDTO instrument)
+     */
+    public Integer addInstrument(InstrumentFactsheetDTO instrument) throws ServiceException {
+    	    	
+    	List<Object> values = new ArrayList<Object>();
+		values.add(instrument.getSourceTitle());
+		values.add(instrument.getSourceAlias());
+		values.add(instrument.getSourceCode());
+		values.add(instrument.getSourceDraft());
+		values.add(instrument.getSourceUrl());
+		values.add(instrument.getSourceCelexRef());
+		values.add(instrument.getSourceFKClientId());
+		values.add(instrument.getSourceIssuedByUrl());
+		values.add(instrument.getSourceDgenvReview());
+		values.add(RODUtil.str2Date(instrument.getSourceValidFrom()));
+		values.add(instrument.getSourceGeographicScope());
+		values.add(instrument.getSourceAbstract());
+		values.add(instrument.getSourceComment());
+		values.add(RODUtil.str2Date(instrument.getSourceEcEntryIntoForce()));
+		values.add(RODUtil.str2Date(instrument.getSourceEcAccession()));
+		values.add(instrument.getSourceSecretariat());
+		values.add(instrument.getSourceSecretariatUrl());
+		values.add(RODUtil.str2Date(instrument.getSourceVerified()));
+		values.add(instrument.getSourceVerifiedBy());
+		values.add(RODUtil.str2Date(instrument.getSourceNextUpdate()));
+		values.add(instrument.getSourceValidatedBy());
+		
+		Integer instrumentId = null;
+		
+		Connection conn = null;
+		try{
+			conn = getConnection();
+			SQLUtil.executeUpdate(addSourceSQL, values, conn);
+			instrumentId = SQLUtil.getLastInsertID(conn);
+			
+		}catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+		return instrumentId;
+    }
 }

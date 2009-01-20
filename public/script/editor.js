@@ -2,6 +2,49 @@ var isChanged = false;
 var selects = new Array();
 var clist=new Array();
 
+function mvValues(selFrom, selTo, unit) {
+	var i, count = 0;
+	var optsLen;
+	var newVal, newText;
+	
+	isChanged = true;
+
+	var selected = new Array();
+
+	for (i = 0; i < selFrom.length; ++i) {
+		if (selFrom[i].selected) {
+			selected[count++] = i;
+
+			newVal = selFrom[i].value;
+			var pos = newVal.indexOf(':');
+			if (pos > 0) {
+				newVal = newVal.substr(0, pos);
+			}
+			
+			newText = selFrom[i].text;
+			pos = newText.indexOf('[');
+			if (pos > 1) {
+				newText = newText.substr(0, pos - 1); // strip leading space as well
+			}
+			if (unit != null && unit.text.length > 0) {
+				newVal = newVal + ':' + unit.value;
+				newText = newText + ' [' + unit.text + ']';
+			}
+
+			var opt = document.createElement("option");
+			selTo.add(opt);
+			opt.text = newText;
+			opt.value = newVal;
+		}
+	}
+	
+	// remove from	
+	count = 0;
+	for (i = selected.length-1; i >= 0; --i) {
+		selFrom[selected[i]] = null;
+	}
+}
+
 function addClientValues(selFrom, selTo) {
 	var i, j, count = 0;
 	var optsLen;

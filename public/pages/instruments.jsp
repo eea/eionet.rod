@@ -14,7 +14,7 @@
 			      			<li><a class="link-plain" href="${pageContext.request.contextPath}/updatehistory?type=S">Deleted records</a></li>
 			      		</c:if>
 			      		<c:if test="${rodfn:hasPermission(actionBean.userName,'/instruments','i')}">
-			      			<li><a class="link-plain" href="${pageContext.request.contextPath}/source.jsv?id=-1">New instrument</a></li>
+			      			<li><a class="link-plain" href="${pageContext.request.contextPath}/instruments/new">New instrument</a></li>
 			      		</c:if>
 					</ul>
 				</li>

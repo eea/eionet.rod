@@ -14,6 +14,7 @@ public class InstrumentFactsheetDTO implements java.io.Serializable{
 	private String sourceCode;
 	private String sourceCelexRef;
 	private String sourceTitle;
+	private String sourceLegalName;
 	private String sourceAlias;
 	private String sourceUrl;
 	private String sourceIssuedByUrl;
@@ -32,6 +33,8 @@ public class InstrumentFactsheetDTO implements java.io.Serializable{
 	private String sourceValidatedBy;
 	private String sourceGeographicScope;
 	private String sourceDgenvReview;
+	private String sourceDraft;
+	private String sourceFKClientId;
 	
 	//Fields from T_CLIENT_LNK table
 	private int clientLnkFKClientId;
@@ -376,6 +379,36 @@ public class InstrumentFactsheetDTO implements java.io.Serializable{
 
 	public void setOrigin(InstrumentDTO origin) {
 		this.origin = origin;
+	}
+
+
+	public String getSourceLegalName() {
+		return sourceLegalName;
+	}
+
+
+	public void setSourceLegalName(String sourceLegalName) {
+		this.sourceLegalName = sourceLegalName;
+	}
+
+
+	public String getSourceDraft() {
+		return sourceDraft;
+	}
+
+
+	public void setSourceDraft(String sourceDraft) {
+		this.sourceDraft = sourceDraft;
+	}
+
+
+	public String getSourceFKClientId() {
+		return sourceFKClientId;
+	}
+
+
+	public void setSourceFKClientId(String sourceFKClientId) {
+		this.sourceFKClientId = sourceFKClientId;
 	}
 
 		

@@ -124,6 +124,10 @@
 		<url-pattern>/obligations</url-pattern>
   	</filter-mapping>	
 	<filter-mapping>
+		<filter-name>Character encoding</filter-name>
+		<url-pattern>/instruments</url-pattern>
+  	</filter-mapping>	
+	<filter-mapping>
 		<filter-name>Browser cache controller</filter-name>
 		<servlet-name>index</servlet-name>
   	</filter-mapping>	
