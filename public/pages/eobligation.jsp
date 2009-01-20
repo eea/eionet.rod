@@ -21,7 +21,7 @@
 	           		<col class="entrycol"/>
 	           		<tr class="zebraeven">
 						<td>
-							<a class="field-help" href="javascript:openViewHelp('HELP_RA_TITLE')" title="Help on this field"><span>Help on field</span></a>
+							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_TITLE')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="title" class="required question">Title</stripes:label>
 						</td>
 						<td>
@@ -31,7 +31,7 @@
 		            </tr>
 		            <tr>
 						<td>
-							<a class="field-help" href="javascript:openViewHelp('HELP_RA_DESCRIPTION')" title="Help on this field"><span>Help on field</span></a>
+							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_DESCRIPTION')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="description" class="required question">Description</stripes:label>
 						</td>
 						<td>
@@ -47,7 +47,7 @@
            			<col class="entrycol"/>
 					<tr class="zebraeven">
 						<td>
-							<a class="field-help" href="javascript:openViewHelp('HELP_RA_VALIDFROM')" title="Help on this field"><span>Help on field</span></a>
+							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_VALIDFROM')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="first_reporting" class="question">Baseline reporting date</stripes:label>
 						</td>
 						<td>
@@ -58,7 +58,7 @@
 					</tr>
 					<tr>
 						<td>
-							<a class="field-help" href="javascript:openViewHelp('HELP_RA_VALIDTO')" title="Help on this field"><span>Help on field</span></a>
+							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_VALIDTO')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="valid_to" class="question">Valid to</stripes:label>
 						</td>
 						<td>
@@ -69,7 +69,7 @@
 					</tr>
 					<tr class="zebraeven">
 						<td>
-							<a class="field-help" href="javascript:openViewHelp('HELP_RA_REPORTINGFREQUENCYINMONTHS')" title="Help on this field"><span>Help on field</span></a>
+							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_REPORTINGFREQUENCYINMONTHS')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="report_freq_months" class="question">Reporting frequency in months</stripes:label>
 						</td>
 						<td>
@@ -79,7 +79,7 @@
 					</tr>
 					<tr>
 						<td>
-							<a class="field-help" href="javascript:openViewHelp('HELP_RA_NEXTDUEDATE')" title="Help on this field"><span>Help on field</span></a>
+							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_NEXTDUEDATE')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="next_deadline" class="question">Next due date</stripes:label>
 						</td>
 						<td>
@@ -95,7 +95,7 @@
 					</tr>
 					<tr>
 						<td>
-							<a class="field-help" href="javascript:openViewHelp('HELP_RA_REPORTINGDATETEXTFORMAT')" title="Help on this field"><span>Help on field</span></a>
+							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_REPORTINGDATETEXTFORMAT')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="next_reporting" class="question">Reporting date</stripes:label>
 						</td>
 						<td>
@@ -104,7 +104,7 @@
 					</tr>
 					<tr class="zebraeven">
 						<td>
-							<a class="field-help" href="javascript:openViewHelp('HELP_RA_DATECOMMENTS')" title="Help on this field"><span>Help on field</span></a>
+							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_DATECOMMENTS')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="date_comments" class="question">Date comments</stripes:label>
 						</td>
 						<td>
@@ -119,7 +119,7 @@
            			<col class="entrycol"/>
            			<tr class="zebraeven">
 						<td>
-							<a class="field-help" href="javascript:openViewHelp('HELP_RO_REPORTTO')" title="Help on this field"><span>Help on field</span></a>
+							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RO_REPORTTO')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="report_to" class="required question">Report to</stripes:label>
 						</td>
 						<td>
@@ -134,7 +134,7 @@
 					</tr>
 					<tr>
 		              	<td>
-		                	<a class="field-help" href="javascript:openViewHelp('HELP_RO_OTHERCLIENTS')" title="Help on this field"><span>Help on field</span></a>
+		                	<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RO_OTHERCLIENTS')" title="Help on this field"><span>Help on field</span></a>
 				      		<label for="client_list" class="question">Other clients using this reporting</label>
 		              	</td>
 		              	<td></td>
@@ -177,7 +177,7 @@
            			<col class="entrycol"/>
 			            <tr class="zebraeven">
               				<td>
-                				<a class="field-help" href="javascript:openViewHelp('HELP_RA_NAMEOFREPORTINGGUIDELINES')" title="Help on this field"><span>Help on field</span></a>
+                				<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_NAMEOFREPORTINGGUIDELINES')" title="Help on this field"><span>Help on field</span></a>
 				                <stripes:label for="obligation.formatName" class="question">Name of reporting guidelines</stripes:label>
               				</td>
               				<td>
@@ -186,7 +186,7 @@
             			</tr>
             			<tr>
               				<td>
-                				<a class="field-help" href="javascript:openViewHelp('HELP_RA_URLTOREPORTINGGUIDELINES')" title="Help on this field"><span>Help on field</span></a>
+                				<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_URLTOREPORTINGGUIDELINES')" title="Help on this field"><span>Help on field</span></a>
 				                <stripes:label for="obligation.reportFormatUrl" class="question">URL to reporting guidelines</stripes:label>
               				</td>
               				<td>
@@ -196,7 +196,7 @@
             			</tr>
             			<tr class="zebraeven">
               				<td>
-                				<a class="field-help" href="javascript:openViewHelp('HELP_RA_FORMATVALIDSINCE')" title="Help on this field"><span>Help on field</span></a>
+                				<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_FORMATVALIDSINCE')" title="Help on this field"><span>Help on field</span></a>
 				                <stripes:label for="obligation.validSince" class="question">Format valid since</stripes:label>
               				</td>
               				<td>
@@ -207,7 +207,7 @@
             			</tr>
             			<tr>
               				<td>
-                				<a class="field-help" href="javascript:openViewHelp('HELP_RA_REPORTINGGUIDELINES')" title="Help on this field"><span>Help on field</span></a>
+                				<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_REPORTINGGUIDELINES')" title="Help on this field"><span>Help on field</span></a>
 				                <stripes:label for="obligation.reportingFormat" class="question">Reporting guidelines -Extra info.</stripes:label>
               				</td>
               				<td>
@@ -216,7 +216,7 @@
             			</tr>
             			<tr class="zebraeven">
               				<td>
-                				<a class="field-help" href="javascript:openViewHelp('HELP_RA_LOCATIONINFO')" title="Help on this field"><span>Help on field</span></a>
+                				<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_LOCATIONINFO')" title="Help on this field"><span>Help on field</span></a>
 				                <stripes:label for="obligation.locationInfo" class="question">Name of repository</stripes:label>
               				</td>
               				<td>
@@ -225,7 +225,7 @@
             			</tr>
             			<tr>
               				<td>
-                				<a class="field-help" href="javascript:openViewHelp('HELP_RA_LOCATIONPTR')" title="Help on this field"><span>Help on field</span></a>
+                				<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_LOCATIONPTR')" title="Help on this field"><span>Help on field</span></a>
 				                <stripes:label for="obligation.locationPtr" class="question">URL to repository</stripes:label>
               				</td>
               				<td>
@@ -235,7 +235,7 @@
             			</tr>
             			<tr class="zebraeven">
               				<td>
-                				<a class="field-help" href="javascript:openViewHelp('HELP_RA_DATAUSEDFOR')" title="Help on this field"><span>Help on field</span></a>
+                				<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_DATAUSEDFOR')" title="Help on this field"><span>Help on field</span></a>
 				                <stripes:label for="obligation.dataUsedFor" class="question">Data used for (name)</stripes:label>
               				</td>
               				<td>
@@ -244,7 +244,7 @@
             			</tr>
             			<tr>
               				<td>
-                				<a class="field-help" href="javascript:openViewHelp('HELP_RA_DATAUSEDFOR')" title="Help on this field"><span>Help on field</span></a>
+                				<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_DATAUSEDFOR')" title="Help on this field"><span>Help on field</span></a>
 				                <stripes:label for="obligation.dataUsedForUrl" class="question">Data used for (URL)</stripes:label>
               				</td>
               				<td>
@@ -260,7 +260,7 @@
            			<col class="entrycol"/>
             		<tr class="zebraeven">
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_SPATIALCOVERAGE')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_SPATIALCOVERAGE')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="forCountries" class="question">Countries reporting formally</stripes:label>
 			            </td>
               			<td>
@@ -312,7 +312,7 @@
             		</tr>
             		<tr class="zebraeven">
 						<td>
-		                	<a class="field-help" href="javascript:openViewHelp('HELP_RA_VOLUNTARYCOUNTRIES')" title="Help on this field"><span>Help on field</span></a>
+		                	<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_VOLUNTARYCOUNTRIES')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="volCountries" class="question">Countries reporting voluntarily</stripes:label>
 		              	</td>
 		              	<td>
@@ -351,7 +351,7 @@
 		            </tr>
 		            <tr class="zebraeven">
 		              	<td>
-		                	<a class="field-help" href="javascript:openViewHelp('HELP_RA_REPORTINGCOORDINATOR')" title="Help on this field"><span>Help on field</span></a>
+		                	<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_REPORTINGCOORDINATOR')" title="Help on this field"><span>Help on field</span></a>
 			                <label class="question">National reporting coordinators</label>
 		              	</td>
 		              	<td>
@@ -379,7 +379,7 @@
 		            </tr>
 		            <tr>
 		              	<td>
-		                	<a class="field-help" href="javascript:openViewHelp('HELP_RA_RESPONSIBLEFORREPORTING')" title="Help on this field"><span>Help on field</span></a>
+		                	<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_RESPONSIBLEFORREPORTING')" title="Help on this field"><span>Help on field</span></a>
 			                <label class="question">National reporting contacts</label>
 		              	</td>
 		              	<td>
@@ -407,7 +407,7 @@
 		            </tr>
 		            <tr class="zebraeven">
           				<td>
-            				<a class="field-help" href="javascript:openViewHelp('HELP_RO_OBLIGATIONTYPE')" title="Help on this field"><span>Help on field</span></a>
+            				<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RO_OBLIGATIONTYPE')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="obligation.legalMoral" class="question">Obligation type</stripes:label>
           				</td>
           				<td>
@@ -420,7 +420,7 @@
         			</tr>
         			<tr>
           				<td>
-            				<a class="field-help" href="javascript:openViewHelp('HELP_RO_INFOTYPE')" title="Help on this field"><span>Help on field</span></a>
+            				<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RO_INFOTYPE')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="obligation.selectedInfoTypes" class="question">Type of info reported</stripes:label>
           				</td>
           				<td>
@@ -439,7 +439,7 @@
            			<col class="entrycol"/>
            			<tr class="zebraeven">
 		              	<td>
-		                	<a class="field-help" href="javascript:openViewHelp('HELP_RA_ENVIRONMENTALISSUES')" title="Help on this field"><span>Help on field</span></a>
+		                	<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_ENVIRONMENTALISSUES')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="selIssues" class="question">Environmental issues</stripes:label>
 		              	</td>
 		              	<td>
@@ -477,7 +477,7 @@
             		</tr>
             		<tr class="zebraeven">
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_PARAMETERS')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_PARAMETERS')" title="Help on this field"><span>Help on field</span></a>
 		                	<stripes:label for="obligation.parameters" class="question">Parameters</stripes:label>
               			</td>
               			<td>
@@ -486,7 +486,7 @@
             		</tr>
             		<tr>
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_FLAGS')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_FLAGS')" title="Help on this field"><span>Help on field</span></a>
                 			<label class="question">This obligation is</label>
               			</td>
               			<td>
@@ -503,7 +503,7 @@
             		</tr>
             		<tr class="zebraeven">
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_DPSIR')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_DPSIR')" title="Help on this field"><span>Help on field</span></a>
                 			<label class="question">DPSIR</label>
               			</td>
               			<td>
@@ -526,7 +526,7 @@
             		</tr>
             		<tr>
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_OVERLAPURL')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_OVERLAPURL')" title="Help on this field"><span>Help on field</span></a>
                 			<stripes:label for="obligation.overlapUrl" class="question">URL of overlapping obligation</stripes:label>
               			</td>
               			<td>
@@ -536,7 +536,7 @@
             		</tr>
             		<tr class="zebraeven">
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_COMMENT')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_COMMENT')" title="Help on this field"><span>Help on field</span></a>
                 			<stripes:label for="obligation.comment" class="question">General comments</stripes:label>
               			</td>
               			<td>	
@@ -545,7 +545,7 @@
             		</tr>
             		<tr>
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_AUTHORITY')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_AUTHORITY')" title="Help on this field"><span>Help on field</span></a>
                 			<stripes:label for="obligation.authority" class="question">Authority giving rise to the obligation</stripes:label>
               			</td>
               			<td>
@@ -560,7 +560,7 @@
            			<col class="entrycol"/>
             		<tr>
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_RMVERIFIED')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_RMVERIFIED')" title="Help on this field"><span>Help on field</span></a>
                 			<stripes:label for="obligation.rmVerified" class="question">Verified</stripes:label>
               			</td>
               			<td>
@@ -571,7 +571,7 @@
             		</tr>
             		<tr class="zebraeven">
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_RMVERIFIEDBY')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_RMVERIFIEDBY')" title="Help on this field"><span>Help on field</span></a>
                 			<stripes:label for="obligation.rmVerifiedBy" class="question">Verified by</stripes:label>
               			</td>
               			<td>
@@ -580,7 +580,7 @@
             		</tr>
             		<tr>
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_RMNEXTUPDATEDUE')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_RMNEXTUPDATEDUE')" title="Help on this field"><span>Help on field</span></a>
                 			<stripes:label for="obligation.rmNextUpdate" class="question">Next update due</stripes:label>
               			</td>
               			<td>
@@ -591,7 +591,7 @@
             		</tr>
             		<tr class="zebraeven">
               			<td>
-                			<a class="field-help" href="javascript:openViewHelp('HELP_RA_VALIDATEDBY')" title="Help on this field"><span>Help on field</span></a>
+                			<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_RA_VALIDATEDBY')" title="Help on this field"><span>Help on field</span></a>
                 			<stripes:label for="obligation.validatedBy" class="question">Validated by</stripes:label>
               			</td>
               			<td>
