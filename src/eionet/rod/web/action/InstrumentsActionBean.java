@@ -31,7 +31,6 @@ import eionet.rod.Attrs;
 import eionet.rod.Constants;
 import eionet.rod.RODUtil;
 import eionet.rod.UNSEventSender;
-import eionet.rod.countrysrv.Extractor;
 import eionet.rod.dto.ClientDTO;
 import eionet.rod.dto.HierarchyInstrumentDTO;
 import eionet.rod.dto.InstrumentDTO;
@@ -73,7 +72,6 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 	private String hierarchyTree;
 	private String mode;
 	
-	private List<LookupDTO> yesno;
 	private List<LookupDTO> dgenvlist;
 	private List<ClientDTO> clients;
 	private List <InstrumentDTO> parentInstrumentsList;
@@ -125,7 +123,6 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 			if(instId.equals("new") || (!RODUtil.isNullOrEmpty(action) && action.equals("edit"))){
 				forwardPage = "/pages/einstrument.jsp";
 				
-				yesno = RODServices.getDbService().getSourceDao().getLookupList("1");
 				dgenvlist = RODServices.getDbService().getSourceDao().getLookupList("DGS");
 				clients = RODServices.getDbService().getClientDao().getAllClients();
 				allSourceClasses = RODServices.getDbService().getSourceDao().getAllSourceClasses();
@@ -415,7 +412,6 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
     }
 	
 	private void initOnValidationErrors() throws ServiceException {
-		yesno = RODServices.getDbService().getSourceDao().getLookupList("1");
 		dgenvlist = RODServices.getDbService().getSourceDao().getLookupList("DGS");
 		clients = RODServices.getDbService().getClientDao().getAllClients();
 		allSourceClasses = RODServices.getDbService().getSourceDao().getAllSourceClasses();
@@ -683,14 +679,6 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 
 	public void setMode(String mode) {
 		this.mode = mode;
-	}
-
-	public List<LookupDTO> getYesno() {
-		return yesno;
-	}
-
-	public void setYesno(List<LookupDTO> yesno) {
-		this.yesno = yesno;
 	}
 
 	public List<LookupDTO> getDgenvlist() {

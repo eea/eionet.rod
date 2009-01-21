@@ -53,12 +53,8 @@
                           				<stripes:label for="instrument.sourceDraft" class="question">Draft</stripes:label>
                           			</td>
                           			<td width="45%">
-                          				<stripes:select name="instrument.sourceDraft" id="instrument.sourceDraft" onchange="changed()">
-                          					<stripes:option value="0" label=""/>
-						    				<c:forEach items="${actionBean.yesno}" var="lookup" varStatus="loop">
-						    					<stripes:option value="${lookup.cvalue}" label="${lookup.cterm}"/>
-						    				</c:forEach>
-									  	</stripes:select>
+                          				<stripes:radio name="instrument.sourceDraft" value="Y" />Yes
+										<stripes:radio name="instrument.sourceDraft" value="N" />No
                           			</td>
                           		</tr>
                           	</table>
