@@ -157,27 +157,24 @@ public class Activities extends RDFServletAC {
 
       //s.append("<rod:Obligation rdf:ID=\"ra-").append(pk).append("\">")
       s.append("<rod:Obligation rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">")
-        .append("<dc:title>").append(title).append("</dc:title>")
-        .append("<rdfs:label>").append(title).append("</rdfs:label>")
+      	.append("<dc:title>").append(title).append("</dc:title>")
         .append("<dcterms:abstract>").append(description).append("</dcterms:abstract>")
         .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
         .append("<dcterms:valid>").append(validSince).append("</dcterms:valid>")        
         .append("<rod:terminated>").append(terminated).append("</rod:terminated>")                
-        .append("<rod:eea_primary>").append(eea_primary).append("</rod:eea_primary>")  
-        .append("<rod:comment>").append(comment).append("</rod:comment>")                
-        .append("<rod:responsiblerole>").append(respRole).append("</rod:responsiblerole>")                
+        .append("<rod:eea_primary>").append(eea_primary).append("</rod:eea_primary>");  
+        if(!RODUtil.isNullOrEmpty(comment) && comment.length() > 0)
+        	s.append("<rod:comment>").append(comment).append("</rod:comment>");                
+        s.append("<rod:responsiblerole>").append(respRole).append("</rod:responsiblerole>")                
         .append("<rod:nextdeadline>").append(nextDeadline).append("</rod:nextdeadline>")                        
         .append("<rod:nextdeadline2>").append(nextDeadline2).append("</rod:nextdeadline2>")                
         .append("<rod:guidelines>").append(repFormat).append("</rod:guidelines>")                
         
         .append("<rod:instrument rdf:resource=\"" + instrumentsNamespace + liId + "\"/>");
-
-        s.append(composeResource("rod:details_url", "Information page", detailsUrl));
-
-        if (!repFormatUrl.equals(""))
-          s.append(composeResource("rod:guidelines_url", formatName, repFormatUrl));
-
         
+        if (!repFormatUrl.equals(""))
+        	s.append("<rod:guidelines_url rdf:resource=\"" + repFormatUrl + "\"/>");
+          
         s.append("</rod:Obligation>");
 
     }

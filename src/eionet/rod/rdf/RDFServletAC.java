@@ -145,16 +145,5 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
  }
 
- protected String composeResource(String tagName, String value, String id) {
-
-    String s = "<" + tagName + " rdf:parseType=\"Resource\">" +
-        "<rdf:value>" + value + "</rdf:value>" +
-        "<dc:identifier rdf:resource=\"" + id + "\"/>" +
-        "<rdf:type rdf:resource=\"" + webPageType + "\"/>" +
-        "</" + tagName + ">";
-
-    return s;
-  }
-
     protected static void _log(String s) { System.out.println("****** " + s);}
 }

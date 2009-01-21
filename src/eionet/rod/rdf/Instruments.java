@@ -60,8 +60,7 @@ public class Instruments extends RDFServletAC {
   private static final String  actPropName = "activity";
 
   private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace +
-    dcNs +
-    "xmlns:dcterms='http://purl.org/dc/terms/'";
+    dcNs + "xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:eor=\"http://dublincore.org/2000/03/13/eor#\"";
   
   public String getRdf(HttpServletRequest req) throws ServiceException {
 	  	try {
@@ -132,18 +131,15 @@ public class Instruments extends RDFServletAC {
       String legalName=(String)li.get("TITLE");
       String lastUpdate=(String)li.get("LAST_UPDATE");
       String url=(String)li.get("URL");      
-      String guidelinesDescr=(String)li.get("LEGAL_NAME");      
       String abstr=(String)li.get("ABSTRACT");      
       String issuedBy=(String)li.get("ISSUED_BY");      
       String celexRef=(String)li.get("CELEX_REF");    
-
-      String detailsUrl=(String)li.get("details_url");            
 
       //show legal name if short name is empty
       title=(Util.nullString(title) ? legalName : title);
 
       s.append("<rod:Instrument rdf:about=\"" + instrumentsNamespace + pk + "\">")
-        .append("<rdf:value>").append(title).append("</rdf:value>")
+        .append("<dcterms:alternative>").append(title).append("</dcterms:alternative>")
         .append("<rdfs:label>").append(title).append("</rdfs:label>")        
         .append("<dc:title>").append(legalName).append("</dc:title>")        
         .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
@@ -153,13 +149,12 @@ public class Instruments extends RDFServletAC {
           s.append("<dcterms:abstract>").append(abstr).append("</dcterms:abstract>");
         
         if (!Util.nullString(url))
-          s.append( composeResource("rod:guidelines_url", guidelinesDescr, url));
+          s.append("<rod:guidelines_url rdf:resource=\"" + url + "\"/>");
 
         if (!Util.nullString(issuedBy))
           s.append("<dc:creator>").append(issuedBy).append("</dc:creator>");
           
-        s.append(composeResource("rod:details_url", "Information page", detailsUrl))
-          .append("</rod:Instrument>");        
+        s.append("</rod:Instrument>");        
     }
     
     s.append("</rdf:RDF>");
