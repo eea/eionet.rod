@@ -18,17 +18,17 @@
 				<table class="formtable">
 	           		<col class="labelcol"/>
 	           		<col class="entrycol"/>
-	           		<tr class="zebraeven">
+				<tr class="zebraeven">
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_LEGALNAME')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="instrument.sourceTitle" class="required question">Legal name</stripes:label>
 						</td>
 						<td>
-							<stripes:textarea name="instrument.sourceTitle" cols="55" rows="5" onchange="checkMdText(this); changed()" class="full" id="instrument.sourceTitle"/>
+							<stripes:textarea name="instrument.sourceTitle" cols="55" rows="5" style="height:5em" onchange="checkMdText(this); changed()" class="full" id="instrument.sourceTitle"/>
 							<stripes:errors field="instrument.sourceTitle"/>
 						</td>
-		            </tr>
-		            <tr>
+				</tr>
+				<tr>
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_ALIASNAME')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="instrument.sourceAlias" class="question">Short name</stripes:label>
@@ -36,8 +36,8 @@
 						<td>
 							<stripes:text name="instrument.sourceAlias" size="68" onchange="changed()" class="full" id="instrument.sourceAlias"/>
 						</td>
-		            </tr>
-		            <tr class="zebraeven">
+				</tr>
+				<tr class="zebraeven">
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_IDENTIFICATIONNUMBER')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="instrument.sourceCode" class="question">Identification number</stripes:label>
@@ -53,14 +53,14 @@
                           				<stripes:label for="instrument.sourceDraft" class="question">Draft</stripes:label>
                           			</td>
                           			<td width="45%">
-                          				<stripes:radio name="instrument.sourceDraft" value="Y" />Yes
-										<stripes:radio name="instrument.sourceDraft" value="N" />No
+                          				<stripes:radio name="instrument.sourceDraft" id="sourceDraftY" value="Y" /><stripes:label for="sourceDraftY">Yes</stripes:label>
+							<stripes:radio name="instrument.sourceDraft" id="sourceDraftN" value="N" /><stripes:label for="sourceDraftN">No</stripes:label>
                           			</td>
                           		</tr>
                           	</table>
 						</td>
-		            </tr>
-		            <tr>
+				</tr>
+				<tr>
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_URLTOOFFICIALSOURCE')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="instrument.sourceUrl" class="question">URL to official text</stripes:label>
@@ -69,8 +69,8 @@
 							<stripes:text name="instrument.sourceUrl" size="68" onchange="chkUrl(this); changed()" class="full" id="instrument.sourceUrl"/>
 							<stripes:errors field="instrument.sourceUrl"/>
 						</td>
-		            </tr>
-		            <tr class="zebraeven">
+				</tr>
+				<tr class="zebraeven">
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_CELEXREFERENCE')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="instrument.sourceCelexRef" class="question">CELEX reference</stripes:label>
@@ -78,8 +78,8 @@
 						<td>
 							<stripes:text name="instrument.sourceCelexRef" size="68" onchange="changed()" class="full" id="instrument.sourceCelexRef"/>
 						</td>
-		            </tr>
-		            <tr>
+				</tr>
+				<tr>
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_ISSUEDBY')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="instrument.sourceFKClientId" class="question">Issued by</stripes:label>
@@ -92,8 +92,8 @@
 			    				</c:forEach>
 							</stripes:select>
 						</td>
-		            </tr>
-		            <tr class="zebraeven">
+				</tr>
+				<tr class="zebraeven">
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_URLTOISSUER')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="instrument.sourceIssuedByUrl" class="question">URL to issuer</stripes:label>
@@ -103,8 +103,8 @@
 							<stripes:text name="instrument.sourceIssuedByUrl" size="68" onchange="chkUrl(this); changed()" class="full" id="instrument.sourceIssuedByUrl"/>
 							<stripes:errors field="instrument.sourceIssuedByUrl"/>
 						</td>
-		            </tr>
-		            <tr>
+				</tr>
+				<tr>
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_PARENTLEGALINSTRUMENT')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="parentInstrumentId" class="question">Parent legislative instrument</stripes:label>
@@ -117,15 +117,15 @@
 			    				</c:forEach>
 							</stripes:select>
 						</td>
-		            </tr>
-		            <tr class="zebraeven">
-		              	<td>
+				</tr>
+				<tr class="zebraeven">
+					<td>
 		                	<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_CLASSIFICATION')" title="Help on this field"><span>Help on field</span></a>
 				      		<label for="selSourceClasses" class="question">Eur-lex categories</label>
-		              	</td>
-		              	<td></td>
-		            </tr>
-		            <tr>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
 						<td colspan="2">
 							<table class="fancyselect">
 								<tr>
@@ -154,8 +154,8 @@
 								</tr>
 							</table>
 						</td>
-					</tr>
-					<tr class="zebraeven">
+				</tr>
+				<tr class="zebraeven">
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_DGENVREVIEW')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="instrument.sourceDgenvReview" class="question">DG Env review of reporting theme</stripes:label>
@@ -168,8 +168,8 @@
 			    				</c:forEach>
 							</stripes:select>
 						</td>
-		            </tr>
-		            <tr>
+				</tr>
+				<tr>
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_VALIDFROM')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="instrument.sourceValidFrom" class="question">Valid from</stripes:label>
@@ -179,7 +179,22 @@
 							<span class="input-hint">(dd/mm/yyyy)</span>
 							<stripes:errors field="instrument.sourceValidFrom"/>
 						</td>
-		            </tr>
+				</tr>
+				<tr class="zebraeven">
+						<td>
+							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_ABSTRACT')" title="Help on this field"><span>Help on field</span></a>
+			                <stripes:label for="instrument.sourceAbstract" class="question">Abstract</stripes:label>
+						</td>
+						<td>
+							<stripes:textarea name="instrument.sourceAbstract" cols="55" rows="10" onchange="changed()" class="full" id="instrument.sourceAbstract"/>
+						</td>
+				</tr>
+				</table>
+			</fieldset>
+			<fieldset><legend>Reporting framework</legend>
+				<table class="formtable">
+	           		<col class="labelcol"/>
+	           		<col class="entrycol"/>
 		            <tr class="zebraeven">
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_GSCOPE')" title="Help on this field"><span>Help on field</span></a>
@@ -191,28 +206,13 @@
 		            </tr>
 		            <tr>
 						<td>
-							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_ABSTRACT')" title="Help on this field"><span>Help on field</span></a>
-			                <stripes:label for="instrument.sourceAbstract" class="question">Abstract</stripes:label>
-						</td>
-						<td>
-							<stripes:textarea name="instrument.sourceAbstract" cols="55" rows="10" onchange="changed()" class="full" id="instrument.sourceAbstract"/>
-						</td>
-		            </tr>
-		            <tr class="zebraeven">
-						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_COMMENT')" title="Help on this field"><span>Help on field</span></a>
 			                <stripes:label for="instrument.sourceComment" class="question">Comments</stripes:label>
 						</td>
 						<td>
 							<stripes:textarea name="instrument.sourceComment" cols="55" rows="5" onchange="changed()" class="full" id="instrument.sourceComment"/>
 						</td>
-		            </tr>
-				</table>
-			</fieldset>
-			<fieldset><legend>Conventions</legend>
-				<table class="formtable">
-	           		<col class="labelcol"/>
-	           		<col class="entrycol"/>
+				</tr>
 	           		<tr class="zebraeven">
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_ECENTRYINTOFORCE')" title="Help on this field"><span>Help on field</span></a>
@@ -309,8 +309,8 @@
 				}
 			</script>
 			<table class="formtable">
-           		<col class="labelcol"/>
-           		<col class="entrycol"/>
+			<col class="labelcol"/>
+			<col class="entrycol"/>
             	<tr>
               		<td colspan="2" class="save" align="center">
               			<c:choose>
