@@ -74,8 +74,6 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
   protected static final String dcNs = " xmlns:dc=\"http://purl.org/dc/elements/1.1/\" ";
 
-  protected static final String webPageType="http://dublincore.org/2000/03/13/eor#WebPage";
-
   public void init(ServletConfig config) throws ServletException {
 
     try {

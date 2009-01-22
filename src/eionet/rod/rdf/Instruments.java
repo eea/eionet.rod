@@ -60,7 +60,7 @@ public class Instruments extends RDFServletAC {
   private static final String  actPropName = "activity";
 
   private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace +
-    dcNs + "xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:eor=\"http://dublincore.org/2000/03/13/eor#\"";
+    dcNs + "xmlns:dcterms=\"http://purl.org/dc/terms/\"";
   
   public String getRdf(HttpServletRequest req) throws ServiceException {
 	  	try {
