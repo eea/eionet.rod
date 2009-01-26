@@ -23,17 +23,18 @@
 
 
 package eionet.rod;
-import com.tee.xmlserver.BaseServletAC;
 import javax.servlet.ServletException;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+
 import com.tee.xmlserver.Parameters;
 import com.tee.xmlserver.DataSourceIF;
 
-public class LogoutServlet  extends ROServletAC { //BaseServletAC {
+public class LogoutServlet extends HttpServlet { //BaseServletAC {
 
  protected DataSourceIF prepareDataSource( Parameters prms) throws com.tee.xmlserver.XSQLException {
   return null;
@@ -41,10 +42,8 @@ public class LogoutServlet  extends ROServletAC { //BaseServletAC {
 
 	public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// quick fix, if acl admin performs logout action, the ACL is reset
-		resetAcls();
-		freeSession(req);
 		EionetCASFilter.attachEionetLoginCookie(res,false);
 		res.sendRedirect(EionetCASFilter.getCASLogoutURL(req));
 	}
-
+	
 }

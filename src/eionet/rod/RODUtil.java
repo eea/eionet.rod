@@ -32,8 +32,6 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.tee.xmlserver.Logger;
-
 public class RODUtil {
     
    /**
@@ -364,8 +362,6 @@ public class RODUtil {
            }
         }
 
-        Logger.log("Invalid date expression: " + date);
-        
         return "";
      }
 

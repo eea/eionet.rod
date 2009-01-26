@@ -40,9 +40,9 @@ public class DocumentationActionBean extends AbstractRODActionBean {
 		}
 		
 		if(!RODUtil.isNullOrEmpty(areaId)){
-			doc = RODServices.getDbService().getGenericlDao().getDoc(areaId);
+			doc = RODServices.getDbService().getHelpDao().getDoc(areaId);
 		} else {
-			docList = RODServices.getDbService().getGenericlDao().getDocList();
+			docList = RODServices.getDbService().getHelpDao().getDocList();
 		}
 		
 		return new ForwardResolution("/pages/documentation.jsp");

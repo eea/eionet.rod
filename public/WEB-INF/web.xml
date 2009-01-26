@@ -32,10 +32,6 @@
 		<param-name>login-error-page</param-name>
 		<param-value>error.html</param-value>
 	</context-param>
-	<context-param>
-		<param-name>app_cache</param-name>
-		<param-value>eionet.rod.ROCache</param-value>
-	</context-param>
 	<context-param> <!-- XMLServer parameter -->
 		<param-name>max-records</param-name>
 		<param-value>6000</param-value>
@@ -108,14 +104,6 @@
 
 	<!-- Filter Mappings -->
 	<filter-mapping>
-		<filter-name>Browser cache controller</filter-name>
-		<url-pattern>*.jsv</url-pattern>
-  	</filter-mapping>	
-	<filter-mapping>
-		<filter-name>Character encoding</filter-name>
-		<url-pattern>*.jsv</url-pattern>
-  	</filter-mapping>	
-	<filter-mapping>
 		<filter-name>Character encoding</filter-name>
 		<url-pattern>/clients</url-pattern>
   	</filter-mapping>	
@@ -126,6 +114,10 @@
 	<filter-mapping>
 		<filter-name>Character encoding</filter-name>
 		<url-pattern>/instruments</url-pattern>
+  	</filter-mapping>	
+	<filter-mapping>
+		<filter-name>Character encoding</filter-name>
+		<url-pattern>/help</url-pattern>
   	</filter-mapping>	
 	<filter-mapping>
 		<filter-name>Browser cache controller</filter-name>
@@ -152,38 +144,6 @@
 		<url-pattern>/*</url-pattern>		
   	</filter-mapping>	
 	<servlet>
-		<servlet-name>gentext</servlet-name>
-		<servlet-class>eionet.rod.TxtServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>viewhelp</servlet-name>
-		<servlet-class>eionet.rod.ViewHelp</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>helplist</servlet-name>
-		<servlet-class>eionet.rod.HelpList</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>help</servlet-name>
-		<servlet-class>eionet.rod.Help</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>client</servlet-name>
-		<servlet-class>eionet.rod.Client</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>eclient</servlet-name>
-		<servlet-class>eionet.rod.EClient</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>addclient</servlet-name>
-		<servlet-class>eionet.rod.AddClient</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>editclient</servlet-name>
-		<servlet-class>eionet.rod.EditClient</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>Subscribe</servlet-name>
 		<servlet-class>eionet.rod.countrysrv.servlets.Subscribe</servlet-class>
 	</servlet>
@@ -206,10 +166,6 @@
 	<servlet>
 		<servlet-name>histDeadlines</servlet-name>
 		<servlet-class>eionet.rod.HistoricalDeadlines</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>DummyServlet</servlet-name>
-		<servlet-class>eionet.rod.DummyServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>rpcrouter</servlet-name>
@@ -259,74 +215,6 @@
 		<servlet-name>logout</servlet-name>
 		<servlet-class>eionet.rod.LogoutServlet</servlet-class>
 	</servlet>
-	<servlet>
-		<servlet-name>history</servlet-name>
-		<servlet-class>eionet.rod.History</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>harvester</servlet-name>
-		<servlet-class>eionet.rod.Harvester</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>show</servlet-name>
-		<servlet-class>eionet.rod.Show</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>source</servlet-name>
-		<servlet-class>eionet.rod.Source</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>rorabrowse</servlet-name>
-		<servlet-class>eionet.rod.RORABrowse</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>activity</servlet-name>
-		<servlet-class>eionet.rod.Activity</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>spatialhistory</servlet-name>
-		<servlet-class>eionet.rod.SpatialHistory</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>gentext</servlet-name>
-		<url-pattern>/text.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>spatialhistory</servlet-name>
-		<url-pattern>/spatialhistory.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>activity</servlet-name>
-		<url-pattern>/activity.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>viewhelp</servlet-name>
-		<url-pattern>/viewhelp.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>help</servlet-name>
-		<url-pattern>/help.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>helplist</servlet-name>
-		<url-pattern>/helplist.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>client</servlet-name>
-		<url-pattern>/client.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>eclient</servlet-name>
-		<url-pattern>/eclient.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>addclient</servlet-name>
-		<url-pattern>/addclient.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>editclient</servlet-name>
-		<url-pattern>/editclient.jsv</url-pattern>
-	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Subscribe</servlet-name>
 		<url-pattern>/Subscribe</url-pattern>
@@ -350,10 +238,6 @@
 	<servlet-mapping>
 		<servlet-name>histDeadlines</servlet-name>
 		<url-pattern>/histDeadlines</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>DummyServlet</servlet-name>
-		<url-pattern>/DummyServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>rpcrouter</servlet-name>
@@ -403,26 +287,6 @@
 		<servlet-name>logout</servlet-name>
 		<url-pattern>/logout_servlet</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>history</servlet-name>
-		<url-pattern>/history.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>harvester</servlet-name>
-		<url-pattern>/harvester.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>show</servlet-name>
-		<url-pattern>/show.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>source</servlet-name>
-		<url-pattern>/source.jsv</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>rorabrowse</servlet-name>
-		<url-pattern>/rorabrowse.jsv</url-pattern>
-	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>StripesDispatcher</servlet-name>
@@ -468,6 +332,11 @@
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/documentation/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/help/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

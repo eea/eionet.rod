@@ -21,6 +21,7 @@ public abstract class RODDaoFactory {
 	   public abstract IDeliveryDao getDeliveryDao();
 	   public abstract IDifferencesDao getDifferencesDao();
 	   public abstract IGenericDao getGenericlDao();
+	   public abstract IHelpDao getHelpDao();
 	   public abstract IHistoricDeadlineDao getHistoricDeadlineDao();
 	   public abstract IHistoryDao getHistoryDao();
 	   public abstract IIssueDao getIssueDao();

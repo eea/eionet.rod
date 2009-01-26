@@ -34,8 +34,8 @@ public class IndexActionBean extends AbstractRODActionBean {
 	@DefaultHandler
 	public Resolution init() throws ServiceException {
 		
-		introduction = RODServices.getDbService().getGenericlDao().getHelpAreaHtml("Introduction");
-		twoBoxes = RODServices.getDbService().getGenericlDao().getHelpAreaHtml("Two_boxes");
+		introduction = RODServices.getDbService().getHelpDao().getHelpAreaHtml("Introduction");
+		twoBoxes = RODServices.getDbService().getHelpDao().getHelpAreaHtml("Two_boxes");
 		
 		formCountries = RODServices.getDbService().getSpatialDao().getCountriesList();
 		formIssues = RODServices.getDbService().getIssueDao().getIssuesList();

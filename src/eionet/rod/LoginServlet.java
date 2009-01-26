@@ -28,7 +28,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.tee.xmlserver.*;
-import com.tee.util.Util;
 
 /**
  * Simple servlet to handle login form submit. Uses authenticator module specified by application

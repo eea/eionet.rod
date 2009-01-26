@@ -5,6 +5,7 @@ import eionet.rod.services.modules.db.dao.IClientDao;
 import eionet.rod.services.modules.db.dao.IDeliveryDao;
 import eionet.rod.services.modules.db.dao.IDifferencesDao;
 import eionet.rod.services.modules.db.dao.IGenericDao;
+import eionet.rod.services.modules.db.dao.IHelpDao;
 import eionet.rod.services.modules.db.dao.IHistoricDeadlineDao;
 import eionet.rod.services.modules.db.dao.IHistoryDao;
 import eionet.rod.services.modules.db.dao.IIssueDao;
@@ -29,6 +30,8 @@ public class MySqlDaoFactory extends RODDaoFactory {
 	private IDifferencesDao differencesDao = new DifferencesMySqlDao();
 
 	private IGenericDao genericlDao = new GenericMySqlDao();
+	
+	private IHelpDao helpDao = new HelpMySqlDao();
 
 	private IHistoricDeadlineDao historicDeadlineDao = new HistoricDeadlineMySqlDao();
 
@@ -110,5 +113,9 @@ public class MySqlDaoFactory extends RODDaoFactory {
 	
 	public IAnalysisDao getAnalysisDao() {
 		return analysisDao;
+	}
+
+	public IHelpDao getHelpDao() {
+		return helpDao;
 	}
 }
