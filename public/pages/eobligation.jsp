@@ -615,7 +615,7 @@
             	<tr>
               		<td colspan="2" class="save" align="center">
               			<c:choose>
-							<c:when test="${!empty actionBean.id && actionBean.id == '-1'}">
+							<c:when test="${!empty actionBean.id && actionBean.id == 'new'}">
 								<stripes:submit name="add" id="addBtn" value="Add" class="btn" onclick="javascript:selectAll()"/>
 							</c:when>
 							<c:otherwise>

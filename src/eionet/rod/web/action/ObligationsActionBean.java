@@ -333,12 +333,12 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         	return new ForwardResolution("/pages/eobligation.jsp");
 		}
 		
-		if(id != null && id.equals("-1") && RODUtil.isNullOrEmpty(aid)){
+		if(id != null && id.equals("new") && RODUtil.isNullOrEmpty(aid)){
     		handleRodException("Legislative instrument ID is missing!", Constants.SEVERITY_WARNING);
     		return new ForwardResolution("/pages/eobligation.jsp");
     	}
 		
-		String acl_p = (RODUtil.isNullOrEmpty(id) || id.equals("-1"))? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" +id);
+		String acl_p = (RODUtil.isNullOrEmpty(id) || id.equals("new"))? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" +id);
 		boolean ins = false;
 		try {
 			AccessControlListIF acl = AccessController.getAcl(acl_p);
