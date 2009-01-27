@@ -20,6 +20,7 @@ import eionet.rod.dto.InstrumentsListDTO;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.dto.SourceClassDTO;
+import eionet.rod.dto.UrlDTO;
 import eionet.rod.dto.readers.HierarchyInstrumentDTOReader;
 import eionet.rod.dto.readers.InstrumentDTOReader;
 import eionet.rod.dto.readers.InstrumentsDueDTOReader;
@@ -1029,4 +1030,51 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 		}
 		return instrumentId;
     }
+    
+    private static final String q_instrument_urls =
+		"SELECT URL, SECRETARIAT, SECRETARIAT_URL, ALIAS, ISSUED_BY_URL " +
+		"FROM T_SOURCE";
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISourceDao##getInstrumentsUrls()
+     */
+	public List<UrlDTO> getInstrumentsUrls() throws ServiceException {
+		
+		List<UrlDTO> ret = new ArrayList<UrlDTO>();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			connection = getConnection();
+			if (isDebugMode) logQuery(q_instrument_urls);
+			preparedStatement = connection.prepareStatement(q_instrument_urls);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				UrlDTO url = new UrlDTO();
+				
+				url.setTitle(null);
+				url.setUrl(rs.getString("URL"));
+				ret.add(url);
+				
+				url = new UrlDTO();
+				url.setTitle(rs.getString("SECRETARIAT"));
+				url.setUrl(rs.getString("SECRETARIAT_URL"));
+				ret.add(url);
+				
+				url = new UrlDTO();
+				url.setTitle(rs.getString("ALIAS"));
+				url.setUrl(rs.getString("ISSUED_BY_URL"));
+				ret.add(url);
+			}	
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+		
+		return ret;
+	}
 }

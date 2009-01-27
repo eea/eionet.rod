@@ -10,6 +10,7 @@ import eionet.rod.dto.InstrumentsDueDTO;
 import eionet.rod.dto.InstrumentsListDTO;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.SourceClassDTO;
+import eionet.rod.dto.UrlDTO;
 import eionet.rod.services.ServiceException;
 
 public interface ISourceDao {
@@ -185,5 +186,11 @@ public interface ISourceDao {
      * @throws ServiceException
      */
     public Integer addInstrument(InstrumentFactsheetDTO instrument) throws ServiceException;
+    
+    /**
+     * @return list of all urls in T_SOURCE
+     * @throws ServiceException
+     */
+    public List<UrlDTO> getInstrumentsUrls() throws ServiceException;
 	
 }

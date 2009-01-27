@@ -10,6 +10,7 @@ import eionet.rod.dto.ObligationsDueDTO;
 import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SearchDTO;
 import eionet.rod.dto.SiblingObligationDTO;
+import eionet.rod.dto.UrlDTO;
 import eionet.rod.services.ServiceException;
 
 /**
@@ -330,5 +331,11 @@ public interface IObligationDao {
 	 * @throws ServiceException
 	 */
 	public Integer insertObligation(ObligationFactsheetDTO obligation) throws ServiceException;
+	
+	/**
+	 * @return list of urls in T_OBLIGATION
+	 * @throws ServiceException
+	 */
+	public List<UrlDTO> getObligationsUrls() throws ServiceException;
 }
 

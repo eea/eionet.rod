@@ -28,6 +28,7 @@ import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SearchDTO;
 import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.SiblingObligationDTO;
+import eionet.rod.dto.UrlDTO;
 import eionet.rod.dto.readers.CountryDeliveryDTOReader;
 import eionet.rod.dto.readers.LookupDTOReader;
 import eionet.rod.dto.readers.ObligationsDueDTOReader;
@@ -1806,5 +1807,68 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		}
 		return obligationId;
     }
+    
+    private static final String q_obligation_urls =
+		"SELECT FORMAT_NAME, REPORT_FORMAT_URL, LOCATION_INFO, LOCATION_PTR, NATIONAL_CONTACT, NATIONAL_CONTACT_URL, " +
+		"COORDINATOR, COORDINATOR_URL, OVERLAP_URL, DATA_USED_FOR, DATA_USED_FOR_URL " +
+		"FROM T_OBLIGATION";
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#getObligationsUrls()
+     */
+	public List<UrlDTO> getObligationsUrls() throws ServiceException {
+		
+		List<UrlDTO> ret = new ArrayList<UrlDTO>();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			connection = getConnection();
+			if (isDebugMode) logQuery(q_obligation_urls);
+			preparedStatement = connection.prepareStatement(q_obligation_urls);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				UrlDTO url = new UrlDTO();
+				
+				url.setTitle(rs.getString("FORMAT_NAME"));
+				url.setUrl(rs.getString("REPORT_FORMAT_URL"));
+				ret.add(url);
+				
+				url = new UrlDTO();
+				url.setTitle(rs.getString("LOCATION_INFO"));
+				url.setUrl(rs.getString("LOCATION_PTR"));
+				ret.add(url);
+				
+				url = new UrlDTO();
+				url.setTitle(rs.getString("NATIONAL_CONTACT"));
+				url.setUrl(rs.getString("NATIONAL_CONTACT_URL"));
+				ret.add(url);
+				
+				url = new UrlDTO();
+				url.setTitle(rs.getString("COORDINATOR"));
+				url.setUrl(rs.getString("COORDINATOR_URL"));
+				ret.add(url);
+				
+				url = new UrlDTO();
+				url.setTitle(null);
+				url.setUrl(rs.getString("OVERLAP_URL"));
+				ret.add(url);
+				
+				url = new UrlDTO();
+				url.setTitle(rs.getString("DATA_USED_FOR"));
+				url.setUrl(rs.getString("DATA_USED_FOR_URL"));
+				ret.add(url);
+			}	
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+		
+		return ret;
+	}
 
 }
