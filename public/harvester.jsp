@@ -65,7 +65,7 @@
 				<%
 				}%>	
 				<ul>
-				<li><a href="history.jsv?id=0&amp;entity=H">Show harvesting history</a></li>
+				<li><a href="history">Show harvesting history</a></li>
 				</ul>
 					<h2>Select the data you want to be harvested</h2>
 			    <form onsubmit="javascript:setwait(this)" method="post" action="harvester.jsp">

@@ -5,14 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.HarvestHistoryDTO;
+import eionet.rod.dto.readers.HarvestHistoryDTOReader;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IHistoryDao;
+import eionet.rod.util.sql.SQLUtil;
 
 public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
 
@@ -235,5 +240,38 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
 		}
 
 	}
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.mysql.IHistoryDao#getHarvestHistory()
+     */
+    public List<HarvestHistoryDTO> getHarvestHistory() throws ServiceException {
+    	
+    	String query =
+	  		"SELECT PK_HISTORY_ID, ITEM_ID, ITEM_TYPE, ACTION_TYPE, USER, DESCRIPTION, DATE_FORMAT(LOG_TIME, '%d/%m/%Y %H:%i') AS TIME_STAMP " +
+	  		"FROM T_HISTORY WHERE ITEM_TYPE = 'H' AND ITEM_ID = 0 ORDER BY LOG_TIME DESC LIMIT 100";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		HarvestHistoryDTOReader rsReader = new HarvestHistoryDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<HarvestHistoryDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
 
 }

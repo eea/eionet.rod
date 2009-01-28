@@ -1,8 +1,10 @@
 package eionet.rod.services.modules.db.dao;
 
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.HarvestHistoryDTO;
 import eionet.rod.services.ServiceException;
 
 public interface IHistoryDao {
@@ -83,4 +85,11 @@ public interface IHistoryDao {
 	 * @throws ServiceException
 	 */
 	public void logHistory(String itemType, String itemId, String userName, String actionType, String description) throws ServiceException ;
+	
+	/**
+	 * Returns list of harvesting history
+	 * @return List of HarvestHistoryDTO
+	 * @throws ServiceException
+	 */
+	public List<HarvestHistoryDTO> getHarvestHistory() throws ServiceException;
 }
