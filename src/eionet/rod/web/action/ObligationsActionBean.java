@@ -408,9 +408,6 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 		}
 		
 		processEditDelete("U", userName);
-			
-		if(RODUtil.isNullOrEmpty(obligation.getReportFreqMonths()))
-			obligation.setReportFreqMonths("NULL");
 		
 		if(RODUtil.isNullOrEmpty(obligation.getValidTo())){
 			obligation.setTerminate("N");
