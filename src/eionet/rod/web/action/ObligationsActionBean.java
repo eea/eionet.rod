@@ -323,7 +323,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	public Resolution add() throws ServiceException {
 		
 		if(hasErrors)
-    		return new ForwardResolution("/pages/editobligation.jsp");
+    		return new ForwardResolution("/pages/eobligation.jsp");
 		
 		Resolution resolution = new ForwardResolution("/pages/obligation.jsp");
 		
