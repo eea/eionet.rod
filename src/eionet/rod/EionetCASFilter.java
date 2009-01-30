@@ -106,7 +106,14 @@ public class EionetCASFilter extends CASFilter {
 	
 	public static String getCASLoginURL(HttpServletRequest request) {
 		
-		request.getSession(true).setAttribute("afterLogin",request.getRequestURL().toString() + (request.getQueryString() != null ? ("?" +request.getQueryString()):"" ));
+		String action = (String) request.getSession(true).getAttribute(Constants.LAST_ACTION_URL_SESSION_ATTR);
+		String afterUrl = request.getScheme() + "://" + SERVER_NAME + request.getContextPath();
+		if(RODUtil.isNullOrEmpty(action))
+			afterUrl = request.getRequestURL().toString() + (request.getQueryString() != null ? ("?" +request.getQueryString()):"");
+		else
+			afterUrl = request.getScheme() + "://" + SERVER_NAME + request.getContextPath() + action;
+		
+		request.getSession(true).setAttribute("afterLogin",afterUrl);
 		return CAS_LOGIN_URL + "?service=" + request.getScheme() + "://" + SERVER_NAME + request.getContextPath() + "/login";
 	}
 	

@@ -128,6 +128,9 @@ public interface Constants {
   static final String ROD_URL_ACTIVITIES ="rod.url.activities";  
   static final String ROD_URL_INSTRUMENTS ="rod.url.instruments";
   
+  /** Specifies session attribute name where last action URL is kept. */
+  static final String LAST_ACTION_URL_SESSION_ATTR = "ActionEventInterceptor#lastActionUrl";
+  
   
 
   /**

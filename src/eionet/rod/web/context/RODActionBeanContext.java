@@ -63,7 +63,7 @@ public class RODActionBeanContext extends ActionBeanContext {
 	 * @return central authentication system login URL.
 	 */
 	public String getCASLoginURL() {
-		return EionetCASFilter.getCASLoginURLTemp(getRequest());
+		return EionetCASFilter.getCASLoginURL(getRequest());
 	}
 
 	public int getSeverity() {

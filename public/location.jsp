@@ -1,7 +1,8 @@
-<%@page import="eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.RODUtil,java.util.*"%>
+<%@page import="eionet.rod.ROUser,eionet.rod.Attrs,eionet.rod.RODUtil,java.util.*,eionet.rod.EionetCASFilter"%>
 <%
 String appName = getServletContext().getInitParameter(Attrs.APPPARAM);
 ROUser rouser = (ROUser) session.getAttribute(Attrs.USERPREFIX + appName);
+String loginUrl = EionetCASFilter.getCASLoginURL(request);
 %>
 <div id="toolribbon">
 	<div id="lefttools">
@@ -15,7 +16,7 @@ ROUser rouser = (ROUser) session.getAttribute(Attrs.USERPREFIX + appName);
 			<a id="logoutlink" href="logout_servlet" title="Logout">Logout <%=rouser.getUserName()%></a><%
 		}
 		else{ %>
-			<a id="loginlink" href="login.jsp" title="Login">Login</a><%
+			<a id="loginlink" href="<%=loginUrl%>" title="Login">Login</a><%
 		}%>
 		<a id="printlink" title="Print this page" href="javascript:this.print();"><span>Print</span></a>
         <a id="fullscreenlink" href="javascript:toggleFullScreenMode()" title="Switch to/from full screen mode"><span>Switch to/from full screen mode</span></a>
