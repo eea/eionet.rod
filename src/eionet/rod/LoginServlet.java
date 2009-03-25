@@ -72,7 +72,7 @@ public class LoginServlet extends BaseServletAC {
 
          String location = "index.html";
          if(rd != null && rd.equals("subscribe")){
-             location = "subscribe.jsp";
+             location = "subscribe";
          }
          //String location = "test.html";         
          // DBG

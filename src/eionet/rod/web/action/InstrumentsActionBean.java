@@ -32,6 +32,7 @@ import eionet.rod.Constants;
 import eionet.rod.RODUtil;
 import eionet.rod.UNSEventSender;
 import eionet.rod.dto.ClientDTO;
+import eionet.rod.dto.DifferenceDTO;
 import eionet.rod.dto.HierarchyInstrumentDTO;
 import eionet.rod.dto.InstrumentDTO;
 import eionet.rod.dto.InstrumentFactsheetDTO;
@@ -542,10 +543,10 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 	           }
 	       }
 	       
-	       Hashtable eurlex = RODServices.getDbService().getDifferencesDao().getDifferencesInEurlexCategories(ts,new Integer(instrumentID).intValue(),"U");
-	       if(eurlex.size() > 0){
-	           String added = (String) eurlex.get("added");
-	           String removed = (String) eurlex.get("removed");
+	       DifferenceDTO eurlex = RODServices.getDbService().getDifferencesDao().getDifferencesInEurlexCategories(ts,new Integer(instrumentID).intValue(),"U");
+	       if(eurlex != null){
+	           String added = eurlex.getAdded();
+	           String removed = eurlex.getRemoved();
 	           if(added.length() > 0){
 	               res_vec.add("'Eur-lex categories' added: "+added);
 	           }

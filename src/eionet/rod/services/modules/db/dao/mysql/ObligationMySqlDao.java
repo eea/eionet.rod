@@ -384,6 +384,41 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		return result != null ? result : new Vector();
 
 	}
+	
+	private final static String qSubscribeObligations = 
+		"SELECT TITLE " + 
+		"FROM T_OBLIGATION "+ 
+		"ORDER BY TITLE";
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IObligationDao#getObligations()
+	 */
+	public List<String> getSubscribeObligations() throws ServiceException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		List<String> result = new ArrayList<String>();
+		try {
+			connection = getConnection();
+			if (isDebugMode) logQuery(qSubscribeObligations);
+			preparedStatement = connection.prepareStatement(qSubscribeObligations);
+			ResultSet rs = null;
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				String title = rs.getString("TITLE");
+				result.add(title);
+			}
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+
+		return result;
+
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -530,7 +565,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
 	private final static String qObligationById = 
 		"SELECT " + 
-			"REPLACE(o.TITLE, '&', '&#038;') as title, " + 
+			"o.TITLE as title, " + 
 			"c.CLIENT_NAME AS client, " + 
 			"o.PK_RA_ID AS obligationID, " + 
 			"c.PK_CLIENT_ID AS clientID " + 
@@ -542,16 +577,16 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 	 * 
 	 * @see eionet.rod.services.modules.db.dao.IObligationDao#getObligationById(java.lang.Integer)
 	 */
-	public Vector getObligationById(Integer id) throws ServiceException {
+	public Hashtable getObligationById(Integer id) throws ServiceException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Vector result = null;
+		Hashtable result = null;
 		try {
 			connection = getConnection();
 			if (isDebugMode) logQuery(qObligationById);
 			preparedStatement = connection.prepareStatement(qObligationById);
 			preparedStatement.setInt(1, id.intValue());
-			result = _getVectorOfHashes(preparedStatement);
+			result = _getHashtable(preparedStatement);
 		} catch (SQLException exception) {
 			logger.error(exception);
 			throw new ServiceException(exception.getMessage());
@@ -559,7 +594,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			closeAllResources(null, preparedStatement, connection);
 		}
 
-		return result != null ? result : new Vector();
+		return result != null ? result : new Hashtable();
 	}
 
 	private final static String qObligationDetail = 

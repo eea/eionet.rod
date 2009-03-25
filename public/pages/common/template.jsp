@@ -34,16 +34,16 @@
 			<!--[if IE]>
 			<style type="text/css" media="screen">
 				body {
-					behavior: url(<c:url value="/csshover.htc"/>);
+					behavior: url(<c:url value="/css/csshover.htc"/>);
 				}
 			</style>
 			<![endif]-->
 			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/print.css" media="print" />
 			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/handheld.css" media="handheld" />		
 			<link rel="stylesheet" type="text/css" href="http://www.eionet.europa.eu/styles/eionet2007/screen.css" media="screen" />
-			<link rel="stylesheet" type="text/css" href="<c:url value="/eionet2007.css"/>" media="screen" />
-			<link rel="stylesheet" type="text/css" href="<c:url value="/print.css"/>" media="print" />
-			<link rel="shortcut icon" href="<c:url value="/favicon.ico"/>" type="image/x-icon" />
+			<link rel="stylesheet" type="text/css" href="<c:url value="/css/eionet2007.css"/>" media="screen" />
+			<link rel="stylesheet" type="text/css" href="<c:url value="/css/print.css"/>" media="print" />
+			<link rel="shortcut icon" href="<c:url value="/images/favicon.ico"/>" type="image/x-icon" />
 			<script type="text/javascript" src="<c:url value="/script/util.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/pageops.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/mark_special_links.js"/>"></script>
@@ -99,7 +99,7 @@
 				</div> <!-- pagehead -->
 				
 				<div id="menuribbon">
-					<%@ include file="/dropdownmenus.txt" %>
+					<%@ include file="/pages/common/dropdownmenus.txt" %>
 				</div>
 				
 				<div class="breadcrumbtrail">
@@ -130,7 +130,7 @@
 						<li><a href="${pageContext.request.contextPath}/countrydeadlines" title="Country deadlines">Country deadlines </a></li>
 						<li><a href="${pageContext.request.contextPath}/obligations" title="Reporting Obligations">Obligations </a></li>
 						<li><a href="${pageContext.request.contextPath}/clients" title="Clients">Clients </a></li>
-						<li><a href="${pageContext.request.contextPath}/subscribe.jsp" title="Create a UNS Subscription">Subscribe </a></li>
+						<li><a href="${pageContext.request.contextPath}/subscribe" title="Create a UNS Subscription">Subscribe </a></li>
 						<li><a href="${pageContext.request.contextPath}/documentation/Help" title="General Help">Help </a></li>
 						<c:if test="${!empty actionBean.userName}">
 							<li><a href="${pageContext.request.contextPath}/versions">Global History </a></li>
@@ -140,7 +140,7 @@
 						<li><a href="${pageContext.request.contextPath}/analysis" title="Database statistics">Database statistics </a></li>
 						<li><a href="${pageContext.request.contextPath}/search" title="Advanced search">Advanced search </a></li>
 						<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName, '/Admin/Harvest', 'u')}">
-							<li><a href="${pageContext.request.contextPath}/harvester.jsp">Harvest </a></li>
+							<li><a href="${pageContext.request.contextPath}/harvester">Harvest </a></li>
 						</c:if>
 					</ul>
 				</div>

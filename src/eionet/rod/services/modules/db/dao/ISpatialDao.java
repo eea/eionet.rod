@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Vector;
 
 import eionet.rod.dto.CountryDTO;
+import eionet.rod.dto.CountryInfoDTO;
 import eionet.rod.dto.ObligationCountryDTO;
 import eionet.rod.services.ServiceException;
 
@@ -59,7 +60,7 @@ public interface ISpatialDao {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public Hashtable getCountryInfo(int ra_id, int spatial_id) throws ServiceException ;
+	public CountryInfoDTO getCountryInfo(String oid, String sid) throws ServiceException ;
 	
 	/**
 	 * Returns true if country twoletter exists

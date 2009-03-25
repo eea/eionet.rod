@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Vector;
 
+import eionet.rod.dto.DifferenceDTO;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IDifferencesDao;
 
@@ -31,7 +31,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 	 * @see eionet.rod.services.modules.db.dao.IDifferencesDao#getDifferencesInCountries(long,
 	 *      int, java.lang.String, java.lang.String)
 	 */
-	public Hashtable getDifferencesInCountries(long ts, int id, String voluntary, String op) throws ServiceException {
+	public DifferenceDTO getDifferencesInCountries(long ts, int id, String voluntary, String op) throws ServiceException {
 
 		Vector current = new Vector();
 		Vector undo = new Vector();
@@ -41,7 +41,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 		StringBuffer added = new StringBuffer();
 		StringBuffer removed = new StringBuffer();
 
-		Hashtable ret = new Hashtable();
+		DifferenceDTO ret = new DifferenceDTO();
 		Connection connection = null;
 		PreparedStatement currentPreparedStatement = null;
 		PreparedStatement undoPreparedStatement = null;
@@ -99,11 +99,11 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 			}
 			cnt2++;
 		}
-
-		ret.put("undo", undoCountries.toString());
-		ret.put("current", currentCountries.toString());
-		ret.put("added", added.toString());
-		ret.put("removed", removed.toString());
+		
+		ret.setUndo(undoCountries.toString());
+		ret.setCurrent(currentCountries.toString());
+		ret.setAdded(added.toString());
+		ret.setRemoved(removed.toString());
 
 		return ret;
 	}
@@ -119,7 +119,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 	 * @see eionet.rod.services.modules.db.dao.IDifferencesDao#getDifferencesInClients(long,
 	 *      int, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public Hashtable getDifferencesInClients(long ts, int id, String status, String op, String type) throws ServiceException {
+	public DifferenceDTO getDifferencesInClients(long ts, int id, String status, String op, String type) throws ServiceException {
 
 		Vector current = new Vector();
 		Vector undo = new Vector();
@@ -129,7 +129,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 		StringBuffer added = new StringBuffer();
 		StringBuffer removed = new StringBuffer();
 
-		Hashtable ret = new Hashtable();
+		DifferenceDTO ret = new DifferenceDTO();
 
 		Connection connection = null;
 		PreparedStatement currentPreparedStatement = null;
@@ -190,10 +190,10 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 			cnt2++;
 		}
 
-		ret.put("undo", undoClients.toString());
-		ret.put("current", currentClients.toString());
-		ret.put("added", added.toString());
-		ret.put("removed", removed.toString());
+		ret.setUndo(undoClients.toString());
+		ret.setCurrent(currentClients.toString());
+		ret.setAdded(added.toString());
+		ret.setRemoved(removed.toString());
 
 		return ret;
 	}
@@ -209,7 +209,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
      * @see eionet.rod.services.modules.db.dao.IDifferencesDao#getDifferencesInClients(long,
      *      int, java.lang.String, java.lang.String, java.lang.String)
      */
-    public Hashtable getDifferencesInEurlexCategories(long ts, int id, String op) throws ServiceException {
+    public DifferenceDTO getDifferencesInEurlexCategories(long ts, int id, String op) throws ServiceException {
 
         Vector current = new Vector();
         Vector undo = new Vector();
@@ -219,7 +219,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
         StringBuffer added = new StringBuffer();
         StringBuffer removed = new StringBuffer();
 
-        Hashtable ret = new Hashtable();
+        DifferenceDTO ret = new DifferenceDTO();
 
         Connection connection = null;
         PreparedStatement currentPreparedStatement = null;
@@ -278,10 +278,10 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
             cnt2++;
         }
 
-        ret.put("undo", undoClients.toString());
-        ret.put("current", currentClients.toString());
-        ret.put("added", added.toString());
-        ret.put("removed", removed.toString());
+        ret.setUndo(undoClients.toString());
+		ret.setCurrent(currentClients.toString());
+		ret.setAdded(added.toString());
+		ret.setRemoved(removed.toString());
 
         return ret;
     }
@@ -297,7 +297,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 	 * @see eionet.rod.services.modules.db.dao.IDifferencesDao#getDifferencesInIssues(long,
 	 *      int, java.lang.String)
 	 */
-	public Hashtable getDifferencesInIssues(long ts, int id, String op) throws ServiceException {
+	public DifferenceDTO getDifferencesInIssues(long ts, int id, String op) throws ServiceException {
 
 		Vector current = new Vector();
 		Vector undo = new Vector();
@@ -307,7 +307,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 		StringBuffer added = new StringBuffer();
 		StringBuffer removed = new StringBuffer();
 
-		Hashtable ret = new Hashtable();
+		DifferenceDTO ret = new DifferenceDTO();
 
 		Connection connection = null;
 		PreparedStatement currentPreparedStatement = null;
@@ -366,10 +366,10 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 			cnt2++;
 		}
 
-		ret.put("undo", undoIssues.toString());
-		ret.put("current", currentIssues.toString());
-		ret.put("added", added.toString());
-		ret.put("removed", removed.toString());
+		ret.setUndo(undoIssues.toString());
+		ret.setCurrent(currentIssues.toString());
+		ret.setAdded(added.toString());
+		ret.setRemoved(removed.toString());
 
 		return ret;
 	}
@@ -385,7 +385,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 	 * @see eionet.rod.services.modules.db.dao.IDifferencesDao#getDifferencesInInfo(long,
 	 *      int, java.lang.String, java.lang.String)
 	 */
-	public Hashtable getDifferencesInInfo(long ts, int id, String op, String cat) throws ServiceException {
+	public DifferenceDTO getDifferencesInInfo(long ts, int id, String op, String cat) throws ServiceException {
 
 		Vector current = new Vector();
 		Vector undo = new Vector();
@@ -395,7 +395,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 		StringBuffer added = new StringBuffer();
 		StringBuffer removed = new StringBuffer();
 
-		Hashtable ret = new Hashtable();
+		DifferenceDTO ret = new DifferenceDTO();
 
 		Connection connection = null;
 		PreparedStatement currentPreparedStatement = null;
@@ -454,10 +454,10 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 			cnt2++;
 		}
 
-		ret.put("undo", undoInfo.toString());
-		ret.put("current", currentInfo.toString());
-		ret.put("added", added.toString());
-		ret.put("removed", removed.toString());
+		ret.setUndo(undoInfo.toString());
+		ret.setCurrent(currentInfo.toString());
+		ret.setAdded(added.toString());
+		ret.setRemoved(removed.toString());
 
 		return ret;
 	}

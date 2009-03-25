@@ -1,7 +1,6 @@
 package eionet.rod.services.modules.db.dao;
 
-import java.util.Hashtable;
-
+import eionet.rod.dto.DifferenceDTO;
 import eionet.rod.services.ServiceException;
 
 public interface IDifferencesDao {
@@ -15,7 +14,7 @@ public interface IDifferencesDao {
 	 * @return difference between undo and current object countries
 	 * @throws ServiceException
 	 */
-	public Hashtable getDifferencesInCountries(long ts, int id, String voluntary, String op) throws ServiceException;
+	public DifferenceDTO getDifferencesInCountries(long ts, int id, String voluntary, String op) throws ServiceException;
     
     /**
      * Returns difference between undo and current object eur-lex categories
@@ -25,7 +24,7 @@ public interface IDifferencesDao {
      * @return difference between undo and current object eur-lex categories
      * @throws ServiceException
      */
-    public Hashtable getDifferencesInEurlexCategories(long ts, int id, String op) throws ServiceException;
+    public DifferenceDTO getDifferencesInEurlexCategories(long ts, int id, String op) throws ServiceException;
 
 	/**
 	 * Returns c
@@ -37,7 +36,7 @@ public interface IDifferencesDao {
 	 * @return returns difference between undo and current object clients
 	 * @throws ServiceException
 	 */
-	public Hashtable getDifferencesInClients(long ts, int id, String status, String op, String type) throws ServiceException;
+	public DifferenceDTO getDifferencesInClients(long ts, int id, String status, String op, String type) throws ServiceException;
 
 	/**
 	 * returns difference between undo and current object issues
@@ -47,7 +46,7 @@ public interface IDifferencesDao {
 	 * @return Hashtable difference between undo and current object issues
 	 * @throws ServiceException
 	 */
-	public Hashtable getDifferencesInIssues(long ts, int id, String op) throws ServiceException;
+	public DifferenceDTO getDifferencesInIssues(long ts, int id, String op) throws ServiceException;
 
 	/**
 	 * returns difference between undo and current object Type of info reported
@@ -58,7 +57,7 @@ public interface IDifferencesDao {
 	 * @return difference between undo and current object Type of info reported
 	 * @throws ServiceException
 	 */
-	public Hashtable getDifferencesInInfo(long ts, int id, String op, String cat) throws ServiceException;
+	public DifferenceDTO getDifferencesInInfo(long ts, int id, String op, String cat) throws ServiceException;
 	
 	
 	/**

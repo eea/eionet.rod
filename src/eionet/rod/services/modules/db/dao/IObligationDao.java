@@ -1,5 +1,6 @@
 package eionet.rod.services.modules.db.dao;
 
+import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -81,6 +82,13 @@ public interface IObligationDao {
 	 * @throws ServiceException
 	 */
 	public Vector getObligations() throws ServiceException;
+	
+	/**
+	 * obligations
+	 * @return
+	 * @throws ServiceException
+	 */
+	public List<String> getSubscribeObligations() throws ServiceException;
 
 	/**
 	 * Returns next deadlines of activities
@@ -117,7 +125,7 @@ public interface IObligationDao {
 	 * @return obligation by id and client
 	 * @throws ServiceException
 	 */
-	public Vector getObligationById(Integer id) throws ServiceException;
+	public Hashtable getObligationById(Integer id) throws ServiceException;
 
 	/**
 	 * Returns obligation details

@@ -386,6 +386,39 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 		}
     }
     
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.services.modules.db.dao.IClientDao#getSubscribeClients()
+     */
+    public List<ClientDTO> getSubscribeClients() throws ServiceException {
+    	
+    	String query = "SELECT CLIENT_NAME, PK_CLIENT_ID, CLIENT_ACRONYM " +
+    		"FROM T_CLIENT " +
+    		"ORDER BY CLIENT_NAME";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		ClientDTOReader rsReader = new ClientDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<ClientDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
     private static final String q_client_factsheet =
     	"SELECT PK_CLIENT_ID, CLIENT_NAME, CLIENT_SHORT_NAME, CLIENT_ADDRESS, CLIENT_ACRONYM, " +
     	"CLIENT_URL, CLIENT_EMAIL, POSTAL_CODE, CITY, DESCRIPTION, COUNTRY " +

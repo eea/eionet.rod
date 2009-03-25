@@ -55,7 +55,7 @@ public class VersionsTableDecorator extends TableDecorator{
 		HttpServletRequest req = (HttpServletRequest) getPageContext().getRequest();
 		String path = req.getContextPath();
 		
-		ret.append("<a href='").append(path).append("/undoinfo.jsp?ts=").append(ver.getUndoTime()).append("&amp;tab=").append(ver.getTab());
+		ret.append("<a href='").append(path).append("/undoinfo?ts=").append(ver.getUndoTime()).append("&amp;tab=").append(ver.getTab());
 		ret.append("&amp;op=").append(ver.getOperation()).append("&amp;id=").append(ver.getValue()).append("&amp;user=").append(user).append("'>");
 		if(ver.getTab().equals("T_OBLIGATION"))
 			ret.append("/obligations/").append(ver.getValue());

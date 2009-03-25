@@ -39,6 +39,7 @@ import eionet.rod.dto.ClientDTO;
 import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.dto.DDParamDTO;
+import eionet.rod.dto.DifferenceDTO;
 import eionet.rod.dto.InstrumentFactsheetDTO;
 import eionet.rod.dto.IssueDTO;
 import eionet.rod.dto.LookupDTO;
@@ -762,10 +763,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
         
-        Hashtable countries_formally = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,new Integer(obligationID).intValue(),"N","U");
-        if(countries_formally.size() > 0){
-            String added = (String) countries_formally.get("added");
-            String removed = (String) countries_formally.get("removed");
+        DifferenceDTO countries_formally = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,new Integer(obligationID).intValue(),"N","U");
+        if(countries_formally != null){
+            String added = countries_formally.getAdded();
+            String removed = countries_formally.getRemoved();
             if(added.length() > 0){
                 res_vec.add("'Countries reporting formally' added: "+added);
             }
@@ -774,10 +775,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
         
-        Hashtable countries_voluntarily = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,new Integer(obligationID).intValue(),"Y","U");
-        if(countries_voluntarily.size() > 0){
-            String added = (String) countries_voluntarily.get("added");
-            String removed = (String) countries_voluntarily.get("removed");
+        DifferenceDTO countries_voluntarily = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,new Integer(obligationID).intValue(),"Y","U");
+        if(countries_voluntarily != null){
+            String added = countries_voluntarily.getAdded();
+            String removed = countries_voluntarily.getRemoved();
             if(added.length() > 0){
                 res_vec.add("'Countries reporting voluntarily' added: "+added);
             }
@@ -786,10 +787,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
         
-        Hashtable issues = RODServices.getDbService().getDifferencesDao().getDifferencesInIssues(ts,new Integer(obligationID).intValue(),"U"); 
-        if(issues.size() > 0){
-            String added = (String) issues.get("added");
-            String removed = (String) issues.get("removed");
+        DifferenceDTO issues = RODServices.getDbService().getDifferencesDao().getDifferencesInIssues(ts,new Integer(obligationID).intValue(),"U"); 
+        if(issues != null){
+            String added = issues.getAdded();
+            String removed = issues.getRemoved();
             if(added.length() > 0){
                 res_vec.add("'Environmental issues' added: "+added);
             }
@@ -798,10 +799,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
         
-        Hashtable clients = RODServices.getDbService().getDifferencesDao().getDifferencesInClients(ts,new Integer(obligationID).intValue(),"C","U","A");
-        if(clients.size() > 0){
-            String added = (String) clients.get("added");
-            String removed = (String) clients.get("removed");
+        DifferenceDTO clients = RODServices.getDbService().getDifferencesDao().getDifferencesInClients(ts,new Integer(obligationID).intValue(),"C","U","A");
+        if(clients != null){
+            String added = clients.getAdded();
+            String removed = clients.getRemoved();
             if(added.length() > 0){
                 res_vec.add("'Other clients using this reporting' added: "+added);
             }
@@ -810,10 +811,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
         
-        Hashtable info = RODServices.getDbService().getDifferencesDao().getDifferencesInInfo(ts,new Integer(obligationID).intValue(),"U","I");        
-        if(info.size() > 0){
-            String added = (String) info.get("added");
-            String removed = (String) info.get("removed");
+        DifferenceDTO info = RODServices.getDbService().getDifferencesDao().getDifferencesInInfo(ts,new Integer(obligationID).intValue(),"U","I");        
+        if(info != null){
+            String added = info.getAdded();
+            String removed = info.getRemoved();
             if(added.length() > 0){
                 res_vec.add("'Type of info reported' added: "+added);
             }

@@ -79,7 +79,7 @@ public class EionetCASFilter extends CASFilter {
 					String location = (String) session.getAttribute("afterLogin");
 					
 					if (rd != null && rd.equals("subscribe")) {
-						location = "subscribe.jsp";
+						location = "subscribe";
 					}
 					if (location != null)
 						httpResponse.sendRedirect(location);

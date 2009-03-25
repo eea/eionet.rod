@@ -303,3 +303,9 @@ function openCirca(url){
 		else
 			document.forms["x1"].submit();   
 	}
+	
+	function setwait(theform) {
+      		document.body.style.cursor='wait';
+		theform.submitbtn.value='Harvesting';
+		return true;
+      	}

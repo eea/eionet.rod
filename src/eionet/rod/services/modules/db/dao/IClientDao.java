@@ -90,6 +90,12 @@ public interface IClientDao {
 	public List<ClientDTO> getAllClients() throws ServiceException;
 	
 	/**
+	 * Returns list of all clients
+	 * @throws ServiceException
+	 */
+	public List<ClientDTO> getSubscribeClients() throws ServiceException;
+	
+	/**
 	 * Returns client factsheet
 	 * @param clientId
 	 * @throws ServiceException

@@ -30,7 +30,7 @@
 							</li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/subscribe.jsp?sid=${actionBean.instId}">Subscribe</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/subscribe?sid=${actionBean.instId}">Subscribe</a></li>
 						</c:if>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
 							<li><a class="link-plain" href="${pageContext.request.contextPath}/versions?id=${actionBean.instId}&amp;tab=T_SOURCE&amp;id_field=PK_SOURCE_ID">Show history</a></li>

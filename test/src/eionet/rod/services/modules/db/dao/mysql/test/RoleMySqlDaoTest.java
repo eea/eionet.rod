@@ -3,6 +3,7 @@ package eionet.rod.services.modules.db.dao.mysql.test;
 import java.util.Hashtable;
 import java.util.Random;
 
+import eionet.rod.dto.ResponsibleRoleDTO;
 import eionet.rod.services.modules.db.dao.mysql.RoleMySqlDao;
 
 public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
@@ -99,9 +100,8 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.RoleMySqlDao.getRoleDesc(String)'
 	 */
 	public void testGetRoleDesc() throws Exception{
-		Hashtable  ht = roleMySqlDao.getRoleDesc(role_id);
-		assertEquals("eper-dat-test@roles.eea.eionet.eu.int",(String)ht.get("email"));
-		assertEquals(7,ht.size());
+		ResponsibleRoleDTO  ht = roleMySqlDao.getRoleDesc(role_id, role_name);
+		assertEquals("eper-dat-test@roles.eea.eionet.eu.int",ht.getEmail());
 //		System.out.println(ht);
 	}
 

@@ -126,12 +126,12 @@ td.save {
 input.btn {
 	font-weight: bold; 
 	color: #000000; 
-	background-image: url('images/bgr_form_buttons.jpg');
+	background-image: url('../images/bgr_form_buttons.jpg');
 }
 
 input.arrow_btns {
 	width: 80px; 
-	background-image: url('images/bgr_form_buttons.jpg');
+	background-image: url('../images/bgr_form_buttons.jpg');
 }
 
 input.indicator_btns {
@@ -139,7 +139,7 @@ input.indicator_btns {
 	font-family: Verdana; 
 	font-size: 8pt; 
 	font-weight: bold; 
-	background-image: url('images/bgr_form_buttons_wide.jpg');
+	background-image: url('../images/bgr_form_buttons_wide.jpg');
 }
 
 /*edit instrument form objects that has the same width */

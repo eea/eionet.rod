@@ -38,7 +38,7 @@ public class CountryDeliveriesTableDecorator extends TableDecorator{
 					ret.append("</div>");
 				}
 			} else {
-				ret.append("<a href='").append(path).append("/responsible.jsp?role=").append(delivery.getObligationRespRole()).append("&amp;spatial=");
+				ret.append("<a href='").append(path).append("/responsible?role=").append(delivery.getObligationRespRole()).append("&amp;spatial=");
 				ret.append(delivery.getSpatialTwoLetter()).append("&amp;member=").append(delivery.getSpatialIsMember()).append("'>");
 				ret.append(RODUtil.threeDots(delivery.getRoleName(), 15));
 				ret.append("</a>");

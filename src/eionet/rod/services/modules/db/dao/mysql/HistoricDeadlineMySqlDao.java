@@ -5,11 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.HistDeadlineDTO;
+import eionet.rod.dto.ObligationDTO;
+import eionet.rod.dto.readers.HistDeadlineDTOReader;
+import eionet.rod.dto.readers.ObligationDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IHistoricDeadlineDao;
+import eionet.rod.util.sql.SQLUtil;
 
 public class HistoricDeadlineMySqlDao extends MySqlBaseDao implements IHistoricDeadlineDao {
 
@@ -30,29 +37,31 @@ public class HistoricDeadlineMySqlDao extends MySqlBaseDao implements IHistoricD
 	 * @see eionet.rod.services.modules.db.dao.IHistoricDeadlineDao#getHistoricDeadlines(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public Vector getHistoricDeadlines(String start_date, String end_date) throws ServiceException {
+	public List<HistDeadlineDTO> getHistoricDeadlines(String start_date, String end_date) throws ServiceException {
 		String d = simpFormater.format(new Date());
 		if (start_date == null || start_date.equals("")) start_date = "01/01/0001";
 		if (end_date == null || end_date.equals("")) end_date = d;
 		Connection connection = null;
-		ResultSet resultSet = null;
-		PreparedStatement preparedStatement = null;
-		Vector result = null;
+		List<HistDeadlineDTO> result = new ArrayList<HistDeadlineDTO>();
 
 		try {
 			connection = getConnection();
-			preparedStatement = connection.prepareStatement(qHistoricDeadlines);
-			preparedStatement.setDate(1, new java.sql.Date(simpFormater.parse(start_date).getTime()));
-			preparedStatement.setDate(2, new java.sql.Date(simpFormater.parse(end_date).getTime()));
-			result = _getVectorOfHashes(preparedStatement);
+			
+			List<Object> values = new ArrayList<Object>();
+			values.add(new java.sql.Date(simpFormater.parse(start_date).getTime()));
+			values.add(new java.sql.Date(simpFormater.parse(end_date).getTime()));
+			HistDeadlineDTOReader rsReader = new HistDeadlineDTOReader();
+			SQLUtil.executeQuery(qHistoricDeadlines, values, rsReader, connection);
+			result = rsReader.getResultList();
+			
 		} catch (Exception exception) {
 			logger.error(exception);
 			throw new ServiceException(exception.getMessage());
 		} finally {
-			closeAllResources(resultSet, preparedStatement, connection);
+			closeAllResources(null, null, connection);
 		}
 
-		return result != null ? result : new Vector();
+		return result;
 
 	}
 

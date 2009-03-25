@@ -93,7 +93,7 @@ public class DeadlinesTableDecorator extends TableDecorator{
 					ret.append("</div>");
 				}
 			} else {
-				ret.append("<a href='responsible.jsp?role=").append(search.getObligationRespRole()).append("&amp;spatial=");
+				ret.append("<a href='responsible?role=").append(search.getObligationRespRole()).append("&amp;spatial=");
 				ret.append(search.getSpatialTwoLetter()).append("&amp;member=").append(search.getSpatialIsMember()).append("'>");
 				ret.append(RODUtil.replaceTags(RODUtil.threeDots(search.getRoleDescr(), 15), true, true));
 				ret.append("</a>");

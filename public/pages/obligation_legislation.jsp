@@ -57,7 +57,7 @@
 			<th scope="row" class="scope-row">Countries</th>
 			<td>
 				<c:forEach items="${actionBean.countries}" var="country" varStatus="loop">
-					<a href="${pageContext.request.contextPath}/countryinfo.jsp?ra-id=${actionBean.id}&amp;spatial=${country.countryId}&amp;member=${country.isMemberCountry}&amp;vol=${country.voluntary}">
+					<a href="${pageContext.request.contextPath}/countryinfo?oid=${actionBean.id}&amp;sid=${country.countryId}&amp;member=${country.isMemberCountry}&amp;vol=${country.voluntary}">
 						<c:choose>
 			    			<c:when test="${country.voluntary == 'Y'}">
 			    				<span title="Informal participation in the reporting obligation">${rodfn:replaceTags(country.name)}*</span>

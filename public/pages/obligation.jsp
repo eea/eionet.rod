@@ -76,7 +76,7 @@
 						</c:if>
 						<li><a href="javascript:openHelpList2('${pageContext.request.contextPath}','RO')">Field descriptions</a></li>
 						<c:if test="${rodfn:hasPermission(actionBean.userName,perm_name,'u')}">
-							<li><a class="link-plain" href="${pageContext.request.contextPath}/subscribe.jsp?id=${actionBean.id}">Subscribe</a></li>
+							<li><a class="link-plain" href="${pageContext.request.contextPath}/subscribe?id=${actionBean.id}">Subscribe</a></li>
 						</c:if>
 					</ul>
 				</li>

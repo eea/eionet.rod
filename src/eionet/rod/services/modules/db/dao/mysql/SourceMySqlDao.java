@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -79,6 +80,42 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 		return result != null ? result : new Vector();
 
 	}
+	
+	private static final String q_subscribe_instruments = 
+		"SELECT REPLACE(TITLE, '&', '&#038;') AS TITLE " + 
+		"FROM T_SOURCE " + 
+		"ORDER BY TITLE ";
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.ISourceDao#getSubscribeInstruments()
+	 */
+	public List<String> getSubscribeInstruments() throws ServiceException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		List<String> result = new ArrayList<String>();
+
+		try {
+			connection = getConnection();
+			preparedStatement = connection.prepareStatement(q_subscribe_instruments);
+			if (isDebugMode) logQuery(q_subscribe_instruments);
+			ResultSet rs = null;
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				String title = rs.getString("TITLE");
+				result.add(title);
+			}
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+
+		return result;
+
+	}
     
     private final static String qInstrumentById = 
         "SELECT " + 
@@ -91,16 +128,16 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      * 
      * @see eionet.rod.services.modules.db.dao.ISourceDao#getInstrumentById(java.lang.Integer)
      */
-    public Vector getInstrumentById(Integer id) throws ServiceException {
+    public Hashtable getInstrumentById(Integer id) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector result = null;
+        Hashtable result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qInstrumentById);
             preparedStatement = connection.prepareStatement(qInstrumentById);
             preparedStatement.setInt(1, id.intValue());
-            result = _getVectorOfHashes(preparedStatement);
+            result = _getHashtable(preparedStatement);
         } catch (SQLException exception) {
             logger.error(exception);
             throw new ServiceException(exception.getMessage());
@@ -108,7 +145,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             closeAllResources(null, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector();
+        return result != null ? result : new Hashtable();
     }
 
 	private static final String q_instruments_rss = 

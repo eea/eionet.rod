@@ -1,5 +1,6 @@
 package eionet.rod.services.modules.db.dao;
 
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
@@ -21,6 +22,13 @@ public interface ISourceDao {
 	 * @throws ServiceException
 	 */
 	public Vector getInstruments() throws ServiceException;
+	
+	/**
+	 * All instruments
+	 * @return list of strings
+	 * @throws ServiceException
+	 */
+	public List<String> getSubscribeInstruments() throws ServiceException;
     
     /**
      * Returns instrument by id
@@ -28,7 +36,7 @@ public interface ISourceDao {
      * @return instrument by id
      * @throws ServiceException
      */
-    public Vector getInstrumentById(Integer id) throws ServiceException;
+    public Hashtable getInstrumentById(Integer id) throws ServiceException;
 
 	/**
 	 * @return

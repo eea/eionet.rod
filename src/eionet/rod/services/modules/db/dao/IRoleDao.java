@@ -3,6 +3,7 @@ package eionet.rod.services.modules.db.dao;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import eionet.rod.dto.ResponsibleRoleDTO;
 import eionet.rod.services.ServiceException;
 
 public interface IRoleDao {
@@ -34,18 +35,12 @@ public interface IRoleDao {
 	/**
 	 * Returns role information
 	 * @param role_id
+	 * @param role_name
 	 * @return role information
 	 * @throws ServiceException
 	 */
-	public Hashtable getRoleDesc(String role_id) throws ServiceException;
+	public ResponsibleRoleDTO getRoleDesc(String role_id, String role_name) throws ServiceException;
 	
-	/**
-	 * Returns role obligations
-	 * @param role_id
-	 * @return role obligations
-	 * @throws ServiceException
-	 */
-	public Vector getRoleObligations(String role_id) throws ServiceException;
 	
 	/**
 	 * Returns true if role exists

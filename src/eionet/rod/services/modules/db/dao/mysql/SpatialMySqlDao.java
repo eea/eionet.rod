@@ -12,8 +12,11 @@ import java.util.Vector;
 import eionet.rod.RODUtil;
 import eionet.rod.util.sql.SQLUtil;
 import eionet.rod.dto.CountryDTO;
+import eionet.rod.dto.CountryInfoDTO;
+import eionet.rod.dto.DeliveryDTO;
 import eionet.rod.dto.ObligationCountryDTO;
 import eionet.rod.dto.readers.CountryDTOReader;
+import eionet.rod.dto.readers.DeliveryDTOReader;
 import eionet.rod.dto.readers.ObligationCountryDTOReader;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.ServiceException;
@@ -195,43 +198,67 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 	
 	
 	private static final String q_deliveries =
-		"SELECT PK_DELIVERY_ID AS id, TITLE AS title, DELIVERY_URL AS url " +
+		"SELECT PK_DELIVERY_ID, TITLE, DELIVERY_URL " +
 		"FROM T_DELIVERY " +
 		"WHERE FK_SPATIAL_ID=? AND FK_RA_ID=?";
 	
 
-	public Hashtable getCountryInfo(int ra_id, int spatial_id) throws ServiceException {
-		Hashtable ret = new Hashtable();
+	public CountryInfoDTO getCountryInfo(String oid, String sid) throws ServiceException {
+		CountryInfoDTO ret = new CountryInfoDTO();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		Hashtable hash = null;
 
 		try {
 			connection = getConnection();
 			preparedStatement = connection.prepareStatement(q_obligationInfo);
-			preparedStatement.setInt(1, ra_id);
+			preparedStatement.setString(1, oid);
 			if (isDebugMode) logQuery(q_obligationInfo);
-			ret.put("obligationinfo", _getHashtable(preparedStatement));
+			hash =  _getHashtable(preparedStatement);
+			if(hash != null){
+				ret.setObligationTitle((String)hash.get("title"));
+				ret.setRole((String)hash.get("role"));
+			}
 			preparedStatement.close();
 
 			preparedStatement = connection.prepareStatement(q_spatialinfo);
-			preparedStatement.setInt(1, spatial_id);
+			preparedStatement.setString(1, sid);
 			if (isDebugMode) logQuery(q_spatialinfo);
-			ret.put("spatialinfo", _getHashtable(preparedStatement));
+			hash =  _getHashtable(preparedStatement);
+			if(hash != null){
+				ret.setCountry((String)hash.get("name"));
+				ret.setTwoLetter(((String)hash.get("two")).toLowerCase());
+			}
 			preparedStatement.close();
 			
 			preparedStatement = connection.prepareStatement(q_period);
-			preparedStatement.setInt(1, spatial_id);
-			preparedStatement.setInt(2, ra_id);
+			preparedStatement.setString(1, sid);
+			preparedStatement.setString(2, oid);
 			if (isDebugMode) logQuery(q_period);
-			ret.put("period", _getHashtable(preparedStatement));
+			hash =  _getHashtable(preparedStatement);
+			if(hash != null){
+				String start = (String)hash.get("start");
+				if(start == null || start.equals("") || start.equals("00/00/0000") || start.equals("0000-00-00")){
+					start = "Prior to start of ROD (2003)";
+				} else {
+					start = "From " + start;	
+				}
+				String end = (String)hash.get("end");
+				if(end == null || end.equals("") || end.equals("00/00/0000") || start.equals("0000-00-00")){
+					end = "present";
+				}
+				ret.setStart(start);
+				ret.setEnd(end);
+			}
 			preparedStatement.close();
 			
-			preparedStatement = connection.prepareStatement(q_deliveries);
-			preparedStatement.setInt(1, spatial_id);
-			preparedStatement.setInt(2, ra_id);
-			if (isDebugMode) logQuery(q_deliveries);
-			ret.put("deliveries", _getVectorOfHashes(preparedStatement));
-			
+			List<Object> values = new ArrayList<Object>();
+			values.add(sid);
+			values.add(oid);
+			DeliveryDTOReader rsReader = new DeliveryDTOReader();
+			SQLUtil.executeQuery(q_deliveries, values, rsReader, connection);
+			List<DeliveryDTO>  list = rsReader.getResultList();
+			ret.setDeliveries(list);
 			
 			
 		} catch (SQLException exception) {

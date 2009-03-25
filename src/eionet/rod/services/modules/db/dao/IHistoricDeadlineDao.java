@@ -1,7 +1,8 @@
 package eionet.rod.services.modules.db.dao;
 
-import java.util.Vector;
+import java.util.List;
 
+import eionet.rod.dto.HistDeadlineDTO;
 import eionet.rod.services.ServiceException;
 
 public interface IHistoricDeadlineDao {
@@ -13,7 +14,7 @@ public interface IHistoricDeadlineDao {
 	 * @return historical deadlines between given range
 	 * @throws ServiceException
 	 */
-	public Vector getHistoricDeadlines(String start_date, String end_date) throws ServiceException;
+	public List<HistDeadlineDTO> getHistoricDeadlines(String start_date, String end_date) throws ServiceException;
 	
 	
 	/**

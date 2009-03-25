@@ -4,13 +4,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 import eionet.directory.DirServiceException;
 import eionet.directory.DirectoryService;
+import eionet.rod.dto.DeliveryDTO;
+import eionet.rod.dto.ObligationDTO;
+import eionet.rod.dto.ResponsibleRoleDTO;
+import eionet.rod.dto.RoleOccupantDTO;
+import eionet.rod.dto.readers.DeliveryDTOReader;
+import eionet.rod.dto.readers.ObligationDTOReader;
+import eionet.rod.dto.readers.RoleOccupantDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IRoleDao;
+import eionet.rod.util.sql.SQLUtil;
 
 public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 
@@ -296,86 +306,72 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 
 	private static final String q_role_description = 
 		"SELECT " + 
-			"ROLE_NAME AS name, " +
-			"ROLE_ID AS role_id, " +
-			"ROLE_EMAIL AS email, " + 
-			"ROLE_URL AS role_url, " + 
-			"ROLE_ID AS role_id, " +
-			"ROLE_MEMBERS_URL AS members_url, " +
-			"LAST_HARVESTED AS last_harvested " +
+			"ROLE_NAME, " +
+			"ROLE_ID, " +
+			"ROLE_EMAIL, " + 
+			"ROLE_URL, " + 
+			"ROLE_MEMBERS_URL, " +
+			"LAST_HARVESTED " +
 		"FROM T_ROLE " + 
 		"WHERE ROLE_ID =? ";
 	
 	private static final String q_role_occupants = 
 		"SELECT " + 
-			"PERSON AS person, " + 
-			"INSTITUTE AS institute " + 
+			"PERSON, " + 
+			"INSTITUTE " + 
 		"FROM T_ROLE_OCCUPANTS " + 
 		"WHERE ROLE_ID =? ";
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eionet.rod.services.modules.db.dao.IRoleDao#getRoleDesc(java.lang.String)
-	 */
-	public Hashtable getRoleDesc(String role_id) throws ServiceException {
-
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		Hashtable result = new Hashtable();
-		Vector occupants = new Vector();
-
-		try {
-			connection = getConnection();
-			preparedStatement = connection.prepareStatement(q_role_occupants);
-			preparedStatement.setString(1, role_id);
-			logQuery(q_role_occupants);
-			occupants = _getVectorOfHashes(preparedStatement);
-			preparedStatement.close();
-						
-			preparedStatement = connection.prepareStatement(q_role_description);
-			preparedStatement.setString(1, role_id);
-			logQuery(q_role_description);
-			result = _getHashtable(preparedStatement);
-			
-			if(occupants != null && result != null)
-				result.put("occupants", occupants);
-
-		} catch (SQLException exception) {
-			logger.error(exception);
-			throw new ServiceException(exception.getMessage());
-		} finally {
-			closeAllResources(null, preparedStatement, connection);
-		}
-
-		return result != null ? result : new Hashtable();
-	}
 	
 	private static final String q_role_obligations = 
 		"SELECT " + 
-			"PK_RA_ID AS ra_id, " + 
-			"FK_SOURCE_ID AS sid, " +
-			"TITLE AS title " +
+			"PK_RA_ID, " + 
+			"FK_SOURCE_ID, " +
+			"TITLE " +
 		"FROM T_OBLIGATION " + 
 		"WHERE RESPONSIBLE_ROLE =? ";
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see eionet.rod.services.modules.db.dao.IRoleDao#getRoleObligations(java.lang.String)
+	 * @see eionet.rod.services.modules.db.dao.IRoleDao#getRoleDesc(java.lang.String)
 	 */
-	public Vector getRoleObligations(String role_id) throws ServiceException {
+	public ResponsibleRoleDTO getRoleDesc(String role_id, String role_name) throws ServiceException {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Vector result = null;
+		ResponsibleRoleDTO ret = new ResponsibleRoleDTO();
+		ResultSet rs = null;
 
 		try {
 			connection = getConnection();
-			preparedStatement = connection.prepareStatement(q_role_obligations);
+			preparedStatement = connection.prepareStatement(q_role_description);
 			preparedStatement.setString(1, role_id);
-			logQuery(q_role_obligations);
-			result = _getVectorOfHashes(preparedStatement);
+			logQuery(q_role_description);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				ret.setName(rs.getString("ROLE_NAME"));
+				ret.setEmail(rs.getString("ROLE_EMAIL"));
+				ret.setRoleUrl(rs.getString("ROLE_URL"));
+				ret.setMembersUrl(rs.getString("ROLE_MEMBERS_URL"));
+				ret.setLastHarvested(rs.getString("LAST_HARVESTED"));
+			}
+			
+			List<Object> values = new ArrayList<Object>();
+			values.add(role_id);
+			RoleOccupantDTOReader rsReader = new RoleOccupantDTOReader();
+			SQLUtil.executeQuery(q_role_occupants, values, rsReader, connection);
+			List<RoleOccupantDTO>  occupants = rsReader.getResultList();
+			if(occupants != null && occupants.size() > 0)
+				ret.setOccupants(occupants);
+			
+			values = new ArrayList<Object>();
+			values.add(role_name);
+			ObligationDTOReader rsReader2 = new ObligationDTOReader();
+			SQLUtil.executeQuery(q_role_obligations, values, rsReader2, connection);
+			List<ObligationDTO>  obligations = rsReader2.getResultList();
+			if(obligations != null && obligations.size() > 0)
+				ret.setObligations(obligations);
+			
 			
 		} catch (SQLException exception) {
 			logger.error(exception);
@@ -384,7 +380,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 			closeAllResources(null, preparedStatement, connection);
 		}
 
-		return result != null ? result : new Vector();
+		return ret;
 	}
 	
 	private static final String q_check_role = 

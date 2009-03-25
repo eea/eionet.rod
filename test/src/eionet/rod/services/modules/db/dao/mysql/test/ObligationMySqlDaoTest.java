@@ -1,6 +1,7 @@
 package eionet.rod.services.modules.db.dao.mysql.test;
 
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Vector;
 
 import eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao;
@@ -139,8 +140,8 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getObligationById(Integer)'
 	 */
 	public void testGetObligationById() throws Exception{
-		Vector v = obligationMySqlDao.getObligationById(new Integer(15));
-		assertEquals(1, v.size());
+		Hashtable hash = obligationMySqlDao.getObligationById(new Integer(15));
+		assertEquals(15, hash.get("obligationID"));
 //		printVectorResult(v);
 
 

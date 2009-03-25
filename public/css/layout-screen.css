@@ -22,14 +22,14 @@ body {
 	font-style: normal; 
 	font-size: 80%; 
 	line-height: normal; 
-	background: #f0f0f0 url('images/eionet_background.jpg') repeat-y;
+	background: #f0f0f0 url('../images/eionet_background.jpg') repeat-y;
 }
 
 
 /* Page head styles */
 #pagehead {
 	height: 138px;
-	background-image: url('images/treegreen.png');
+	background-image: url('../images/treegreen.png');
 	background-repeat: no-repeat;
 }
  
@@ -135,13 +135,13 @@ body {
 	width: 80px;
 	height: 13px;
 	padding: 0px 6px 0px 20px;
-	background: url('images/greybuttonred.gif') no-repeat left top;
+	background: url('../images/greybuttonred.gif') no-repeat left top;
 	border: none;
 	margin: 0px;
 }
 
 #globalnav li a:hover {
-	background: url('images/greybuttonred.gif') no-repeat left top;
+	background: url('../images/greybuttonred.gif') no-repeat left top;
 	background-position: 0% -26px;
 }
 
@@ -191,7 +191,7 @@ body {
 	font-weight: bold;
 	text-decoration: none;
 	color: white;
-	background: url('images/emptybluebutton.png') no-repeat;
+	background: url('../images/emptybluebutton.png') no-repeat;
 	padding: 4px 0px 0px 9px;
 	width: 111px;
 	height: 17px;
@@ -215,7 +215,7 @@ body {
 }
 
 .quickjumps ul {
-	list-style-image: url("images/smalldiamond.png");
+	list-style-image: url("../images/smalldiamond.png");
 	margin-left: 0;
 	padding-left: 1.5em;
 }
@@ -250,7 +250,7 @@ body {
 	font-family: verdana, arial, helvetica, sans-serif;
 	color: black;
 	height: 25px;
-	background: url('images/bar_filled.jpg') repeat-x;
+	background: url('../images/bar_filled.jpg') repeat-x;
 }
 
 
@@ -270,7 +270,7 @@ body {
 	padding-right: 28px;
 	height: 13px;
 	margin-right: 3px;
-	background-image: url("images/bar_hole.jpg");
+	background-image: url("../images/bar_hole.jpg");
 	background-repeat: no-repeat;
 	background-position: 100% 0px;
 	padding-top: 12px;
@@ -281,7 +281,7 @@ body {
 	padding-right: 28px;
 	height: 13px;
 	margin-right: 3px;
-	background-image: url("images/bar_dot.jpg");
+	background-image: url("../images/bar_dot.jpg");
 	background-repeat: no-repeat;
 	background-position: 100% 0px;
 	padding-top: 12px;
@@ -546,7 +546,7 @@ kbd { font-weight: bold }
 	font-size: 10pt; 
 	font-weight: bold;
 	color: black;
-	background-image: url('images/bgr_form_buttons.jpg');
+	background-image: url('../images/bgr_form_buttons.jpg');
 }
 
 /* Data tables have borders */
@@ -647,7 +647,7 @@ tr.even td, tr.zebraeven td {
 }
 
 .topcategory {
-	list-style-image: url("images/smalldiamond.png");
+	list-style-image: url("../images/smalldiamond.png");
 	margin-left:44px;
 	padding-left: 0;
 	padding-bottom: .5em;

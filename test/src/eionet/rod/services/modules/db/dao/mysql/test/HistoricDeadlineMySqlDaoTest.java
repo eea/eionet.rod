@@ -1,6 +1,8 @@
 package eionet.rod.services.modules.db.dao.mysql.test;
 
-import java.util.Vector;
+import java.util.List;
+
+import eionet.rod.dto.HistDeadlineDTO;
 import eionet.rod.services.modules.db.dao.mysql.HistoricDeadlineMySqlDao;
 
 public class HistoricDeadlineMySqlDaoTest extends BaseMySqlDaoTest {
@@ -27,8 +29,8 @@ public class HistoricDeadlineMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.HistoricDeadlineMySqlDao.getHistoricDeadlines(String, String)'
 	 */
 	public void testGetHistoricDeadlines() throws Exception {
-		Vector v = historicDeadlineMySqlDao.getHistoricDeadlines("01/01/2000","01/01/2007");
-		assertEquals(3, v.size());
+		List<HistDeadlineDTO> list = historicDeadlineMySqlDao.getHistoricDeadlines("01/01/2000","01/01/2007");
+		assertEquals(3, list.size());
 //		printVectorResult(historicDeadlineMySqlDao.getHistoricDeadlines("01/01/2000","01/01/2007"));
 
 	}
