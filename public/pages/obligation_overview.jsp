@@ -74,12 +74,9 @@
 			<td>
 				<c:choose>
 	    			<c:when test="${!empty actionBean.obligation.coordRoleId}">
-	    				<a title="Public role information" href="javascript:openCirca('${rodfn:replaceTags2(actionBean.obligation.coordRoleUrl, true, true)}')">
+	    				<a title="Public role information" href="${pageContext.request.contextPath}/contacts?roleId=${actionBean.obligation.coordRoleId}">
 	    					${rodfn:replaceTags(actionBean.obligation.coordRoleName)} (${rodfn:replaceTags(actionBean.obligation.coordRoleId)})
 	    				</a><br/>
-	    				<a title="Role details on CIRCA for members" href="javascript:openCirca('${rodfn:replaceTags2(actionBean.obligation.coordRoleMembersUrl, true, true)}')">
-	    					Additional details for logged-in users
-	    				</a>
 	    			</c:when>
 	    			<c:otherwise>
 	    				<c:if test="${!empty actionBean.obligation.coordinatorRole}">
@@ -96,12 +93,9 @@
 			<td>
 				<c:choose>
 	    			<c:when test="${!empty actionBean.obligation.respRoleId}">
-	    				<a title="Public role information" href="javascript:openCirca('${rodfn:replaceTags2(actionBean.obligation.respRoleUrl, true, true)}')">
+	    				<a title="Public role information" href="${pageContext.request.contextPath}/contacts?roleId=${actionBean.obligation.respRoleId}">
 	    					${rodfn:replaceTags(actionBean.obligation.respRoleName)} (${rodfn:replaceTags(actionBean.obligation.respRoleId)})
 	    				</a><br/>
-	    				<a title="Role details on CIRCA" href="javascript:openCirca('${rodfn:replaceTags2(actionBean.obligation.respRoleMembersUrl, true, true)}')">
-	    					Additional details for logged-in users
-	    				</a>
 	    			</c:when>
 	    			<c:otherwise>
 	    				<c:if test="${!empty actionBean.obligation.responsibleRole}">

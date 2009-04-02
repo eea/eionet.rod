@@ -399,6 +399,11 @@
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/updatehistory</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/contacts</url-pattern>
+	</servlet-mapping>
 
 	<session-config>
 		<session-timeout>600</session-timeout>
