@@ -1,8 +1,5 @@
 package eionet.rod.web.action;
 
-import java.util.Hashtable;
-import java.util.List;
-
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -22,9 +19,8 @@ public class ContactsActionBean extends AbstractRODActionBean {
 	
 	private String roleId;
 	private String parentRoleId;
-	private String roleDescription;
-	private String roleUrl;
-	private List<RoleDTO> subroles;
+	private RoleDTO role;
+	
 	/**
 	 * 
 	 * @return
@@ -38,13 +34,7 @@ public class ContactsActionBean extends AbstractRODActionBean {
 			if(index != -1)
 				parentRoleId = roleId.substring(0, index);
 			
-			Hashtable role = DirectoryService.getRole(roleId);
-			if(role != null){
-				roleDescription = (String)role.get("DESCRIPTION");
-				roleUrl = (String)role.get("URL_MEMBERS");
-			}
-			
-			subroles = DirectoryService.getSubroles(roleId);
+			role = DirectoryService.getRoleDTO(roleId);
 			
 		} catch(DirServiceException e){
 			e.printStackTrace();
@@ -69,28 +59,12 @@ public class ContactsActionBean extends AbstractRODActionBean {
 		this.parentRoleId = parentRoleId;
 	}
 
-	public String getRoleDescription() {
-		return roleDescription;
+	public RoleDTO getRole() {
+		return role;
 	}
 
-	public void setRoleDescription(String roleDescription) {
-		this.roleDescription = roleDescription;
+	public void setRole(RoleDTO role) {
+		this.role = role;
 	}
-
-	public List<RoleDTO> getSubroles() {
-		return subroles;
-	}
-
-	public void setSubroles(List<RoleDTO> subroles) {
-		this.subroles = subroles;
-	}
-
-	public String getRoleUrl() {
-		return roleUrl;
-	}
-
-	public void setRoleUrl(String roleUrl) {
-		this.roleUrl = roleUrl;
-	} 
 
 }
