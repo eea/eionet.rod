@@ -58,8 +58,8 @@
         <display:table name="${actionBean.searchList}" class="sortable" pagesize="50" sort="list" id="listItem" htmlId="listItem" requestURI="/deadlines" decorator="eionet.rod.web.util.DeadlinesTableDecorator" style="width:100%">
 		
 			<display:column property="title" title="Reporting obligation" sortable="true" sortProperty="obligationTitle"/>
-			<display:column property="client" title="Reporting to" sortable="true" sortProperty="clientDescr"/>
-			<display:column property="deadline" title="Deadline" sortable="true" sortProperty="obligationDeadline"/>
+			<display:column property="client" title="Reporting to" sortable="true" sortProperty="clientDescr"/> 
+			<display:column property="deadline" title="Deadline" sortable="true" format="{0,date,yyyy-MM-dd}"/>
 			<display:column property="role" title="Responsible" sortable="true"/>
 			<display:column property="hasDelivery" title="Deliveries" sortable="true" sortProperty="obligationHasDelivery"/>
 			
