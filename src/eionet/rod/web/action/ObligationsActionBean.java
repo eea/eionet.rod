@@ -637,7 +637,6 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	        Vector list = new Vector();
 	        long timestamp = System.currentTimeMillis();
 	        String events = "http://rod.eionet.europa.eu/events/" + timestamp;
-	        String obligationID = null;
 	        
 	        int obligation_id = Integer.valueOf(id).intValue();
 	        
@@ -714,7 +713,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	        lists.add(list);
 	        
 	        if (isUpdate) {                      
-	            Vector changes = getChanges(obligationID);
+	            Vector changes = getChanges(id);
 	            for(Enumeration en = changes.elements(); en.hasMoreElements(); ){
 	                String label = (String) en.nextElement();
 	                list = new Vector();
@@ -729,7 +728,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	        list.add(events);
 	        list.add("http://purl.org/dc/elements/1.1/identifier");
 	        String ra_id = obligation.getObligationId();
-	        String url = "http://rod.eionet.europa.eu/obligations/"+obligationID;
+	        String url = "http://rod.eionet.europa.eu/obligations/"+id;
 	        list.add(url);
 	        
 	        lists.add(list);
@@ -762,8 +761,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 res_vec.add(label);
             }
         }
-        
-        DifferenceDTO countries_formally = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,new Integer(obligationID).intValue(),"N","U");
+        int intId = new Integer(obligationID).intValue();
+        DifferenceDTO countries_formally = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,intId,"N","U");
         if(countries_formally != null){
             String added = countries_formally.getAdded();
             String removed = countries_formally.getRemoved();
@@ -775,7 +774,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
         
-        DifferenceDTO countries_voluntarily = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,new Integer(obligationID).intValue(),"Y","U");
+        DifferenceDTO countries_voluntarily = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,intId,"Y","U");
         if(countries_voluntarily != null){
             String added = countries_voluntarily.getAdded();
             String removed = countries_voluntarily.getRemoved();
@@ -787,7 +786,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
         
-        DifferenceDTO issues = RODServices.getDbService().getDifferencesDao().getDifferencesInIssues(ts,new Integer(obligationID).intValue(),"U"); 
+        DifferenceDTO issues = RODServices.getDbService().getDifferencesDao().getDifferencesInIssues(ts,intId,"U"); 
         if(issues != null){
             String added = issues.getAdded();
             String removed = issues.getRemoved();
@@ -799,7 +798,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
         
-        DifferenceDTO clients = RODServices.getDbService().getDifferencesDao().getDifferencesInClients(ts,new Integer(obligationID).intValue(),"C","U","A");
+        DifferenceDTO clients = RODServices.getDbService().getDifferencesDao().getDifferencesInClients(ts,intId,"C","U","A");
         if(clients != null){
             String added = clients.getAdded();
             String removed = clients.getRemoved();
@@ -811,7 +810,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
         
-        DifferenceDTO info = RODServices.getDbService().getDifferencesDao().getDifferencesInInfo(ts,new Integer(obligationID).intValue(),"U","I");        
+        DifferenceDTO info = RODServices.getDbService().getDifferencesDao().getDifferencesInInfo(ts,intId,"U","I");        
         if(info != null){
             String added = info.getAdded();
             String removed = info.getRemoved();

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.List;
 import java.util.Map;
 
@@ -145,7 +146,15 @@ public class SQLUtil {
 		
 		PreparedStatement pstmt= conn.prepareStatement(parameterizedSQL);
 		for (int i=0; values!=null && i<values.size(); i++){
-			pstmt.setObject(i+1, values.get(i));
+			try{
+				String val = (String)values.get(i);
+				if(val != null && val.equals("NULL"))
+					pstmt.setNull(i+1, Types.NULL);
+				else
+					pstmt.setObject(i+1, values.get(i));
+			} catch(ClassCastException e){
+				pstmt.setObject(i+1, values.get(i));
+			}
 		}
 		return pstmt;
 	}

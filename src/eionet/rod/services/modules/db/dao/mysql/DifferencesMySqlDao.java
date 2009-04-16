@@ -33,7 +33,7 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
 	 */
 	public DifferenceDTO getDifferencesInCountries(long ts, int id, String voluntary, String op) throws ServiceException {
 
-		Vector current = new Vector();
+		Vector current = new Vector(); 
 		Vector undo = new Vector();
 
 		StringBuffer currentCountries = new StringBuffer();

@@ -83,7 +83,7 @@
 			                <stripes:label for="next_deadline" class="question">Next due date</stripes:label>
 						</td>
 						<td>
-							<stripes:text name="obligation.nextDeadline" size="30" disabled="disabled" onchange="changed()" class="date" id="next_deadline"/>
+							<stripes:text name="obligation.nextDeadline" size="30" onchange="changed()" readonly="readonly" class="date" id="next_deadline"/>
 							<span class="input-hint">(calculated automatically)</span>
 						</td>
 					</tr>

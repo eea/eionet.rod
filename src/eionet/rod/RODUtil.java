@@ -314,7 +314,7 @@ public class RODUtil {
     
     public static String str2Date(String date) {
     	if(RODUtil.isNullOrEmpty(date))
-           return "";
+           return "NULL";
     	
     	int len = date.length();
            
