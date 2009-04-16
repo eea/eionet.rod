@@ -148,12 +148,12 @@ td.save {
 input.btn {
 	font-weight: bold;
 	color: #000000;
-	background-image: url('images/bgr_form_buttons.jpg');
+	background-image: url('../images/bgr_form_buttons.jpg');
 }
 
 input.arrow_btns {
 	width: 80px;
-	background-image: url('images/bgr_form_buttons.jpg');
+	background-image: url('../images/bgr_form_buttons.jpg');
 }
 
 input.indicator_btns {
@@ -161,7 +161,7 @@ input.indicator_btns {
 	font-family: Verdana;
 	font-size: 8pt;
 	font-weight: bold;
-	background-image: url('images/bgr_form_buttons_wide.jpg');
+	background-image: url('../images/bgr_form_buttons_wide.jpg');
 }
 
 /*edit instrument form objects that has the same width */
@@ -403,11 +403,11 @@ th.sorted a,th.sortable a {
 }
 
 th.order1 a {
-	background-image: url(images/sortdown.gif);
+	background-image: url(../images/sortdown.gif);
 }
 
 th.order2 a {
-	background-image: url(images/sortup.gif);
+	background-image: url(../images/sortup.gif);
 }
 
 /* Dropdown operations */
@@ -424,7 +424,7 @@ th.order2 a {
 #dropdown-operations li {
 	float: left;
 	position: relative;
-	background: transparent url('images/operations_back.gif') no-repeat;
+	background: transparent url('../images/operations_back.gif') no-repeat;
 	width: 144px;
 	font-weight: bold;
 	border-right: 1px dotted #ffffff;
@@ -435,7 +435,7 @@ th.order2 a {
 }
 
 #dropdown-operations li:hover {
-	background-image: url(images/operations_back2.gif);
+	background-image: url(../images/operations_back2.gif);
 }
 
 
@@ -481,7 +481,7 @@ th.order2 a {
 }
 
 #dropdown-operations li ul li a:link, #dropdown-operations li ul li a:visited {
-	background: transparent url('images/drop_operations_bullet.gif') 5px center no-repeat;
+	background: transparent url('../images/drop_operations_bullet.gif') 5px center no-repeat;
 	padding: 0.1em 0 0.1em 15px;
 	font-size: 12px;
 	color: #000;
@@ -550,7 +550,7 @@ a.field-help {
 	text-decoration: none;
 	vertical-align: top;
 	padding: 0 0 3px 15px;
-	background: url('images/info_icon.gif') top left no-repeat;
+	background: url('../images/info_icon.gif') top left no-repeat;
 	cursor: help;
 }
 
