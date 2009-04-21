@@ -319,6 +319,9 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
     	if(RODUtil.isNullOrEmpty(obligation.getDpsirR()))
     		obligation.setDpsirR("no");
     	
+    	if(RODUtil.isNullOrEmpty(obligation.getContinousReporting()))
+    		obligation.setContinousReporting("no");
+    	
     }
 	
 	public Resolution add() throws ServiceException {

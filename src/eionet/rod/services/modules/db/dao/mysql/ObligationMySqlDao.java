@@ -1345,7 +1345,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		"OB.FK_CLIENT_ID, OB.RESPONSIBLE_ROLE_SUF, OB.NATIONAL_CONTACT, OB.NATIONAL_CONTACT_URL, " +
 		"REPLACE(REPLACE(OB.DESCRIPTION, '\r\n', '\n'), '\r', '\n') AS DESCRIPTION, " +
 		"OB.COORDINATOR_ROLE, OB.COORDINATOR_ROLE_SUF, OB.COORDINATOR, OB.COORDINATOR_URL, OB.AUTHORITY, OB.EEA_PRIMARY, " +
-		"OB.PARAMETERS, OB.VALIDATED_BY, OB.LEGAL_MORAL, OB.OVERLAP_URL, OB.EEA_CORE, OB.FLAGGED, OB.DPSIR_D, OB.DPSIR_P, OB.DPSIR_S, OB.DPSIR_I, OB.DPSIR_R, " +
+		"OB.PARAMETERS, OB.VALIDATED_BY, OB.LEGAL_MORAL, OB.OVERLAP_URL, OB.EEA_CORE, OB.FLAGGED, OB.DPSIR_D, OB.DPSIR_P, OB.DPSIR_S, OB.DPSIR_I, OB.DPSIR_R, OB.CONTINOUS_REPORTING, " +
 		"SO.PK_SOURCE_ID, SO.TITLE AS SOURCE_TITLE, SO.ALIAS, SO.CELEX_REF, SO.SOURCE_CODE, " +
 		"RRO.ROLE_ID AS R_ROLE_ID, RRO.ROLE_NAME AS R_ROLE_NAME, RRO.ROLE_URL AS R_ROLE_URL, RRO.ROLE_MEMBERS_URL AS R_ROLE_MEMBERS_URL, " +
 		"CRO.ROLE_ID AS C_ROLE_ID, CRO.ROLE_NAME AS C_ROLE_NAME, CRO.ROLE_URL AS C_ROLE_URL, CRO.ROLE_MEMBERS_URL AS C_ROLE_MEMBERS_URL, " +
@@ -1431,6 +1431,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 				ret.setDpsirS(rs.getString("DPSIR_S"));
 				ret.setDpsirI(rs.getString("DPSIR_I"));
 				ret.setDpsirR(rs.getString("DPSIR_R"));
+				ret.setContinousReporting(rs.getString("CONTINOUS_REPORTING"));
 				
 				ret.setSourceId(rs.getString("PK_SOURCE_ID"));
 				ret.setSourceTitle(rs.getString("SOURCE_TITLE"));
@@ -1681,7 +1682,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"RESPONSIBLE_ROLE_SUF=?, NATIONAL_CONTACT=?, NATIONAL_CONTACT_URL=?, LEGAL_MORAL=?, " +
 			"PARAMETERS=?, EEA_PRIMARY=?, EEA_CORE=?, FLAGGED=?, DPSIR_D=?, DPSIR_P=?, DPSIR_S=?, " +
 			"DPSIR_I=?, DPSIR_R=?, OVERLAP_URL=?, COMMENT=?, AUTHORITY=?, RM_VERIFIED=?, " +
-			"RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, VALIDATED_BY=?, LAST_UPDATE=CURDATE(), FK_CLIENT_ID=? " +
+			"RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, VALIDATED_BY=?, LAST_UPDATE=CURDATE(), FK_CLIENT_ID=?, CONTINOUS_REPORTING=? " +
 			"WHERE PK_RA_ID=?";
 	
 	/*
@@ -1736,6 +1737,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		values.add(RODUtil.str2Date(obligation.getRmNextUpdate()));
 		values.add(obligation.getValidatedBy());
 		values.add(obligation.getFkClientId());
+		values.add(obligation.getContinousReporting());
 		
 		values.add(obligation.getObligationId());		
 		
@@ -1766,7 +1768,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"RESPONSIBLE_ROLE_SUF=?, NATIONAL_CONTACT=?, NATIONAL_CONTACT_URL=?, LEGAL_MORAL=?, " +
 			"PARAMETERS=?, EEA_PRIMARY=?, EEA_CORE=?, FLAGGED=?, DPSIR_D=?, DPSIR_P=?, DPSIR_S=?, " +
 			"DPSIR_I=?, DPSIR_R=?, OVERLAP_URL=?, COMMENT=?, AUTHORITY=?, RM_VERIFIED=?, " +
-			"RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, VALIDATED_BY=?, LAST_UPDATE=CURDATE(), FK_CLIENT_ID=?, FK_SOURCE_ID=?";
+			"RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, VALIDATED_BY=?, LAST_UPDATE=CURDATE(), FK_CLIENT_ID=?, FK_SOURCE_ID=?, " +
+			"CONTINOUS_REPORTING=?";
 	
 	/*
      * (non-Javadoc)
@@ -1821,6 +1824,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		values.add(obligation.getValidatedBy());
 		values.add(obligation.getFkClientId());
 		values.add(obligation.getFkSourceId());
+		values.add(obligation.getContinousReporting());
 		
 		Integer obligationId = null;
 		

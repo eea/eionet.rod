@@ -673,4 +673,22 @@ function chkUrl(fld) {
 	}
 }
 
+function contReporting() {
+	var val = document.getElementById("report_freq_months").value;
+	if (val == "" || val == " ") {
+		document.getElementById("contReporting").style.display = 'block';
+	} else {
+		document.getElementById("contReporting").style.display = 'none';
+	}
+}
+
+function contReportingChanged(){
+	var elem = document.getElementById("continousReporting");
+	if(elem.checked){
+		document.getElementById("next_reporting").value = 'Continous reporting';
+	} else {
+		document.getElementById("next_reporting").value = '';
+	}
+}
+
 //JavaScript based validation END

@@ -73,8 +73,23 @@
 			                <stripes:label for="report_freq_months" class="question">Reporting frequency in months</stripes:label>
 						</td>
 						<td>
-							<stripes:text name="obligation.reportFreqMonths" size="30" onchange="changedReporting()" class="date" id="report_freq_months"/>
+							<stripes:text name="obligation.reportFreqMonths" size="30" onchange="changedReporting(); contReporting();" class="date" id="report_freq_months"/>
 							<span class="input-hint">For one-time-only reporting, enter 0 and choose a reasonable Valid to</span>
+						</td>
+					</tr>
+					<c:choose>
+						<c:when test="${empty actionBean.obligation.reportFreqMonths}">
+							<tr class="zebraeven" id="contReporting">
+						</c:when>
+						<c:otherwise>
+							<tr class="zebraeven" id="contReporting" style="display: none;">
+						</c:otherwise>
+					</c:choose>
+						<td>
+						</td>
+						<td>
+							<stripes:checkbox name="obligation.continousReporting" onchange="contReportingChanged()" checked="yes" value="yes" id="continousReporting"/>
+		                    <stripes:label for="continousReporting">continuous reporting</stripes:label>
 						</td>
 					</tr>
 					<tr>
