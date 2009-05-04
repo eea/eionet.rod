@@ -1162,14 +1162,11 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		return false;
 	}
 	
-	private String getSearchSql(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, boolean union, String order) throws ServiceException {
+	private String getSearchSql(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, String order) throws ServiceException {
 		
 		StringBuilder q_obligations_list = new StringBuilder( 
     		"SELECT DISTINCT T_OBLIGATION.PK_RA_ID, T_OBLIGATION.TITLE, T_OBLIGATION.RESPONSIBLE_ROLE, T_OBLIGATION.NEXT_REPORTING, T_OBLIGATION.NEXT_DEADLINE, ");
-		if(union)
-			q_obligations_list.append("T_OBLIGATION.NEXT_DEADLINE2 AS DEADLINE, T_OBLIGATION.NEXT_DEADLINE AS DEADLINE2, ");
-		else
-			q_obligations_list.append("IF(T_OBLIGATION.NEXT_DEADLINE IS NULL, T_OBLIGATION.NEXT_REPORTING, T_OBLIGATION.NEXT_DEADLINE) AS DEADLINE, T_OBLIGATION.NEXT_DEADLINE2 AS DEADLINE2, ");
+		q_obligations_list.append("IF(T_OBLIGATION.NEXT_DEADLINE IS NULL, T_OBLIGATION.NEXT_REPORTING, T_OBLIGATION.NEXT_DEADLINE) AS DEADLINE, T_OBLIGATION.NEXT_DEADLINE2 AS DEADLINE2, ");
 			
 		q_obligations_list.append("T_OBLIGATION.TERMINATE, T_OBLIGATION.FK_SOURCE_ID, T_OBLIGATION.FK_CLIENT_ID AS CLIENTID, T_OBLIGATION.FK_DELIVERY_COUNTRY_IDS, " +
     		"T_OBLIGATION.FK_DELIVERY_COUNTRY_IDS REGEXP CONCAT(',',T_SPATIAL.PK_SPATIAL_ID,',') AS HAS_DELIVERY, T_ROLE.ROLE_NAME AS ROLE_DESCR, T_ROLE.ROLE_URL, T_ROLE.ROLE_MEMBERS_URL, " +
@@ -1196,11 +1193,6 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     	
     	q_obligations_list.append("WHERE TERMINATE='N' ");
     	
-    	if (union){
-    		q_obligations_list.append("AND NEXT_DEADLINE2 IS NOT NULL ");
-    		q_obligations_list.append("AND NEXT_DEADLINE2 != NEXT_DEADLINE ");
-        }
-    	
     	if (!Util.nullString(spatialId))
     		q_obligations_list.append("AND PK_SPATIAL_ID=").append(Util.strLiteral(spatialId)).append(" ");
     	
@@ -1210,16 +1202,14 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     	if (!Util.nullString(issueId) && !issueId.equals("0")) 
     		q_obligations_list.append("AND FK_ISSUE_ID=").append(Util.strLiteral(issueId)).append(" ");
     	
-    	if ((date1 != null && !date1.equals("dd/mm/yyyy")) || (date2 != null && !date2.equals("dd/mm/yyyy")) || (dlCase != null && !dlCase.equals("0"))){
-    		q_obligations_list.append(handleDeadlines(dlCase, date1, date2, union));
+    	if ((date1 != null && !date1.equals("dd/mm/yyyy")) || (date2 != null && !date2.equals("dd/mm/yyyy")) || dlCase != null){
+    		q_obligations_list.append(handleDeadlines(dlCase, date1, date2));
     	}
     	
-    	if(union){
-    		if(!RODUtil.isNullOrEmpty(order))
-    			q_obligations_list.append("ORDER BY ").append(order);
-    		else
-    			q_obligations_list.append("ORDER BY TITLE");
-    	}
+   		if(!RODUtil.isNullOrEmpty(order))
+   			q_obligations_list.append("ORDER BY ").append(order);
+   		else
+   			q_obligations_list.append("ORDER BY TITLE");
     	
     	return q_obligations_list.toString();
 	}
@@ -1231,10 +1221,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      */
     public List<SearchDTO> getSearchObligationsList(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, String order) throws ServiceException {
     	
-    	String sql = getSearchSql(spatialId, clientId, issueId, date1, date2, dlCase, false, order);
-    	String sql_union = getSearchSql(spatialId, clientId, issueId, date1, date2, dlCase, true, order);
-    	
-    	String query = sql + " UNION " + sql_union;
+    	String sql = getSearchSql(spatialId, clientId, issueId, date1, date2, dlCase, order);
     	
     	List<Object> values = new ArrayList<Object>();
 				
@@ -1242,7 +1229,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		SearchDTOReader rsReader = new SearchDTOReader();
 		try{
 			conn = getConnection();
-			SQLUtil.executeQuery(query, values, rsReader, conn);
+			SQLUtil.executeQuery(sql, values, rsReader, conn);
 			List<SearchDTO>  list = rsReader.getResultList();
 			return list;
 		}
@@ -1258,17 +1245,12 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 		}
     }
     
-    private String handleDeadlines(String dlCase, String date1, String date2, boolean union) {
+    private String handleDeadlines(String dlCase, String date1, String date2) {
     	String ret = "";
     	if ( dlCase != null ) { //selected in combo
            Calendar today = Calendar.getInstance();
-           //all Deadlines
-           if (dlCase.equals("0")) {
-        	   date1 ="dd/mm/yyyy";
-        	   date2 ="dd/mm/yyyy";
-           }
            //next month
-           else if (dlCase.equals("1")) {
+           if (dlCase.equals("1")) {
         	   date1=getDate(today);
         	   today.add(Calendar.MONTH, 1);
         	   date2=getDate(today);
@@ -1293,19 +1275,12 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
            }
         }
 
-        if (date1.equals("dd/mm/yyyy"))
-        	date1 ="00/00/0000";
-
-        date1=cnvDate(date1);
-
-        if (date2.equals("dd/mm/yyyy"))
-        	date2="31/12/9999";
-
-        date2=cnvDate(date2);
-        if (union)
-        	ret = "AND ((NEXT_DEADLINE2 >= '" + date1 + "' AND NEXT_DEADLINE2 <= '" + date2 + "')) ";
-        else
-        	ret = "AND ((NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "')) ";
+        if(!dlCase.equals("0")){
+        	date1=cnvDate(date1);
+        	date2=cnvDate(date2);
+        	ret = "AND ((NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "') OR (NEXT_DEADLINE2 >= '" + date1 + "' AND NEXT_DEADLINE2 <= '" + date2 + "')) ";
+        }
+       	
         return ret;
     }
 
