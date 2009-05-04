@@ -1210,7 +1210,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     	if (!Util.nullString(issueId) && !issueId.equals("0")) 
     		q_obligations_list.append("AND FK_ISSUE_ID=").append(Util.strLiteral(issueId)).append(" ");
     	
-    	if ((date1 != null && !date1.equals("dd/mm/yyyy")) || (date2 != null && !date2.equals("dd/mm/yyyy")) || dlCase != null){
+    	if ((date1 != null && !date1.equals("dd/mm/yyyy")) || (date2 != null && !date2.equals("dd/mm/yyyy")) || (dlCase != null && !dlCase.equals("0"))){
     		q_obligations_list.append(handleDeadlines(dlCase, date1, date2, union));
     	}
     	
