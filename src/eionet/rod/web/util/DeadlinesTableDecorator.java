@@ -1,5 +1,10 @@
 package eionet.rod.web.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.displaytag.decorator.TableDecorator;
 import eionet.rod.RODUtil;
 import eionet.rod.dto.SearchDTO;
@@ -68,6 +73,39 @@ public class DeadlinesTableDecorator extends TableDecorator{
 		}
 	
 		return ret.toString();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Date getDeadlineSort(){
+		
+		Date ret = new Date();
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Date zeroDate = new Date();
+		try
+        {
+			zeroDate = df.parse("0000-00-00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
+		SearchDTO search = (SearchDTO) getCurrentRowObject();
+		String nextDeadline = search.getObligationNextDeadline();
+		if(RODUtil.isNullOrEmpty(nextDeadline)){
+			ret = zeroDate;
+		} else {
+			try
+	        {
+				ret = df.parse(nextDeadline);
+	        } catch (ParseException e) {
+	        	ret = zeroDate;
+	        }
+		}
+	
+		return ret;
 	}
 	
 	/**

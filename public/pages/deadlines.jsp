@@ -59,7 +59,7 @@
 		
 			<display:column property="title" title="Reporting obligation" sortable="true" sortProperty="obligationTitle"/>
 			<display:column property="client" title="Reporting to" sortable="true" sortProperty="clientDescr"/> 
-			<display:column property="deadline" title="Deadline" sortable="true" format="{0,date,yyyy-MM-dd}"/>
+			<display:column property="deadline" title="Deadline" sortable="true" sortProperty="deadlineSort"/>
 			<display:column property="role" title="Responsible" sortable="true"/>
 			<display:column property="hasDelivery" title="Deliveries" sortable="true" sortProperty="obligationHasDelivery"/>
 			
