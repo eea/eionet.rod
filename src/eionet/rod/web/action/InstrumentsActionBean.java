@@ -108,7 +108,9 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 		}
 		
 		String acceptHeader = getContext().getRequest().getHeader("accept");
-		String[] accept = acceptHeader.split(",");
+		String[] accept = null;
+		if(acceptHeader != null && acceptHeader.length() > 0)
+			accept = acceptHeader.split(",");
 		
 		if(!RODUtil.isNullOrEmpty(instId)){
 			if(instId.equals("new"))
