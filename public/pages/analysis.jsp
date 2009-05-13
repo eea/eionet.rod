@@ -97,6 +97,18 @@
 					&nbsp;
 				</td>
 			</tr>
+			<tr class="zebraeven">
+				<td>No issue allocated</td>
+				<td class="center"><c:out value="${actionBean.noIssue}"/></td>
+				<td class="center">
+					<c:if test="${actionBean.noIssue > 0}">
+						<a href="obligations?anmode=NI">Show list</a>
+					</c:if>
+				</td>
+				<td class="center">
+					&nbsp;
+				</td>
+			</tr>
 		</table>
         
 	</stripes:layout-component>

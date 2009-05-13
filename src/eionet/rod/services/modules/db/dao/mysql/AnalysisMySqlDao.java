@@ -165,4 +165,16 @@ public class AnalysisMySqlDao extends MySqlBaseDao implements IAnalysisDao {
 	public int getInstrumentsDue() throws ServiceException {
 		return getIntValue(getInstrumentsDueQuery);
 	}
+	
+	private static final String getNoIssueAllocatedQuery = 
+		"SELECT COUNT(PK_RA_ID) FROM T_OBLIGATION WHERE TERMINATE='N' AND PK_RA_ID NOT IN (SELECT DISTINCT FK_RA_ID FROM T_RAISSUE_LNK)";
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getNoIssueAllocated()
+	 */
+	public int getNoIssueAllocated() throws ServiceException {
+		return getIntValue(getNoIssueAllocatedQuery);
+	}
 }

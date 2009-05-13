@@ -1569,8 +1569,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     	
     	if(!RODUtil.isNullOrEmpty(country) && !country.equals("-1"))
     		query.append("AND o.PK_RA_ID = r.FK_RA_ID AND r.FK_SPATIAL_ID = ").append(country).append(" ");
-    	if(!RODUtil.isNullOrEmpty(issue) && !issue.equals("-1"))
+    	if(!RODUtil.isNullOrEmpty(issue) && !issue.equals("-1") && !issue.equals("NI"))
     		query.append("AND o.PK_RA_ID = i.FK_RA_ID AND i.FK_ISSUE_ID = ").append(issue).append(" ");
+    	else if(!RODUtil.isNullOrEmpty(issue) && issue.equals("NI"))
+    		query.append("AND o.PK_RA_ID NOT IN (SELECT DISTINCT FK_RA_ID FROM T_RAISSUE_LNK) ");
     	if(!RODUtil.isNullOrEmpty(client) && !client.equals("-1")){
     		if(ccClients)
     			query.append("AND cl.STATUS='C' ");
@@ -1590,6 +1592,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 				query.append("AND LENGTH(o.OVERLAP_URL)>0 ");
 			else if(anmode.equals("F"))
 				query.append("AND o.FLAGGED='1' ");
+			else if(anmode.equals("NI"))
+				query.append("AND o.PK_RA_ID NOT IN (SELECT DISTINCT FK_RA_ID FROM T_RAISSUE_LNK) ");
 		}		
 		query.append("ORDER BY o.TITLE");
     	

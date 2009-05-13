@@ -1,8 +1,5 @@
 package eionet.rod.web.action;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
@@ -29,6 +26,7 @@ public class AnalysisActionBean extends AbstractRODActionBean {
 	private int overlapRa;
 	private int flaggedRa;
 	private int instrumentsDue;
+	private int noIssue;
 	
 	/**
 	 * 
@@ -45,6 +43,7 @@ public class AnalysisActionBean extends AbstractRODActionBean {
 		overlapRa = RODServices.getDbService().getAnalysisDao().getOverlapRa();
 		flaggedRa = RODServices.getDbService().getAnalysisDao().getFlaggedRa();
 		instrumentsDue = RODServices.getDbService().getAnalysisDao().getInstrumentsDue();
+		noIssue = RODServices.getDbService().getAnalysisDao().getNoIssueAllocated();
 		
 		return new ForwardResolution("/pages/analysis.jsp");
 	}
@@ -119,6 +118,14 @@ public class AnalysisActionBean extends AbstractRODActionBean {
 
 	public void setInstrumentsDue(int instrumentsDue) {
 		this.instrumentsDue = instrumentsDue;
+	}
+
+	public int getNoIssue() {
+		return noIssue;
+	}
+
+	public void setNoIssue(int noIssue) {
+		this.noIssue = noIssue;
 	}
 	
 

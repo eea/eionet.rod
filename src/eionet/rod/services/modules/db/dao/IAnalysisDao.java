@@ -61,5 +61,11 @@ public interface IAnalysisDao {
 	 * @throws ServiceException
 	 */
 	public int getInstrumentsDue() throws ServiceException;
+	
+	/**
+	 * Number of reporting obligations with no issue allocated
+	 * @throws ServiceException
+	 */
+	public int getNoIssueAllocated() throws ServiceException;
 
 }

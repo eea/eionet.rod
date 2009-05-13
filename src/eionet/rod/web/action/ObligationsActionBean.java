@@ -231,6 +231,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 			formClients = RODServices.getDbService().getClientDao().getClientsList();
 			
 			obligations = RODServices.getDbService().getObligationDao().getObligationsList(anmode, null, null, null, null, false);
+			if(anmode != null && anmode.equals("NI"))
+				issue = "NI";
 			forwardPage = "/pages/obligations.jsp";
 		} else {
 			handleRodException("Obligation ID has to be a number!", Constants.SEVERITY_WARNING);
@@ -253,7 +255,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 			countryName = RODServices.getDbService().getSpatialDao().getCountryById(new Integer(country).intValue());
 		if(!RODUtil.isNullOrEmpty(client) && !client.equals("-1"))
 			clientName = RODServices.getDbService().getClientDao().getOrganisationNameByID(client);
-		if(!RODUtil.isNullOrEmpty(issue) && !issue.equals("-1"))
+		if(!RODUtil.isNullOrEmpty(issue) && !issue.equals("-1") && !issue.equals("NI"))
 			issueName = RODServices.getDbService().getIssueDao().getIssueNameById(issue);		
 		
 		obligations = RODServices.getDbService().getObligationDao().getObligationsList(anmode, country, issue, client, terminated, false);

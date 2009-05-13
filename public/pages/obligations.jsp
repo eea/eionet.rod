@@ -30,6 +30,9 @@
     			<c:if test="${actionBean.anmode == 'F'}">
     				Flagged
     			</c:if>
+    			<c:if test="${actionBean.anmode == 'NI'}">
+    				No issue allocated
+    			</c:if>
 	        </c:if>
 	        <c:if test="${!empty actionBean.countryName}">
 	        	: ${actionBean.countryName}
@@ -75,6 +78,7 @@
 						<td style="border-left: 1px solid #C0C0C0">
 							<stripes:select name="issue" style="font-size: 9pt; color: #000000; width:223px">
 								<stripes:option value="-1" label="All issues"/>
+								<stripes:option value="NI" label="No issue allocated"/>
 			    				<c:forEach items="${actionBean.formIssues}" var="issue" varStatus="loop">
 			    					<stripes:option value="${issue.issueId}" label="${issue.name}"/>
 			    				</c:forEach>
