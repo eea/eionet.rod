@@ -1275,7 +1275,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
            }
         }
 
-        if(!dlCase.equals("0")){
+        if(dlCase == null || !dlCase.equals("0")){
         	date1=cnvDate(date1);
         	date2=cnvDate(date2);
         	ret = "AND ((NEXT_DEADLINE >= '" + date1 + "' AND NEXT_DEADLINE <= '" + date2 + "') OR (NEXT_DEADLINE2 >= '" + date1 + "' AND NEXT_DEADLINE2 <= '" + date2 + "')) ";
