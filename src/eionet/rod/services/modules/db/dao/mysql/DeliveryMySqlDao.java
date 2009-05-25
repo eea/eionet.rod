@@ -105,7 +105,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 						// java.sql.Date jdbcDate = null;
 
 						preparedStatement.setString(1, (title == null) ? "" : title); // TITLE
-						preparedStatement.setString(2, "http://rod.eionet.europa.eu/"+raId); // TITLE
+						preparedStatement.setString(2, rodDomain+"/obligations/"+raId); // TITLE
 						preparedStatement.setString(3, ((type == null) ? "" : type)); // TYPE
 						preparedStatement.setString(4, ((format == null) ? "" : format)); // FORMAT
 						preparedStatement.setString(5, ((coverage == null) ? "" : coverage));// COVERAGE
