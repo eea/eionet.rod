@@ -43,8 +43,8 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 	private static DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 	private static final String qSaveDeliveries = 
-		"INSERT INTO T_DELIVERY (TITLE,TYPE,FORMAT,COVERAGE,STATUS,UPLOAD_DATE,DELIVERY_URL,FK_SPATIAL_ID,FK_RA_ID) " + 
-		"VALUES (?,?,?,?,?,?,?,?,?)";
+		"INSERT INTO T_DELIVERY (TITLE,RA_URL,TYPE,FORMAT,COVERAGE,STATUS,UPLOAD_DATE,DELIVERY_URL,FK_SPATIAL_ID,FK_RA_ID) " + 
+		"VALUES (?,?,?,?,?,?,?,?,?,?)";
 
 	public DeliveryMySqlDao() {
 	};
@@ -105,14 +105,15 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 						// java.sql.Date jdbcDate = null;
 
 						preparedStatement.setString(1, (title == null) ? "" : title); // TITLE
-						preparedStatement.setString(2, ((type == null) ? "" : type)); // TYPE
-						preparedStatement.setString(3, ((format == null) ? "" : format)); // FORMAT
-						preparedStatement.setString(4, ((coverage == null) ? "" : coverage));// COVERAGE
-						preparedStatement.setInt(5, 1); // STATUS
-						preparedStatement.setTimestamp(6, date != null ? new Timestamp(date.getTime()):null);// UPLOAD_DATE
-						preparedStatement.setString(7, identifier); // DELIVERY_URL
-						preparedStatement.setInt(8, countryId.intValue()); // FK_SPATIAL_ID
-						preparedStatement.setInt(9, raId.intValue()); // FK_RA_ID
+						preparedStatement.setString(2, "http://rod.eionet.europa.eu/"+raId); // TITLE
+						preparedStatement.setString(3, ((type == null) ? "" : type)); // TYPE
+						preparedStatement.setString(4, ((format == null) ? "" : format)); // FORMAT
+						preparedStatement.setString(5, ((coverage == null) ? "" : coverage));// COVERAGE
+						preparedStatement.setInt(6, 1); // STATUS
+						preparedStatement.setTimestamp(7, date != null ? new Timestamp(date.getTime()):null);// UPLOAD_DATE
+						preparedStatement.setString(8, identifier); // DELIVERY_URL
+						preparedStatement.setInt(9, countryId.intValue()); // FK_SPATIAL_ID
+						preparedStatement.setInt(10, raId.intValue()); // FK_RA_ID
 						if (isDebugMode) logQuery(qSaveDeliveries);
 						preparedStatement.executeUpdate();
 						// (TITLE,TYPE,FORMAT,COVERAGE,STATUS,UPLOAD_DATE,DELIVERY_URL,FK_SPATIAL_ID,FK_RA_ID)
