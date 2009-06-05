@@ -90,6 +90,10 @@ public abstract class AbstractRODActionBean implements ActionBean {
 		return getContext().getCASLoginURL();
 	}
 	
+	public final String getLogoutURL() {
+		return getContext().getCASLogoutURL();
+	}
+	
 	public final String getLastUpdate() {
 		String ret = "";
 		try{

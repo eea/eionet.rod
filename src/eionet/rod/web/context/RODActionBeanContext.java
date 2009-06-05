@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import eionet.rod.Attrs;
 import eionet.rod.EionetCASFilter;
 import eionet.rod.ROUser;
+import eionet.rod.util.SecurityUtil;
 
 import net.sourceforge.stripes.action.ActionBeanContext;
 
@@ -52,8 +53,7 @@ public class RODActionBeanContext extends ActionBeanContext {
 	 * @return {@link ROUser} from session or null if user is not logged in.
 	 */
 	public ROUser getROUser() {
-		String appName = getServletContext().getInitParameter(Attrs.APPPARAM);
-		ROUser user = (ROUser) getRequest().getSession().getAttribute(Attrs.USERPREFIX + appName);
+		ROUser user = SecurityUtil.getUser(getRequest());
 		return user;
 	}
 	
@@ -63,7 +63,11 @@ public class RODActionBeanContext extends ActionBeanContext {
 	 * @return central authentication system login URL.
 	 */
 	public String getCASLoginURL() {
-		return EionetCASFilter.getCASLoginURL(getRequest());
+		return SecurityUtil.getLoginURL(getRequest());
+	}
+	
+	public String getCASLogoutURL() {
+		return SecurityUtil.getLogoutURL(getRequest());
 	}
 
 	public int getSeverity() {

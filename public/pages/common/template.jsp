@@ -72,7 +72,7 @@
                         		<a href="${actionBean.loginURL}" id="loginlink" title="Login">Login</a>
 					    	</c:when>
 	                        <c:otherwise>
-								<a href="${pageContext.request.contextPath}/logout_servlet" id="logoutlink" title="Logout">Logout ${actionBean.userName}</a>
+								<a href="${actionBean.logoutURL}" id="logoutlink" title="Logout">Logout ${actionBean.userName}</a>
 	                        </c:otherwise>
 	                    </c:choose>
 	                    <c:if test="${!empty help}">

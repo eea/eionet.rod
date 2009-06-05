@@ -28,6 +28,7 @@ import java.sql.*;
 import java.util.Vector;
 
 import eionet.directory.DirectoryService;
+import eionet.rod.util.sql.ConnectionUtil;
 
 import com.tee.uit.security.AccessControlListIF;
 import com.tee.uit.security.AccessController;
@@ -54,12 +55,6 @@ public class ROUser implements AppUserIF {
    protected String[] _roles = null;
    
    public ROUser() {
-      try {
-		dbPool = XDBApplication.getDBPool();
-	} catch (Throwable e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
    }
 /**
  *
@@ -130,9 +125,13 @@ public class ROUser implements AppUserIF {
  *
  */
    public Connection getConnection() {
-      //return dbPool.getConnection(user, password);
-      return dbPool.getConnection();
-   }
+	   try {
+			return ConnectionUtil.getConnection();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 /**
  * Returns a string array of roles the user is linked to.
  * Note that the method returns newly constructed array, leaving internal role list unrevealed.

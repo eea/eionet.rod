@@ -13,9 +13,6 @@ public class ROCASUser extends ROUser {
 	public boolean authenticate(String userName, String userPws) {
 		invalidate();
 
-		// LOG
-		if (Logger.enable(5))
-			Logger.log("Create ROD user '" + userName + "'");
 		try {
 			fullName = AuthMechanism.getFullName(userName);
 		} catch (SignOnException e) {
@@ -27,6 +24,16 @@ public class ROCASUser extends ROUser {
 		password = userPws;
 
 		return authented;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static ROCASUser create(String userName){
+		ROCASUser user = new ROCASUser();
+		user.authenticate(userName, null);
+		return user;
 	}
 
 }
