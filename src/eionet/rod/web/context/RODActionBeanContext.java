@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import eionet.rod.Attrs;
-import eionet.rod.EionetCASFilter;
 import eionet.rod.ROUser;
 import eionet.rod.util.SecurityUtil;
 
