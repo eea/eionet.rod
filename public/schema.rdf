@@ -46,33 +46,32 @@
 
 	<rdfs:Class rdf:ID="Locality">
 		<rdfs:label>Locality</rdfs:label>
-		<rdfs:comment>This is a limited list of localities that deliver to the repository</rdfs:comment>
+		<rdfs:comment>This is a limited list of localities that deliver to Reportnet</rdfs:comment>
 	</rdfs:Class>
 
-	<rdf:Property rdf:ID="file">
+	<rdf:Property rdf:ID="hasFile">
 		<rdfs:label>File in delivery</rdfs:label>
 		<rdfs:comment>Reference from Delivery envelope to file.</rdfs:comment>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/hasPart"/>
 		<rdfs:domain rdf:resource="#Delivery"/>
 	</rdf:Property>
 
-	<rdf:Property rdf:ID="locality">
+	<owl:FunctionalProperty rdf:ID="locality">
 		<rdfs:label>Locality</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/coverage"/>
 		<rdfs:range rdf:resource="#Locality"/>
 		<rdfs:domain rdf:resource="#Delivery"/>
 		<rdfs:domain rdf:resource="#Referral"/>
-	</rdf:Property>
+	</owl:FunctionalProperty>
 
-	<rdf:Property rdf:ID="released">
+	<owl:FunctionalProperty rdf:ID="released">
 		<rdfs:label>Release date</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/date"/>
 		<rdfs:domain rdf:resource="#Delivery"/>
-	</rdf:Property>
+	</owl:FunctionalProperty>
 
 	<rdf:Property rdf:ID="period">
 		<rdfs:label>Delivery period</rdfs:label>
-		<rdfs:domain rdf:resource="#Delivery"/>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/coverage"/>
 		<rdfs:domain rdf:resource="#Delivery"/>
 		<rdfs:domain rdf:resource="#Referral"/>
@@ -100,15 +99,15 @@
 		<rdfs:domain rdf:resource="#Instrument"/>
 	</rdf:Property>
 
-	<rdf:Property rdf:ID="terminated">
+	<owl:FunctionalProperty rdf:ID="terminated">
 		<rdfs:label>Obligation Terminated</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
-	</rdf:Property>
+	</owl:FunctionalProperty>
 
-	<rdf:Property rdf:ID="eea_primary">
+	<owl:FunctionalProperty rdf:ID="eea_primary">
 		<rdfs:label>Eionet Priority Data Flow</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
-	</rdf:Property>
+	</owl:FunctionalProperty>
 
 	<rdf:Property rdf:ID="comment">
 		<rdfs:label>General Comment</rdfs:label>
@@ -124,15 +123,15 @@
 		<rdfs:domain rdf:resource="#Obligation"/>
 	</rdf:Property>
 
-	<rdf:Property rdf:ID="nextdeadline">
+	<owl:FunctionalProperty rdf:ID="nextdeadline">
 		<rdfs:label>Next Deadline</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
-	</rdf:Property>
+	</owl:FunctionalProperty>
 
-	<rdf:Property rdf:ID="nextdeadline2">
+	<owl:FunctionalProperty rdf:ID="nextdeadline2">
 		<rdfs:label>Deadline for 2nd period</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
-	</rdf:Property>
+	</owl:FunctionalProperty>
 
 	<rdf:Property rdf:ID="guidelines">
 		<rdfs:label>Guidelines for reporting</rdfs:label>
