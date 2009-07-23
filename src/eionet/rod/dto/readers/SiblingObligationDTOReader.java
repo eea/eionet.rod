@@ -24,6 +24,7 @@ public class SiblingObligationDTOReader extends ResultSetBaseReader {
 		obligationDTO.setFkSourceId(rs.getString("FK_SOURCE_ID"));
 		obligationDTO.setTitle(rs.getString("TITLE"));
 		obligationDTO.setAuthority(rs.getString("AUTHORITY"));
+		obligationDTO.setTerminate(rs.getString("TERMINATE"));
 		
 		resultList.add(obligationDTO);
 	}

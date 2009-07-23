@@ -11,6 +11,7 @@ public class SiblingObligationDTO implements java.io.Serializable{
 	private String fkSourceId;
 	private String title;
 	private String authority;
+	private String terminate;
 	
 	/**
 	 * 
@@ -48,6 +49,14 @@ public class SiblingObligationDTO implements java.io.Serializable{
 
 	public void setAuthority(String authority) {
 		this.authority = authority;
+	}
+
+	public String getTerminate() {
+		return terminate;
+	}
+
+	public void setTerminate(String terminate) {
+		this.terminate = terminate;
 	}
 
 

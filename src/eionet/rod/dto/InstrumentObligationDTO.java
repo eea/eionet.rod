@@ -11,6 +11,7 @@ public class InstrumentObligationDTO implements java.io.Serializable{
 	private int obligationId;
 	private String title;
 	private String authority;
+	private String terminate;
 		
 	
 	/**
@@ -47,6 +48,16 @@ public class InstrumentObligationDTO implements java.io.Serializable{
 
 	public void setAuthority(String authority) {
 		this.authority = authority;
+	}
+
+
+	public String getTerminate() {
+		return terminate;
+	}
+
+
+	public void setTerminate(String terminate) {
+		this.terminate = terminate;
 	}
 
 		

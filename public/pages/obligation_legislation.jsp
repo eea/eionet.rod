@@ -38,6 +38,9 @@
 								<a href="${pageContext.request.contextPath}/obligations/${obligation.obligationId}">
 									${rodfn:replaceTags(obligation.title)}
 								</a>
+								<c:if test="${obligation.terminate != 'N'}">
+				    				<span class='smallfont' style='color:red'> [terminated]</span>
+				    			</c:if>
 								<c:if test="${!empty obligation.authority}">
 									&#160;[${obligation.authority}]
 								</c:if>

@@ -1519,7 +1519,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      */
     public List<SiblingObligationDTO> getSiblingObligations(String obligationId) throws ServiceException {
     	
-    	String query = "SELECT o2.PK_RA_ID, o2.FK_SOURCE_ID, o2.TITLE, o2.AUTHORITY " +
+    	String query = "SELECT o2.PK_RA_ID, o2.FK_SOURCE_ID, o2.TITLE, o2.AUTHORITY, o2.TERMINATE " +
 		"FROM T_OBLIGATION o1, T_OBLIGATION o2, T_SOURCE " +
 		"WHERE T_SOURCE.PK_SOURCE_ID=o1.FK_SOURCE_ID AND o1.PK_RA_ID = "+obligationId+" AND o2.PK_RA_ID != "+obligationId+" AND o2.FK_SOURCE_ID = T_SOURCE.PK_SOURCE_ID " +
 		"ORDER BY o2.TITLE";

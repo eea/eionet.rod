@@ -367,7 +367,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
     		"WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=SL.FK_SOURCE_CHILD_ID AND SL.FK_SOURCE_PARENT_ID=LSOURCE.PK_SOURCE_ID AND SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='S'";
       
       private static final String q_instrument_obligations =
-  		"SELECT OB.PK_RA_ID, OB.TITLE, OB.AUTHORITY " +
+  		"SELECT OB.PK_RA_ID, OB.TITLE, OB.AUTHORITY, OB.TERMINATE " +
   		"FROM T_OBLIGATION OB, T_SOURCE SO " +
   		"WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=OB.FK_SOURCE_ID";
       
@@ -473,6 +473,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 	  				obligation.setObligationId(new Integer(sub_rs.getInt("PK_RA_ID")));
 	  				obligation.setTitle(sub_rs.getString("TITLE"));
 	  				obligation.setAuthority(sub_rs.getString("AUTHORITY"));
+	  				obligation.setTerminate(sub_rs.getString("TERMINATE"));
 	  				obligations.add(obligation);
 	  			}
 	  			ret.setObligations(obligations);

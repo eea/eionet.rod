@@ -181,6 +181,9 @@
 												</c:otherwise>
 											</c:choose>
 										</a>
+						    			<c:if test="${obligation.terminate != 'N'}">
+						    				<span class='smallfont' style='color:red'> [terminated]</span>
+						    			</c:if>
 										<c:if test="${!empty obligation.authority}">
 											&#160;[${rodfn:replaceTags(obligation.authority)}]
 										</c:if>		
