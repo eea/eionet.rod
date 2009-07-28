@@ -8,36 +8,19 @@
 		<owl:versionInfo>$Id$</owl:versionInfo>
 	</owl:Ontology>
 
-	<rdfs:Class rdf:ID="Obligation">
-		<rdfs:label>Reporting Obligation</rdfs:label>
-		<rdfs:comment>A reporting obligation contains information about what to deliver, deadline and who must deliver</rdfs:comment>
-	</rdfs:Class>
+        <!-- Deliveries -->
 
-	<!-- Also known as dataflow -->
-	<rdf:Property rdf:ID="obligation">
+	<!-- A Delivery is the combination of an Envelope and its contents. -->
+	<rdfs:Class rdf:ID="Delivery" rdfs:label="Reportnet Delivery"/>
+
+	<rdfs:Class rdf:ID="Referral" rdfs:label="Repository Referral"/> <!-- phasing out -->
+
+	<rdf:Property rdf:ID="obligation">	<!-- Also known as dataflow -->
 		<rdfs:label>Obligation</rdfs:label>
 		<rdfs:range rdf:resource="#Obligation"/>
 		<rdfs:domain rdf:resource="#Delivery"/>
 		<rdfs:domain rdf:resource="#Referral"/>
 	</rdf:Property>
-
-	<rdfs:Class rdf:ID="Instrument">
-		<rdfs:label>Legislation Instrument</rdfs:label>
-		<rdfs:comment>A legal instrument is a law, directive or agreement describing one or more reporting obligations</rdfs:comment>
-	</rdfs:Class>
-
-	<!-- Used by obligations to refer to the instrument with an rdf:resource attribute -->
-	<rdf:Property rdf:ID="instrument">
-		<rdfs:label>Legislation Instrument</rdfs:label>
-		<rdfs:range rdf:resource="#Instrument"/>
-		<rdfs:domain rdf:resource="#Obligation"/>
-		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/relation"/>
-	</rdf:Property>
-
-	<!-- A Delivery is the combination of an Envelope and its contents. -->
-	<rdfs:Class rdf:ID="Delivery" rdfs:label="Reportnet Delivery"/>
-
-	<rdfs:Class rdf:ID="Referral" rdfs:label="Repository Referral"/>
 
 	<rdfs:Class rdf:ID="File">
 		<rdfs:label>Reportnet File</rdfs:label>
@@ -46,7 +29,7 @@
 
 	<rdfs:Class rdf:ID="Locality">
 		<rdfs:label>Locality</rdfs:label>
-		<rdfs:comment>This is a limited list of localities that deliver to Reportnet</rdfs:comment>
+		<rdfs:comment>A locality defines the spatial coverage of a delivery to Reportnet</rdfs:comment>
 	</rdfs:Class>
 
 	<rdf:Property rdf:ID="hasFile">
@@ -61,13 +44,13 @@
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/coverage"/>
 		<rdfs:range rdf:resource="#Locality"/>
 		<rdfs:domain rdf:resource="#Delivery"/>
-		<rdfs:domain rdf:resource="#Referral"/>
 	</owl:FunctionalProperty>
 
 	<owl:FunctionalProperty rdf:ID="released">
 		<rdfs:label>Release date</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/date"/>
 		<rdfs:domain rdf:resource="#Delivery"/>
+                <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
 	</owl:FunctionalProperty>
 
 	<rdf:Property rdf:ID="period">
@@ -75,6 +58,7 @@
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/coverage"/>
 		<rdfs:domain rdf:resource="#Delivery"/>
 		<rdfs:domain rdf:resource="#Referral"/>
+                <!-- XML Schema doesn't have a time interval datatype -->
 	</rdf:Property>
 
 	<rdf:Property rdf:ID="loccode">
@@ -87,6 +71,78 @@
 		<rdfs:label>Environmental issue</rdfs:label>
 	</rdfs:Class>
 
+	<!-- Clients -->
+
+	<rdfs:Class rdf:ID="Client">
+		<rdfs:label>Reportnet client</rdfs:label>
+	</rdfs:Class>
+
+	<rdf:Property rdf:ID="clientName">
+		<rdfs:label>Name</rdfs:label>
+		<rdfs:domain rdf:resource="#Client"/>
+		<rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="clientAcronym">
+		<rdfs:label>Acronym</rdfs:label>
+		<rdfs:domain rdf:resource="#Client"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="clientUrl">
+		<rdfs:label>Url</rdfs:label>
+		<rdfs:domain rdf:resource="#Client"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="clientAddress">
+		<rdfs:label>Address</rdfs:label>
+		<rdfs:domain rdf:resource="#Client"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="clientEmail">
+		<rdfs:label>Email</rdfs:label>
+		<rdfs:domain rdf:resource="#Client"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="clientDescription">
+		<rdfs:label>Description</rdfs:label>
+		<rdfs:domain rdf:resource="#Client"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="clientPostalCode">
+		<rdfs:label>Postal code</rdfs:label>
+		<rdfs:domain rdf:resource="#Client"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="clientCity">
+		<rdfs:label>City</rdfs:label>
+		<rdfs:domain rdf:resource="#Client"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="clientCountry">
+		<rdfs:label>Country</rdfs:label>
+		<rdfs:domain rdf:resource="#Client"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="clientShortName">
+		<rdfs:label>Short name</rdfs:label>
+		<rdfs:domain rdf:resource="#Client"/>
+	</rdf:Property>
+
+	<!-- Obligations -->
+
+	<rdfs:Class rdf:ID="Obligation">
+		<rdfs:label>Reporting Obligation</rdfs:label>
+		<rdfs:comment>A reporting obligation contains information about what to deliver, deadline and who must deliver</rdfs:comment>
+	</rdfs:Class>
+
+	<!-- Used by obligations to refer to the instrument with an rdf:resource attribute -->
+	<rdf:Property rdf:ID="instrument">
+		<rdfs:label>Legislation Instrument</rdfs:label>
+		<rdfs:range rdf:resource="#Instrument"/>
+		<rdfs:domain rdf:resource="#Obligation"/>
+		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/relation"/>
+	</rdf:Property>
+
 	<!-- Used by obligations to refer to an environmental issue with an rdf:resource attribute -->
 	<rdf:Property rdf:ID="issue">
 		<rdfs:label>Environmental issue</rdfs:label>
@@ -94,19 +150,16 @@
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/subject"/>
 	</rdf:Property>
 
-	<rdf:Property rdf:ID="celexref">
-		<rdfs:label>CELEX reference</rdfs:label>
-		<rdfs:domain rdf:resource="#Instrument"/>
-	</rdf:Property>
-
 	<owl:FunctionalProperty rdf:ID="terminated">
 		<rdfs:label>Obligation Terminated</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
+                <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
 	</owl:FunctionalProperty>
 
 	<owl:FunctionalProperty rdf:ID="eea_primary">
-		<rdfs:label>Eionet Priority Data Flow</rdfs:label>
+		<rdfs:label>Eionet Priority dataflow</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
+                <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
 	</owl:FunctionalProperty>
 
 	<rdf:Property rdf:ID="comment">
@@ -126,11 +179,13 @@
 	<owl:FunctionalProperty rdf:ID="nextdeadline">
 		<rdfs:label>Next Deadline</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
+                <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
 	</owl:FunctionalProperty>
 
 	<owl:FunctionalProperty rdf:ID="nextdeadline2">
 		<rdfs:label>Deadline for 2nd period</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
+                <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
 	</owl:FunctionalProperty>
 
 	<rdf:Property rdf:ID="guidelines">
@@ -139,13 +194,33 @@
 
 	<rdf:Property rdf:ID="guidelines_url">
 		<rdfs:label>Guidelines link</rdfs:label>
-		<rdfs:domain rdf:resource="#Instrument"/>
 		<rdfs:domain rdf:resource="#Obligation"/>
 	</rdf:Property>
 
 	<rdf:Property rdf:ID="details_url">
 		<rdfs:label>Information link</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
+	</rdf:Property>
+
+	<!-- Instruments -->
+
+	<rdfs:Class rdf:ID="Instrument">
+		<rdfs:label>Legislation Instrument</rdfs:label>
+		<rdfs:comment>A legal instrument is a law, directive or agreement describing one or more reporting obligations</rdfs:comment>
+	</rdfs:Class>
+
+	<rdf:Property rdf:ID="celexref">
+		<rdfs:label>CELEX reference</rdfs:label>
+		<rdfs:domain rdf:resource="#Instrument"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="issuer">
+		<rdfs:label>Issued by</rdfs:label>
+		<rdfs:domain rdf:resource="#Instrument"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="instrumentUrl">
+		<rdfs:label>URL to official text</rdfs:label>
 		<rdfs:domain rdf:resource="#Instrument"/>
 	</rdf:Property>
 
