@@ -38,7 +38,7 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 
 		Vector tmpVector = new Vector();
 		tmpVector.add("Yearly report to the Basel Convention");
-		delivery.put("http://rod.eionet.eu.int/schema.rdf#obligation", tmpVector);
+		delivery.put("http://rod.eionet.europa.eu/schema.rdf#obligation", tmpVector);
 		tmpVector = new Vector();
 		tmpVector.add("Reportnet Delivery");
 		delivery.put("http://www.w3.org/1999/02/22-rdf-syntax-ns#type", tmpVector);
@@ -53,7 +53,7 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 
 		tmpVector = new Vector();
 		tmpVector.add("Austria");
-		delivery.put("http://rod.eionet.eu.int/schema.rdf#locality", tmpVector);
+		delivery.put("http://rod.eionet.europa.eu/schema.rdf#locality", tmpVector);
 
 		tmpVector = new Vector();
 		tmpVector.add("Yearly Report to the Basel Convention 2003");
@@ -61,7 +61,7 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 
 		tmpVector = new Vector();
 		tmpVector.add("1992");
-		delivery.put("http://purl.org/dc/elements/1.1/coverage", tmpVector);
+		delivery.put("http://rod.eionet.europa.eu/schema.rdf#period", tmpVector);
 
 		tmpVector = new Vector();
 		tmpVector.add("en");
@@ -90,19 +90,6 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 		resultSet = statement.executeQuery("SELECT COUNT(*) FROM T_DELIVERY");
 		resultSet.next();
 		assertEquals(5, resultSet.getInt(1));
-
-		// Delete the last delivery - not really necessary
-		resultSet = statement.executeQuery("select max(PK_DELIVERY_ID) from T_DELIVERY");
-		resultSet.next();
-		int delivery_id = resultSet.getInt(1);
-		resultSet = statement.executeQuery("select FK_RA_ID from T_DELIVERY where PK_DELIVERY_ID = "+delivery_id);
-		resultSet.next();
-		assertEquals(514, resultSet.getInt(1));
-		
-		int ret = statement.executeUpdate("delete from T_DELIVERY where PK_DELIVERY_ID = " + delivery_id);
-		assertEquals(1, ret);
-
-		statement.executeUpdate("delete from T_DELIVERY where PK_DELIVERY_ID = " + delivery_id);
 	}
 
 	/*
@@ -118,7 +105,7 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 		resultSet.next();
 		assertEquals(514, resultSet.getInt(1));
 		deliveryMySqlDao.rollBackDeliveries(new Integer(resultSet.getInt(1)));
-		resultSet = statement.executeQuery("select count(PK_DELIVERY_ID) from T_DELIVERY where STATUS=0 AND FK_RA_ID="+resultSet.getInt(1));
+		resultSet = statement.executeQuery("select count(*) from T_DELIVERY where STATUS=0 AND FK_RA_ID="+resultSet.getInt(1));
 		resultSet.next();
 		assertEquals(0, resultSet.getInt(1));
 
@@ -135,7 +122,7 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 	public void testCommitDeliveries() throws Exception {
 		deliveryMySqlDao.commitDeliveries();
 		statement = connection.createStatement();
-		resultSet = statement.executeQuery("select count(PK_DELIVERY_ID) from T_DELIVERY where STATUS=0");
+		resultSet = statement.executeQuery("select count(*) from T_DELIVERY where STATUS=0");
 		resultSet.next();
 		assertEquals(0, resultSet.getInt(1));	
 
@@ -148,7 +135,7 @@ public class DeliveryMySqlDaoTest extends BaseMySqlDaoTest {
 	public void testBackUpDeliveries() throws Exception {
 		deliveryMySqlDao.backUpDeliveries();
 		statement = connection.createStatement();
-		resultSet = statement.executeQuery("select count(PK_DELIVERY_ID) from T_DELIVERY where STATUS=1");
+		resultSet = statement.executeQuery("select count(*) from T_DELIVERY where STATUS=1");
 		resultSet.next();
 		assertEquals(0, resultSet.getInt(1));
 	}
