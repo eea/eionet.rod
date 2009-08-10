@@ -12,13 +12,13 @@ touch $LOCKFILE
 java=/usr/lib/jvm/java/bin/java
 
 # place the right path in here !!!
-rod=/var/lib/tomcat4/webapps/webrod/public/WEB-INF
+rod=/var/lib/tomcat5/rod_apps/ROOT/WEB-INF
 cd $rod/classes
 
 libpath=$rod/lib
 
 # place the right path in here !!!
-cp=/usr/share/java/mysql-connector-java.jar
+cp=/var/lib/tomcat5/common/lib/mysql-connector-java.jar
 
 # place the right path in here !!!
 cp=$cp:/usr/share/java/servlet.jar
