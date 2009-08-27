@@ -11,6 +11,7 @@ import eionet.rod.dto.InstrumentsDueDTO;
 import eionet.rod.dto.InstrumentsListDTO;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.SourceClassDTO;
+import eionet.rod.dto.SourceLinksDTO;
 import eionet.rod.dto.UrlDTO;
 import eionet.rod.services.ServiceException;
 
@@ -200,5 +201,11 @@ public interface ISourceDao {
      * @throws ServiceException
      */
     public List<UrlDTO> getInstrumentsUrls() throws ServiceException;
+    
+    /**
+     * @return list of source links where child_type='S' and parent_type='S'
+     * @throws ServiceException
+     */
+    public List<SourceLinksDTO> getSourceLinks() throws ServiceException;
 	
 }

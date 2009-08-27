@@ -24,23 +24,19 @@
 package eionet.rod.rdf;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
+
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.MissingResourceException;
 
-//import com.tee.util.*;
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import eionet.rod.services.WebRODService;
+import eionet.rod.dto.SourceLinksDTO;
 
 import java.util.Hashtable;
 import java.util.Vector;
 import eionet.rod.services.ServiceException;
-import javax.servlet.ServletConfig;
-import com.tee.xmlserver.BaseServletAC;
 import eionet.rod.services.RODServices;
 import com.tee.util.Util;
 
@@ -127,6 +123,8 @@ public class Instruments extends RDFServletAC {
     for (int i= 0; i< instruments.size(); i++){
       Hashtable li=(Hashtable)instruments.elementAt(i);
       String pk=(String)li.get("PK_SOURCE_ID");
+      String source_code=(String)li.get("SOURCE_CODE");
+      String client_id=(String)li.get("FK_CLIENT_ID");
       String title=(String)li.get("ALIAS");
       String legalName=(String)li.get("TITLE");
       String lastUpdate=(String)li.get("LAST_UPDATE");
@@ -143,18 +141,31 @@ public class Instruments extends RDFServletAC {
         .append("<rdfs:label>").append(title).append("</rdfs:label>")        
         .append("<dc:title>").append(legalName).append("</dc:title>")        
         .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
-        .append("<rod:celexref>").append(celexRef).append("</rod:celexref>");
-
+        .append("<rod:celexref>").append(celexRef).append("</rod:celexref>")
+        .append("<dc:identifier>").append(source_code).append("</dc:identifier>")
+        .append("<rod:issuer rdf:resource=\"http://rod.eionet.europa.eu/clients/").append(client_id).append("\"/>");
+      
         if (!Util.nullString(abstr))
           s.append("<dcterms:abstract>").append(abstr).append("</dcterms:abstract>");
         
         if (!Util.nullString(url))
-          s.append("<rod:guidelines_url rdf:resource=\"" + url + "\"/>");
+        	s.append("<rod:instrumentURL>"+url+"</rod:instrumentURL>");
 
         if (!Util.nullString(issuedBy))
           s.append("<dc:creator>").append(issuedBy).append("</dc:creator>");
           
         s.append("</rod:Instrument>");        
+    }
+    
+    List<SourceLinksDTO> links = RODServices.getDbService().getSourceDao().getSourceLinks();
+    for(Iterator<SourceLinksDTO> it = links.iterator(); it.hasNext();){
+    	SourceLinksDTO sourceLink = it.next();
+    	if(sourceLink != null){
+	    	s.append("<rdf:Description rdf:about=\"http://rod.eionet.europa.eu/instruments/").append(sourceLink.getChildId()).append("\">")
+	    		.append("<rod:parentInstrument rdf:resource=\"http://rod.eionet.europa.eu/instruments/")
+	    			.append(sourceLink.getParentId()).append("\"/>")
+	    	.append("</rdf:Description>");
+    	}
     }
     
     s.append("</rdf:RDF>");

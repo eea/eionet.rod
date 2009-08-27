@@ -19,6 +19,7 @@ import eionet.rod.ROUser;
 import eionet.rod.dto.ClientDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import eionet.rod.web.util.SeeOtherRedirectResolution;
 
 /**
  * 
@@ -49,10 +50,19 @@ public class ClientsActionBean extends AbstractRODActionBean {
 				clientId = st.nextToken();
 		}
 		
+		String acceptHeader = getContext().getRequest().getHeader("accept");
+		String[] accept = null;
+		if(acceptHeader != null && acceptHeader.length() > 0)
+			accept = acceptHeader.split(",");
+		
 		if(!RODUtil.isNullOrEmpty(clientId)){
-			client = RODServices.getDbService().getClientDao().getClientFactsheet(clientId);
-			if(client == null || !RODUtil.isNumber(clientId)){
-				return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
+			if(accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
+				return new SeeOtherRedirectResolution("/clients.rdf");
+			} else {
+				client = RODServices.getDbService().getClientDao().getClientFactsheet(clientId);
+				if(client == null || !RODUtil.isNumber(clientId)){
+					return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
+				}
 			}
 		} else {		
 			clients = RODServices.getDbService().getClientDao().getAllClients();

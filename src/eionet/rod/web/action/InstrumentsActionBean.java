@@ -45,6 +45,7 @@ import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IObligationDao;
 import eionet.rod.services.modules.db.dao.ISourceDao;
 import eionet.rod.services.modules.db.dao.IUndoDao;
+import eionet.rod.web.util.SeeOtherRedirectResolution;
 
 /**
  * 
@@ -113,34 +114,37 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 			accept = acceptHeader.split(",");
 		
 		if(!RODUtil.isNullOrEmpty(instId)){
-			if(instId.equals("new"))
-				instrument = new InstrumentFactsheetDTO();
-			else
-				instrument = RODServices.getDbService().getSourceDao().getInstrumentFactsheet(instId);
-			
-			if(!instId.equals("new") && (instrument == null || !RODUtil.isNumber(instId))){
-				return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
+			if(!instId.equals("new") && accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
+				return new SeeOtherRedirectResolution("/instruments.rdf");
+			} else {
+				if(instId.equals("new"))
+					instrument = new InstrumentFactsheetDTO();
+				else
+					instrument = RODServices.getDbService().getSourceDao().getInstrumentFactsheet(instId);
+				
+				if(!instId.equals("new") && (instrument == null || !RODUtil.isNumber(instId))){
+					return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
+				}
+				dgenv = RODServices.getDbService().getSourceDao().getDGEnvNameByInstrumentId(instId);
+				
+				if(instId.equals("new") || (!RODUtil.isNullOrEmpty(action) && action.equals("edit"))){
+					forwardPage = "/pages/einstrument.jsp";
+					
+					dgenvlist = RODServices.getDbService().getSourceDao().getLookupList("DGS");
+					clients = RODServices.getDbService().getClientDao().getAllClients();
+					allSourceClasses = RODServices.getDbService().getSourceDao().getAllSourceClasses();
+					
+					if(!RODUtil.isNullOrEmpty(action) && action.equals("edit")){
+						parentInstrumentsList = RODServices.getDbService().getSourceDao().getParentInstrumentsList(instId);
+						parentInstrumentId = RODServices.getDbService().getSourceDao().getParentInstrumentId(instId);
+						instrumentSourceClasses = RODServices.getDbService().getSourceDao().getSourceClassesByInstrumentId(instId);
+						sourceClasses = initSourceClasses();
+					} else if(instId.equals("new")){
+						parentInstrumentsList = RODServices.getDbService().getSourceDao().getParentInstrumentsList("-1");
+						sourceClasses = allSourceClasses;
+					}				
+				}
 			}
-			dgenv = RODServices.getDbService().getSourceDao().getDGEnvNameByInstrumentId(instId);
-			
-			if(instId.equals("new") || (!RODUtil.isNullOrEmpty(action) && action.equals("edit"))){
-				forwardPage = "/pages/einstrument.jsp";
-				
-				dgenvlist = RODServices.getDbService().getSourceDao().getLookupList("DGS");
-				clients = RODServices.getDbService().getClientDao().getAllClients();
-				allSourceClasses = RODServices.getDbService().getSourceDao().getAllSourceClasses();
-				
-				if(!RODUtil.isNullOrEmpty(action) && action.equals("edit")){
-					parentInstrumentsList = RODServices.getDbService().getSourceDao().getParentInstrumentsList(instId);
-					parentInstrumentId = RODServices.getDbService().getSourceDao().getParentInstrumentId(instId);
-					instrumentSourceClasses = RODServices.getDbService().getSourceDao().getSourceClassesByInstrumentId(instId);
-					sourceClasses = initSourceClasses();
-				} else if(instId.equals("new")){
-					parentInstrumentsList = RODServices.getDbService().getSourceDao().getParentInstrumentsList("-1");
-					sourceClasses = allSourceClasses;
-				}				
-			}				
-			
 		} else if(RODUtil.isNullOrEmpty(instId) && accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
 			return new StreamingResolution("application/rdf+xml;charset=UTF-8") {
 			    public void stream(HttpServletResponse response) throws Exception {

@@ -60,6 +60,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
   
   protected String obligationsNamespace;
   protected String instrumentsNamespace;
+  protected String clientsNamespace;
   protected String rodSchemaNamespace;
   
 
@@ -91,6 +92,13 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
       } catch (MissingResourceException mre ) {
         instrumentsNamespace="http://rod.eionet.eu.int/instruments/";
       }
+      
+    if (clientsNamespace == null)
+      try {
+    	  clientsNamespace = props.getString(ROD_CL_NS);
+      } catch (MissingResourceException mre ) {
+    	  clientsNamespace="http://rod.eionet.europa.eu/clients/";
+    }
 
     if (issuesNamespace == null)
       try {

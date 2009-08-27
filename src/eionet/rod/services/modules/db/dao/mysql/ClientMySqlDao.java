@@ -18,6 +18,7 @@ import eionet.rod.dto.InstrumentObligationDTO;
 import eionet.rod.dto.InstrumentParentDTO;
 import eionet.rod.dto.IssueDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
+import eionet.rod.dto.readers.ClientAllDTOReader;
 import eionet.rod.dto.readers.CountryDeliveryDTOReader;
 import eionet.rod.dto.readers.ClientDTOReader;
 import eionet.rod.dto.readers.IssueDTOReader;
@@ -360,14 +361,15 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
      */
     public List<ClientDTO> getAllClients() throws ServiceException {
     	
-    	String query = "SELECT PK_CLIENT_ID, CLIENT_NAME, CLIENT_ACRONYM " +
+    	String query = "SELECT PK_CLIENT_ID, CLIENT_NAME, CLIENT_ACRONYM, CLIENT_URL, CLIENT_ADDRESS, CLIENT_EMAIL, " +
+    			"DESCRIPTION, POSTAL_CODE, CITY, COUNTRY, CLIENT_SHORT_NAME " +
     		"FROM T_CLIENT " +
     		"ORDER BY CLIENT_NAME";
     	
     	List<Object> values = new ArrayList<Object>();
 				
 		Connection conn = null;
-		ClientDTOReader rsReader = new ClientDTOReader();
+		ClientAllDTOReader rsReader = new ClientAllDTOReader();
 		try{
 			conn = getConnection();
 			SQLUtil.executeQuery(query, values, rsReader, conn);

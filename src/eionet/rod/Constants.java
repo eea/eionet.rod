@@ -143,6 +143,11 @@ public interface Constants {
 * Parameter in the props file for LI namespace
 */
   public static final String ROD_LI_NS = "instruments.namespace";
+  
+/**
+* Parameter in the props file for CL namespace
+*/
+  public static final String ROD_CL_NS = "clients.namespace";
 
 /**
 * Parameter in the props file for issues namespace

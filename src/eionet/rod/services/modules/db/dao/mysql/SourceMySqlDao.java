@@ -19,14 +19,15 @@ import eionet.rod.dto.InstrumentParentDTO;
 import eionet.rod.dto.InstrumentsDueDTO;
 import eionet.rod.dto.InstrumentsListDTO;
 import eionet.rod.dto.LookupDTO;
-import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.dto.SourceClassDTO;
+import eionet.rod.dto.SourceLinksDTO;
 import eionet.rod.dto.UrlDTO;
 import eionet.rod.dto.readers.HierarchyInstrumentDTOReader;
 import eionet.rod.dto.readers.InstrumentDTOReader;
 import eionet.rod.dto.readers.InstrumentsDueDTOReader;
 import eionet.rod.dto.readers.LookupDTOReader;
 import eionet.rod.dto.readers.SourceClassDTOReader;
+import eionet.rod.dto.readers.SourceLinksDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.ISourceDao;
 import eionet.rod.util.sql.SQLUtil;
@@ -38,7 +39,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
 	private static final String q_instruments = 
 		"SELECT " + 
-			"s.PK_SOURCE_ID, " + 
+			"s.PK_SOURCE_ID, " +
+			"s.SOURCE_CODE, " +
+			"s.FK_CLIENT_ID, " +
 			"REPLACE(s.TITLE, '&', '&#038;') AS TITLE, " + 
 			"REPLACE(s.ALIAS, '&', '&#038;') AS ALIAS, " + 
 			"REPLACE(s.URL, '&', '&#038;') AS URL, " + 
@@ -1115,4 +1118,36 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 		
 		return ret;
 	}
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISourceDao#getSourceLinks()
+     */
+    public List<SourceLinksDTO> getSourceLinks() throws ServiceException {
+    	
+    	String query = "SELECT FK_SOURCE_CHILD_ID, FK_SOURCE_PARENT_ID " +
+    			"FROM T_SOURCE_LNK WHERE CHILD_TYPE = 'S' AND PARENT_TYPE = 'S'";
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		SourceLinksDTOReader rsReader = new SourceLinksDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<SourceLinksDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
 }

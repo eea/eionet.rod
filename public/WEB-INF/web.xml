@@ -199,6 +199,10 @@
 		<servlet-class>eionet.rod.rdf.Instruments</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>clients_rdf</servlet-name>
+		<servlet-class>eionet.rod.rdf.Clients</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>obligations_rdf</servlet-name>
 		<servlet-class>eionet.rod.rdf.Activities</servlet-class>
 	</servlet>
@@ -261,6 +265,10 @@
 	<servlet-mapping>
 		<servlet-name>instruments_rss</servlet-name>
 		<url-pattern>/instruments.rss</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>clients_rdf</servlet-name>
+		<url-pattern>/clients.rdf</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>obligations_rdf</servlet-name>
