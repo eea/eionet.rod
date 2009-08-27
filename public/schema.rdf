@@ -231,4 +231,11 @@
 		<rdfs:label>Event type</rdfs:label>
 	</rdf:Property>
 
+	<!-- Used by obligations to refer to the instrument with an rdf:resource attribute -->
+	<rdf:Property rdf:ID="productOf">
+		<rdfs:label>Product of</rdfs:label>
+		<rdfs:range rdf:resource="#Obligation"/>
+		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/relation"/>
+	</rdf:Property>
+
 </rdf:RDF>
