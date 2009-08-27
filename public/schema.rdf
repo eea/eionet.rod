@@ -231,7 +231,7 @@
 		<rdfs:label>Event type</rdfs:label>
 	</rdf:Property>
 
-	<!-- Used by obligations to refer to the instrument with an rdf:resource attribute -->
+	<!-- Used to refer to the obligation the resource is product of -->
 	<rdf:Property rdf:ID="productOf">
 		<rdfs:label>Product of</rdfs:label>
 		<rdfs:range rdf:resource="#Obligation"/>
