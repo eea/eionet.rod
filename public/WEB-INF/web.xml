@@ -7,7 +7,7 @@
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
 	<display-name>ROD</display-name>
-	<description>EIONET ROD application</description>
+	<description>Eionet ROD application</description>
 	<context-param>
 		<param-name>application-name</param-name>
 		<param-value>webrod</param-value>
@@ -154,6 +154,7 @@
 		<filter-name>StripesFilter</filter-name>
 		<url-pattern>/*</url-pattern>		
   	</filter-mapping>	
+
 	<servlet>
 		<servlet-name>AfterCASLoginServlet</servlet-name>
 		<servlet-class>eionet.rod.AfterCASLoginServlet</servlet-class>
@@ -430,7 +431,7 @@
 		<!-- minutes -->
 	</session-config>
 	<!-- the application server might allow directory listing.
-       The welcome-files are used to overcome workings of such feature 
+       The welcome-files are used to overcome workings of such feature
   -->
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -441,14 +442,6 @@
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 	</resource-ref>
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>
-            Restricted Area
-         </web-resource-name>
-			<url-pattern>/app/*</url-pattern>
-		</web-resource-collection>
-	</security-constraint>
 	  <!--Error handling page-->
 	<error-page>
 		<error-code>404</error-code>
@@ -459,7 +452,7 @@
        value to the SSL connector -->
 	<!-- first match wins -->
 	<!-- transport-guarantee can be NONE, INTEGRAL, CONFIDENTIAL -->
-	<!-- define SSL security> 
+	<!-- define SSL security>
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>XslXmlFiles</web-resource-name>

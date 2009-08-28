@@ -1,1 +1,30 @@
-user:test:v,i,u,d
+<?xml version="1.0" encoding="UTF-8"?>
+<acl description="/Admin/Harvest">
+<entries>
+<entry type="object">
+<principal id="haigh" type="user"/>
+<permissions>
+<permission id="v"/>
+<permission id="i"/>
+<permission id="u"/>
+<permission id="d"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="roug" type="user"/>
+<permissions>
+<permission id="v"/>
+<permission id="i"/>
+<permission id="u"/>
+<permission id="d"/>
+<permission id="c"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="tennoan" type="user"/>
+<permissions>
+<permission id="v"/>
+</permissions>
+</entry>
+</entries>
+</acl>

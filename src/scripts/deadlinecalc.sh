@@ -2,14 +2,14 @@
 
 
 # !!!!!!!!!!!!!!!!!! ADJUST THESE !!!!!!!!!!!!!!!!!!
-rod=/var/lib/tomcat5/rod_apps/ROOT/WEB-INF
+rod=@WEBAPP.HOME@/WEB-INF
 cd $rod/classes
 java=/usr/bin/java
 
 libpath=$rod/lib
 
 # !!!!!!!!!!!!!!!!! CHECK, if mysql JAR is correct !!!!!!!!!!!!!!
-cp=/var/lib/tomcat5/common/lib/mysql-connector-java.jar
+cp=@MYSQL.JAR@
 
 cp=$cp:$libpath/rod.jar:$libpath/xmlserver.jar
 cp=$cp:$libpath/uit-security.jar

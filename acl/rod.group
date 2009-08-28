@@ -1,2 +1,28 @@
-rod_admin:
-rod_user:test
+<?xml version="1.0" encoding="UTF-8"?>
+<localgroups>
+<group id="rod_admin">
+<member userid="roug"/>
+<member userid="kasperen"/>
+<member userid="motusris"/>
+<member userid="uriiijuh"/>
+</group>
+<group id="rod_user">
+<member userid="desmepet"/>
+<member userid="cryan"/>
+<member userid="peifer"/>
+<member userid="viisimat"/>
+<member userid="fonsjaum"/>
+<member userid="mayer"/>
+<member userid="auestjoh"/>
+<member userid="nietoana"/>
+<member userid="conde"/>
+<member userid="iverscar"/>
+<member userid="mareckova"/>
+<member userid="heidochr"/>
+<member userid="lglobevnik"/>
+<member userid="handejes"/>
+<member userid="kirnntin"/>
+<member userid="palitmet"/>
+<member userid="kjaerbir"/>
+</group>
+</localgroups>

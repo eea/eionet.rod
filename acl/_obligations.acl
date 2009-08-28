@@ -1,9 +1,49 @@
-user:authenticated:v
-user:anonymous:v
-localgroup:rod_user:v,i
-localgroup:rod_admin:v,i,c
-authenticated:v:doc
-anonymous:v:doc
-localgroup:rod_user:v,u,d:doc
-localgroup:rod_admin:v,u,d,c:doc
-description:obligations_table:
+<?xml version="1.0" encoding="UTF-8"?>
+<acl description="obligations_table">
+<entries>
+<entry type="object">
+<principal id="authenticated" type="user"/>
+<permissions>
+<permission id="v"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="anonymous" type="user"/>
+<permissions>
+<permission id="v"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="rod_user" type="localgroup"/>
+<permissions>
+<permission id="v"/>
+<permission id="i"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="rod_admin" type="localgroup"/>
+<permissions>
+<permission id="v"/>
+<permission id="i"/>
+<permission id="c"/>
+</permissions>
+</entry>
+<entry type="doc">
+<principal id="rod_user" type="localgroup"/>
+<permissions>
+<permission id="v"/>
+<permission id="u"/>
+<permission id="d"/>
+</permissions>
+</entry>
+<entry type="doc">
+<principal id="rod_admin" type="localgroup"/>
+<permissions>
+<permission id="v"/>
+<permission id="u"/>
+<permission id="d"/>
+<permission id="c"/>
+</permissions>
+</entry>
+</entries>
+</acl>

@@ -1,5 +1,24 @@
-user:authenticated:
-user:anonymous:
-localgroup:rod_user:v,u,i,d
-localgroup:rod_admin:v,u,i,c,d
-description:/Admin:
+<?xml version="1.0" encoding="UTF-8"?>
+<acl description="/Admin">
+<entries>
+<entry type="object">
+<principal id="rod_user" type="localgroup"/>
+<permissions>
+<permission id="v"/>
+<permission id="u"/>
+<permission id="i"/>
+<permission id="d"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="rod_admin" type="localgroup"/>
+<permissions>
+<permission id="v"/>
+<permission id="u"/>
+<permission id="i"/>
+<permission id="c"/>
+<permission id="d"/>
+</permissions>
+</entry>
+</entries>
+</acl>

@@ -3,10 +3,10 @@
 <!-- BUILDFILE FOR WEBROD
 
 	Ant reads all arguments from build.properties file.
-		build.dir - directory where the application will be installed eg.  /tomcat/webapps
+		webapp.home - directory where the application will be installed eg.  /tomcat/webapps
 		servletapi.jar - servletapi.jar file location eg. /tomcat/common/lib/srvletapi.jar
-		vhost - if tdefined, the application will be installed as a new virtual host. 
-												Otherwise it is installed under webapps folder under existing virtual host.
+		vhost - if defined, the application will be installed as a new virtual host. 
+			Otherwise it is installed under webapps folder under existing virtual host.
 
 	If build.properties doesn't exist yet, then make a copy from default.properties and rename it to build.properties. Modify properties, if needed.
 	
@@ -21,7 +21,7 @@
 	   builds rod.jar into WEB-INF/lib directory. removes also compiled java classes from classes directory.
 
      install
-        creates the correct deployment directory structure in the target build.dir and
+        creates the correct deployment directory structure in the target webapp.home and
         copies all web (jsp, xsl, xml,images, css and js), configuration (web.xml)
         related data there, java libraries and builds jar file.
 
@@ -42,33 +42,35 @@
 	<!-- reads default parametrs from build.properties file -->
 
 	<target name="init">
+		<condition property="build.properties.exists">
+			<available file="build.properties" />
+		</condition>
 
-        <condition property="build.properties.exists">
-                <available file="build.properties" />
-        </condition>
-
-        <fail unless="build.properties.exists"
-            message="Couldn't find build.properties file! Make a copy from default.properties and rename it to build.properties. Modify properties, if needed."/>
+		<fail unless="build.properties.exists"
+		    message="Couldn't find build.properties file! Make a copy from default.properties and rename it to build.properties. Modify properties, if needed."/>
 
 		<loadproperties srcFile="build.properties"/>
 
-        <fail unless="build.dir"
-            message="Mandatory build.dir property is missing in build.properties file. Please provide a directory name as build.dir property value where the application will be installed eg.  build.dir=/tomcat/webapps/webrod "/>
+		<fail unless="webapp.home"
+		    message="Mandatory webapp.home property is missing in build.properties file. Please provide a directory name as webapp.home property value where the application will be installed eg.  webapp.home=/tomcat/webapps/webrod "/>
 
 		<property name="src" value="src"/>
-		<property name="lib" value="public/WEB-INF/lib"/>
-		<property name="classes.dir" value="${build.dir}/public/WEB-INF/classes"/>
+		<property name="lib" value="WEB-INF/lib"/>
+		<property name="classes.dir" value="target/classes"/>
+		<property name="build.home" value="target"/>
 	</target>
 
-	<target name='compile' depends="init,prepare,clean" description="compiles java classes into classes path">
+	<target name='compile' depends="init" description="compiles java classes into classes path">
 	    <!-- Compile the java code from ${src} into ${build} -->
+		<mkdir dir="target"/>
+		<mkdir dir="${classes.dir}"/>
 		<javac deprecation='off' srcdir='${src}'
 		    destdir='${classes.dir}' debug='on'
 		    classpath='public/WEB-INF/lib/xmlserver.jar;
 		    public/WEB-INF/lib/uit-client.jar;
 		    public/WEB-INF/lib/uit-server.jar;
 		    ${servletapi.jar};
-		    ${servlet.jar};
+		    ${jspapi.jar};
 		    public/WEB-INF/lib/log4j.jar;
 		    public/WEB-INF/lib/xmlrpc.jar;
 		    public/WEB-INF/lib/uit-security.jar;
@@ -84,24 +86,26 @@
 		    public/WEB-INF/lib/casclient.jar;' />
 	</target>
 
-	<target name='buildjar' depends='compile' description="creates rod.jar into WB-INF/lib">
-		<jar jarfile='${build.dir}/${lib}//rod.jar'
+	<target name='buildjar' depends='compile' description="creates rod.jar into WEB-INF/lib">
+		<jar jarfile='${build.home}/rod.jar'
 		    includes='**/*.class' basedir='${classes.dir}' />
-		<!--delete dir='${classes.dir}/eionet' /-->
-		<antcall target="clean"/>
+	</target>
+
+	<target name="preparetarget" description="Creates folder structure if not existing yet">
+		<mkdir dir="${build.home}"/>
 	</target>
 
 	<target name="prepare" description="Creates folder structure if not existing yet">
-		<mkdir dir="${build.dir}"/>
-		<mkdir dir="${build.dir}/public"/>
-		<mkdir dir="${build.dir}/public/WEB-INF"/>
-		<mkdir dir="${build.dir}/public/WEB-INF/classes"/>
-		<mkdir dir="${build.dir}/public/WEB-INF/lib"/>
-		<mkdir dir="${build.dir}/public/app"/>
-		<mkdir dir="${build.dir}/public/images"/>
-		<mkdir dir="${build.dir}/public/script"/>
-		<mkdir dir="${build.dir}/log"/>
-		<mkdir dir="${build.dir}/acl"/>
+		<mkdir dir="${webapp.home}"/>
+		<mkdir dir="${webapp.home}/WEB-INF"/>
+		<mkdir dir="${webapp.home}/WEB-INF/classes"/>
+		<mkdir dir="${webapp.home}/WEB-INF/lib"/>
+		<mkdir dir="${webapp.home}/images"/>
+		<mkdir dir="${webapp.home}/script"/>
+		<mkdir dir="${app.home}"/>
+		<mkdir dir="${app.home}/tmp"/>
+		<mkdir dir="${app.home}/log"/>
+		<mkdir dir="${app.home}/acl"/>
 	</target>
 
 	<target name="install" depends="init,copyfiles" description="complete installation">
@@ -111,26 +115,31 @@
 
 	<!-- if it is installed as a new virtual host -->
 	<target name="root_context" if="install.vhost" description="suggestion for creating virtual host in server.xml and installation instructions">
+                <copy file="context.xml" todir="${webapp.home}/META-INF" overwrite="true">
+                        <filterchain>
+                                <replacetokens>
+                                        <token key="DB.USER" value="${db.user}"/>
+                                        <token key="DB.PASSWORD" value="${db.password}"/>
+                                        <token key="DB.HOST" value="${db.host}"/>
+                                        <token key="DB.DATABASE" value="${db.database}"/>
+                                </replacetokens>
+                        </filterchain>
+                </copy>
 		<echo>==================================================================</echo>
 		<echo>=== You are installing Web ROD application as a virtual host</echo>
 		<echo>=== Remember to add a virtual host TAG into  the server.xml</echo>
 		<echo>=== if not existing yet															</echo>
-		<echo>=== Look example at: ${build.dir}/resin_conf/server.xml	</echo>
 		<echo>===================================================================</echo>
-		<echo>=== If it is a first time installation, prceed with the following steps:</echo>
+		<echo>=== If it is a first time installation, proceed with the following steps:</echo>
 		<echo>=== </echo>
-		<echo>=== 1. Check properties files under /public/WEB-INF/classes and correct file/directory properties, if needed.</echo>
-		<echo>=== Propertis files are rod.properties, uit.properties, log4j.properties, eionetdir.properties</echo>
-		<echo>=== 2. Check if user permissions files under /acl folder exists. Edit permissions in the files manually or use web-based ACL Admin tool</echo>
+		<echo>=== 1. Check properties files under WEB-INF/classes and correct file/directory properties, if needed.</echo>
+		<echo>=== Properties files are rod.properties, uit.properties, log4j.properties, eionetdir.properties</echo>
+		<echo>=== 2. Check if user permission files under ${app.home}/acl folder exists. Edit permissions in the files manually or use web-based ACL Admin tool</echo>
 		<echo>=== 3. Check script files under the installation root folder and configure crontab</echo>
 		<echo>=== Script files are deadlinecalc.sh, deadlines-daemon.sh, harvest.sh</echo>		
 		<echo>=== </echo>
 		<echo>=== Exact installation instructions can be found from ROD Detailed Design Document.</echo>
 		<echo>===================================================================</echo>
-	</target>
-	<!-- if it is installed under webapps folder under existing virtual host -->
-	<target name="webapp_context" unless="install.vhost">
-		<copy file="webrod.xml" todir="${build.dir}" overwrite="true"/>
 	</target>
 	
 	<target name="create_context">
@@ -141,83 +150,57 @@
 	</target>
 
 
+	<target name="copyfiles" depends="buildjar" description="Copies all files to deploy dir. Does not overwrite properties files">
+		<!-- we do not care about these files older versions -->
+		<copy file="WebRODservice.xml" todir="${app.home}" overwrite="true"/>
+		<copy file="VERSION.txt" todir="${app.home}" overwrite="true"/>
 
-    <target name="copyfiles" depends="buildjar" description="copies all files to deploy dir. Does not overwrite properties files">
-        <!-- we do not care about these files older versions -->
-        <copy file="WebRODservice.xml" tofile="${build.dir}/WebRODservice.xml" overwrite="true"/>
-        <copy file="deadlinecalc.sh" todir="${build.dir}" overwrite="false"/>
-        <copy file="deadlines-daemon.sh" todir="${build.dir}" overwrite="false"/>
-        <copy file="harvest.sh" todir="${build.dir}" overwrite="false"/>
-        <copy file="VERSION.txt" todir="${build.dir}" overwrite="true"/>
-        <copy todir="${build.dir}/public" overwrite="true">
-            <fileset dir="public">
-                <exclude name="**/*.java" />
-                <exclude name="**/*.properties" />
-            </fileset>
-        </copy>
-        <copy todir="${build.dir}/resin_conf" overwrite="true">
-            <fileset dir="resin_conf"/>
-        </copy>
-        <copy todir="${build.dir}/acl" overwrite="false">
-            <fileset dir="acl"/>
-        </copy>
-        <copy todir="${classes.dir}" overwrite="false">
-            <fileset dir="${src}" includes="**/*.properties">
-                <exclude name="**/*.class" />
-            </fileset>
-        </copy>
-        <!-- should take care of not overwriting them -->
-        <condition property="uit.needed">
-            <not>
-                <available file="${classes.dir}/uit.properties" />
-            </not>
-        </condition>
-        <condition property="rod.needed">
-            <not>
-                <available file="${classes.dir}/rod.properties" />
-            </not>
-        </condition>
-        <condition property="log4j.needed">
-            <not>
-                <available file="${classes.dir}/log4j.properties" />
-            </not>
-        </condition>
-        <condition property="eionetdir.needed">
-            <not>
-                <available file="${classes.dir}/eionetdir.properties" />
-            </not>
-        </condition>
-        <condition property="teXDBMsg.needed">
-            <not>
-                <available file="${classes.dir}/teXDBMsg.properties" />
-            </not>
-        </condition>
-        <antcall target="copy_props" />
-    </target>
+		<!-- Copy supporting scripts -->
+                <copy todir="${app.home}" overwrite="false">
+			<fileset dir="src/scripts">
+			</fileset>
+			<filterchain>
+				<replacetokens>
+					<token key="WEBAPP.HOME" value="${webapp.home}"/>
+					<token key="APP.HOME" value="${app.home}"/>
+					<token key="SERVLETAPI.JAR" value="${servletapi.jar}"/>
+					<token key="MYSQL.JAR" value="${lib-mysql-connector-jar}"/>
+				</replacetokens>
+			</filterchain>
+                </copy>
+		<!-- Copy supporting ACL files -->
+		<copy todir="${app.home}/acl" overwrite="false">
+			<fileset dir="acl"/>
+			<globmapper from="*" to="*.dist"/>
+		</copy>
+
+		<!-- Copy JSP files - TODO: Move sources to src/main/webapp -->
+		<copy todir="${webapp.home}" overwrite="true">
+			<fileset dir="public">
+				<exclude name="**/*.java" />
+				<exclude name="**/*.properties" />
+			</fileset>
+		</copy>
+		<!-- Copy resource files - TODO: Move resources to src/main/resources -->
+                <copy todir="${webapp.home}/WEB-INF/classes" overwrite="true">
+			<fileset dir="${src}/resources">
+			</fileset>
+			<globmapper from="*" to="*.dist"/>
+			<filterchain>
+				<replacetokens>
+					<token key="WEBAPP.HOME" value="${webapp.home}"/>
+					<token key="APP.HOME" value="${app.home}"/>
+					<token key="DB.USER" value="${db.user}"/>
+					<token key="DB.PASSWORD" value="${db.password}"/>
+					<token key="DB.HOST" value="${db.host}"/>
+					<token key="DB.DATABASE" value="${db.database}"/>
+				</replacetokens>
+			</filterchain>
+                </copy>
+		<!-- Copy the application JAR file -->
+                <copy todir="${webapp.home}/WEB-INF/lib" overwrite="true" file="target/rod.jar"/>
+	</target>
     
-	<target name="copy_props" description="checks some properties in properties files">
-		<antcall target="cp_uit"/>
-		<antcall target="cp_rod"/>
-		<antcall target="cp_log4j"/>
-		<antcall target="cp_eionetdir"/>
-		<antcall target="cp_teXDBMsg"/>
-	</target>
-	<target name="cp_uit" if="uit.needed">
-		<copy file="public/WEB-INF/classes/uit.properties" tofile="${classes.dir}/uit.properties"/>
-	</target>
-	<target name="cp_log4j" if="log4j.needed">
-		<copy file="public/WEB-INF/classes/log4j.properties" tofile="${classes.dir}/log4j.properties"/>
-	</target>
-	<target name="cp_rod" if="rod.needed">
-		<copy file="public/WEB-INF/classes/rod.properties" tofile="${classes.dir}/rod.properties"/>
-	</target>
-	<target name="cp_eionetdir" if="eionetdir.needed">
-		<copy file="public/WEB-INF/classes/eionetdir.properties" tofile="${classes.dir}/eionetdir.properties"/>
-	</target>
-	<target name="cp_teXDBMsg" if="teXDBMsg.needed">
-		<copy file="public/WEB-INF/classes/teXDBMsg.properties" tofile="${classes.dir}/teXDBMsg.properties"/>
-	</target>
-	
 <!-- Check  properties files -->
 	<target name="checkProps">
 		<antcall target="checkUITProps"/>
@@ -225,7 +208,7 @@
 	</target>
 
 	<target name="checkUITProps">
-		<loadproperties srcFile="${classes.dir}/uit.properties"/>
+		<loadproperties srcFile="${webapp.home}/WEB-INF/classes/uit.properties"/>
 		<condition property="srvdef.not.available">
 			<not>
 				<available file="${services.definition.file}"/>
@@ -253,8 +236,9 @@
 		<antcall target="warn_prms"/>
 		<antcall target="warn_users"/>
 	</target>
+
 	<target name="checkRODProps">
-		<loadproperties srcFile="${classes.dir}/rod.properties"/>
+		<loadproperties srcFile="${webapp.home}/WEB-INF/classes/rod.properties"/>
 		<condition property="extractorpath.not.available">
 			<not>
 				<available file="${extractor.logpath}" type="dir"/>
@@ -301,7 +285,6 @@
 	</target>
 
 	<target name="clean">
-		<delete dir="${classes.dir}/eionet"/>
+		<delete dir="target"/>
 	</target>
-
 </project>

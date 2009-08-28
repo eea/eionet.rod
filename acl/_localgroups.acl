@@ -1,5 +1,39 @@
-localgroup:rod_user:v,u
-localgroup:rod_admin:v,u,c
-user:authenticated:v
-user:anonymous:v
-description:Local_groups:
+<?xml version="1.0" encoding="UTF-8"?>
+<acl description="Local_groups">
+<entries>
+<entry type="object">
+<principal id="roug" type="user"/>
+<permissions>
+<permission id="v"/>
+<permission id="u"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="authenticated" type="user"/>
+<permissions>
+<permission id="v"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="anonymous" type="user"/>
+<permissions>
+<permission id="v"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="rod_user" type="localgroup"/>
+<permissions>
+<permission id="v"/>
+<permission id="u"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="rod_admin" type="localgroup"/>
+<permissions>
+<permission id="v"/>
+<permission id="u"/>
+<permission id="c"/>
+</permissions>
+</entry>
+</entries>
+</acl>

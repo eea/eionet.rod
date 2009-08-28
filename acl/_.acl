@@ -1,5 +1,48 @@
-user:authenticated:v
-user:anonymous:v
-localgroup:rod_user:v,i,d,u
-localgroup:rod_admin:v,u,i,d,c,hc
-description:/:
+<?xml version="1.0" encoding="UTF-8"?>
+<acl description="/">
+<entries>
+<entry type="object">
+<principal id="roug" type="user"/>
+<permissions>
+<permission id="v"/>
+<permission id="i"/>
+<permission id="u"/>
+<permission id="d"/>
+<permission id="c"/>
+<permission id="hc"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="authenticated" type="user"/>
+<permissions>
+<permission id="v"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="anonymous" type="user"/>
+<permissions>
+<permission id="v"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="rod_user" type="localgroup"/>
+<permissions>
+<permission id="v"/>
+<permission id="i"/>
+<permission id="d"/>
+<permission id="u"/>
+</permissions>
+</entry>
+<entry type="object">
+<principal id="rod_admin" type="localgroup"/>
+<permissions>
+<permission id="v"/>
+<permission id="u"/>
+<permission id="i"/>
+<permission id="d"/>
+<permission id="c"/>
+<permission id="hc"/>
+</permissions>
+</entry>
+</entries>
+</acl>

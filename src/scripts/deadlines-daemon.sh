@@ -9,21 +9,21 @@ trap "rm -f $LOCKFILE" EXIT
 touch $LOCKFILE
 
 # place the right path in here !!!
-java=/usr/lib/jvm/java/bin/java
+java=/usr/bin/java
 
 # place the right path in here !!!
-rod=/var/lib/tomcat5/rod_apps/ROOT/WEB-INF
+rod=@WEBAPP.HOME@/WEB-INF
 cd $rod/classes
 
 libpath=$rod/lib
 
 # place the right path in here !!!
-cp=/var/lib/tomcat5/common/lib/mysql-connector-java.jar
+cp=@MYSQL.JAR@
 
 # place the right path in here !!!
-cp=$cp:/usr/share/java/servlet.jar
+cp=$cp:@SERVLETAPI.JAR@
 
-cp=$cp:$libpath/rod.jar
+cp=$cp:$libpath/rod.jar:$libpath/eionet-dir.jar
 cp=$cp:$libpath/tomcat-util.jar:$libpath/xmlrpc.jar:$libpath/xmlserver.jar:$libpath/uit-security.jar:$CLASSPATH
 
 $java -cp $cp eionet.rod.DeadlinesDaemon
