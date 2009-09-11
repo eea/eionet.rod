@@ -9,6 +9,5 @@
 	logAbandoned="true"
 	removeAbandoned="true"
 	removeAbandonedTimeout="60"
-	factory="org.apache.commons.dbcp.BasicDataSourceFactory"
 	url="jdbc:mysql://@DB.HOST@/@DB.DATABASE@?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;jdbcCompliantTruncation=false"/>
 </Context>
