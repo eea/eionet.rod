@@ -2,3 +2,5 @@ User-agent: *
 Disallow: /obligationsdue
 Disallow: /updatehistory
 Disallow: /instrumentsdue
+User-agent: Nutch
+Disallow: /deadlines
