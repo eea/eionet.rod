@@ -75,7 +75,7 @@ public class Clients extends RDFServletAC {
 				rodSchemaNamespace=props.getString("schema.namespace");
 		        //quite likely it will not change
 			} catch (MissingResourceException mre ) {
-		        rodSchemaNamespace="http://rod.eionet.eu.int/schema.rdf";
+		        rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
 			}
 		
 		return generateRDF(req);

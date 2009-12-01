@@ -67,21 +67,21 @@ public class Activities extends RDFServletAC {
 			try {
 				instrumentsNamespace = props.getString(ROD_LI_NS);
 			} catch (MissingResourceException mre ) {
-				instrumentsNamespace="http://rod.eionet.eu.int/instruments/";
+				instrumentsNamespace="http://rod.eionet.europa.eu/instruments/";
 			}
 	
 		if (issuesNamespace == null)
 			try {
 				issuesNamespace = props.getString(ROD_ISSUES_NS);
 			} catch (MissingResourceException mre ) {
-				issuesNamespace="http://rod.eionet.eu.int/issues/";
+				issuesNamespace="http://rod.eionet.europa.eu/issues/";
 			}
 	
 		if (spatialNamespace == null)
 			try {
 				spatialNamespace = props.getString("spatial.namespace");
 			} catch (MissingResourceException mre ) {
-				issuesNamespace="http://rod.eionet.eu.int/spatial/";
+				issuesNamespace="http://rod.eionet.europa.eu/spatial/";
 			}
 	
 	
@@ -93,7 +93,7 @@ public class Activities extends RDFServletAC {
 				rodSchemaNamespace=props.getString("schema.namespace");
 		        //quite likely it will not change
 			} catch (MissingResourceException mre ) {
-		        rodSchemaNamespace="http://rod.eionet.eu.int/schema.rdf";
+		        rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
 			}
 		
 		return generateRDF(req);

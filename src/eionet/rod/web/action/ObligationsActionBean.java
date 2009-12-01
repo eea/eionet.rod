@@ -49,6 +49,7 @@ import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.dto.VersionDTO;
 import eionet.rod.rdf.Activities;
+import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IObligationDao;
@@ -635,7 +636,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
     
     private void sendEvent(boolean isUpdate) throws ServiceException {
     	String userName = getUserName();
-    	
+    	FileServiceIF fileService = RODServices.getFileService();
+		
     	try{
         
 	        Vector lists = new Vector();
@@ -654,14 +656,14 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	            
 	            list = new Vector();
 	            list.add(events);
-	            list.add(Attrs.SCHEMA_RDF + "event_type");
+	            String et_schema = fileService.getStringProperty(FileServiceIF.UNS_EVENTTYPE_PREDICATE);
+	            list.add(et_schema);
 	            list.add("Obligation change");
 	            lists.add(list);
 	            
 	            list = new Vector();
 	            list.add(events);
 	            list.add("http://purl.org/dc/elements/1.1/title");
-	            //list.add(Attrs.SCHEMA_RDF + "label");
 	            list.add("Obligation change");
 	            lists.add(list);
 	            
@@ -674,14 +676,14 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	            
 	            list = new Vector();
 	            list.add(events);
-	            list.add(Attrs.SCHEMA_RDF + "event_type");
+	            String et_schema = fileService.getStringProperty(FileServiceIF.UNS_EVENTTYPE_PREDICATE);
+	            list.add(et_schema);
 	            list.add("New Obligation");
 	            lists.add(list);
 	            
 	            list = new Vector();
 	            list.add(events);
 	            list.add("http://purl.org/dc/elements/1.1/title");
-	            //list.add(Attrs.SCHEMA_RDF + "label");
 	            list.add("New Obligation");
 	            lists.add(list);
 	            
@@ -689,7 +691,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	        
 	        list = new Vector();
 	        list.add(events);
-	        list.add(Attrs.SCHEMA_RDF + "obligation");
+	        String obl_schema = fileService.getStringProperty(FileServiceIF.UNS_OBLIGATION_PREDICATE);
+	        list.add(obl_schema);
 	        list.add(obligation.getTitle());
 	        lists.add(list);
 	        
@@ -700,7 +703,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	            Hashtable hash = (Hashtable) en.nextElement();
 	            list = new Vector();
 	            list.add(events);
-	            list.add(Attrs.SCHEMA_RDF + "locality");
+	            String loc_schema = fileService.getStringProperty(FileServiceIF.UNS_COUNTRY_PREDICATE);
+	            list.add(loc_schema);
 	            list.add(hash.get("name"));                  
 	            lists.add(list);
 	        }

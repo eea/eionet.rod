@@ -40,6 +40,7 @@ import eionet.rod.dto.InstrumentsListDTO;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.SourceClassDTO;
 import eionet.rod.rdf.Instruments;
+import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IObligationDao;
@@ -435,6 +436,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 	
 	private void sendEvent(boolean isUpdate) throws ServiceException {
     	String userName = getUserName();
+    	FileServiceIF fileService = RODServices.getFileService();
     	
     	try{
         
@@ -452,14 +454,14 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
                 
                 list = new Vector();
                 list.add(events);
-                list.add(Attrs.SCHEMA_RDF + "event_type");
+                String et_schema = fileService.getStringProperty(FileServiceIF.UNS_EVENTTYPE_PREDICATE);
+	            list.add(et_schema);
                 list.add("Instrument change");
                 lists.add(list);
                 
                 list = new Vector();
                 list.add(events);
                 list.add("http://purl.org/dc/elements/1.1/title");
-                //list.add(Attrs.SCHEMA_RDF + "label");
                 list.add("Instrument change");
                 lists.add(list);
 	            
@@ -472,14 +474,14 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
                 
                 list = new Vector();
                 list.add(events);
-                list.add(Attrs.SCHEMA_RDF + "event_type");
+                String et_schema = fileService.getStringProperty(FileServiceIF.UNS_EVENTTYPE_PREDICATE);
+	            list.add(et_schema);
                 list.add("New instrument");
                 lists.add(list);
                 
                 list = new Vector();
                 list.add(events);
                 list.add("http://purl.org/dc/elements/1.1/title");
-                //list.add(Attrs.SCHEMA_RDF + "label");
                 list.add("New instrument");
                 lists.add(list);
 	            
@@ -487,7 +489,8 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 	        
 	        list = new Vector();
             list.add(events);
-            list.add(Attrs.SCHEMA_RDF + "instrument");
+            String inst_schema = fileService.getStringProperty(FileServiceIF.UNS_INSTRUMENT_PREDICATE);
+            list.add(inst_schema);
             list.add(instrument.getSourceTitle());
             lists.add(list);
             
