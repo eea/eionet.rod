@@ -297,7 +297,7 @@ public class Extractor implements ExtractorConstants {
         	for (int ij = 0; ij< countDeliveryNs; ij++){//countDeliveryNs
                 attrs.clear();
             	attrs.put(raNs , raIdPref + "/" + raData[i][0]);      // PREFIX + RA ID
-            	attrs.put(predRdfType , deliveryNs[ij]);      // http://rod.eionet.eu.int/schema.rdf#Delivery
+            	attrs.put(predRdfType , deliveryNs[ij]);      // http://rod.eionet.europa.eu/schema.rdf#Delivery
             	prms.setElementAt(attrs, 0);
             	
             	Vector deliveries = (Vector)crClient.getValue(CONTREG_GETENTRIES_METHOD, prms);
