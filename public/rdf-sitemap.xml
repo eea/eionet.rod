@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+   xmlns:sc="http://sw.deri.org/2007/07/sitemapextension/scschema.xsd">
+   <!-- This file is a listing of the RDF outputs supported by ROD
+        See http://sw.deri.org/2007/07/sitemapextension/
+    -->
+  <sc:dataset>
+    <sc:datasetLabel>Reporting Obligations</sc:datasetLabel>
+    <sc:sampleURI>http://rod.eionet.europa.eu/obligations/523</sc:sampleURI>
+    <sc:dataDumpLocation>http://rod.eionet.europa.eu/obligations.rdf</sc:dataDumpLocation>
+    <changefreq>weekly</changefreq>
+  </sc:dataset>
+  <sc:dataset>
+    <sc:datasetLabel>Legislative Instruments</sc:datasetLabel>
+    <sc:sampleURI>http://rod.eionet.europa.eu/instruments/545</sc:sampleURI>
+    <sc:dataDumpLocation>http://rod.eionet.europa.eu/instruments.rdf</sc:dataDumpLocation>
+    <changefreq>weekly</changefreq>
+  </sc:dataset>
+  <sc:dataset>
+    <sc:datasetLabel>Countries</sc:datasetLabel>
+    <sc:sampleURI>http://rod.eionet.europa.eu/spatial/2</sc:sampleURI>
+    <sc:dataDumpLocation>http://rod.eionet.europa.eu/countries</sc:dataDumpLocation>
+    <changefreq>yearly</changefreq>
+  </sc:dataset>
+</urlset>
