@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-   xmlns:sc="http://sw.deri.org/2007/07/sitemapextension/scschema.xsd">
+   xmlns:sc="http://sw.deri.org/2007/07/sitemapextension/scschema.xsd"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+   >
    <!-- This file is a listing of the RDF outputs supported by ROD
         See http://sw.deri.org/2007/07/sitemapextension/
     -->
