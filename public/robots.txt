@@ -2,6 +2,7 @@ User-agent: *
 Disallow: /obligationsdue
 Disallow: /updatehistory
 Disallow: /instrumentsdue
-Sitemap: http://rod.eionet.europa.eu/rdf-sitemap.xml
 User-agent: Nutch
 Disallow: /deadlines
+
+Sitemap: http://rod.eionet.europa.eu/rdf-sitemap.xml
