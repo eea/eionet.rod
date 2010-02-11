@@ -126,21 +126,21 @@
 				
 				<div id="leftcolumn" class="localnav">
 					<ul>
-						<li><a href="${pageContext.request.contextPath}/index.html" title="ROD Home">Home </a></li>
-						<li><a href="${pageContext.request.contextPath}/countrydeadlines" title="Country deadlines">Country deadlines </a></li>
-						<li><a href="${pageContext.request.contextPath}/obligations" title="Reporting Obligations">Obligations </a></li>
-						<li><a href="${pageContext.request.contextPath}/clients" title="Clients">Clients </a></li>
-						<li><a href="${pageContext.request.contextPath}/subscribe" title="Create a UNS Subscription">Subscribe </a></li>
-						<li><a href="${pageContext.request.contextPath}/documentation/Help" title="General Help">Help </a></li>
+						<li><a href="${pageContext.request.contextPath}/index.html" title="ROD Home">Home</a></li>
+						<li><a href="${pageContext.request.contextPath}/countrydeadlines" title="Country deadlines">Country deadlines</a></li>
+						<li><a href="${pageContext.request.contextPath}/obligations" title="Reporting Obligations">Obligations</a></li>
+						<li><a href="${pageContext.request.contextPath}/clients" title="Clients">Clients</a></li>
+						<li><a href="${pageContext.request.contextPath}/subscribe" title="Create a UNS Subscription">Subscribe</a></li>
+						<li><a href="${pageContext.request.contextPath}/documentation/Help" title="General Help">Help</a></li>
 						<c:if test="${!empty actionBean.userName}">
-							<li><a href="${pageContext.request.contextPath}/versions">Global History </a></li>
+							<li><a href="${pageContext.request.contextPath}/versions">Global History</a></li>
 						</c:if>
-						<li><a href="${pageContext.request.contextPath}/instruments" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments </a></li>
-						<li><a href="${pageContext.request.contextPath}/obligations?anmode=P" title="Eionet Priority Data flows">Priority dataflows </a></li>
-						<li><a href="${pageContext.request.contextPath}/analysis" title="Database statistics">Database statistics </a></li>
-						<li><a href="${pageContext.request.contextPath}/search" title="Advanced search">Advanced search </a></li>
+						<li><a href="${pageContext.request.contextPath}/instruments" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments</a></li>
+						<li><a href="${pageContext.request.contextPath}/obligations?anmode=P" title="Eionet Priority Data flows">Priority dataflows</a></li>
+						<li><a href="${pageContext.request.contextPath}/analysis" title="Database statistics">Database statistics</a></li>
+						<li><a href="${pageContext.request.contextPath}/search" title="Advanced search">Advanced search</a></li>
 						<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName, '/Admin/Harvest', 'u')}">
-							<li><a href="${pageContext.request.contextPath}/harvester">Harvest </a></li>
+							<li><a href="${pageContext.request.contextPath}/harvester">Harvest</a></li>
 						</c:if>
 					</ul>
 				</div>
@@ -195,7 +195,7 @@
 					      src="http://i.creativecommons.org/l/by/2.5/dk/80x15.png" /></a>
 					| Last updated: 
 					<a href="${pageContext.request.contextPath}/analysis.jsv">${actionBean.lastUpdate}</a>
-					|	<a href="mailto:helpdesk@eionet.europa.eu?subject=Feedback%20from%20the%20ROD%20website">Feedback </a>
+					|	<a href="mailto:helpdesk@eionet.europa.eu?subject=Feedback%20from%20the%20ROD%20website">Feedback</a>
 					<br/>
 					<a href="http://www.eea.europa.eu">European Environment Agency</a>
 					<br/>

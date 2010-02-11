@@ -90,29 +90,6 @@ function fullscreenModeLoad() {
     }
 };
 
-function startListImpl(name) {
-    if (document.all && document.getElementById) {
-        navRoot = document.getElementById(name);
-        if (navRoot) {
-            for (i=0; i<navRoot.childNodes.length; i++) {
-                node = navRoot.childNodes[i];
-                if (node.nodeName=="LI") {
-                    node.onmouseover=function() {
-                        addClassName(this, 'over');
-                    }
-                    node.onmouseout=function() {
-                        removeClassName(this, 'over');
-                    }
-                }
-            }
-        }
-    }
-}
-
-function startList() {
-	startListImpl("dropdowns");
-	startListImpl("dropdown-operations");
-}
 
 
 /* Use attachEvent for IE */
@@ -128,6 +105,5 @@ function addEvent(obj, evType, fn){
  }
 }
 
-addEvent(window,'load',startList);
 addEvent(window,'load',fullscreenModeLoad);
 
