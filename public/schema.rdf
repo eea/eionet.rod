@@ -31,6 +31,13 @@
 		<rdfs:comment>A locality defines the spatial coverage of a delivery to Reportnet</rdfs:comment>
 	</rdfs:Class>
 
+	<rdf:Property rdf:ID="link">
+		<rdfs:label>Link to delivery</rdfs:label>
+		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+		<rdfs:domain rdf:resource="#Delivery"/>
+		<rdfs:comment>Link to a location where you can download the delivery. Target is not an RDF resource.</rdfs:comment>
+	</rdf:Property>
+
 	<rdf:Property rdf:ID="hasFile">
 		<rdfs:label>File in delivery</rdfs:label>
 		<rdfs:comment>Reference from Delivery envelope to file.</rdfs:comment>
