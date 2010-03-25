@@ -238,15 +238,17 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 	}
 	
 	private static final String qClientsList = 
-		"SELECT DISTINCT c.PK_CLIENT_ID, c.CLIENT_ACRONYM, " + 
-		"CONCAT( IF(c.CLIENT_ACRONYM != '', CONCAT(c.CLIENT_ACRONYM, ' - '), ''), LEFT(c.CLIENT_NAME, 50), IF( LENGTH(c.CLIENT_NAME) > 50 ,'...', '')   ) AS CLIENT_NAME " + 
-		"FROM T_CLIENT c, T_CLIENT_LNK cl, T_OBLIGATION o " + 
-		"WHERE cl.TYPE='A' AND cl.STATUS='M' AND cl.FK_CLIENT_ID=c.PK_CLIENT_ID AND o.PK_RA_ID=cl.FK_OBJECT_ID " +
+		"SELECT PK_CLIENT_ID, CLIENT_ACRONYM, " + 
+		"CONCAT( IF(CLIENT_ACRONYM != '', CONCAT(CLIENT_ACRONYM, ' - '), ''), LEFT(CLIENT_NAME, 50), IF( LENGTH(CLIENT_NAME) > 50 ,'...', '')   ) AS CLIENT_NAME " + 
+		"FROM T_CLIENT " + 
 		"ORDER BY CLIENT_NAME ";
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 * Provide a simple list of all clients in the T_CLIENT table.
+	 * The original query excluded clients that weren't already primary clients of an obligation.
+	 * This made it impossible to include new clients.
+	 *
 	 * @see eionet.rod.services.modules.db.dao.IClientDao#getClientsList()
 	 */
 	public List<ClientDTO> getClientsList() throws ServiceException {
