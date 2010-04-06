@@ -2,12 +2,15 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
-<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Deadlines">
+<c:set var="page_title" value="Reporting overview"></c:set>	
+<c:if test="${!empty actionBean.spatialName}">
+	<c:set var="page_title" value="Reporting overview: ${rodfn:replaceTags(actionBean.spatialName)}"></c:set>
+</c:if>
+<stripes:layout-render name="/pages/common/template.jsp" pageTitle="${page_title}">
 
 	<stripes:layout-component name="contents">
 
-        <h1>Reporting overview<c:if test="${!empty actionBean.spatialName}">: ${rodfn:replaceTags(actionBean.spatialName)}</c:if>
-        </h1>
+        <h1>${page_title}</h1>
         
         <stripes:form action="/deadlines" method="get">
         	<table cellspacing="0" cellpadding="3" width="600" border="0">
