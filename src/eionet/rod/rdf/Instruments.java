@@ -32,13 +32,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.MissingResourceException;
 
+import eionet.rod.RODUtil;
 import eionet.rod.dto.SourceLinksDTO;
 
 import java.util.Hashtable;
 import java.util.Vector;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.RODServices;
-import com.tee.util.Util;
 
 /**
  * <P>Servlet URL: <CODE>rdf</CODE></P>
@@ -134,7 +134,7 @@ public class Instruments extends RDFServletAC {
       String celexRef=(String)li.get("CELEX_REF");    
 
       //show legal name if short name is empty
-      title=(Util.nullString(title) ? legalName : title);
+      title=(RODUtil.nullString(title) ? legalName : title);
 
       s.append("<rod:Instrument rdf:about=\"" + instrumentsNamespace + pk + "\">")
         .append("<dcterms:alternative>").append(title).append("</dcterms:alternative>")
@@ -145,13 +145,13 @@ public class Instruments extends RDFServletAC {
         .append("<dc:identifier>").append(source_code).append("</dc:identifier>")
         .append("<rod:issuer rdf:resource=\"http://rod.eionet.europa.eu/clients/").append(client_id).append("\"/>");
       
-        if (!Util.nullString(abstr))
+        if (!RODUtil.nullString(abstr))
           s.append("<dcterms:abstract>").append(abstr).append("</dcterms:abstract>");
         
-        if (!Util.nullString(url))
+        if (!RODUtil.nullString(url))
         	s.append("<rod:instrumentURL>"+url+"</rod:instrumentURL>");
 
-        if (!Util.nullString(issuedBy))
+        if (!RODUtil.nullString(issuedBy))
           s.append("<dc:creator>").append(issuedBy).append("</dc:creator>");
           
         s.append("</rod:Instrument>");        

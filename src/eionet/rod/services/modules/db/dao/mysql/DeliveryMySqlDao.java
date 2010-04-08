@@ -118,7 +118,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 						preparedStatement.executeUpdate();
 						// (TITLE,TYPE,FORMAT,COVERAGE,STATUS,UPLOAD_DATE,DELIVERY_URL,FK_SPATIAL_ID,FK_RA_ID)
 						// " + "VALUES = (?,?,?,?,?,?,?,?,?)";
-						if (!cIds.contains(countryId)) cIds.add(countryId.toString());
+						if (!cIds.contains(countryId.toString())) cIds.add(countryId.toString());
 					}
 				}
 			}

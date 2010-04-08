@@ -14,8 +14,6 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import com.tee.util.Util;
-
 import eionet.rod.RODUtil;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
@@ -942,7 +940,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 					uName = p[i][1];
 					s.append(prmName);
 
-					if (!Util.nullString(uName)) s.append("(").append(uName).append(")");
+					if (!RODUtil.nullString(uName)) s.append("(").append(uName).append(")");
 					s.append("\n");
 				}
 				if (s.length() > 0) {
@@ -1167,11 +1165,11 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     		"T_CLIENT.PK_CLIENT_ID, T_CLIENT.CLIENT_NAME, IF(T_CLIENT.CLIENT_ACRONYM='', T_CLIENT.CLIENT_NAME, T_CLIENT.CLIENT_ACRONYM) AS CLIENT_DESCR, " +
     		"T_RASPATIAL_LNK.FK_RA_ID, T_RASPATIAL_LNK.FK_SPATIAL_ID, T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_SPATIAL.SPATIAL_TWOLETTER, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY, " +
     		"T_SOURCE.PK_SOURCE_ID, T_SOURCE.SOURCE_CODE ");
-    	if (!Util.nullString(issueId) && !issueId.equals("0")) {
+    	if (!RODUtil.nullString(issueId) && !issueId.equals("0")) {
     		q_obligations_list.append(", T_RAISSUE_LNK.FK_RA_ID, T_RAISSUE_LNK.FK_ISSUE_ID ");
     	}
     	q_obligations_list.append("FROM ");
-    	if (!Util.nullString(issueId) && !issueId.equals("0")) {
+    	if (!RODUtil.nullString(issueId) && !issueId.equals("0")) {
         	q_obligations_list.append("(");
         }
     	q_obligations_list.append("(T_RASPATIAL_LNK LEFT JOIN T_SPATIAL ON T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID) " +
@@ -1180,20 +1178,20 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     		"LEFT JOIN T_ROLE ON CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',IF(T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y','mc','cc'),'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID " +
     		"LEFT JOIN T_CLIENT_LNK ON T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID " +
     		"LEFT JOIN T_CLIENT ON T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID ");
-    	if (!Util.nullString(issueId) && !issueId.equals("0")) {
+    	if (!RODUtil.nullString(issueId) && !issueId.equals("0")) {
         	q_obligations_list.append(") JOIN T_RAISSUE_LNK ON T_OBLIGATION.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID ");
         }
     	
     	q_obligations_list.append("WHERE TERMINATE='N' ");
     	
-    	if (!Util.nullString(spatialId))
-    		q_obligations_list.append("AND PK_SPATIAL_ID=").append(Util.strLiteral(spatialId)).append(" ");
+    	if (!RODUtil.nullString(spatialId))
+    		q_obligations_list.append("AND PK_SPATIAL_ID=").append(RODUtil.strLiteral(spatialId)).append(" ");
     	
-    	if (!Util.nullString(clientId) && !clientId.equals("0") )
-    		q_obligations_list.append("AND PK_CLIENT_ID=").append(Util.strLiteral(clientId)).append(" ");
+    	if (!RODUtil.nullString(clientId) && !clientId.equals("0") )
+    		q_obligations_list.append("AND PK_CLIENT_ID=").append(RODUtil.strLiteral(clientId)).append(" ");
     	
-    	if (!Util.nullString(issueId) && !issueId.equals("0")) 
-    		q_obligations_list.append("AND FK_ISSUE_ID=").append(Util.strLiteral(issueId)).append(" ");
+    	if (!RODUtil.nullString(issueId) && !issueId.equals("0")) 
+    		q_obligations_list.append("AND FK_ISSUE_ID=").append(RODUtil.strLiteral(issueId)).append(" ");
     	
     	if ((date1 != null && !date1.equals("dd/mm/yyyy")) || (date2 != null && !date2.equals("dd/mm/yyyy")) || dlCase != null){
     		q_obligations_list.append(handleDeadlines(dlCase, date1, date2));
