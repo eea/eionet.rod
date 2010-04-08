@@ -23,11 +23,12 @@
 
 package eionet.rod;
 
-import com.tee.xmlserver.*;
 import java.sql.*;
 import java.util.Vector;
 
 import eionet.directory.DirectoryService;
+import eionet.rod.services.LogServiceIF;
+import eionet.rod.services.RODServices;
 import eionet.rod.util.sql.ConnectionUtil;
 
 import com.tee.uit.security.AccessControlListIF;
@@ -35,22 +36,23 @@ import com.tee.uit.security.AccessController;
 import com.tee.uit.security.AuthMechanism;
 import com.tee.uit.security.SignOnException;
 /**
- * <P>WebROD specific implementation of the <CODE>com.tee.xmlserver.AppUserIF</CODE> interface. 
+ * <P>WebROD specific implementation of the
  * Uses database to authenticate users.</P>
  *
  * @author  Rando Valt
  * @version 1.0
  */
 
-public class ROUser implements AppUserIF {
+public class ROUser {
 	
    /** */
 
    protected boolean authented = false;
    protected String user = null;
    protected String password = null;
-   protected DBPoolIF dbPool = null;
    protected String fullName = null;
+   
+   protected static LogServiceIF logger = RODServices.getLogService();
    
    protected String[] _roles = null;
    
@@ -63,8 +65,8 @@ public class ROUser implements AppUserIF {
       invalidate();
 
       // LOG
-      if (Logger.enable(5))
-         Logger.log("Authenticating user '" + userName + "'");
+      if (logger.enable(5))
+    	  logger.info("Authenticating user '" + userName + "'");
 
       try {
          //DirectoryService.sessionLogin(userName, userPws);
@@ -73,8 +75,8 @@ public class ROUser implements AppUserIF {
          fullName = AuthMechanism.getFullName(userName);
                
          // LOG
-         if (Logger.enable(5))
-            Logger.log("Authenticated!");
+         if (logger.enable(5))
+        	 logger.info("Authenticated!");
          //
          authented = true;
          user = userName;
@@ -82,7 +84,7 @@ public class ROUser implements AppUserIF {
                
       } catch (Exception e) {
       
-         Logger.log("User '" + userName + "' not authenticated", e);
+    	  logger.error("User '" + userName + "' not authenticated", e);
       }
       return authented;
    }
@@ -187,13 +189,13 @@ public class ROUser implements AppUserIF {
 			AccessControlListIF acl = AccessController.getAcl(aclPath);
 			if (acl!=null){
 				result = acl.checkPermission(userName, prm);
-				Logger.log("User " + userName + " " + (result ? "has" : "does not have") + " permission " + prm + " in acl \"" + aclPath + "\"");
+				logger.info("User " + userName + " " + (result ? "has" : "does not have") + " permission " + prm + " in acl \"" + aclPath + "\"");
 			}
 			else
-				Logger.log("acl \"" + aclPath + "\" not found!");
+				logger.info("acl \"" + aclPath + "\" not found!");
 		}
 		catch (SignOnException soe){
-			Logger.log(soe.toString(), soe);
+			logger.error(soe.toString(), soe);
 		}
 		
 		return result;

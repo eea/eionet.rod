@@ -24,6 +24,6 @@ cp=@MYSQL.JAR@
 cp=$cp:@SERVLETAPI.JAR@
 
 cp=$cp:$libpath/rod.jar:$libpath/eionet-dir.jar
-cp=$cp:$libpath/tomcat-util.jar:$libpath/xmlrpc.jar:$libpath/xmlserver.jar:$libpath/uit-security.jar:$CLASSPATH
+cp=$cp:$libpath/tomcat-util.jar:$libpath/xmlrpc.jar:$libpath/uit-security.jar:$CLASSPATH
 
 $java -cp $cp eionet.rod.DeadlinesDaemon

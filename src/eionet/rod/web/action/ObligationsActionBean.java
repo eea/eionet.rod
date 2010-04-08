@@ -16,7 +16,6 @@ import com.tee.uit.client.ServiceClients;
 import com.tee.uit.security.AccessControlListIF;
 import com.tee.uit.security.AccessController;
 import com.tee.uit.security.SignOnException;
-import com.tee.xmlserver.GeneralException;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ErrorResolution;
@@ -275,25 +274,27 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 			String rpcRouterUrl = RODServices.getFileService().getStringProperty("dd.service.url");
 			String methodName   = "getParametersByActivityID";
 			
-			ServiceClientIF client = ServiceClients.getServiceClient(serviceName, rpcRouterUrl);
-			
-			Vector params = new Vector();
-			params.add(id);
-			
-			Vector result = (Vector)client.getValue(methodName, params);
-			for(int i = 0; result != null && i < result.size(); i++){
-				Hashtable hash = (Hashtable)result.get(i);
+			if(rpcRouterUrl != null){
+				ServiceClientIF client = ServiceClients.getServiceClient(serviceName, rpcRouterUrl);
 				
-				DDParamDTO elem = new DDParamDTO();
-				elem.setElementName((String)hash.get("elm-name")); // element name
-				elem.setElementUrl((String)hash.get("elm-url"));   // details url
-				elem.setTableName((String)hash.get("tbl-name"));   // table name
-				elem.setDatasetName((String)hash.get("dst-name")); // dataset name
+				Vector params = new Vector();
+				params.add(id);
 				
-				retList.add(elem);
+				Vector result = (Vector)client.getValue(methodName, params);
+				for(int i = 0; result != null && i < result.size(); i++){
+					Hashtable hash = (Hashtable)result.get(i);
+					
+					DDParamDTO elem = new DDParamDTO();
+					elem.setElementName((String)hash.get("elm-name")); // element name
+					elem.setElementUrl((String)hash.get("elm-url"));   // details url
+					elem.setTableName((String)hash.get("tbl-name"));   // table name
+					elem.setDatasetName((String)hash.get("dst-name")); // dataset name
+					
+					retList.add(elem);
+				}
 			}
 		} catch (Exception e){
-			throw new GeneralException(null, e.toString());
+			e.printStackTrace();
 		}
 		return retList;
 	}

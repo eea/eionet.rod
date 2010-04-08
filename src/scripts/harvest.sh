@@ -15,7 +15,7 @@ cp=$cp:$libpath/ldap.jar
 cp=$cp:$libpath/jndi.jar
 cp=$cp:$libpath/providerutil.jar
 cp=$cp:$libpath/eionet-dir.jar:$libpath/uit-security.jar
-cp=$cp:$libpath/rod.jar:$libpath/xmlserver.jar:$libpath/xmlrpc.jar
+cp=$cp:$libpath/rod.jar:$libpath/xmlrpc.jar
 cp=$cp:$libpath/uit-client.jar:$libpath/log4j.jar:$CLASSPATH
 
 if [ "$1" = "" ] ; then

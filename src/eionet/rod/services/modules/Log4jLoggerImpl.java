@@ -51,7 +51,7 @@ public class Log4jLoggerImpl implements LogServiceIF {
   Category logger;
   
 /**
- * Package local method for initializing Logger. Does not do anything as the com.tee.xmlserver.Logger
+ * Package local method for initializing Logger.
  * will be initialized by the servlet container.
  */
   public Log4jLoggerImpl() {

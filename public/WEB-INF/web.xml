@@ -17,24 +17,12 @@
 		<param-value>4</param-value>
 	</context-param>
 	<context-param>
-		<param-name>module-cache</param-name>
-		<param-value>com.tee.xmlserver.tomcat.TCCache</param-value>
-	</context-param>
-	<context-param>
-		<param-name>module-db_pool</param-name>
-		<param-value>com.tee.xmlserver.tomcat.TCDBPool</param-value>
-	</context-param>
-	<context-param>
 		<param-name>authenticator</param-name>
 		<param-value>eionet.rod.ROCASUser</param-value>
 	</context-param>
 	<context-param>
 		<param-name>login-error-page</param-name>
 		<param-value>error.html</param-value>
-	</context-param>
-	<context-param> <!-- XMLServer parameter -->
-		<param-name>max-records</param-name>
-		<param-value>6000</param-value>
 	</context-param>
 	<context-param>
 		<param-name>edu.yale.its.tp.cas.client.filter.loginUrl</param-name>

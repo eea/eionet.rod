@@ -66,8 +66,7 @@
 		<mkdir dir="${classes.dir}"/>
 		<javac deprecation='off' srcdir='${src}'
 		    destdir='${classes.dir}' debug='on'
-		    classpath='public/WEB-INF/lib/xmlserver.jar;
-		    public/WEB-INF/lib/uit-client.jar;
+		    classpath='public/WEB-INF/lib/uit-client.jar;
 		    public/WEB-INF/lib/uit-server.jar;
 		    ${servletapi.jar};
 		    ${jspapi.jar};

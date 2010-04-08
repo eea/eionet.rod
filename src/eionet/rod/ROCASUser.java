@@ -1,11 +1,10 @@
 package eionet.rod;
 
-import com.tee.xmlserver.*;
 import com.tee.uit.security.AuthMechanism;
 import com.tee.uit.security.SignOnException;
 
 public class ROCASUser extends ROUser {
-
+	
 	public ROCASUser() {
 		super();
 	}
@@ -16,7 +15,7 @@ public class ROCASUser extends ROUser {
 		try {
 			fullName = AuthMechanism.getFullName(userName);
 		} catch (SignOnException e) {
-			Logger.log("Fatal error: can not get full name for authaticated user", e);
+			logger.error("Fatal error: can not get full name for authaticated user", e);
 		}
 		//
 		authented = true;
