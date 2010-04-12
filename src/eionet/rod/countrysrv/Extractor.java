@@ -346,7 +346,9 @@ public class Extractor implements ExtractorConstants {
         String[] respRoles = daoFactory.getObligationDao().getRespRoles();
 
       log("Found " + respRoles.length + " roles from database");
-
+      
+      //remove leftovers from previous harvest
+      daoFactory.getRoleDao().commitRoles();
 
       daoFactory.getRoleDao().backUpRoles();
 
