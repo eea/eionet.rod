@@ -9,9 +9,11 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -62,6 +64,7 @@ public abstract class MySqlBaseDao {
 			properties.put(FileServiceIF.DB_URL, fileService.getStringProperty(FileServiceIF.DB_URL));
 			properties.put(FileServiceIF.DB_USER_ID, fileService.getStringProperty(FileServiceIF.DB_USER_ID));
 			properties.put(FileServiceIF.DB_USER_PWD, fileService.getStringProperty(FileServiceIF.DB_USER_PWD));
+			properties.put(FileServiceIF.RA_NAMESPACE, fileService.getStringProperty(FileServiceIF.RA_NAMESPACE));
 		    rodDomain  = RODServices.getFileService().getStringProperty( Constants.ROD_URL_DOMAIN );
 		    roNs= RODServices.getFileService().getStringProperty( FileServiceIF.RO_NAMESPACE);
 
@@ -474,13 +477,18 @@ public abstract class MySqlBaseDao {
 	protected String cnvVector(Vector v, String separator) {
 
 		// quick fix
-		if (v == null) return "";
+		if (v == null){
+			return "";
+		}
 
 		StringBuffer s = new StringBuffer();
 		for (int i = 0; i < v.size(); i++) {
-			if (v.elementAt(i) != null) {
-				s.append((String) v.elementAt(i));
-				if (i < v.size() - 1) s.append(separator);
+			
+			if (v.elementAt(i)!=null) {
+				s.append(v.elementAt(i));
+				if (i < v.size() - 1){
+					s.append(separator);
+				}
 			}
 		}
 
@@ -616,16 +624,6 @@ public abstract class MySqlBaseDao {
 		String[][] s = _executeStringQuery(sql);
 
 		return s;
-	}
-
-	private static final String qMarkCountries = "" + "UPDATE T_OBLIGATION " + "SET LAST_HARVESTED = {fn now()}, FK_DELIVERY_COUNTRY_IDS = ? " + "WHERE PK_RA_ID = ?;";
-
-	protected void markCountries(Integer raId, String cIds, Connection connection) throws Exception {
-		PreparedStatement preparedStatement = connection.prepareStatement(qMarkCountries);
-		preparedStatement.setString(1, cIds);
-		preparedStatement.setInt(2, raId.intValue());
-		preparedStatement.executeUpdate();
-		preparedStatement.close();
 	}
 
 	private static final String qCountryId = "" + "SELECT PK_SPATIAL_ID " + "FROM T_SPATIAL " + "WHERE SPATIAL_TYPE='C' AND SPATIAL_NAME=?";

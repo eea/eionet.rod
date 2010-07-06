@@ -4,15 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import eionet.rod.RODUtil;
@@ -39,7 +44,11 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 	private static String coveragePred = (String) properties.get(FileServiceIF.CONTREG_COVERAGE_PREDICATE);
 
 	private static String countryPred = (String) properties.get(FileServiceIF.COUNTRY_NAMESPACE);
-
+	
+	private static String obligationPred = (String) properties.get(FileServiceIF.RA_NAMESPACE);
+	
+	private static String obligationsPrefix = rodDomain + "/obligations/";
+	
 	private static DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 	private static final String qSaveDeliveries = 
@@ -49,95 +58,129 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 	public DeliveryMySqlDao() {
 	};
 
+	/** */
+	private static final String qMarkCountries = "" + "UPDATE T_OBLIGATION " + "SET LAST_HARVESTED = {fn now()}, FK_DELIVERY_COUNTRY_IDS = ? " + "WHERE PK_RA_ID = ?;";
+	/**
+	 * 
+	 * @param raId
+	 * @param cIds
+	 * @param connection
+	 * @throws Exception
+	 */
+	protected void markCountries(Integer raId, String cIds, Connection connection) throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(qMarkCountries);
+		preparedStatement.setString(1, cIds);
+		preparedStatement.setInt(2, raId.intValue());
+		preparedStatement.executeUpdate();
+		preparedStatement.close();
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see eionet.rod.services.modules.db.dao.IDeliveryDao#saveDeliveries(java.lang.Integer,
-	 *      java.util.Vector, java.util.HashMap)
+	 * @see eionet.rod.services.modules.db.dao.IDeliveryDao#saveDeliveriesNew(java.util.Vector, java.util.HashMap)
 	 */
-	public void saveDeliveries(Integer raId, Vector deliveries, HashMap cMap) throws ServiceException {
-
-		Vector cIds = new Vector();
-		String countryIds = "";
+	public int saveDeliveries(Vector deliveries, HashMap existingCountryIdsByNames, HashMap savedCountriesByObligationId) throws ServiceException{
+		
+		int batchCounter = 0;
+		
+		if (deliveries==null || deliveries.isEmpty()){
+			return batchCounter;
+		}
+		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-
 		try {
 			connection = getConnection();
 			preparedStatement = connection.prepareStatement(qSaveDeliveries);
 
-			for (int ii = 0; ii < deliveries.size(); ii++) {
-				// deliveryKEY:STRING(url), VALUE:HASH (metadata)
-				Hashtable delivery = (Hashtable) deliveries.elementAt(ii);
-				if (delivery != null && delivery.size() > 0) {
-					// Hash contains only one member that's delivery data
-					String crId = (String) (delivery.keys().nextElement());
-					Hashtable metaData = (Hashtable) delivery.get(crId);
+			
+			for (int i = 0; i < deliveries.size(); i++) {
+				
+				Hashtable deliveryData = (Hashtable)deliveries.get(i);
+				if (deliveryData==null || deliveryData.isEmpty()){
+					logger.info("Delivery not saved, because delivery data was empty");
+				}
+				else{
+					
+					String identifier = cnvVector((Vector) deliveryData.get(identifierPred), ",");
+					if (identifier==null || identifier.trim().length()==0){
+						identifier = "No URL";
+					}
+					String title = cnvVector((Vector) deliveryData.get(titlePred), ",");
+					String sdate = cnvVector((Vector) deliveryData.get(datePred), ",");
+					Date date = null;
+					try{
+						date = isoDateFormat.parse(sdate);
+					}
+					catch(ParseException pe){}
 
-					String identifier = cnvVector((Vector) metaData.get(identifierPred), ",");
-					String title = cnvVector((Vector) metaData.get(titlePred), ",");
-					String sdate = cnvVector((Vector) metaData.get(datePred), ",");
-
-					String type = cnvVector((Vector) metaData.get(typePred), ",");
-					String format = cnvVector((Vector) metaData.get(formatPred), ",");
-					String coverage = cnvVector((Vector) metaData.get(coveragePred), " ");
-					String country = cnvVector((Vector) metaData.get(countryPred), " ");
-
-					// Each hash contains Strings as Keys and Vectors as values
-					Integer countryId = getCountryId(country, cMap, connection);
-
-					if (countryId == null)
-						logger.info("!!! Delivery not saved, Country is not in T_SPATIAL " + country +", "
+					String type = cnvVector((Vector) deliveryData.get(typePred), ",");
+					String format = cnvVector((Vector) deliveryData.get(formatPred), ",");
+					String coverage = cnvVector((Vector) deliveryData.get(coveragePred), " ");
+					
+					// we assume there might be more than one obligation per delivery
+					Vector obligations = (Vector)deliveryData.get(obligationPred);
+					
+					// we assume there is only one country per delivery
+					String countryName = cnvVector((Vector) deliveryData.get(countryPred), " ");
+					Integer countryId = (Integer)existingCountryIdsByNames.get(countryName);
+					
+					if (countryId==null){
+						logger.info("!!! Delivery not saved, failed to find id for country: " + countryName +", "
 						+ "Identifier: " + identifier + ", "
 						+ "Title: " + title + ", "
 						+ "Date: " + sdate + ", "
 						+ "Type: " + type + ", "
 						+ "Format: " + format + ", "
-						+ "Coverage: " + coverage + ", "
-						+ "raID: " + raId);
-					else {
+						+ "Coverage: " + coverage);
+					}
+					else if (obligations!=null && !obligations.isEmpty()){
 						
-						Date date = null;
-						try{
-							date = isoDateFormat.parse(sdate);
-						}catch(ParseException pe){}
-						
-						// java.sql.Date jdbcDate = null;
+						for (Iterator iter = obligations.iterator(); iter.hasNext();){
+							
+							String obligUrl = (String)iter.next();
+							String obligId = obligUrl.startsWith(obligationsPrefix) ?
+									obligUrl.substring(obligationsPrefix.length()) : null;
+										
+							if (obligId!=null){
 
-						preparedStatement.setString(1, (title == null) ? "" : title); // TITLE
-						preparedStatement.setString(2, rodDomain+"/obligations/"+raId); // TITLE
-						preparedStatement.setString(3, ((type == null) ? "" : type)); // TYPE
-						preparedStatement.setString(4, ((format == null) ? "" : format)); // FORMAT
-						preparedStatement.setString(5, ((coverage == null) ? "" : coverage));// COVERAGE
-						preparedStatement.setInt(6, 1); // STATUS
-						preparedStatement.setTimestamp(7, date != null ? new Timestamp(date.getTime()):null);// UPLOAD_DATE
-						preparedStatement.setString(8, identifier); // DELIVERY_URL
-						preparedStatement.setInt(9, countryId.intValue()); // FK_SPATIAL_ID
-						preparedStatement.setInt(10, raId.intValue()); // FK_RA_ID
-						if (isDebugMode) logQuery(qSaveDeliveries);
-						preparedStatement.executeUpdate();
-						// (TITLE,TYPE,FORMAT,COVERAGE,STATUS,UPLOAD_DATE,DELIVERY_URL,FK_SPATIAL_ID,FK_RA_ID)
-						// " + "VALUES = (?,?,?,?,?,?,?,?,?)";
-						if (!cIds.contains(countryId.toString())) cIds.add(countryId.toString());
+								preparedStatement.setString(1, (title == null) ? "" : title);
+								preparedStatement.setString(2, obligUrl);
+								preparedStatement.setString(3, ((type == null) ? "" : type));
+								preparedStatement.setString(4, ((format == null) ? "" : format));
+								preparedStatement.setString(5, ((coverage == null) ? "" : coverage));
+								preparedStatement.setInt(6, 1);
+								preparedStatement.setTimestamp(7, date != null ? new Timestamp(date.getTime()) : null);
+								preparedStatement.setString(8, identifier);
+								preparedStatement.setInt(9, countryId.intValue());
+								preparedStatement.setInt(10, Integer.parseInt(obligId));
+								
+								preparedStatement.addBatch();
+								batchCounter++;
+								
+								HashSet savedCountries = (HashSet)savedCountriesByObligationId.get(obligId);
+								if (savedCountries==null){
+									savedCountries = new HashSet();
+									savedCountriesByObligationId.put(obligId, savedCountries);
+								}
+								savedCountries.add(countryId);
+							}
+						}
 					}
 				}
 			}
-
-			if (cIds.size() > 0)
-				countryIds = "," + cnvVector(cIds, ",") + ",";
-			else
-				countryIds = "";
-
-			markCountries(raId, countryIds, connection);
-
-		} catch (Exception e) {
+			
+			preparedStatement.executeBatch();
+		}
+		catch (Exception e) {
 			e.printStackTrace();
-			rollBackDeliveries(raId);
-			throw new ServiceException("Harvesting deliveries for RA: " + raId + " failed with reason " + e.toString());
-		} finally {
+			throw new ServiceException("Saving deliveries failed with reason " + e.toString());
+		}
+		finally {
 			closeAllResources(null, preparedStatement, connection);
 		}
-
+		
+		return batchCounter;
 	}
 
 	private static final String qRollBackDeliveriesDelete = 
@@ -180,6 +223,32 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see eionet.rod.services.modules.db.dao.IDeliveryDao#rollBackDeliveries()
+	 */
+	public void rollBackDeliveries() throws ServiceException {
+		
+		Connection connection = null;
+		Statement statement = null;
+		try {
+			connection = getConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate("DELETE from T_DELIVERY WHERE STATUS=1");
+			statement.close();
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE T_DELIVERY SET STATUS=1 WHERE STATUS=0");
+		}
+		catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		}
+		finally {
+			closeAllResources(null, statement, connection);
+		}
+	}
+
+
 	private static final String qCommitDeliveries = 
 		"DELETE " + 
 		"FROM T_DELIVERY " + 
@@ -187,25 +256,49 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see eionet.rod.services.modules.db.dao.IDeliveryDao#commitDeliveries()
+	 * @see eionet.rod.services.modules.db.dao.IDeliveryDao#commitDeliveriesNew(java.util.HashMap)
 	 */
-	public void commitDeliveries() throws ServiceException {
+	public void commitDeliveries(HashMap deliveredCountriesByObligations) throws ServiceException {
+		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
 			connection = getConnection();
+			
+			// commit deliveries first
+			
 			preparedStatement = connection.prepareStatement(qCommitDeliveries);
-			if (isDebugMode) logQuery(qCommitDeliveries);
+			if (isDebugMode){
+				logQuery(qCommitDeliveries);
+			}
 			preparedStatement.executeUpdate();
 
-		} catch (SQLException exception) {
+			// now mark the countries
+			
+			if (deliveredCountriesByObligations!=null && !deliveredCountriesByObligations.isEmpty()){
+				
+				Iterator entries = deliveredCountriesByObligations.entrySet().iterator();
+				while (entries.hasNext()){
+					
+					Map.Entry entry = (Map.Entry)entries.next();
+					String obligId = (String)entry.getKey();
+					HashSet countryIdsSet = (HashSet)entry.getValue();
+					if (countryIdsSet!=null && !countryIdsSet.isEmpty()){
+						
+						String countryIds = "," + cnvVector(new Vector(countryIdsSet),",") + ",";
+						markCountries(Integer.valueOf(obligId), countryIds, connection);
+					}
+				}
+			}
+
+		}
+		catch (SQLException exception) {
 			logger.error(exception);
 			throw new ServiceException(exception.getMessage());
-		} finally {
+		}
+		finally {
 			closeAllResources(null, preparedStatement, connection);
 		}
-
 	}
 
 	private static final String qBackUpDeliveries = "UPDATE T_DELIVERY " + "SET STATUS=0";
@@ -342,5 +435,4 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 		
 		return ret;
 	}
-
 }
