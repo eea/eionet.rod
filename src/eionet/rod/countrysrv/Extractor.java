@@ -315,8 +315,7 @@ public class Extractor implements ExtractorConstants {
 		// load CR service URL from properties file
 		String crUrl = null;
 		try {
-			//crUrl =  fileSrv.getStringProperty( FileServiceIF.CONTREG_SRV_URL );
-			crUrl = "http://ww010646:8080/cr/xmlrpc";
+			crUrl =  fileSrv.getStringProperty( FileServiceIF.CONTREG_SRV_URL );
 		}
 		catch (Exception e) {
 			log("Opening connection to Content Registry failed. The following error was reported:\n" + e.toString());
