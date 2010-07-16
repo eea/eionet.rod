@@ -1,5 +1,6 @@
 package eionet.rod.services.modules.db.dao.mysql.test;
 
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
@@ -40,11 +41,18 @@ public class SpatialMySqlDaoTest extends BaseMySqlDaoTest {
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.SpatialMySqlDao.getCountries()'
 	 */
 	public void testGetCountries() throws Exception{		
-		Vector v = spatialMySqlDao.getCountries();
+		Vector<Hashtable> v = spatialMySqlDao.getCountries();
 		assertEquals(3, v.size());
+		
+		for(Hashtable hash : v){
+			if(hash != null){
+				String val = (String) hash.get("name");
+				assertNotNull(val);
+			}
+		}
 //		printVectorResult(spatialMySqlDao.getCountries());
 	}
-
+	
 	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.SpatialMySqlDao.getCountryById(int)'
 	 */

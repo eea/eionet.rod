@@ -336,7 +336,7 @@ public abstract class MySqlBaseDao {
 
 				// Retrieve the columns of the result set
 				for (int i = 0; i < colCnt; ++i) {
-					String name = md.getColumnName(i + 1);
+					String name = md.getColumnLabel(i + 1);
 					String value = rset.getString(i + 1);
 					if (value == null) value = "";
 
@@ -377,7 +377,7 @@ public abstract class MySqlBaseDao {
 				record = new Hashtable();
 				// Retrieve the columns of the result set
 				for (int i = 0; i < colCnt; ++i) {
-					String name = md.getColumnName(i + 1);
+					String name = md.getColumnLabel(i + 1);
 					byte[] bvalue = rs.getBytes(i + 1);
 					if (bvalue != null)
 						value = new String(bvalue, "UTF8");
@@ -537,7 +537,7 @@ public abstract class MySqlBaseDao {
 				h = new Hashtable();
 				// Retrieve the columns of the result set
 				for (int i = 0; i < colCnt; ++i) {
-					String name = md.getColumnName(i + 1);
+					String name = md.getColumnLabel(i + 1);
 					String value = rset.getString(i + 1);
 					if (value == null) value = "";
 					h.put(name, value);
@@ -577,7 +577,7 @@ public abstract class MySqlBaseDao {
 				h = new Hashtable();
 				// Retrieve the columns of the result set
 				for (int i = 0; i < colCnt; ++i) {
-					String name = md.getColumnName(i + 1);
+					String name = md.getColumnLabel(i + 1);
 					String value = rset.getString(i + 1);
 					if (value == null) value = "";
 					h.put(name, value);
