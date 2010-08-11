@@ -116,8 +116,8 @@ public class DeadlinesDaemon {
                     
                     list = new Vector();
                     list.add(events);
-                    list.add(Attrs.SCHEMA_RDF + "label");
-                    list.add("Approaching deadline");
+                    list.add("http://purl.org/dc/elements/1.1/title"); // Must match UNS placeholder $EVENT.TITLE
+                    list.add("Approaching deadline on " + h.get("title"));
                     lists.add(list);
                     
                     list = new Vector();
