@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.MissingResourceException;
 
+import eionet.rod.RODUtil;
 import eionet.rod.dto.ClientDTO;
 
 import eionet.rod.services.ServiceException;
@@ -102,16 +103,16 @@ public class Clients extends RDFServletAC {
     	ClientDTO client = it.next();
     	
     	s.append("<rod:Client rdf:about=\"" + clientsNamespace + client.getClientId() + "\">")
-        	.append("<rod:clientName>").append(client.getName()).append("</rod:clientName>")
-        	.append("<rod:clientAcronym>").append(client.getAcronym()).append("</rod:clientAcronym>")        
-        	.append("<rod:clientUrl>").append(client.getUrl()).append("</rod:clientUrl>")        
-        	.append("<rod:clientAddress>").append(client.getAddress()).append("</rod:clientAddress>")
-        	.append("<rod:clientEmail>").append(client.getEmail()).append("</rod:clientEmail>")
-        	.append("<rod:clientDescription>").append(client.getDescription()).append("</rod:clientDescription>")
-        	.append("<rod:clientPostalCode>").append(client.getPostalCode()).append("</rod:clientPostalCode>")
-        	.append("<rod:clientCity>").append(client.getCity()).append("</rod:clientCity>")
-        	.append("<rod:clientCountry>").append(client.getCountry()).append("</rod:clientCountry>")
-        	.append("<rod:clientShortName>").append(client.getShortName()).append("</rod:clientShortName>")
+        	.append("<rod:clientName>").append(RODUtil.replaceTags(client.getName(),true,true)).append("</rod:clientName>")
+        	.append("<rod:clientAcronym>").append(RODUtil.replaceTags(client.getAcronym(),true,true)).append("</rod:clientAcronym>")        
+        	.append("<rod:clientUrl>").append(RODUtil.replaceTags(client.getUrl(),true,true)).append("</rod:clientUrl>")        
+        	.append("<rod:clientAddress>").append(RODUtil.replaceTags(client.getAddress(),true,true)).append("</rod:clientAddress>")
+        	.append("<rod:clientEmail>").append(RODUtil.replaceTags(client.getEmail(),true,true)).append("</rod:clientEmail>")
+        	.append("<rod:clientDescription>").append(RODUtil.replaceTags(client.getDescription(),true,true)).append("</rod:clientDescription>")
+        	.append("<rod:clientPostalCode>").append(RODUtil.replaceTags(client.getPostalCode(),true,true)).append("</rod:clientPostalCode>")
+        	.append("<rod:clientCity>").append(RODUtil.replaceTags(client.getCity(),true,true)).append("</rod:clientCity>")
+        	.append("<rod:clientCountry>").append(RODUtil.replaceTags(client.getCountry(),true,true)).append("</rod:clientCountry>")
+        	.append("<rod:clientShortName>").append(RODUtil.replaceTags(client.getShortName(),true,true)).append("</rod:clientShortName>")
     	.append("</rod:Client>");        
     }
         

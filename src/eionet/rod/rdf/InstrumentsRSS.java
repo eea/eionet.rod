@@ -31,6 +31,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import eionet.rod.Constants;
+import eionet.rod.RODUtil;
 
 /**
 * Activities RSS
@@ -77,9 +78,9 @@ public class InstrumentsRSS extends RSSServletAC {
       
       s.append( "<item rdf:about=\"").append(instrumentsNamespace)
         .append(pk).append("\">")
-        .append("<title>").append(title).append("</title>")
-        .append("<link>").append(link).append("</link>")
-        .append("<description>").append(description).append("</description>");
+        .append("<title>").append(RODUtil.replaceTags(title,true,true)).append("</title>")
+        .append("<link>").append(RODUtil.replaceTags(link,true,true)).append("</link>")
+        .append("<description>").append(RODUtil.replaceTags(description,true,true)).append("</description>");
 
       s.append("</item>");
     } 

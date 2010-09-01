@@ -32,6 +32,7 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import eionet.rod.Constants;
+import eionet.rod.RODUtil;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.RODServices;
 
@@ -150,9 +151,9 @@ public class Events extends RSSServletAC {
       
       s.append( "<item rdf:about=\"").append(obligationsNamespace).append("/")
         .append(pk).append("\">")
-        .append("<title>").append(title).append("</title>")
-        .append("<link>").append(link).append("</link>")
-        .append("<description>").append(description).append("</description>")        
+        .append("<title>").append(RODUtil.replaceTags(title,true,true)).append("</title>")
+        .append("<link>").append(RODUtil.replaceTags(link,true,true)).append("</link>")
+        .append("<description>").append(RODUtil.replaceTags(description,true,true)).append("</description>")        
         .append("<ev:startdate>").append(date).append("</ev:startdate>");
 
       s.append("</item>");

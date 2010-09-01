@@ -137,11 +137,11 @@ public class Instruments extends RDFServletAC {
       title=(RODUtil.nullString(title) ? legalName : title);
 
       s.append("<rod:Instrument rdf:about=\"" + instrumentsNamespace + pk + "\">")
-        .append("<dcterms:alternative>").append(title).append("</dcterms:alternative>")
-        .append("<rdfs:label>").append(title).append("</rdfs:label>")        
-        .append("<dc:title>").append(legalName).append("</dc:title>")        
+        .append("<dcterms:alternative>").append(RODUtil.replaceTags(title,true,true)).append("</dcterms:alternative>")
+        .append("<rdfs:label>").append(RODUtil.replaceTags(title,true,true)).append("</rdfs:label>")        
+        .append("<dc:title>").append(RODUtil.replaceTags(legalName,true,true)).append("</dc:title>")        
         .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
-        .append("<rod:celexref>").append(celexRef).append("</rod:celexref>")
+        .append("<rod:celexref>").append(RODUtil.replaceTags(celexRef,true,true)).append("</rod:celexref>")
         .append("<dc:identifier>").append(source_code).append("</dc:identifier>")
         .append("<rod:issuer rdf:resource=\"http://rod.eionet.europa.eu/clients/").append(client_id).append("\"/>");
       
