@@ -321,10 +321,10 @@ function addValues(selFrom, selTo, unit,clist,volSelTo) {
 
 	var selected = new Array();
 	
-	eu25 = { AT:1,BE:1,CY:1,CZ:1,
+	eu27 = { AT:1,BE:1,BG:1,CY:1,CZ:1,
 		 DE:1,DK:1,EE:1,ES:1,FI:1,FR:1,GB:1,GR:1,
 		 HU:1,IE:1,IT:1,LT:1,LU:1,LV:1,MT:1,NL:1,
-		 PL:1,PT:1,SE:1,SI:1,SK:1 }
+		 PL:1,PT:1,RO:1,SE:1,SI:1,SK:1 }
 	
 	for (k = 0; k < selFrom.length; ++k) {
 		if (selFrom[k].selected) {
@@ -336,7 +336,7 @@ function addValues(selFrom, selTo, unit,clist,volSelTo) {
 						ptext = s[1];
 						ptype = s[2];
 						ptwoletter = s[3];
-						if (ptype.valueOf() == 'C' && ptwoletter.valueOf() in eu25) {
+						if (ptype.valueOf() == 'C' && ptwoletter.valueOf() in eu27) {
 							for (q = 0; q < selFrom.length; ++q) {
 								if(selFrom[q].value == pvalue.valueOf()){
 									if (!selFrom[q].selected) {
@@ -447,10 +447,10 @@ function addFullValues(selFrom, selTo,clist,forSelTo) {
 
 	var selected = new Array();
 	
-	eu25 = { AT:1,BE:1,CY:1,CZ:1,
+	eu27 = { AT:1,BE:1,BG:1,CY:1,CZ:1,
 		 DE:1,DK:1,EE:1,ES:1,FI:1,FR:1,GB:1,GR:1,
 		 HU:1,IE:1,IT:1,LT:1,LU:1,LV:1,MT:1,NL:1,
-		 PL:1,PT:1,SE:1,SI:1,SK:1 }
+		 PL:1,PT:1,RO:1,SE:1,SI:1,SK:1 }
 	
 	for (k = 0; k < selFrom.length; ++k) {
 		if (selFrom[k].selected) {
@@ -465,7 +465,7 @@ function addFullValues(selFrom, selTo,clist,forSelTo) {
 						ptext = s[1];
 						ptype = s[2];
 						ptwoletter = s[3];
-						if (ptype.valueOf() == 'C' && ptwoletter.valueOf() in eu25) {
+						if (ptype.valueOf() == 'C' && ptwoletter.valueOf() in eu27) {
 							val = pvalue.valueOf();
 							for (q = 0; q < selFrom.length; ++q) {
 								if(selFrom[q].value == val.valueOf()){
