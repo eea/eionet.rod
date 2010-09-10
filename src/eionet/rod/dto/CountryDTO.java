@@ -11,6 +11,7 @@ public class CountryDTO implements java.io.Serializable{
 	private String name;
 	private String type;
 	private String twoletter;
+	private String isMember;
 	
 	
 	/**
@@ -49,6 +50,14 @@ public class CountryDTO implements java.io.Serializable{
 
 	public void setTwoletter(String twoletter) {
 		this.twoletter = twoletter;
+	}
+
+	public String getIsMember() {
+		return isMember;
+	}
+
+	public void setIsMember(String isMember) {
+		this.isMember = isMember;
 	}
 
 }

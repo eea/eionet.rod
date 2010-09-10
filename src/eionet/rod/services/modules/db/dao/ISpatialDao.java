@@ -7,6 +7,7 @@ import java.util.Vector;
 import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.CountryInfoDTO;
 import eionet.rod.dto.ObligationCountryDTO;
+import eionet.rod.dto.ObligationDTO;
 import eionet.rod.services.ServiceException;
 
 public interface ISpatialDao {
@@ -75,6 +76,20 @@ public interface ISpatialDao {
 	 * @throws ServiceException
 	 */
 	public boolean checkCountryById(String id) throws ServiceException;
+	
+	/**
+	 * Returns CountryDTO
+	 * @param spatial id
+	 * @throws ServiceException
+	 */
+	public CountryDTO getCountry(String spatialId) throws ServiceException;
+	
+	/**
+	 * @return list of obligations with same spatial
+	 * @param spatial id
+	 * @throws ServiceException
+	 */
+	public List<ObligationDTO> getCountryObligationsList(String spatialId) throws ServiceException;
 	
 	/**
 	 * Returns member countries from the DB

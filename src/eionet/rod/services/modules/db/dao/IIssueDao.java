@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Vector;
 
 import eionet.rod.dto.IssueDTO;
+import eionet.rod.dto.ObligationDTO;
 import eionet.rod.services.ServiceException;
 
 public interface IIssueDao {
@@ -41,6 +42,13 @@ public interface IIssueDao {
 	 * @throws ServiceException
 	 */
 	public List<IssueDTO> getIssuesList() throws ServiceException;
+	
+	/**
+	 * @return list of obligations with same issue
+	 * @param issue id
+	 * @throws ServiceException
+	 */
+	public List<ObligationDTO> getIssueObligationsList(String issueId) throws ServiceException;
 	
 	/**
 	 * @return list of obligation issues

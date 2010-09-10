@@ -3,7 +3,6 @@ package eionet.rod.web.util;
 import org.displaytag.decorator.TableDecorator;
 import eionet.rod.RODUtil;
 import eionet.rod.dto.ObligationsListDTO;
-import eionet.rod.dto.SearchDTO;
 
 /**
  * 

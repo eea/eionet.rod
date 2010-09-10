@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Vector;
 
 import eionet.rod.dto.IssueDTO;
+import eionet.rod.dto.ObligationDTO;
 import eionet.rod.dto.readers.IssueDTOReader;
+import eionet.rod.dto.readers.ObligationDTOReader;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IIssueDao;
@@ -170,6 +172,43 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
 			conn = getConnection();
 			SQLUtil.executeQuery(qIssuesList, values, rsReader, conn);
 			List<IssueDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+
+	}
+	
+	private static final String qIssueObligationsList = 
+		"SELECT O.TITLE, O.PK_RA_ID, O.FK_SOURCE_ID " + 
+		"FROM T_OBLIGATION AS O, T_RAISSUE_LNK AS OI " +
+		"WHERE O.PK_RA_ID = OI.FK_RA_ID AND OI.FK_ISSUE_ID = ?" + 
+		"ORDER BY O.TITLE ";
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eionet.rod.services.modules.db.dao.IIssueDao#getIssueObligationsList()
+	 */
+	public List<ObligationDTO> getIssueObligationsList(String issueId) throws ServiceException {
+
+		List<Object> values = new ArrayList<Object>();
+		values.add(issueId);
+		
+		Connection conn = null;
+		ObligationDTOReader rsReader = new ObligationDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(qIssueObligationsList, values, rsReader, conn);
+			List<ObligationDTO>  list = rsReader.getResultList();
 			return list;
 		}
 		catch (Exception e){
