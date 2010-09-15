@@ -33,6 +33,7 @@ import java.util.ResourceBundle;
 import java.util.MissingResourceException;
 
 import eionet.rod.RODUtil;
+import eionet.rod.dto.InstrumentFactsheetDTO;
 import eionet.rod.dto.SourceLinksDTO;
 
 import java.util.Hashtable;
@@ -59,6 +60,10 @@ public class Instruments extends RDFServletAC {
     dcNs + "xmlns:dcterms=\"http://purl.org/dc/terms/\"";
   
   public String getRdf(HttpServletRequest req) throws ServiceException {
+	  return getRdf(req, null);
+  }
+  
+  public String getRdf(HttpServletRequest req, InstrumentFactsheetDTO instrument) throws ServiceException {
 	  	try {
 	  		props = ResourceBundle.getBundle(PROP_FILE);
 	  	} catch (MissingResourceException mre) {
@@ -101,11 +106,57 @@ public class Instruments extends RDFServletAC {
 		        rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
 			}
 		
-		return generateRDF(req);
+		if(instrument != null)
+			return generateRDFSingleInstrument(instrument);
+		else
+			return generateRDF(req);
 	}
 
+  protected String generateRDFSingleInstrument(InstrumentFactsheetDTO instrument) throws ServiceException {
+	  StringBuffer s = new StringBuffer();
+	  s.append(rdfHeader);
+	  s.append("<rdf:RDF ")
+	  .append(" xmlns:rod=\"").append(rodSchemaNamespace).append("#\"")
+	  .append(" ").append(allNameSpaces).append(">");
+	  
+	  Integer pk = instrument.getSourceId();
+      String source_code = instrument.getSourceCode();
+      Integer client_id = instrument.getClientId();
+      String title = instrument.getSourceAlias();
+      String legalName = instrument.getSourceTitle();
+      String lastUpdate = instrument.getSourceLastUpdate();
+      String url = instrument.getSourceUrl();      
+      String abstr = instrument.getSourceAbstract();      
+      String issuedBy = instrument.getClientName();      
+      String celexRef = instrument.getSourceCelexRef();    
 
-  protected  String generateRDF(HttpServletRequest req) throws ServiceException {
+      //show legal name if short name is empty
+      title = (RODUtil.nullString(title) ? legalName : title);
+
+      s.append("<rod:Instrument rdf:about=\"" + instrumentsNamespace + pk + "\">")
+      .append("<dcterms:alternative>").append(RODUtil.replaceTags(title,true,true)).append("</dcterms:alternative>")
+      .append("<rdfs:label>").append(RODUtil.replaceTags(title,true,true)).append("</rdfs:label>")        
+      .append("<dc:title>").append(RODUtil.replaceTags(legalName,true,true)).append("</dc:title>")        
+      .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
+      .append("<rod:celexref>").append(RODUtil.replaceTags(celexRef,true,true)).append("</rod:celexref>")
+      .append("<dc:identifier>").append(source_code).append("</dc:identifier>")
+      .append("<rod:issuer rdf:resource=\"http://rod.eionet.europa.eu/clients/").append(client_id).append("\"/>");
+      
+      if (!RODUtil.nullString(abstr))
+    	  s.append("<dcterms:abstract>").append(abstr).append("</dcterms:abstract>");
+        
+      if (!RODUtil.nullString(url))
+    	  s.append("<rod:instrumentURL>"+url+"</rod:instrumentURL>");
+
+      if (!RODUtil.nullString(issuedBy))
+    	  s.append("<dc:creator>").append(issuedBy).append("</dc:creator>");
+          
+      s.append("</rod:Instrument>").append("</rdf:RDF>");
+	  
+	  return s.toString();
+  }
+
+  protected String generateRDF(HttpServletRequest req) throws ServiceException {
 
     StringBuffer s = new StringBuffer();
     s.append(rdfHeader);

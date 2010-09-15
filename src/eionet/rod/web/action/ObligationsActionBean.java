@@ -156,6 +156,9 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 				tab = st.nextToken();		
 		}
 		
+		String acceptHeader = getContext().getRequest().getHeader("accept");
+		String[] accept = acceptHeader.split(",");
+		
 		if(!RODUtil.isNullOrEmpty(id)){
 			if(id.equals("new")){
 				obligation = new ObligationFactsheetDTO();
@@ -172,6 +175,17 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 			if(!id.equals("new") && (obligation == null || !RODUtil.isNumber(id))){
 				return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
 			}
+			
+			if(!id.equals("new") && obligation != null && accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
+				return new StreamingResolution("application/rdf+xml;charset=UTF-8") {
+				    public void stream(HttpServletResponse response) throws Exception {
+				    	Activities act = new Activities();
+				    	String rdf = act.getRdf(getContext().getRequest(), obligation);
+				    	response.getWriter().write(rdf);
+				    }
+				};
+			}
+			
 			if(RODUtil.isNullOrEmpty(tab) || tab.equals("overview")){ 
 				clients = RODServices.getDbService().getClientDao().getClients(id);
 				infoTypeList = RODServices.getDbService().getObligationDao().getLookupList(id);
@@ -212,8 +226,6 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 			}
 		} else if(RODUtil.isNullOrEmpty(id)){
 			
-			String acceptHeader = getContext().getRequest().getHeader("accept");
-			String[] accept = acceptHeader.split(",");
 			if(accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
 
 				return new StreamingResolution("application/rdf+xml;charset=UTF-8") {

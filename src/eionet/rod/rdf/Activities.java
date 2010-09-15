@@ -31,6 +31,7 @@ import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
 
 import eionet.rod.RODUtil;
+import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
@@ -48,12 +49,14 @@ import eionet.rod.services.ServiceException;
  */
 public class Activities extends RDFServletAC {
 
-  private static final String  actPropName = "activity";
-
   private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace + dcNs +
     "xmlns:dcterms='http://purl.org/dc/terms/'";
   
   public String getRdf(HttpServletRequest req) throws ServiceException {
+	  return getRdf(req, null);
+  }
+  
+  public String getRdf(HttpServletRequest req, ObligationFactsheetDTO obligation) throws ServiceException {
 	  	try {
 	  		props = ResourceBundle.getBundle(PROP_FILE);
 	  	} catch (MissingResourceException mre) {
@@ -96,9 +99,82 @@ public class Activities extends RDFServletAC {
 		        rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
 			}
 		
-		return generateRDF(req);
+			if(obligation != null)
+				return generateRDFSingleObligation(obligation);
+			else
+				return generateRDF(req);
   	}
+  
+  	protected String generateRDFSingleObligation(ObligationFactsheetDTO obligation) throws ServiceException {
+  		StringBuffer s = new StringBuffer();
+	    s.append(rdfHeader);
+	    s.append("<rdf:RDF ")
+	    .append(" xmlns:rod=\"").append(rodSchemaNamespace).append("#\"")
+	    .append(" ")
+	    .append(allNameSpaces)
+	    .append(">");
+	    
+	    String pk = obligation.getObligationId();
+	    String title = obligation.getTitle();
+	    String lastUpdate = obligation.getLastUpdate();
+	    String liId = obligation.getSourceId();
+	      
+	    String validSince = obligation.getValidSince();
+	    String terminated = obligation.getTerminate();
+	    String comment = obligation.getComment();
 
+	    String respRole = obligation.getResponsibleRole();
+	    String nextDeadline = obligation.getNextDeadline();
+	    String nextDeadline2 = obligation.getNextDeadline2();
+
+	    String repFormat = obligation.getReportingFormat();
+	    String formatName = obligation.getFormatName();
+	    String repFormatUrl = obligation.getReportFormatUrl();      
+
+	    String description = obligation.getDescription();  
+	    Integer eea_primary = obligation.getEeaPrimary();  
+
+	    if (formatName.equals("") && !repFormatUrl.equals(""))
+	        formatName = repFormatUrl;
+	    
+	    if(terminated != null && terminated.equals("Y"))
+	    	terminated = "1";
+	    else
+	    	terminated = "0";
+
+	    String detailsUrl = "http://rod.eionet.europa.eu/obligations/"+pk;
+	      
+	    title = RODUtil.replaceTags(title, true, true);
+	    description = RODUtil.replaceTags(description, true, true);
+	    comment = RODUtil.replaceTags(comment, true, true);
+	    respRole = RODUtil.replaceTags(respRole, true, true);
+	    repFormat = RODUtil.replaceTags(repFormat, true, true);
+	    formatName = RODUtil.replaceTags(formatName, true, true);
+	    repFormatUrl = RODUtil.replaceTags(repFormatUrl, true, true);
+	    detailsUrl = RODUtil.replaceTags(detailsUrl, true, true);
+
+	    s.append("<rod:Obligation rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">")
+	    .append("<dc:title>").append(title).append("</dc:title>")
+	    .append("<dcterms:abstract>").append(description).append("</dcterms:abstract>")
+	    .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
+	    .append("<dcterms:valid>").append(validSince).append("</dcterms:valid>")        
+	    .append("<rod:terminated>").append(terminated).append("</rod:terminated>")                
+	    .append("<rod:eea_primary>").append(eea_primary).append("</rod:eea_primary>");  
+	    if(!RODUtil.isNullOrEmpty(comment) && comment.length() > 0)
+	       	s.append("<rod:comment>").append(comment).append("</rod:comment>");                
+	    s.append("<rod:responsiblerole>").append(respRole).append("</rod:responsiblerole>")                
+	    .append("<rod:nextdeadline>").append(nextDeadline).append("</rod:nextdeadline>")                        
+	    .append("<rod:nextdeadline2>").append(nextDeadline2).append("</rod:nextdeadline2>")                
+	    .append("<rod:guidelines>").append(repFormat).append("</rod:guidelines>")                
+	    .append("<rod:instrument rdf:resource=\"" + instrumentsNamespace + liId + "\"/>");
+	        
+	    if (!repFormatUrl.equals(""))
+	    	s.append("<rod:guidelines_url rdf:resource=\"" + repFormatUrl + "\"/>");
+	          
+	    s.append("</rod:Obligation>").append("</rdf:RDF>");
+	    
+	    return s.toString();
+  	}
 
   protected String generateRDF(HttpServletRequest req) throws ServiceException {
 
@@ -112,8 +188,6 @@ public class Activities extends RDFServletAC {
     .append(allNameSpaces)
     .append(">");
 
-
-    
     //WebRODService wSrv = new WebRODService();
     Vector acts = RODServices.getDbService().getObligationDao().getObligations();
     
