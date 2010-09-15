@@ -371,7 +371,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/spatial/*</url-pattern>
+		<url-pattern>/spatials/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

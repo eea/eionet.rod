@@ -57,5 +57,23 @@
     <void:dataDump rdf:resource="http://rod.eionet.europa.eu/countries"/>
     <void:vocabulary rdf:resource="http://rod.eionet.europa.eu/schema.rdf"/>
   </void:Dataset>
+  
+  <void:Dataset rdf:ID="issues">
+    <dcterms:title>Issues</dcterms:title>
+    <dcterms:license rdf:resource="http://creativecommons.org/licenses/by/2.5/dk/"/>
+    <dcterms:creator rdf:resource="/clients/3"/>
+    <void:exampleResource rdf:resource="http://rod.eionet.europa.eu/issues/6"/>
+    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/issues"/>
+    <void:vocabulary rdf:resource="http://rod.eionet.europa.eu/schema.rdf"/>
+  </void:Dataset>
+  
+  <void:Dataset rdf:ID="spatials">
+    <dcterms:title>Spatials</dcterms:title>
+    <dcterms:license rdf:resource="http://creativecommons.org/licenses/by/2.5/dk/"/>
+    <dcterms:creator rdf:resource="/clients/3"/>
+    <void:exampleResource rdf:resource="http://rod.eionet.europa.eu/spatials/5"/>
+    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/spatials"/>
+    <void:vocabulary rdf:resource="http://rod.eionet.europa.eu/schema.rdf"/>
+  </void:Dataset>
 
 </rdf:RDF>

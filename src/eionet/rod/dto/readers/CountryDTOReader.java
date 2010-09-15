@@ -24,6 +24,7 @@ public class CountryDTOReader extends ResultSetBaseReader {
 		countryDTO.setName(rs.getString("SPATIAL_NAME"));
 		countryDTO.setType(rs.getString("SPATIAL_TYPE"));
 		countryDTO.setTwoletter(rs.getString("SPATIAL_TWOLETTER"));
+		countryDTO.setIsMember(rs.getString("SPATIAL_ISMEMBERCOUNTRY"));
 		
 		resultList.add(countryDTO);
 	}

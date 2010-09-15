@@ -113,6 +113,13 @@ public interface ISpatialDao {
 	public List<CountryDTO> getCountriesList() throws ServiceException;
 	
 	/**
+	 * Returns all spatials from the DB
+	 * @return all spatials from the DB as list of CountryDTOs
+	 * @throws ServiceException
+	 */
+	public List<CountryDTO> getSpatialsList() throws ServiceException;
+	
+	/**
 	 * Returns countries list from the DB
 	 * @param list of country ids
 	 * @return countries from the DB as list of ObligationCountryDTOs

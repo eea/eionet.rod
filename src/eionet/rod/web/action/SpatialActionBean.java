@@ -2,10 +2,7 @@ package eionet.rod.web.action;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ErrorResolution;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.StreamingResolution;
@@ -15,13 +12,14 @@ import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.ObligationDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import eionet.rod.web.util.SeeOtherRedirectResolution;
 
 /**
  * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
  *
  */
-@UrlBinding("/spatial/{idspatial}")
+@UrlBinding("/spatials/{idspatial}")
 public class SpatialActionBean extends AbstractRODActionBean {
 	
 	private CountryDTO spatial;
@@ -43,38 +41,41 @@ public class SpatialActionBean extends AbstractRODActionBean {
 	@DefaultHandler
 	public Resolution init() throws ServiceException {
 		
-		if(idspatial != null && idspatial.length() > 0){
-			spatial = RODServices.getDbService().getSpatialDao().getCountry(idspatial);
-		}
-		if(spatial == null){
-			return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
-		}
-		obligations = RODServices.getDbService().getSpatialDao().getCountryObligationsList(idspatial);
-		
 		String acceptHeader = getContext().getRequest().getHeader("accept");
 		String[] accept = null;
 		if(acceptHeader != null && acceptHeader.length() > 0)
 			accept = acceptHeader.split(",");
 		
-		if(accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
+		if(!RODUtil.isNullOrEmpty(idspatial)){
+			spatial = RODServices.getDbService().getSpatialDao().getCountry(idspatial);
+			obligations = RODServices.getDbService().getSpatialDao().getCountryObligationsList(idspatial);
+			
+			if(accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
+				return new SeeOtherRedirectResolution("/spatials");
+			}
+		} else {
+			List<CountryDTO> spatials = RODServices.getDbService().getSpatialDao().getSpatialsList();
 
 			StringBuffer out = new StringBuffer();
 			out.append(header);
-			out.append("<rod:Spatial rdf:about=\"http://rod.eionet.europa.eu/spatial/").append(idspatial).append("\">\n");
-			out.append("<rod:spatialName>").append(RODUtil.replaceTags(spatial.getName(),true,true)).append("</rod:spatialName>\n");
-			out.append("<rod:spatialType>").append(spatial.getType()).append("</rod:spatialType>\n");
-			out.append("<rod:spatialTwoletter>").append(spatial.getTwoletter()).append("</rod:spatialTwoletter>\n");
-			out.append("<rod:spatialIsMemberCountry>").append(spatial.getIsMember()).append("</rod:spatialIsMemberCountry>\n");
-			for(ObligationDTO obligation : obligations){
-				out.append("<rod:providerFor rdf:about=\"http://rod.eionet.europa.eu/obligations/").append(obligation.getObligationId()).append("\">");
-				out.append(RODUtil.replaceTags(obligation.getTitle(),true,true));
-				out.append("</rod:providerFor>\n");
+			for(CountryDTO spatial : spatials){
+				out.append("<rod:Spatial rdf:about=\"http://rod.eionet.europa.eu/spatial/").append(spatial.getCountryId()).append("\">\n");
+				out.append("<rod:spatialName>").append(RODUtil.replaceTags(spatial.getName(),true,true)).append("</rod:spatialName>\n");
+				if(spatial.getType() != null && !spatial.getType().equals("") && !spatial.getType().equals("null"))
+					out.append("<rod:spatialType>").append(spatial.getType()).append("</rod:spatialType>\n");
+				if(spatial.getTwoletter() != null && !spatial.getTwoletter().equals("") && !spatial.getTwoletter().equals("null"))
+					out.append("<rod:spatialTwoletter>").append(spatial.getTwoletter()).append("</rod:spatialTwoletter>\n");
+				if(spatial.getIsMember() != null && !spatial.getIsMember().equals("") && !spatial.getIsMember().equals("null"))
+					out.append("<rod:spatialIsMemberCountry>").append(spatial.getIsMember()).append("</rod:spatialIsMemberCountry>\n");
+				List<ObligationDTO> obligations = RODServices.getDbService().getSpatialDao().getCountryObligationsList(spatial.getCountryId().toString());
+				for(ObligationDTO obligation : obligations){
+					out.append("<rod:providerFor rdf:resource=\"http://rod.eionet.europa.eu/obligations/").append(obligation.getObligationId()).append("\"/>\n");
+				}
+				out.append("</rod:Spatial>");
 			}
-			out.append("</rod:Spatial>");
 			out.append(footer);
-			
 			return new StreamingResolution("application/rdf+xml;charset=UTF-8",out.toString());
-		}
+	}
 				
 		return new ForwardResolution("/pages/spatial.jsp");
 	}
