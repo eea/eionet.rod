@@ -36,6 +36,7 @@ import eionet.rod.dto.DifferenceDTO;
 import eionet.rod.dto.HierarchyInstrumentDTO;
 import eionet.rod.dto.InstrumentDTO;
 import eionet.rod.dto.InstrumentFactsheetDTO;
+import eionet.rod.dto.InstrumentRdfDTO;
 import eionet.rod.dto.InstrumentsListDTO;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.SourceClassDTO;
@@ -126,8 +127,9 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 			if(!instId.equals("new") && instrument != null && accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
 				return new StreamingResolution("application/rdf+xml;charset=UTF-8") {
 				    public void stream(HttpServletResponse response) throws Exception {
+				    	InstrumentRdfDTO instrumentForRDF = RODServices.getDbService().getSourceDao().getInstrumentForRDF(instId);
 				    	Instruments inst = new Instruments();
-				    	String rdf = inst.getRdf(getContext().getRequest(), instrument);
+				    	String rdf = inst.getRdf(getContext().getRequest(), instrumentForRDF);
 				    	response.getWriter().write(rdf);
 				    }
 				};
@@ -150,7 +152,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 				} else if(instId.equals("new")){
 					parentInstrumentsList = RODServices.getDbService().getSourceDao().getParentInstrumentsList("-1");
 					sourceClasses = allSourceClasses;
-				}				
+				}
 			}
 		} else if(RODUtil.isNullOrEmpty(instId) && accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
 			return new StreamingResolution("application/rdf+xml;charset=UTF-8") {

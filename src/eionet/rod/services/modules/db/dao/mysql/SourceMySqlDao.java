@@ -16,6 +16,7 @@ import eionet.rod.dto.InstrumentDTO;
 import eionet.rod.dto.InstrumentFactsheetDTO;
 import eionet.rod.dto.InstrumentObligationDTO;
 import eionet.rod.dto.InstrumentParentDTO;
+import eionet.rod.dto.InstrumentRdfDTO;
 import eionet.rod.dto.InstrumentsDueDTO;
 import eionet.rod.dto.InstrumentsListDTO;
 import eionet.rod.dto.LookupDTO;
@@ -83,7 +84,147 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 		return result != null ? result : new Vector();
 
 	}
-	
+
+    private static final String q_rdf_instruments_factsheet =
+		"SELECT SO.PK_SOURCE_ID, SO.SOURCE_CODE, SO.CELEX_REF, SO.TITLE, SO.LEGAL_NAME, SO.ALIAS, SO.URL, " +
+		"SO.ABSTRACT, SO.VALID_FROM, SO.COMMENT, " +
+		"C.PK_CLIENT_ID, C.CLIENT_NAME " +
+		"FROM T_SOURCE SO, T_CLIENT_LNK CL, T_CLIENT C " +
+		"WHERE CL.TYPE='S' AND CL.STATUS='M' AND CL.FK_OBJECT_ID=SO.PK_SOURCE_ID AND C.PK_CLIENT_ID = CL.FK_CLIENT_ID";
+    
+    private static final String q_rdf_instrument_obligations =
+		"SELECT OB.PK_RA_ID, OB.TITLE, OB.AUTHORITY, OB.TERMINATE " +
+		"FROM T_OBLIGATION OB, T_SOURCE SO " +
+		"WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=OB.FK_SOURCE_ID";
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISourceDao#getInstrumentsForRDF()
+     */
+    public List<InstrumentRdfDTO> getInstrumentsForRDF() throws ServiceException {
+    	
+    	List<InstrumentRdfDTO> ret = new ArrayList<InstrumentRdfDTO>();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		ResultSet sub_rs = null;
+		
+		try {
+			connection = getConnection();
+			if (isDebugMode) logQuery(q_rdf_instruments_factsheet);
+			preparedStatement = connection.prepareStatement(q_rdf_instruments_factsheet);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				InstrumentRdfDTO inst = new InstrumentRdfDTO();
+				inst.setSourceId(new Integer(rs.getInt("SO.PK_SOURCE_ID")));
+				inst.setSourceTitle(rs.getString("SO.TITLE"));
+				inst.setSourceLegalName(rs.getString("SO.LEGAL_NAME"));
+				inst.setSourceAlias(rs.getString("SO.ALIAS"));
+				inst.setSourceCelexRef(rs.getString("SO.CELEX_REF"));
+				inst.setSourceCode(rs.getString("SO.SOURCE_CODE"));
+				inst.setSourceUrl(rs.getString("SO.URL"));
+				inst.setSourceAbstract(rs.getString("SO.ABSTRACT"));
+				inst.setSourceValidFrom(rs.getString("SO.VALID_FROM"));
+				inst.setSourceComment(rs.getString("SO.COMMENT"));
+				
+				inst.setClientId(new Integer(rs.getInt("C.PK_CLIENT_ID")));
+				inst.setClientName(rs.getString("C.CLIENT_NAME"));
+				
+				List<InstrumentObligationDTO> obligations = new ArrayList<InstrumentObligationDTO>();
+	  			preparedStatement = connection.prepareStatement(q_rdf_instrument_obligations);
+	  			preparedStatement.setInt(1,rs.getInt("SO.PK_SOURCE_ID"));
+	  			sub_rs = preparedStatement.executeQuery();
+	  			while(sub_rs.next()){
+	  				InstrumentObligationDTO obligation = new InstrumentObligationDTO();
+	  				obligation.setObligationId(new Integer(sub_rs.getInt("PK_RA_ID")));
+	  				obligation.setTitle(sub_rs.getString("TITLE"));
+	  				obligation.setAuthority(sub_rs.getString("AUTHORITY"));
+	  				obligation.setTerminate(sub_rs.getString("TERMINATE"));
+	  				obligations.add(obligation);
+	  			}
+	  			inst.setObligations(obligations);
+	  			
+	  			ret.add(inst);
+			}	
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+		
+		return ret;
+    }
+    
+    private static final String q_rdf_instrument_factsheet =
+		"SELECT SO.PK_SOURCE_ID, SO.SOURCE_CODE, SO.CELEX_REF, SO.TITLE, SO.LEGAL_NAME, SO.ALIAS, SO.URL, " +
+		"SO.ABSTRACT, SO.VALID_FROM, SO.COMMENT, " +
+		"C.PK_CLIENT_ID, C.CLIENT_NAME " +
+		"FROM T_SOURCE SO, T_CLIENT_LNK CL, T_CLIENT C " +
+		"WHERE SO.PK_SOURCE_ID=? AND CL.TYPE='S' AND CL.STATUS='M' AND CL.FK_OBJECT_ID=SO.PK_SOURCE_ID AND C.PK_CLIENT_ID = CL.FK_CLIENT_ID";
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.ISourceDao#getInstrumentForRDF(String id)
+     */
+    public InstrumentRdfDTO getInstrumentForRDF(String id) throws ServiceException {
+    	
+    	InstrumentRdfDTO ret = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		ResultSet sub_rs = null;
+		
+		List<InstrumentObligationDTO> obligations = new ArrayList<InstrumentObligationDTO>();
+		
+		try {
+			connection = getConnection();
+			if (isDebugMode) logQuery(q_rdf_instrument_factsheet);
+			preparedStatement = connection.prepareStatement(q_rdf_instrument_factsheet);
+			preparedStatement.setString(1, id);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				ret = new InstrumentRdfDTO();
+				ret.setSourceId(new Integer(rs.getInt("SO.PK_SOURCE_ID")));
+				ret.setSourceTitle(rs.getString("SO.TITLE"));
+				ret.setSourceLegalName(rs.getString("SO.LEGAL_NAME"));
+				ret.setSourceAlias(rs.getString("SO.ALIAS"));
+				ret.setSourceCelexRef(rs.getString("SO.CELEX_REF"));
+				ret.setSourceCode(rs.getString("SO.SOURCE_CODE"));
+				ret.setSourceUrl(rs.getString("SO.URL"));
+				ret.setSourceAbstract(rs.getString("SO.ABSTRACT"));
+				ret.setSourceValidFrom(rs.getString("SO.VALID_FROM"));
+				ret.setSourceComment(rs.getString("SO.COMMENT"));
+				
+				ret.setClientId(new Integer(rs.getInt("C.PK_CLIENT_ID")));
+				ret.setClientName(rs.getString("C.CLIENT_NAME"));
+				
+	  			preparedStatement = connection.prepareStatement(q_rdf_instrument_obligations);
+	  			preparedStatement.setInt(1,rs.getInt("SO.PK_SOURCE_ID"));
+	  			sub_rs = preparedStatement.executeQuery();
+	  			while(sub_rs.next()){
+	  				InstrumentObligationDTO obligation = new InstrumentObligationDTO();
+	  				obligation.setObligationId(new Integer(sub_rs.getInt("PK_RA_ID")));
+	  				obligation.setTitle(sub_rs.getString("TITLE"));
+	  				obligation.setAuthority(sub_rs.getString("AUTHORITY"));
+	  				obligation.setTerminate(sub_rs.getString("TERMINATE"));
+	  				obligations.add(obligation);
+	  			}
+	  			ret.setObligations(obligations);
+
+			}	
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+		
+		return ret;
+    }
+    
 	private static final String q_subscribe_instruments = 
 		"SELECT REPLACE(TITLE, '&', '&#038;') AS TITLE " + 
 		"FROM T_SOURCE " + 

@@ -7,6 +7,7 @@ import java.util.Vector;
 import eionet.rod.dto.HierarchyInstrumentDTO;
 import eionet.rod.dto.InstrumentDTO;
 import eionet.rod.dto.InstrumentFactsheetDTO;
+import eionet.rod.dto.InstrumentRdfDTO;
 import eionet.rod.dto.InstrumentsDueDTO;
 import eionet.rod.dto.InstrumentsListDTO;
 import eionet.rod.dto.LookupDTO;
@@ -23,6 +24,21 @@ public interface ISourceDao {
 	 * @throws ServiceException
 	 */
 	public Vector getInstruments() throws ServiceException;
+	
+	/**
+	 * Legal Instruments List for RDF
+	 * @return List of InstrumentRdfDTO objects
+	 * @throws ServiceException
+	 */
+	public List<InstrumentRdfDTO> getInstrumentsForRDF() throws ServiceException;
+	
+	/**
+	 * Legal Instrument for RDF
+	 * @param instrument id
+	 * @return InstrumentRdfDTO object
+	 * @throws ServiceException
+	 */
+	public InstrumentRdfDTO getInstrumentForRDF(String id) throws ServiceException;
 	
 	/**
 	 * All instruments
