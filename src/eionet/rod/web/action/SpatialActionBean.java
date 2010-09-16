@@ -19,7 +19,7 @@ import eionet.rod.web.util.SeeOtherRedirectResolution;
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
  *
  */
-@UrlBinding("/spatials/{idspatial}")
+@UrlBinding("/spatial/{idspatial}")
 public class SpatialActionBean extends AbstractRODActionBean {
 	
 	private CountryDTO spatial;
@@ -51,7 +51,7 @@ public class SpatialActionBean extends AbstractRODActionBean {
 			obligations = RODServices.getDbService().getSpatialDao().getCountryObligationsList(idspatial);
 			
 			if(accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
-				return new SeeOtherRedirectResolution("/spatials");
+				return new SeeOtherRedirectResolution("/spatial");
 			}
 		} else {
 			List<CountryDTO> spatials = RODServices.getDbService().getSpatialDao().getSpatialsList();
