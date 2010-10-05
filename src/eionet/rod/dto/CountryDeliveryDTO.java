@@ -8,7 +8,6 @@ package eionet.rod.dto;
 public class CountryDeliveryDTO implements java.io.Serializable{
 	
 	//Fields from T_DELIVERY table
-	private Integer deliveryId;
 	private Integer deliveryFKObligationId;
 	private Integer deliveryFKSpatialId;
 	private String deliveryTitle;
@@ -52,12 +51,6 @@ public class CountryDeliveryDTO implements java.io.Serializable{
 	private Integer clientId;
 	private String clientName;
 	
-	public Integer getDeliveryId() {
-		return deliveryId;
-	}
-	public void setDeliveryId(Integer deliveryId) {
-		this.deliveryId = deliveryId;
-	}
 	public Integer getDeliveryFKObligationId() {
 		return deliveryFKObligationId;
 	}

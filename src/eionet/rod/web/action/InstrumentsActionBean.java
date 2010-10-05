@@ -406,10 +406,10 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
     }
 	
 	private void processLinkedTables() throws ServiceException {
-		if(instrument.getSourceFKClientId() != null && !instrument.getSourceFKClientId().trim().equals(""))
+		if(instrument.getSourceFKClientId() != null && !instrument.getSourceFKClientId().trim().equals("") && !instrument.getSourceFKClientId().trim().equals("NULL"))
 			RODServices.getDbService().getClientDao().insertClientLink(Integer.valueOf(instrument.getSourceFKClientId()), Integer.valueOf(instId), "M","S");
 
-		if(!RODUtil.isNullOrEmpty(parentInstrumentId))
+		if(!RODUtil.isNullOrEmpty(parentInstrumentId) && !parentInstrumentId.equals("NULL"))
 			sourceDao.addParentInstrument(instId, parentInstrumentId);
 		if(selectedSourceClasses != null && selectedSourceClasses.size() > 0)
 			sourceDao.addLinkedSources(instId, selectedSourceClasses);

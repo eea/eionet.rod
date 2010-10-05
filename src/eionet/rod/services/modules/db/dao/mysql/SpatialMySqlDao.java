@@ -202,7 +202,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 	
 	
 	private static final String q_deliveries =
-		"SELECT PK_DELIVERY_ID, TITLE, DELIVERY_URL " +
+		"SELECT TITLE, DELIVERY_URL " +
 		"FROM T_DELIVERY " +
 		"WHERE FK_SPATIAL_ID=? AND FK_RA_ID=?";
 	

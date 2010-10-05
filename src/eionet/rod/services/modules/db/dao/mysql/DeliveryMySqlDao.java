@@ -10,7 +10,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -327,7 +326,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 	private String getDeliveriesListSql(String actDetailsId, String spatialId) throws ServiceException {
 
 		StringBuilder q_obligations_list = new StringBuilder( 
-    		"SELECT T_DELIVERY.PK_DELIVERY_ID, T_DELIVERY.FK_RA_ID, T_DELIVERY.FK_SPATIAL_ID, T_DELIVERY.TITLE, ");
+    		"SELECT T_DELIVERY.FK_RA_ID, T_DELIVERY.FK_SPATIAL_ID, T_DELIVERY.TITLE, ");
 		q_obligations_list.append("T_DELIVERY.DELIVERY_URL, T_DELIVERY.UPLOAD_DATE, T_DELIVERY.TYPE AS DELIVERY_TYPE, T_DELIVERY.FORMAT, T_DELIVERY.COVERAGE, " +
 			"T_OBLIGATION.PK_RA_ID, T_OBLIGATION.FK_SOURCE_ID, T_OBLIGATION.TITLE AS OBLIGATION_TITLE, T_OBLIGATION.REPORT_FREQ_MONTHS, " +
 			"T_OBLIGATION.TERMINATE, T_OBLIGATION.NEXT_DEADLINE, T_OBLIGATION.REPORT_FORMAT_URL, T_OBLIGATION.RESPONSIBLE_ROLE, " +

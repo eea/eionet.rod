@@ -86,7 +86,7 @@
 						</td>
 						<td>
 							<stripes:select name="instrument.sourceFKClientId" onchange="changed()" class="full" id="instrument.sourceFKClientId">
-								<stripes:option value="0" label=""/>
+								<stripes:option value="NULL" label=""/>
 			    				<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
 			    					<stripes:option value="${client.clientId}" label="${client.name}"/>
 			    				</c:forEach>
@@ -111,7 +111,7 @@
 						</td>
 						<td>
 							<stripes:select name="parentInstrumentId" onchange="changed()" class="full" id="parentInstrumentId">
-								<stripes:option value="0" label=""/>
+								<stripes:option value="NULL" label=""/>
 			    				<c:forEach items="${actionBean.parentInstrumentsList}" var="parent" varStatus="loop">
 			    					<stripes:option value="${parent.sourceId}" label="${rodfn:threeDots(parent.sourceTitle, 100)}"/>
 			    				</c:forEach>
@@ -162,7 +162,7 @@
 						</td>
 						<td>
 							<stripes:select name="instrument.sourceDgenvReview" onchange="changed()" class="full" id="instrument.sourceDgenvReview">
-								<stripes:option value="0" label=""/>
+								<stripes:option value="NULL" label=""/>
 			    				<c:forEach items="${actionBean.dgenvlist}" var="dgenv" varStatus="loop">
 			    					<stripes:option value="${dgenv.cvalue}" label="${dgenv.cterm}"/>
 			    				</c:forEach>

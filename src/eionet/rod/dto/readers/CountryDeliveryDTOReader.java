@@ -21,7 +21,6 @@ public class CountryDeliveryDTOReader extends ResultSetBaseReader {
 		
 		CountryDeliveryDTO deliveryDTO = new CountryDeliveryDTO();
 		
-		deliveryDTO.setDeliveryId(new Integer(rs.getInt("PK_DELIVERY_ID")));
 		deliveryDTO.setDeliveryFKObligationId(new Integer(rs.getInt("FK_RA_ID")));
 		deliveryDTO.setDeliveryFKSpatialId(new Integer(rs.getInt("FK_SPATIAL_ID")));
 		deliveryDTO.setDeliveryTitle(rs.getString("TITLE"));

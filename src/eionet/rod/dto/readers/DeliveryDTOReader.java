@@ -20,7 +20,6 @@ public class DeliveryDTOReader extends ResultSetBaseReader {
 	public void readRow(ResultSet rs) throws SQLException {
 
 		DeliveryDTO deliveryDTO = new DeliveryDTO();
-		deliveryDTO.setDeliveryId(rs.getString("PK_DELIVERY_ID"));
 		deliveryDTO.setTitle(rs.getString("TITLE"));
 		deliveryDTO.setUrl(rs.getString("DELIVERY_URL"));
 		
