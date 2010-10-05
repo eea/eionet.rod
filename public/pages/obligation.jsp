@@ -3,7 +3,9 @@
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
 <stripes:layout-render name="/pages/common/template.jsp" pageTitle="${rodfn:replaceTags(actionBean.obligation.title)} - ROD - Eionet" bread2="Obligations" bread2Url="obligations" bread3="${rodfn:replaceTags(actionBean.obligation.title)}" desc="${rodfn:replaceTags2(actionBean.obligation.description,true,true)}">
-
+	<stripes:layout-component name="head">
+		<link rel="alternate" type="application/rdf+xml" title="RDF" href="${pageContext.request.contextPath}/obligations/${actionBean.id}" />
+	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		
 		<c:set var="perm_name" value="/obligations/${actionBean.id}"></c:set>	

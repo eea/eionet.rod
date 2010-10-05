@@ -3,7 +3,9 @@
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
 <stripes:layout-render name="/pages/common/template.jsp" pageTitle="${rodfn:replaceTags(actionBean.instrument.sourceAlias)}" bread2="Legislative instruments" bread2Url="instruments" bread3="${rodfn:replaceTags(actionBean.instrument.sourceAlias)}" help="HELP_LI">
-
+	<stripes:layout-component name="head">
+		<link rel="alternate" type="application/rdf+xml" title="RDF" href="${pageContext.request.contextPath}/instruments/${actionBean.instId}" />
+	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		
 		<c:set var="perm_name" value="/instruments/${actionBean.instId}"></c:set>	

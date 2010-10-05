@@ -3,7 +3,9 @@
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
 <stripes:layout-render name="/pages/common/template.jsp" pageTitle="${rodfn:replaceTags(actionBean.spatial.name)} - ROD - Eionet" bread2="Spatial" bread2Url="spatial" bread3="Spatial information">
-
+	<stripes:layout-component name="head">
+		<link rel="alternate" type="application/rdf+xml" title="RDF" href="${pageContext.request.contextPath}/spatial/${actionBean.idspatial}" />
+	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		
 		<h1>Spatial information</h1>

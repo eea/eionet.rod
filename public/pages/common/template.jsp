@@ -48,6 +48,7 @@
 			<script type="text/javascript" src="<c:url value="/script/pageops.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/mark_special_links.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/editor.js"/>"></script>
+			<stripes:layout-component name="head"/>
 		</head>
 		<c:choose>
         	<c:when test="${!empty colClass}">

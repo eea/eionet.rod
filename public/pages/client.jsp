@@ -3,7 +3,9 @@
 <%@ include file="/pages/common/taglibs.jsp"%>	
 
 <stripes:layout-render name="/pages/common/template.jsp" pageTitle="${rodfn:replaceTags(actionBean.client.name)} - ROD - Eionet" bread2="Clients" bread2Url="clients" bread3="Client information">
-
+	<stripes:layout-component name="head">
+		<link rel="alternate" type="application/rdf+xml" title="RDF" href="${pageContext.request.contextPath}/clients/${actionBean.clientId}" />
+	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		
 		<c:if test="${actionBean.isUserLoggedIn && (rodfn:hasPermission(actionBean.userName,'/Client','u') || rodfn:hasPermission(actionBean.userName,'/Client','i'))}">
