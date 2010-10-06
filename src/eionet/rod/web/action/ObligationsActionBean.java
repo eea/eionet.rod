@@ -44,6 +44,7 @@ import eionet.rod.dto.IssueDTO;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationCountryDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
+import eionet.rod.dto.ObligationRdfDTO;
 import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SiblingObligationDTO;
 import eionet.rod.dto.VersionDTO;
@@ -179,8 +180,9 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 			if(!id.equals("new") && obligation != null && accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
 				return new StreamingResolution("application/rdf+xml;charset=UTF-8") {
 				    public void stream(HttpServletResponse response) throws Exception {
+				    	ObligationRdfDTO obligationForRdf = RODServices.getDbService().getObligationDao().getObligationForRDF(id);
 				    	Activities act = new Activities();
-				    	String rdf = act.getRdf(getContext().getRequest(), obligation);
+				    	String rdf = act.getRdf(getContext().getRequest(), obligationForRdf);
 				    	response.getWriter().write(rdf);
 				    }
 				};

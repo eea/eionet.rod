@@ -23,15 +23,15 @@
 
 package eionet.rod.rdf;
 
-import java.util.Hashtable;
+import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 
 import eionet.rod.RODUtil;
-import eionet.rod.dto.ObligationFactsheetDTO;
+import eionet.rod.dto.ClientDTO;
+import eionet.rod.dto.ObligationRdfDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
@@ -49,14 +49,14 @@ import eionet.rod.services.ServiceException;
  */
 public class Activities extends RDFServletAC {
 
-  private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace + dcNs +
+  private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace +
     "xmlns:dcterms='http://purl.org/dc/terms/'";
   
   public String getRdf(HttpServletRequest req) throws ServiceException {
 	  return getRdf(req, null);
   }
   
-  public String getRdf(HttpServletRequest req, ObligationFactsheetDTO obligation) throws ServiceException {
+  public String getRdf(HttpServletRequest req, ObligationRdfDTO obligation) throws ServiceException {
 	  	try {
 	  		props = ResourceBundle.getBundle(PROP_FILE);
 	  	} catch (MissingResourceException mre) {
@@ -105,22 +105,71 @@ public class Activities extends RDFServletAC {
 				return generateRDF(req);
   	}
   
-  	protected String generateRDFSingleObligation(ObligationFactsheetDTO obligation) throws ServiceException {
+  	protected String generateRDFSingleObligation(ObligationRdfDTO obligation) throws ServiceException {
   		StringBuffer s = new StringBuffer();
 	    s.append(rdfHeader);
-	    s.append("<rdf:RDF ")
-	    .append(" xmlns:rod=\"").append(rodSchemaNamespace).append("#\"")
-	    .append(" ")
-	    .append(allNameSpaces)
-	    .append(">");
-	    
-	    String pk = obligation.getObligationId();
+	    s.append("<rdf:RDF ").append(" xmlns:rod=\"").append(rodSchemaNamespace).append("#\"")
+	    .append(" ").append(allNameSpaces).append(">");
+
+		StringBuffer content = genereteElement(obligation);
+		s.append(content);
+
+		s.append("</rdf:RDF>");
+
+		return s.toString();
+	}
+  
+ 	protected String generateRDF(HttpServletRequest req) throws ServiceException {
+
+ 		StringBuffer s = new StringBuffer();
+ 		s.append(rdfHeader);
+ 		s.append("<rdf:RDF ").append(" xmlns:rod=\"").append(rodSchemaNamespace).append("#\"")
+ 		.append(" ").append(allNameSpaces).append(">");
+    
+ 		List<ObligationRdfDTO> obligations = RODServices.getDbService().getObligationDao().getObligationsForRDF();
+
+ 		for(ObligationRdfDTO obligation : obligations){
+ 			StringBuffer element = genereteElement(obligation);
+ 			s.append(element);
+ 		}	
+
+ 		String[][] raIds=RODServices.getDbService().getObligationDao().getObligationIds();
+ 		
+ 		//issues list
+ 		String [][] issues = RODServices.getDbService().getIssueDao().getIssueIdPairs();
+ 		for (int i= 0; i< issues.length; i++) {
+ 			String pk = issues[i][0];
+ 			String name = issues[i][1];
+ 			s.append("<rod:Issue rdf:about=\"").append(issuesNamespace).append(pk).append("\">")
+ 			.append("<rdfs:label>").append(name).append("</rdfs:label>")
+ 			.append("</rod:Issue>");
+      
+ 		}
+
+ 		for (int i= 0; i< raIds.length; i++) {
+   
+ 			s.append("<rdf:Description rdf:about=\"").append(obligationsNamespace).append("/").append(raIds[i][0]).append("\">");
+ 			String[][] iIds = RODServices.getDbService().getIssueDao().getIssues(Integer.valueOf(raIds[i][0]));
+ 			for (int j=0; j<iIds.length; j++) 
+ 				s.append("<rod:issue rdf:resource=\"" + issuesNamespace + iIds[j][0] + "\"/>");
+ 				s.append("</rdf:Description>");         
+ 		}
+    
+ 		s.append("</rdf:RDF>");
+
+ 		return s.toString();
+
+ 	}
+  
+  	private StringBuffer genereteElement(ObligationRdfDTO obligation) throws ServiceException {
+
+  		int pk = obligation.getObligationId();
 	    String title = obligation.getTitle();
-	    String lastUpdate = obligation.getLastUpdate();
-	    String liId = obligation.getSourceId();
+	    int sourceId = obligation.getSourceId();
+	    int clientId = obligation.getClientId();
 	      
 	    String validSince = obligation.getValidSince();
-	    String terminated = obligation.getTerminate();
+	    String terminated = obligation.getTerminated();
 	    String comment = obligation.getComment();
 
 	    String respRole = obligation.getResponsibleRole();
@@ -132,7 +181,8 @@ public class Activities extends RDFServletAC {
 	    String repFormatUrl = obligation.getReportFormatUrl();      
 
 	    String description = obligation.getDescription();  
-	    Integer eea_primary = obligation.getEeaPrimary();  
+	    String eea_primary = obligation.getEeaPrimary();
+	    String dataUsedForUrl = obligation.getDataUsedForUrl();  
 
 	    if (formatName.equals("") && !repFormatUrl.equals(""))
 	        formatName = repFormatUrl;
@@ -152,149 +202,59 @@ public class Activities extends RDFServletAC {
 	    formatName = RODUtil.replaceTags(formatName, true, true);
 	    repFormatUrl = RODUtil.replaceTags(repFormatUrl, true, true);
 	    detailsUrl = RODUtil.replaceTags(detailsUrl, true, true);
+	    
+	    StringBuffer s = new StringBuffer();
 
 	    s.append("<rod:Obligation rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">")
-	    .append("<dc:title>").append(title).append("</dc:title>")
-	    .append("<dcterms:abstract>").append(description).append("</dcterms:abstract>")
-	    .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
-	    .append("<dcterms:valid>").append(validSince).append("</dcterms:valid>")        
-	    .append("<rod:terminated>").append(terminated).append("</rod:terminated>")                
+	    .append("<dcterms:title>").append(title).append("</dcterms:title>")
+	    .append("<dcterms:abstract>").append(description).append("</dcterms:abstract>");
+	    if(!RODUtil.nullString(validSince))
+	    	s.append("<dcterms:valid>").append(validSince).append("</dcterms:valid>");        
+	    s.append("<rod:terminated>").append(terminated).append("</rod:terminated>")                
 	    .append("<rod:eea_primary>").append(eea_primary).append("</rod:eea_primary>");  
-	    if(!RODUtil.isNullOrEmpty(comment) && comment.length() > 0)
-	       	s.append("<rod:comment>").append(comment).append("</rod:comment>");                
-	    s.append("<rod:responsiblerole>").append(respRole).append("</rod:responsiblerole>")                
-	    .append("<rod:nextdeadline>").append(nextDeadline).append("</rod:nextdeadline>")                        
-	    .append("<rod:nextdeadline2>").append(nextDeadline2).append("</rod:nextdeadline2>")                
-	    .append("<rod:guidelines>").append(repFormat).append("</rod:guidelines>")                
-	    .append("<rod:instrument rdf:resource=\"" + instrumentsNamespace + liId + "\"/>");
+	    if(!RODUtil.isNullOrEmpty(comment))
+	       	s.append("<rod:comment>").append(comment).append("</rod:comment>");
+	    
+	    if(!RODUtil.isNullOrEmpty(respRole))
+	    	s.append("<rod:responsiblerole>").append(respRole).append("</rod:responsiblerole>");
+	    
+	    s.append("<rod:nextdeadline rdf:datatype=\"http://www.w3.org/2001/XMLSchema#date\">").append(nextDeadline).append("</rod:nextdeadline>")                        
+	    .append("<rod:nextdeadline2 rdf:datatype=\"http://www.w3.org/2001/XMLSchema#date\">").append(nextDeadline2).append("</rod:nextdeadline2>");                
+
+	    if(!RODUtil.isNullOrEmpty(repFormat))
+	    	s.append("<rod:guidelines>").append(repFormat).append("</rod:guidelines>");
+	    
+	    s.append("<rod:instrument rdf:resource=\"" + instrumentsNamespace + sourceId + "\"/>");
 	        
 	    if (!repFormatUrl.equals(""))
 	    	s.append("<rod:guidelines_url rdf:resource=\"" + repFormatUrl + "\"/>");
-	          
-	    s.append("</rod:Obligation>").append("</rdf:RDF>");
 	    
-	    return s.toString();
-  	}
+	    s.append("<rod:requester rdf:resource=\"/clients/" + clientId + "\"/>");
+	    List<ClientDTO> clients = RODServices.getDbService().getClientDao().getClients(new Integer(pk).toString());
+	    if(clients != null){
+	    	for(ClientDTO client : clients){
+	    		s.append("<rod:otherClient rdf:resource=\"/clients/" + client.getClientId() + "\"/>");
+	    	}
+	    }
+	    if(!RODUtil.isNullOrEmpty(dataUsedForUrl))
+	    	s.append("<rod:dataUsedFor rdf:resource=\"" + dataUsedForUrl + "\"/>");
+	    
+	    List<Integer> voluntaryCountries = RODServices.getDbService().getSpatialDao().getObligationCountries(pk, true);
+	    if(voluntaryCountries != null){
+	    	for(Integer countryId : voluntaryCountries){
+	    		s.append("<rod:voluntaryReporter rdf:resource=\"/spatial/" + countryId + "\"/>");
+	    	}
+	    }
+	    
+	    List<Integer> mandatoryCountries = RODServices.getDbService().getSpatialDao().getObligationCountries(pk, false);
+	    if(mandatoryCountries != null){
+	    	for(Integer countryId : mandatoryCountries){
+	    		s.append("<rod:formalReporter rdf:resource=\"/spatial/" + countryId + "\"/>");
+	    	}
+	    }
+	    
+	    s.append("</rod:Obligation>");
 
-  protected String generateRDF(HttpServletRequest req) throws ServiceException {
-
-    StringBuffer s = new StringBuffer();
-    s.append(rdfHeader);
-    s.append("<rdf:RDF ")
-    //.append(" xmlns=\"").append(activitiesNamespace).append("#\"")
-    
-    .append(" xmlns:rod=\"").append(rodSchemaNamespace).append("#\"")
-    .append(" ")
-    .append(allNameSpaces)
-    .append(">");
-
-    //WebRODService wSrv = new WebRODService();
-    Vector acts = RODServices.getDbService().getObligationDao().getObligations();
-    
-    for (int i= 0; i< acts.size(); i++){
-      Hashtable act = (Hashtable)acts.elementAt(i);
-      String pk = (String)act.get("PK_RA_ID");
-      String title = (String)act.get("TITLE");
-      String lastUpdate = (String)act.get("LAST_UPDATE");
-      String liId = (String)act.get("PK_SOURCE_ID");
-      
-      String validSince = (String)act.get("VALID_SINCE");
-      String terminated = (String)act.get("terminated");
-      String comment = (String)act.get("COMMENT");
-
-      String respRole = (String)act.get("RESPONSIBLE_ROLE");
-      String nextDeadline = (String)act.get("NEXT_DEADLINE");
-      String nextDeadline2 = (String)act.get("NEXT_DEADLINE2");
-
-      String repFormat=(String)act.get("REPORTING_FORMAT");
-      String formatName=(String)act.get("FORMAT_NAME");
-      String repFormatUrl=(String)act.get("REPORT_FORMAT_URL");      
-
-      String description=(String)act.get("DESCRIPTION");  
-      String eea_primary=(String)act.get("EEA_PRIMARY");  
-
-      if (formatName.equals("") && !repFormatUrl.equals(""))
-        formatName = repFormatUrl;
-
-      String detailsUrl = (String)act.get("details_url");
-      
-      title = RODUtil.replaceTags(title, true, true);
-      description = RODUtil.replaceTags(description, true, true);
-      comment = RODUtil.replaceTags(comment, true, true);
-      respRole = RODUtil.replaceTags(respRole, true, true);
-      repFormat = RODUtil.replaceTags(repFormat, true, true);
-      formatName = RODUtil.replaceTags(formatName, true, true);
-      repFormatUrl = RODUtil.replaceTags(repFormatUrl, true, true);
-      detailsUrl = RODUtil.replaceTags(detailsUrl, true, true);
-
-
-      //s.append("<rod:Obligation rdf:ID=\"ra-").append(pk).append("\">")
-      s.append("<rod:Obligation rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">")
-      	.append("<dc:title>").append(title).append("</dc:title>")
-        .append("<dcterms:abstract>").append(description).append("</dcterms:abstract>")
-        .append("<dcterms:modified>").append(lastUpdate).append("</dcterms:modified>")
-        .append("<dcterms:valid>").append(validSince).append("</dcterms:valid>")        
-        .append("<rod:terminated>").append(terminated).append("</rod:terminated>")                
-        .append("<rod:eea_primary>").append(eea_primary).append("</rod:eea_primary>");  
-        if(!RODUtil.isNullOrEmpty(comment) && comment.length() > 0)
-        	s.append("<rod:comment>").append(comment).append("</rod:comment>");                
-        s.append("<rod:responsiblerole>").append(respRole).append("</rod:responsiblerole>")                
-        .append("<rod:nextdeadline>").append(nextDeadline).append("</rod:nextdeadline>")                        
-        .append("<rod:nextdeadline2>").append(nextDeadline2).append("</rod:nextdeadline2>")                
-        .append("<rod:guidelines>").append(repFormat).append("</rod:guidelines>")                
-        
-        .append("<rod:instrument rdf:resource=\"" + instrumentsNamespace + liId + "\"/>");
-        
-        if (!repFormatUrl.equals(""))
-        	s.append("<rod:guidelines_url rdf:resource=\"" + repFormatUrl + "\"/>");
-          
-        s.append("</rod:Obligation>");
-
-    }
-    //loop for the countries
-    String[][] raIds=RODServices.getDbService().getObligationDao().getObligationIds();
-    for (int i= 0; i< raIds.length; i++) {
-      String pk = raIds[i][0];
-
-      String[][] spIds = RODServices.getDbService().getSpatialDao().getCountries(Integer.valueOf(pk).intValue());
-      
-      s.append("<rdf:Description rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">");
-        for (int j=0; j<spIds.length; j++) 
-          s.append(countryTag(spIds[j][0]));
-          
-      s.append("</rdf:Description>");      
-    }
-
-    //issues list
-    String [][] issues = RODServices.getDbService().getIssueDao().getIssueIdPairs();
-    for (int i= 0; i< issues.length; i++) {
-      String pk = issues[i][0];
-      String name = issues[i][1];
-      s.append("<rod:Issue rdf:about=\"").append(issuesNamespace).append(pk).append("\">")
-        .append("<rdfs:label>").append(name).append("</rdfs:label>")
-        .append("</rod:Issue>");
-      
-    }
-
-   for (int i= 0; i< raIds.length; i++) {
-   
-    s.append("<rdf:Description rdf:about=\"").append(obligationsNamespace).append("/").append(raIds[i][0]).append("\">");
-    String[][] iIds = RODServices.getDbService().getIssueDao().getIssues(Integer.valueOf(raIds[i][0]));
-    for (int j=0; j<iIds.length; j++) 
-      s.append("<rod:issue rdf:resource=\"" + issuesNamespace + iIds[j][0] + "\"/>");
-          
-    s.append("</rdf:Description>");         
-   }
-    
-    s.append("</rdf:RDF>");
-
-    return s.toString();
-
-  }  
-
- 
-
-  private String countryTag(String spatialId) {
-    return "<rod:locality rdf:resource=\"" + spatialNamespace + spatialId + "\"/>";
-  } 
+		return s;
+	}
 }

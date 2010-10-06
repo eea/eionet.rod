@@ -61,23 +61,13 @@ public class SpatialMySqlDaoTest extends BaseMySqlDaoTest {
 	}
 
 	/*
-	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.SpatialMySqlDao.getCountries(int)'
-	 */
-	public void testGetCountriesInt() throws Exception{
-		String [][] m = spatialMySqlDao.getCountries(15);
-		assertEquals(2, m.length);
-//		printMatrixResult(spatialMySqlDao.getCountries(15));
-
-	}
-
-	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.SpatialMySqlDao.getObligationCountries(int)'
 	 */
-	public void testGetObligationCountries() throws Exception{
+	/*public void testGetObligationCountries() throws Exception{
 //		printVectorResult(spatialMySqlDao.getObligationCountries(15)) ;
-		Vector v = spatialMySqlDao.getObligationCountries(15);
-		assertEquals(2, v.size());
-	}
+		List<Integer> list = spatialMySqlDao.getObligationCountries(15, true);
+		assertEquals(1, list.size());
+	}*/
 	
 	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.SpatialMySqlDao.getMemberCountries()'

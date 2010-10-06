@@ -92,37 +92,42 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 
 		return result;
 	}
-
-	private static final String q_counties_by_raid = 
-		"SELECT sl.FK_SPATIAL_ID " + 
-		"FROM T_RASPATIAL_LNK sl, T_SPATIAL s " + 
-		"WHERE s.SPATIAL_TYPE='C' " + 
-			"AND sl.FK_SPATIAL_ID=s.PK_SPATIAL_ID " + 
-			"AND sl.FK_RA_ID=? " + 
+	
+	private static final String q_obligation_voluntary_counties = 
+		"SELECT sl.FK_SPATIAL_ID FROM T_RASPATIAL_LNK sl, T_SPATIAL s " + 
+		"WHERE s.SPATIAL_TYPE='C' AND sl.VOLUNTARY=? AND sl.FK_SPATIAL_ID=s.PK_SPATIAL_ID AND sl.FK_RA_ID=? " + 
 		"ORDER BY FK_SPATIAL_ID";
 
 	/* (non-Javadoc)
-	 * @see eionet.rod.services.modules.db.dao.ISpatialDao#getCountries(int)
+	 * @see eionet.rod.services.modules.db.dao.ISpatialDao#getObligationCountries(int, boolean)
 	 */
-	public String[][] getCountries(int raId) throws ServiceException {
+	public List<Integer> getObligationCountries(int raId, boolean voluntary) throws ServiceException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		String[][] result = null;
+		ResultSet rs = null;
+		List<Integer> result = new ArrayList<Integer>();
 		try {
 			connection = getConnection();
-			preparedStatement = connection.prepareStatement(q_counties_by_raid);
-			preparedStatement.setInt(1, raId);
-			if (isDebugMode) logQuery(q_counties_by_raid);
-			result = _executeStringQuery(preparedStatement);
+			preparedStatement = connection.prepareStatement(q_obligation_voluntary_counties);
+			if(voluntary)
+				preparedStatement.setString(1, "Y");
+			else
+				preparedStatement.setString(1, "N");
+			preparedStatement.setInt(2, raId);
+			
+			if (isDebugMode) logQuery(q_obligation_voluntary_counties);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				Integer spatialId = rs.getInt("sl.FK_SPATIAL_ID");
+				result.add(spatialId);
+			}
 		} catch (SQLException exception) {
 			logger.error(exception);
 			throw new ServiceException(exception.getMessage());
 		} finally {
 			closeAllResources(null, preparedStatement, connection);
 		}
-
-		return result != null ? result : new String[][] {};
-
+		return result;
 	}
 
 	private static final String q_obligation_counties = 

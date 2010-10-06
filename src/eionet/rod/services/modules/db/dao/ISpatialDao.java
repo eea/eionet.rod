@@ -32,10 +32,11 @@ public interface ISpatialDao {
 	 * Returns countries of an obligation
 	 * NB! SPATIAL_TYPE='C'
 	 * @param raId Report obligation's ID
+	 * @param boolean is voluntary
 	 * @return  countries of an obligation
 	 * @throws ServiceException
 	 */
-	public String[][] getCountries(int raId) throws ServiceException;
+	public List<Integer> getObligationCountries(int raId, boolean voluntary) throws ServiceException;
 
 	/**
 	 * Returns obligation countries

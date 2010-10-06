@@ -15,8 +15,10 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import eionet.rod.RODUtil;
+import eionet.rod.dto.InstrumentRdfDTO;
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
+import eionet.rod.dto.ObligationRdfDTO;
 import eionet.rod.dto.ObligationsDueDTO;
 import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SearchDTO;
@@ -335,7 +337,6 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 			"s.PK_SOURCE_ID, " + 
 			"a.TITLE AS TITLE, " + 
 			"IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, " + 
-			"a.LAST_UPDATE, " + 
 			"CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url, " + 
 			"CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri," + 
 			"IF (TERMINATE='Y', 1, 0) AS 'terminated', " + 
@@ -346,36 +347,136 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 	        "a.COMMENT AS COMMENT, " + 
 	        "a.REPORTING_FORMAT AS REPORTING_FORMAT, " +	          
 	        "a.FORMAT_NAME AS FORMAT_NAME, " + 
-	        "a.REPORT_FORMAT_URL AS REPORT_FORMAT_URL " + 
-		"FROM T_OBLIGATION a , T_SOURCE s "+ 
-		"WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " + 
+	        "a.REPORT_FORMAT_URL AS REPORT_FORMAT_URL, " +
+	        "a.DATA_USED_FOR_URL, " +
+	        "clk.FK_CLIENT_ID " +
+		"FROM T_OBLIGATION a , T_SOURCE s, T_CLIENT_LNK clk "+ 
+		"WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID AND clk.TYPE='A' " +
+		"AND clk.STATUS='M' AND clk.FK_OBJECT_ID=a.PK_RA_ID " + 
 		"ORDER BY TITLE";
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eionet.rod.services.modules.db.dao.IObligationDao#getObligations()
-	 */
-	public Vector getObligations() throws ServiceException {
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#getObligationsForRDF()
+     */
+    public List<ObligationRdfDTO> getObligationsForRDF() throws ServiceException {
+    	List<ObligationRdfDTO> ret = new ArrayList<ObligationRdfDTO>();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Vector result = null;
+		ResultSet rs = null;
+		
 		try {
 			connection = getConnection();
 			if (isDebugMode) logQuery(qObligations);
 			preparedStatement = connection.prepareStatement(qObligations);
-			result = _getVectorOfHashes(preparedStatement);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				ObligationRdfDTO obligation = new ObligationRdfDTO();
+				obligation.setObligationId(rs.getInt("a.PK_RA_ID"));
+				obligation.setSourceId(rs.getInt("s.PK_SOURCE_ID"));
+				obligation.setTitle(rs.getString("TITLE"));
+				obligation.setSourceTitle(rs.getString("SOURCE_TITLE"));
+				obligation.setDetailsUrl(rs.getString("details_url"));
+				obligation.setUri(rs.getString("uri"));
+				obligation.setTerminated(rs.getString("terminated"));
+				obligation.setValidSince(rs.getString("a.VALID_SINCE"));
+				obligation.setEeaPrimary(rs.getString("a.EEA_PRIMARY"));
+				obligation.setResponsibleRole(rs.getString("RESPONSIBLE_ROLE"));
+				obligation.setDescription(rs.getString("DESCRIPTION"));
+				obligation.setNextDeadline(rs.getString("a.NEXT_DEADLINE"));
+				obligation.setNextDeadline2(rs.getString("a.NEXT_DEADLINE2"));
+				obligation.setComment(rs.getString("COMMENT"));
+				obligation.setReportingFormat(rs.getString("REPORTING_FORMAT"));
+				obligation.setFormatName(rs.getString("FORMAT_NAME"));
+				obligation.setReportFormatUrl(rs.getString("REPORT_FORMAT_URL"));
+				obligation.setDataUsedForUrl(rs.getString("a.DATA_USED_FOR_URL"));
+				obligation.setClientId(rs.getInt("clk.FK_CLIENT_ID"));
+				
+				ret.add(obligation);
+			}
 		} catch (SQLException exception) {
 			logger.error(exception);
 			throw new ServiceException(exception.getMessage());
 		} finally {
 			closeAllResources(null, preparedStatement, connection);
 		}
-
-		return result != null ? result : new Vector();
-
-	}
-	
+		
+		return ret;
+    }
+    
+    private final static String qObligationForRdf = 
+		"SELECT " + 
+			"a.PK_RA_ID, " + 
+			"s.PK_SOURCE_ID, " + 
+			"a.TITLE AS TITLE, " + 
+			"IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, " + 
+			"CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url, " + 
+			"CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri," + 
+			"IF (TERMINATE='Y', 1, 0) AS 'terminated', " + 
+			"a.VALID_SINCE, " + 
+			"a.EEA_PRIMARY, a.RESPONSIBLE_ROLE AS RESPONSIBLE_ROLE, " + 
+			"a.DESCRIPTION AS DESCRIPTION, " +
+			"a.NEXT_DEADLINE, a.NEXT_DEADLINE2, " + 
+	        "a.COMMENT AS COMMENT, " + 
+	        "a.REPORTING_FORMAT AS REPORTING_FORMAT, " +	          
+	        "a.FORMAT_NAME AS FORMAT_NAME, " + 
+	        "a.REPORT_FORMAT_URL AS REPORT_FORMAT_URL, " +
+	        "a.DATA_USED_FOR_URL, " +
+	        "clk.FK_CLIENT_ID " +
+		"FROM T_OBLIGATION a , T_SOURCE s, T_CLIENT_LNK clk "+ 
+		"WHERE a.PK_RA_ID = ? AND a.FK_SOURCE_ID = s.PK_SOURCE_ID AND clk.TYPE='A' " +
+		"AND clk.STATUS='M' AND clk.FK_OBJECT_ID=a.PK_RA_ID";
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eionet.rod.dao.IObligationDao#getObligationForRDF()
+     */
+    public ObligationRdfDTO getObligationForRDF(String obligationId) throws ServiceException {
+    	ObligationRdfDTO obligation = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		try {
+			connection = getConnection();
+			if (isDebugMode) logQuery(qObligationForRdf);
+			preparedStatement = connection.prepareStatement(qObligationForRdf);
+			preparedStatement.setString(1, obligationId);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				obligation = new ObligationRdfDTO();
+				obligation.setObligationId(rs.getInt("a.PK_RA_ID"));
+				obligation.setSourceId(rs.getInt("s.PK_SOURCE_ID"));
+				obligation.setTitle(rs.getString("TITLE"));
+				obligation.setSourceTitle(rs.getString("SOURCE_TITLE"));
+				obligation.setDetailsUrl(rs.getString("details_url"));
+				obligation.setUri(rs.getString("uri"));
+				obligation.setTerminated(rs.getString("terminated"));
+				obligation.setValidSince(rs.getString("a.VALID_SINCE"));
+				obligation.setEeaPrimary(rs.getString("a.EEA_PRIMARY"));
+				obligation.setResponsibleRole(rs.getString("RESPONSIBLE_ROLE"));
+				obligation.setDescription(rs.getString("DESCRIPTION"));
+				obligation.setNextDeadline(rs.getString("a.NEXT_DEADLINE"));
+				obligation.setNextDeadline2(rs.getString("a.NEXT_DEADLINE2"));
+				obligation.setComment(rs.getString("COMMENT"));
+				obligation.setReportingFormat(rs.getString("REPORTING_FORMAT"));
+				obligation.setFormatName(rs.getString("FORMAT_NAME"));
+				obligation.setReportFormatUrl(rs.getString("REPORT_FORMAT_URL"));
+				obligation.setDataUsedForUrl(rs.getString("a.DATA_USED_FOR_URL"));
+				obligation.setClientId(rs.getInt("clk.FK_CLIENT_ID"));
+			}
+		} catch (SQLException exception) {
+			logger.error(exception);
+			throw new ServiceException(exception.getMessage());
+		} finally {
+			closeAllResources(null, preparedStatement, connection);
+		}
+		
+		return obligation;
+    }
+		
 	private final static String qSubscribeObligations = 
 		"SELECT TITLE " + 
 		"FROM T_OBLIGATION "+ 

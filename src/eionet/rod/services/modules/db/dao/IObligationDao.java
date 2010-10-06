@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import eionet.rod.dto.LookupDTO;
 import eionet.rod.dto.ObligationFactsheetDTO;
+import eionet.rod.dto.ObligationRdfDTO;
 import eionet.rod.dto.ObligationsDueDTO;
 import eionet.rod.dto.ObligationsListDTO;
 import eionet.rod.dto.SearchDTO;
@@ -77,11 +78,17 @@ public interface IObligationDao {
 	public Vector getActivities() throws ServiceException;
 
 	/**
-	 * obligations.rdf
-	 * @return
+	 * @return List of ObligationRdfDTO objects
 	 * @throws ServiceException
 	 */
-	public Vector getObligations() throws ServiceException;
+	public List<ObligationRdfDTO> getObligationsForRDF() throws ServiceException;
+	
+	/**
+	 * @param String obligation ID
+	 * @return ObligationRdfDTO object
+	 * @throws ServiceException
+	 */
+	public ObligationRdfDTO getObligationForRDF(String obligationId) throws ServiceException;
 	
 	/**
 	 * obligations

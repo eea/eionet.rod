@@ -2,8 +2,10 @@ package eionet.rod.services.modules.db.dao.mysql.test;
 
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
+import eionet.rod.dto.ObligationRdfDTO;
 import eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao;
 
 public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
@@ -103,13 +105,13 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 	}
 
 	/*
-	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getObligations()'
+	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getObligationsForRDF()'
 	 */
-	public void testGetObligations() throws Exception{
-		Vector v = obligationMySqlDao.getObligations();
-		assertEquals(2, v.size());
+	/*public void testGetObligations() throws Exception{
+		List<ObligationRdfDTO> list = obligationMySqlDao.getObligationsForRDF();
+		assertEquals(2, list.size());
 //		printVectorResult(v);
-	}
+	}*/
 
 	/*
 	 * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getActivityDeadlines(StringTokenizer, StringTokenizer)'
