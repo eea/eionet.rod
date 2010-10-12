@@ -205,17 +205,37 @@ function changedReporting() {
 			repDate.setUTCMonth(repDate.getUTCMonth() - fx);
 		var rewindDate = new Date(repDate.getTime()); // Save for check below
 		utcMonth = repDate.getUTCMonth();
-		while(utcMonth == repDate.getUTCMonth())
-			repDate.setUTCDate(repDate.getUTCDate() + 1);
-		repDate.setUTCDate(repDate.getUTCDate() - 1);
+		var day = 0;
+		if(utcMonth == 0){ day = 31; }
+		else if(utcMonth == 1){ day = 28; }
+		else if(utcMonth == 2){ day = 31; }
+		else if(utcMonth == 3){ day = 30; }
+		else if(utcMonth == 4){ day = 31; }
+		else if(utcMonth == 5){ day = 30; }
+		else if(utcMonth == 6){ day = 31; }
+		else if(utcMonth == 7){ day = 31; }
+		else if(utcMonth == 8){ day = 30; }
+		else if(utcMonth == 9){ day = 31; }
+		else if(utcMonth == 10){ day = 30; }
+		else if(utcMonth == 11){ day = 31; }
+
+		if(day >= fiDate.dx){
+			repDate.setUTCDate(fiDate.dx);
+		} else {
+			while(utcMonth == repDate.getUTCMonth()){
+				repDate.setUTCDate(repDate.getUTCDate() + 1);
+			}
+			repDate.setUTCDate(repDate.getUTCDate() - 1);
+		}
 		// If we went over Valid To date, rewind and repeat
 		//
 		if(repDate.getTime() > toDat.getTime()) {
 			repDate.setTime(rewindDate.getTime());
 			repDate.setUTCMonth(repDate.getUTCMonth() - fx);
 			utcMonth = repDate.getUTCMonth();
-			while(utcMonth == repDate.getUTCMonth())
+			while(utcMonth == repDate.getUTCMonth()){
 				repDate.setUTCDate(repDate.getUTCDate() + 1);
+			}
 			repDate.setUTCDate(repDate.getUTCDate() - 1);
 		}
 	}
