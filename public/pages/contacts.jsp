@@ -7,13 +7,16 @@
 	<stripes:layout-component name="contents">
 		
 		<h1>${rodfn:replaceTags(actionBean.role.description)}</h1>
-		<table class="datatable" width="700">
+		<table class="datatable" style="width:50em; max-width:100%">
+		  <col style="width:10em"/>
+			<col />
 			<tr>
-				<th colspan="2">
-					<a title="Role details on CIRCA for members" href="${rodfn:replaceTags2(actionBean.role.membersUrl,true,true)}">
-	    				Additional details for logged-in users
+				<th scope="row" class="scope-row">CIRCA site</th>
+				<td>
+					<a href="${rodfn:replaceTags2(actionBean.role.membersUrl,true,true)}">
+	    				Additional details for authenticated users
 	    			</a>
-	    		</th>
+	    	</td>
 			</tr>
 			<tr>
 				<th scope="row" class="scope-row">Parent role</th>
@@ -21,21 +24,21 @@
 			</tr>
 		</table>
 		<c:if test="${!empty actionBean.role.subroles}">
-			<table class="datatable" width="700">
+			<table class="datatable" style="width:50em; max-width:100%">
 				<tr>
 					<th>Subroles</th>
 				</tr>
 				<c:forEach items="${actionBean.role.subroles}" var="subrole" varStatus="loop">
 					<tr class="${loop.index % 2 == 0 ? 'zebraodd' : 'zebraeven'}">
 						<td>
-							<a href="contacts?roleId=${subrole.id}">${rodfn:replaceTags(subrole.description)}</a>
+							<a href="contacts?roleId=${subrole.id}">${rodfn:replaceTags(subrole.id)} (${rodfn:replaceTags(subrole.description)})</a>
 						</td>
 					</tr>
 				</c:forEach>
 			</table>
 		</c:if>
 		<c:if test="${!empty actionBean.role.members}">
-			<table class="datatable" width="700">
+			<table class="datatable" style="width:50em; max-width:100%">
 				<tr>
 					<th>Members</th>
 				</tr>
