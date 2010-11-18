@@ -1645,7 +1645,49 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      */
     public List<ObligationsListDTO> getObligationsList(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException {
     	
-    	StringBuilder query = new StringBuilder();
+    	String query = getObligationsListQuery(anmode, country, issue, client, terminated, ccClients);
+    	
+    	List<Object> values = new ArrayList<Object>();
+				
+		Connection conn = null;
+		ObligationsListDTOReader rsReader = new ObligationsListDTOReader();
+		try{
+			conn = getConnection();
+			SQLUtil.executeQuery(query, values, rsReader, conn);
+			List<ObligationsListDTO>  list = rsReader.getResultList();
+			return list;
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		finally{
+			try{
+				if (conn!=null) conn.close();
+			}
+			catch (SQLException e){}
+		}
+    }
+    
+    public Vector getObligationsVector(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException {
+    	
+    	Vector ret = null;
+    	String query = getObligationsListQuery(anmode, country, issue, client, terminated, ccClients);
+		
+		try{
+			ret = _getVectorOfHashes(query);
+		}
+		catch (Exception e){
+			logger.error(e);
+			throw new ServiceException(e.getMessage());
+		}
+		return ret != null ? ret : new Vector();
+    }
+
+	private String getObligationsListQuery(String anmode, String country, String issue, String client, String terminated, boolean ccClients) {
+		
+		StringBuilder query = new StringBuilder();
+		
     	query.append("SELECT DISTINCT o.PK_RA_ID, o.TITLE, o.NEXT_DEADLINE, o.NEXT_REPORTING, o.FK_DELIVERY_COUNTRY_IDS, o.TERMINATE, " +
     	"s.PK_SOURCE_ID, s.TITLE AS SOURCE_TITLE, " +
     	"c.PK_CLIENT_ID, c.CLIENT_NAME, IF(c.CLIENT_ACRONYM='', c.CLIENT_NAME, c.CLIENT_ACRONYM) AS CLIENT_DESCR " +
@@ -1688,28 +1730,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 				query.append("AND o.PK_RA_ID NOT IN (SELECT DISTINCT FK_RA_ID FROM T_RAISSUE_LNK) ");
 		}		
 		query.append("ORDER BY o.TITLE");
-    	
-    	List<Object> values = new ArrayList<Object>();
-				
-		Connection conn = null;
-		ObligationsListDTOReader rsReader = new ObligationsListDTOReader();
-		try{
-			conn = getConnection();
-			SQLUtil.executeQuery(query.toString(), values, rsReader, conn);
-			List<ObligationsListDTO>  list = rsReader.getResultList();
-			return list;
-		}
-		catch (Exception e){
-			logger.error(e);
-			throw new ServiceException(e.getMessage());
-		}
-		finally{
-			try{
-				if (conn!=null) conn.close();
-			}
-			catch (SQLException e){}
-		}
-    }
+		
+		return query.toString();
+	}
     
     /*
      * (non-Javadoc)

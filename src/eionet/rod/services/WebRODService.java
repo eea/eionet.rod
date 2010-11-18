@@ -25,6 +25,7 @@ package eionet.rod.services;
 
 import java.util.Vector;
 
+import eionet.rod.RODUtil;
 import eionet.rod.services.modules.db.dao.IClientDao;
 import eionet.rod.services.modules.db.dao.IGenericDao;
 import eionet.rod.services.modules.db.dao.IIssueDao;
@@ -79,10 +80,18 @@ public  class WebRODService {
   public Vector getCountries() throws ServiceException {
 
     return spatialDao.getCountries();
-  } 
-
+  }
+  
   public Vector getROComplete() throws ServiceException {
-   return obligationDao.getROComplete();
+	  return obligationDao.getROComplete();
+  }
+
+  public Vector getObligations(String countryId, String issueId, String client, String terminated) throws ServiceException {
+	  boolean ccClients = false;
+	  if(!RODUtil.isNullOrEmpty(client) && !client.equals("-1"))
+		  ccClients = true;
+	  Vector ret = obligationDao.getObligationsVector(null, countryId, issueId, client, terminated, ccClients); 
+	  return ret;
   }
   public Vector getRODeadlines() throws ServiceException {
     return obligationDao.getRODeadlines();

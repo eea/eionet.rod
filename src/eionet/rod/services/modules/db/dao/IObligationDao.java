@@ -327,6 +327,18 @@ public interface IObligationDao {
 	public List<ObligationsListDTO> getObligationsList(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException;
 	
 	/**
+	 * Returns list of obligations. Used for XML-RPC method
+	 * @param anmode
+	 * @param country
+	 * @param issue
+	 * @param client
+	 * @param terminated
+	 * @param ccClients
+	 * @throws ServiceException
+	 */
+	public Vector getObligationsVector(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException;
+	
+	/**
 	 * Returns obligations ordered by next update
 	 * @throws ServiceException
 	 */
