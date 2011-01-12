@@ -184,7 +184,7 @@ public class Activities extends RDFServletAC {
 	    String eea_primary = obligation.getEeaPrimary();
 	    String dataUsedForUrl = obligation.getDataUsedForUrl();  
 
-	    if (formatName.equals("") && !repFormatUrl.equals(""))
+	    if ((formatName == null || formatName.equals("")) && (repFormatUrl != null && !repFormatUrl.equals("")))
 	        formatName = repFormatUrl;
 	    
 	    if(terminated != null && terminated.equals("Y"))
@@ -202,6 +202,7 @@ public class Activities extends RDFServletAC {
 	    formatName = RODUtil.replaceTags(formatName, true, true);
 	    repFormatUrl = RODUtil.replaceTags(repFormatUrl, true, true);
 	    detailsUrl = RODUtil.replaceTags(detailsUrl, true, true);
+	    dataUsedForUrl = RODUtil.replaceTags(dataUsedForUrl, true, true);
 	    
 	    StringBuffer s = new StringBuffer();
 
