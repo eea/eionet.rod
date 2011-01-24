@@ -26,11 +26,6 @@
 		<rdfs:comment>A Reportnet File is the data carrier inside a delivery</rdfs:comment>
 	</rdfs:Class>
 
-	<rdfs:Class rdf:ID="Locality">
-		<rdfs:label>Locality</rdfs:label>
-		<rdfs:comment>A locality defines the spatial coverage of a delivery to Reportnet</rdfs:comment>
-	</rdfs:Class>
-
 	<rdf:Property rdf:ID="link">
 		<rdfs:label>Link to delivery</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
@@ -66,12 +61,33 @@
                 <!-- XML Schema doesn't have a time interval datatype -->
 	</rdf:Property>
 
+ 
+        <!-- Data providers/Localities (Countries) -->
+
+	<rdfs:Class rdf:ID="Locality">
+		<rdfs:label>Locality</rdfs:label>
+		<rdfs:comment>A locality defines the spatial coverage of a delivery to Reportnet</rdfs:comment>
+	</rdfs:Class>
+
 	<rdf:Property rdf:ID="loccode">
 		<rdfs:label>ROD Locality code</rdfs:label>
 		<rdfs:comment>Sometimes this is an ISO country code, but ROD can also contain "local" localities</rdfs:comment>
 		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/coverage"/>
 	</rdf:Property>
 
+	<rdf:Property rdf:ID="localityName">
+		<rdfs:label>Name</rdfs:label>
+<!--		<rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/> -->
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="localityType">
+		<rdfs:label>Type of locality</rdfs:label>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="providerFor">
+		<rdfs:label>Has obligation</rdfs:label>
+	</rdf:Property>
+	<!-- Environmental issues -->
 	<rdfs:Class rdf:ID="Issue">
 		<rdfs:label>Environmental issue</rdfs:label>
 	</rdfs:Class>
