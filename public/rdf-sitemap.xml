@@ -37,7 +37,7 @@
     <sc:datasetLabel>Countries</sc:datasetLabel>
     <sc:sampleURI>http://rod.eionet.europa.eu/spatial/2</sc:sampleURI>
     <sc:linkedDataPrefix slicing="subject">http://rod.eionet.europa.eu/spatial/</sc:linkedDataPrefix>
-    <sc:dataDumpLocation>http://rod.eionet.europa.eu/countries</sc:dataDumpLocation>
+    <sc:dataDumpLocation>http://rod.eionet.europa.eu/spatial</sc:dataDumpLocation>
     <changefreq>yearly</changefreq>
   </sc:dataset>
 
