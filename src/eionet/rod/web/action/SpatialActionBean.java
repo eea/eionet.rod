@@ -59,19 +59,20 @@ public class SpatialActionBean extends AbstractRODActionBean {
 			StringBuffer out = new StringBuffer();
 			out.append(header);
 			for(CountryDTO spatial : spatials){
-				out.append("<rod:Spatial rdf:about=\"http://rod.eionet.europa.eu/spatial/").append(spatial.getCountryId()).append("\">\n");
-				out.append("<rod:spatialName>").append(RODUtil.replaceTags(spatial.getName(),true,true)).append("</rod:spatialName>\n");
+				out.append("<rod:Locality rdf:about=\"http://rod.eionet.europa.eu/spatial/").append(spatial.getCountryId()).append("\">\n");
+				out.append("<rod:localityName>").append(RODUtil.replaceTags(spatial.getName(),true,true)).append("</rod:localityName>\n");
+				out.append("<rdfs:label>").append(RODUtil.replaceTags(spatial.getName(),true,true)).append("</rdfs:label>\n");
 				if(spatial.getType() != null && !spatial.getType().equals("") && !spatial.getType().equals("null"))
-					out.append("<rod:spatialType>").append(spatial.getType()).append("</rod:spatialType>\n");
+					out.append("<rod:localityType>").append(spatial.getType()).append("</rod:localityType>\n");
 				if(spatial.getTwoletter() != null && !spatial.getTwoletter().equals("") && !spatial.getTwoletter().equals("null"))
-					out.append("<rod:spatialTwoletter>").append(spatial.getTwoletter()).append("</rod:spatialTwoletter>\n");
+					out.append("<rod:loccode>").append(spatial.getTwoletter()).append("</rod:loccode>\n");
 				if(spatial.getIsMember() != null && !spatial.getIsMember().equals("") && !spatial.getIsMember().equals("null"))
-					out.append("<rod:spatialIsMemberCountry>").append(spatial.getIsMember()).append("</rod:spatialIsMemberCountry>\n");
+					out.append("<rod:isEEAMember>").append(spatial.getIsMember()).append("</rod:isEEAMember>\n");
 				List<ObligationDTO> obligations = RODServices.getDbService().getSpatialDao().getCountryObligationsList(spatial.getCountryId().toString());
 				for(ObligationDTO obligation : obligations){
 					out.append("<rod:providerFor rdf:resource=\"http://rod.eionet.europa.eu/obligations/").append(obligation.getObligationId()).append("\"/>\n");
 				}
-				out.append("</rod:Spatial>");
+				out.append("</rod:Locality>");
 			}
 			out.append(footer);
 			return new StreamingResolution("application/rdf+xml;charset=UTF-8",out.toString());
