@@ -11,11 +11,9 @@ import java.util.Vector;
 
 import eionet.directory.DirServiceException;
 import eionet.directory.DirectoryService;
-import eionet.rod.dto.DeliveryDTO;
 import eionet.rod.dto.ObligationDTO;
 import eionet.rod.dto.ResponsibleRoleDTO;
 import eionet.rod.dto.RoleOccupantDTO;
-import eionet.rod.dto.readers.DeliveryDTOReader;
 import eionet.rod.dto.readers.ObligationDTOReader;
 import eionet.rod.dto.readers.RoleOccupantDTOReader;
 import eionet.rod.services.ServiceException;
@@ -85,7 +83,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 	 * 
 	 * @see eionet.rod.services.modules.db.dao.IRoleDao#saveRole(java.util.Hashtable)
 	 */
-	public void saveRole(Hashtable role) throws ServiceException {
+	public void saveRole(Hashtable<String,Object> role) throws ServiceException {
 		// backup ->
 		String roleId = (String) role.get("ID");
 		Connection connection = null;
@@ -109,11 +107,11 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 			String orgId="";
 			String orgName=orgId;
 			String fullName=uid;
-			Hashtable person = null;
-			Hashtable org = null;
+			Hashtable<String,String> person = null;
+			Hashtable<String,Object> org = null;
 			
 
-			Vector occupants = (Vector)role.get("OCCUPANTS");
+			Vector<String> occupants = (Vector<String>)role.get("OCCUPANTS");
 			if (occupants!=null && occupants.size()>0){
 				for(int i = 0; i<occupants.size(); i++){
 					uid = (String)occupants.elementAt(i);

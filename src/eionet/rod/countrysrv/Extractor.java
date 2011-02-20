@@ -26,7 +26,6 @@ package eionet.rod.countrysrv;
 
 import com.tee.uit.client.ServiceClientIF;
 import com.tee.uit.client.ServiceClients;
-import com.tee.uit.client.ServiceClientException;
 
 
 import java.util.Vector;
@@ -34,14 +33,8 @@ import java.util.Vector;
 import java.util.Date;
 import java.io.PrintWriter;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-import java.util.StringTokenizer;
 import java.util.Hashtable;
-import java.util.Set;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import eionet.rod.services.*;
 import eionet.rod.services.modules.db.dao.RODDaoFactory;
@@ -155,32 +148,17 @@ public class Extractor implements ExtractorConstants {
 
 		String logPath = null;
 		String logfileName = null;
-		ServiceClientIF crClient = null;
-		ServiceClientIF ldap = null;
-		String crUrl = null;
-		String wrUrl = null;
-		String raNs=null, countryNs=null, predRdfType=null, separator=null;
-		String[] deliveryNs=null;
 		
 		int remoteSrvType = SERVICE_CLIENT_TYPE;
-
-		//prefix for RA ID to get the data from CR KL040303
-		String raIdPref=null;
 
 		try {
 			fileSrv = RODServices.getFileService();
 
-			raNs = fileSrv.getStringProperty( FileServiceIF.RA_NAMESPACE );
-			raIdPref = fileSrv.getStringProperty( FileServiceIF.RO_NAMESPACE );
-			countryNs = fileSrv.getStringProperty( FileServiceIF.COUNTRY_NAMESPACE);
-			separator = fileSrv.getStringProperty( FileServiceIF.NAMESPACE_SEPARATOR);
-			deliveryNs = fileSrv.getStringArrayProperty( FileServiceIF.DELIVERY_NAMESPACES, separator);
-			predRdfType = fileSrv.getStringProperty( FileServiceIF.PRED_RDF_TYPE);
 			//extractor.debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");
 			debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");
 
 			try {
-				remoteSrvType = fileSrv.getIntProperty( fileSrv.REMOTE_SRV_TYPE );
+				remoteSrvType = fileSrv.getIntProperty( FileServiceIF.REMOTE_SRV_TYPE );
 
 				logPath = fileSrv.getStringProperty("extractor.logpath");
 				logfileName = fileSrv.getStringProperty("extractor.logfilename");
@@ -219,7 +197,6 @@ public class Extractor implements ExtractorConstants {
 		//extractor.out.println(extractor.cDT() + "Extractor v1.1 - processing... Please wait.");
 		log(cDT() + "Extractor v1.1 - processing... Please wait.");
 
-		String[][] raData;
 		String userFullName = userName;
 		long a = System.currentTimeMillis();
 		
@@ -250,7 +227,6 @@ public class Extractor implements ExtractorConstants {
 		if (mode == ALL_DATA || mode == ROLES ) {
 			actionText += " - roles ";
 			try  {
-				Set roleSet = new HashSet();
 				String[] respRoles = daoFactory.getObligationDao().getRespRoles();
 
 				log("Found " + respRoles.length + " roles from database");
@@ -339,19 +315,18 @@ public class Extractor implements ExtractorConstants {
 			int chunkSize = 1000;
 			int maxLoops = 30;
 			
-			Vector remoteCallParams = new Vector();
+			Vector<Integer> remoteCallParams = new Vector<Integer>();
 			remoteCallParams.add(null); // here goes result set page number
 			remoteCallParams.add(chunkSize); // here goes result set page size
 
-			HashMap existingCountryIdsByNames = getKnownCountries();			
-			HashMap savedCountriesByObligationId = new HashMap();
+			HashMap<String,Integer> existingCountryIdsByNames = getKnownCountries();			
+			HashMap<String,HashSet<Integer>> savedCountriesByObligationId = new HashMap<String,HashSet<Integer>>();
 			
 			log(existingCountryIdsByNames.size() + " existing countries found before calling CR");
 			
 			// back up currently existing deliveries
 			daoFactory.getDeliveryDao().backUpDeliveries();
 			
-			HashSet deliveredCountryIds = new HashSet();
 			try {
 
 				int j;
@@ -363,7 +338,7 @@ public class Extractor implements ExtractorConstants {
 
 					log("Making " + CONTREG_GETDELIVERIES_METHOD + remoteCallParams + " call to CR");
 					
-					Vector deliveries = (Vector)crClient.getValue(CONTREG_GETDELIVERIES_METHOD, remoteCallParams);
+					Vector<Hashtable<String,Object>> deliveries = (Vector<Hashtable<String,Object>>) crClient.getValue(CONTREG_GETDELIVERIES_METHOD, remoteCallParams);
 					if (deliveries!=null && !deliveries.isEmpty()){
 						
 						log(CONTREG_GETDELIVERIES_METHOD + remoteCallParams + " call returned " +
@@ -406,9 +381,9 @@ public class Extractor implements ExtractorConstants {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public HashMap getKnownCountries() throws ServiceException{
+	public HashMap<String,Integer> getKnownCountries() throws ServiceException{
 		
-		HashMap result = new HashMap();
+		HashMap<String,Integer> result = new HashMap<String,Integer>();
 		String[][] idNamePairs = daoFactory.getSpatialDao().getCountryIdPairs();
 		for (int i=0; i<idNamePairs.length; i++){
 			result.put(idNamePairs[i][1], Integer.valueOf(idNamePairs[i][0]));
@@ -428,7 +403,7 @@ public class Extractor implements ExtractorConstants {
 			return;
 
 		String roleName =  roleId;
-		Hashtable role = null;
+		Hashtable<String,Object> role = null;
 		try{
 			role = DirectoryService.getRole(roleName);
 			log("Received role info for " + roleName + " from Directory");
@@ -444,48 +419,5 @@ public class Extractor implements ExtractorConstants {
 			return;
 
 		daoFactory.getRoleDao().saveRole(role);
-	}
-
-	/*
-	 * 	Method validates and merges deliveries lists.
-	 * 	Referrals rows will be added to deliveries vector except
-	 * 	if the referral id already exisits in deliveries vector.
-	 *
-	 *	@param deliveries list of Content Registry deliveries
-	 *	@param referral list of Content Registry referrals
-	 *
-	 * 	@return Vector - merged vectors without duplicates
-	 */
-	private Vector validateDeliveries(Vector allDeliveries, Vector addDeliveries){
-		boolean bAddDelivery=true;
-
-		if (allDeliveries == null) return addDeliveries;
-		if (addDeliveries == null) return allDeliveries;
-
-		for (int ii=0; ii<addDeliveries.size(); ii++){
-			bAddDelivery=true;
-			//deliveryKEY:STRING(url), VALUE:HASH (metadata)
-			Hashtable addDelivery = (Hashtable)addDeliveries.elementAt(ii);
-			if(addDelivery != null && addDelivery.size() > 0){
-				//Hash contains only one member that's delivery data
-				String addDeliveryId = (String)(addDelivery.keys().nextElement());
-				for (int jj=0; jj<allDeliveries.size(); jj++){
-					//deliveryKEY:STRING(url), VALUE:HASH (metadata)
-					Hashtable delivery = (Hashtable)allDeliveries.elementAt(jj);
-					if(delivery != null && delivery.size() > 0){
-						String deliveryId = (String)(delivery.keys().nextElement());
-						if (addDeliveryId.equals(deliveryId)){
-							bAddDelivery=false;
-							break;
-						}
-					}
-				}
-				if (bAddDelivery){
-					allDeliveries.add(addDelivery);
-				}
-			}
-		}
-
-		return allDeliveries;
 	}
 }

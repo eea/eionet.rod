@@ -1,8 +1,8 @@
 package eionet.rod.services.modules.db.dao;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
@@ -20,7 +20,7 @@ public interface IDeliveryDao {
 	/**
 	 * @throws ServiceException
 	 */
-	public void commitDeliveries(HashMap deliveredCountriesByObligations) throws ServiceException;
+	public void commitDeliveries(HashMap<String,HashSet<Integer>> deliveredCountriesByObligations) throws ServiceException;
 
 	/**
 	 * @throws ServiceException
@@ -48,5 +48,5 @@ public interface IDeliveryDao {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public int saveDeliveries(Vector deliveries, HashMap existingCountryIdsByNames, HashMap savedCountriesByObligationId) throws ServiceException;
+	public int saveDeliveries(Vector<Hashtable<String,Object>> deliveries, HashMap<String,Integer> existingCountryIdsByNames, HashMap<String,HashSet<Integer>> savedCountriesByObligationId) throws ServiceException;
 }

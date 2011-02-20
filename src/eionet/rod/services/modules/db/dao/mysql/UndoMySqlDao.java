@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -22,9 +23,7 @@ import com.tee.uit.security.SignOnException;
 
 
 import eionet.rod.RODUtil;
-import eionet.rod.dto.ClientDTO;
 import eionet.rod.dto.VersionDTO;
-import eionet.rod.dto.readers.ClientDTOReader;
 import eionet.rod.dto.readers.VersionDTOReader;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.RODServices;
@@ -1218,10 +1217,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
     	
     	PreparedStatement preparedStatement = null;
     	ResultSet rs = null;
-    	Vector<Hashtable> utlist = null;
+    	Vector<Map<String,String>> utlist = null;
 				
 		Connection conn = null;
-		VersionDTOReader rsReader = new VersionDTOReader();
 		try{
 			conn = getConnection();
 			
@@ -1231,8 +1229,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 			if (isDebugMode) logQuery(qSelectUndoByUser);
 			utlist = _getVectorOfHashes(preparedStatement);
 			
-			for(Iterator it = utlist.iterator(); it.hasNext(); ){
-				Hashtable hash = (Hashtable)it.next();
+			for(Iterator<Map<String,String>> it = utlist.iterator(); it.hasNext(); ){
+				Map<String,String> hash = it.next();
 				String utime = (String) hash.get("undo_time");
 				
 				preparedStatement = conn.prepareStatement(qSelectUndoListByUndoTime);

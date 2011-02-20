@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Vector;
 
 import eionet.rod.RODUtil;
@@ -78,7 +78,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 	 * (non-Javadoc)
 	 * @see eionet.rod.services.modules.db.dao.IDeliveryDao#saveDeliveriesNew(java.util.Vector, java.util.HashMap)
 	 */
-	public int saveDeliveries(Vector deliveries, HashMap existingCountryIdsByNames, HashMap savedCountriesByObligationId) throws ServiceException{
+	public int saveDeliveries(Vector<Hashtable<String,Object>> deliveries, HashMap<String,Integer> existingCountryIdsByNames, HashMap<String,HashSet<Integer>> savedCountriesByObligationId) throws ServiceException{
 		
 		int batchCounter = 0;
 		
@@ -95,33 +95,33 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 			
 			for (int i = 0; i < deliveries.size(); i++) {
 				
-				Hashtable deliveryData = (Hashtable)deliveries.get(i);
+				Hashtable<String,Object> deliveryData = (Hashtable<String,Object>)deliveries.get(i);
 				if (deliveryData==null || deliveryData.isEmpty()){
 					logger.info("Delivery not saved, because delivery data was empty");
 				}
 				else{
 					
-					String identifier = cnvVector((Vector) deliveryData.get(identifierPred), ",");
+					String identifier = cnvVector((Vector<String>) deliveryData.get(identifierPred), ",");
 					if (identifier==null || identifier.trim().length()==0){
 						identifier = "No URL";
 					}
-					String title = cnvVector((Vector) deliveryData.get(titlePred), ",");
-					String sdate = cnvVector((Vector) deliveryData.get(datePred), ",");
+					String title = cnvVector((Vector<String>) deliveryData.get(titlePred), ",");
+					String sdate = cnvVector((Vector<String>) deliveryData.get(datePred), ",");
 					Date date = null;
 					try{
 						date = isoDateFormat.parse(sdate);
 					}
 					catch(ParseException pe){}
 
-					String type = cnvVector((Vector) deliveryData.get(typePred), ",");
-					String format = cnvVector((Vector) deliveryData.get(formatPred), ",");
-					String coverage = cnvVector((Vector) deliveryData.get(coveragePred), " ");
+					String type = cnvVector((Vector<String>) deliveryData.get(typePred), ",");
+					String format = cnvVector((Vector<String>) deliveryData.get(formatPred), ",");
+					String coverage = cnvVector((Vector<String>) deliveryData.get(coveragePred), " ");
 					
 					// we assume there might be more than one obligation per delivery
-					Vector obligations = (Vector)deliveryData.get(obligationPred);
+					Vector<String> obligations = (Vector<String>)deliveryData.get(obligationPred);
 					
 					// we assume there is only one country per delivery
-					String countryName = cnvVector((Vector) deliveryData.get(countryPred), " ");
+					String countryName = cnvVector((Vector<String>) deliveryData.get(countryPred), " ");
 					Integer countryId = (Integer)existingCountryIdsByNames.get(countryName);
 					
 					if (countryId==null){
@@ -135,9 +135,9 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 					}
 					else if (obligations!=null && !obligations.isEmpty()){
 						
-						for (Iterator iter = obligations.iterator(); iter.hasNext();){
+						for (Iterator<String> iter = obligations.iterator(); iter.hasNext();){
 							
-							String obligUrl = (String)iter.next();
+							String obligUrl = iter.next();
 							String obligId = obligUrl.startsWith(obligationsPrefix) ?
 									obligUrl.substring(obligationsPrefix.length()) : null;
 										
@@ -157,9 +157,9 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 								preparedStatement.addBatch();
 								batchCounter++;
 								
-								HashSet savedCountries = (HashSet)savedCountriesByObligationId.get(obligId);
+								HashSet<Integer> savedCountries = (HashSet<Integer>)savedCountriesByObligationId.get(obligId);
 								if (savedCountries==null){
-									savedCountries = new HashSet();
+									savedCountries = new HashSet<Integer>();
 									savedCountriesByObligationId.put(obligId, savedCountries);
 								}
 								savedCountries.add(countryId);
@@ -257,7 +257,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 	 * (non-Javadoc)
 	 * @see eionet.rod.services.modules.db.dao.IDeliveryDao#commitDeliveriesNew(java.util.HashMap)
 	 */
-	public void commitDeliveries(HashMap deliveredCountriesByObligations) throws ServiceException {
+	public void commitDeliveries(HashMap<String,HashSet<Integer>> deliveredCountriesByObligations) throws ServiceException {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -276,15 +276,14 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 			
 			if (deliveredCountriesByObligations!=null && !deliveredCountriesByObligations.isEmpty()){
 				
-				Iterator entries = deliveredCountriesByObligations.entrySet().iterator();
+				Iterator<Entry<String,HashSet<Integer>>> entries = deliveredCountriesByObligations.entrySet().iterator();
 				while (entries.hasNext()){
 					
-					Map.Entry entry = (Map.Entry)entries.next();
+					Entry<String,HashSet<Integer>> entry = entries.next();
 					String obligId = (String)entry.getKey();
-					HashSet countryIdsSet = (HashSet)entry.getValue();
+					HashSet<Integer> countryIdsSet = (HashSet<Integer>)entry.getValue();
 					if (countryIdsSet!=null && !countryIdsSet.isEmpty()){
-						
-						String countryIds = "," + cnvVector(new Vector(countryIdsSet),",") + ",";
+						String countryIds = "," + cnvHashSet(countryIdsSet,",") + ",";
 						markCountries(Integer.valueOf(obligId), countryIds, connection);
 					}
 				}
