@@ -48,7 +48,7 @@
 							<c:if test="${!empty member.fullName}">
 								<b>${rodfn:replaceTags(member.fullName)}</b>
 							</c:if>
-							<c:if test="${!empty member.mail}">
+							<c:if test="${!empty member.mail && actionBean.isUserLoggedIn}">
 								<a href="mailto:${member.mail}">${member.mail}</a>
 							</c:if>
 							<c:if test="${!empty member.description && member.description != ' '}">
