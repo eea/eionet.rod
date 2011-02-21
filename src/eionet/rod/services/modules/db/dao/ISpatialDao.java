@@ -1,7 +1,7 @@
 package eionet.rod.services.modules.db.dao;
 
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import eionet.rod.dto.CountryDTO;
@@ -18,7 +18,7 @@ public interface ISpatialDao {
 	 * @return countries from the DB
 	 * @throws ServiceException
 	 */
-	public Vector getCountries() throws ServiceException;
+	public Vector<Map<String,String>> getCountries() throws ServiceException;
 
 	/**
 	 * Returns country by its id
@@ -44,7 +44,7 @@ public interface ISpatialDao {
 	 * @return obligation countries
 	 * @throws ServiceException
 	 */
-	public Vector getObligationCountries(int id) throws ServiceException;
+	public Vector<Map<String,String>> getObligationCountries(int id) throws ServiceException;
 
 	/**
 	 * Returns the id-name pars for countries.

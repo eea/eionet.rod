@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import eionet.rod.RODUtil;
@@ -17,7 +18,6 @@ import eionet.rod.dto.CountryInfoDTO;
 import eionet.rod.dto.DeliveryDTO;
 import eionet.rod.dto.ObligationCountryDTO;
 import eionet.rod.dto.ObligationDTO;
-import eionet.rod.dto.ObligationFactsheetDTO;
 import eionet.rod.dto.readers.CountryDTOReader;
 import eionet.rod.dto.readers.DeliveryDTOReader;
 import eionet.rod.dto.readers.ObligationCountryDTOReader;
@@ -43,10 +43,10 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 	/* (non-Javadoc)
 	 * @see eionet.rod.services.modules.db.dao.ISpatialDao#getCountries()
 	 */
-	public Vector getCountries() throws ServiceException {
+	public Vector<Map<String,String>> getCountries() throws ServiceException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Vector result = null;
+		Vector<Map<String,String>> result = null;
 		try {
 			connection = getConnection();
 			preparedStatement = connection.prepareStatement(q_countries);
@@ -60,7 +60,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 			closeAllResources(null, preparedStatement, connection);
 		}
 
-		return result != null ? result : new Vector();
+		return result != null ? result : new Vector<Map<String,String>>();
 	}
 
 	private static final String q_country_by_id = 
@@ -139,10 +139,10 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 	/* (non-Javadoc)
 	 * @see eionet.rod.services.modules.db.dao.ISpatialDao#getObligationCountries(int)
 	 */
-	public Vector getObligationCountries(int id) throws ServiceException {
+	public Vector<Map<String,String>> getObligationCountries(int id) throws ServiceException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Vector result = null;
+		Vector<Map<String,String>> result = null;
 		try {
 			connection = getConnection();
 			preparedStatement = connection.prepareStatement(q_obligation_counties);
@@ -156,7 +156,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 			closeAllResources(null, preparedStatement, connection);
 		}
 
-		return result != null ? result : new Vector();
+		return result != null ? result : new Vector<Map<String,String>>();
 
 	}
 	
@@ -216,7 +216,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 		CountryInfoDTO ret = new CountryInfoDTO();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Hashtable hash = null;
+		Hashtable<String,String> hash = null;
 
 		try {
 			connection = getConnection();
@@ -294,7 +294,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Hashtable result = null;
+		Hashtable<String,String> result = null;
 
 		try {
 			connection = getConnection();
@@ -330,7 +330,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Hashtable result = null;
+		Hashtable<String,String> result = null;
 
 		try {
 			connection = getConnection();

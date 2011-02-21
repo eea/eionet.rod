@@ -3,6 +3,7 @@ package eionet.rod.services.modules.db.dao;
 import java.sql.Connection;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import eionet.rod.dto.VersionDTO;
@@ -95,7 +96,7 @@ public interface IUndoDao {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public Vector getUndoInformation(long ts, String op, String tab, String id) throws ServiceException;
+	public Vector<Map<String,String>> getUndoInformation(long ts, String op, String tab, String id) throws ServiceException;
 
 	/**
 	 * Returns user who performed the action

@@ -876,9 +876,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 	 * @see eionet.rod.services.modules.db.dao.IUndoDao#getUndoInformation(long,
 	 *      java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public Vector getUndoInformation(long ts, String op, String tab, String id) throws ServiceException {
+	public Vector<Map<String,String>> getUndoInformation(long ts, String op, String tab, String id) throws ServiceException {
 
-		Vector vec = new Vector();
+		Vector<Map<String,String>> vec = new Vector<Map<String,String>>();
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 
@@ -915,7 +915,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
 					if (idsa.length > 0) ids = idsa[0][0];
 				}
-				Vector obligations_vec = new Vector();
+				Vector<Map<String,String>> obligations_vec = new Vector<Map<String,String>>();
 				StringTokenizer st = new StringTokenizer(ids, ",");
 				while (st.hasMoreTokens()) {
 					String token = st.nextToken();

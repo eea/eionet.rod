@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -158,7 +159,9 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 		}
 		
 		String acceptHeader = getContext().getRequest().getHeader("accept");
-		String[] accept = acceptHeader.split(",");
+		String[] accept = null;
+		if(acceptHeader != null && acceptHeader.length() > 0)
+			accept = acceptHeader.split(",");
 		
 		if(!RODUtil.isNullOrEmpty(id)){
 			if(id.equals("new")){
@@ -291,7 +294,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 			if(rpcRouterUrl != null){
 				ServiceClientIF client = ServiceClients.getServiceClient(serviceName, rpcRouterUrl);
 				
-				Vector params = new Vector();
+				Vector<String> params = new Vector<String>();
 				params.add(id);
 				
 				Vector result = (Vector)client.getValue(methodName, params);
@@ -655,8 +658,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 		
     	try{
         
-	        Vector lists = new Vector();
-	        Vector list = new Vector();
+	        Vector<Vector<String>> lists = new Vector<Vector<String>>();
+	        Vector<String> list = new Vector<String>();
 	        long timestamp = System.currentTimeMillis();
 	        String events = "http://rod.eionet.europa.eu/events/" + timestamp;
 	        
@@ -669,14 +672,14 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	            list.add(Attrs.SCHEMA_RDF + "ObligationChange");
 	            lists.add(list);
 	            
-	            list = new Vector();
+	            list = new Vector<String>();
 	            list.add(events);
 	            String et_schema = fileService.getStringProperty(FileServiceIF.UNS_EVENTTYPE_PREDICATE);
 	            list.add(et_schema);
 	            list.add("Obligation change");
 	            lists.add(list);
 	            
-	            list = new Vector();
+	            list = new Vector<String>();
 	            list.add(events);
 	            list.add("http://purl.org/dc/elements/1.1/title");
 	            list.add("Obligation change");
@@ -689,14 +692,14 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	            list.add(Attrs.SCHEMA_RDF + "NewObligation");
 	            lists.add(list);
 	            
-	            list = new Vector();
+	            list = new Vector<String>();
 	            list.add(events);
 	            String et_schema = fileService.getStringProperty(FileServiceIF.UNS_EVENTTYPE_PREDICATE);
 	            list.add(et_schema);
 	            list.add("New Obligation");
 	            lists.add(list);
 	            
-	            list = new Vector();
+	            list = new Vector<String>();
 	            list.add(events);
 	            list.add("http://purl.org/dc/elements/1.1/title");
 	            list.add("New Obligation");
@@ -704,7 +707,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	            
 	        }
 	        
-	        list = new Vector();
+	        list = new Vector<String>();
 	        list.add(events);
 	        String obl_schema = fileService.getStringProperty(FileServiceIF.UNS_OBLIGATION_PREDICATE);
 	        list.add(obl_schema);
@@ -712,35 +715,35 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	        lists.add(list);
 	        
 	        
-	        Vector countries = RODServices.getDbService().getSpatialDao().getObligationCountries(obligation_id);
+	        Vector<Map<String,String>> countries = RODServices.getDbService().getSpatialDao().getObligationCountries(obligation_id);
 	        
-	        for (Enumeration en = countries.elements(); en.hasMoreElements(); ){
-	            Hashtable hash = (Hashtable) en.nextElement();
-	            list = new Vector();
+	        for (Enumeration<Map<String,String>> en = countries.elements(); en.hasMoreElements(); ){
+	            Map<String,String> hash = en.nextElement();
+	            list = new Vector<String>();
 	            list.add(events);
 	            String loc_schema = fileService.getStringProperty(FileServiceIF.UNS_COUNTRY_PREDICATE);
 	            list.add(loc_schema);
-	            list.add(hash.get("name"));                  
+	            list.add((String)hash.get("name"));                  
 	            lists.add(list);
 	        }
 	        
-	        list = new Vector();
+	        list = new Vector<String>();
 	        list.add(events);
 	        list.add(Attrs.SCHEMA_RDF + "responsiblerole");
 	        list.add(obligation.getResponsibleRole());
 	        lists.add(list);
 	        
-	        list = new Vector();
+	        list = new Vector<String>();
 	        list.add(events);
 	        list.add(Attrs.SCHEMA_RDF + "actor");
 	        list.add(userName);
 	        lists.add(list);
 	        
 	        if (isUpdate) {                      
-	            Vector changes = getChanges(id);
-	            for(Enumeration en = changes.elements(); en.hasMoreElements(); ){
+	            Vector<String> changes = getChanges(id);
+	            for(Enumeration<String> en = changes.elements(); en.hasMoreElements(); ){
 	                String label = (String) en.nextElement();
-	                list = new Vector();
+	                list = new Vector<String>();
 	                list.add(events);
 	                list.add(Attrs.SCHEMA_RDF + "change");
 	                list.add(label);
@@ -748,10 +751,9 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 	            }
 	        }
 	        
-	        list = new Vector();
+	        list = new Vector<String>();
 	        list.add(events);
 	        list.add("http://purl.org/dc/elements/1.1/identifier");
-	        String ra_id = obligation.getObligationId();
 	        String url = "http://rod.eionet.europa.eu/obligations/"+id;
 	        list.add(url);
 	        
@@ -763,12 +765,12 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
     	}
     }
     
-    private Vector getChanges(String obligationID) throws ServiceException {
+    private Vector<String> getChanges(String obligationID) throws ServiceException {
         
-        Vector res_vec = new Vector();
-        Vector undo_vec = RODServices.getDbService().getUndoDao().getUndoInformation(ts,"U","T_OBLIGATION",obligationID);
+        Vector<String> res_vec = new Vector<String>();
+        Vector<Map<String,String>> undo_vec = RODServices.getDbService().getUndoDao().getUndoInformation(ts,"U","T_OBLIGATION",obligationID);
         for (int i=0; i<undo_vec.size(); i++){
-            Hashtable hash = (Hashtable) undo_vec.elementAt(i);
+            Map<String,String> hash = undo_vec.elementAt(i);
             
             String label = "";
             String ut = (String) hash.get("undo_time");
