@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/webrod" docBase="webrod" debug="1" reloadable="true">
+    <!-- Specify a JDBC datasource -->
+    <Resource name="jdbc/webrod" 
+              auth="Container"
+              type="javax.sql.DataSource" 
+              username="${db.usr}" 
+              password="${db.pwd}"
+              driverClassName="${db.drv}"
+              url="${db.url}"
+              validationQuery="select 1"
+              maxActive="10" 
+              maxIdle="4"/>
+</Context>
+

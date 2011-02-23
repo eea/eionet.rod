@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <ACLS/>
+  <ACL_ROWS/>
+  <HLP_AREA/>
+  <HLP_SCREEN/>
+<!--Four clients -->
+  <T_CLIENT PK_CLIENT_ID="1" CLIENT_NAME="Ozone Secretariat" CLIENT_ACRONYM="OZONE" CLIENT_URL="http://www.unep.org/ozone" CLIENT_ADDRESS="" CLIENT_EMAIL="" DESCRIPTION="" POSTAL_CODE="" CITY=""/>
+  <T_CLIENT PK_CLIENT_ID="2" CLIENT_NAME="European Commission, Directorate General Environment" CLIENT_ACRONYM="DG ENV (EC)" CLIENT_URL="http://ec.europa.eu/dgs/environment/index_en.htm" CLIENT_ADDRESS="Rue de la Loi 200" CLIENT_EMAIL="" DESCRIPTION="" POSTAL_CODE="B-1049" CITY="Brussels" COUNTRY="Belgium" CLIENT_SHORT_NAME=""/>
+  <T_CLIENT PK_CLIENT_ID="3" CLIENT_NAME="European Environment Agency" CLIENT_ACRONYM="EEA" CLIENT_URL="http://www.eea.eu.int/" CLIENT_ADDRESS="Kongens Nytorv 6" CLIENT_EMAIL="eea@eea.eu.int" DESCRIPTION="" POSTAL_CODE="DK-1050" CITY="Copenhagen" COUNTRY="Denmark"/>
+  <T_CLIENT PK_CLIENT_ID="4" CLIENT_NAME="OSPAR Convention" CLIENT_ACRONYM="OSPAR" CLIENT_URL="http://www.ospar.org/" CLIENT_ADDRESS="New Court, 48 Carey Street" CLIENT_EMAIL="secretariat@ospar.org" DESCRIPTION="" POSTAL_CODE="GB-WC2A 2JQ" CITY="London" COUNTRY="United Kingdom"/>
+
+  <T_CLIENT_LNK FK_CLIENT_ID="4" FK_OBJECT_ID="514" TYPE="A" STATUS="M"/>
+  <T_CLIENT_LNK FK_CLIENT_ID="4" FK_OBJECT_ID="514" TYPE="A" STATUS="C"/>
+
+<!-- Deliveries on obligation 15 --> 
+  <T_DELIVERY RA_URL="" TITLE="CLRTAP AT 1980 to 2001" UPLOAD_DATE="2003-06-17" DELIVERY_URL="http://cdr.eionet.europa.eu/at/un/CLRTAP_AT/envpkysjw" TYPE="" FORMAT="" FK_RA_ID="15" FK_SPATIAL_ID="3" COVERAGE="1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 1980" STATUS="1"/>
+  <T_DELIVERY RA_URL="" TITLE="CLRTAP AT 1980 to 2000" UPLOAD_DATE="2003-09-30" DELIVERY_URL="http://cdr.eionet.europa.eu/at/un/CLRTAP_AT/env1014369567" TYPE="" FORMAT="" FK_RA_ID="15" FK_SPATIAL_ID="3" COVERAGE="" STATUS="1"/>
+  <T_DELIVERY RA_URL="" TITLE="CLRTAP AT 1980 to 2002" UPLOAD_DATE="2004-11-05" DELIVERY_URL="http://cdr.eionet.europa.eu/at/un/CLRTAP_AT/envqczr1q" TYPE="" FORMAT="" FK_RA_ID="15" FK_SPATIAL_ID="3" COVERAGE="2002 2001 2000 1997 1998 1999 1996 1995 1994 1993 1992 1991 1990 1985 1989 1987 1988 1986 1984 1982 1983 1981 1980" STATUS="1"/>
+  <T_DELIVERY RA_URL="" TITLE="clrtap data AT" DELIVERY_URL="http://cdr.eionet.europa.eu/at/un/CLRTAP_AT" TYPE="" FORMAT="" FK_RA_ID="15" FK_SPATIAL_ID="3" COVERAGE="2001 2000 1999 1998 1997 1996 1995 1994 1992 1993 1991 1990 1989 1988 1987 1984 1985 1986 1982 1983 1980 1981" STATUS="1"/>
+
+  <T_DUMMY/>
+  <T_HELP/>
+
+  <T_HISTORIC_DEADLINES FK_RA_ID="15" DEADLINE="2002-02-15"/>
+  <T_HISTORIC_DEADLINES FK_RA_ID="15" DEADLINE="2005-01-01"/>
+  <T_HISTORIC_DEADLINES FK_RA_ID="502" DEADLINE="2001-08-31"/>
+  <T_HISTORIC_DEADLINES FK_RA_ID="503" DEADLINE="1995-12-31"/>
+  <T_HISTORIC_DEADLINES FK_RA_ID="514" DEADLINE="2004-12-31"/>
+  <T_HISTORIC_DEADLINES FK_RA_ID="515" DEADLINE="2004-08-31"/>
+  <T_HISTORIC_DEADLINES FK_RA_ID="518" DEADLINE="2008-06-30"/>
+  <T_HISTORIC_DEADLINES FK_RA_ID="521" DEADLINE="2010-03-22"/>
+  <T_HISTORIC_DEADLINES FK_RA_ID="522" DEADLINE="2013-03-22"/>
+
+<!-- Lines where action type = I -->
+  <T_HISTORY PK_HISTORY_ID="1" ITEM_ID="13" ITEM_TYPE="O" ACTION_TYPE="I" LOG_TIME="2003-01-13 00:00:00.0"
+    USER="webrod" DESCRIPTION="EC Water Reporting Obligation"/>
+  <T_HISTORY PK_HISTORY_ID="2" ITEM_ID="24" ITEM_TYPE="O" ACTION_TYPE="I" LOG_TIME="2003-01-13 00:00:00.0"
+    USER="webrod" DESCRIPTION="Sea Convention Reporting Obligation (to be deleted?)"/>
+
+<!-- Some lines where action type = D -->
+  <T_HISTORY PK_HISTORY_ID="845" ITEM_ID="127" ITEM_TYPE="A" ACTION_TYPE="D" LOG_TIME="2003-04-25 13:01:47.0" USER="Adriaan Minderhoud" DESCRIPTION=""/>
+  <T_HISTORY PK_HISTORY_ID="846" ITEM_ID="153" ITEM_TYPE="O" ACTION_TYPE="D" LOG_TIME="2003-04-25 13:01:47.0" USER="Adriaan Minderhoud" DESCRIPTION=""/>
+  <T_HISTORY PK_HISTORY_ID="847" ITEM_ID="184" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2003-04-25 14:41:35.0" USER="Adriaan Minderhoud" DESCRIPTION="UN ECE Convention on the protection and use of transboundary watercourses and international lakes"/>
+  <T_HISTORY PK_HISTORY_ID="848" ITEM_ID="124" ITEM_TYPE="A" ACTION_TYPE="D" LOG_TIME="2003-04-25 14:43:37.0" USER="Adriaan Minderhoud" DESCRIPTION=""/>
+  <T_HISTORY PK_HISTORY_ID="849" ITEM_ID="150" ITEM_TYPE="O" ACTION_TYPE="D" LOG_TIME="2003-04-25 14:43:38.0" USER="Adriaan Minderhoud" DESCRIPTION=""/>
+
+<!-- history for obligation 514 -->
+  <T_HISTORY PK_HISTORY_ID="7834" ITEM_ID="514" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2005-06-29 15:56:29.0"
+    USER="Jaume Fons"
+    DESCRIPTION="Council Directive 86/278/EEC of 12 June 1986 on the protection of the environment, and in particular of the soil, when sewage sludge is used in agriculture"/>
+  <T_HISTORY PK_HISTORY_ID="7835" ITEM_ID="514" ITEM_TYPE="A" ACTION_TYPE="I" LOG_TIME="2005-06-29 15:57:37.0"
+    USER="Bradley Searle"
+    DESCRIPTION="PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer"/>
+  <T_HISTORY PK_HISTORY_ID="7901" ITEM_ID="514" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2005-06-30 13:58:42.0"
+    USER="Benoit Fribourg-Blanc"
+    DESCRIPTION="Council Directive 86/278/EEC of 12 June 1986 on the protection of the environment, and in particular of the soil, when sewage sludge is used in agriculture"/>
+  <T_HISTORY PK_HISTORY_ID="8175" ITEM_ID="514" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2005-07-05 11:31:57.0"
+    USER="Benoit Fribourg-Blanc"
+    DESCRIPTION="Council Directive 86/278/EEC of 12 June 1986 on the protection of the environment, and in particular of the soil, when sewage sludge is used in agriculture as amended by Council Directive 91/692/EEC (further amended by Council Regulation (EC) N° 1882/2003), and Council Regulation (EC) N° 807/2003."/>
+  <T_HISTORY PK_HISTORY_ID="8177" ITEM_ID="514" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2005-07-05 11:32:50.0"
+    USER="Benoit Fribourg-Blanc"
+    DESCRIPTION="Council Directive 86/278/EEC of 12 June 1986 on the protection of the environment, and in particular of the soil, when sewage sludge is used in agriculture as amended by Council Directive 91/692/EEC (further amended by Council Regulation (EC) N° 1882/2003), and Council Regulation (EC) N° 807/2003."/>
+  <T_HISTORY PK_HISTORY_ID="8179" ITEM_ID="514" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2005-07-05 11:33:35.0"
+    USER="Benoit Fribourg-Blanc"
+    DESCRIPTION="Council Directive 86/278/EEC of 12 June 1986 on the protection of the environment, and in particular of the soil, when sewage sludge is used in agriculture as amended by Council Directive 91/692/EEC (further amended by Council Regulation (EC) N° 1882/2003), and Council Regulation (EC) N° 807/2003."/>
+  <T_HISTORY PK_HISTORY_ID="8180" ITEM_ID="514" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2005-07-05 11:34:59.0"
+    USER="Benoit Fribourg-Blanc"
+    DESCRIPTION="Council Directive 86/278/EEC of 12 June 1986 on the protection of the environment, and in particular of the soil, when sewage sludge is used in agriculture as amended by Council Directive 91/692/EEC (further amended by Council Regulation (EC) N° 1882/2003), and Council Regulation (EC) N° 807/2003."/>
+  <T_HISTORY PK_HISTORY_ID="8191" ITEM_ID="514" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2005-07-05 12:00:11.0"
+    USER="Benoit Fribourg-Blanc"
+    DESCRIPTION="Council Directive 86/278/EEC of 12 June 1986 on the protection of the environment, and in particular of the soil, when sewage sludge is used in agriculture as amended by Council Directive 91/692/EEC (further amended by Council Regulation 1882/2003/EC), and Council Regulation 807/2003/EC."/>
+  <T_HISTORY PK_HISTORY_ID="8358" ITEM_ID="514" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2005-07-06 15:44:35.0"
+    USER="Benoit Fribourg-Blanc"
+    DESCRIPTION="Council Directive 86/278/EEC of 12 June 1986 on the protection of the environment, and in particular of the soil, when sewage sludge is used in agriculture as amended by Council Directive 91/692/EEC (further amended by Council Regulation 1882/2003/EC), and Council Regulation 807/2003/EC."/>
+  <T_HISTORY PK_HISTORY_ID="8748" ITEM_ID="514" ITEM_TYPE="A" ACTION_TYPE="U" LOG_TIME="2005-08-15 11:23:35.0"
+    USER="Bradley Searle"
+    DESCRIPTION="PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer"/>
+  <T_HISTORY PK_HISTORY_ID="8749" ITEM_ID="514" ITEM_TYPE="A" ACTION_TYPE="U" LOG_TIME="2005-08-15 11:30:28.0"
+    USER="Bradley Searle"
+    DESCRIPTION="PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer"/>
+  <T_HISTORY PK_HISTORY_ID="8750" ITEM_ID="514" ITEM_TYPE="A" ACTION_TYPE="U" LOG_TIME="2005-08-15 11:30:59.0"
+    USER="Bradley Searle"
+    DESCRIPTION="PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer"/>
+  <T_HISTORY PK_HISTORY_ID="10702" ITEM_ID="514" ITEM_TYPE="A" ACTION_TYPE="U" LOG_TIME="2006-05-24 15:44:48.0"
+    USER="Roshni Mistry"
+    DESCRIPTION="PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer"/>
+  <T_HISTORY PK_HISTORY_ID="11978" ITEM_ID="514" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2006-10-19 12:59:43.0"
+    USER="Jaume Fons"
+    DESCRIPTION="Council Directive 86/278/EEC of 12 June 1986 on the protection of the environment, and in particular of the soil, when sewage sludge is used in agriculture as amended by Council Directive 91/692/EEC (further amended by Council Regulation 1882/2003/EC), and Council Regulation 807/2003/EC."/>
+  <T_HISTORY PK_HISTORY_ID="13187" ITEM_ID="514" ITEM_TYPE="L" ACTION_TYPE="U" LOG_TIME="2007-04-02 09:16:47.0"
+    USER="Carsten Iversen"
+    DESCRIPTION="Council Directive 86/278/EEC of 12 June 1986 on the protection of the environment, and in particular of the soil, when sewage sludge is used in agriculture as amended by Council Directive 91/692/EEC (further amended by Council Regulation 1882/2003/EC), and Council Regulation 807/2003/EC."/>
+  <T_HISTORY PK_HISTORY_ID="14188" ITEM_ID="514" ITEM_TYPE="A" ACTION_TYPE="U" LOG_TIME="2007-08-22 10:49:51.0"
+    USER="Carsten Iversen"
+    DESCRIPTION="PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer"/>
+  <T_HISTORY PK_HISTORY_ID="14189" ITEM_ID="514" ITEM_TYPE="A" ACTION_TYPE="U" LOG_TIME="2007-08-22 11:18:32.0"
+    USER="Carsten Iversen"
+    DESCRIPTION="PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer"/>
+
+  <T_INDICATOR/>
+  <T_INFO_LNK/>
+
+  <T_ISSUE PK_ISSUE_ID="1" ISSUE_NAME="Climate Change"/>
+  <T_ISSUE PK_ISSUE_ID="2" ISSUE_NAME="Ozone Depletion"/>
+  <T_ISSUE PK_ISSUE_ID="3" ISSUE_NAME="Acidification"/>
+  <T_ISSUE PK_ISSUE_ID="4" ISSUE_NAME="Soil"/>
+  <T_ISSUE PK_ISSUE_ID="6" ISSUE_NAME="Air quality"/>
+  <T_ISSUE PK_ISSUE_ID="7" ISSUE_NAME="Noise"/>
+  <T_ISSUE PK_ISSUE_ID="8" ISSUE_NAME="Natural Resources"/>
+  <T_ISSUE PK_ISSUE_ID="10" ISSUE_NAME="Chemicals"/>
+  <T_ISSUE PK_ISSUE_ID="12" ISSUE_NAME="Various other issues"/>
+  <T_ISSUE PK_ISSUE_ID="13" ISSUE_NAME="Waste"/>
+  <T_ISSUE PK_ISSUE_ID="14" ISSUE_NAME="Biodiversity Change and Nature"/>
+  <T_ISSUE PK_ISSUE_ID="15" ISSUE_NAME="Water"/>
+
+  <T_LOOKUP C_TERM="Active" CATEGORY="S" C_VALUE=""/>
+  <T_LOOKUP C_TERM="Administrative" CATEGORY="I" C_VALUE="A"/>
+  <T_LOOKUP C_TERM="Air" CATEGORY="DGS" C_VALUE="A"/>
+  <T_LOOKUP C_TERM="annually" CATEGORY="F"/>
+  <T_LOOKUP C_TERM="bimonthly" CATEGORY="F"/>
+  <T_LOOKUP C_TERM="Biotechnology" CATEGORY="DGS" C_VALUE="B"/>
+  <T_LOOKUP C_TERM="Chemicals" CATEGORY="P" C_VALUE="C"/>
+  <T_LOOKUP C_TERM="Chemicals" CATEGORY="DGS" C_VALUE="C"/>
+  <T_LOOKUP C_TERM="Compliance" CATEGORY="I" C_VALUE="C"/>
+  <T_LOOKUP C_TERM="Compulsory" CATEGORY="2" C_VALUE="L"/>
+  <T_LOOKUP C_TERM="Countries" CATEGORY="ST" C_VALUE="C"/>
+  <T_LOOKUP C_TERM="daily" CATEGORY="F"/>
+  <T_LOOKUP C_TERM="Data" CATEGORY="I" C_VALUE="D"/>
+  <T_LOOKUP C_TERM="Ended" CATEGORY="S"/>
+  <T_LOOKUP C_TERM="every 2nd year" CATEGORY="F"/>
+  <T_LOOKUP C_TERM="every 3rd year" CATEGORY="F"/>
+  <T_LOOKUP C_TERM="every 4th year" CATEGORY="F"/>
+  <T_LOOKUP C_TERM="every 5th year" CATEGORY="F"/>
+  <T_LOOKUP C_TERM="Expected" CATEGORY="2" C_VALUE="M"/>
+  <T_LOOKUP C_TERM="IPPPC" CATEGORY="DGS" C_VALUE="I"/>
+  <T_LOOKUP C_TERM="monthly" CATEGORY="F"/>
+  <T_LOOKUP C_TERM="Natural lakes" CATEGORY="ST" C_VALUE="L"/>
+  <T_LOOKUP C_TERM="Nature and Biodiversity" CATEGORY="DGS" C_VALUE="N"/>
+  <T_LOOKUP C_TERM="No" CATEGORY="1" C_VALUE="N"/>
+  <T_LOOKUP C_TERM="Noise" CATEGORY="DGS" C_VALUE="0"/>
+  <T_LOOKUP C_TERM="Normal" CATEGORY="C"/>
+  <T_LOOKUP C_TERM="quarterly" CATEGORY="F"/>
+  <T_LOOKUP C_TERM="Regulatory" CATEGORY="I" C_VALUE="R"/>
+  <T_LOOKUP C_TERM="Reservoirs" CATEGORY="ST" C_VALUE="O"/>
+  <T_LOOKUP C_TERM="River Basins" CATEGORY="ST" C_VALUE="R"/>
+  <T_LOOKUP C_TERM="Seas" CATEGORY="ST" C_VALUE="S"/>
+  <T_LOOKUP C_TERM="Spatial" CATEGORY="I" C_VALUE="S"/>
+  <T_LOOKUP C_TERM="Species" CATEGORY="P" C_VALUE="S"/>
+  <T_LOOKUP C_TERM="Started" CATEGORY="S"/>
+  <T_LOOKUP C_TERM="State of the environment" CATEGORY="I" C_VALUE="E"/>
+  <T_LOOKUP C_TERM="Suspended" CATEGORY="S"/>
+  <T_LOOKUP C_TERM="Text report" CATEGORY="I" C_VALUE="T"/>
+  <T_LOOKUP C_TERM="Voluntary request" CATEGORY="2" C_VALUE="V"/>
+  <T_LOOKUP C_TERM="Waste and Resources" CATEGORY="DGS" C_VALUE="R"/>
+  <T_LOOKUP C_TERM="Water" CATEGORY="DGS" C_VALUE="W"/>
+  <T_LOOKUP C_TERM="weekly" CATEGORY="F"/>
+  <T_LOOKUP C_TERM="Yes" CATEGORY="1" C_VALUE="Y"/>
+
+<!-- Obligation 15 -->
+
+  <T_OBLIGATION PK_RA_ID="15" FK_SOURCE_ID="499"
+  VALID_SINCE="2001-09-15" TITLE="CLRTAP (AE-1)"
+  FORMAT_NAME="see ROD entry for reporting activity under CLRTAP"
+  REPORT_FORMAT_URL="http://rod.eionet.europa.eu/show.jsv?id=101&amp;mode=A&amp;aid=116"
+  REPORT_FREQ_DETAIL="31 January"
+  REPORTING_FORMAT="Reporting for this priority data flow is now under the obligation: Annual air emission data reporting (EMEP) for the UNECE Convention on Long Range Transport of Air Pollutants (CLRTAP)." DATE_COMMENTS="" LAST_UPDATE="2006-11-01" TERMINATE="N" REPORT_FREQ="annually" COMMENT="" RESPONSIBLE_ROLE="eionet-nrc-airemissions" NEXT_DEADLINE="2007-01-01" FIRST_REPORTING="2002-02-15" REPORT_FREQ_MONTHS="12" NEXT_REPORTING="" VALID_TO="2003-12-31" FK_DELIVERY_COUNTRY_IDS=",7,12,27,28,16,27,36,29,12,24,36,23,27,22,40,7,16,29,7,102,27,15,25,24,27,40,25,10,27,15,11,7,27,15,3,28,11,11,3,7,10,20,12,11,23,27,102,14,10,28,22,29,3,10,27,7,11,16,18,3,16,11,34,33,13,11,13,33,16,16,28,13,16,28," NEXT_DEADLINE2="2008-01-01" RM_NEXT_UPDATE="9999-12-31" RM_VERIFIED="2003-06-02" RM_VERIFIED_BY="SCR" LAST_HARVESTED="2007-11-20 13:14:07.0" LOCATION_PTR="" LOCATION_INFO="" LEGAL_MORAL="M" FK_CLIENT_ID="3" DESCRIPTION="EIONET Priority Data Flows" RESPONSIBLE_ROLE_SUF="1" NATIONAL_CONTACT="" NATIONAL_CONTACT_URL="" COORDINATOR_ROLE="" COORDINATOR_ROLE_SUF="1" COORDINATOR="" COORDINATOR_URL="" PARAMETERS="CO (carbon monoxide)(mass/time)
+NH3 (ammonia)(mass/time)
+NMVOCs (non-methane volatile organic compounds)(mass/time)
+NOx (nitrogen oxides)(mass/time)
+SO2 (sulphur dioxide)(mass/time)" VALIDATED_BY="" EEA_PRIMARY="1" EEA_CORE="1" FLAGGED="0" AUTHORITY="" OVERLAP_URL="" DPSIR_D="yes" DPSIR_P="no" DPSIR_S="no" DPSIR_I="no" DPSIR_R="no" DATA_USED_FOR=""/>
+
+<!-- Obligation 514 -->
+  <T_OBLIGATION PK_RA_ID="514" FK_SOURCE_ID="170"
+    TITLE="PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture of Suspension PVC from Vinyl Chloride Monomer"
+    FORMAT_NAME="" REPORT_FORMAT_URL=""
+    REPORTING_FORMAT="Implementation report to be submitted following commisioning of new plant and every 4 years for existing plants."
+    DATE_COMMENTS="" LAST_UPDATE="2007-08-22" TERMINATE="N" COMMENT="" RESPONSIBLE_ROLE=""
+    NEXT_DEADLINE="2008-08-31" FIRST_REPORTING="2008-08-31"
+    REPORT_FREQ_MONTHS="0" NEXT_REPORTING="" VALID_TO="2008-08-31" FK_DELIVERY_COUNTRY_IDS=""
+    RM_NEXT_UPDATE="2006-05-23" RM_VERIFIED="2006-05-23" RM_VERIFIED_BY="R Mistry"
+    LAST_HARVESTED="2007-11-26 13:19:43.0" LOCATION_PTR="" LOCATION_INFO=""
+    LEGAL_MORAL="M" FK_CLIENT_ID="4" DESCRIPTION="" RESPONSIBLE_ROLE_SUF="0" NATIONAL_CONTACT=""
+    NATIONAL_CONTACT_URL="" COORDINATOR_ROLE="" COORDINATOR_ROLE_SUF="0"
+    COORDINATOR="" COORDINATOR_URL="" PARAMETERS=""
+    VALIDATED_BY="Alan Simcock (OSPAR) 17/06/2005"
+    EEA_PRIMARY="0" EEA_CORE="0" FLAGGED="1" AUTHORITY="" OVERLAP_URL="www"
+    DPSIR_D="no" DPSIR_P="yes" DPSIR_S="no" DPSIR_I="no" DPSIR_R="yes" DATA_USED_FOR=""/>
+
+  <T_RAISSUE_LNK FK_ISSUE_ID="1" FK_RA_ID="15"/>
+  <T_RAISSUE_LNK FK_ISSUE_ID="6" FK_RA_ID="15"/>
+  <T_RAISSUE_LNK FK_ISSUE_ID="2" FK_RA_ID="514"/>
+  <T_RAISSUE_LNK FK_ISSUE_ID="6" FK_RA_ID="514"/>
+
+  <T_RASPATIAL_LNK FK_SPATIAL_ID="2" FK_RA_ID="15" VOLUNTARY="Y"/>
+  <T_RASPATIAL_LNK FK_SPATIAL_ID="3" FK_RA_ID="15" VOLUNTARY="N"/>
+
+<!-- Role eionet-nrc-spatial-mt -->
+  <T_ROLE ROLE_NAME="PCP and NRCs for Spatial Analysis and Land Cover in Malta"
+     ROLE_EMAIL=""
+     ROLE_URL="http://eea.eionet.europa.eu/Public/irc/eionet-circle/Home/central_dir_admin?fn=roles&amp;v=eionet-nrc-spatial-mt&amp;rd=1&amp;ud=1&amp;od=0"
+     ROLE_ID="eionet-nrc-spatial-mt"
+     ROLE_MEMBERS_URL="http://eea.eionet.europa.eu/Members/irc/eionet-circle/Home/central_dir_admin?fn=roles&amp;v=eionet-nrc-spatial-mt&amp;rd=1&amp;ud=1&amp;od=0" LAST_HARVESTED="2007-11-26 13:20:22.0" STATUS="1"/>
+
+  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Stephen Conchin" INSTITUTE=""/>
+  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Ashley Farrugia" INSTITUTE=""/>
+  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Darrin Stevens" INSTITUTE=""/>
+  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Saviour Formosa" INSTITUTE=""/>
+  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Peter Cordina" INSTITUTE=""/>
+  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Michelle Borg" INSTITUTE=""/>
+  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Christopher Borg" INSTITUTE=""/>
+
+<!-- Source for obligation 514 -->
+
+  <T_SOURCE PK_SOURCE_ID="170" FK_TYPE_ID="16" SOURCE_CODE=""
+  TITLE="Convention for the protection of the marine environment of the north-east Atlantic"
+  CELEX_REF="2998A0403(01)"
+  LEGAL_NAME="Convention for the Protection of the Marine Environment of the North-East Atlantic (OSPAR Convention 1992)"
+  URL="http://www.eur-lex.europa.eu/Notice.do?val=225381:cs&amp;lang=en&amp;list=225381:cs,&amp;pos=1&amp;page=1&amp;nbl=1&amp;pgs=10&amp;hwords=&amp;checktexte=checkbox&amp;visu=#texte"
+  SECRETARIAT="OSPAR Secretariat, New Court , 48 Carey Street, London WC2A 2JQ / UK, Tel: +44 (0) 20 7430 5200, Fax: +44 (0) 20 7430 5225, e-mail: secretariat@ospar.org"
+  SECRETARIAT_URL="http://www.ospar.org/eng/html/welcome.html"
+  ABSTRACT="The Convention for the Protection of the Marine Environment of the North-East Atlantic (&quot;OSPAR Convention&quot;)."
+  DRAFT="N"
+  COMMENT="The Convention for the Protection of the Marine Environment of the North-East Atlantic (&quot;OSPAR Convention&quot;) was opened for signature at the Ministerial Meeting of the Oslo and Paris Commissions in Paris on 22 September 1992. 
+The Convention has been signed and ratified by all of the Contracting Parties to the Oslo or Paris Conventions (Belgium, Denmark, the Commission of the European Communities, Finland, France, Germany, Iceland, Ireland, the Netherlands, Norway, Portugal, Spain, Sweden and the United Kingdom of Great Britain and Northern Ireland) and by Luxembourg and Switzerland. 
+The OSPAR Convention entered into force on 25 March 1998. It replaces the Oslo and Paris Conventions, but Decisions, Recommendations and all other agreements adopted under those Conventions will continue to be applicable, unaltered in their legal nature, unless they are terminated by new measures adopted under the 1992 OSPAR Convention. 
+As its predecessors, the OSPAR Commission has the status of an international organisation in the terms of British legislation, recognised by a Headquarters Agreement with the Government of the United Kingdom of Great Britain and Northern Ireland"
+  LAST_MODIFIED="2000-03-29"
+  ISSUED_BY="OSPAR Commission"
+  VALID_FROM="1998-04-03"
+  ALIAS="OSPAR Convention"
+  ISSUED_BY_URL="http://www.ospar.org/"
+  FK_CLIENT_ID="4"
+  LAST_UPDATE="2007-04-10 13:27:43.0" RM_NEXT_UPDATE="2005-06-08" RM_VERIFIED="2004-06-08" RM_VERIFIED_BY="ETC Water BFB"
+  GEOGRAPHIC_SCOPE="" DGENV_REVIEW="" RM_VALIDATED_BY=""/>
+
+  <T_SOURCE PK_SOURCE_ID="499" FK_TYPE_ID="15" SOURCE_CODE="" TITLE="EEA Annual Management Plan" CELEX_REF="" LEGAL_NAME=""
+  URL="http://org.eea.eu.int/documents/" SECRETARIAT="" SECRETARIAT_URL=""
+  ABSTRACT="The Agency&apos;s work programme 2005 as well as the Strategy 2004-2008 is presented on this webpage. In 2006 work on the EEA/Eionet information system will be focused on improving the quality assurance of data flows with emphasis on the five thematic areas where EEA will act as a European data centre, including data for the core set of indicators plus the data flows envisaged under GEO, GEOSS, Inspire and GMES. Quality assurance and control procedures will be developed and agreed upon within Eionet and supported by the relevant
+European Topic Centres where appropriate. Analytical tools and services will continue to be enhanced to enable EEA clients to access and use information more readily. This general objective will run from 2006 - 08." DRAFT="N" COMMENT="Former name was Annual Work Programme" LAST_MODIFIED="2004-04-01" ISSUED_BY="EEA" VALID_FROM="2005-03-09" ALIAS="EEA AMP" ISSUED_BY_URL="http://www.eea.europa.eu" FK_CLIENT_ID="3" LAST_UPDATE="2007-11-27 10:14:21.0" RM_NEXT_UPDATE="2007-05-04" RM_VERIFIED="2006-10-10" RM_VERIFIED_BY="ETC TE JFE" GEOGRAPHIC_SCOPE="EEA area" DGENV_REVIEW="" RM_VALIDATED_BY=""/>
+
+  <T_SOURCE_CLASS PK_CLASS_ID="1" CLASS_NAME="Legal Instrument" NEW="1"/>
+  <T_SOURCE_CLASS PK_CLASS_ID="14" CLASSIFICATOR="15" CLASS_NAME="Environment, consumers and health protection" NEW="1"/>
+
+  <T_SOURCE_LNK PK_SOURCE_LNK_ID="1" FK_SOURCE_CHILD_ID="14" CHILD_TYPE="C" FK_SOURCE_PARENT_ID="1" PARENT_TYPE="C"/>
+
+  <T_SOURCE_TYPE PK_TYPE_ID="15" TYPE="Agreement" NEW="1"/>
+  <T_SOURCE_TYPE PK_TYPE_ID="16" TYPE="Convention" NEW="1"/>
+  <T_SOURCE_TYPE PK_TYPE_ID="17" TYPE="Decision" NEW="1"/>
+  <T_SOURCE_TYPE PK_TYPE_ID="18" TYPE="Declaration" NEW="1"/>
+  <T_SOURCE_TYPE PK_TYPE_ID="19" TYPE="Directive" NEW="1"/>
+  <T_SOURCE_TYPE PK_TYPE_ID="20" TYPE="Proposal" NEW="1"/>
+  <T_SOURCE_TYPE PK_TYPE_ID="21" TYPE="Protocol" NEW="1"/>
+  <T_SOURCE_TYPE PK_TYPE_ID="22" TYPE="Regulation" NEW="1"/>
+  <T_SOURCE_TYPE PK_TYPE_ID="23" TYPE="Resolution" NEW="1"/>
+  <T_SOURCE_TYPE PK_TYPE_ID="24" TYPE="EU legislation" NEW="1"/>
+
+  <T_SPATIAL PK_SPATIAL_ID="1" SPATIAL_NAME="European Community" SPATIAL_TYPE="C" SPATIAL_TWOLETTER="EC" SPATIAL_ISMEMBERCOUNTRY="N"/>
+  <T_SPATIAL PK_SPATIAL_ID="2" SPATIAL_NAME="Albania" SPATIAL_TYPE="C" SPATIAL_TWOLETTER="AL" SPATIAL_ISMEMBERCOUNTRY="N"/>
+  <T_SPATIAL PK_SPATIAL_ID="3" SPATIAL_NAME="Austria" SPATIAL_TYPE="C" SPATIAL_TWOLETTER="AT" SPATIAL_ISMEMBERCOUNTRY="Y"/>
+  <T_SPATIAL PK_SPATIAL_ID="42" SPATIAL_NAME="Danube" SPATIAL_TYPE="R"/>
+  <T_SPATIAL PK_SPATIAL_ID="71" SPATIAL_NAME="The Baltic Sea" SPATIAL_TYPE="S"/>
+  <T_SPATIAL PK_SPATIAL_ID="77" SPATIAL_NAME="Bodensee" SPATIAL_TYPE="L"/>
+  <T_SPATIAL PK_SPATIAL_ID="91" SPATIAL_NAME="Djerdap" SPATIAL_TYPE="O"/>
+
+  <T_SPATIAL_HISTORY/>
+
+<!-- Empty the undo table -->
+  <T_UNDO/>
+
+</dataset>
+
