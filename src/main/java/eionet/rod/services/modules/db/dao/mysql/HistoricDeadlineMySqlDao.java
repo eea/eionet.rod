@@ -2,18 +2,14 @@ package eionet.rod.services.modules.db.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 import eionet.rod.dto.HistDeadlineDTO;
-import eionet.rod.dto.ObligationDTO;
 import eionet.rod.dto.readers.HistDeadlineDTOReader;
-import eionet.rod.dto.readers.ObligationDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IHistoricDeadlineDao;
 import eionet.rod.util.sql.SQLUtil;

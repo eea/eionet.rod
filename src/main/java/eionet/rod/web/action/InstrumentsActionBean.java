@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -383,11 +383,11 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
             undoDao.addObligationIdsIntoUndo(Integer.valueOf(instId),ts,"T_SOURCE");
             
             // cascade delete related reporting obligations
-            List sourceObligations = RODServices.getDbService().getObligationDao().getObligationsBySource(Integer.valueOf(instId));
+            List<String> sourceObligations = RODServices.getDbService().getObligationDao().getObligationsBySource(Integer.valueOf(instId));
             int cnt = 1;
-            Iterator soIterator = sourceObligations.iterator();
+            Iterator<String> soIterator = sourceObligations.iterator();
             while (soIterator.hasNext()) {
-				String obligationId = (String) soIterator.next();
+				String obligationId = soIterator.next();
 				IObligationDao obligationDao = RODServices.getDbService().getObligationDao();
 				ObligationsActionBean obligationBean = new ObligationsActionBean();
 				obligationBean.setId(obligationId);
@@ -447,8 +447,8 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
     	
     	try{
         
-	        Vector lists = new Vector();
-	        Vector list = new Vector();
+	        Vector<Vector<String>> lists = new Vector<Vector<String>>();
+	        Vector<String> list = new Vector<String>();
 	        long timestamp = System.currentTimeMillis();
 	        String events = "http://rod.eionet.europa.eu/events/" + timestamp;
 	        
@@ -459,14 +459,14 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
                 list.add(Attrs.SCHEMA_RDF + "InstrumentChange");
                 lists.add(list);
                 
-                list = new Vector();
+                list = new Vector<String>();
                 list.add(events);
                 String et_schema = fileService.getStringProperty(FileServiceIF.UNS_EVENTTYPE_PREDICATE);
 	            list.add(et_schema);
                 list.add("Instrument change");
                 lists.add(list);
                 
-                list = new Vector();
+                list = new Vector<String>();
                 list.add(events);
                 list.add("http://purl.org/dc/elements/1.1/title");
                 list.add("Instrument change");
@@ -479,14 +479,14 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
                 list.add(Attrs.SCHEMA_RDF + "NewInstrument");
                 lists.add(list);
                 
-                list = new Vector();
+                list = new Vector<String>();
                 list.add(events);
                 String et_schema = fileService.getStringProperty(FileServiceIF.UNS_EVENTTYPE_PREDICATE);
 	            list.add(et_schema);
                 list.add("New instrument");
                 lists.add(list);
                 
-                list = new Vector();
+                list = new Vector<String>();
                 list.add(events);
                 list.add("http://purl.org/dc/elements/1.1/title");
                 list.add("New instrument");
@@ -494,24 +494,24 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 	            
 	        }
 	        
-	        list = new Vector();
+	        list = new Vector<String>();
             list.add(events);
             String inst_schema = fileService.getStringProperty(FileServiceIF.UNS_INSTRUMENT_PREDICATE);
             list.add(inst_schema);
             list.add(instrument.getSourceTitle());
             lists.add(list);
             
-            list = new Vector();
+            list = new Vector<String>();
             list.add(events);
             list.add(Attrs.SCHEMA_RDF + "actor");
             list.add(userName);
             lists.add(list);
 	        
 	        if (isUpdate) {                      
-	            Vector changes = getChanges(instId);
-	            for(Enumeration en = changes.elements(); en.hasMoreElements(); ){
-	                String label = (String) en.nextElement();
-	                list = new Vector();
+	            Vector<String> changes = getChanges(instId);
+	            for(Enumeration<String> en = changes.elements(); en.hasMoreElements(); ){
+	                String label = en.nextElement();
+	                list = new Vector<String>();
 	                list.add(events);
 	                list.add(Attrs.SCHEMA_RDF + "change");
 	                list.add(label);
@@ -519,7 +519,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 	            }
 	        }
 	        
-	        list = new Vector();
+	        list = new Vector<String>();
             list.add(events);
             list.add("http://purl.org/dc/elements/1.1/identifier");
             String url = "http://rod.eionet.europa.eu/instruments/" + instId;
@@ -534,12 +534,12 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
     	}
     }
 	
-	private Vector getChanges(String instrumentID) throws ServiceException {
+	private Vector<String> getChanges(String instrumentID) throws ServiceException {
 	       
-	       Vector res_vec = new Vector();
-	       Vector undo_vec = RODServices.getDbService().getUndoDao().getUndoInformation(ts,"U","T_SOURCE",instrumentID);
+	       Vector<String> res_vec = new Vector<String>();
+	       Vector<Map<String,String>> undo_vec = RODServices.getDbService().getUndoDao().getUndoInformation(ts,"U","T_SOURCE",instrumentID);
 	       for (int i=0; i<undo_vec.size(); i++){
-	           Hashtable hash = (Hashtable) undo_vec.elementAt(i);
+	    	   Map<String,String> hash = undo_vec.elementAt(i);
 	           
 	           String label = "";
 	           String ut = (String) hash.get("undo_time");

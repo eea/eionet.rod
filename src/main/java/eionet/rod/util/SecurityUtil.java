@@ -117,7 +117,7 @@ public class SecurityUtil {
         
         HttpSession session = request.getSession();
         String appName = session.getServletContext().getInitParameter(Attrs.APPPARAM);
-        ROUser user = session==null ? null : (ROUser)session.getAttribute(REMOTEUSER + appName);
+        ROUser user = (ROUser)session.getAttribute(REMOTEUSER + appName);
         
         if (user==null){
         	String casUserName = (String)session.getAttribute(CASFilter.CAS_FILTER_USER);
