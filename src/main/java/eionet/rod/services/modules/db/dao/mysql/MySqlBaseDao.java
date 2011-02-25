@@ -704,7 +704,7 @@ public abstract class MySqlBaseDao {
 					String s = "SELECT value FROM T_UNDO where undo_time = '"+ts+"' AND tab='" + tab + "' " + " AND col = '" + col + "' AND sub_trans_nr = " + sub_trans_nr;
 					String[][] sa = _executeStringQuery(s);
 					if (sa.length > 0) val = sa[0][0];
-					if (val.equals(vol)) {
+					if (val != null && val.equals(vol)) {
 						String name_sql = sql + value;
 						String[][] na = _executeStringQuery(name_sql);
 						if (na.length > 0) {
