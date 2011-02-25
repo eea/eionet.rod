@@ -20,7 +20,6 @@ import eionet.rod.services.ServiceException;
 public class UpdateHistoryActionBean extends AbstractRODActionBean {
 	
 	private List<VersionDTO> list;
-	private String username;
 	private String id;
 	private String object;
 	private String type;
@@ -32,8 +31,8 @@ public class UpdateHistoryActionBean extends AbstractRODActionBean {
 	@DefaultHandler
 	public Resolution init() throws ServiceException {
 		
-		if(!RODUtil.isNullOrEmpty(username))
-			list = RODServices.getDbService().getUndoDao().getUpdateHistoryByUser(username);
+		if(!RODUtil.isNullOrEmpty(getUserName()))
+			list = RODServices.getDbService().getUndoDao().getUpdateHistoryByUser(getUserName());
 		if(!RODUtil.isNullOrEmpty(type))
 			list = RODServices.getDbService().getUndoDao().getDeleted(type);
 		else
@@ -48,14 +47,6 @@ public class UpdateHistoryActionBean extends AbstractRODActionBean {
 
 	public void setList(List<VersionDTO> list) {
 		this.list = list;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getId() {
