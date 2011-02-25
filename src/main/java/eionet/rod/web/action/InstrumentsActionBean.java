@@ -47,7 +47,6 @@ import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IObligationDao;
 import eionet.rod.services.modules.db.dao.ISourceDao;
 import eionet.rod.services.modules.db.dao.IUndoDao;
-import eionet.rod.web.util.SeeOtherRedirectResolution;
 
 /**
  * 
@@ -547,7 +546,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 	           String tabel = (String) hash.get("tab");
 	           String col = (String) hash.get("col");
 	           String value = (String) hash.get("value");
-	           if(tabel != null & !tabel.equals("") && tabel.equals("T_SOURCE")){
+	           if(tabel != null && !tabel.equals("") && tabel.equals("T_SOURCE")){
 	               String currentValue = RODServices.getDbService().getDifferencesDao().getDifferences(Long.valueOf(ut).longValue(),tabel,col);
 	               if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null"))) value = null;
 	               if ((currentValue != null && currentValue.trim().equals("")) || (currentValue != null && currentValue.trim().equals("null"))) currentValue = null;
