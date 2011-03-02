@@ -11,7 +11,7 @@
 		<env>local</env>
 	</properties>
 	
-	<version>1.0-SNAPSHOT</version>
+	<version>4.1-SNAPSHOT</version>
 	<name>webrod</name>
 	<url>http://maven.apache.org</url>
 	
@@ -66,7 +66,7 @@
  				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
-					<version>2.1.1</version>
+					<!-- <version>2.1.1</version> -->
 					<configuration>
 						<filters>
 							<filter>${basedir}/${env}.properties</filter>
@@ -234,9 +234,9 @@
 			<version>2.0</version>
 		</dependency>
 		<dependency>
-			<groupId>castor</groupId>
+			<groupId>castor</groupId>  <!-- Is now org.codehaus.castor? -->
 			<artifactId>castor</artifactId>
-			<version>1.22</version>
+			<version>0.9.2</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -303,4 +303,19 @@
 			<version>1.4</version>
 		</dependency>
 	</dependencies>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<configuration>
+					<linkXref>false</linkXref>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<minimumTokens>300</minimumTokens>
+					<targetJdk>1.6</targetJdk>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
