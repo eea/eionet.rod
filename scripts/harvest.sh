@@ -1,22 +1,19 @@
 #!/bin/sh
 
-
 # !!!!!!!!!!!!!!!!!! ADJUST THESE !!!!!!!!!!!!!!!!!!
 rod=@WEBAPP.HOME@/WEB-INF
 cd $rod/classes
 java=/usr/bin/java
 
-libpath=$rod/lib
-
 # !!!!!!!!!!!!!!!!! CHECK, if mysql JAR is correct !!!!!!!!!!!!!!
 cp=@MYSQL.JAR@
 
-cp=$cp:$libpath/ldap.jar
-cp=$cp:$libpath/jndi.jar
-cp=$cp:$libpath/providerutil.jar
-cp=$cp:$libpath/eionet-dir.jar:$libpath/uit-security.jar
-cp=$cp:$libpath/rod.jar:$libpath/xmlrpc.jar
-cp=$cp:$libpath/uit-client.jar:$libpath/log4j.jar:$CLASSPATH
+cp=$cp:@LDAP.JAR@
+cp=$cp:@JNDI.JAR@
+cp=$cp:@PROVIDERUTIL.JAR@
+cp=$cp:@EIONETDIR.JAR@:@UITSECURITY.JAR@
+cp=$cp:@XMLRPC.JAR@
+cp=$cp:@UITCLIENT.JAR@:@LOG4J.JAR@:$CLASSPATH
 
 if [ "$1" = "" ] ; then
         i="0"

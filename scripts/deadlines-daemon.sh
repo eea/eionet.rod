@@ -15,15 +15,13 @@ java=/usr/bin/java
 rod=@WEBAPP.HOME@/WEB-INF
 cd $rod/classes
 
-libpath=$rod/lib
-
 # place the right path in here !!!
 cp=@MYSQL.JAR@
 
 # place the right path in here !!!
 cp=$cp:@SERVLETAPI.JAR@
 
-cp=$cp:$libpath/rod.jar:$libpath/eionet-dir.jar
-cp=$cp:$libpath/tomcat-util.jar:$libpath/xmlrpc.jar:$libpath/uit-security.jar:$CLASSPATH
+cp=$cp:@EIONETDIR.JAR@
+cp=$cp:@TOMCATUTIL.JAR@:@XMLRPC.JAR@:@UITSECURITY.JAR@:$CLASSPATH
 
 $java -cp $cp eionet.rod.DeadlinesDaemon

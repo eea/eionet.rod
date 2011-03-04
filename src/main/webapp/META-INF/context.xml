@@ -7,7 +7,7 @@
               username="${db.usr}" 
               password="${db.pwd}"
               driverClassName="${db.drv}"
-              url="${db.url}"
+              url="${db.host}"
               validationQuery="select 1"
               maxActive="10" 
               maxIdle="4"/>

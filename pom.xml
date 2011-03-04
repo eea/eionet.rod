@@ -105,39 +105,48 @@
 						</configuration>
 					</execution>
 					<execution>
-							<id>copy files</id>
-							<phase>install</phase>
-							<goals>
-								<goal>run</goal>
-							</goals>
-							<configuration>
-								<tasks>
-									<loadproperties srcFile="${env}.properties"/>
-									
-									<!-- we do not care about these files older versions -->
-									<copy file="WebRODservice.xml" todir="${app.home}" overwrite="true"/>
-									<copy file="VERSION.txt" todir="${app.home}" overwrite="true"/>
+						<id>copy files</id>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<loadproperties srcFile="${env}.properties"/>
+								
+								<!-- we do not care about these files older versions -->
+								<copy file="WebRODservice.xml" todir="${app.home}" overwrite="true"/>
+								<copy file="VERSION.txt" todir="${app.home}" overwrite="true"/>
 
-									<!-- Copy supporting scripts -->
-									<copy todir="${app.home}" overwrite="false">
-										<fileset dir="scripts"></fileset>
-										<filterchain>
-											<replacetokens>
-												<token key="WEBAPP.HOME" value="${webapp.home}"/>
-												<token key="APP.HOME" value="${app.home}"/>
-												<token key="SERVLETAPI.JAR" value="${servletapi.jar}"/>
-												<token key="MYSQL.JAR" value="${lib-mysql-connector-jar}"/>
-											</replacetokens>
-										</filterchain>
-									</copy>
+								<!-- Copy supporting scripts -->
+								<copy todir="${app.home}" overwrite="false">
+									<fileset dir="scripts"></fileset>
+									<filterchain>
+										<replacetokens>
+											<token key="WEBAPP.HOME" value="${webapp.home}"/>
+											<token key="APP.HOME" value="${app.home}"/>
+											<token key="SERVLETAPI.JAR" value="${maven.dependency.javax.servlet.servlet-api.jar.path}"/>
+											<token key="MYSQL.JAR" value="${maven.dependency.mysql.mysql-connector-java.jar.path}"/>
+											<token key="LDAP.JAR" value="${maven.dependency.ldap.ldap.jar.path}"/>
+											<token key="JNDI.JAR" value="${maven.dependency.jndi.jndi.jar.path}"/>
+											<token key="PROVIDERUTIL.JAR" value="${maven.dependency.providerutil.providerutil.jar.path}"/>
+											<token key="EIONETDIR.JAR" value="${maven.dependency.eionet.eionet-dir.jar.path}"/>
+											<token key="UITSECURITY.JAR" value="${maven.dependency.eionet.uit-security.jar.path}"/>
+											<token key="XMLRPC.JAR" value="${maven.dependency.xmlrpc.xmlrpc.jar.path}"/>
+											<token key="UITCLIENT.JAR" value="${maven.dependency.eionet.uit-client.jar.path}"/>
+											<token key="LOG4J.JAR" value="${maven.dependency.log4j.log4j.jar.path}"/>
+											<token key="TOMCATUTIL.JAR" value="${maven.dependency.org.apache.tomcat.tomcat-util.jar.path}"/>
+										</replacetokens>
+									</filterchain>
+								</copy>
 
-									<!-- Copy supporting ACL files -->
-									<copy todir="${app.home}/acl" overwrite="false">
-										<fileset dir="acl"/>
-									</copy>
-								</tasks>
-							</configuration>
-						</execution>
+								<!-- Copy supporting ACL files -->
+								<copy todir="${app.home}/acl" overwrite="false">
+									<fileset dir="acl"/>
+								</copy>
+							</tasks>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 
@@ -292,7 +301,7 @@
 		<dependency>
 			<groupId>castor</groupId>  <!-- Is now org.codehaus.castor? -->
 			<artifactId>castor</artifactId>
-			<version>0.9.2</version>
+			<version>1.0</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
