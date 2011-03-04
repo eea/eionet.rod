@@ -85,22 +85,34 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.6</version>
+				<version>1.3</version>
 				<executions>
 					<execution>
-							<id>create external resources</id>
+						<id>create dirs</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<loadproperties srcFile="${env}.properties"/>
+								
+								<mkdir dir="${app.home}"/>
+								<mkdir dir="${app.home}/tmp"/>
+								<mkdir dir="${app.home}/log"/>
+								<mkdir dir="${app.home}/acl"/>
+							</tasks>
+						</configuration>
+					</execution>
+					<execution>
+							<id>copy files</id>
 							<phase>install</phase>
 							<goals>
 								<goal>run</goal>
 							</goals>
 							<configuration>
-								<target>
+								<tasks>
 									<loadproperties srcFile="${env}.properties"/>
-									
-									<mkdir dir="${app.home}"/>
-									<mkdir dir="${app.home}/tmp"/>
-									<mkdir dir="${app.home}/log"/>
-									<mkdir dir="${app.home}/acl"/>
 									
 									<!-- we do not care about these files older versions -->
 									<copy file="WebRODservice.xml" todir="${app.home}" overwrite="true"/>
@@ -123,7 +135,7 @@
 									<copy todir="${app.home}/acl" overwrite="false">
 										<fileset dir="acl"/>
 									</copy>
-								</target>
+								</tasks>
 							</configuration>
 						</execution>
 				</executions>
