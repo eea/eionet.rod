@@ -33,7 +33,8 @@ public class CountryDeliveriesActionBean extends AbstractRODActionBean {
 	
 	/**
 	 * 
-	 * @return
+	 * @return ForwardResolution
+	 * @throws ServiceException 
 	 */
 	@DefaultHandler
 	public Resolution init() throws ServiceException {
@@ -76,7 +77,7 @@ public class CountryDeliveriesActionBean extends AbstractRODActionBean {
 						ret = "Monthly";
 					else if(freq.equals("12"))
 						ret = "Annually";
-					else if(deliveryData.getObligationNextDeadline().length() == 0)
+					else if(deliveryData.getObligationNextDeadline() == null || deliveryData.getObligationNextDeadline().length() == 0)
 						ret = "&#160;";
 					else
 						ret = "Every " + freq + "months";
