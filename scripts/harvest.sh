@@ -12,7 +12,7 @@ cp=$cp:@LDAP.JAR@
 cp=$cp:@JNDI.JAR@
 cp=$cp:@PROVIDERUTIL.JAR@
 cp=$cp:@EIONETDIR.JAR@:@UITSECURITY.JAR@
-cp=$cp:@XMLRPC.JAR@
+cp=$cp:@XMLRPC.JAR@:@COMMONSCODEC.JAR@
 cp=$cp:@UITCLIENT.JAR@:@LOG4J.JAR@:$CLASSPATH
 
 if [ "$1" = "" ] ; then

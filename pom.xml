@@ -129,6 +129,7 @@
 											<token key="MYSQL.JAR" value="${maven.dependency.mysql.mysql-connector-java.jar.path}"/>
 											<token key="LDAP.JAR" value="${maven.dependency.ldap.ldap.jar.path}"/>
 											<token key="JNDI.JAR" value="${maven.dependency.jndi.jndi.jar.path}"/>
+											<token key="COMMONSCODEC.JAR" value="${maven.dependency.commons-codec.commons-codec.jar.path}"/>
 											<token key="PROVIDERUTIL.JAR" value="${maven.dependency.providerutil.providerutil.jar.path}"/>
 											<token key="EIONETDIR.JAR" value="${maven.dependency.eionet.eionet-dir.jar.path}"/>
 											<token key="UITSECURITY.JAR" value="${maven.dependency.eionet.uit-security.jar.path}"/>
