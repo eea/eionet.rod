@@ -119,7 +119,7 @@
 								<copy file="VERSION.txt" todir="${app.home}" overwrite="true"/>
 
 								<!-- Copy supporting scripts -->
-								<copy todir="${app.home}" overwrite="false">
+								<copy todir="${app.home}" overwrite="true">
 									<fileset dir="scripts"></fileset>
 									<filterchain>
 										<replacetokens>
