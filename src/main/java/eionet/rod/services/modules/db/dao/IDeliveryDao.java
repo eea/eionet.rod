@@ -2,9 +2,9 @@ package eionet.rod.services.modules.db.dao;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Vector;
+
+import org.openrdf.query.TupleQueryResult;
 
 import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.dto.CountryDeliveryDataDTO;
@@ -18,6 +18,7 @@ public interface IDeliveryDao {
 	public void rollBackDeliveries() throws ServiceException;
 
 	/**
+	 * @param deliveredCountriesByObligations 
 	 * @throws ServiceException
 	 */
 	public void commitDeliveries(HashMap<String,HashSet<Integer>> deliveredCountriesByObligations) throws ServiceException;
@@ -30,23 +31,24 @@ public interface IDeliveryDao {
 	/**
 	 * @param actDetailsId
 	 * @param spatialId
+	 * @return List<CountryDeliveryDTO>
 	 * @throws ServiceException
 	 */
 	public List<CountryDeliveryDTO> getCountyDeliveriesList(String actDetailsId, String spatialId) throws ServiceException;
 	
 	/**
 	 * @param actDetailsId
+	 * @return CountryDeliveryDataDTO
 	 * @throws ServiceException
 	 */
 	public CountryDeliveryDataDTO getDeliveryData(String actDetailsId) throws ServiceException;
 
 	/**
 	 * 
-	 * @param deliveries
-	 * @param existingCountryIdsByNames
+	 * @param bindings
 	 * @param savedCountriesByObligationId
-	 * @return
+	 * @return int
 	 * @throws ServiceException
 	 */
-	public int saveDeliveries(Vector<Hashtable<String,Object>> deliveries, HashMap<String,Integer> existingCountryIdsByNames, HashMap<String,HashSet<Integer>> savedCountriesByObligationId) throws ServiceException;
+	public int saveDeliveries(TupleQueryResult bindings, HashMap<String,HashSet<Integer>> savedCountriesByObligationId) throws ServiceException;
 }

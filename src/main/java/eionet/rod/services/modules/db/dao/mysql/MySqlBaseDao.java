@@ -54,12 +54,6 @@ public abstract class MySqlBaseDao {
 			FileServiceIF fileService = RODServices.getFileService();
 			properties.put(FileServiceIF.ISSUE_NAMESPACE, fileService.getStringProperty(FileServiceIF.ISSUE_NAMESPACE));
 			properties.put(FileServiceIF.ORGANISATION_NAMESPACE, fileService.getStringProperty(FileServiceIF.ORGANISATION_NAMESPACE));
-			properties.put(FileServiceIF.CONTREG_TITLE_PREDICATE, fileService.getStringProperty(FileServiceIF.CONTREG_TITLE_PREDICATE));
-			properties.put(FileServiceIF.CONTREG_TYPE_PREDICATE, fileService.getStringProperty(FileServiceIF.CONTREG_TYPE_PREDICATE));
-			properties.put(FileServiceIF.CONTREG_DATE_PREDICATE, fileService.getStringProperty(FileServiceIF.CONTREG_DATE_PREDICATE));
-			properties.put(FileServiceIF.CONTREG_IDENTIFIER_PREDICATE, fileService.getStringProperty(FileServiceIF.CONTREG_IDENTIFIER_PREDICATE));
-			properties.put(FileServiceIF.CONTREG_FORMAT_PREDICATE, fileService.getStringProperty(FileServiceIF.CONTREG_FORMAT_PREDICATE));
-			properties.put(FileServiceIF.CONTREG_COVERAGE_PREDICATE, fileService.getStringProperty(FileServiceIF.CONTREG_COVERAGE_PREDICATE));
 			properties.put(FileServiceIF.COUNTRY_NAMESPACE, fileService.getStringProperty(FileServiceIF.COUNTRY_NAMESPACE));
 			properties.put(FileServiceIF.SPATIAL_NAMESPACE, fileService.getStringProperty(FileServiceIF.SPATIAL_NAMESPACE));
 			properties.put(FileServiceIF.DB_DRV, fileService.getStringProperty(FileServiceIF.DB_DRV));
@@ -96,6 +90,8 @@ public abstract class MySqlBaseDao {
 
 	/**
 	 * Returns a new database connection.
+	 * @return Connection
+	 * @throws SQLException 
 	 * 
 	 * @throw ServiceException if no connections were available.
 	 */

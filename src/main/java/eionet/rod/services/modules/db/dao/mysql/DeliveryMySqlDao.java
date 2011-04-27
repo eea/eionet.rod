@@ -13,40 +13,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Vector;
+
+import org.apache.commons.lang.StringUtils;
+import org.openrdf.query.BindingSet;
+import org.openrdf.query.TupleQueryResult;
 
 import eionet.rod.RODUtil;
 import eionet.rod.dto.CountryDeliveryDTO;
 import eionet.rod.dto.CountryDeliveryDataDTO;
 import eionet.rod.dto.readers.CountryDeliveryDTOReader;
-import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IDeliveryDao;
 import eionet.rod.util.sql.SQLUtil;
 
 public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
-	private static String titlePred = (String) properties.get(FileServiceIF.CONTREG_TITLE_PREDICATE);
-
-	private static String typePred = (String) properties.get(FileServiceIF.CONTREG_TYPE_PREDICATE);
-
-	private static String datePred = (String) properties.get(FileServiceIF.CONTREG_DATE_PREDICATE);
-
-	private static String identifierPred = (String) properties.get(FileServiceIF.CONTREG_IDENTIFIER_PREDICATE);
-
-	private static String formatPred = (String) properties.get(FileServiceIF.CONTREG_FORMAT_PREDICATE);
-
-	private static String coveragePred = (String) properties.get(FileServiceIF.CONTREG_COVERAGE_PREDICATE);
-
-	private static String countryPred = (String) properties.get(FileServiceIF.COUNTRY_NAMESPACE);
-	
-	private static String obligationPred = (String) properties.get(FileServiceIF.RA_NAMESPACE);
-	
 	private static String obligationsPrefix = rodDomain + "/obligations/";
+	private static String spatialsPrefix = rodDomain + "/spatial/";
 	
 	private static DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
@@ -59,6 +45,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
 	/** */
 	private static final String qMarkCountries = "" + "UPDATE T_OBLIGATION " + "SET LAST_HARVESTED = {fn now()}, FK_DELIVERY_COUNTRY_IDS = ? " + "WHERE PK_RA_ID = ?;";
+	
 	/**
 	 * 
 	 * @param raId
@@ -73,114 +60,100 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 		preparedStatement.executeUpdate();
 		preparedStatement.close();
 	}
-
+	
 	/*
-	 * (non-Javadoc)
-	 * @see eionet.rod.services.modules.db.dao.IDeliveryDao#saveDeliveriesNew(java.util.Vector, java.util.HashMap)
-	 */
-	public int saveDeliveries(Vector<Hashtable<String,Object>> deliveries, HashMap<String,Integer> existingCountryIdsByNames, HashMap<String,HashSet<Integer>> savedCountriesByObligationId) throws ServiceException{
-		
-		int batchCounter = 0;
-		
-		if (deliveries==null || deliveries.isEmpty()){
-			return batchCounter;
-		}
-		
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		try {
-			connection = getConnection();
-			preparedStatement = connection.prepareStatement(qSaveDeliveries);
-
-			
-			for (int i = 0; i < deliveries.size(); i++) {
-				
-				Hashtable<String,Object> deliveryData = (Hashtable<String,Object>)deliveries.get(i);
-				if (deliveryData==null || deliveryData.isEmpty()){
-					logger.info("Delivery not saved, because delivery data was empty");
-				}
-				else{
-					
-					String identifier = cnvVector((Vector<String>) deliveryData.get(identifierPred), ",");
-					if (identifier==null || identifier.trim().length()==0){
-						identifier = "No URL";
-					}
-					String title = cnvVector((Vector<String>) deliveryData.get(titlePred), ",");
-					String sdate = cnvVector((Vector<String>) deliveryData.get(datePred), ",");
-					Date date = null;
-					try{
-						date = isoDateFormat.parse(sdate);
-					}
-					catch(ParseException pe){}
-
-					String type = cnvVector((Vector<String>) deliveryData.get(typePred), ",");
-					String format = cnvVector((Vector<String>) deliveryData.get(formatPred), ",");
-					String coverage = cnvVector((Vector<String>) deliveryData.get(coveragePred), " ");
-					
-					// we assume there might be more than one obligation per delivery
-					Vector<String> obligations = (Vector<String>)deliveryData.get(obligationPred);
-					
-					// we assume there is only one country per delivery
-					String countryName = cnvVector((Vector<String>) deliveryData.get(countryPred), " ");
-					Integer countryId = (Integer)existingCountryIdsByNames.get(countryName);
-					
-					if (countryId==null){
-						logger.info("!!! Delivery not saved, failed to find id for country: " + countryName +", "
-						+ "Identifier: " + identifier + ", "
-						+ "Title: " + title + ", "
-						+ "Date: " + sdate + ", "
-						+ "Type: " + type + ", "
-						+ "Format: " + format + ", "
-						+ "Coverage: " + coverage);
-					}
-					else if (obligations!=null && !obligations.isEmpty()){
-						
-						for (Iterator<String> iter = obligations.iterator(); iter.hasNext();){
-							
-							String obligUrl = iter.next();
-							String obligId = obligUrl.startsWith(obligationsPrefix) ?
-									obligUrl.substring(obligationsPrefix.length()) : null;
-										
-							if (obligId!=null){
-
-								preparedStatement.setString(1, (title == null) ? "" : title);
-								preparedStatement.setString(2, obligUrl);
-								preparedStatement.setString(3, ((type == null) ? "" : type));
-								preparedStatement.setString(4, ((format == null) ? "" : format));
-								preparedStatement.setString(5, ((coverage == null) ? "" : coverage));
-								preparedStatement.setInt(6, 1);
-								preparedStatement.setTimestamp(7, date != null ? new Timestamp(date.getTime()) : null);
-								preparedStatement.setString(8, identifier);
-								preparedStatement.setInt(9, countryId.intValue());
-								preparedStatement.setInt(10, Integer.parseInt(obligId));
-								
-								preparedStatement.addBatch();
-								batchCounter++;
-								
-								HashSet<Integer> savedCountries = (HashSet<Integer>)savedCountriesByObligationId.get(obligId);
-								if (savedCountries==null){
-									savedCountries = new HashSet<Integer>();
-									savedCountriesByObligationId.put(obligId, savedCountries);
-								}
-								savedCountries.add(countryId);
-							}
-						}
-					}
-				}
-			}
-			
-			preparedStatement.executeBatch();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			throw new ServiceException("Saving deliveries failed with reason " + e.toString());
-		}
-		finally {
-			closeAllResources(null, preparedStatement, connection);
-		}
-		
-		return batchCounter;
-	}
+     * (non-Javadoc)
+     * @see eionet.rod.services.modules.db.dao.IDeliveryDao#saveDeliveries(TupleQueryResult, HashMap<String,HashSet<Integer>>)
+     */
+    public int saveDeliveries(TupleQueryResult bindings, HashMap<String,HashSet<Integer>> savedCountriesByObligationId) throws ServiceException {
+        
+        int batchCounter = 0;
+        
+        if (bindings == null) {
+            return batchCounter;
+        }
+        
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(qSaveDeliveries);
+            
+            for (int row = 0; bindings.hasNext(); row++) {
+                BindingSet pairs = bindings.next();
+                
+                String link = pairs.getValue("link").stringValue();
+                if (link == null || link.trim().length()==0){
+                    link = "No URL";
+                }
+                String title = (pairs.getValue("title") != null) ? pairs.getValue("title").stringValue() : "";
+                String locality = (pairs.getValue("locality") != null) ? pairs.getValue("locality").stringValue() : "";
+                String obligation = (pairs.getValue("obligation") != null) ? pairs.getValue("obligation").stringValue() : "";
+                String period = (pairs.getValue("period") != null) ? pairs.getValue("period").stringValue() : "";
+                String sdate = (pairs.getValue("date") != null) ? pairs.getValue("date").stringValue() : "";
+                Date date = null;
+                try{
+                    date = isoDateFormat.parse(sdate);
+                }
+                catch(ParseException pe){}
+                
+                String countryId = null;
+                if (!StringUtils.isBlank(locality) && locality.startsWith(spatialsPrefix)) {
+                    int index = locality.lastIndexOf("/");
+                    if (index != -1 && locality.length() > (index + 1)) {
+                        countryId = locality.substring(index + 1);
+                    }
+                }
+                
+                if (countryId == null){
+                    logger.info("!!! Delivery not saved, failed to find id for country: " + locality +", "
+                    + "Identifier: " + link + ", "
+                    + "Title: " + title + ", "
+                    + "Date: " + sdate + ", "
+                    + "Coverage: " + period);
+                } else if (!StringUtils.isBlank(obligation) && obligation.startsWith(obligationsPrefix)) {
+                    
+                    int index = obligation.lastIndexOf("/");
+                    if (index != -1 && obligation.length() > (index + 1)) {
+                        String obligationId = obligation.substring(index + 1);
+                        
+                        if (!StringUtils.isBlank(obligationId)) {
+                            preparedStatement.setString(1, (title == null) ? "" : title);
+                            preparedStatement.setString(2, obligation);
+                            preparedStatement.setString(3, "");
+                            preparedStatement.setString(4, "");
+                            preparedStatement.setString(5, ((period == null) ? "" : period));
+                            preparedStatement.setInt(6, 1);
+                            preparedStatement.setTimestamp(7, date != null ? new Timestamp(date.getTime()) : null);
+                            preparedStatement.setString(8, link);
+                            preparedStatement.setInt(9, Integer.parseInt(countryId));
+                            preparedStatement.setInt(10, Integer.parseInt(obligationId));
+                            
+                            preparedStatement.addBatch();
+                            batchCounter++;
+                            
+                            HashSet<Integer> savedCountries = (HashSet<Integer>)savedCountriesByObligationId.get(obligationId);
+                            if (savedCountries==null){
+                                savedCountries = new HashSet<Integer>();
+                                savedCountriesByObligationId.put(obligationId, savedCountries);
+                            }
+                            savedCountries.add(Integer.parseInt(countryId));
+                        }
+                    }
+                }
+            }
+            preparedStatement.executeBatch();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new ServiceException("Saving deliveries failed with reason " + e.toString());
+        }
+        finally {
+            closeAllResources(null, preparedStatement, connection);
+        }
+        
+        return batchCounter;
+    }
 
 	private static final String qRollBackDeliveriesDelete = 
 		"DELETE " + 

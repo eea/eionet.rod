@@ -21,14 +21,7 @@
  * Original Code: Ander Tenno (TietoEnator)
  */
 
-
 package eionet.rod.countrysrv;
-
-import com.tee.uit.client.ServiceClientIF;
-import com.tee.uit.client.ServiceClients;
-
-
-import java.util.Vector;
 
 import java.util.Date;
 import java.io.PrintWriter;
@@ -41,9 +34,16 @@ import eionet.rod.services.modules.db.dao.RODDaoFactory;
 import eionet.directory.DirectoryService;
 import eionet.directory.DirServiceException;
 import java.util.HashMap;
+
+import org.openrdf.query.QueryLanguage;
+import org.openrdf.query.TupleQuery;
+import org.openrdf.query.TupleQueryResult;
+import org.openrdf.repository.RepositoryConnection;
+import org.openrdf.repository.RepositoryException;
+import org.openrdf.repository.sparql.SPARQLRepository;
+
 import com.tee.uit.security.AuthMechanism;
 import com.tee.uit.security.SignOnException;
-
 
 /**
  * Pulls information from various services and saves it to DB.
@@ -51,373 +51,351 @@ import com.tee.uit.security.SignOnException;
 
 public class Extractor implements ExtractorConstants {
 
-	public static final    int ALL_DATA = 0;
-	public static final    int DELIVERIES = 1;
-	public static final    int ROLES = 2;
+    public static final int ALL_DATA = 0;
+    public static final int DELIVERIES = 1;
+    public static final int ROLES = 2;
 
-	public static final    int PARAMS = 3;
+    public static final int PARAMS = 3;
 
-	private static FileServiceIF fileSrv = null;
-	boolean debugLog = true;
-	private static PrintWriter out = null;
-	private static LogServiceIF logger ;
-	private  RODDaoFactory daoFactory;
+    private static FileServiceIF fileSrv = null;
+    boolean debugLog = true;
+    private static PrintWriter out = null;
+    private static LogServiceIF logger;
+    private RODDaoFactory daoFactory;
 
-	private static Extractor extractor;
+    private static Extractor extractor;
 
-	// For debugLog: returns the current date and time (wrapped) as String
-	//
+    // For debugLog: returns the current date and time (wrapped) as String
 
-	static {
-		logger = RODServices.getLogService();
-	}
+    static {
+        logger = RODServices.getLogService();
+    }
 
-	public Extractor() {
+    public Extractor() {
 
-		try {
-			if (daoFactory==null) {
+        try {
+            if (daoFactory == null) {
+                daoFactory = RODServices.getDbService();
+            }
+        } catch (Exception e) {
+            // extractor.out.println("Opening connection to database failed. The following error was reported:\n" + e.toString());
+            log("Opening connection to database failed. The following error was reported:\n" + e.toString());
+            e.printStackTrace();
+            exitApp(false);
+            // throw new ServiceException("Opening connection to database failed." );
+        }
+        log("Db connection ok.");
 
-				daoFactory = RODServices.getDbService();
-			}
-		}  catch (Exception e) {
-			//extractor.out.println("Opening connection to database failed. The following error was reported:\n" + e.toString());
-			log("Opening connection to database failed. The following error was reported:\n" + e.toString());
-			e.printStackTrace();
-			exitApp(false);
-			//throw new ServiceException("Opening connection to database failed." );
-		}
-		log("Db connection ok.");
+    }
 
-	}
-	
-	/**
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		
-		try {
-			String mode = null;
-			String userName = SYSTEM_USER;
+    /**
+     * 
+     * @param args
+     */
+    public static void main(String[] args) {
 
-			if (args.length==1){
-				mode = args[0];
-			}
-			else if (args.length > 1 ){
-				System.out.println("Usage: Extractor [-mode]");
-				return;
-			}
-			else{
-				mode = String.valueOf(ALL_DATA);
-			}
+        try {
+            String mode = null;
+            String userName = SYSTEM_USER;
 
-			if (extractor == null){
-				extractor = new Extractor();
-			}
+            if (args.length == 1) {
+                mode = args[0];
+            } else if (args.length > 1) {
+                System.out.println("Usage: Extractor [-mode]");
+                return;
+            } else {
+                mode = String.valueOf(ALL_DATA);
+            }
 
-			extractor.harvest(Integer.parseInt(mode), userName);
-		}
-		catch (Exception se ) {
-			logger.error(se.toString());
-		}
-	}
-	
-	private String cDT() {
-		Date d = new Date();
-		return new String("[" + d.toString() + "] ");
-	}
+            if (extractor == null) {
+                extractor = new Extractor();
+            }
 
-	// Cleanup after everything is done
-	//
-	public void exitApp(boolean successful) {
-		log(this.cDT() + "Extractor v1.0 - " + ((successful)? "finished succesfully." : "failed to complete."));
-		if (out != null) {
-			out.flush();
-			out.close();
-		}
-	}
+            extractor.harvest(Integer.parseInt(mode), userName);
+        } catch (Exception se) {
+            logger.error(se.toString());
+        }
+    }
 
+    private String cDT() {
+        Date d = new Date();
+        return new String("[" + d.toString() + "] ");
+    }
 
-	/**
-	 * Extract the data
-	 */
-	public void harvest( int mode, String userName ) throws ServiceException {
-		
-		// Initial set-up: create class; open the log file
-		// mode, which data to harvest
+    // Cleanup after everything is done
+    //
+    public void exitApp(boolean successful) {
+        log(this.cDT() + "Extractor v1.0 - " + ((successful) ? "finished succesfully." : "failed to complete."));
+        if (out != null) {
+            out.flush();
+            out.close();
+        }
+    }
 
-		String logPath = null;
-		String logfileName = null;
-		
-		int remoteSrvType = SERVICE_CLIENT_TYPE;
+    /**
+     * Extract the data
+     * 
+     * @param mode
+     * @param userName
+     * @throws ServiceException
+     */
+    public void harvest(int mode, String userName) throws ServiceException {
 
-		try {
-			fileSrv = RODServices.getFileService();
+        // Initial set-up: create class; open the log file
+        // mode, which data to harvest
 
-			//extractor.debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");
-			debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");
+        String logPath = null;
+        String logfileName = null;
 
-			try {
-				remoteSrvType = fileSrv.getIntProperty( FileServiceIF.REMOTE_SRV_TYPE );
+        try {
+            fileSrv = RODServices.getFileService();
 
-				logPath = fileSrv.getStringProperty("extractor.logpath");
-				logfileName = fileSrv.getStringProperty("extractor.logfilename");
-				//extractor.debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");
+            // extractor.debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");
+            debugLog = fileSrv.getBooleanProperty("extractor.debugmode");
 
-			}
-			catch (ServiceException e) {
-				//use default type (XML/RPC), if not specified
-				logger.warning("Unable to get logger settings from properties file. using default The following error was reported:\n" + e.toString());
-				//logfileName = LOG_FILE ; //"extractorlog.txt";
-				//extractor.debugLog = false;
-			}
+            try {
 
-		}
-		catch (ServiceException e) {
-			//KL 021009 -> cannot print out, when creating logger does not succeed
-			//extractor.out.println("Unable to get log file settings from properties file, using defaults. The following error was reported:\n" + e.toString());
-			logger.error("Unable to get settings from properties file. The following error was reported:\n" + e.toString());
-			e.printStackTrace();
-			throw new ServiceException("Unable to get settings from properties file. The following error was reported:\n" + e.toString());
-		}
+                logPath = fileSrv.getStringProperty("extractor.logpath");
+                logfileName = fileSrv.getStringProperty("extractor.logfilename");
+                // extractor.debugLog = RODServices.getFileService().getBooleanProperty("extractor.debugmode");
 
-		//KL021009
-		// cannot write to the log file, if opening it does not succeed
-		if (logfileName != null){
-			try {
-				out = new PrintWriter(new FileWriter(logPath + logfileName, !debugLog), true);
-			} catch (java.io.IOException e) {
-				//using default logger instead
-				logger.warning("Unable to open log file for writing. using default. The following error was reported:\n" + e.toString());
-				e.printStackTrace();
-			}
-		}
+            } catch (ServiceException e) {
+                // use default type (XML/RPC), if not specified
+                logger.warning("Unable to get logger settings from properties file. using default The following error was reported:\n"
+                        + e.toString());
+                // logfileName = LOG_FILE ; //"extractorlog.txt";
+                // extractor.debugLog = false;
+            }
 
-		// Start processing
-		//extractor.out.println(extractor.cDT() + "Extractor v1.1 - processing... Please wait.");
-		log(cDT() + "Extractor v1.1 - processing... Please wait.");
+        } catch (ServiceException e) {
+            // KL 021009 -> cannot print out, when creating logger does not succeed
+            // extractor.out.println("Unable to get log file settings from properties file, using defaults. The following error was reported:\n"
+            // + e.toString());
+            logger.error("Unable to get settings from properties file. The following error was reported:\n" + e.toString());
+            e.printStackTrace();
+            throw new ServiceException("Unable to get settings from properties file. The following error was reported:\n"
+                    + e.toString());
+        }
 
-		String userFullName = userName;
-		long a = System.currentTimeMillis();
-		
-		if (!userName.equals(SYSTEM_USER)){
-			
-			try {
-				//userFullName = DirectoryService.getFullName(userName);
-				userFullName = AuthMechanism.getFullName(userName);
-			} catch (SignOnException se ) {
-				log("Error getting full name " + se.toString());
-			}
-		}
+        // KL021009
+        // cannot write to the log file, if opening it does not succeed
+        if (logfileName != null) {
+            try {
+                out = new PrintWriter(new FileWriter(logPath + logfileName, !debugLog), true);
+            } catch (java.io.IOException e) {
+                // using default logger instead
+                logger.warning("Unable to open log file for writing. using default. The following error was reported:\n"
+                        + e.toString());
+                e.printStackTrace();
+            }
+        }
 
-		String actionText = "Harvesting - ";
+        // Start processing
+        // extractor.out.println(extractor.cDT() + "Extractor v1.1 - processing... Please wait.");
+        log(cDT() + "Extractor v1.1 - processing... Please wait.");
 
-		/***************************************************
-		 * Start extracting
-		 ***************************************************/
+        String userFullName = userName;
+        long a = System.currentTimeMillis();
 
-		// Get delivery list from Content Registry and save it also
-		if (mode == ALL_DATA || mode == DELIVERIES  ) {
-			
-			actionText += " deliveries ";
-			extractDeliveries(remoteSrvType);
-		}
+        if (!userName.equals(SYSTEM_USER)) {
 
-		// Get roles from CIRCA Directory and save them, too
-		if (mode == ALL_DATA || mode == ROLES ) {
-			actionText += " - roles ";
-			try  {
-				String[] respRoles = daoFactory.getObligationDao().getRespRoles();
+            try {
+                // userFullName = DirectoryService.getFullName(userName);
+                userFullName = AuthMechanism.getFullName(userName);
+            } catch (SignOnException se) {
+                log("Error getting full name " + se.toString());
+            }
+        }
 
-				log("Found " + respRoles.length + " roles from database");
+        String actionText = "Harvesting - ";
 
-				//remove leftovers from previous harvest
-				daoFactory.getRoleDao().commitRoles();
+        /***************************************************
+         * Start extracting
+         ***************************************************/
 
-				daoFactory.getRoleDao().backUpRoles();
+        // Get delivery list from Content Registry and save it also
+        if (mode == ALL_DATA || mode == DELIVERIES) {
+            actionText += " deliveries ";
+            extractDeliveries();
+        }
 
-				for(int i = 0; i < respRoles.length; i++) {
+        // Get roles from CIRCA Directory and save them, too
+        if (mode == ALL_DATA || mode == ROLES) {
+            actionText += " - roles ";
+            try {
+                String[] respRoles = daoFactory.getObligationDao().getRespRoles();
 
-					saveRole(respRoles[i]);
-				} // roles.next()
+                log("Found " + respRoles.length + " roles from database");
 
-				daoFactory.getRoleDao().commitRoles();
+                // remove leftovers from previous harvest
+                daoFactory.getRoleDao().commitRoles();
 
-				if(debugLog)
-					log("* Roles OK");
+                daoFactory.getRoleDao().backUpRoles();
 
-				//persons + org name
+                for (int i = 0; i < respRoles.length; i++) {
 
-			}  catch (Exception e) {
-				log("Operation failed while filling the database from CIRCA Directory. The following error was reported:\n" + e.toString());
-				e.printStackTrace();
-				exitApp(false); //return;
-				throw new ServiceException("Operation failed while filling the database from CIRCA Directory. The following error was reported:\n" + e.toString());
-			}
-		} // mode includes roles
+                    saveRole(respRoles[i]);
+                } // roles.next()
 
-		if (mode == ALL_DATA || mode == PARAMS) {
-			actionText += " -parameters";
-		}
+                daoFactory.getRoleDao().commitRoles();
 
-		daoFactory.getHistoryDao().logHistory("H", "0",  userFullName, "X", actionText);
-		
-		long b = System.currentTimeMillis();
-		log(" ** Harvesting successful TOTAL TIME = " + (b-a));
+                if (debugLog)
+                    log("* Roles OK");
 
-		exitApp(true);
-	}
+                // persons + org name
 
-	/**
-	 * 
-	 * @param s
-	 */
-	private static void log(String s ) {
-		logger.debug( s );
-		if (out!=null){
-			out.println( s );
-		}
-	}
+            } catch (Exception e) {
+                log("Operation failed while filling the database from CIRCA Directory. The following error was reported:\n"
+                        + e.toString());
+                e.printStackTrace();
+                exitApp(false); // return;
+                throw new ServiceException(
+                        "Operation failed while filling the database from CIRCA Directory. The following error was reported:\n"
+                                + e.toString());
+            }
+        } // mode includes roles
 
-	/**
-	 * 
-	 * @param remoteSrvType
-	 * @throws ServiceException
-	 */
-	private void extractDeliveries(int remoteSrvType) throws ServiceException{
-		
-		log("Going to extract deliveries from CR");
-		
-		// load CR service URL from properties file
-		String crUrl = null;
-		try {
-			crUrl =  fileSrv.getStringProperty( FileServiceIF.CONTREG_SRV_URL );
-		}
-		catch (Exception e) {
-			log("Opening connection to Content Registry failed. The following error was reported:\n" + e.toString());
-			exitApp(false); //return;
-			throw new ServiceException("No URL to ContReg service specified in the props file");
-		}
-		
-		// initialize CR service client
-		ServiceClientIF crClient = null;
-		try {
-			crClient = ServiceClients.getServiceClient(CONTREG_SRV_NAME, crUrl, remoteSrvType );
-		}
-		catch (Exception e) {
-			log("Opening connection to Content Registry failed. The following error was reported:\n" + e.toString());
-			e.printStackTrace();
-			exitApp(false); //return;
-			throw new ServiceException("Error creating a client top ContReg service at: " + crUrl);
-		}
+        if (mode == ALL_DATA || mode == PARAMS) {
+            actionText += " -parameters";
+        }
 
-		try {
-			int chunkSize = 1000;
-			int maxLoops = 30;
-			
-			Vector<Integer> remoteCallParams = new Vector<Integer>();
-			remoteCallParams.add(null); // here goes result set page number
-			remoteCallParams.add(chunkSize); // here goes result set page size
+        daoFactory.getHistoryDao().logHistory("H", "0", userFullName, "X", actionText);
 
-			HashMap<String,Integer> existingCountryIdsByNames = getKnownCountries();			
-			HashMap<String,HashSet<Integer>> savedCountriesByObligationId = new HashMap<String,HashSet<Integer>>();
-			
-			log(existingCountryIdsByNames.size() + " existing countries found before calling CR");
-			
-			// back up currently existing deliveries
-			daoFactory.getDeliveryDao().backUpDeliveries();
-			
-			try {
+        long b = System.currentTimeMillis();
+        log(" ** Harvesting successful TOTAL TIME = " + (b - a));
 
-				int j;
-				boolean noMoreDeliveries = false;
-				int saveCount = 0;
-				for (j=0; noMoreDeliveries==false && j<maxLoops; j++){
+        exitApp(true);
+    }
 
-					remoteCallParams.setElementAt(new Integer(j + 1), 0);
+    /**
+     * 
+     * @param s
+     */
+    private static void log(String s) {
+        logger.debug(s);
+        if (out != null) {
+            out.println(s);
+        }
+    }
 
-					log("Making " + CONTREG_GETDELIVERIES_METHOD + remoteCallParams + " call to CR");
-					
-					Vector<Hashtable<String,Object>> deliveries = (Vector<Hashtable<String,Object>>) crClient.getValue(CONTREG_GETDELIVERIES_METHOD, remoteCallParams);
-					if (deliveries!=null && !deliveries.isEmpty()){
-						
-						log(CONTREG_GETDELIVERIES_METHOD + remoteCallParams + " call returned " +
-								deliveries.size() + " deliveries, going to save them");
+    /**
+     * 
+     * @throws ServiceException
+     */
+    private void extractDeliveries() throws ServiceException {
 
-						saveCount += daoFactory.getDeliveryDao().saveDeliveries(deliveries, existingCountryIdsByNames, savedCountriesByObligationId);
-					}
-					else{
-						noMoreDeliveries = true;
-						log(CONTREG_GETDELIVERIES_METHOD + remoteCallParams + " call returned 0 deliveries");
-					}
+        log("Going to extract deliveries from CR");
 
-					// sleep a little to ease the load on CR
-					Thread.sleep(1000);
-				}
-				
-				log("Going to commit the " + saveCount + " T_DELIVERY rows inserted");
-				
-				daoFactory.getDeliveryDao().commitDeliveries(savedCountriesByObligationId);
+        String query = "PREFIX dc: <http://purl.org/dc/elements/1.1/> PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
+                + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date WHERE { _:subj a rod:Delivery; "
+                + "rod:link ?link; dc:title ?title; rod:locality ?locality; rod:obligation ?obligation; "
+                + "rod:period ?period; rod:released ?date }";
 
-				log("All inserted T_DELIVERY rows committed succesfully!");
-				log("Extracting deliveries from CR finished!");
-			}
-			catch (Exception se){
-				
-				daoFactory.getDeliveryDao().rollBackDeliveries();
-				log ("Error harvesintg deliveries: " + se.toString());
-			}
-		}
-		catch (Exception e) {
-			log("Operation failed while filling the database from Content Registry. The following error was reported:\n" + e.toString());
-			e.printStackTrace();
-			exitApp(false); //return;
-			throw new ServiceException("Error getting data from Content Registry " + e.toString());
-		}
-	}
+        RepositoryConnection conn = null;
 
-	/**
-	 * 
-	 * @return
-	 * @throws ServiceException
-	 */
-	public HashMap<String,Integer> getKnownCountries() throws ServiceException{
-		
-		HashMap<String,Integer> result = new HashMap<String,Integer>();
-		String[][] idNamePairs = daoFactory.getSpatialDao().getCountryIdPairs();
-		for (int i=0; i<idNamePairs.length; i++){
-			result.put(idNamePairs[i][1], Integer.valueOf(idNamePairs[i][0]));
-		}
-		
-		return result;
-	}
+        try {
+            String endpointURL = fileSrv.getStringProperty(FileServiceIF.CR_SPARQL_ENDPOINT);
+            SPARQLRepository CREndpoint = new SPARQLRepository(endpointURL);
+            CREndpoint.initialize();
 
-	/**
-	 * 
-	 * @param roleId
-	 * @throws ServiceException
-	 */
-	public  void saveRole(String roleId) throws ServiceException {
+            conn = CREndpoint.getConnection();
 
-		if (roleId==null || roleId.trim().length()==0)
-			return;
+            HashMap<String, HashSet<Integer>> savedCountriesByObligationId = new HashMap<String, HashSet<Integer>>();
 
-		String roleName =  roleId;
-		Hashtable<String,Object> role = null;
-		try{
-			role = DirectoryService.getRole(roleName);
-			log("Received role info for " + roleName + " from Directory");
-		}
-		catch (DirServiceException de ){
-			logger.error("Error getting role " + roleName + ": " + de.toString());
-		}
-		catch (Exception e ){
-			e.printStackTrace();
-		}
+            // back up currently existing deliveries
+            daoFactory.getDeliveryDao().backUpDeliveries();
 
-		if (role==null)
-			return;
+            int chunkSize = 1000;
+            int maxLoops = 30;
+            int offset = 0;
+            
+            int saveCount = 0;
+            boolean noMoreDeliveries = false;
+            
+            for (int j = 0; noMoreDeliveries == false && j < maxLoops; j++) {
+            
+                String limitedQuery = query + " LIMIT " + chunkSize + " OFFSET " + offset; 
+                TupleQuery q = conn.prepareTupleQuery(QueryLanguage.SPARQL, limitedQuery);
+                TupleQueryResult bindings = q.evaluate();
+                
+                // Increase offset
+                offset = offset + chunkSize;
+    
+                if (bindings != null && bindings.hasNext()) {
+                    saveCount += daoFactory.getDeliveryDao().saveDeliveries(bindings, savedCountriesByObligationId);
+                } else {
+                    noMoreDeliveries = true;
+                }
+            }
 
-		daoFactory.getRoleDao().saveRole(role);
-	}
+            if (saveCount == 0) {
+                log("CR sparql query call returned 0 deliveries");
+            } else {
+                log("Going to commit the " + saveCount + " T_DELIVERY rows inserted");
+                daoFactory.getDeliveryDao().commitDeliveries(savedCountriesByObligationId);
+                log("All inserted T_DELIVERY rows committed succesfully!");
+            }
+
+            log("Extracting deliveries from CR finished!");
+
+        } catch (Exception e) {
+            daoFactory.getDeliveryDao().rollBackDeliveries();
+            log("Error harvesintg deliveries: " + e.toString());
+
+            log("Operation failed while filling the database from Content Registry. The following error was reported:\n"
+                    + e.toString());
+            e.printStackTrace();
+            exitApp(false); // return;
+            throw new ServiceException("Error getting data from Content Registry " + e.toString());
+        } finally {
+            try {
+                conn.close();
+            } catch (RepositoryException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 
+     * @return HashMap<String, Integer>
+     * @throws ServiceException
+     */
+    public HashMap<String, Integer> getKnownCountries() throws ServiceException {
+
+        HashMap<String, Integer> result = new HashMap<String, Integer>();
+        String[][] idNamePairs = daoFactory.getSpatialDao().getCountryIdPairs();
+        for (int i = 0; i < idNamePairs.length; i++) {
+            result.put(idNamePairs[i][1], Integer.valueOf(idNamePairs[i][0]));
+        }
+
+        return result;
+    }
+
+    /**
+     * 
+     * @param roleId
+     * @throws ServiceException
+     */
+    public void saveRole(String roleId) throws ServiceException {
+
+        if (roleId == null || roleId.trim().length() == 0)
+            return;
+
+        String roleName = roleId;
+        Hashtable<String, Object> role = null;
+        try {
+            role = DirectoryService.getRole(roleName);
+            log("Received role info for " + roleName + " from Directory");
+        } catch (DirServiceException de) {
+            logger.error("Error getting role " + roleName + ": " + de.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (role == null)
+            return;
+
+        daoFactory.getRoleDao().saveRole(role);
+    }
 }

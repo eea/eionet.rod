@@ -134,34 +134,9 @@ public interface FileServiceIF  {
 
 
   /**
-  * Coverage Predicate for ContReg service
-  */
-  public static final String CONTREG_COVERAGE_PREDICATE = "contreg.coverage.predicate";
-
-  /**
-  * Title Predicate for ContReg service
-  */
-  public static final String CONTREG_TITLE_PREDICATE = "contreg.title.predicate";
-
-  /**
-  * Date predicate for ContReg service
-  */
-  public static final String CONTREG_DATE_PREDICATE = "contreg.date.predicate";
-
-  /**
-  * Type predicate for ContReg service
-  */
-  public static final String CONTREG_TYPE_PREDICATE = "contreg.type.predicate";
-
-  /**
-  * Title predicate for ContReg service
-  */
-  public static final String CONTREG_IDENTIFIER_PREDICATE = "contreg.identifier.predicate";
-
-  /**
-  * Format predicate for ContReg service
-  */
-  public static final String CONTREG_FORMAT_PREDICATE = "contreg.format.predicate";
+   * Content Registry SPARQL endpoint
+   */
+  public static final String CR_SPARQL_ENDPOINT = "cr.sparql.endpoint";
 
   /**
   * Title Predicate for rdf type
@@ -260,21 +235,34 @@ public interface FileServiceIF  {
 
   /**
   * Returns String type property from the properties file
+ * @param propName 
+ * @return String
+ * @throws ServiceException 
   */
   public String getStringProperty(String propName) throws ServiceException;
 
   /**
   * Returns boolean type property from the properties file
+ * @param propName 
+ * @return boolean
+ * @throws ServiceException 
   */
   public boolean getBooleanProperty(String propName) throws ServiceException;
 
   /**
   * Returns int type property from the properties file
+ * @param propName 
+ * @return int
+ * @throws ServiceException 
   */
   public int getIntProperty(String propName) throws ServiceException;
 
   /**
    * Returns String arrray property from the properties file
+ * @param propName 
+ * @param separator 
+ * @return String[]
+ * @throws ServiceException 
    */
    public String[] getStringArrayProperty(String propName, String separator) throws ServiceException;
 
