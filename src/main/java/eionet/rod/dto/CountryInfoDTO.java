@@ -3,95 +3,95 @@ package eionet.rod.dto;
 import java.util.List;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class CountryInfoDTO implements java.io.Serializable{
-	
-	private String obligationTitle;
-	private String role;
-	private String country;
-	private String twoLetter;
-	private String start;
-	private String end;
-	private List<DeliveryDTO> deliveries;
-	
-	
-	/**
-	 * 
-	 */
-	public CountryInfoDTO(){
-	}
+
+    private String obligationTitle;
+    private String role;
+    private String country;
+    private String twoLetter;
+    private String start;
+    private String end;
+    private List<DeliveryDTO> deliveries;
 
 
-	public String getObligationTitle() {
-		return obligationTitle;
-	}
+    /**
+     *
+     */
+    public CountryInfoDTO() {
+    }
 
 
-	public void setObligationTitle(String obligationTitle) {
-		this.obligationTitle = obligationTitle;
-	}
+    public String getObligationTitle() {
+        return obligationTitle;
+    }
 
 
-	public String getRole() {
-		return role;
-	}
+    public void setObligationTitle(String obligationTitle) {
+        this.obligationTitle = obligationTitle;
+    }
 
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public String getRole() {
+        return role;
+    }
 
 
-	public String getCountry() {
-		return country;
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
 
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public String getCountry() {
+        return country;
+    }
 
 
-	public String getTwoLetter() {
-		return twoLetter;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
 
-	public void setTwoLetter(String twoLetter) {
-		this.twoLetter = twoLetter;
-	}
+    public String getTwoLetter() {
+        return twoLetter;
+    }
 
 
-	public String getStart() {
-		return start;
-	}
+    public void setTwoLetter(String twoLetter) {
+        this.twoLetter = twoLetter;
+    }
 
 
-	public void setStart(String start) {
-		this.start = start;
-	}
+    public String getStart() {
+        return start;
+    }
 
 
-	public String getEnd() {
-		return end;
-	}
+    public void setStart(String start) {
+        this.start = start;
+    }
 
 
-	public void setEnd(String end) {
-		this.end = end;
-	}
+    public String getEnd() {
+        return end;
+    }
 
 
-	public List<DeliveryDTO> getDeliveries() {
-		return deliveries;
-	}
+    public void setEnd(String end) {
+        this.end = end;
+    }
 
 
-	public void setDeliveries(List<DeliveryDTO> deliveries) {
-		this.deliveries = deliveries;
-	}
+    public List<DeliveryDTO> getDeliveries() {
+        return deliveries;
+    }
+
+
+    public void setDeliveries(List<DeliveryDTO> deliveries) {
+        this.deliveries = deliveries;
+    }
 
 }

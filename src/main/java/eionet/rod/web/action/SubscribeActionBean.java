@@ -21,332 +21,332 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 @UrlBinding("/subscribe")
 public class SubscribeActionBean extends AbstractRODActionBean {
-	
-	private String mySubscriptionUrl;
-
-	private String id;
-	private String sid;
-	private List<CountryDTO> countries;
-	private String selectedCountry;
-	private List<IssueDTO> issues;
-	private String selectedIssue;
-	private String clientName;
-	private String clientId;
-	private List<ClientDTO> clients;
-	private String selectedClient;
-	private List<String> eventType;
-	private String obligationName;
-	private String obligationId;
-	private List<String> obligations;
-	private String selectedObligation;
-	private String instrumentName;
-	private List<String> instruments;
-	private String selectedInstrument;
-	
-	
-	/** 
-	 * 
-	 * @return
-	 */
-	@DefaultHandler
-	public Resolution init() throws ServiceException {
-		
-		String forwardPage = "/pages/subscribe.jsp";
-		
-		String userName = getUserName();
-		if(RODUtil.isNullOrEmpty(userName)){
-        	handleRodException("You are not logged in!", Constants.SEVERITY_WARNING);
-        	return new ForwardResolution(forwardPage);
-		}
-		
-		mySubscriptionUrl = RODServices.getFileService().getStringProperty(FileServiceIF.UNS_MY_SUBSCRIPTIONS_URL) + RODServices.getFileService().getStringProperty(FileServiceIF.UNS_CHANNEL_NAME);
-		
-		countries = RODServices.getDbService().getSpatialDao().getCountriesList();
-		issues = RODServices.getDbService().getIssueDao().getIssuesList();
-		if(id != null && !id.equals("")){
-			Hashtable clientHash = RODServices.getDbService().getObligationDao().getObligationById((new Integer(id)).intValue());
-			clientName = (String) clientHash.get("client");
-			obligationName = (String) clientHash.get("title");
-		} else {
-			clients = RODServices.getDbService().getClientDao().getSubscribeClients();
-			obligations = RODServices.getDbService().getObligationDao().getSubscribeObligations();
-		}
-		
-		if(sid != null && !sid.equals("")){
-			Hashtable sourceHash = RODServices.getDbService().getSourceDao().getInstrumentById((new Integer(sid)).intValue());
-			instrumentName = (String) sourceHash.get("TITLE");
-		} else {
-			instruments = RODServices.getDbService().getSourceDao().getSubscribeInstruments();
-		}
-			
-		return new ForwardResolution(forwardPage);
-	}
-	
-	public Resolution subscribe() throws ServiceException {
-		String forwardPage = "/pages/subscribe.jsp";
-		
-		String userName = getUserName();
-		if(RODUtil.isNullOrEmpty(userName)){
-        	handleRodException("You are not logged in!", Constants.SEVERITY_WARNING);
-        	return new ForwardResolution(forwardPage);
-		}
-		
-		try {
-			FileServiceIF fileSrv=RODServices.getFileService();
-	        
-			String predEventType = fileSrv.getStringProperty(FileServiceIF.UNS_EVENTTYPE_PREDICATE);
-			String server_url = fileSrv.getStringProperty(FileServiceIF.UNS_XMLRPC_SERVER_URL);
-			String CHANNEL_NAME = fileSrv.getStringProperty(FileServiceIF.UNS_CHANNEL_NAME);
-			
-			Vector filters = new Vector();
-			Hashtable filter = new Hashtable();
-			if(eventType != null){
-				for(Iterator<String> it = eventType.iterator(); it.hasNext(); ){
-					String event = it.next();
-					filter = new Hashtable();
-					if(event != null && event.length()>0)
-						filter.put(predEventType, event);
-					
-					String predCountry = fileSrv.getStringProperty(FileServiceIF.UNS_COUNTRY_PREDICATE);
-					if(selectedCountry != null && selectedCountry.length() > 0)
-						filter.put(predCountry, selectedCountry);
-					
-					String predIssue = fileSrv.getStringProperty(FileServiceIF.UNS_ISSUE_PREDICATE);
-					if(selectedIssue != null && selectedIssue.length() > 0)
-						filter.put(predIssue, selectedIssue);
-					
-					String predOrganisation = fileSrv.getStringProperty(FileServiceIF.UNS_ORGANISATION_PREDICATE);
-					if(selectedClient != null && selectedClient.length() > 0)
-						filter.put(predOrganisation, selectedClient);
-					
-					String predObligation = fileSrv.getStringProperty(FileServiceIF.UNS_OBLIGATION_PREDICATE);
-					if(selectedObligation != null && selectedObligation.length() > 0)
-						filter.put(predObligation, selectedObligation);
-					
-					String predInstrument = fileSrv.getStringProperty(FileServiceIF.UNS_INSTRUMENT_PREDICATE);
-					if(selectedInstrument != null && selectedInstrument.length() > 0)
-						filter.put(predInstrument, selectedInstrument);
-					
-					if (filter.size()>0)
-						filters.add(filter);				
-				}
-			}
-			
-			if (filters.size()>0){
-				XmlRpcClient server = new XmlRpcClient(server_url);
-				server.setBasicAuthentication(fileSrv.getStringProperty(FileServiceIF.UNS_USERNAME), fileSrv.getStringProperty(FileServiceIF.UNS_PWD));
-	            // make subscription
-				Vector params = new Vector();
-				params = new Vector();
-	            params.add(CHANNEL_NAME);
-	            params.add(getUserName());
-	            params.add(filters);            
-	            String makeSubscription = (String) server.execute(fileSrv.getStringProperty(FileServiceIF.UNS_MAKE_SUBSCRIPTION), params);
-		    }
-			
-			showMessage("Subscription successful!");
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-			handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
-		}
-		
-		init();		
-		return new ForwardResolution(forwardPage);
-	}
 
+    private String mySubscriptionUrl;
+
+    private String id;
+    private String sid;
+    private List<CountryDTO> countries;
+    private String selectedCountry;
+    private List<IssueDTO> issues;
+    private String selectedIssue;
+    private String clientName;
+    private String clientId;
+    private List<ClientDTO> clients;
+    private String selectedClient;
+    private List<String> eventType;
+    private String obligationName;
+    private String obligationId;
+    private List<String> obligations;
+    private String selectedObligation;
+    private String instrumentName;
+    private List<String> instruments;
+    private String selectedInstrument;
+
+
+    /**
+     *
+     * @return
+     */
+    @DefaultHandler
+    public Resolution init() throws ServiceException {
+
+        String forwardPage = "/pages/subscribe.jsp";
+
+        String userName = getUserName();
+        if (RODUtil.isNullOrEmpty(userName)) {
+            handleRodException("You are not logged in!", Constants.SEVERITY_WARNING);
+            return new ForwardResolution(forwardPage);
+        }
+
+        mySubscriptionUrl = RODServices.getFileService().getStringProperty(FileServiceIF.UNS_MY_SUBSCRIPTIONS_URL) + RODServices.getFileService().getStringProperty(FileServiceIF.UNS_CHANNEL_NAME);
+
+        countries = RODServices.getDbService().getSpatialDao().getCountriesList();
+        issues = RODServices.getDbService().getIssueDao().getIssuesList();
+        if (id != null && !id.equals("")) {
+            Hashtable clientHash = RODServices.getDbService().getObligationDao().getObligationById((new Integer(id)).intValue());
+            clientName = (String) clientHash.get("client");
+            obligationName = (String) clientHash.get("title");
+        } else {
+            clients = RODServices.getDbService().getClientDao().getSubscribeClients();
+            obligations = RODServices.getDbService().getObligationDao().getSubscribeObligations();
+        }
+
+        if (sid != null && !sid.equals("")) {
+            Hashtable sourceHash = RODServices.getDbService().getSourceDao().getInstrumentById((new Integer(sid)).intValue());
+            instrumentName = (String) sourceHash.get("TITLE");
+        } else {
+            instruments = RODServices.getDbService().getSourceDao().getSubscribeInstruments();
+        }
+
+        return new ForwardResolution(forwardPage);
+    }
+
+    public Resolution subscribe() throws ServiceException {
+        String forwardPage = "/pages/subscribe.jsp";
+
+        String userName = getUserName();
+        if (RODUtil.isNullOrEmpty(userName)) {
+            handleRodException("You are not logged in!", Constants.SEVERITY_WARNING);
+            return new ForwardResolution(forwardPage);
+        }
+
+        try {
+            FileServiceIF fileSrv=RODServices.getFileService();
+
+            String predEventType = fileSrv.getStringProperty(FileServiceIF.UNS_EVENTTYPE_PREDICATE);
+            String server_url = fileSrv.getStringProperty(FileServiceIF.UNS_XMLRPC_SERVER_URL);
+            String CHANNEL_NAME = fileSrv.getStringProperty(FileServiceIF.UNS_CHANNEL_NAME);
+
+            Vector filters = new Vector();
+            Hashtable filter = new Hashtable();
+            if (eventType != null) {
+                for(Iterator<String> it = eventType.iterator(); it.hasNext(); ) {
+                    String event = it.next();
+                    filter = new Hashtable();
+                    if (event != null && event.length()>0)
+                        filter.put(predEventType, event);
 
-	public List<CountryDTO> getCountries() {
-		return countries;
-	}
+                    String predCountry = fileSrv.getStringProperty(FileServiceIF.UNS_COUNTRY_PREDICATE);
+                    if (selectedCountry != null && selectedCountry.length() > 0)
+                        filter.put(predCountry, selectedCountry);
 
+                    String predIssue = fileSrv.getStringProperty(FileServiceIF.UNS_ISSUE_PREDICATE);
+                    if (selectedIssue != null && selectedIssue.length() > 0)
+                        filter.put(predIssue, selectedIssue);
 
-	public void setCountries(List<CountryDTO> countries) {
-		this.countries = countries;
-	}
+                    String predOrganisation = fileSrv.getStringProperty(FileServiceIF.UNS_ORGANISATION_PREDICATE);
+                    if (selectedClient != null && selectedClient.length() > 0)
+                        filter.put(predOrganisation, selectedClient);
 
+                    String predObligation = fileSrv.getStringProperty(FileServiceIF.UNS_OBLIGATION_PREDICATE);
+                    if (selectedObligation != null && selectedObligation.length() > 0)
+                        filter.put(predObligation, selectedObligation);
 
-	public String getId() {
-		return id;
-	}
+                    String predInstrument = fileSrv.getStringProperty(FileServiceIF.UNS_INSTRUMENT_PREDICATE);
+                    if (selectedInstrument != null && selectedInstrument.length() > 0)
+                        filter.put(predInstrument, selectedInstrument);
 
+                    if (filter.size()>0)
+                        filters.add(filter);
+                }
+            }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+            if (filters.size()>0) {
+                XmlRpcClient server = new XmlRpcClient(server_url);
+                server.setBasicAuthentication(fileSrv.getStringProperty(FileServiceIF.UNS_USERNAME), fileSrv.getStringProperty(FileServiceIF.UNS_PWD));
+                // make subscription
+                Vector params = new Vector();
+                params = new Vector();
+                params.add(CHANNEL_NAME);
+                params.add(getUserName());
+                params.add(filters);
+                String makeSubscription = (String) server.execute(fileSrv.getStringProperty(FileServiceIF.UNS_MAKE_SUBSCRIPTION), params);
+            }
 
+            showMessage("Subscription successful!");
 
-	public String getSid() {
-		return sid;
-	}
+        } catch(Exception e) {
+            e.printStackTrace();
+            handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
+        }
 
+        init();
+        return new ForwardResolution(forwardPage);
+    }
 
-	public void setSid(String sid) {
-		this.sid = sid;
-	}
 
+    public List<CountryDTO> getCountries() {
+        return countries;
+    }
 
-	public String getSelectedCountry() {
-		return selectedCountry;
-	}
 
+    public void setCountries(List<CountryDTO> countries) {
+        this.countries = countries;
+    }
 
-	public void setSelectedCountry(String selectedCountry) {
-		this.selectedCountry = selectedCountry;
-	}
 
+    public String getId() {
+        return id;
+    }
 
-	public List<IssueDTO> getIssues() {
-		return issues;
-	}
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setIssues(List<IssueDTO> issues) {
-		this.issues = issues;
-	}
 
+    public String getSid() {
+        return sid;
+    }
 
-	public String getSelectedIssue() {
-		return selectedIssue;
-	}
 
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
 
-	public void setSelectedIssue(String selectedIssue) {
-		this.selectedIssue = selectedIssue;
-	}
 
+    public String getSelectedCountry() {
+        return selectedCountry;
+    }
 
-	public String getClientName() {
-		return clientName;
-	}
 
+    public void setSelectedCountry(String selectedCountry) {
+        this.selectedCountry = selectedCountry;
+    }
 
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
 
+    public List<IssueDTO> getIssues() {
+        return issues;
+    }
 
-	public String getClientId() {
-		return clientId;
-	}
 
+    public void setIssues(List<IssueDTO> issues) {
+        this.issues = issues;
+    }
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
-	}
 
+    public String getSelectedIssue() {
+        return selectedIssue;
+    }
 
-	public List<ClientDTO> getClients() {
-		return clients;
-	}
 
+    public void setSelectedIssue(String selectedIssue) {
+        this.selectedIssue = selectedIssue;
+    }
 
-	public void setClients(List<ClientDTO> clients) {
-		this.clients = clients;
-	}
 
+    public String getClientName() {
+        return clientName;
+    }
 
-	public String getSelectedClient() {
-		return selectedClient;
-	}
 
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
 
-	public void setSelectedClient(String selectedClient) {
-		this.selectedClient = selectedClient;
-	}
 
+    public String getClientId() {
+        return clientId;
+    }
 
-	public String getObligationName() {
-		return obligationName;
-	}
 
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 
-	public void setObligationName(String obligationName) {
-		this.obligationName = obligationName;
-	}
 
+    public List<ClientDTO> getClients() {
+        return clients;
+    }
 
-	public String getObligationId() {
-		return obligationId;
-	}
 
+    public void setClients(List<ClientDTO> clients) {
+        this.clients = clients;
+    }
 
-	public void setObligationId(String obligationId) {
-		this.obligationId = obligationId;
-	}
 
+    public String getSelectedClient() {
+        return selectedClient;
+    }
 
-	public List<String> getObligations() {
-		return obligations;
-	}
 
+    public void setSelectedClient(String selectedClient) {
+        this.selectedClient = selectedClient;
+    }
 
-	public void setObligations(List<String> obligations) {
-		this.obligations = obligations;
-	}
 
+    public String getObligationName() {
+        return obligationName;
+    }
 
-	public String getSelectedObligation() {
-		return selectedObligation;
-	}
 
+    public void setObligationName(String obligationName) {
+        this.obligationName = obligationName;
+    }
 
-	public void setSelectedObligation(String selectedObligation) {
-		this.selectedObligation = selectedObligation;
-	}
 
-	public List<String> getInstruments() {
-		return instruments;
-	}
+    public String getObligationId() {
+        return obligationId;
+    }
 
 
-	public void setInstruments(List<String> instruments) {
-		this.instruments = instruments;
-	}
+    public void setObligationId(String obligationId) {
+        this.obligationId = obligationId;
+    }
 
 
-	public String getInstrumentName() {
-		return instrumentName;
-	}
+    public List<String> getObligations() {
+        return obligations;
+    }
 
 
-	public void setInstrumentName(String instrumentName) {
-		this.instrumentName = instrumentName;
-	}
+    public void setObligations(List<String> obligations) {
+        this.obligations = obligations;
+    }
 
 
-	public String getSelectedInstrument() {
-		return selectedInstrument;
-	}
+    public String getSelectedObligation() {
+        return selectedObligation;
+    }
 
 
-	public void setSelectedInstrument(String selectedInstrument) {
-		this.selectedInstrument = selectedInstrument;
-	}
+    public void setSelectedObligation(String selectedObligation) {
+        this.selectedObligation = selectedObligation;
+    }
 
+    public List<String> getInstruments() {
+        return instruments;
+    }
 
-	public String getMySubscriptionUrl() {
-		return mySubscriptionUrl;
-	}
 
+    public void setInstruments(List<String> instruments) {
+        this.instruments = instruments;
+    }
 
-	public void setMySubscriptionUrl(String mySubscriptionUrl) {
-		this.mySubscriptionUrl = mySubscriptionUrl;
-	}
 
-	public List<String> getEventType() {
-		return eventType;
-	}
+    public String getInstrumentName() {
+        return instrumentName;
+    }
 
-	public void setEventType(List<String> eventType) {
-		this.eventType = eventType;
-	}
-	
-	
+
+    public void setInstrumentName(String instrumentName) {
+        this.instrumentName = instrumentName;
+    }
+
+
+    public String getSelectedInstrument() {
+        return selectedInstrument;
+    }
+
+
+    public void setSelectedInstrument(String selectedInstrument) {
+        this.selectedInstrument = selectedInstrument;
+    }
+
+
+    public String getMySubscriptionUrl() {
+        return mySubscriptionUrl;
+    }
+
+
+    public void setMySubscriptionUrl(String mySubscriptionUrl) {
+        this.mySubscriptionUrl = mySubscriptionUrl;
+    }
+
+    public List<String> getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(List<String> eventType) {
+        this.eventType = eventType;
+    }
+
+
 }

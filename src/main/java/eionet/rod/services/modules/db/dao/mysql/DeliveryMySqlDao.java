@@ -37,7 +37,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
     private static DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private static final String qSaveDeliveries = "INSERT INTO T_DELIVERY (TITLE,RA_URL,TYPE,FORMAT,COVERAGE,"
-    		+ "STATUS,UPLOAD_DATE,DELIVERY_URL,FK_SPATIAL_ID,FK_RA_ID) "
+            + "STATUS,UPLOAD_DATE,DELIVERY_URL,FK_SPATIAL_ID,FK_RA_ID) "
             + "VALUES (?,?,?,?,?,?,?,?,?,?)";
 
     public DeliveryMySqlDao() {
@@ -48,7 +48,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
             + "SET LAST_HARVESTED = {fn now()}, FK_DELIVERY_COUNTRY_IDS = ? " + "WHERE PK_RA_ID = ?;";
 
     /**
-     * 
+     *
      * @param raId
      * @param cIds
      * @param connection
@@ -64,7 +64,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see eionet.rod.services.modules.db.dao.IDeliveryDao#saveDeliveries(TupleQueryResult, HashMap<String,HashSet<Integer>>)
      */
     public int saveDeliveries(TupleQueryResult bindings, HashMap<String, HashSet<Integer>> savedCountriesByObligationId)
@@ -160,7 +160,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see eionet.rod.services.modules.db.dao.IDeliveryDao#rollBackDeliveries(java.lang.Integer)
      */
     public void rollBackDeliveries(Integer raId) throws ServiceException {
@@ -192,7 +192,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see eionet.rod.services.modules.db.dao.IDeliveryDao#rollBackDeliveries()
      */
     public void rollBackDeliveries() throws ServiceException {
@@ -218,7 +218,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see eionet.rod.services.modules.db.dao.IDeliveryDao#commitDeliveriesNew(java.util.HashMap)
      */
     public void commitDeliveries(HashMap<String, HashSet<Integer>> deliveredCountriesByObligations) throws ServiceException {
@@ -265,7 +265,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see eionet.rod.services.modules.db.dao.IDeliveryDao#backUpDeliveries()
      */
     public void backUpDeliveries() throws ServiceException {
@@ -316,7 +316,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see eionet.rod.dao.IDeliveryDao#getCountryDeliveriesList()
      */
     public List<CountryDeliveryDTO> getCountyDeliveriesList(String actDetailsId, String spatialId) throws ServiceException {
@@ -353,7 +353,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see eionet.rod.dao.IDeliveryDao#getDeliveryData()
      */
     public CountryDeliveryDataDTO getDeliveryData(String actDetailsId) throws ServiceException {

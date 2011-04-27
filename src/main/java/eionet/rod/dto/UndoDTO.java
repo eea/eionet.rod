@@ -1,107 +1,107 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class UndoDTO implements java.io.Serializable{
-	
-	private String undoTime;
-	private String tabel;
-	private String column;
-	private String operation;
-	private String value;
-	private String currentValue;
-	private String subTransNr;
-	private boolean diff;
-	
-	
-	/**
-	 * 
-	 */
-	public UndoDTO(){
-	}
+
+    private String undoTime;
+    private String tabel;
+    private String column;
+    private String operation;
+    private String value;
+    private String currentValue;
+    private String subTransNr;
+    private boolean diff;
 
 
-	public String getUndoTime() {
-		return undoTime;
-	}
+    /**
+     *
+     */
+    public UndoDTO() {
+    }
 
 
-	public void setUndoTime(String undoTime) {
-		this.undoTime = undoTime;
-	}
+    public String getUndoTime() {
+        return undoTime;
+    }
 
 
-	public String getTabel() {
-		return tabel;
-	}
+    public void setUndoTime(String undoTime) {
+        this.undoTime = undoTime;
+    }
 
 
-	public void setTabel(String tabel) {
-		this.tabel = tabel;
-	}
+    public String getTabel() {
+        return tabel;
+    }
 
 
-	public String getColumn() {
-		return column;
-	}
+    public void setTabel(String tabel) {
+        this.tabel = tabel;
+    }
 
 
-	public void setColumn(String column) {
-		this.column = column;
-	}
+    public String getColumn() {
+        return column;
+    }
 
 
-	public String getOperation() {
-		return operation;
-	}
+    public void setColumn(String column) {
+        this.column = column;
+    }
 
 
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
+    public String getOperation() {
+        return operation;
+    }
 
 
-	public String getValue() {
-		return value;
-	}
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
 
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public String getValue() {
+        return value;
+    }
 
 
-	public String getCurrentValue() {
-		return currentValue;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
 
 
-	public void setCurrentValue(String currentValue) {
-		this.currentValue = currentValue;
-	}
+    public String getCurrentValue() {
+        return currentValue;
+    }
 
 
-	public String getSubTransNr() {
-		return subTransNr;
-	}
+    public void setCurrentValue(String currentValue) {
+        this.currentValue = currentValue;
+    }
 
 
-	public void setSubTransNr(String subTransNr) {
-		this.subTransNr = subTransNr;
-	}
+    public String getSubTransNr() {
+        return subTransNr;
+    }
 
 
-	public boolean isDiff() {
-		return diff;
-	}
+    public void setSubTransNr(String subTransNr) {
+        this.subTransNr = subTransNr;
+    }
 
 
-	public void setDiff(boolean diff) {
-		this.diff = diff;
-	}
+    public boolean isDiff() {
+        return diff;
+    }
 
-	
+
+    public void setDiff(boolean diff) {
+        this.diff = diff;
+    }
+
+
 }

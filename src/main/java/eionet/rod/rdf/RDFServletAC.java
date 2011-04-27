@@ -57,18 +57,18 @@ import eionet.rod.Constants;
 public abstract class RDFServletAC extends HttpServlet implements Constants {
 
   protected String activitiesNamespace;
-  
+
   protected String obligationsNamespace;
   protected String instrumentsNamespace;
   protected String clientsNamespace;
   protected String rodSchemaNamespace;
-  
+
 
   protected String issuesNamespace;
   protected String spatialNamespace;
 
-  protected static ResourceBundle props; 
-  
+  protected static ResourceBundle props;
+
   protected static final String rdfHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
   protected static final String rdfNameSpace = "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" ";
   protected static final String rdfSNameSpace = "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" ";
@@ -92,12 +92,12 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
       } catch (MissingResourceException mre ) {
         instrumentsNamespace="http://rod.eionet.europa.eu/instruments/";
       }
-      
+
     if (clientsNamespace == null)
       try {
-    	  clientsNamespace = props.getString(ROD_CL_NS);
+          clientsNamespace = props.getString(ROD_CL_NS);
       } catch (MissingResourceException mre ) {
-    	  clientsNamespace="http://rod.eionet.europa.eu/clients/";
+          clientsNamespace="http://rod.eionet.europa.eu/clients/";
     }
 
     if (issuesNamespace == null)
@@ -128,24 +128,24 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
   }
   protected abstract String generateRDF(HttpServletRequest req) throws ServiceException;
-  
+
   public void doGet( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException {
 
-    res.setContentType("application/rdf+xml;charset=UTF-8");  
+    res.setContentType("application/rdf+xml;charset=UTF-8");
 
     try {
 
       String rdf = generateRDF(req);
-     
-      res.getWriter().write( rdf) ;      
+
+      res.getWriter().write( rdf) ;
     } catch (ServiceException se ) {
       throw new ServletException( "Error getting values for activities " + se.toString(), se);
     }
-  
+
   }
 
- protected String getActivityUrl(String id, String aid){
-    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" + 
+ protected String getActivityUrl(String id, String aid) {
+    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
       URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AMODE;
     return url;
 

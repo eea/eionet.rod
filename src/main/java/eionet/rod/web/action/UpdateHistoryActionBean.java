@@ -12,66 +12,66 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * 
+ *
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
  *
  */
 @UrlBinding("/updatehistory")
 public class UpdateHistoryActionBean extends AbstractRODActionBean {
-	
-	private List<VersionDTO> list;
-	private String id;
-	private String object;
-	private String type;
 
-	/**
-	 * 
-	 * @return
-	 */
-	@DefaultHandler
-	public Resolution init() throws ServiceException {
-		
-		if(!RODUtil.isNullOrEmpty(getUserName()))
-			list = RODServices.getDbService().getUndoDao().getUpdateHistoryByUser(getUserName());
-		if(!RODUtil.isNullOrEmpty(type))
-			list = RODServices.getDbService().getUndoDao().getDeleted(type);
-		else
-			list = RODServices.getDbService().getUndoDao().getUpdateHistory(id, object);
-		return new ForwardResolution("/pages/updatehistory.jsp");
+    private List<VersionDTO> list;
+    private String id;
+    private String object;
+    private String type;
 
-	}
+    /**
+     *
+     * @return
+     */
+    @DefaultHandler
+    public Resolution init() throws ServiceException {
 
-	public List<VersionDTO> getList() {
-		return list;
-	}
+        if (!RODUtil.isNullOrEmpty(getUserName()))
+            list = RODServices.getDbService().getUndoDao().getUpdateHistoryByUser(getUserName());
+        if (!RODUtil.isNullOrEmpty(type))
+            list = RODServices.getDbService().getUndoDao().getDeleted(type);
+        else
+            list = RODServices.getDbService().getUndoDao().getUpdateHistory(id, object);
+        return new ForwardResolution("/pages/updatehistory.jsp");
 
-	public void setList(List<VersionDTO> list) {
-		this.list = list;
-	}
+    }
 
-	public String getId() {
-		return id;
-	}
+    public List<VersionDTO> getList() {
+        return list;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setList(List<VersionDTO> list) {
+        this.list = list;
+    }
 
-	public String getObject() {
-		return object;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setObject(String object) {
-		this.object = object;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getObject() {
+        return object;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setObject(String object) {
+        this.object = object;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
 
 }

@@ -1,189 +1,189 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class ObligationRdfDTO implements java.io.Serializable{
-	
-	private int obligationId;
-	private int sourceId;
-	private String title;
-	private String sourceTitle;
-	private String detailsUrl;
-	private String uri;
-	private String terminated;
-	private String validSince;
-	private String eeaPrimary;
-	private String responsibleRole;
-	private String description;
-	private String nextDeadline;
-	private String nextDeadline2;
-	private String comment;
-	private String reportingFormat;
-	private String formatName;
-	private String reportFormatUrl;
-	private int clientId;
-	private String dataUsedForUrl;
-	
-	/**
-	 * 
-	 */
-	public ObligationRdfDTO(){
-	}
 
-	public int getObligationId() {
-		return obligationId;
-	}
+    private int obligationId;
+    private int sourceId;
+    private String title;
+    private String sourceTitle;
+    private String detailsUrl;
+    private String uri;
+    private String terminated;
+    private String validSince;
+    private String eeaPrimary;
+    private String responsibleRole;
+    private String description;
+    private String nextDeadline;
+    private String nextDeadline2;
+    private String comment;
+    private String reportingFormat;
+    private String formatName;
+    private String reportFormatUrl;
+    private int clientId;
+    private String dataUsedForUrl;
 
-	public void setObligationId(int obligationId) {
-		this.obligationId = obligationId;
-	}
+    /**
+     *
+     */
+    public ObligationRdfDTO() {
+    }
 
-	public int getSourceId() {
-		return sourceId;
-	}
+    public int getObligationId() {
+        return obligationId;
+    }
 
-	public void setSourceId(int sourceId) {
-		this.sourceId = sourceId;
-	}
+    public void setObligationId(int obligationId) {
+        this.obligationId = obligationId;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public int getSourceId() {
+        return sourceId;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setSourceId(int sourceId) {
+        this.sourceId = sourceId;
+    }
 
-	public String getSourceTitle() {
-		return sourceTitle;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setSourceTitle(String sourceTitle) {
-		this.sourceTitle = sourceTitle;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getDetailsUrl() {
-		return detailsUrl;
-	}
+    public String getSourceTitle() {
+        return sourceTitle;
+    }
 
-	public void setDetailsUrl(String detailsUrl) {
-		this.detailsUrl = detailsUrl;
-	}
+    public void setSourceTitle(String sourceTitle) {
+        this.sourceTitle = sourceTitle;
+    }
 
-	public String getUri() {
-		return uri;
-	}
+    public String getDetailsUrl() {
+        return detailsUrl;
+    }
 
-	public void setUri(String uri) {
-		this.uri = uri;
-	}
+    public void setDetailsUrl(String detailsUrl) {
+        this.detailsUrl = detailsUrl;
+    }
 
-	public String getTerminated() {
-		return terminated;
-	}
+    public String getUri() {
+        return uri;
+    }
 
-	public void setTerminated(String terminated) {
-		this.terminated = terminated;
-	}
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
-	public String getValidSince() {
-		return validSince;
-	}
+    public String getTerminated() {
+        return terminated;
+    }
 
-	public void setValidSince(String validSince) {
-		this.validSince = validSince;
-	}
+    public void setTerminated(String terminated) {
+        this.terminated = terminated;
+    }
 
-	public String getResponsibleRole() {
-		return responsibleRole;
-	}
+    public String getValidSince() {
+        return validSince;
+    }
 
-	public void setResponsibleRole(String responsibleRole) {
-		this.responsibleRole = responsibleRole;
-	}
+    public void setValidSince(String validSince) {
+        this.validSince = validSince;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getResponsibleRole() {
+        return responsibleRole;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setResponsibleRole(String responsibleRole) {
+        this.responsibleRole = responsibleRole;
+    }
 
-	public String getNextDeadline() {
-		return nextDeadline;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setNextDeadline(String nextDeadline) {
-		this.nextDeadline = nextDeadline;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getNextDeadline2() {
-		return nextDeadline2;
-	}
+    public String getNextDeadline() {
+        return nextDeadline;
+    }
 
-	public void setNextDeadline2(String nextDeadline2) {
-		this.nextDeadline2 = nextDeadline2;
-	}
+    public void setNextDeadline(String nextDeadline) {
+        this.nextDeadline = nextDeadline;
+    }
 
-	public String getComment() {
-		return comment;
-	}
+    public String getNextDeadline2() {
+        return nextDeadline2;
+    }
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    public void setNextDeadline2(String nextDeadline2) {
+        this.nextDeadline2 = nextDeadline2;
+    }
 
-	public String getReportingFormat() {
-		return reportingFormat;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public void setReportingFormat(String reportingFormat) {
-		this.reportingFormat = reportingFormat;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	public String getFormatName() {
-		return formatName;
-	}
+    public String getReportingFormat() {
+        return reportingFormat;
+    }
 
-	public void setFormatName(String formatName) {
-		this.formatName = formatName;
-	}
+    public void setReportingFormat(String reportingFormat) {
+        this.reportingFormat = reportingFormat;
+    }
 
-	public String getReportFormatUrl() {
-		return reportFormatUrl;
-	}
+    public String getFormatName() {
+        return formatName;
+    }
 
-	public void setReportFormatUrl(String reportFormatUrl) {
-		this.reportFormatUrl = reportFormatUrl;
-	}
+    public void setFormatName(String formatName) {
+        this.formatName = formatName;
+    }
 
-	public String getEeaPrimary() {
-		return eeaPrimary;
-	}
+    public String getReportFormatUrl() {
+        return reportFormatUrl;
+    }
 
-	public void setEeaPrimary(String eeaPrimary) {
-		this.eeaPrimary = eeaPrimary;
-	}
+    public void setReportFormatUrl(String reportFormatUrl) {
+        this.reportFormatUrl = reportFormatUrl;
+    }
 
-	public int getClientId() {
-		return clientId;
-	}
+    public String getEeaPrimary() {
+        return eeaPrimary;
+    }
 
-	public void setClientId(int clientId) {
-		this.clientId = clientId;
-	}
+    public void setEeaPrimary(String eeaPrimary) {
+        this.eeaPrimary = eeaPrimary;
+    }
 
-	public String getDataUsedForUrl() {
-		return dataUsedForUrl;
-	}
+    public int getClientId() {
+        return clientId;
+    }
 
-	public void setDataUsedForUrl(String dataUsedForUrl) {
-		this.dataUsedForUrl = dataUsedForUrl;
-	}
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
 
-	
+    public String getDataUsedForUrl() {
+        return dataUsedForUrl;
+    }
+
+    public void setDataUsedForUrl(String dataUsedForUrl) {
+        this.dataUsedForUrl = dataUsedForUrl;
+    }
+
+
 }

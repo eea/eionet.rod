@@ -12,35 +12,35 @@ import javax.servlet.http.HttpSession;
 import eionet.rod.services.RODServices;
 
 public class Undo extends HttpServlet {
-    
+
     /*
      *  (non-Javadoc)
      * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public void service(HttpServletRequest req, HttpServletResponse res)
                                             throws ServletException, IOException {
-        
+
         HttpSession session = req.getSession();
         String appName = getServletContext().getInitParameter(Attrs.APPPARAM);
         ROUser rouser = (ROUser) session.getAttribute(Attrs.USERPREFIX + appName);
-        
-        if(rouser == null){
+
+        if (rouser == null) {
             res.sendRedirect("versions.jsp?id=-1");
-        } else {        
+        } else {
             String values = req.getParameter("group");
             String[] va = new String[4];
             StringTokenizer st = new StringTokenizer(values,",");
             int i = 0;
-            while(st.hasMoreTokens()){
+            while (st.hasMoreTokens()) {
                 va[i] = st.nextToken();
                 i++;
             }
-            
+
             String location = null;
-            
-            try{
+
+            try {
                 location = RODServices.getDbService().getUndoDao().undo(Long.valueOf(va[0]).longValue(), va[1], va[2], va[3]);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             res.sendRedirect(location);

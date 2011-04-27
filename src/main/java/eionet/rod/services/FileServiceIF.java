@@ -53,7 +53,7 @@ public interface FileServiceIF  {
   * User PWD  for DB connection
   */
   public static final String DB_USER_PWD = "db.pwd";
-  
+
   /**
    * DB connection URL for DB connection
    */
@@ -187,7 +187,7 @@ public interface FileServiceIF  {
   * Obligation predicate for UNS subscription method
   */
   public static final String UNS_OBLIGATION_PREDICATE = "uns.obligation.predicate";
-  
+
   /**
    * Instrument predicate for UNS subscription method
    */
@@ -212,22 +212,22 @@ public interface FileServiceIF  {
   * password for UNS subscriptions
   */
   public static final String UNS_PWD = "uns.pwd";
-  
+
   /**
    * UNS xmlrpc function that is called for making subscription
    */
   public static final String UNS_MAKE_SUBSCRIPTION = "uns.make.subsription.function";
-  
+
   /**
    * UNS xmlrpc function that is called for sending notifications
    */
   public static final String UNS_SEND_NOTIFICATION = "uns.send.notification.function";
-  
+
   /**
    * Undo - number of records per page
    */
   public static final String UNDO_STEP = "undo.step";
-   
+
   /**
    * Undo - number of records per page
    */
@@ -235,34 +235,34 @@ public interface FileServiceIF  {
 
   /**
   * Returns String type property from the properties file
- * @param propName 
+ * @param propName
  * @return String
- * @throws ServiceException 
+ * @throws ServiceException
   */
   public String getStringProperty(String propName) throws ServiceException;
 
   /**
   * Returns boolean type property from the properties file
- * @param propName 
+ * @param propName
  * @return boolean
- * @throws ServiceException 
+ * @throws ServiceException
   */
   public boolean getBooleanProperty(String propName) throws ServiceException;
 
   /**
   * Returns int type property from the properties file
- * @param propName 
+ * @param propName
  * @return int
- * @throws ServiceException 
+ * @throws ServiceException
   */
   public int getIntProperty(String propName) throws ServiceException;
 
   /**
    * Returns String arrray property from the properties file
- * @param propName 
- * @param separator 
+ * @param propName
+ * @param separator
  * @return String[]
- * @throws ServiceException 
+ * @throws ServiceException
    */
    public String[] getStringArrayProperty(String propName, String separator) throws ServiceException;
 

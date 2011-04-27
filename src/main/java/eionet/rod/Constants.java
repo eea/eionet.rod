@@ -41,14 +41,14 @@ public interface Constants {
    public static final String ACL_HARVEST_NAME="/Admin/Harvest";
    public static final String ACL_CLIENT_NAME="/Client";
    public static final String ACL_HELP_NAME="/Admin/Helptext";
-   
+
   public static final String ACL_VIEW_PERMISSION ="v";
   public static final String ACL_INSERT_PERMISSION ="i";
-  public static final String ACL_UPDATE_PERMISSION ="u";   
-  public static final String ACL_DELETE_PERMISSION ="d";  
+  public static final String ACL_UPDATE_PERMISSION ="u";
+  public static final String ACL_DELETE_PERMISSION ="d";
   public static final String ACL_CONTROL_PERMISSION ="c";
-   
-   
+
+
 // index servlet constants
    public static final String INDEX_XSL = "index.xsl";
    public static final String INDEX_QUERY = "index.xrs";
@@ -64,7 +64,7 @@ public interface Constants {
 
    public static final String ACTIVITY_XSL = "activity.xsl";
    public static final String ACTIVITY_QUERY  = "activity.xrs";
-   
+
    public static final String VERSIONS_QUERY  = "versions.xrs";
 
    public static final String HISTORY_QUERY = "history.xrs";
@@ -115,7 +115,7 @@ public interface Constants {
    public static final String SPATIAL_RIVER ="R";
    public static final String SPATIAL_LAKE ="L";
    public static final String SPATIAL_RESERVOIR ="O";
-   
+
    /** */
    public static final int SEVERITY_INFO = 1;
    public static final int SEVERITY_CAUTION = 2;
@@ -125,25 +125,25 @@ public interface Constants {
   //Prop names
   static final String ROD_URL_EVENTS ="rod.url.events";
   //static final String ROD_URL_OBLIGATIONS ="rod.url.obligations";
-  static final String ROD_URL_ACTIVITIES ="rod.url.activities";  
+  static final String ROD_URL_ACTIVITIES ="rod.url.activities";
   static final String ROD_URL_INSTRUMENTS ="rod.url.instruments";
-  
+
   /** Specifies session attribute name where last action URL is kept. */
   static final String LAST_ACTION_URL_SESSION_ATTR = "ActionEventInterceptor#lastActionUrl";
-  
-  
+
+
 
   /**
 * Properties file name
 */
-  
+
   public static final String PROP_FILE = "rod";
 
 /**
 * Parameter in the props file for LI namespace
 */
   public static final String ROD_LI_NS = "instruments.namespace";
-  
+
 /**
 * Parameter in the props file for CL namespace
 */
@@ -163,7 +163,7 @@ public interface Constants {
 *
 */
   public static final String ROD_URL_RO_NS = "rod.url.ro_namespace";
-  
+
 /**
 * Parameter in the props file for the domain of WebROD
 */

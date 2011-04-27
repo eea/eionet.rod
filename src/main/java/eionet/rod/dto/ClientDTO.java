@@ -3,156 +3,156 @@ package eionet.rod.dto;
 import java.util.List;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class ClientDTO implements java.io.Serializable{
-	
-	private Integer clientId;
-	private String name;
-	private String acronym;
-	
-	private String shortName;
-	private String address;
-	private String url;
-	private String email;
-	private String postalCode;
-	private String city;
-	private String description;
-	private String country;
-	
-	private List<ObligationFactsheetDTO> directObligations;
-	private List<ObligationFactsheetDTO> indirectObligations;
-	private List<InstrumentDTO> directInstruments;
-	private List<InstrumentDTO> indirectInstruments;
-	
-	/**
-	 * 
-	 */
-	public ClientDTO(){
-	}
 
-	public Integer getClientId() {
-		return clientId;
-	}
+    private Integer clientId;
+    private String name;
+    private String acronym;
 
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
-	}
+    private String shortName;
+    private String address;
+    private String url;
+    private String email;
+    private String postalCode;
+    private String city;
+    private String description;
+    private String country;
 
-	public String getName() {
-		return name;
-	}
+    private List<ObligationFactsheetDTO> directObligations;
+    private List<ObligationFactsheetDTO> indirectObligations;
+    private List<InstrumentDTO> directInstruments;
+    private List<InstrumentDTO> indirectInstruments;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     *
+     */
+    public ClientDTO() {
+    }
 
-	public String getAcronym() {
-		return acronym;
-	}
+    public Integer getClientId() {
+        return clientId;
+    }
 
-	public void setAcronym(String acronym) {
-		this.acronym = acronym;
-	}
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
 
-	public String getShortName() {
-		return shortName;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getAcronym() {
+        return acronym;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getShortName() {
+        return shortName;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public List<ObligationFactsheetDTO> getDirectObligations() {
-		return directObligations;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDirectObligations(List<ObligationFactsheetDTO> directObligations) {
-		this.directObligations = directObligations;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public List<ObligationFactsheetDTO> getIndirectObligations() {
-		return indirectObligations;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	public void setIndirectObligations(
-			List<ObligationFactsheetDTO> indirectObligations) {
-		this.indirectObligations = indirectObligations;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public List<InstrumentDTO> getDirectInstruments() {
-		return directInstruments;
-	}
+    public List<ObligationFactsheetDTO> getDirectObligations() {
+        return directObligations;
+    }
 
-	public void setDirectInstruments(List<InstrumentDTO> directInstruments) {
-		this.directInstruments = directInstruments;
-	}
+    public void setDirectObligations(List<ObligationFactsheetDTO> directObligations) {
+        this.directObligations = directObligations;
+    }
 
-	public List<InstrumentDTO> getIndirectInstruments() {
-		return indirectInstruments;
-	}
+    public List<ObligationFactsheetDTO> getIndirectObligations() {
+        return indirectObligations;
+    }
 
-	public void setIndirectInstruments(List<InstrumentDTO> indirectInstruments) {
-		this.indirectInstruments = indirectInstruments;
-	}
+    public void setIndirectObligations(
+            List<ObligationFactsheetDTO> indirectObligations) {
+        this.indirectObligations = indirectObligations;
+    }
 
-	
+    public List<InstrumentDTO> getDirectInstruments() {
+        return directInstruments;
+    }
+
+    public void setDirectInstruments(List<InstrumentDTO> directInstruments) {
+        this.directInstruments = directInstruments;
+    }
+
+    public List<InstrumentDTO> getIndirectInstruments() {
+        return indirectInstruments;
+    }
+
+    public void setIndirectInstruments(List<InstrumentDTO> indirectInstruments) {
+        this.indirectInstruments = indirectInstruments;
+    }
+
+
 }

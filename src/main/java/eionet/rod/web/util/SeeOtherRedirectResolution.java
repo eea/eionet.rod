@@ -10,29 +10,29 @@ import java.io.IOException;
 
 public class SeeOtherRedirectResolution extends RedirectResolution {
         public SeeOtherRedirectResolution(String url) {
-        	super(url);
+            super(url);
         }
 
         public SeeOtherRedirectResolution(Class<? extends ActionBean> beanType) {
-        	super(beanType);
+            super(beanType);
         }
 
         public SeeOtherRedirectResolution(Class<? extends ActionBean> beanType, String event) {
-        	super(beanType, event);
+            super(beanType, event);
         }
 
         @Override
         public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        	String url = getUrl(request.getLocale());
-        	String contextPath = request.getContextPath();
+            String url = getUrl(request.getLocale());
+            String contextPath = request.getContextPath();
 
-        	if (contextPath.length() > 1 && !url.startsWith(contextPath + "/")) {
-        		url = contextPath + url;
-        	}
+            if (contextPath.length() > 1 && !url.startsWith(contextPath + "/")) {
+                url = contextPath + url;
+            }
 
-        	url = response.encodeRedirectURL(url);
+            url = response.encodeRedirectURL(url);
 
-        	response.setStatus(HttpServletResponse.SC_SEE_OTHER);
-        	response.setHeader("Location", url);
+            response.setStatus(HttpServletResponse.SC_SEE_OTHER);
+            response.setHeader("Location", url);
         }
 }

@@ -3,191 +3,191 @@ package eionet.rod.dto;
 import java.util.List;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class InstrumentRdfDTO implements java.io.Serializable{
-	
-	//Fields from T_SOURCE table
-	private int sourceId;
-	private String sourceCode;
-	private String sourceCelexRef;
-	private String sourceTitle;
-	private String sourceLegalName;
-	private String sourceAlias;
-	private String sourceUrl;
-	private String sourceAbstract;
-	private String sourceValidFrom;
-	private String sourceComment;
-	
-	//Fields from T_CLIENT table
-	private int clientId;
-	private String clientName;
-	
-	private List<InstrumentParentDTO> parents;
-	private List<InstrumentDTO> relatedInstruments;
-	private List<InstrumentObligationDTO> obligations;
-	
-	
-	
-	
-	
-	/**
-	 * 
-	 */
-	public InstrumentRdfDTO(){
-	}
+
+    //Fields from T_SOURCE table
+    private int sourceId;
+    private String sourceCode;
+    private String sourceCelexRef;
+    private String sourceTitle;
+    private String sourceLegalName;
+    private String sourceAlias;
+    private String sourceUrl;
+    private String sourceAbstract;
+    private String sourceValidFrom;
+    private String sourceComment;
+
+    //Fields from T_CLIENT table
+    private int clientId;
+    private String clientName;
+
+    private List<InstrumentParentDTO> parents;
+    private List<InstrumentDTO> relatedInstruments;
+    private List<InstrumentObligationDTO> obligations;
 
 
-	public int getSourceId() {
-		return sourceId;
-	}
 
 
-	public void setSourceId(int sourceId) {
-		this.sourceId = sourceId;
-	}
+
+    /**
+     *
+     */
+    public InstrumentRdfDTO() {
+    }
 
 
-	public String getSourceCode() {
-		return sourceCode;
-	}
+    public int getSourceId() {
+        return sourceId;
+    }
 
 
-	public void setSourceCode(String sourceCode) {
-		this.sourceCode = sourceCode;
-	}
-
-	
-	public String getSourceCelexRef() {
-		return sourceCelexRef;
-	}
+    public void setSourceId(int sourceId) {
+        this.sourceId = sourceId;
+    }
 
 
-	public void setSourceCelexRef(String sourceCelexRef) {
-		this.sourceCelexRef = sourceCelexRef;
-	}
+    public String getSourceCode() {
+        return sourceCode;
+    }
 
 
-	public String getSourceTitle() {
-		return sourceTitle;
-	}
-
-	
-	public void setSourceTitle(String sourceTitle) {
-		this.sourceTitle = sourceTitle;
-	}
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
+    }
 
 
-	public String getSourceAlias() {
-		return sourceAlias;
-	}
+    public String getSourceCelexRef() {
+        return sourceCelexRef;
+    }
 
 
-	public void setSourceAlias(String sourceAlias) {
-		this.sourceAlias = sourceAlias;
-	}
+    public void setSourceCelexRef(String sourceCelexRef) {
+        this.sourceCelexRef = sourceCelexRef;
+    }
 
 
-	public String getSourceUrl() {
-		return sourceUrl;
-	}
+    public String getSourceTitle() {
+        return sourceTitle;
+    }
 
 
-	public void setSourceUrl(String sourceUrl) {
-		this.sourceUrl = sourceUrl;
-	}
+    public void setSourceTitle(String sourceTitle) {
+        this.sourceTitle = sourceTitle;
+    }
 
 
-	public String getSourceLegalName() {
-		return sourceLegalName;
-	}
+    public String getSourceAlias() {
+        return sourceAlias;
+    }
 
 
-	public void setSourceLegalName(String sourceLegalName) {
-		this.sourceLegalName = sourceLegalName;
-	}
+    public void setSourceAlias(String sourceAlias) {
+        this.sourceAlias = sourceAlias;
+    }
 
 
-	public String getSourceAbstract() {
-		return sourceAbstract;
-	}
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
 
 
-	public void setSourceAbstract(String sourceAbstract) {
-		this.sourceAbstract = sourceAbstract;
-	}
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
+    }
 
 
-	public String getSourceValidFrom() {
-		return sourceValidFrom;
-	}
+    public String getSourceLegalName() {
+        return sourceLegalName;
+    }
 
 
-	public void setSourceValidFrom(String sourceValidFrom) {
-		this.sourceValidFrom = sourceValidFrom;
-	}
+    public void setSourceLegalName(String sourceLegalName) {
+        this.sourceLegalName = sourceLegalName;
+    }
 
 
-	public String getSourceComment() {
-		return sourceComment;
-	}
+    public String getSourceAbstract() {
+        return sourceAbstract;
+    }
 
 
-	public void setSourceComment(String sourceComment) {
-		this.sourceComment = sourceComment;
-	}
+    public void setSourceAbstract(String sourceAbstract) {
+        this.sourceAbstract = sourceAbstract;
+    }
 
 
-	public int getClientId() {
-		return clientId;
-	}
+    public String getSourceValidFrom() {
+        return sourceValidFrom;
+    }
 
 
-	public void setClientId(int clientId) {
-		this.clientId = clientId;
-	}
+    public void setSourceValidFrom(String sourceValidFrom) {
+        this.sourceValidFrom = sourceValidFrom;
+    }
 
 
-	public String getClientName() {
-		return clientName;
-	}
+    public String getSourceComment() {
+        return sourceComment;
+    }
 
 
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
+    public void setSourceComment(String sourceComment) {
+        this.sourceComment = sourceComment;
+    }
 
 
-	public List<InstrumentParentDTO> getParents() {
-		return parents;
-	}
+    public int getClientId() {
+        return clientId;
+    }
 
 
-	public void setParents(List<InstrumentParentDTO> parents) {
-		this.parents = parents;
-	}
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
 
 
-	public List<InstrumentDTO> getRelatedInstruments() {
-		return relatedInstruments;
-	}
+    public String getClientName() {
+        return clientName;
+    }
 
 
-	public void setRelatedInstruments(List<InstrumentDTO> relatedInstruments) {
-		this.relatedInstruments = relatedInstruments;
-	}
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
 
 
-	public List<InstrumentObligationDTO> getObligations() {
-		return obligations;
-	}
+    public List<InstrumentParentDTO> getParents() {
+        return parents;
+    }
 
 
-	public void setObligations(List<InstrumentObligationDTO> obligations) {
-		this.obligations = obligations;
-	}
+    public void setParents(List<InstrumentParentDTO> parents) {
+        this.parents = parents;
+    }
 
-		
+
+    public List<InstrumentDTO> getRelatedInstruments() {
+        return relatedInstruments;
+    }
+
+
+    public void setRelatedInstruments(List<InstrumentDTO> relatedInstruments) {
+        this.relatedInstruments = relatedInstruments;
+    }
+
+
+    public List<InstrumentObligationDTO> getObligations() {
+        return obligations;
+    }
+
+
+    public void setObligations(List<InstrumentObligationDTO> obligations) {
+        this.obligations = obligations;
+    }
+
+
 }

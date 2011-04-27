@@ -3,96 +3,96 @@ package eionet.rod.dto;
 import java.util.List;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class ResponsibleRoleDTO implements java.io.Serializable{
-	
-	private String name;
-	private String email;
-	private String roleUrl;
-	private String membersUrl;
-	private String lastHarvested;
-	private List<RoleOccupantDTO> occupants;
-	private List<ObligationDTO> obligations;
-	
-	
-	/**
-	 * 
-	 */
-	public ResponsibleRoleDTO(){
-	}
+
+    private String name;
+    private String email;
+    private String roleUrl;
+    private String membersUrl;
+    private String lastHarvested;
+    private List<RoleOccupantDTO> occupants;
+    private List<ObligationDTO> obligations;
 
 
-	public String getName() {
-		return name;
-	}
+    /**
+     *
+     */
+    public ResponsibleRoleDTO() {
+    }
 
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
 
-	public String getEmail() {
-		return email;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
 
-	public String getRoleUrl() {
-		return roleUrl;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 
-	public void setRoleUrl(String roleUrl) {
-		this.roleUrl = roleUrl;
-	}
+    public String getRoleUrl() {
+        return roleUrl;
+    }
 
 
-	public String getMembersUrl() {
-		return membersUrl;
-	}
+    public void setRoleUrl(String roleUrl) {
+        this.roleUrl = roleUrl;
+    }
 
 
-	public void setMembersUrl(String membersUrl) {
-		this.membersUrl = membersUrl;
-	}
+    public String getMembersUrl() {
+        return membersUrl;
+    }
 
 
-	public String getLastHarvested() {
-		return lastHarvested;
-	}
+    public void setMembersUrl(String membersUrl) {
+        this.membersUrl = membersUrl;
+    }
 
 
-	public void setLastHarvested(String lastHarvested) {
-		this.lastHarvested = lastHarvested;
-	}
+    public String getLastHarvested() {
+        return lastHarvested;
+    }
 
 
-	public List<RoleOccupantDTO> getOccupants() {
-		return occupants;
-	}
+    public void setLastHarvested(String lastHarvested) {
+        this.lastHarvested = lastHarvested;
+    }
 
 
-	public void setOccupants(List<RoleOccupantDTO> occupants) {
-		this.occupants = occupants;
-	}
+    public List<RoleOccupantDTO> getOccupants() {
+        return occupants;
+    }
 
 
-	public List<ObligationDTO> getObligations() {
-		return obligations;
-	}
+    public void setOccupants(List<RoleOccupantDTO> occupants) {
+        this.occupants = occupants;
+    }
 
 
-	public void setObligations(List<ObligationDTO> obligations) {
-		this.obligations = obligations;
-	}
+    public List<ObligationDTO> getObligations() {
+        return obligations;
+    }
+
+
+    public void setObligations(List<ObligationDTO> obligations) {
+        this.obligations = obligations;
+    }
 
 
 }

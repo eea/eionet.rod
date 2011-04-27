@@ -11,72 +11,72 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * 
+ *
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
  *
  */
 @UrlBinding("/versions")
 public class VersionsActionBean extends AbstractRODActionBean {
-	
-	private List<VersionDTO> versions;
-	private String id;
-	private String tab;
-	private String id_field;
-	
 
-	/**
-	 * 
-	 * @return
-	 */
-	@DefaultHandler
-	public Resolution init() throws ServiceException {
-		
-		if(id == null || id.equals("") || id.equals("-1"))
-			versions = RODServices.getDbService().getUndoDao().getPreviousActionsGeneral();
-		else
-			versions = RODServices.getDbService().getUndoDao().getPreviousActionsReportSpecific(id, tab, id_field);
-				
-		return new ForwardResolution("/pages/versions.jsp");
-	}
+    private List<VersionDTO> versions;
+    private String id;
+    private String tab;
+    private String id_field;
 
 
-	public List<VersionDTO> getVersions() {
-		return versions;
-	}
+    /**
+     *
+     * @return
+     */
+    @DefaultHandler
+    public Resolution init() throws ServiceException {
+
+        if (id == null || id.equals("") || id.equals("-1"))
+            versions = RODServices.getDbService().getUndoDao().getPreviousActionsGeneral();
+        else
+            versions = RODServices.getDbService().getUndoDao().getPreviousActionsReportSpecific(id, tab, id_field);
+
+        return new ForwardResolution("/pages/versions.jsp");
+    }
 
 
-	public void setVersions(List<VersionDTO> versions) {
-		this.versions = versions;
-	}
+    public List<VersionDTO> getVersions() {
+        return versions;
+    }
 
 
-	public String getId() {
-		return id;
-	}
+    public void setVersions(List<VersionDTO> versions) {
+        this.versions = versions;
+    }
 
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
 
-	public String getTab() {
-		return tab;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
 
-	public void setTab(String tab) {
-		this.tab = tab;
-	}
+    public String getTab() {
+        return tab;
+    }
 
 
-	public String getId_field() {
-		return id_field;
-	}
+    public void setTab(String tab) {
+        this.tab = tab;
+    }
 
 
-	public void setId_field(String id_field) {
-		this.id_field = id_field;
-	}
+    public String getId_field() {
+        return id_field;
+    }
+
+
+    public void setId_field(String id_field) {
+        this.id_field = id_field;
+    }
 
 }

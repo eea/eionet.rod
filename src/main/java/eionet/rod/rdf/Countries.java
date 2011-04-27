@@ -50,8 +50,8 @@ public class Countries extends RDFServletAC {
 
     WebRODService wSrv = new WebRODService();
     Vector countries = wSrv.getCountries();
-    
-    for (int i= 0; i< countries.size(); i++){
+
+    for (int i= 0; i< countries.size(); i++) {
       Hashtable act = (Hashtable)countries.elementAt(i);
       String uri = (String)act.get("uri");
       String name = (String)act.get("name");
@@ -63,12 +63,12 @@ public class Countries extends RDFServletAC {
         .append("</rod:Locality>");
 
     }
-    
+
     s.append("</rdf:RDF>");
 
     return s.toString();
 
-  }  
+  }
 
 
 

@@ -89,7 +89,7 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -134,7 +134,7 @@ public class Extractor implements ExtractorConstants {
 
     /**
      * Extract the data
-     * 
+     *
      * @param mode
      * @param userName
      * @throws ServiceException
@@ -268,7 +268,7 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * 
+     *
      * @param s
      */
     private static void log(String s) {
@@ -279,7 +279,7 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * 
+     *
      * @throws ServiceException
      */
     private void extractDeliveries() throws ServiceException {
@@ -308,19 +308,19 @@ public class Extractor implements ExtractorConstants {
             int chunkSize = 1000;
             int maxLoops = 30;
             int offset = 0;
-            
+
             int saveCount = 0;
             boolean noMoreDeliveries = false;
-            
+
             for (int j = 0; noMoreDeliveries == false && j < maxLoops; j++) {
-            
-                String limitedQuery = query + " LIMIT " + chunkSize + " OFFSET " + offset; 
+
+                String limitedQuery = query + " LIMIT " + chunkSize + " OFFSET " + offset;
                 TupleQuery q = conn.prepareTupleQuery(QueryLanguage.SPARQL, limitedQuery);
                 TupleQueryResult bindings = q.evaluate();
-                
+
                 // Increase offset
                 offset = offset + chunkSize;
-    
+
                 if (bindings != null && bindings.hasNext()) {
                     saveCount += daoFactory.getDeliveryDao().saveDeliveries(bindings, savedCountriesByObligationId);
                 } else {
@@ -357,7 +357,7 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * 
+     *
      * @return HashMap<String, Integer>
      * @throws ServiceException
      */
@@ -373,7 +373,7 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * 
+     *
      * @param roleId
      * @throws ServiceException
      */

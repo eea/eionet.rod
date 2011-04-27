@@ -1,45 +1,45 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class SourceClassDTO implements java.io.Serializable{
-	
-	private int classId;
-	private String classificator;
-	private String className;
-	
-	/**
-	 * 
-	 */
-	public SourceClassDTO(){
-	}
 
-	public int getClassId() {
-		return classId;
-	}
+    private int classId;
+    private String classificator;
+    private String className;
 
-	public void setClassId(int classId) {
-		this.classId = classId;
-	}
+    /**
+     *
+     */
+    public SourceClassDTO() {
+    }
 
-	public String getClassificator() {
-		return classificator;
-	}
+    public int getClassId() {
+        return classId;
+    }
 
-	public void setClassificator(String classificator) {
-		this.classificator = classificator;
-	}
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
 
-	public String getClassName() {
-		return className;
-	}
+    public String getClassificator() {
+        return classificator;
+    }
 
-	public void setClassName(String className) {
-		this.className = className;
-	}
+    public void setClassificator(String classificator) {
+        this.classificator = classificator;
+    }
 
-		
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+
 }

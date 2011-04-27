@@ -32,7 +32,7 @@ public interface Config {
 /**
 * Properties file name
 */
-  
+
   public static final String PROP_FILE = "rod";
 
 
@@ -44,7 +44,7 @@ public interface Config {
 *
 */
   public static final String ROD_URL_RO_NS = "rod.url.ro_namespace";
-  
+
 /**
 * Parameter in the props file for the domain of WebROD
 */
@@ -77,5 +77,5 @@ public interface Config {
   public static final String URL_ACTIVITY_RMODE = "mode=R";
 
 
- 
+
 }

@@ -98,18 +98,18 @@ public class FileServiceImpl implements FileServiceIF, ExtractorConstants {
   */
    public String[] getStringArrayProperty(String propName, String separator) throws ServiceException {
      try {
-    	 String[] str= null;
-    	 String s = props.getString(propName);
+         String[] str= null;
+         String s = props.getString(propName);
 
-    	 if (separator == null || separator.length()==0){
-    		 str = new String[1];
-    		 str[0] = s;
-    	 }
-    	 else{
-    		 char c = separator.charAt(0);
-    		 String sep = Character.isLetterOrDigit(c) ? Character.toString(c) : "\\" + c;
-        	 str =s.split(sep);
-    	 }
+         if (separator == null || separator.length() == 0) {
+             str = new String[1];
+             str[0] = s;
+         }
+         else{
+             char c = separator.charAt(0);
+             String sep = Character.isLetterOrDigit(c) ? Character.toString(c) : "\\" + c;
+             str =s.split(sep);
+         }
         return str;
      } catch (MissingResourceException mre) {
         throw new ServiceException("Property value for key " + propName + " not found");

@@ -1,66 +1,66 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class InstrumentDTO implements java.io.Serializable{
-	
-	//Fields from T_SOURCE table
-	private int sourceId;
-	private String sourceTitle;
-	private String sourceAlias;
-	private String sourceLegalName;
-		
-	
-	/**
-	 * 
-	 */
-	public InstrumentDTO(){
-	}
+
+    //Fields from T_SOURCE table
+    private int sourceId;
+    private String sourceTitle;
+    private String sourceAlias;
+    private String sourceLegalName;
 
 
-	public int getSourceId() {
-		return sourceId;
-	}
+    /**
+     *
+     */
+    public InstrumentDTO() {
+    }
 
 
-	public void setSourceId(int sourceId) {
-		this.sourceId = sourceId;
-	}
+    public int getSourceId() {
+        return sourceId;
+    }
 
 
-	public String getSourceTitle() {
-		return sourceTitle;
-	}
+    public void setSourceId(int sourceId) {
+        this.sourceId = sourceId;
+    }
 
 
-	public void setSourceTitle(String sourceTitle) {
-		this.sourceTitle = sourceTitle;
-	}
+    public String getSourceTitle() {
+        return sourceTitle;
+    }
 
 
-	public String getSourceAlias() {
-		return sourceAlias;
-	}
+    public void setSourceTitle(String sourceTitle) {
+        this.sourceTitle = sourceTitle;
+    }
 
 
-	public void setSourceAlias(String sourceAlias) {
-		this.sourceAlias = sourceAlias;
-	}
+    public String getSourceAlias() {
+        return sourceAlias;
+    }
 
 
-	public String getSourceLegalName() {
-		return sourceLegalName;
-	}
+    public void setSourceAlias(String sourceAlias) {
+        this.sourceAlias = sourceAlias;
+    }
 
 
-	public void setSourceLegalName(String sourceLegalName) {
-		this.sourceLegalName = sourceLegalName;
-	}
+    public String getSourceLegalName() {
+        return sourceLegalName;
+    }
+
+
+    public void setSourceLegalName(String sourceLegalName) {
+        this.sourceLegalName = sourceLegalName;
+    }
 
 
 
-		
+
 }

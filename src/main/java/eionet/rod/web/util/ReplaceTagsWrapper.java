@@ -18,9 +18,9 @@ public class ReplaceTagsWrapper implements DisplaytagColumnDecorator
     public Object decorate(Object columnValue, PageContext pageContext, MediaTypeEnum media) throws DecoratorException
     {
         String ret="";
-    	String value = (String) columnValue;
-        if(!RODUtil.isNullOrEmpty(value))
-        	ret = RODUtil.replaceTags(value, true, true);
+        String value = (String) columnValue;
+        if (!RODUtil.isNullOrEmpty(value))
+            ret = RODUtil.replaceTags(value, true, true);
         
         return ret;
     }

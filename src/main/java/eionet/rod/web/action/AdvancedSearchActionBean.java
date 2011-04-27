@@ -14,52 +14,52 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 @UrlBinding("/search")
 public class AdvancedSearchActionBean extends AbstractRODActionBean {
 
-	private List<CountryDTO> countries;
-	private List<IssueDTO> issues;
-	private List<ClientDTO> clients;
-	
-	/** 
-	 * 
-	 * @return
-	 */
-	@DefaultHandler
-	public Resolution init() throws ServiceException {
-		countries = RODServices.getDbService().getSpatialDao().getCountriesList();
-		issues = RODServices.getDbService().getIssueDao().getIssuesList();
-		clients = RODServices.getDbService().getClientDao().getClientsList();
-			
-		return new ForwardResolution("/pages/search.jsp");
-	}
-	
-	public List<CountryDTO> getCountries() {
-		return countries;
-	}
+    private List<CountryDTO> countries;
+    private List<IssueDTO> issues;
+    private List<ClientDTO> clients;
 
-	public void setCountries(List<CountryDTO> countries) {
-		this.countries = countries;
-	}
+    /**
+     *
+     * @return
+     */
+    @DefaultHandler
+    public Resolution init() throws ServiceException {
+        countries = RODServices.getDbService().getSpatialDao().getCountriesList();
+        issues = RODServices.getDbService().getIssueDao().getIssuesList();
+        clients = RODServices.getDbService().getClientDao().getClientsList();
 
-	public List<IssueDTO> getIssues() {
-		return issues;
-	}
+        return new ForwardResolution("/pages/search.jsp");
+    }
 
-	public void setIssues(List<IssueDTO> issues) {
-		this.issues = issues;
-	}
+    public List<CountryDTO> getCountries() {
+        return countries;
+    }
 
-	public List<ClientDTO> getClients() {
-		return clients;
-	}
+    public void setCountries(List<CountryDTO> countries) {
+        this.countries = countries;
+    }
 
-	public void setClients(List<ClientDTO> clients) {
-		this.clients = clients;
-	}
-	
+    public List<IssueDTO> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(List<IssueDTO> issues) {
+        this.issues = issues;
+    }
+
+    public List<ClientDTO> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<ClientDTO> clients) {
+        this.clients = clients;
+    }
+
 }

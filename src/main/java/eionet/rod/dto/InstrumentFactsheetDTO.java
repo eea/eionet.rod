@@ -3,413 +3,413 @@ package eionet.rod.dto;
 import java.util.List;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class InstrumentFactsheetDTO implements java.io.Serializable{
-	
-	//Fields from T_SOURCE table
-	private int sourceId;
-	private String sourceCode;
-	private String sourceCelexRef;
-	private String sourceTitle;
-	private String sourceLegalName;
-	private String sourceAlias;
-	private String sourceUrl;
-	private String sourceIssuedByUrl;
-	private String sourceIssuedByUrlLabel;
-	private String sourceSecretariat;
-	private String sourceSecretariatUrl;
-	private String sourceAbstract;
-	private String sourceValidFrom;
-	private String sourceEcAccession;
-	private String sourceEcEntryIntoForce;
-	private String sourceComment;
-	private String sourceLastUpdate;
-	private String sourceNextUpdate;
-	private String sourceVerified;
-	private String sourceVerifiedBy;
-	private String sourceValidatedBy;
-	private String sourceGeographicScope;
-	private String sourceDgenvReview;
-	private String sourceDraft;
-	private String sourceFKClientId;
-	
-	//Fields from T_CLIENT_LNK table
-	private int clientLnkFKClientId;
-	private int clientLnkFKObjectId;
-	private String clientLnkStatus;
-	private String clientLnkType;
-	
-	//Fields from T_CLIENT table
-	private int clientId;
-	private String clientName;
-	
-	private List<InstrumentParentDTO> parents;
-	private List<InstrumentDTO> relatedInstruments;
-	private InstrumentDTO origin;
-	private List<InstrumentObligationDTO> obligations;
-	
-	
-	
-	
-	
-	/**
-	 * 
-	 */
-	public InstrumentFactsheetDTO(){
-	}
 
+    //Fields from T_SOURCE table
+    private int sourceId;
+    private String sourceCode;
+    private String sourceCelexRef;
+    private String sourceTitle;
+    private String sourceLegalName;
+    private String sourceAlias;
+    private String sourceUrl;
+    private String sourceIssuedByUrl;
+    private String sourceIssuedByUrlLabel;
+    private String sourceSecretariat;
+    private String sourceSecretariatUrl;
+    private String sourceAbstract;
+    private String sourceValidFrom;
+    private String sourceEcAccession;
+    private String sourceEcEntryIntoForce;
+    private String sourceComment;
+    private String sourceLastUpdate;
+    private String sourceNextUpdate;
+    private String sourceVerified;
+    private String sourceVerifiedBy;
+    private String sourceValidatedBy;
+    private String sourceGeographicScope;
+    private String sourceDgenvReview;
+    private String sourceDraft;
+    private String sourceFKClientId;
 
-	public int getSourceId() {
-		return sourceId;
-	}
+    //Fields from T_CLIENT_LNK table
+    private int clientLnkFKClientId;
+    private int clientLnkFKObjectId;
+    private String clientLnkStatus;
+    private String clientLnkType;
 
+    //Fields from T_CLIENT table
+    private int clientId;
+    private String clientName;
 
-	public void setSourceId(int sourceId) {
-		this.sourceId = sourceId;
-	}
+    private List<InstrumentParentDTO> parents;
+    private List<InstrumentDTO> relatedInstruments;
+    private InstrumentDTO origin;
+    private List<InstrumentObligationDTO> obligations;
 
 
-	public String getSourceCode() {
-		return sourceCode;
-	}
 
 
-	public void setSourceCode(String sourceCode) {
-		this.sourceCode = sourceCode;
-	}
 
-	
-	public String getSourceCelexRef() {
-		return sourceCelexRef;
-	}
+    /**
+     *
+     */
+    public InstrumentFactsheetDTO() {
+    }
 
 
-	public void setSourceCelexRef(String sourceCelexRef) {
-		this.sourceCelexRef = sourceCelexRef;
-	}
+    public int getSourceId() {
+        return sourceId;
+    }
 
 
-	public String getSourceTitle() {
-		return sourceTitle;
-	}
+    public void setSourceId(int sourceId) {
+        this.sourceId = sourceId;
+    }
 
-	
-	public void setSourceTitle(String sourceTitle) {
-		this.sourceTitle = sourceTitle;
-	}
 
+    public String getSourceCode() {
+        return sourceCode;
+    }
 
-	public String getSourceAlias() {
-		return sourceAlias;
-	}
 
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
+    }
 
-	public void setSourceAlias(String sourceAlias) {
-		this.sourceAlias = sourceAlias;
-	}
 
+    public String getSourceCelexRef() {
+        return sourceCelexRef;
+    }
 
-	public String getSourceUrl() {
-		return sourceUrl;
-	}
 
+    public void setSourceCelexRef(String sourceCelexRef) {
+        this.sourceCelexRef = sourceCelexRef;
+    }
 
-	public void setSourceUrl(String sourceUrl) {
-		this.sourceUrl = sourceUrl;
-	}
 
+    public String getSourceTitle() {
+        return sourceTitle;
+    }
 
-	public String getSourceIssuedByUrl() {
-		return sourceIssuedByUrl;
-	}
 
+    public void setSourceTitle(String sourceTitle) {
+        this.sourceTitle = sourceTitle;
+    }
 
-	public void setSourceIssuedByUrl(String sourceIssuedByUrl) {
-		this.sourceIssuedByUrl = sourceIssuedByUrl;
-	}
 
+    public String getSourceAlias() {
+        return sourceAlias;
+    }
 
-	public String getSourceIssuedByUrlLabel() {
-		return sourceIssuedByUrlLabel;
-	}
 
+    public void setSourceAlias(String sourceAlias) {
+        this.sourceAlias = sourceAlias;
+    }
 
-	public void setSourceIssuedByUrlLabel(String sourceIssuedByUrlLabel) {
-		this.sourceIssuedByUrlLabel = sourceIssuedByUrlLabel;
-	}
 
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
 
-	public String getSourceSecretariat() {
-		return sourceSecretariat;
-	}
 
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
+    }
 
-	public void setSourceSecretariat(String sourceSecretariat) {
-		this.sourceSecretariat = sourceSecretariat;
-	}
 
+    public String getSourceIssuedByUrl() {
+        return sourceIssuedByUrl;
+    }
 
-	public String getSourceSecretariatUrl() {
-		return sourceSecretariatUrl;
-	}
 
+    public void setSourceIssuedByUrl(String sourceIssuedByUrl) {
+        this.sourceIssuedByUrl = sourceIssuedByUrl;
+    }
 
-	public void setSourceSecretariatUrl(String sourceSecretariatUrl) {
-		this.sourceSecretariatUrl = sourceSecretariatUrl;
-	}
 
+    public String getSourceIssuedByUrlLabel() {
+        return sourceIssuedByUrlLabel;
+    }
 
-	public String getSourceAbstract() {
-		return sourceAbstract;
-	}
 
+    public void setSourceIssuedByUrlLabel(String sourceIssuedByUrlLabel) {
+        this.sourceIssuedByUrlLabel = sourceIssuedByUrlLabel;
+    }
 
-	public void setSourceAbstract(String sourceAbstract) {
-		this.sourceAbstract = sourceAbstract;
-	}
 
+    public String getSourceSecretariat() {
+        return sourceSecretariat;
+    }
 
-	public String getSourceValidFrom() {
-		return sourceValidFrom;
-	}
 
+    public void setSourceSecretariat(String sourceSecretariat) {
+        this.sourceSecretariat = sourceSecretariat;
+    }
 
-	public void setSourceValidFrom(String sourceValidFrom) {
-		this.sourceValidFrom = sourceValidFrom;
-	}
 
+    public String getSourceSecretariatUrl() {
+        return sourceSecretariatUrl;
+    }
 
-	public String getSourceEcAccession() {
-		return sourceEcAccession;
-	}
 
+    public void setSourceSecretariatUrl(String sourceSecretariatUrl) {
+        this.sourceSecretariatUrl = sourceSecretariatUrl;
+    }
 
-	public void setSourceEcAccession(String sourceEcAccession) {
-		this.sourceEcAccession = sourceEcAccession;
-	}
 
+    public String getSourceAbstract() {
+        return sourceAbstract;
+    }
 
-	public String getSourceEcEntryIntoForce() {
-		return sourceEcEntryIntoForce;
-	}
 
+    public void setSourceAbstract(String sourceAbstract) {
+        this.sourceAbstract = sourceAbstract;
+    }
 
-	public void setSourceEcEntryIntoForce(String sourceEcEntryIntoForce) {
-		this.sourceEcEntryIntoForce = sourceEcEntryIntoForce;
-	}
 
+    public String getSourceValidFrom() {
+        return sourceValidFrom;
+    }
 
-	public String getSourceComment() {
-		return sourceComment;
-	}
 
+    public void setSourceValidFrom(String sourceValidFrom) {
+        this.sourceValidFrom = sourceValidFrom;
+    }
 
-	public void setSourceComment(String sourceComment) {
-		this.sourceComment = sourceComment;
-	}
 
+    public String getSourceEcAccession() {
+        return sourceEcAccession;
+    }
 
-	public String getSourceLastUpdate() {
-		return sourceLastUpdate;
-	}
 
+    public void setSourceEcAccession(String sourceEcAccession) {
+        this.sourceEcAccession = sourceEcAccession;
+    }
 
-	public void setSourceLastUpdate(String sourceLastUpdate) {
-		this.sourceLastUpdate = sourceLastUpdate;
-	}
 
+    public String getSourceEcEntryIntoForce() {
+        return sourceEcEntryIntoForce;
+    }
 
-	public String getSourceNextUpdate() {
-		return sourceNextUpdate;
-	}
 
+    public void setSourceEcEntryIntoForce(String sourceEcEntryIntoForce) {
+        this.sourceEcEntryIntoForce = sourceEcEntryIntoForce;
+    }
 
-	public void setSourceNextUpdate(String sourceNextUpdate) {
-		this.sourceNextUpdate = sourceNextUpdate;
-	}
 
+    public String getSourceComment() {
+        return sourceComment;
+    }
 
-	public String getSourceVerified() {
-		return sourceVerified;
-	}
 
+    public void setSourceComment(String sourceComment) {
+        this.sourceComment = sourceComment;
+    }
 
-	public void setSourceVerified(String sourceVerified) {
-		this.sourceVerified = sourceVerified;
-	}
 
+    public String getSourceLastUpdate() {
+        return sourceLastUpdate;
+    }
 
-	public String getSourceVerifiedBy() {
-		return sourceVerifiedBy;
-	}
 
+    public void setSourceLastUpdate(String sourceLastUpdate) {
+        this.sourceLastUpdate = sourceLastUpdate;
+    }
 
-	public void setSourceVerifiedBy(String sourceVerifiedBy) {
-		this.sourceVerifiedBy = sourceVerifiedBy;
-	}
 
+    public String getSourceNextUpdate() {
+        return sourceNextUpdate;
+    }
 
-	public String getSourceValidatedBy() {
-		return sourceValidatedBy;
-	}
 
+    public void setSourceNextUpdate(String sourceNextUpdate) {
+        this.sourceNextUpdate = sourceNextUpdate;
+    }
 
-	public void setSourceValidatedBy(String sourceValidatedBy) {
-		this.sourceValidatedBy = sourceValidatedBy;
-	}
 
+    public String getSourceVerified() {
+        return sourceVerified;
+    }
 
-	public String getSourceGeographicScope() {
-		return sourceGeographicScope;
-	}
 
+    public void setSourceVerified(String sourceVerified) {
+        this.sourceVerified = sourceVerified;
+    }
 
-	public void setSourceGeographicScope(String sourceGeographicScope) {
-		this.sourceGeographicScope = sourceGeographicScope;
-	}
 
+    public String getSourceVerifiedBy() {
+        return sourceVerifiedBy;
+    }
 
-	public String getSourceDgenvReview() {
-		return sourceDgenvReview;
-	}
 
+    public void setSourceVerifiedBy(String sourceVerifiedBy) {
+        this.sourceVerifiedBy = sourceVerifiedBy;
+    }
 
-	public void setSourceDgenvReview(String sourceDgenvReview) {
-		this.sourceDgenvReview = sourceDgenvReview;
-	}
 
+    public String getSourceValidatedBy() {
+        return sourceValidatedBy;
+    }
 
-	public int getClientLnkFKClientId() {
-		return clientLnkFKClientId;
-	}
 
+    public void setSourceValidatedBy(String sourceValidatedBy) {
+        this.sourceValidatedBy = sourceValidatedBy;
+    }
 
-	public void setClientLnkFKClientId(int clientLnkFKClientId) {
-		this.clientLnkFKClientId = clientLnkFKClientId;
-	}
 
+    public String getSourceGeographicScope() {
+        return sourceGeographicScope;
+    }
 
-	public int getClientLnkFKObjectId() {
-		return clientLnkFKObjectId;
-	}
 
+    public void setSourceGeographicScope(String sourceGeographicScope) {
+        this.sourceGeographicScope = sourceGeographicScope;
+    }
 
-	public void setClientLnkFKObjectId(int clientLnkFKObjectId) {
-		this.clientLnkFKObjectId = clientLnkFKObjectId;
-	}
 
+    public String getSourceDgenvReview() {
+        return sourceDgenvReview;
+    }
 
-	public String getClientLnkStatus() {
-		return clientLnkStatus;
-	}
 
+    public void setSourceDgenvReview(String sourceDgenvReview) {
+        this.sourceDgenvReview = sourceDgenvReview;
+    }
 
-	public void setClientLnkStatus(String clientLnkStatus) {
-		this.clientLnkStatus = clientLnkStatus;
-	}
 
+    public int getClientLnkFKClientId() {
+        return clientLnkFKClientId;
+    }
 
-	public String getClientLnkType() {
-		return clientLnkType;
-	}
 
+    public void setClientLnkFKClientId(int clientLnkFKClientId) {
+        this.clientLnkFKClientId = clientLnkFKClientId;
+    }
 
-	public void setClientLnkType(String clientLnkType) {
-		this.clientLnkType = clientLnkType;
-	}
 
+    public int getClientLnkFKObjectId() {
+        return clientLnkFKObjectId;
+    }
 
-	public int getClientId() {
-		return clientId;
-	}
 
+    public void setClientLnkFKObjectId(int clientLnkFKObjectId) {
+        this.clientLnkFKObjectId = clientLnkFKObjectId;
+    }
 
-	public void setClientId(int clientId) {
-		this.clientId = clientId;
-	}
 
+    public String getClientLnkStatus() {
+        return clientLnkStatus;
+    }
 
-	public String getClientName() {
-		return clientName;
-	}
 
+    public void setClientLnkStatus(String clientLnkStatus) {
+        this.clientLnkStatus = clientLnkStatus;
+    }
 
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
 
+    public String getClientLnkType() {
+        return clientLnkType;
+    }
 
-	public List<InstrumentParentDTO> getParents() {
-		return parents;
-	}
 
+    public void setClientLnkType(String clientLnkType) {
+        this.clientLnkType = clientLnkType;
+    }
 
-	public void setParents(List<InstrumentParentDTO> parents) {
-		this.parents = parents;
-	}
 
+    public int getClientId() {
+        return clientId;
+    }
 
-	public List<InstrumentDTO> getRelatedInstruments() {
-		return relatedInstruments;
-	}
 
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
 
-	public void setRelatedInstruments(List<InstrumentDTO> relatedInstruments) {
-		this.relatedInstruments = relatedInstruments;
-	}
 
+    public String getClientName() {
+        return clientName;
+    }
 
-	public List<InstrumentObligationDTO> getObligations() {
-		return obligations;
-	}
 
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
 
-	public void setObligations(List<InstrumentObligationDTO> obligations) {
-		this.obligations = obligations;
-	}
 
+    public List<InstrumentParentDTO> getParents() {
+        return parents;
+    }
 
-	public InstrumentDTO getOrigin() {
-		return origin;
-	}
 
+    public void setParents(List<InstrumentParentDTO> parents) {
+        this.parents = parents;
+    }
 
-	public void setOrigin(InstrumentDTO origin) {
-		this.origin = origin;
-	}
 
+    public List<InstrumentDTO> getRelatedInstruments() {
+        return relatedInstruments;
+    }
 
-	public String getSourceLegalName() {
-		return sourceLegalName;
-	}
 
+    public void setRelatedInstruments(List<InstrumentDTO> relatedInstruments) {
+        this.relatedInstruments = relatedInstruments;
+    }
 
-	public void setSourceLegalName(String sourceLegalName) {
-		this.sourceLegalName = sourceLegalName;
-	}
 
+    public List<InstrumentObligationDTO> getObligations() {
+        return obligations;
+    }
 
-	public String getSourceDraft() {
-		return sourceDraft;
-	}
 
+    public void setObligations(List<InstrumentObligationDTO> obligations) {
+        this.obligations = obligations;
+    }
 
-	public void setSourceDraft(String sourceDraft) {
-		this.sourceDraft = sourceDraft;
-	}
 
+    public InstrumentDTO getOrigin() {
+        return origin;
+    }
 
-	public String getSourceFKClientId() {
-		return sourceFKClientId;
-	}
 
+    public void setOrigin(InstrumentDTO origin) {
+        this.origin = origin;
+    }
 
-	public void setSourceFKClientId(String sourceFKClientId) {
-		this.sourceFKClientId = sourceFKClientId;
-	}
 
-		
+    public String getSourceLegalName() {
+        return sourceLegalName;
+    }
+
+
+    public void setSourceLegalName(String sourceLegalName) {
+        this.sourceLegalName = sourceLegalName;
+    }
+
+
+    public String getSourceDraft() {
+        return sourceDraft;
+    }
+
+
+    public void setSourceDraft(String sourceDraft) {
+        this.sourceDraft = sourceDraft;
+    }
+
+
+    public String getSourceFKClientId() {
+        return sourceFKClientId;
+    }
+
+
+    public void setSourceFKClientId(String sourceFKClientId) {
+        this.sourceFKClientId = sourceFKClientId;
+    }
+
+
 }

@@ -43,12 +43,12 @@ public class InstrumentsRSS extends RSSServletAC {
 
     StringBuffer s = new StringBuffer();
     s.append(rdfHeader);
-    
+
     s.append("<rdf:RDF ").append(rdfNameSpace)
       .append(rssNs)
       .append(eventsNs)
       .append(">");
-      
+
     String lisUrl = "http://rod.eionet.europa.eu/instruments.rss";
     try {
       lisUrl=props.getString(Constants.ROD_URL_INSTRUMENTS);
@@ -60,22 +60,22 @@ public class InstrumentsRSS extends RSSServletAC {
     String[][] lis = RODServices.getDbService().getSourceDao().getInstrumentsRSS();
 
     s.append("<items><rdf:Seq>");
-    for (int i= 0; i< lis.length; i++){
+    for (int i= 0; i< lis.length; i++) {
       String pk = lis[i][0];
 
       s.append("<rdf:li rdf:resource=\"").append(instrumentsNamespace)
         .append(pk).append("\"/>");
-  
-    } 
-    s.append("</rdf:Seq></items>");  
+
+    }
+    s.append("</rdf:Seq></items>");
     addChannelEnd(s);
 
-    for (int i= 0; i< lis.length; i++){
+    for (int i= 0; i< lis.length; i++) {
       String pk = lis[i][0];
       String title = lis[i][1];
       String link = lis[i][2];
       String description = lis[i][3];
-      
+
       s.append( "<item rdf:about=\"").append(instrumentsNamespace)
         .append(pk).append("\">")
         .append("<title>").append(RODUtil.replaceTags(title,true,true)).append("</title>")
@@ -83,8 +83,8 @@ public class InstrumentsRSS extends RSSServletAC {
         .append("<description>").append(RODUtil.replaceTags(description,true,true)).append("</description>");
 
       s.append("</item>");
-    } 
-    
+    }
+
     s.append("</rdf:RDF>");
 
 //System.out.println(s.toString());

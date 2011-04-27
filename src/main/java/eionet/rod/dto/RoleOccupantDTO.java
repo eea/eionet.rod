@@ -1,35 +1,35 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class RoleOccupantDTO implements java.io.Serializable{
-	
-	private String person;
-	private String institute;
-	
-	/**
-	 * 
-	 */
-	public RoleOccupantDTO(){
-	}
 
-	public String getPerson() {
-		return person;
-	}
+    private String person;
+    private String institute;
 
-	public void setPerson(String person) {
-		this.person = person;
-	}
+    /**
+     *
+     */
+    public RoleOccupantDTO() {
+    }
 
-	public String getInstitute() {
-		return institute;
-	}
+    public String getPerson() {
+        return person;
+    }
 
-	public void setInstitute(String institute) {
-		this.institute = institute;
-	}
-	
+    public void setPerson(String person) {
+        this.person = person;
+    }
+
+    public String getInstitute() {
+        return institute;
+    }
+
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
 }

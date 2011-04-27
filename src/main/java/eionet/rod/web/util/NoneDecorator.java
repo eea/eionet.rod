@@ -17,11 +17,11 @@ public class NoneDecorator implements DisplaytagColumnDecorator
 
     public Object decorate(Object columnValue, PageContext pageContext, MediaTypeEnum media) throws DecoratorException
     {
-    	String value = (String) columnValue;
-        if(RODUtil.isNullOrEmpty(value))
-        	value = "None";
+        String value = (String) columnValue;
+        if (RODUtil.isNullOrEmpty(value))
+            value = "None";
         else
-        	value = RODUtil.replaceTags(value, true, true);
+            value = RODUtil.replaceTags(value, true, true);
         
         return value;
     }

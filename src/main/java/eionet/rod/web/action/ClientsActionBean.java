@@ -22,124 +22,124 @@ import eionet.rod.services.ServiceException;
 import eionet.rod.web.util.SeeOtherRedirectResolution;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 @UrlBinding("/clients")
 public class ClientsActionBean extends AbstractRODActionBean {
 
-	private List<ClientDTO> clients;
-	@ValidateNestedProperties({
-		@Validate(field = "url", on ={"edit","add"}, mask = "^((ht|f)tps?://).*")})
-	private ClientDTO client;
-	private String clientId;
-	
-	/** 
-	 * 
-	 * @return
-	 */
-	@DefaultHandler
-	public Resolution init() throws ServiceException {
-		
-		String forwardPage = "/pages/client.jsp";
-		String pathInfo = getContext().getRequest().getPathInfo();
-		if(!RODUtil.isNullOrEmpty(pathInfo)){
-			StringTokenizer st = new StringTokenizer(pathInfo,"/");
-			if(st.hasMoreElements())
-				clientId = st.nextToken();
-		}
-		
-		String acceptHeader = getContext().getRequest().getHeader("accept");
-		String[] accept = null;
-		if(acceptHeader != null && acceptHeader.length() > 0)
-			accept = acceptHeader.split(",");
-		
-		if(!RODUtil.isNullOrEmpty(clientId)){
-			if(accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")){
-				return new SeeOtherRedirectResolution("/clients.rdf");
-			} else {
-				client = RODServices.getDbService().getClientDao().getClientFactsheet(clientId);
-				if(client == null || !RODUtil.isNumber(clientId)){
-					return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
-				}
-			}
-		} else {		
-			clients = RODServices.getDbService().getClientDao().getAllClients();
-			forwardPage = "/pages/clients.jsp";
-		}
-			
-		return new ForwardResolution(forwardPage);
-	}
-	
+    private List<ClientDTO> clients;
+    @ValidateNestedProperties({
+        @Validate(field = "url", on ={"edit","add"}, mask = "^((ht|f)tps?://).*")})
+    private ClientDTO client;
+    private String clientId;
+
     /**
-     * 
+     *
+     * @return
+     */
+    @DefaultHandler
+    public Resolution init() throws ServiceException {
+
+        String forwardPage = "/pages/client.jsp";
+        String pathInfo = getContext().getRequest().getPathInfo();
+        if (!RODUtil.isNullOrEmpty(pathInfo)) {
+            StringTokenizer st = new StringTokenizer(pathInfo,"/");
+            if (st.hasMoreElements())
+                clientId = st.nextToken();
+        }
+
+        String acceptHeader = getContext().getRequest().getHeader("accept");
+        String[] accept = null;
+        if (acceptHeader != null && acceptHeader.length() > 0)
+            accept = acceptHeader.split(",");
+
+        if (!RODUtil.isNullOrEmpty(clientId)) {
+            if (accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")) {
+                return new SeeOtherRedirectResolution("/clients.rdf");
+            } else {
+                client = RODServices.getDbService().getClientDao().getClientFactsheet(clientId);
+                if (client == null || !RODUtil.isNumber(clientId)) {
+                    return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
+                }
+            }
+        } else {
+            clients = RODServices.getDbService().getClientDao().getAllClients();
+            forwardPage = "/pages/clients.jsp";
+        }
+
+        return new ForwardResolution(forwardPage);
+    }
+
+    /**
+     *
      * @return
      * @throws DAOException
      */
     public Resolution edit() throws ServiceException {
-    	
-    	Resolution resolution = new ForwardResolution("/pages/editclient.jsp");
-		if(ROUser.hasPermission(getUserName(),Constants.ACL_CLIENT_NAME,Constants.ACL_UPDATE_PERMISSION)){
-			if (isPostRequest()){
-				RODServices.getDbService().getClientDao().editClient(client);
-				showMessage(getBundle().getString("update.success"));
-				resolution = new ForwardResolution("/pages/client.jsp");
-			}
-			client = RODServices.getDbService().getClientDao().getClientFactsheet(new Integer(client.getClientId()).toString());
-			clientId = new Integer(client.getClientId()).toString();
-		}
-		else
-			handleRodException(getBundle().getString("not.permitted"), Constants.SEVERITY_WARNING);
-		
+
+        Resolution resolution = new ForwardResolution("/pages/editclient.jsp");
+        if (ROUser.hasPermission(getUserName(),Constants.ACL_CLIENT_NAME,Constants.ACL_UPDATE_PERMISSION)) {
+            if (isPostRequest()) {
+                RODServices.getDbService().getClientDao().editClient(client);
+                showMessage(getBundle().getString("update.success"));
+                resolution = new ForwardResolution("/pages/client.jsp");
+            }
+            client = RODServices.getDbService().getClientDao().getClientFactsheet(new Integer(client.getClientId()).toString());
+            clientId = new Integer(client.getClientId()).toString();
+        }
+        else
+            handleRodException(getBundle().getString("not.permitted"), Constants.SEVERITY_WARNING);
+
         return resolution;
     }
-    
+
     /**
-     * 
+     *
      * @return
      * @throws DAOException
      */
     public Resolution add() throws ServiceException {
-    	
-    	Resolution resolution = new ForwardResolution("/pages/addclient.jsp");
-		if(ROUser.hasPermission(getUserName(),Constants.ACL_CLIENT_NAME,Constants.ACL_INSERT_PERMISSION)){
-			if (isPostRequest()){
-				Integer cId = RODServices.getDbService().getClientDao().addClient(client);
-				clientId = cId.toString();
-				showMessage(getBundle().getString("insert.success"));
-				resolution = new ForwardResolution("/pages/client.jsp");
-			}
-			client = RODServices.getDbService().getClientDao().getClientFactsheet(clientId);
-		}
-		else
-			handleRodException(getBundle().getString("not.permitted"), Constants.SEVERITY_WARNING);
-		
+
+        Resolution resolution = new ForwardResolution("/pages/addclient.jsp");
+        if (ROUser.hasPermission(getUserName(),Constants.ACL_CLIENT_NAME,Constants.ACL_INSERT_PERMISSION)) {
+            if (isPostRequest()) {
+                Integer cId = RODServices.getDbService().getClientDao().addClient(client);
+                clientId = cId.toString();
+                showMessage(getBundle().getString("insert.success"));
+                resolution = new ForwardResolution("/pages/client.jsp");
+            }
+            client = RODServices.getDbService().getClientDao().getClientFactsheet(clientId);
+        }
+        else
+            handleRodException(getBundle().getString("not.permitted"), Constants.SEVERITY_WARNING);
+
         return resolution;
     }
-	
-	public List<ClientDTO> getClients() {
-		return clients;
-	}
 
-	public void setClients(List<ClientDTO> clients) {
-		this.clients = clients;
-	}
+    public List<ClientDTO> getClients() {
+        return clients;
+    }
 
-	public ClientDTO getClient() {
-		return client;
-	}
+    public void setClients(List<ClientDTO> clients) {
+        this.clients = clients;
+    }
 
-	public void setClient(ClientDTO client) {
-		this.client = client;
-	}
+    public ClientDTO getClient() {
+        return client;
+    }
 
-	public String getClientId() {
-		return clientId;
-	}
+    public void setClient(ClientDTO client) {
+        this.client = client;
+    }
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
-	}
-	
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
 }

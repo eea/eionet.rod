@@ -46,7 +46,7 @@ public class ServiceException extends java.lang.Exception {
  */
     public ServiceException(String msg) {
         super(msg);
-        RODServices.getLogService().error(  "Service exception occured with reason <<" + msg + ">>");        
+        RODServices.getLogService().error(  "Service exception occured with reason <<" + msg + ">>");
     }
 }
 

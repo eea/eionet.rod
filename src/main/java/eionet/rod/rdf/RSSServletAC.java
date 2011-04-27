@@ -42,7 +42,7 @@ public abstract class RSSServletAC extends RDFServletAC implements Constants  {
 
   protected static final String eventsNs = " xmlns:ev=\"http://purl.org/rss/1.0/modules/event/\" ";
   protected static final String rssNs = " xmlns=\"http://purl.org/rss/1.0/\" "  ;
-  
+
  protected void addChannelTag(StringBuffer s, String ns ) {
     s.append("<channel rdf:about=\"").append(ns).append("\">");
  }
@@ -52,14 +52,14 @@ public abstract class RSSServletAC extends RDFServletAC implements Constants  {
  }
 
 
-/* protected String getObligationUrl(String id, String aid){
-    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" + 
+/* protected String getObligationUrl(String id, String aid) {
+    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
       URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AID + "=" + aid + "&amp;" +
       URL_ACTIVITY_RMODE;
     return url;
 } */
-/* protected String getActivityUrl(String id, String aid){
-    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" + 
+/* protected String getActivityUrl(String id, String aid) {
+    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
       URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AID + "=" + aid + "&amp;" +
       URL_ACTIVITY_AMODE;
     return url;
@@ -68,16 +68,16 @@ public abstract class RSSServletAC extends RDFServletAC implements Constants  {
 
 
  public void doGet( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException {
-    res.setContentType("application/rss+xml;charset=UTF-8");  
+    res.setContentType("application/rss+xml;charset=UTF-8");
     try {
 
       String rss = generateRDF(req);
 
-      res.getWriter().write( rss) ;      
+      res.getWriter().write( rss) ;
 
     } catch (ServiceException se ) {
       throw new ServletException( "Error getting values for events " + se.toString(), se);
     }
-  
+
   }
 }

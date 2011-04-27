@@ -1,62 +1,62 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class InstrumentsDueDTO implements java.io.Serializable{
-	
-	private Integer instrumentId;
-	private String title;
-	private String nextUpdate;
-	private String verified;
-	private String verifiedBy;
-	
-	/**
-	 * 
-	 */
-	public InstrumentsDueDTO(){
-	}
 
-	public Integer getInstrumentId() {
-		return instrumentId;
-	}
+    private Integer instrumentId;
+    private String title;
+    private String nextUpdate;
+    private String verified;
+    private String verifiedBy;
 
-	public void setInstrumentId(Integer instrumentId) {
-		this.instrumentId = instrumentId;
-	}
+    /**
+     *
+     */
+    public InstrumentsDueDTO() {
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public Integer getInstrumentId() {
+        return instrumentId;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setInstrumentId(Integer instrumentId) {
+        this.instrumentId = instrumentId;
+    }
 
-	public String getNextUpdate() {
-		return nextUpdate;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setNextUpdate(String nextUpdate) {
-		this.nextUpdate = nextUpdate;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getVerified() {
-		return verified;
-	}
+    public String getNextUpdate() {
+        return nextUpdate;
+    }
 
-	public void setVerified(String verified) {
-		this.verified = verified;
-	}
+    public void setNextUpdate(String nextUpdate) {
+        this.nextUpdate = nextUpdate;
+    }
 
-	public String getVerifiedBy() {
-		return verifiedBy;
-	}
+    public String getVerified() {
+        return verified;
+    }
 
-	public void setVerifiedBy(String verifiedBy) {
-		this.verifiedBy = verifiedBy;
-	}
-	
+    public void setVerified(String verified) {
+        this.verified = verified;
+    }
+
+    public String getVerifiedBy() {
+        return verifiedBy;
+    }
+
+    public void setVerifiedBy(String verifiedBy) {
+        this.verifiedBy = verifiedBy;
+    }
+
 }

@@ -11,33 +11,33 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * 
+ *
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
  *
  */
 @UrlBinding("/history")
 public class HarvestHistoryActionBean extends AbstractRODActionBean {
-	
-	private List<HarvestHistoryDTO> list;
 
-	/**
-	 * 
-	 * @return
-	 */
-	@DefaultHandler
-	public Resolution init() throws ServiceException {
-		list = RODServices.getDbService().getHistoryDao().getHarvestHistory();
-		return new ForwardResolution("/pages/history.jsp");
-	}
+    private List<HarvestHistoryDTO> list;
 
-	public List<HarvestHistoryDTO> getList() {
-		return list;
-	}
+    /**
+     *
+     * @return
+     */
+    @DefaultHandler
+    public Resolution init() throws ServiceException {
+        list = RODServices.getDbService().getHistoryDao().getHarvestHistory();
+        return new ForwardResolution("/pages/history.jsp");
+    }
 
-	public void setList(List<HarvestHistoryDTO> list) {
-		this.list = list;
-	} 
- 
+    public List<HarvestHistoryDTO> getList() {
+        return list;
+    }
+
+    public void setList(List<HarvestHistoryDTO> list) {
+        this.list = list;
+    }
+
 
 
 }

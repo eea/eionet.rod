@@ -16,140 +16,140 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 @UrlBinding("/deadlines")
 public class DeadlinesActionBean extends AbstractRODActionBean {
 
-	private List<CountryDTO> countries;
-	private List<IssueDTO> issues;
-	private List<ClientDTO> clients;
-	
-	private List<SearchDTO> searchList;
-	
-	private String spatialId;
-	private String spatialName;
-	private String issueId;
-	private String clientId;
-	private String deadlines;
-	private String date1;
-	private String date2;
-	private String order;
-	
-	
-	/** 
-	 * 
-	 * @return
-	 */
-	@DefaultHandler
-	public Resolution search() throws ServiceException {
-		countries = RODServices.getDbService().getSpatialDao().getCountriesList();
-		issues = RODServices.getDbService().getIssueDao().getIssuesList();
-		clients = RODServices.getDbService().getClientDao().getClientsList();
-		
-		if(!RODUtil.isNullOrEmpty(spatialId))
-			spatialName = RODServices.getDbService().getSpatialDao().getCountryById(new Integer(spatialId).intValue());
-    	
-		searchList = RODServices.getDbService().getObligationDao().getSearchObligationsList(spatialId, clientId, issueId, date1, date2, deadlines, order);
-		return new ForwardResolution("/pages/deadlines.jsp");
-	}
-	
-	public List<CountryDTO> getCountries() {
-		return countries;
-	}
+    private List<CountryDTO> countries;
+    private List<IssueDTO> issues;
+    private List<ClientDTO> clients;
 
-	public void setCountries(List<CountryDTO> countries) {
-		this.countries = countries;
-	}
+    private List<SearchDTO> searchList;
 
-	public List<IssueDTO> getIssues() {
-		return issues;
-	}
+    private String spatialId;
+    private String spatialName;
+    private String issueId;
+    private String clientId;
+    private String deadlines;
+    private String date1;
+    private String date2;
+    private String order;
 
-	public void setIssues(List<IssueDTO> issues) {
-		this.issues = issues;
-	}
 
-	public List<ClientDTO> getClients() {
-		return clients;
-	}
+    /**
+     *
+     * @return
+     */
+    @DefaultHandler
+    public Resolution search() throws ServiceException {
+        countries = RODServices.getDbService().getSpatialDao().getCountriesList();
+        issues = RODServices.getDbService().getIssueDao().getIssuesList();
+        clients = RODServices.getDbService().getClientDao().getClientsList();
 
-	public void setClients(List<ClientDTO> clients) {
-		this.clients = clients;
-	}
+        if (!RODUtil.isNullOrEmpty(spatialId))
+            spatialName = RODServices.getDbService().getSpatialDao().getCountryById(new Integer(spatialId).intValue());
 
-	public String getSpatialId() {
-		return spatialId;
-	}
+        searchList = RODServices.getDbService().getObligationDao().getSearchObligationsList(spatialId, clientId, issueId, date1, date2, deadlines, order);
+        return new ForwardResolution("/pages/deadlines.jsp");
+    }
 
-	public void setSpatialId(String spatialId) {
-		this.spatialId = spatialId;
-	}
+    public List<CountryDTO> getCountries() {
+        return countries;
+    }
 
-	public String getIssueId() {
-		return issueId;
-	}
+    public void setCountries(List<CountryDTO> countries) {
+        this.countries = countries;
+    }
 
-	public void setIssueId(String issueId) {
-		this.issueId = issueId;
-	}
+    public List<IssueDTO> getIssues() {
+        return issues;
+    }
 
-	public String getClientId() {
-		return clientId;
-	}
+    public void setIssues(List<IssueDTO> issues) {
+        this.issues = issues;
+    }
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
-	}
+    public List<ClientDTO> getClients() {
+        return clients;
+    }
 
-	public List<SearchDTO> getSearchList() {
-		return searchList;
-	}
+    public void setClients(List<ClientDTO> clients) {
+        this.clients = clients;
+    }
 
-	public void setSearchList(List<SearchDTO> searchList) {
-		this.searchList = searchList;
-	}
+    public String getSpatialId() {
+        return spatialId;
+    }
 
-	public String getDate1() {
-		return date1;
-	}
+    public void setSpatialId(String spatialId) {
+        this.spatialId = spatialId;
+    }
 
-	public void setDate1(String date1) {
-		this.date1 = date1;
-	}
+    public String getIssueId() {
+        return issueId;
+    }
 
-	public String getDate2() {
-		return date2;
-	}
+    public void setIssueId(String issueId) {
+        this.issueId = issueId;
+    }
 
-	public void setDate2(String date2) {
-		this.date2 = date2;
-	}
+    public String getClientId() {
+        return clientId;
+    }
 
-	public String getDeadlines() {
-		return deadlines;
-	}
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 
-	public void setDeadlines(String deadlines) {
-		this.deadlines = deadlines;
-	}
+    public List<SearchDTO> getSearchList() {
+        return searchList;
+    }
 
-	public String getSpatialName() {
-		return spatialName;
-	}
+    public void setSearchList(List<SearchDTO> searchList) {
+        this.searchList = searchList;
+    }
 
-	public void setSpatialName(String spatialName) {
-		this.spatialName = spatialName;
-	}
+    public String getDate1() {
+        return date1;
+    }
 
-	public String getOrder() {
-		return order;
-	}
+    public void setDate1(String date1) {
+        this.date1 = date1;
+    }
 
-	public void setOrder(String order) {
-		this.order = order;
-	}
-	
+    public String getDate2() {
+        return date2;
+    }
+
+    public void setDate2(String date2) {
+        this.date2 = date2;
+    }
+
+    public String getDeadlines() {
+        return deadlines;
+    }
+
+    public void setDeadlines(String deadlines) {
+        this.deadlines = deadlines;
+    }
+
+    public String getSpatialName() {
+        return spatialName;
+    }
+
+    public void setSpatialName(String spatialName) {
+        this.spatialName = spatialName;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
 }

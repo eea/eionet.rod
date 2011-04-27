@@ -45,159 +45,157 @@ import com.tee.uit.security.SignOnException;
 
 public class ROUser {
 
-	/** */
+    /** */
 
-	protected boolean authented = false;
-	protected String user = null;
-	protected String password = null;
-	protected String fullName = null;
+    protected boolean authented = false;
+    protected String user = null;
+    protected String password = null;
+    protected String fullName = null;
 
-	protected static LogServiceIF logger = RODServices.getLogService();
+    protected static LogServiceIF logger = RODServices.getLogService();
 
-	protected String[] _roles = null;
+    protected String[] _roles = null;
 
-	public ROUser() {
-	}
-	/**
-	 *
-	 */
-	public boolean authenticate(String userName, String userPws) {
-		invalidate();
+    public ROUser() {
+    }
+    /**
+     *
+     */
+    public boolean authenticate(String userName, String userPws) {
+        invalidate();
 
-		// LOG
-		if (logger.enable(5))
-			logger.info("Authenticating user '" + userName + "'");
+        // LOG
+        if (logger.enable(5))
+            logger.info("Authenticating user '" + userName + "'");
 
-		try {
-			//DirectoryService.sessionLogin(userName, userPws);
-			AuthMechanism.sessionLogin(userName, userPws);
-			//fullName = DirectoryService.getFullName(userName);
-			fullName = AuthMechanism.getFullName(userName);
+        try {
+            //DirectoryService.sessionLogin(userName, userPws);
+            AuthMechanism.sessionLogin(userName, userPws);
+            //fullName = DirectoryService.getFullName(userName);
+            fullName = AuthMechanism.getFullName(userName);
 
-			// LOG
-			if (logger.enable(5))
-				logger.info("Authenticated!");
-			//
-			authented = true;
-			user = userName;
-			password = userPws;
+            // LOG
+            if (logger.enable(5))
+                logger.info("Authenticated!");
+            //
+            authented = true;
+            user = userName;
+            password = userPws;
 
-		} catch (Exception e) {
+        } catch (Exception e) {
 
-			logger.error("User '" + userName + "' not authenticated", e);
-		}
-		return authented;
-	}
-	/**
-	 *
-	 */
-	public boolean isAuthentic() {
-		return authented;
-	}
-	/**
-	 *
-	 */
-	public boolean isUserInRole(String role) {
-		boolean b = false;
+            logger.error("User '" + userName + "' not authenticated", e);
+        }
+        return authented;
+    }
+    /**
+     *
+     */
+    public boolean isAuthentic() {
+        return authented;
+    }
+    /**
+     *
+     */
+    public boolean isUserInRole(String role) {
+        boolean b = false;
 
-		if (_roles == null)
-			getUserRoles();
+        if (_roles == null)
+            getUserRoles();
 
-		for (int i =0; i< _roles.length; i++)
-			if ( _roles[i].equals(role))
-				b = true;
+        for (int i =0; i< _roles.length; i++)
+            if ( _roles[i].equals(role))
+                b = true;
 
-		return b;
-	}
+        return b;
+    }
 
-	/**
-	 * FullName
-	 */
-	public String getFullName() {
-		return fullName;
-	}
+    /**
+     * FullName
+     */
+    public String getFullName() {
+        return fullName;
+    }
 
-	/**
-	 *
-	 */
-	public String getUserName() {
-		return user;
-	}
-	/**
-	 *
-	 */
-	public Connection getConnection() {
-		try {
-			return ConnectionUtil.getConnection();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-	/**
-	 * Returns a string array of roles the user is linked to.
-	 * Note that the method returns newly constructed array, leaving internal role list unrevealed.
-	 */
-	public String[] getUserRoles() {
-		//String[] roles;
-		if (_roles == null) {
-			try {
-				Vector<String> v = DirectoryService.getRoles(user);
-				String[] roles = new String[v.size()];
-				for ( int i=0; i< v.size(); i++){
-					roles[i] = (String)v.elementAt(i);
-				}
-				_roles = roles;
-			} catch ( Exception e ) {
-				//return empty String, no need for roles
-				_roles = new String[]{};
-			}
-		}
-		//return new String[]{};
-		return _roles;
-	}
-	/**
-	 *
-	 */
-	public void invalidate() {
-		authented = false;
-		user = null;
-		password = null;
-	}
-	/** 
-	 *
-	 */
-	public String toString() {
-		return (user == null ? "" : user );
-	}
+    /**
+     *
+     */
+    public String getUserName() {
+        return user;
+    }
+    /**
+     *
+     */
+    public Connection getConnection() {
+        try {
+            return ConnectionUtil.getConnection();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    /**
+     * Returns a string array of roles the user is linked to.
+     * Note that the method returns newly constructed array, leaving internal role list unrevealed.
+     */
+    public String[] getUserRoles() {
+        //String[] roles;
+        if (_roles == null) {
+            try {
+                Vector<String> v = DirectoryService.getRoles(user);
+                String[] roles = new String[v.size()];
+                for ( int i=0; i< v.size(); i++) {
+                    roles[i] = (String)v.elementAt(i);
+                }
+                _roles = roles;
+            } catch ( Exception e ) {
+                //return empty String, no need for roles
+                _roles = new String[]{};
+            }
+        }
+        //return new String[]{};
+        return _roles;
+    }
+    /**
+     *
+     */
+    public void invalidate() {
+        authented = false;
+        user = null;
+        password = null;
+    }
+    /**
+     *
+     */
+    public String toString() {
+        return (user == null ? "" : user );
+    }
 
-	/**
-	 * 
-	 * @param userName
-	 * @param aclPath
-	 * @param prm
-	 * @return
-	 */
-	public static boolean hasPermission(String userName, String aclPath, String prm){
+    /**
+     *
+     * @param userName
+     * @param aclPath
+     * @param prm
+     * @return
+     */
+    public static boolean hasPermission(String userName, String aclPath, String prm) {
 
-		if (RODUtil.isNullOrEmpty(userName) || RODUtil.isNullOrEmpty(aclPath) || RODUtil.isNullOrEmpty(prm))
-			return false;
+        if (RODUtil.isNullOrEmpty(userName) || RODUtil.isNullOrEmpty(aclPath) || RODUtil.isNullOrEmpty(prm))
+            return false;
 
-		boolean result = false;
-		try{
-			AccessControlListIF acl = AccessController.getAcl(aclPath);
-			if (acl!=null){
-				result = acl.checkPermission(userName, prm);
-				logger.info("User " + userName + " " + (result ? "has" : "does not have") + " permission " + prm + " in acl \"" + aclPath + "\"");
-			}
-			else
-				logger.info("acl \"" + aclPath + "\" not found!");
-		}
-		catch (SignOnException soe){
-			logger.error(soe.toString(), soe);
-		}
+        boolean result = false;
+        try {
+            AccessControlListIF acl = AccessController.getAcl(aclPath);
+            if (acl!=null) {
+                result = acl.checkPermission(userName, prm);
+                logger.info("User " + userName + " " + (result ? "has" : "does not have") + " permission " + prm + " in acl \"" + aclPath + "\"");
+            }
+            else
+                logger.info("acl \"" + aclPath + "\" not found!");
+        } catch (SignOnException soe) {
+            logger.error(soe.toString(), soe);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
 }

@@ -41,15 +41,15 @@ import eionet.rod.services.LogServiceIF;
  */
 
 public class Log4jLoggerImpl implements LogServiceIF {
-  
-	public static final int DEBUG 		= 5;
-	public static final int INFO 		= 4;
-	public static final int WARNING 	= 3;
-	public static final int ERROR 		= 2;
-	public static final int EMERGENCY 	= 1;
-  
+
+    public static final int DEBUG       = 5;
+    public static final int INFO        = 4;
+    public static final int WARNING     = 3;
+    public static final int ERROR       = 2;
+    public static final int EMERGENCY   = 1;
+
   Category logger;
-  
+
 /**
  * Package local method for initializing Logger.
  * will be initialized by the servlet container.
@@ -57,7 +57,7 @@ public class Log4jLoggerImpl implements LogServiceIF {
   public Log4jLoggerImpl() {
     logger = Category.getInstance("webrod");
   }
-  
+
   private Priority convSeverity(int severity) {
     switch (severity) {
       case EMERGENCY:
@@ -87,18 +87,18 @@ public class Log4jLoggerImpl implements LogServiceIF {
   public void debug(Object msg) {
     logger.debug(msg);
   }
-  
+
   public void debug(Object msg, Throwable t)  {
     logger.debug(msg, t);
   }
-  
+
 /**
  * Logs info level message.
  */
   public void info(Object msg)  {
     logger.info(msg);
   }
-  
+
   public void info(Object msg, Throwable t) {
     logger.info(msg, t);
   }
@@ -109,7 +109,7 @@ public class Log4jLoggerImpl implements LogServiceIF {
   public void warning(Object msg) {
     logger.warn(msg);
   }
-  
+
   public void warning(Object msg, Throwable t)  {
     logger.warn(msg, t);
   }
@@ -118,30 +118,30 @@ public class Log4jLoggerImpl implements LogServiceIF {
  * Logs error level message.
  */
   public void error(Object msg) {
-	if (msg instanceof Throwable) {
-		Throwable t = (Throwable) msg;
-		logger.error(t.getMessage(),t);
-	}else{
-		logger.error(msg);
-	}
+    if (msg instanceof Throwable) {
+        Throwable t = (Throwable) msg;
+        logger.error(t.getMessage(),t);
+    }else{
+        logger.error(msg);
+    }
   }
-  
+
   public void error(Object msg, Throwable t)  {
     logger.error(msg,t);
   }
-  
+
 /**
  * Logs error level message.
  */
   public void fatal(Object msg) {
-	if (msg instanceof Throwable) {
-		Throwable t = (Throwable) msg;
-		logger.fatal(t.getMessage(),t);
-	}else{
-		logger.fatal(msg, null);
-	}
+    if (msg instanceof Throwable) {
+        Throwable t = (Throwable) msg;
+        logger.fatal(t.getMessage(),t);
+    }else{
+        logger.fatal(msg, null);
+    }
   }
-  
+
   public void fatal(Object msg, Throwable t)  {
     logger.fatal(msg,t);
   }

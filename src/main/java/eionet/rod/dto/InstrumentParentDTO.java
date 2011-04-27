@@ -1,53 +1,53 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class InstrumentParentDTO implements java.io.Serializable{
-	
-	//Fields from T_SOURCE_CLASS table
-	private int classId;
-	private String classificator;
-	private String className;
-		
-	
-	/**
-	 * 
-	 */
-	public InstrumentParentDTO(){
-	}
+
+    //Fields from T_SOURCE_CLASS table
+    private int classId;
+    private String classificator;
+    private String className;
 
 
-	public int getClassId() {
-		return classId;
-	}
+    /**
+     *
+     */
+    public InstrumentParentDTO() {
+    }
 
 
-	public void setClassId(int classId) {
-		this.classId = classId;
-	}
+    public int getClassId() {
+        return classId;
+    }
 
 
-	public String getClassificator() {
-		return classificator;
-	}
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
 
 
-	public void setClassificator(String classificator) {
-		this.classificator = classificator;
-	}
+    public String getClassificator() {
+        return classificator;
+    }
 
 
-	public String getClassName() {
-		return className;
-	}
+    public void setClassificator(String classificator) {
+        this.classificator = classificator;
+    }
 
 
-	public void setClassName(String className) {
-		this.className = className;
-	}
+    public String getClassName() {
+        return className;
+    }
 
-		
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+
 }

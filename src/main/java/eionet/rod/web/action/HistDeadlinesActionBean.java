@@ -11,57 +11,57 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * 
+ *
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
  *
  */
 @UrlBinding("/histdeadlines")
 public class HistDeadlinesActionBean extends AbstractRODActionBean {
-	
-	private String startDate;
-	private String endDate;
-	
-	private List<HistDeadlineDTO> deadlines;
-	
-	
-	/**
-	 * 
-	 * @return
-	 */
-	@DefaultHandler
-	public Resolution init() throws ServiceException {
-		deadlines = RODServices.getDbService().getHistoricDeadlineDao().getHistoricDeadlines(startDate, endDate);
-		return new ForwardResolution("/pages/histdeadlines.jsp");
-	}
+
+    private String startDate;
+    private String endDate;
+
+    private List<HistDeadlineDTO> deadlines;
 
 
-	public String getStartDate() {
-		return startDate;
-	}
+    /**
+     *
+     * @return
+     */
+    @DefaultHandler
+    public Resolution init() throws ServiceException {
+        deadlines = RODServices.getDbService().getHistoricDeadlineDao().getHistoricDeadlines(startDate, endDate);
+        return new ForwardResolution("/pages/histdeadlines.jsp");
+    }
 
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
+    public String getStartDate() {
+        return startDate;
+    }
 
 
-	public String getEndDate() {
-		return endDate;
-	}
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
+    public String getEndDate() {
+        return endDate;
+    }
 
 
-	public List<HistDeadlineDTO> getDeadlines() {
-		return deadlines;
-	}
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 
 
-	public void setDeadlines(List<HistDeadlineDTO> deadlines) {
-		this.deadlines = deadlines;
-	}
+    public List<HistDeadlineDTO> getDeadlines() {
+        return deadlines;
+    }
+
+
+    public void setDeadlines(List<HistDeadlineDTO> deadlines) {
+        this.deadlines = deadlines;
+    }
 
 }

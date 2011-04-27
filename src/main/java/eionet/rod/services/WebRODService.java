@@ -41,33 +41,33 @@ import eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao;
  */
 public  class WebRODService {
 
-	private static LogServiceIF logger = RODServices.getLogService();
-	
-  	private IObligationDao obligationDao ;
-  	private ISpatialDao spatialDao;
-  	private IIssueDao issueDao;
-  	private IClientDao clientDao;
-  	private IGenericDao genericDao;
+    private static LogServiceIF logger = RODServices.getLogService();
+
+    private IObligationDao obligationDao ;
+    private ISpatialDao spatialDao;
+    private IIssueDao issueDao;
+    private IClientDao clientDao;
+    private IGenericDao genericDao;
 
 
-   public WebRODService() { 
-		try {
-			obligationDao = RODServices.getDbService().getObligationDao();
-			clientDao = RODServices.getDbService().getClientDao();
-			spatialDao = RODServices.getDbService().getSpatialDao();
-			issueDao = RODServices.getDbService().getIssueDao();
-			genericDao = RODServices.getDbService().getGenericlDao();
-		} catch (ServiceException e) {
-			logger.fatal(e);
-		}		
+   public WebRODService() {
+        try {
+            obligationDao = RODServices.getDbService().getObligationDao();
+            clientDao = RODServices.getDbService().getClientDao();
+            spatialDao = RODServices.getDbService().getSpatialDao();
+            issueDao = RODServices.getDbService().getIssueDao();
+            genericDao = RODServices.getDbService().getGenericlDao();
+        } catch (ServiceException e) {
+            logger.fatal(e);
+        }
 
    }
-  
+
   /**
-	* Returns Activity Ids and Titles
+    * Returns Activity Ids and Titles
   * @return Vector (contains hashtables, one for each activity)
-  * @throw ServiceException  
-	*/
+  * @throw ServiceException
+    */
   public Vector getActivities() throws ServiceException {
     return obligationDao.getActivities();
   }
@@ -75,23 +75,23 @@ public  class WebRODService {
   /**
   * Returns all countries
   * @return Vector (contains hashtables, one for each record)
-  * @throw ServiceException  
-	*/
+  * @throw ServiceException
+    */
   public Vector getCountries() throws ServiceException {
 
     return spatialDao.getCountries();
   }
-  
+
   public Vector getROComplete() throws ServiceException {
-	  return obligationDao.getROComplete();
+      return obligationDao.getROComplete();
   }
 
   public Vector getObligations(String countryId, String issueId, String client, String terminated) throws ServiceException {
-	  boolean ccClients = false;
-	  if(!RODUtil.isNullOrEmpty(client) && !client.equals("-1"))
-		  ccClients = true;
-	  Vector ret = obligationDao.getObligationsVector(null, countryId, issueId, client, terminated, ccClients); 
-	  return ret;
+      boolean ccClients = false;
+      if (!RODUtil.isNullOrEmpty(client) && !client.equals("-1"))
+          ccClients = true;
+      Vector ret = obligationDao.getObligationsVector(null, countryId, issueId, client, terminated, ccClients);
+      return ret;
   }
   public Vector getRODeadlines() throws ServiceException {
     return obligationDao.getRODeadlines();
@@ -114,5 +114,5 @@ public  class WebRODService {
   public Vector getTableDesc(String tablename) throws ServiceException {
       return genericDao.getTableDesc(tablename);
   }
-  
+
 }

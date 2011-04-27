@@ -1,36 +1,36 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class SourceLinksDTO implements java.io.Serializable{
-	
-	private int childId;
-	private int parentId;
-	
-	/**
-	 * 
-	 */
-	public SourceLinksDTO(){
-	}
 
-	public int getChildId() {
-		return childId;
-	}
+    private int childId;
+    private int parentId;
 
-	public void setChildId(int childId) {
-		this.childId = childId;
-	}
+    /**
+     *
+     */
+    public SourceLinksDTO() {
+    }
 
-	public int getParentId() {
-		return parentId;
-	}
+    public int getChildId() {
+        return childId;
+    }
 
-	public void setParentId(int parentId) {
-		this.parentId = parentId;
-	}
+    public void setChildId(int childId) {
+        this.childId = childId;
+    }
 
-		
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
+
+
 }

@@ -14,62 +14,62 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 @UrlBinding("/documentation")
 public class DocumentationActionBean extends AbstractRODActionBean {
 
-	private List<DocumentationDTO> docList;
-	private DocumentationDTO doc;
-	private String areaId;
-	
-	/** 
-	 * 
-	 * @return
-	 */
-	@DefaultHandler
-	public Resolution init() throws ServiceException {
-		
-		String pathInfo = getContext().getRequest().getPathInfo();
-		if(!RODUtil.isNullOrEmpty(pathInfo)){
-			StringTokenizer st = new StringTokenizer(pathInfo,"/");
-			if(st.hasMoreElements())
-				areaId = st.nextToken();
-		}
-		
-		if(!RODUtil.isNullOrEmpty(areaId)){
-			doc = RODServices.getDbService().getHelpDao().getDoc(areaId);
-		} else {
-			docList = RODServices.getDbService().getHelpDao().getDocList();
-		}
-		
-		return new ForwardResolution("/pages/documentation.jsp");
-	}
+    private List<DocumentationDTO> docList;
+    private DocumentationDTO doc;
+    private String areaId;
 
-	public List<DocumentationDTO> getDocList() {
-		return docList;
-	}
+    /**
+     *
+     * @return
+     */
+    @DefaultHandler
+    public Resolution init() throws ServiceException {
 
-	public void setDocList(List<DocumentationDTO> docList) {
-		this.docList = docList;
-	}
+        String pathInfo = getContext().getRequest().getPathInfo();
+        if (!RODUtil.isNullOrEmpty(pathInfo)) {
+            StringTokenizer st = new StringTokenizer(pathInfo,"/");
+            if (st.hasMoreElements())
+                areaId = st.nextToken();
+        }
 
-	public String getAreaId() {
-		return areaId;
-	}
+        if (!RODUtil.isNullOrEmpty(areaId)) {
+            doc = RODServices.getDbService().getHelpDao().getDoc(areaId);
+        } else {
+            docList = RODServices.getDbService().getHelpDao().getDocList();
+        }
 
-	public void setAreaId(String areaId) {
-		this.areaId = areaId;
-	}
+        return new ForwardResolution("/pages/documentation.jsp");
+    }
 
-	public DocumentationDTO getDoc() {
-		return doc;
-	}
+    public List<DocumentationDTO> getDocList() {
+        return docList;
+    }
 
-	public void setDoc(DocumentationDTO doc) {
-		this.doc = doc;
-	}
-		
+    public void setDocList(List<DocumentationDTO> docList) {
+        this.docList = docList;
+    }
+
+    public String getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
+    }
+
+    public DocumentationDTO getDoc() {
+        return doc;
+    }
+
+    public void setDoc(DocumentationDTO doc) {
+        this.doc = doc;
+    }
+
 }

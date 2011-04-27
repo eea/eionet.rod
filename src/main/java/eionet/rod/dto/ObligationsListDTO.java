@@ -1,140 +1,140 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class ObligationsListDTO implements java.io.Serializable{
-	
-	private Integer obligationId;
-	private String obligationTitle;
-	private Integer sourceId;
-	private String sourceTitle;
-	private Integer clientId;
-	private String clientName;
-	private String clientDescr;
-	private String nextDeadline;
-	private String nextReporting;
-	private String fkDeliveryCountryIds;
-	private String terminate;
 
-	
-	/**
-	 * 
-	 */
-	public ObligationsListDTO(){
-	}
+    private Integer obligationId;
+    private String obligationTitle;
+    private Integer sourceId;
+    private String sourceTitle;
+    private Integer clientId;
+    private String clientName;
+    private String clientDescr;
+    private String nextDeadline;
+    private String nextReporting;
+    private String fkDeliveryCountryIds;
+    private String terminate;
 
 
-	public Integer getObligationId() {
-		return obligationId;
-	}
+    /**
+     *
+     */
+    public ObligationsListDTO() {
+    }
 
 
-	public void setObligationId(Integer obligationId) {
-		this.obligationId = obligationId;
-	}
+    public Integer getObligationId() {
+        return obligationId;
+    }
 
 
-	public String getObligationTitle() {
-		return obligationTitle;
-	}
+    public void setObligationId(Integer obligationId) {
+        this.obligationId = obligationId;
+    }
 
 
-	public Integer getClientId() {
-		return clientId;
-	}
+    public String getObligationTitle() {
+        return obligationTitle;
+    }
 
 
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
-	}
+    public Integer getClientId() {
+        return clientId;
+    }
 
 
-	public void setObligationTitle(String obligationTitle) {
-		this.obligationTitle = obligationTitle;
-	}
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
 
 
-	public Integer getSourceId() {
-		return sourceId;
-	}
+    public void setObligationTitle(String obligationTitle) {
+        this.obligationTitle = obligationTitle;
+    }
 
 
-	public void setSourceId(Integer sourceId) {
-		this.sourceId = sourceId;
-	}
+    public Integer getSourceId() {
+        return sourceId;
+    }
 
 
-	public String getSourceTitle() {
-		return sourceTitle;
-	}
+    public void setSourceId(Integer sourceId) {
+        this.sourceId = sourceId;
+    }
 
 
-	public void setSourceTitle(String sourceTitle) {
-		this.sourceTitle = sourceTitle;
-	}
+    public String getSourceTitle() {
+        return sourceTitle;
+    }
 
 
-	public String getClientName() {
-		return clientName;
-	}
+    public void setSourceTitle(String sourceTitle) {
+        this.sourceTitle = sourceTitle;
+    }
 
 
-	public String getClientDescr() {
-		return clientDescr;
-	}
+    public String getClientName() {
+        return clientName;
+    }
 
 
-	public void setClientDescr(String clientDescr) {
-		this.clientDescr = clientDescr;
-	}
+    public String getClientDescr() {
+        return clientDescr;
+    }
 
 
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
+    public void setClientDescr(String clientDescr) {
+        this.clientDescr = clientDescr;
+    }
 
 
-	public String getNextDeadline() {
-		return nextDeadline;
-	}
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
 
 
-	public void setNextDeadline(String nextDeadline) {
-		this.nextDeadline = nextDeadline;
-	}
+    public String getNextDeadline() {
+        return nextDeadline;
+    }
 
 
-	public String getNextReporting() {
-		return nextReporting;
-	}
+    public void setNextDeadline(String nextDeadline) {
+        this.nextDeadline = nextDeadline;
+    }
 
 
-	public void setNextReporting(String nextReporting) {
-		this.nextReporting = nextReporting;
-	}
+    public String getNextReporting() {
+        return nextReporting;
+    }
 
 
-	public String getFkDeliveryCountryIds() {
-		return fkDeliveryCountryIds;
-	}
+    public void setNextReporting(String nextReporting) {
+        this.nextReporting = nextReporting;
+    }
 
 
-	public void setFkDeliveryCountryIds(String fkDeliveryCountryIds) {
-		this.fkDeliveryCountryIds = fkDeliveryCountryIds;
-	}
+    public String getFkDeliveryCountryIds() {
+        return fkDeliveryCountryIds;
+    }
 
 
-	public String getTerminate() {
-		return terminate;
-	}
+    public void setFkDeliveryCountryIds(String fkDeliveryCountryIds) {
+        this.fkDeliveryCountryIds = fkDeliveryCountryIds;
+    }
 
 
-	public void setTerminate(String terminate) {
-		this.terminate = terminate;
-	}
+    public String getTerminate() {
+        return terminate;
+    }
 
-	
+
+    public void setTerminate(String terminate) {
+        this.terminate = terminate;
+    }
+
+
 }

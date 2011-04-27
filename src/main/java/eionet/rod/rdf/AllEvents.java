@@ -56,10 +56,10 @@ public class AllEvents extends RSSServletAC {
         countriesTemp = new StringTokenizer(countriesParam, ",");
 
     StringBuffer strIssues = new StringBuffer();
-    if(issuesTemp != null){
-        while(issuesTemp.hasMoreTokens()){
+    if (issuesTemp != null) {
+        while (issuesTemp.hasMoreTokens()) {
             String token  = issuesTemp.nextToken();
-            if(isNumeric(token)){
+            if (isNumeric(token)) {
                 strIssues.append(token);
                 strIssues.append(" ");
             } else {
@@ -67,16 +67,16 @@ public class AllEvents extends RSSServletAC {
                 strIssues.append(" ");
             }
         }
-        if(strIssues.toString() != null)
+        if (strIssues.toString() != null)
             issues = new StringTokenizer(strIssues.toString());
     }
 
 
     StringBuffer strCountries = new StringBuffer();
-    if(countriesTemp != null){
-        while(countriesTemp.hasMoreTokens()){
+    if (countriesTemp != null) {
+        while (countriesTemp.hasMoreTokens()) {
             String token  = countriesTemp.nextToken();
-            if(isNumeric(token)){
+            if (isNumeric(token)) {
                 strCountries.append(token);
                 strCountries.append(" ");
             } else {
@@ -84,7 +84,7 @@ public class AllEvents extends RSSServletAC {
                 strCountries.append(" ");
             }
         }
-        if(strCountries.toString() != null)
+        if (strCountries.toString() != null)
             countries = new StringTokenizer(strCountries.toString());
     }
 
@@ -101,7 +101,7 @@ public class AllEvents extends RSSServletAC {
     String[][] events = RODServices.getDbService().getObligationDao().getAllActivityDeadlines(issues, countries);
 
     s.append("<items><rdf:Seq>");
-    for (int i= 0; i< events.length; i++){
+    for (int i= 0; i< events.length; i++) {
       String pk = events[i][0];
 
       s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/")
@@ -110,7 +110,7 @@ public class AllEvents extends RSSServletAC {
     }
     s.append("</rdf:Seq></items>");
     addChannelEnd(s);
-    for (int i= 0; i< events.length; i++){
+    for (int i= 0; i< events.length; i++) {
       String pk = events[i][0];
       String title = "Deadline for Reporting Obligation: " + events[i][1];
       String date = events[i][2];
@@ -138,7 +138,7 @@ public class AllEvents extends RSSServletAC {
 
     for( char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next() )
     {
-        if( !Character.isDigit( ch ) )
+        if ( !Character.isDigit( ch ) )
         {
             return false;
         }

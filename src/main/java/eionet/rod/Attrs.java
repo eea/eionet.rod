@@ -1,7 +1,7 @@
 package eionet.rod;
 
 /*
- * 
+ *
  * @author jaanus
  *
  * To change the template for this generated type comment go to

@@ -53,34 +53,34 @@ public class Clients extends RDFServletAC {
 
   private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace +
     dcNs + "xmlns:dcterms=\"http://purl.org/dc/terms/\"";
-  
+
   public String getRdf(HttpServletRequest req) throws ServiceException {
-	  	try {
-	  		props = ResourceBundle.getBundle(PROP_FILE);
-	  	} catch (MissingResourceException mre) {
-	  		mre.printStackTrace();
-	  	}
+        try {
+            props = ResourceBundle.getBundle(PROP_FILE);
+        } catch (MissingResourceException mre) {
+            mre.printStackTrace();
+        }
 
-		if (activitiesNamespace == null)
-			activitiesNamespace = props.getString(ROD_URL_NS);
-	
-		if (clientsNamespace == null)
-			try {
-				clientsNamespace = props.getString(ROD_LI_NS);
-			} catch (MissingResourceException mre ) {
-				clientsNamespace="http://rod.eionet.europa.eu/clients/";
-			}
+        if (activitiesNamespace == null)
+            activitiesNamespace = props.getString(ROD_URL_NS);
 
-		if (rodSchemaNamespace == null)
-			try {
-				rodSchemaNamespace=props.getString("schema.namespace");
-		        //quite likely it will not change
-			} catch (MissingResourceException mre ) {
-		        rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
-			}
-		
-		return generateRDF(req);
-	}
+        if (clientsNamespace == null)
+            try {
+                clientsNamespace = props.getString(ROD_LI_NS);
+            } catch (MissingResourceException mre ) {
+                clientsNamespace="http://rod.eionet.europa.eu/clients/";
+            }
+
+        if (rodSchemaNamespace == null)
+            try {
+                rodSchemaNamespace=props.getString("schema.namespace");
+                //quite likely it will not change
+            } catch (MissingResourceException mre ) {
+                rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
+            }
+
+        return generateRDF(req);
+    }
 
 
   protected  String generateRDF(HttpServletRequest req) throws ServiceException {
@@ -97,30 +97,30 @@ public class Clients extends RDFServletAC {
 
     //WebRODService wSrv = new WebRODService();
     List<ClientDTO> clients = RODServices.getDbService().getClientDao().getAllClients();
-    
-    for(Iterator<ClientDTO> it = clients.iterator(); it.hasNext();){
-    	
-    	ClientDTO client = it.next();
-    	
-    	s.append("<rod:Client rdf:about=\"" + clientsNamespace + client.getClientId() + "\">")
-        	.append("<rod:clientName>").append(RODUtil.replaceTags(client.getName(),true,true)).append("</rod:clientName>")
-        	.append("<rod:clientAcronym>").append(RODUtil.replaceTags(client.getAcronym(),true,true)).append("</rod:clientAcronym>")        
-        	.append("<rod:clientUrl>").append(RODUtil.replaceTags(client.getUrl(),true,true)).append("</rod:clientUrl>")        
-        	.append("<rod:clientAddress>").append(RODUtil.replaceTags(client.getAddress(),true,true)).append("</rod:clientAddress>")
-        	.append("<rod:clientEmail>").append(RODUtil.replaceTags(client.getEmail(),true,true)).append("</rod:clientEmail>")
-        	.append("<rod:clientDescription>").append(RODUtil.replaceTags(client.getDescription(),true,true)).append("</rod:clientDescription>")
-        	.append("<rod:clientPostalCode>").append(RODUtil.replaceTags(client.getPostalCode(),true,true)).append("</rod:clientPostalCode>")
-        	.append("<rod:clientCity>").append(RODUtil.replaceTags(client.getCity(),true,true)).append("</rod:clientCity>")
-        	.append("<rod:clientCountry>").append(RODUtil.replaceTags(client.getCountry(),true,true)).append("</rod:clientCountry>")
-        	.append("<rod:clientShortName>").append(RODUtil.replaceTags(client.getShortName(),true,true)).append("</rod:clientShortName>")
-    	.append("</rod:Client>");        
+
+    for(Iterator<ClientDTO> it = clients.iterator(); it.hasNext();) {
+
+        ClientDTO client = it.next();
+
+        s.append("<rod:Client rdf:about=\"" + clientsNamespace + client.getClientId() + "\">")
+            .append("<rod:clientName>").append(RODUtil.replaceTags(client.getName(),true,true)).append("</rod:clientName>")
+            .append("<rod:clientAcronym>").append(RODUtil.replaceTags(client.getAcronym(),true,true)).append("</rod:clientAcronym>")
+            .append("<rod:clientUrl>").append(RODUtil.replaceTags(client.getUrl(),true,true)).append("</rod:clientUrl>")
+            .append("<rod:clientAddress>").append(RODUtil.replaceTags(client.getAddress(),true,true)).append("</rod:clientAddress>")
+            .append("<rod:clientEmail>").append(RODUtil.replaceTags(client.getEmail(),true,true)).append("</rod:clientEmail>")
+            .append("<rod:clientDescription>").append(RODUtil.replaceTags(client.getDescription(),true,true)).append("</rod:clientDescription>")
+            .append("<rod:clientPostalCode>").append(RODUtil.replaceTags(client.getPostalCode(),true,true)).append("</rod:clientPostalCode>")
+            .append("<rod:clientCity>").append(RODUtil.replaceTags(client.getCity(),true,true)).append("</rod:clientCity>")
+            .append("<rod:clientCountry>").append(RODUtil.replaceTags(client.getCountry(),true,true)).append("</rod:clientCountry>")
+            .append("<rod:clientShortName>").append(RODUtil.replaceTags(client.getShortName(),true,true)).append("</rod:clientShortName>")
+        .append("</rod:Client>");
     }
-        
+
     s.append("</rdf:RDF>");
 
     return s.toString();
 
-  }  
+  }
 
- 
+
 }

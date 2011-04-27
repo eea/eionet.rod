@@ -34,14 +34,14 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.modules.db.dao.IObligationDao;
 
 public class DeadlineCalc {
-   private static LogServiceIF logger ;  
+   private static LogServiceIF logger ;
 
-   static { 
+   static {
       logger = RODServices.getLogService();
    }
 
    public void exitApp(boolean successful) {
-      if(successful == true)
+      if (successful == true)
          logger.info("DeadlineCalc v1.0 - finished succesfully.");
       else
          logger.error("DeadlineCalc v1.0 - failed to complete.");
@@ -59,9 +59,8 @@ public class DeadlineCalc {
       //
       try {
          db = RODServices.getDbService().getObligationDao();
-      }  
-      catch (Exception e) {
-         logger.error("Opening connection to database failed. The following error was reported:\n" + e.toString());      
+      } catch (Exception e) {
+         logger.error("Opening connection to database failed. The following error was reported:\n" + e.toString());
          e.printStackTrace();
          dCalc.exitApp(false);
          return;
@@ -71,21 +70,20 @@ public class DeadlineCalc {
       //
       try {
          deadlines = db.getDeadlines();
-      }  
-      catch (Exception e) {
-         logger.error("Getting deadlines from database failed. The following error was reported:\n" + e.toString());      
+      } catch (Exception e) {
+         logger.error("Getting deadlines from database failed. The following error was reported:\n" + e.toString());
          e.printStackTrace();
          dCalc.exitApp(false);
          return;
       }
-      if(deadlines == null) {
-         logger.info("0 deadlines found");      
+      if (deadlines == null) {
+         logger.info("0 deadlines found");
          dCalc.exitApp(true);
          return;
       }
-      logger.info(deadlines.length + " deadlines found, updating...");      
-      
-      
+      logger.info(deadlines.length + " deadlines found, updating...");
+
+
       // Update deadlines and save them back to the database
       for(int i = 0; i < deadlines.length; i++) {
          int m;
@@ -106,45 +104,44 @@ public class DeadlineCalc {
          //
          try {
             db.saveTerminate(Integer.valueOf(deadlines[i][0]), currDate.after(toDate)? "Y" : "N");
-         }  
-         catch (Exception e) {
-            logger.error("Saving TERMINATE value to database failed. The following error was reported:\n" + e.toString());      
+         } catch (Exception e) {
+            logger.error("Saving TERMINATE value to database failed. The following error was reported:\n" + e.toString());
          }
 
          // If not date-based deadline, skip the rest
          //
-         if(deadlines[i][2] == null)
+         if (deadlines[i][2] == null)
             continue;
          int freq = Integer.parseInt(deadlines[i][2]);
          // No point in updating if non-repeating
          //
-         if(freq == 0)
+         if (freq == 0)
             continue;
          currDate.add(Calendar.DATE, -3 * freq);
-         if(day < 28) {
-            while(repDate.before(currDate) && repDate.before(toDate))
+         if (day < 28) {
+            while (repDate.before(currDate) && repDate.before(toDate))
                repDate.add(Calendar.MONTH, freq);
-            if(repDate.after(toDate))
+            if (repDate.after(toDate))
                repDate.add(Calendar.MONTH, -freq);
          }
          else {
             repDate.add(Calendar.DATE, -3);
-            while(repDate.before(currDate) && repDate.before(toDate))
+            while (repDate.before(currDate) && repDate.before(toDate))
                repDate.add(Calendar.MONTH, freq);
-            if(repDate.after(toDate))
+            if (repDate.after(toDate))
                repDate.add(Calendar.MONTH, -freq);
             GregorianCalendar rewindDate = (GregorianCalendar)repDate.clone(); // Save for check below
             m = repDate.get(Calendar.MONTH);
-            while(repDate.get(Calendar.MONTH) == m)
+            while (repDate.get(Calendar.MONTH) == m)
                repDate.add(Calendar.DATE, 1);
             repDate.add(Calendar.DATE, -1);
-      		// If we went over Valid To date, rewind and repeat
+            // If we went over Valid To date, rewind and repeat
             //
-      		if(repDate.after(toDate)) {
+            if (repDate.after(toDate)) {
                repDate = rewindDate;
                repDate.add(Calendar.MONTH, -freq);
                m = repDate.get(Calendar.MONTH);
-               while(repDate.get(Calendar.MONTH) == m)
+               while (repDate.get(Calendar.MONTH) == m)
                   repDate.add(Calendar.DATE, 1);
                repDate.add(Calendar.DATE, -1);
             }
@@ -156,43 +153,41 @@ public class DeadlineCalc {
          // Update TERMINATE field
          //
          try {
-            if(repDate.before(currDate))
+            if (repDate.before(currDate))
                db.saveTerminate(Integer.valueOf(deadlines[i][0]), "Y");
 //               logger.info("Terminate!\t\t\t\t" + repStr + "\t" + plusStr + "\t" + currStr);
-         }  
-         catch (Exception e) {
-            logger.error("Saving TERMINATE value to database failed. The following error was reported:\n" + e.toString());      
+         } catch (Exception e) {
+            logger.error("Saving TERMINATE value to database failed. The following error was reported:\n" + e.toString());
          }
-         
+
          // Deadline after the next
          //
-         if(day < 28)
+         if (day < 28)
             repDate.add(Calendar.MONTH, freq);
          else {
             repDate.add(Calendar.DATE, -3);
             repDate.add(Calendar.MONTH, freq);
             m = repDate.get(Calendar.MONTH);
-            while(repDate.get(Calendar.MONTH) == m)
+            while (repDate.get(Calendar.MONTH) == m)
                repDate.add(Calendar.DATE, 1);
             repDate.add(Calendar.DATE, -1);
          }
          String repStr2;
-         if(repDate.after(toDate))
+         if (repDate.after(toDate))
             repStr2 = "";
          else
             repStr2 = dFormat.format(repDate.getTime());
 
          try {
             db.saveDeadline(Integer.valueOf(deadlines[i][0]), repStr, repStr2, deadlines[i][1]);
-         }  
-         catch (Exception e) {
-            logger.error("Saving deadline to database failed. The following error was reported:\n" + e.toString());      
+         } catch (Exception e) {
+            logger.error("Saving deadline to database failed. The following error was reported:\n" + e.toString());
          }
-         
+
 //         logger.info("\t\t\t\t\t" + repStr + "\t" + plusStr + "\t" + currStr);
       }
-      logger.info("Update complete.");      
+      logger.info("Update complete.");
 
-      dCalc.exitApp(true);   
+      dCalc.exitApp(true);
    }
 }

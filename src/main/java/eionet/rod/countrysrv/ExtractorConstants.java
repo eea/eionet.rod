@@ -39,14 +39,14 @@ public interface ExtractorConstants {
 
   public final String SYSTEM_USER = "ROD - system";
 
- 
+
 
   public final String CONTREG_SRV_NAME = "ContRegService";
   public final String CONTREG_GETENTRIES_METHOD = "getEntries";
   public final String CONTREG_GETDELIVERIES_METHOD = "getDeliveries";
 
   public final String DD_SRV_NAME = "DataDictService";
-  public final String DD_GETPARAMS_METHOD = "getParameters";    
+  public final String DD_GETPARAMS_METHOD = "getParameters";
 
 
 }

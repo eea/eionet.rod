@@ -1,97 +1,97 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class ObligationsDueDTO implements java.io.Serializable{
-	
-	private Integer obligationId;
-	private String obligationTitle;
-	private String lastUpdate;
-	private String validatedBy;
-	private String nextUpdate;
-	private String verified;
-	private String verifiedBy;
 
-	
-	/**
-	 * 
-	 */
-	public ObligationsDueDTO(){
-	}
+    private Integer obligationId;
+    private String obligationTitle;
+    private String lastUpdate;
+    private String validatedBy;
+    private String nextUpdate;
+    private String verified;
+    private String verifiedBy;
 
 
-	public Integer getObligationId() {
-		return obligationId;
-	}
+    /**
+     *
+     */
+    public ObligationsDueDTO() {
+    }
 
 
-	public void setObligationId(Integer obligationId) {
-		this.obligationId = obligationId;
-	}
+    public Integer getObligationId() {
+        return obligationId;
+    }
 
 
-	public String getObligationTitle() {
-		return obligationTitle;
-	}
+    public void setObligationId(Integer obligationId) {
+        this.obligationId = obligationId;
+    }
 
 
-	public void setObligationTitle(String obligationTitle) {
-		this.obligationTitle = obligationTitle;
-	}
+    public String getObligationTitle() {
+        return obligationTitle;
+    }
 
 
-	public String getLastUpdate() {
-		return lastUpdate;
-	}
+    public void setObligationTitle(String obligationTitle) {
+        this.obligationTitle = obligationTitle;
+    }
 
 
-	public void setLastUpdate(String lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
 
 
-	public String getValidatedBy() {
-		return validatedBy;
-	}
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 
 
-	public void setValidatedBy(String validatedBy) {
-		this.validatedBy = validatedBy;
-	}
+    public String getValidatedBy() {
+        return validatedBy;
+    }
 
 
-	public String getNextUpdate() {
-		return nextUpdate;
-	}
+    public void setValidatedBy(String validatedBy) {
+        this.validatedBy = validatedBy;
+    }
 
 
-	public void setNextUpdate(String nextUpdate) {
-		this.nextUpdate = nextUpdate;
-	}
+    public String getNextUpdate() {
+        return nextUpdate;
+    }
 
 
-	public String getVerified() {
-		return verified;
-	}
+    public void setNextUpdate(String nextUpdate) {
+        this.nextUpdate = nextUpdate;
+    }
 
 
-	public void setVerified(String verified) {
-		this.verified = verified;
-	}
+    public String getVerified() {
+        return verified;
+    }
 
 
-	public String getVerifiedBy() {
-		return verifiedBy;
-	}
+    public void setVerified(String verified) {
+        this.verified = verified;
+    }
 
 
-	public void setVerifiedBy(String verifiedBy) {
-		this.verifiedBy = verifiedBy;
-	}
+    public String getVerifiedBy() {
+        return verifiedBy;
+    }
 
 
-	
+    public void setVerifiedBy(String verifiedBy) {
+        this.verifiedBy = verifiedBy;
+    }
+
+
+
 }

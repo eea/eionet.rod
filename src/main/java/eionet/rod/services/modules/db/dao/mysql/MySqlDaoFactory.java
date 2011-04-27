@@ -20,102 +20,102 @@ import eionet.rod.services.modules.db.dao.RODDaoFactory;
 
 public class MySqlDaoFactory extends RODDaoFactory {
 
-	public MySqlDaoFactory() {
-	}
+    public MySqlDaoFactory() {
+    }
 
-	private IClientDao clientDao = new ClientMySqlDao();
+    private IClientDao clientDao = new ClientMySqlDao();
 
-	private IDeliveryDao deliveryDao = new DeliveryMySqlDao();
+    private IDeliveryDao deliveryDao = new DeliveryMySqlDao();
 
-	private IDifferencesDao differencesDao = new DifferencesMySqlDao();
+    private IDifferencesDao differencesDao = new DifferencesMySqlDao();
 
-	private IGenericDao genericlDao = new GenericMySqlDao();
-	
-	private IHelpDao helpDao = new HelpMySqlDao();
+    private IGenericDao genericlDao = new GenericMySqlDao();
 
-	private IHistoricDeadlineDao historicDeadlineDao = new HistoricDeadlineMySqlDao();
+    private IHelpDao helpDao = new HelpMySqlDao();
 
-	private IHistoryDao historyDao = new HistoryMySqlDao();
+    private IHistoricDeadlineDao historicDeadlineDao = new HistoricDeadlineMySqlDao();
 
-	private IIssueDao issueDao = new IssueMySqlDao();
+    private IHistoryDao historyDao = new HistoryMySqlDao();
 
-	private IObligationDao obligationDao = new ObligationMySqlDao();
+    private IIssueDao issueDao = new IssueMySqlDao();
 
-	private IRoleDao roleDao = new RoleMySqlDao();
+    private IObligationDao obligationDao = new ObligationMySqlDao();
 
-	private ISourceDao sourceDao = new SourceMySqlDao();
+    private IRoleDao roleDao = new RoleMySqlDao();
 
-	private ISpatialDao spatialDao = new SpatialMySqlDao();
+    private ISourceDao sourceDao = new SourceMySqlDao();
 
-	private ISpatialHistoryDao spatialHistoryDao = new SpatialHistoryMySqlDao();
+    private ISpatialDao spatialDao = new SpatialMySqlDao();
 
-	private IUndoDao undoDao = new UndoMySqlDao();
-	
-	private IAclDao aclDao = new AclMySqlDao();
-	
-	private IAnalysisDao analysisDao = new AnalysisMySqlDao();
+    private ISpatialHistoryDao spatialHistoryDao = new SpatialHistoryMySqlDao();
 
-	public IClientDao getClientDao() {
-		return clientDao;
-	}
+    private IUndoDao undoDao = new UndoMySqlDao();
 
-	public IDeliveryDao getDeliveryDao() {
-		return deliveryDao;
-	}
+    private IAclDao aclDao = new AclMySqlDao();
 
-	public IDifferencesDao getDifferencesDao() {
-		return differencesDao;
-	}
+    private IAnalysisDao analysisDao = new AnalysisMySqlDao();
 
-	public IGenericDao getGenericlDao() {
-		return genericlDao;
-	}
+    public IClientDao getClientDao() {
+        return clientDao;
+    }
 
-	public IHistoricDeadlineDao getHistoricDeadlineDao() {
-		return historicDeadlineDao;
-	}
+    public IDeliveryDao getDeliveryDao() {
+        return deliveryDao;
+    }
 
-	public IHistoryDao getHistoryDao() {
-		return historyDao;
-	}
+    public IDifferencesDao getDifferencesDao() {
+        return differencesDao;
+    }
 
-	public IIssueDao getIssueDao() {
-		return issueDao;
-	}
+    public IGenericDao getGenericlDao() {
+        return genericlDao;
+    }
 
-	public IObligationDao getObligationDao() {
-		return obligationDao;
-	}
+    public IHistoricDeadlineDao getHistoricDeadlineDao() {
+        return historicDeadlineDao;
+    }
 
-	public IRoleDao getRoleDao() {
-		return roleDao;
-	}
+    public IHistoryDao getHistoryDao() {
+        return historyDao;
+    }
 
-	public ISourceDao getSourceDao() {
-		return sourceDao;
-	}
+    public IIssueDao getIssueDao() {
+        return issueDao;
+    }
 
-	public ISpatialDao getSpatialDao() {
-		return spatialDao;
-	}
+    public IObligationDao getObligationDao() {
+        return obligationDao;
+    }
 
-	public ISpatialHistoryDao getSpatialHistoryDao() {
-		return spatialHistoryDao;
-	}
+    public IRoleDao getRoleDao() {
+        return roleDao;
+    }
 
-	public IUndoDao getUndoDao() {
-		return undoDao;
-	}
+    public ISourceDao getSourceDao() {
+        return sourceDao;
+    }
 
-	public IAclDao getAclDao() {
-		return aclDao;
-	}
-	
-	public IAnalysisDao getAnalysisDao() {
-		return analysisDao;
-	}
+    public ISpatialDao getSpatialDao() {
+        return spatialDao;
+    }
 
-	public IHelpDao getHelpDao() {
-		return helpDao;
-	}
+    public ISpatialHistoryDao getSpatialHistoryDao() {
+        return spatialHistoryDao;
+    }
+
+    public IUndoDao getUndoDao() {
+        return undoDao;
+    }
+
+    public IAclDao getAclDao() {
+        return aclDao;
+    }
+
+    public IAnalysisDao getAnalysisDao() {
+        return analysisDao;
+    }
+
+    public IHelpDao getHelpDao() {
+        return helpDao;
+    }
 }

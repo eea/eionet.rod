@@ -1,825 +1,825 @@
 package eionet.rod.dto;
 
 /**
- * 
+ *
  * @author altnyris
  *
  */
 public class ObligationFactsheetDTO implements java.io.Serializable{
-	
-	//Fields from T_OBLIGATION table
-	private String obligationId;
-	private String fkSourceId;
-	private String fkClientId;
-	private String validSince;
-	private String validTo;
-	private String title;
-	private String formatName;
-	private String reportFormatUrl;
-	private String reportFreq;
-	private String reportFreqDetail;
-	private String reportingFormat;
-	private String nextReporting;
-	private String dateComments;
-	private String terminate;
-	private String lastUpdate;
-	private String comment;
-	private String responsibleRole;
-	private String nextDeadline;
-	private String nextDeadline2;
-	private String firstReporting;
-	private String reportFreqMonths;
-	private String continousReporting;
-	private String fkDeliveryCountryIds;
-	private String rmNextUpdate;
-	private String rmVerified;
-	private String rmVerifiedBy;
-	private String locationPtr;
-	private String locationInfo;
-	private String dataUsedFor;
-	private String dataUsedForUrl;
-	private String description;
-	private String responsibleRoleSuf;
-	private String nationalContact;
-	private String nationalContactUrl;
-	private String coordinatorRole;
-	private String coordinatorRoleSuf;
-	private String coordinator;
-	private String coordinatorUrl;
-	private String authority;
-	private int eeaPrimary;
-	private String parameters;
-	private String validatedBy;
-	private String overlapUrl;
-	private int eeaCore;
-	private int flagged;
-	private String dpsirD;
-	private String dpsirP;
-	private String dpsirS;
-	private String dpsirI;
-	private String dpsirR;
-	
-	private String legalMoral;
-	
-	//Fields from T_SOURCE table
-	private String sourceId;
-	private String sourceTitle;
-	private String sourceAlias;
-	private String sourceCelexRef;
-	private String sourceCode;
-	
-	//Fields from RESP_ROLE table
-	private String respRoleId;
-	private String respRoleName;
-	private String respRoleUrl;
-	private String respRoleMembersUrl;
-	
-	//Fields from COORD_ROLE table
-	private String coordRoleId;
-	private String coordRoleName;
-	private String coordRoleUrl;
-	private String coordRoleMembersUrl;
-	
-	//Fields from T_LOOKUP table
-	private String lookupCValue;
-	private String lookupCTerm;
-	
-	//Fields from T_CLIENT_LNK table
-	private String clientLnkFKClientId;
-	private String clientLnkFKObjectId;
-	private String clientLnkStatus;
-	private String clientLnkType;
-	
-	//Fields from T_CLIENT table
-	private String clientId;
-	private String clientName;
-	
-	
-	/**
-	 * 
-	 */
-	public ObligationFactsheetDTO(){
-	}
-
-
-	public String getObligationId() {
-		return obligationId;
-	}
-
-
-	public void setObligationId(String obligationId) {
-		this.obligationId = obligationId;
-	}
 
+    //Fields from T_OBLIGATION table
+    private String obligationId;
+    private String fkSourceId;
+    private String fkClientId;
+    private String validSince;
+    private String validTo;
+    private String title;
+    private String formatName;
+    private String reportFormatUrl;
+    private String reportFreq;
+    private String reportFreqDetail;
+    private String reportingFormat;
+    private String nextReporting;
+    private String dateComments;
+    private String terminate;
+    private String lastUpdate;
+    private String comment;
+    private String responsibleRole;
+    private String nextDeadline;
+    private String nextDeadline2;
+    private String firstReporting;
+    private String reportFreqMonths;
+    private String continousReporting;
+    private String fkDeliveryCountryIds;
+    private String rmNextUpdate;
+    private String rmVerified;
+    private String rmVerifiedBy;
+    private String locationPtr;
+    private String locationInfo;
+    private String dataUsedFor;
+    private String dataUsedForUrl;
+    private String description;
+    private String responsibleRoleSuf;
+    private String nationalContact;
+    private String nationalContactUrl;
+    private String coordinatorRole;
+    private String coordinatorRoleSuf;
+    private String coordinator;
+    private String coordinatorUrl;
+    private String authority;
+    private int eeaPrimary;
+    private String parameters;
+    private String validatedBy;
+    private String overlapUrl;
+    private int eeaCore;
+    private int flagged;
+    private String dpsirD;
+    private String dpsirP;
+    private String dpsirS;
+    private String dpsirI;
+    private String dpsirR;
+
+    private String legalMoral;
+
+    //Fields from T_SOURCE table
+    private String sourceId;
+    private String sourceTitle;
+    private String sourceAlias;
+    private String sourceCelexRef;
+    private String sourceCode;
+
+    //Fields from RESP_ROLE table
+    private String respRoleId;
+    private String respRoleName;
+    private String respRoleUrl;
+    private String respRoleMembersUrl;
+
+    //Fields from COORD_ROLE table
+    private String coordRoleId;
+    private String coordRoleName;
+    private String coordRoleUrl;
+    private String coordRoleMembersUrl;
+
+    //Fields from T_LOOKUP table
+    private String lookupCValue;
+    private String lookupCTerm;
+
+    //Fields from T_CLIENT_LNK table
+    private String clientLnkFKClientId;
+    private String clientLnkFKObjectId;
+    private String clientLnkStatus;
+    private String clientLnkType;
 
-	public String getFkSourceId() {
-		return fkSourceId;
-	}
+    //Fields from T_CLIENT table
+    private String clientId;
+    private String clientName;
 
 
-	public void setFkSourceId(String fkSourceId) {
-		this.fkSourceId = fkSourceId;
-	}
+    /**
+     *
+     */
+    public ObligationFactsheetDTO() {
+    }
 
 
-	public String getFkClientId() {
-		return fkClientId;
-	}
+    public String getObligationId() {
+        return obligationId;
+    }
 
 
-	public void setFkClientId(String fkClientId) {
-		this.fkClientId = fkClientId;
-	}
+    public void setObligationId(String obligationId) {
+        this.obligationId = obligationId;
+    }
 
 
-	public String getValidSince() {
-		return validSince;
-	}
+    public String getFkSourceId() {
+        return fkSourceId;
+    }
 
 
-	public void setValidSince(String validSince) {
-		this.validSince = validSince;
-	}
+    public void setFkSourceId(String fkSourceId) {
+        this.fkSourceId = fkSourceId;
+    }
 
 
-	public String getValidTo() {
-		return validTo;
-	}
+    public String getFkClientId() {
+        return fkClientId;
+    }
 
 
-	public void setValidTo(String validTo) {
-		this.validTo = validTo;
-	}
+    public void setFkClientId(String fkClientId) {
+        this.fkClientId = fkClientId;
+    }
 
 
-	public String getTitle() {
-		return title;
-	}
+    public String getValidSince() {
+        return validSince;
+    }
 
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setValidSince(String validSince) {
+        this.validSince = validSince;
+    }
 
 
-	public String getFormatName() {
-		return formatName;
-	}
+    public String getValidTo() {
+        return validTo;
+    }
 
 
-	public void setFormatName(String formatName) {
-		this.formatName = formatName;
-	}
+    public void setValidTo(String validTo) {
+        this.validTo = validTo;
+    }
 
 
-	public String getReportFormatUrl() {
-		return reportFormatUrl;
-	}
+    public String getTitle() {
+        return title;
+    }
 
 
-	public void setReportFormatUrl(String reportFormatUrl) {
-		this.reportFormatUrl = reportFormatUrl;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
 
-	public String getReportFreq() {
-		return reportFreq;
-	}
+    public String getFormatName() {
+        return formatName;
+    }
 
 
-	public void setReportFreq(String reportFreq) {
-		this.reportFreq = reportFreq;
-	}
+    public void setFormatName(String formatName) {
+        this.formatName = formatName;
+    }
 
 
-	public String getReportFreqDetail() {
-		return reportFreqDetail;
-	}
+    public String getReportFormatUrl() {
+        return reportFormatUrl;
+    }
 
 
-	public void setReportFreqDetail(String reportFreqDetail) {
-		this.reportFreqDetail = reportFreqDetail;
-	}
+    public void setReportFormatUrl(String reportFormatUrl) {
+        this.reportFormatUrl = reportFormatUrl;
+    }
 
 
-	public String getReportingFormat() {
-		return reportingFormat;
-	}
+    public String getReportFreq() {
+        return reportFreq;
+    }
 
 
-	public void setReportingFormat(String reportingFormat) {
-		this.reportingFormat = reportingFormat;
-	}
+    public void setReportFreq(String reportFreq) {
+        this.reportFreq = reportFreq;
+    }
 
 
-	public String getNextReporting() {
-		return nextReporting;
-	}
+    public String getReportFreqDetail() {
+        return reportFreqDetail;
+    }
 
 
-	public void setNextReporting(String nextReporting) {
-		this.nextReporting = nextReporting;
-	}
+    public void setReportFreqDetail(String reportFreqDetail) {
+        this.reportFreqDetail = reportFreqDetail;
+    }
 
 
-	public String getDateComments() {
-		return dateComments;
-	}
+    public String getReportingFormat() {
+        return reportingFormat;
+    }
 
 
-	public void setDateComments(String dateComments) {
-		this.dateComments = dateComments;
-	}
+    public void setReportingFormat(String reportingFormat) {
+        this.reportingFormat = reportingFormat;
+    }
 
 
-	public String getTerminate() {
-		return terminate;
-	}
+    public String getNextReporting() {
+        return nextReporting;
+    }
 
 
-	public void setTerminate(String terminate) {
-		this.terminate = terminate;
-	}
+    public void setNextReporting(String nextReporting) {
+        this.nextReporting = nextReporting;
+    }
 
 
-	public String getLastUpdate() {
-		return lastUpdate;
-	}
+    public String getDateComments() {
+        return dateComments;
+    }
 
 
-	public void setLastUpdate(String lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
+    public void setDateComments(String dateComments) {
+        this.dateComments = dateComments;
+    }
 
 
-	public String getComment() {
-		return comment;
-	}
+    public String getTerminate() {
+        return terminate;
+    }
 
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    public void setTerminate(String terminate) {
+        this.terminate = terminate;
+    }
 
 
-	public String getResponsibleRole() {
-		return responsibleRole;
-	}
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
 
 
-	public void setResponsibleRole(String responsibleRole) {
-		this.responsibleRole = responsibleRole;
-	}
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 
 
-	public String getNextDeadline() {
-		return nextDeadline;
-	}
+    public String getComment() {
+        return comment;
+    }
 
 
-	public void setNextDeadline(String nextDeadline) {
-		this.nextDeadline = nextDeadline;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
 
-	public String getNextDeadline2() {
-		return nextDeadline2;
-	}
+    public String getResponsibleRole() {
+        return responsibleRole;
+    }
 
 
-	public void setNextDeadline2(String nextDeadline2) {
-		this.nextDeadline2 = nextDeadline2;
-	}
+    public void setResponsibleRole(String responsibleRole) {
+        this.responsibleRole = responsibleRole;
+    }
 
 
-	public String getFirstReporting() {
-		return firstReporting;
-	}
+    public String getNextDeadline() {
+        return nextDeadline;
+    }
 
 
-	public void setFirstReporting(String firstReporting) {
-		this.firstReporting = firstReporting;
-	}
+    public void setNextDeadline(String nextDeadline) {
+        this.nextDeadline = nextDeadline;
+    }
 
 
-	public String getReportFreqMonths() {
-		return reportFreqMonths;
-	}
+    public String getNextDeadline2() {
+        return nextDeadline2;
+    }
 
 
-	public void setReportFreqMonths(String reportFreqMonths) {
-		this.reportFreqMonths = reportFreqMonths;
-	}
+    public void setNextDeadline2(String nextDeadline2) {
+        this.nextDeadline2 = nextDeadline2;
+    }
 
 
-	public String getContinousReporting() {
-		return continousReporting;
-	}
+    public String getFirstReporting() {
+        return firstReporting;
+    }
 
 
-	public void setContinousReporting(String continousReporting) {
-		this.continousReporting = continousReporting;
-	}
+    public void setFirstReporting(String firstReporting) {
+        this.firstReporting = firstReporting;
+    }
 
 
-	public String getFkDeliveryCountryIds() {
-		return fkDeliveryCountryIds;
-	}
+    public String getReportFreqMonths() {
+        return reportFreqMonths;
+    }
 
 
-	public void setFkDeliveryCountryIds(String fkDeliveryCountryIds) {
-		this.fkDeliveryCountryIds = fkDeliveryCountryIds;
-	}
+    public void setReportFreqMonths(String reportFreqMonths) {
+        this.reportFreqMonths = reportFreqMonths;
+    }
 
 
-	public String getRmNextUpdate() {
-		return rmNextUpdate;
-	}
+    public String getContinousReporting() {
+        return continousReporting;
+    }
 
 
-	public void setRmNextUpdate(String rmNextUpdate) {
-		this.rmNextUpdate = rmNextUpdate;
-	}
+    public void setContinousReporting(String continousReporting) {
+        this.continousReporting = continousReporting;
+    }
 
 
-	public String getRmVerified() {
-		return rmVerified;
-	}
+    public String getFkDeliveryCountryIds() {
+        return fkDeliveryCountryIds;
+    }
 
 
-	public void setRmVerified(String rmVerified) {
-		this.rmVerified = rmVerified;
-	}
+    public void setFkDeliveryCountryIds(String fkDeliveryCountryIds) {
+        this.fkDeliveryCountryIds = fkDeliveryCountryIds;
+    }
 
 
-	public String getRmVerifiedBy() {
-		return rmVerifiedBy;
-	}
+    public String getRmNextUpdate() {
+        return rmNextUpdate;
+    }
 
 
-	public void setRmVerifiedBy(String rmVerifiedBy) {
-		this.rmVerifiedBy = rmVerifiedBy;
-	}
+    public void setRmNextUpdate(String rmNextUpdate) {
+        this.rmNextUpdate = rmNextUpdate;
+    }
 
 
-	public String getLocationPtr() {
-		return locationPtr;
-	}
+    public String getRmVerified() {
+        return rmVerified;
+    }
 
 
-	public void setLocationPtr(String locationPtr) {
-		this.locationPtr = locationPtr;
-	}
+    public void setRmVerified(String rmVerified) {
+        this.rmVerified = rmVerified;
+    }
 
 
-	public String getLocationInfo() {
-		return locationInfo;
-	}
+    public String getRmVerifiedBy() {
+        return rmVerifiedBy;
+    }
 
 
-	public void setLocationInfo(String locationInfo) {
-		this.locationInfo = locationInfo;
-	}
+    public void setRmVerifiedBy(String rmVerifiedBy) {
+        this.rmVerifiedBy = rmVerifiedBy;
+    }
 
 
-	public String getDataUsedFor() {
-		return dataUsedFor;
-	}
+    public String getLocationPtr() {
+        return locationPtr;
+    }
 
 
-	public void setDataUsedFor(String dataUsedFor) {
-		this.dataUsedFor = dataUsedFor;
-	}
+    public void setLocationPtr(String locationPtr) {
+        this.locationPtr = locationPtr;
+    }
 
 
-	public String getDataUsedForUrl() {
-		return dataUsedForUrl;
-	}
+    public String getLocationInfo() {
+        return locationInfo;
+    }
 
 
-	public void setDataUsedForUrl(String dataUsedForUrl) {
-		this.dataUsedForUrl = dataUsedForUrl;
-	}
+    public void setLocationInfo(String locationInfo) {
+        this.locationInfo = locationInfo;
+    }
 
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDataUsedFor() {
+        return dataUsedFor;
+    }
 
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDataUsedFor(String dataUsedFor) {
+        this.dataUsedFor = dataUsedFor;
+    }
 
 
-	public String getResponsibleRoleSuf() {
-		return responsibleRoleSuf;
-	}
+    public String getDataUsedForUrl() {
+        return dataUsedForUrl;
+    }
 
 
-	public void setResponsibleRoleSuf(String responsibleRoleSuf) {
-		this.responsibleRoleSuf = responsibleRoleSuf;
-	}
+    public void setDataUsedForUrl(String dataUsedForUrl) {
+        this.dataUsedForUrl = dataUsedForUrl;
+    }
 
 
-	public String getNationalContact() {
-		return nationalContact;
-	}
+    public String getDescription() {
+        return description;
+    }
 
 
-	public void setNationalContact(String nationalContact) {
-		this.nationalContact = nationalContact;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 
-	public String getNationalContactUrl() {
-		return nationalContactUrl;
-	}
+    public String getResponsibleRoleSuf() {
+        return responsibleRoleSuf;
+    }
 
 
-	public void setNationalContactUrl(String nationalContactUrl) {
-		this.nationalContactUrl = nationalContactUrl;
-	}
+    public void setResponsibleRoleSuf(String responsibleRoleSuf) {
+        this.responsibleRoleSuf = responsibleRoleSuf;
+    }
 
 
-	public String getCoordinatorRole() {
-		return coordinatorRole;
-	}
+    public String getNationalContact() {
+        return nationalContact;
+    }
 
 
-	public void setCoordinatorRole(String coordinatorRole) {
-		this.coordinatorRole = coordinatorRole;
-	}
+    public void setNationalContact(String nationalContact) {
+        this.nationalContact = nationalContact;
+    }
 
 
-	public String getCoordinatorRoleSuf() {
-		return coordinatorRoleSuf;
-	}
+    public String getNationalContactUrl() {
+        return nationalContactUrl;
+    }
 
 
-	public void setCoordinatorRoleSuf(String coordinatorRoleSuf) {
-		this.coordinatorRoleSuf = coordinatorRoleSuf;
-	}
+    public void setNationalContactUrl(String nationalContactUrl) {
+        this.nationalContactUrl = nationalContactUrl;
+    }
 
 
-	public String getCoordinator() {
-		return coordinator;
-	}
+    public String getCoordinatorRole() {
+        return coordinatorRole;
+    }
 
 
-	public void setCoordinator(String coordinator) {
-		this.coordinator = coordinator;
-	}
+    public void setCoordinatorRole(String coordinatorRole) {
+        this.coordinatorRole = coordinatorRole;
+    }
 
 
-	public String getCoordinatorUrl() {
-		return coordinatorUrl;
-	}
+    public String getCoordinatorRoleSuf() {
+        return coordinatorRoleSuf;
+    }
 
 
-	public void setCoordinatorUrl(String coordinatorUrl) {
-		this.coordinatorUrl = coordinatorUrl;
-	}
+    public void setCoordinatorRoleSuf(String coordinatorRoleSuf) {
+        this.coordinatorRoleSuf = coordinatorRoleSuf;
+    }
 
 
-	public String getAuthority() {
-		return authority;
-	}
+    public String getCoordinator() {
+        return coordinator;
+    }
 
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
-	}
+    public void setCoordinator(String coordinator) {
+        this.coordinator = coordinator;
+    }
 
 
-	public int getEeaPrimary() {
-		return eeaPrimary;
-	}
+    public String getCoordinatorUrl() {
+        return coordinatorUrl;
+    }
 
 
-	public void setEeaPrimary(int eeaPrimary) {
-		this.eeaPrimary = eeaPrimary;
-	}
+    public void setCoordinatorUrl(String coordinatorUrl) {
+        this.coordinatorUrl = coordinatorUrl;
+    }
 
 
-	public String getParameters() {
-		return parameters;
-	}
+    public String getAuthority() {
+        return authority;
+    }
 
 
-	public void setParameters(String parameters) {
-		this.parameters = parameters;
-	}
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
 
 
-	public String getOverlapUrl() {
-		return overlapUrl;
-	}
+    public int getEeaPrimary() {
+        return eeaPrimary;
+    }
 
 
-	public void setOverlapUrl(String overlapUrl) {
-		this.overlapUrl = overlapUrl;
-	}
+    public void setEeaPrimary(int eeaPrimary) {
+        this.eeaPrimary = eeaPrimary;
+    }
 
 
-	public int getEeaCore() {
-		return eeaCore;
-	}
+    public String getParameters() {
+        return parameters;
+    }
 
 
-	public void setEeaCore(int eeaCore) {
-		this.eeaCore = eeaCore;
-	}
+    public void setParameters(String parameters) {
+        this.parameters = parameters;
+    }
 
 
-	public int getFlagged() {
-		return flagged;
-	}
+    public String getOverlapUrl() {
+        return overlapUrl;
+    }
 
 
-	public void setFlagged(int flagged) {
-		this.flagged = flagged;
-	}
+    public void setOverlapUrl(String overlapUrl) {
+        this.overlapUrl = overlapUrl;
+    }
 
 
-	public String getDpsirD() {
-		return dpsirD;
-	}
+    public int getEeaCore() {
+        return eeaCore;
+    }
 
 
-	public void setDpsirD(String dpsirD) {
-		this.dpsirD = dpsirD;
-	}
+    public void setEeaCore(int eeaCore) {
+        this.eeaCore = eeaCore;
+    }
 
 
-	public String getDpsirP() {
-		return dpsirP;
-	}
+    public int getFlagged() {
+        return flagged;
+    }
 
 
-	public void setDpsirP(String dpsirP) {
-		this.dpsirP = dpsirP;
-	}
+    public void setFlagged(int flagged) {
+        this.flagged = flagged;
+    }
 
 
-	public String getDpsirS() {
-		return dpsirS;
-	}
+    public String getDpsirD() {
+        return dpsirD;
+    }
 
 
-	public void setDpsirS(String dpsirS) {
-		this.dpsirS = dpsirS;
-	}
+    public void setDpsirD(String dpsirD) {
+        this.dpsirD = dpsirD;
+    }
 
 
-	public String getDpsirI() {
-		return dpsirI;
-	}
+    public String getDpsirP() {
+        return dpsirP;
+    }
 
 
-	public void setDpsirI(String dpsirI) {
-		this.dpsirI = dpsirI;
-	}
+    public void setDpsirP(String dpsirP) {
+        this.dpsirP = dpsirP;
+    }
 
 
-	public String getDpsirR() {
-		return dpsirR;
-	}
+    public String getDpsirS() {
+        return dpsirS;
+    }
 
 
-	public void setDpsirR(String dpsirR) {
-		this.dpsirR = dpsirR;
-	}
+    public void setDpsirS(String dpsirS) {
+        this.dpsirS = dpsirS;
+    }
 
 
-	public String getLegalMoral() {
-		return legalMoral;
-	}
+    public String getDpsirI() {
+        return dpsirI;
+    }
 
 
-	public void setLegalMoral(String legalMoral) {
-		this.legalMoral = legalMoral;
-	}
+    public void setDpsirI(String dpsirI) {
+        this.dpsirI = dpsirI;
+    }
 
 
-	public String getSourceId() {
-		return sourceId;
-	}
+    public String getDpsirR() {
+        return dpsirR;
+    }
 
 
-	public void setSourceId(String sourceId) {
-		this.sourceId = sourceId;
-	}
+    public void setDpsirR(String dpsirR) {
+        this.dpsirR = dpsirR;
+    }
 
 
-	public String getSourceTitle() {
-		return sourceTitle;
-	}
+    public String getLegalMoral() {
+        return legalMoral;
+    }
 
 
-	public void setSourceTitle(String sourceTitle) {
-		this.sourceTitle = sourceTitle;
-	}
+    public void setLegalMoral(String legalMoral) {
+        this.legalMoral = legalMoral;
+    }
 
 
-	public String getSourceAlias() {
-		return sourceAlias;
-	}
+    public String getSourceId() {
+        return sourceId;
+    }
 
 
-	public void setSourceAlias(String sourceAlias) {
-		this.sourceAlias = sourceAlias;
-	}
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
 
 
-	public String getSourceCelexRef() {
-		return sourceCelexRef;
-	}
+    public String getSourceTitle() {
+        return sourceTitle;
+    }
 
 
-	public void setSourceCelexRef(String sourceCelexRef) {
-		this.sourceCelexRef = sourceCelexRef;
-	}
+    public void setSourceTitle(String sourceTitle) {
+        this.sourceTitle = sourceTitle;
+    }
 
 
-	public String getSourceCode() {
-		return sourceCode;
-	}
+    public String getSourceAlias() {
+        return sourceAlias;
+    }
 
 
-	public void setSourceCode(String sourceCode) {
-		this.sourceCode = sourceCode;
-	}
+    public void setSourceAlias(String sourceAlias) {
+        this.sourceAlias = sourceAlias;
+    }
 
 
-	public String getRespRoleId() {
-		return respRoleId;
-	}
+    public String getSourceCelexRef() {
+        return sourceCelexRef;
+    }
 
 
-	public void setRespRoleId(String respRoleId) {
-		this.respRoleId = respRoleId;
-	}
+    public void setSourceCelexRef(String sourceCelexRef) {
+        this.sourceCelexRef = sourceCelexRef;
+    }
 
 
-	public String getRespRoleName() {
-		return respRoleName;
-	}
+    public String getSourceCode() {
+        return sourceCode;
+    }
 
 
-	public void setRespRoleName(String respRoleName) {
-		this.respRoleName = respRoleName;
-	}
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
+    }
 
 
-	public String getRespRoleUrl() {
-		return respRoleUrl;
-	}
+    public String getRespRoleId() {
+        return respRoleId;
+    }
 
 
-	public void setRespRoleUrl(String respRoleUrl) {
-		this.respRoleUrl = respRoleUrl;
-	}
+    public void setRespRoleId(String respRoleId) {
+        this.respRoleId = respRoleId;
+    }
 
 
-	public String getRespRoleMembersUrl() {
-		return respRoleMembersUrl;
-	}
+    public String getRespRoleName() {
+        return respRoleName;
+    }
 
 
-	public void setRespRoleMembersUrl(String respRoleMembersUrl) {
-		this.respRoleMembersUrl = respRoleMembersUrl;
-	}
+    public void setRespRoleName(String respRoleName) {
+        this.respRoleName = respRoleName;
+    }
 
 
-	public String getCoordRoleId() {
-		return coordRoleId;
-	}
+    public String getRespRoleUrl() {
+        return respRoleUrl;
+    }
 
 
-	public void setCoordRoleId(String coordRoleId) {
-		this.coordRoleId = coordRoleId;
-	}
+    public void setRespRoleUrl(String respRoleUrl) {
+        this.respRoleUrl = respRoleUrl;
+    }
 
 
-	public String getCoordRoleName() {
-		return coordRoleName;
-	}
+    public String getRespRoleMembersUrl() {
+        return respRoleMembersUrl;
+    }
 
 
-	public void setCoordRoleName(String coordRoleName) {
-		this.coordRoleName = coordRoleName;
-	}
+    public void setRespRoleMembersUrl(String respRoleMembersUrl) {
+        this.respRoleMembersUrl = respRoleMembersUrl;
+    }
 
 
-	public String getCoordRoleUrl() {
-		return coordRoleUrl;
-	}
+    public String getCoordRoleId() {
+        return coordRoleId;
+    }
 
 
-	public void setCoordRoleUrl(String coordRoleUrl) {
-		this.coordRoleUrl = coordRoleUrl;
-	}
+    public void setCoordRoleId(String coordRoleId) {
+        this.coordRoleId = coordRoleId;
+    }
 
 
-	public String getCoordRoleMembersUrl() {
-		return coordRoleMembersUrl;
-	}
+    public String getCoordRoleName() {
+        return coordRoleName;
+    }
 
 
-	public void setCoordRoleMembersUrl(String coordRoleMembersUrl) {
-		this.coordRoleMembersUrl = coordRoleMembersUrl;
-	}
+    public void setCoordRoleName(String coordRoleName) {
+        this.coordRoleName = coordRoleName;
+    }
 
 
-	public String getLookupCValue() {
-		return lookupCValue;
-	}
+    public String getCoordRoleUrl() {
+        return coordRoleUrl;
+    }
 
 
-	public void setLookupCValue(String lookupCValue) {
-		this.lookupCValue = lookupCValue;
-	}
+    public void setCoordRoleUrl(String coordRoleUrl) {
+        this.coordRoleUrl = coordRoleUrl;
+    }
 
 
-	public String getLookupCTerm() {
-		return lookupCTerm;
-	}
+    public String getCoordRoleMembersUrl() {
+        return coordRoleMembersUrl;
+    }
 
 
-	public void setLookupCTerm(String lookupCTerm) {
-		this.lookupCTerm = lookupCTerm;
-	}
+    public void setCoordRoleMembersUrl(String coordRoleMembersUrl) {
+        this.coordRoleMembersUrl = coordRoleMembersUrl;
+    }
 
 
-	public String getClientLnkFKClientId() {
-		return clientLnkFKClientId;
-	}
+    public String getLookupCValue() {
+        return lookupCValue;
+    }
 
 
-	public void setClientLnkFKClientId(String clientLnkFKClientId) {
-		this.clientLnkFKClientId = clientLnkFKClientId;
-	}
+    public void setLookupCValue(String lookupCValue) {
+        this.lookupCValue = lookupCValue;
+    }
 
 
-	public String getClientLnkFKObjectId() {
-		return clientLnkFKObjectId;
-	}
+    public String getLookupCTerm() {
+        return lookupCTerm;
+    }
 
 
-	public void setClientLnkFKObjectId(String clientLnkFKObjectId) {
-		this.clientLnkFKObjectId = clientLnkFKObjectId;
-	}
+    public void setLookupCTerm(String lookupCTerm) {
+        this.lookupCTerm = lookupCTerm;
+    }
 
 
-	public String getClientLnkStatus() {
-		return clientLnkStatus;
-	}
+    public String getClientLnkFKClientId() {
+        return clientLnkFKClientId;
+    }
 
 
-	public void setClientLnkStatus(String clientLnkStatus) {
-		this.clientLnkStatus = clientLnkStatus;
-	}
+    public void setClientLnkFKClientId(String clientLnkFKClientId) {
+        this.clientLnkFKClientId = clientLnkFKClientId;
+    }
 
 
-	public String getClientLnkType() {
-		return clientLnkType;
-	}
+    public String getClientLnkFKObjectId() {
+        return clientLnkFKObjectId;
+    }
 
 
-	public void setClientLnkType(String clientLnkType) {
-		this.clientLnkType = clientLnkType;
-	}
+    public void setClientLnkFKObjectId(String clientLnkFKObjectId) {
+        this.clientLnkFKObjectId = clientLnkFKObjectId;
+    }
 
 
-	public String getClientId() {
-		return clientId;
-	}
+    public String getClientLnkStatus() {
+        return clientLnkStatus;
+    }
 
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
-	}
+    public void setClientLnkStatus(String clientLnkStatus) {
+        this.clientLnkStatus = clientLnkStatus;
+    }
 
 
-	public String getClientName() {
-		return clientName;
-	}
+    public String getClientLnkType() {
+        return clientLnkType;
+    }
 
 
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
+    public void setClientLnkType(String clientLnkType) {
+        this.clientLnkType = clientLnkType;
+    }
 
 
-	public String getValidatedBy() {
-		return validatedBy;
-	}
+    public String getClientId() {
+        return clientId;
+    }
 
 
-	public void setValidatedBy(String validatedBy) {
-		this.validatedBy = validatedBy;
-	}
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 
-		
+
+    public String getClientName() {
+        return clientName;
+    }
+
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+
+    public String getValidatedBy() {
+        return validatedBy;
+    }
+
+
+    public void setValidatedBy(String validatedBy) {
+        this.validatedBy = validatedBy;
+    }
+
+
 }
