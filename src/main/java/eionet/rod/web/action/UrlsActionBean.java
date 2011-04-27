@@ -62,7 +62,7 @@ public class UrlsActionBean extends AbstractRODActionBean {
     private String iterateUrls(List<UrlDTO> urls) throws ServiceException {
         StringBuilder s = new StringBuilder();
 
-        for(Iterator<UrlDTO> it = urls.iterator(); it.hasNext(); ) {
+        for (Iterator<UrlDTO> it = urls.iterator(); it.hasNext(); ) {
             UrlDTO dto = it.next();
             String title = RODUtil.replaceTags(dto.getTitle(), true, true);
             String url = dto.getUrl();

@@ -45,19 +45,18 @@ public class SQLUtil {
         try {
             pstmt = prepareStatement(parameterizedSQL, values, conn);
             rs = pstmt.executeQuery();
-            if (rs!=null) {
+            if (rs != null) {
                 ResultSetMetaData rsMd = rs.getMetaData();
-                if (rsMd!=null && rsMd.getColumnCount()>0) {
+                if (rsMd != null && rsMd.getColumnCount()>0) {
                     rsReader.setResultSetMetaData(rsMd);
                     while (rs.next())
                         rsReader.readRow(rs);
                 }
             }
-        }
-        finally {
+        } finally {
             try {
-                if (rs!=null) rs.close();
-                if (pstmt!=null) pstmt.close();
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
             } catch (SQLException e) {}
         }
 
@@ -91,19 +90,18 @@ public class SQLUtil {
         try {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
-            if (rs!=null) {
+            if (rs != null) {
                 ResultSetMetaData rsMd = rs.getMetaData();
-                if (rsMd!=null && rsMd.getColumnCount()>0) {
+                if (rsMd != null && rsMd.getColumnCount()>0) {
                     rsReader.setResultSetMetaData(rsMd);
                     while (rs.next())
                         rsReader.readRow(rs);
                 }
             }
-        }
-        finally {
+        } finally {
             try {
-                if (rs!=null) rs.close();
-                if (stmt!=null) stmt.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
             } catch (SQLException e) {}
         }
 
@@ -123,10 +121,9 @@ public class SQLUtil {
         try {
             pstmt = prepareStatement(parameterizedSQL, values, conn);
             return pstmt.executeUpdate();
-        }
-        finally {
+        } finally {
             try {
-                if (pstmt!=null) pstmt.close();
+                if (pstmt != null) pstmt.close();
             } catch (SQLException e) {}
         }
     }
@@ -142,14 +139,14 @@ public class SQLUtil {
     public static PreparedStatement prepareStatement(String parameterizedSQL, List<Object> values, Connection conn) throws SQLException{
 
         PreparedStatement pstmt= conn.prepareStatement(parameterizedSQL);
-        for (int i=0; values!=null && i<values.size(); i++) {
+        for (int i=0; values != null && i<values.size(); i++) {
             try {
                 String val = (String)values.get(i);
                 if (val != null && val.equals("NULL"))
                     pstmt.setNull(i+1, Types.NULL);
                 else
                     pstmt.setObject(i+1, values.get(i));
-            } catch(ClassCastException e) {
+            } catch (ClassCastException e) {
                 pstmt.setObject(i+1, values.get(i));
             }
         }
@@ -169,12 +166,11 @@ public class SQLUtil {
         try {
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select last_insert_id()");
-            return (rs!=null && rs.next()) ? new Integer(rs.getInt(1)) : null;
-        }
-        finally {
+            return (rs != null && rs.next()) ? new Integer(rs.getInt(1)) : null;
+        } finally {
             try {
-                if (rs!=null) rs.close();
-                if (stmt!=null) stmt.close();
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
             } catch (SQLException e) {}
         }
     }

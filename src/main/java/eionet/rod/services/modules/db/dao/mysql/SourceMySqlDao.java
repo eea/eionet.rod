@@ -473,10 +473,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
       }
@@ -815,10 +814,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
       }
@@ -846,10 +844,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
       }
@@ -876,10 +873,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
       }
@@ -944,10 +940,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -978,10 +973,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -995,7 +989,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         StringBuilder ids = new StringBuilder();
         if (scIds != null) {
-            for(Iterator<String> it = scIds.iterator(); it.hasNext(); ) {
+            for (Iterator<String> it = scIds.iterator(); it.hasNext(); ) {
                 String id = it.next();
                 ids.append(id);
                 if (it.hasNext())
@@ -1023,10 +1017,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
 
@@ -1077,13 +1070,12 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             conn = getConnection();
             SQLUtil.executeUpdate(editSourceSQL, values, conn);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1103,10 +1095,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1119,7 +1110,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         Connection conn = null;
         try {
             conn = getConnection();
-            for(Iterator<String> it = selectedSourceClasses.iterator(); it.hasNext();) {
+            for (Iterator<String> it = selectedSourceClasses.iterator(); it.hasNext();) {
                 String sourceId = it.next();
                 values = new ArrayList<Object>();
                 values.add(sourceId);
@@ -1129,10 +1120,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1182,13 +1172,12 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             SQLUtil.executeUpdate(addSourceSQL, values, conn);
             instrumentId = SQLUtil.getLastInsertID(conn);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
         return instrumentId;
@@ -1263,10 +1252,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }

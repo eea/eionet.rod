@@ -60,8 +60,7 @@ public class RODUtil {
             StringBuffer buf = new StringBuffer(s.substring(0,len));
             buf.append("...");
             return buf.toString();
-        }
-        else
+        } else
             return s;
     }
 
@@ -108,13 +107,11 @@ public class RODUtil {
                     if (lastWasBlankChar) {
                         lastWasBlankChar = false;
                         sb.append("&nbsp;");
-                        }
-                    else {
+                    } else {
                         lastWasBlankChar = true;
                         sb.append(' ');
-                        }
                     }
-                else {
+                } else {
                     lastWasBlankChar = false;
                     //
                     // HTML Special Chars
@@ -139,9 +136,9 @@ public class RODUtil {
                             sb.append("&#");
                             sb.append(new Integer(ci).toString());
                             sb.append(';');
-                            }
                         }
                     }
+                }
                 }
             return sb.toString();
         }
@@ -236,7 +233,7 @@ public class RODUtil {
             String token = st.nextToken();
             if (!isURL(token))
                 buf.append(token);
-            else{
+            else {
                 StringBuffer _buf = new StringBuffer("<a ");
                 if (newWindow) _buf.append("target=\"_blank\" ");
                 _buf.append("href=\"");

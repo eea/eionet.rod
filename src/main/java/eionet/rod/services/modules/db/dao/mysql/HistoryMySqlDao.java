@@ -265,10 +265,9 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }

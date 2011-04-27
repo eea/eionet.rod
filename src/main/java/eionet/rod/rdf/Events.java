@@ -50,10 +50,10 @@ public class Events extends RSSServletAC {
     StringTokenizer countriesTemp = null;
     StringTokenizer countries = null;
 
-    if (issuesParam!=null && issuesParam.length() > 0)
+    if (issuesParam != null && issuesParam.length() > 0)
        issuesTemp = new StringTokenizer(issuesParam, ",");
 
-    if (countriesParam!=null && countriesParam.length() > 0)
+    if (countriesParam != null && countriesParam.length() > 0)
         countriesTemp = new StringTokenizer(countriesParam, ",");
 
     StringBuffer strIssues = new StringBuffer();
@@ -120,7 +120,7 @@ public class Events extends RSSServletAC {
 
     String[][] upcomingEvents = new String[eventsVec.size()][6];
     int cnt = 0;
-    for(Enumeration en = eventsVec.elements(); en.hasMoreElements(); ) {
+    for (Enumeration en = eventsVec.elements(); en.hasMoreElements(); ) {
         Hashtable h = (Hashtable) en.nextElement();
         upcomingEvents[cnt][0] = (String) h.get("pk");
         upcomingEvents[cnt][1] = (String) h.get("title");
@@ -168,7 +168,7 @@ public class Events extends RSSServletAC {
   {
     CharacterIterator theIterator = new StringCharacterIterator( inString );
 
-    for( char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next() )
+    for ( char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next() )
     {
         if ( !Character.isDigit( ch ) )
         {

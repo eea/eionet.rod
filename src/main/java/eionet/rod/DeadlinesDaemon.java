@@ -140,7 +140,7 @@ public class DeadlinesDaemon {
 
                     String id = (String) h.get("id");
                     Vector countries = RODServices.getDbService().getSpatialDao().getObligationCountries(Integer.valueOf(id).intValue());
-                    for(Enumeration cen = countries.elements(); cen.hasMoreElements(); ) {
+                    for (Enumeration cen = countries.elements(); cen.hasMoreElements(); ) {
                         Hashtable hash = (Hashtable) cen.nextElement();
                             String country = (String) hash.get("name");
                             if (country != null && !country.equals("")) {

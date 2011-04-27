@@ -27,7 +27,7 @@ public class Test {
         }
 
         StringBuffer s = new StringBuffer();
-        for(Iterator<Integer> it = hash.iterator(); it.hasNext(); ) {
+        for (Iterator<Integer> it = hash.iterator(); it.hasNext(); ) {
             Integer id = it.next();
             if (id != null)
                 s.append(id);

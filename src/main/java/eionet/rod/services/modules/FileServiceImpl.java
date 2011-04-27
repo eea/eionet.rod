@@ -104,8 +104,7 @@ public class FileServiceImpl implements FileServiceIF, ExtractorConstants {
          if (separator == null || separator.length() == 0) {
              str = new String[1];
              str[0] = s;
-         }
-         else{
+         } else{
              char c = separator.charAt(0);
              String sep = Character.isLetterOrDigit(c) ? Character.toString(c) : "\\" + c;
              str =s.split(sep);

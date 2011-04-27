@@ -49,10 +49,10 @@ public class AllEvents extends RSSServletAC {
     StringTokenizer countriesTemp = null;
     StringTokenizer countries = null;
 
-    if (issuesParam!=null && issuesParam.length() > 0)
+    if (issuesParam != null && issuesParam.length() > 0)
        issuesTemp = new StringTokenizer(issuesParam, ",");
 
-    if (countriesParam!=null && countriesParam.length() > 0)
+    if (countriesParam != null && countriesParam.length() > 0)
         countriesTemp = new StringTokenizer(countriesParam, ",");
 
     StringBuffer strIssues = new StringBuffer();
@@ -101,7 +101,7 @@ public class AllEvents extends RSSServletAC {
     String[][] events = RODServices.getDbService().getObligationDao().getAllActivityDeadlines(issues, countries);
 
     s.append("<items><rdf:Seq>");
-    for (int i= 0; i< events.length; i++) {
+    for (int i = 0; i < events.length; i++) {
       String pk = events[i][0];
 
       s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/")
@@ -110,7 +110,7 @@ public class AllEvents extends RSSServletAC {
     }
     s.append("</rdf:Seq></items>");
     addChannelEnd(s);
-    for (int i= 0; i< events.length; i++) {
+    for (int i = 0; i < events.length; i++) {
       String pk = events[i][0];
       String title = "Deadline for Reporting Obligation: " + events[i][1];
       String date = events[i][2];
@@ -136,10 +136,8 @@ public class AllEvents extends RSSServletAC {
   {
     CharacterIterator theIterator = new StringCharacterIterator( inString );
 
-    for( char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next() )
-    {
-        if ( !Character.isDigit( ch ) )
-        {
+    for (char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next()) {
+        if (!Character.isDigit(ch)) {
             return false;
         }
     }

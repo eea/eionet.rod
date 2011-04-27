@@ -177,10 +177,9 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
 
@@ -212,10 +211,9 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
 
@@ -246,10 +244,9 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
 
@@ -264,7 +261,7 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
 
         StringBuilder ids = new StringBuilder();
         if (issueIds != null) {
-            for(Iterator<String> it = issueIds.iterator(); it.hasNext(); ) {
+            for (Iterator<String> it = issueIds.iterator(); it.hasNext(); ) {
                 String id = it.next();
                 ids.append(id);
                 if (it.hasNext())
@@ -292,10 +289,9 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
 
@@ -342,7 +338,7 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
         Connection conn = null;
         try {
             conn = getConnection();
-            for(Iterator<String> it = selectedIssues.iterator(); it.hasNext();) {
+            for (Iterator<String> it = selectedIssues.iterator(); it.hasNext();) {
                 String issueId = it.next();
                 values = new ArrayList<Object>();
                 values.add(issueId);
@@ -352,10 +348,9 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }

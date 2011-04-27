@@ -36,7 +36,7 @@ public class DPSIRValuesFromExcel extends HttpServlet {
             HSSFSheet sheet = wb.getSheetAt(0);
             int rowCnt = sheet.getLastRowNum();
             int cnt = 0;
-            for(int i = 0; i < rowCnt; i++) {
+            for (int i = 0; i < rowCnt; i++) {
                 HSSFRow row = sheet.getRow(i+1);
                 HSSFCell cellA = row.getCell((short)0);
                 HSSFCell cellD = row.getCell((short)3);
@@ -48,7 +48,7 @@ public class DPSIRValuesFromExcel extends HttpServlet {
                     dpsir = cellD.getStringCellValue();
                 if (dpsir != null) {
                     int length = dpsir.length();
-                    for(int z = 1; z <= length; z++) {
+                    for (int z = 1; z <= length; z++) {
                         String value = dpsir.substring(z-1,z);
                         if (!value.equals(" ") && !value.equals(",")) {
                             RODServices.getDbService().getObligationDao().dpsirValuesFromExcelToDB(id,value);

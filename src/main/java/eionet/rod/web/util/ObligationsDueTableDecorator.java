@@ -58,7 +58,7 @@ public class ObligationsDueTableDecorator extends TableDecorator{
         StringBuilder ret = new StringBuilder();
         ObligationsDueDTO obligation = (ObligationsDueDTO) getCurrentRowObject();
         List<IssueDTO> issues = RODServices.getDbService().getIssueDao().getObligationIssuesList(obligation.getObligationId().toString());
-        for(Iterator it = issues.iterator(); it.hasNext();) {
+        for (Iterator it = issues.iterator(); it.hasNext();) {
             IssueDTO issue = (IssueDTO) it.next();
             ret.append(RODUtil.replaceTags(issue.getName(), true, true));
             if (it.hasNext())

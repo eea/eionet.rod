@@ -30,7 +30,7 @@ public class UpdateHistoryTableDecorator extends TableDecorator{
 
         try {
             title = RODServices.getDbService().getUndoDao().getUndoObjectTitle(Long.valueOf(ver.getUndoTime()).longValue(),ver.getTab());
-        } catch(ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
         title = RODUtil.threeDots(title, 75);
@@ -102,7 +102,7 @@ public class UpdateHistoryTableDecorator extends TableDecorator{
 
         try {
             user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(),ver.getTab());
-        } catch(ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
         ret.append("<a href='updatehistory?username=").append(user).append("'>").append(user).append("</a>");

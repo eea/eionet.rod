@@ -50,10 +50,10 @@ public class IssueActivities extends RSSServletAC {
     StringTokenizer countriesTemp = null;
     StringTokenizer countries = null;
 
-    if (issuesParam!=null)
+    if (issuesParam != null)
        issuesTemp = new StringTokenizer(issuesParam, ",");
 
-    if (countriesParam!=null)
+    if (countriesParam != null)
         countriesTemp = new StringTokenizer(countriesParam, ",");
 
     StringBuffer strIssues = new StringBuffer();
@@ -141,7 +141,7 @@ public class IssueActivities extends RSSServletAC {
   {
     CharacterIterator theIterator = new StringCharacterIterator( inString );
 
-    for( char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next() )
+    for ( char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next() )
     {
         if ( !Character.isDigit( ch ) )
         {

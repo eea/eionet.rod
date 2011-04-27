@@ -30,7 +30,7 @@ public class SecurityUtil {
         String result = "javascript:login()";
 
         String casLoginUrl = getCasLoginUrl(request);
-        if (casLoginUrl!=null) {
+        if (casLoginUrl != null) {
 
             String casServerName = getCasServerName(request);
             if (casServerName == null)
@@ -89,7 +89,7 @@ public class SecurityUtil {
         String result = "index.jsp";
 
         String casLoginUrl = request.getSession().getServletContext().getInitParameter(CASFilter.LOGIN_INIT_PARAM);
-        if (casLoginUrl!=null) {
+        if (casLoginUrl != null) {
 
             String casServerName = getCasServerName(request);
             if (casServerName == null)
@@ -119,19 +119,17 @@ public class SecurityUtil {
 
         if (user == null) {
             String casUserName = (String)session.getAttribute(CASFilter.CAS_FILTER_USER);
-            if (casUserName!=null) {
+            if (casUserName != null) {
                 user = ROCASUser.create(casUserName);
                 session.setAttribute(REMOTEUSER, user);
             }
-        }
-        else if (user instanceof ROCASUser) {
+        } else if (user instanceof ROCASUser) {
             String casUserName = (String)session.getAttribute(CASFilter.CAS_FILTER_USER);
             if (casUserName == null) {
                 user.invalidate();
                 user = null;
                 session.removeAttribute(REMOTEUSER);
-            }
-            else if (!casUserName.equals(user.getUserName())) {
+            } else if (!casUserName.equals(user.getUserName())) {
                 user.invalidate();
                 user = ROCASUser.create(casUserName);
                 session.setAttribute(REMOTEUSER, user);

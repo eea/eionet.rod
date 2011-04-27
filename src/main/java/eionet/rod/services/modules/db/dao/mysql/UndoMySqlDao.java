@@ -167,10 +167,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -202,10 +201,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1146,10 +1144,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1223,7 +1220,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             if (isDebugMode) logQuery(qSelectUndoByUser);
             utlist = _getVectorOfHashes(preparedStatement);
 
-            for(Iterator<Map<String,String>> it = utlist.iterator(); it.hasNext(); ) {
+            for (Iterator<Map<String,String>> it = utlist.iterator(); it.hasNext(); ) {
                 Map<String,String> hash = it.next();
                 String utime = (String) hash.get("undo_time");
 
@@ -1251,10 +1248,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1291,10 +1287,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }

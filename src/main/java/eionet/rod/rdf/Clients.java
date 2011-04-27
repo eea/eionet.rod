@@ -98,7 +98,7 @@ public class Clients extends RDFServletAC {
     //WebRODService wSrv = new WebRODService();
     List<ClientDTO> clients = RODServices.getDbService().getClientDao().getAllClients();
 
-    for(Iterator<ClientDTO> it = clients.iterator(); it.hasNext();) {
+    for (Iterator<ClientDTO> it = clients.iterator(); it.hasNext();) {
 
         ClientDTO client = it.next();
 

@@ -69,7 +69,7 @@ public abstract class MySqlBaseDao {
             roNs= RODServices.getFileService().getStringProperty( FileServiceIF.RO_NAMESPACE);
 
             String mavenPhase = System.getProperty("contreg.maven.phase");
-            isUnitTest = mavenPhase!=null && mavenPhase.trim().equals("test");
+            isUnitTest = mavenPhase != null && mavenPhase.trim().equals("test");
 
             if (!isUnitTest) {
                 try {
@@ -494,7 +494,7 @@ public abstract class MySqlBaseDao {
         StringBuffer s = new StringBuffer();
         for (int i = 0; i < v.size(); i++) {
 
-            if (v.elementAt(i)!=null) {
+            if (v.elementAt(i) != null) {
                 s.append(v.elementAt(i));
                 if (i < v.size() - 1) {
                     s.append(separator);
@@ -513,7 +513,7 @@ public abstract class MySqlBaseDao {
         }
 
         StringBuffer s = new StringBuffer();
-        for(Iterator<Integer> it = hash.iterator(); it.hasNext(); ) {
+        for (Iterator<Integer> it = hash.iterator(); it.hasNext(); ) {
             Integer id = it.next();
             if (id != null)
                 s.append(id);

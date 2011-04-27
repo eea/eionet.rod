@@ -377,10 +377,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -420,8 +419,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             closeAllResources(rs, preparedStatement, connection);
         }
 
@@ -454,10 +452,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
 
@@ -488,10 +485,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -521,10 +517,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -553,10 +548,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -570,7 +564,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
 
         StringBuilder ids = new StringBuilder();
         if (countryIds != null) {
-            for(Iterator<String> it = countryIds.iterator(); it.hasNext(); ) {
+            for (Iterator<String> it = countryIds.iterator(); it.hasNext(); ) {
                 String id = it.next();
                 ids.append(id);
                 if (it.hasNext())
@@ -597,10 +591,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -635,10 +628,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -668,10 +660,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -687,7 +678,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         Connection conn = null;
         try {
             conn = getConnection();
-            for(Iterator<String> it = selectedCountries.iterator(); it.hasNext();) {
+            for (Iterator<String> it = selectedCountries.iterator(); it.hasNext();) {
                 String countryId = it.next();
                 values = new ArrayList<Object>();
                 values.add(countryId);
@@ -698,10 +689,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }

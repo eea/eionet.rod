@@ -185,11 +185,10 @@ public class ROUser {
         boolean result = false;
         try {
             AccessControlListIF acl = AccessController.getAcl(aclPath);
-            if (acl!=null) {
+            if (acl != null) {
                 result = acl.checkPermission(userName, prm);
                 logger.info("User " + userName + " " + (result ? "has" : "does not have") + " permission " + prm + " in acl \"" + aclPath + "\"");
-            }
-            else
+            } else
                 logger.info("acl \"" + aclPath + "\" not found!");
         } catch (SignOnException soe) {
             logger.error(soe.toString(), soe);

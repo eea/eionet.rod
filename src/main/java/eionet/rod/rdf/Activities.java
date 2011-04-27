@@ -128,7 +128,7 @@ public class Activities extends RDFServletAC {
 
         List<ObligationRdfDTO> obligations = RODServices.getDbService().getObligationDao().getObligationsForRDF();
 
-        for(ObligationRdfDTO obligation : obligations) {
+        for (ObligationRdfDTO obligation : obligations) {
             StringBuffer element = genereteElement(obligation);
             s.append(element);
         }
@@ -233,7 +233,7 @@ public class Activities extends RDFServletAC {
         s.append("<rod:requester rdf:resource=\"/clients/" + clientId + "\"/>");
         List<ClientDTO> clients = RODServices.getDbService().getClientDao().getClients(new Integer(pk).toString());
         if (clients != null) {
-            for(ClientDTO client : clients) {
+            for (ClientDTO client : clients) {
                 s.append("<rod:otherClient rdf:resource=\"/clients/" + client.getClientId() + "\"/>");
             }
         }
@@ -242,14 +242,14 @@ public class Activities extends RDFServletAC {
 
         List<Integer> voluntaryCountries = RODServices.getDbService().getSpatialDao().getObligationCountries(pk, true);
         if (voluntaryCountries != null) {
-            for(Integer countryId : voluntaryCountries) {
+            for (Integer countryId : voluntaryCountries) {
                 s.append("<rod:voluntaryReporter rdf:resource=\"/spatial/" + countryId + "\"/>");
             }
         }
 
         List<Integer> mandatoryCountries = RODServices.getDbService().getSpatialDao().getObligationCountries(pk, false);
         if (mandatoryCountries != null) {
-            for(Integer countryId : mandatoryCountries) {
+            for (Integer countryId : mandatoryCountries) {
                 s.append("<rod:formalReporter rdf:resource=\"/spatial/" + countryId + "\"/>");
             }
         }

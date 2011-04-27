@@ -258,10 +258,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
 
@@ -291,10 +290,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -308,7 +306,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
 
         StringBuilder ids = new StringBuilder();
         if (clientIds != null) {
-            for(Iterator<String> it = clientIds.iterator(); it.hasNext(); ) {
+            for (Iterator<String> it = clientIds.iterator(); it.hasNext(); ) {
                 String id = it.next();
                 ids.append(id);
                 if (it.hasNext())
@@ -335,10 +333,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -367,10 +364,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -398,10 +394,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -564,13 +559,12 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             conn = getConnection();
             SQLUtil.executeUpdate(editClientSQL, values, conn);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -605,13 +599,12 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             SQLUtil.executeUpdate(addClientSQL, values, conn);
             clientId = SQLUtil.getLastInsertID(conn);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
         return clientId;
@@ -628,7 +621,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
         Connection conn = null;
         try {
             conn = getConnection();
-            for(Iterator<String> it = selectedClients.iterator(); it.hasNext();) {
+            for (Iterator<String> it = selectedClients.iterator(); it.hasNext();) {
                 String clientId = it.next();
                 values = new ArrayList<Object>();
                 values.add(clientId);
@@ -640,10 +633,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }

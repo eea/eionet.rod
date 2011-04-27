@@ -42,7 +42,7 @@ public class CountryDeliveriesActionBean extends AbstractRODActionBean {
         if (!RODUtil.isNullOrEmpty(actDetailsId) && RODUtil.isNumber(actDetailsId)) {
             if (!RODUtil.isNullOrEmpty(spatialId) && !RODUtil.isNumber(spatialId))
                 handleRodException("spatialId has to be a number!", Constants.SEVERITY_WARNING);
-            else{
+            else {
                 deliveries = RODServices.getDbService().getDeliveryDao().getCountyDeliveriesList(actDetailsId, spatialId);
                 deliveryData = RODServices.getDbService().getDeliveryDao().getDeliveryData(actDetailsId);
                 reportFreq = reportFreqMsg(deliveryData);

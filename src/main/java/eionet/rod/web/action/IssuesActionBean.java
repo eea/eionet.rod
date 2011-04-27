@@ -58,11 +58,11 @@ public class IssuesActionBean extends AbstractRODActionBean {
 
             StringBuffer out = new StringBuffer();
             out.append(header);
-            for(IssueDTO issue : issues) {
+            for (IssueDTO issue : issues) {
                 out.append("<rod:Issue rdf:about=\"http://rod.eionet.europa.eu/issues/").append(issue.getIssueId()).append("\">\n");
                 out.append("<rod:issueName>").append(RODUtil.replaceTags(issue.getName(),true,true)).append("</rod:issueName>\n");
                 List<ObligationDTO> obligations = RODServices.getDbService().getIssueDao().getIssueObligationsList(issue.getIssueId().toString());
-                for(ObligationDTO obligation : obligations) {
+                for (ObligationDTO obligation : obligations) {
                     out.append("<rod:issueOf rdf:resource=\"http://rod.eionet.europa.eu/obligations/").append(obligation.getObligationId()).append("\"/>\n");
                 }
                 out.append("</rod:Issue>");

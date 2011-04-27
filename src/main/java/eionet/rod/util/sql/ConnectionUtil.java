@@ -106,7 +106,7 @@ public class ConnectionUtil {
      */
     public static void closeConnection(Connection conn) {
         try {
-            if (conn!=null && !conn.isClosed())
+            if (conn != null && !conn.isClosed())
                 conn.close();
         } catch (SQLException e) {
             logger.error("Failed to close connection", e);

@@ -222,7 +222,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                     obligationIssues = RODServices.getDbService().getIssueDao().getObligationIssuesList(id);
                     List<LookupDTO> lookups = RODServices.getDbService().getObligationDao().getLookupList(id);
                     List<String> infoTypes = new ArrayList<String>();
-                    for(Iterator<LookupDTO> it=lookups.iterator(); it.hasNext();) {
+                    for (Iterator<LookupDTO> it=lookups.iterator(); it.hasNext();) {
                         LookupDTO ld = it.next();
                         infoTypes.add(ld.getCvalue());
                     }
@@ -298,7 +298,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 params.add(id);
 
                 Vector result = (Vector)client.getValue(methodName, params);
-                for(int i = 0; result != null && i < result.size(); i++) {
+                for (int i = 0; result != null && i < result.size(); i++) {
                     Hashtable hash = (Hashtable)result.get(i);
 
                     DDParamDTO elem = new DDParamDTO();
@@ -509,7 +509,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             RODServices.getDbService().getClientDao().insertObligationClients(id, selectedClients);
 
         if (selectedInfoTypes != null && selectedInfoTypes.size() > 0) {
-            for(Iterator<String> it = selectedInfoTypes.iterator(); it.hasNext();) {
+            for (Iterator<String> it = selectedInfoTypes.iterator(); it.hasNext();) {
                 String infoId = it.next();
                 if (!RODUtil.isNullOrEmpty(infoId)) {
                     obligationDao.insertInfoLink(Integer.valueOf(id),infoId);
@@ -613,13 +613,11 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             getContext().getMessages().add(new SimpleError(getBundle().getString("both.dates.empty")));
             getContext().setSeverity(Constants.SEVERITY_VALIDATION);
             hasErrors = true;
-        }
-        else if (!RODUtil.isNullOrEmpty(obligation.getNextReporting()) && !RODUtil.isNullOrEmpty(obligation.getNextDeadline())) {
+        } else if (!RODUtil.isNullOrEmpty(obligation.getNextReporting()) && !RODUtil.isNullOrEmpty(obligation.getNextDeadline())) {
             getContext().getMessages().add(new SimpleError(getBundle().getString("both.dates.used")));
             getContext().setSeverity(Constants.SEVERITY_VALIDATION);
             hasErrors = true;
-        }
-        else if (RODUtil.isNullOrEmpty(obligation.getNextDeadline()) && RODUtil.isNullOrEmpty(obligation.getFirstReporting()) &&
+        } else if (RODUtil.isNullOrEmpty(obligation.getNextDeadline()) && RODUtil.isNullOrEmpty(obligation.getFirstReporting()) &&
                 RODUtil.isNullOrEmpty(obligation.getValidTo()) && RODUtil.isNullOrEmpty(obligation.getReportFreqMonths())) {
             getContext().getMessages().add(new SimpleError(getBundle().getString("unable.calculate.due.date")));
             getContext().setSeverity(Constants.SEVERITY_VALIDATION);
@@ -741,7 +739,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 
             if (isUpdate) {
                 Vector<String> changes = getChanges(id);
-                for(Enumeration<String> en = changes.elements(); en.hasMoreElements(); ) {
+                for (Enumeration<String> en = changes.elements(); en.hasMoreElements(); ) {
                     String label = (String) en.nextElement();
                     list = new Vector<String>();
                     list.add(events);

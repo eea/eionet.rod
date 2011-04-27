@@ -107,7 +107,7 @@ public class SubscribeActionBean extends AbstractRODActionBean {
             Vector filters = new Vector();
             Hashtable filter = new Hashtable();
             if (eventType != null) {
-                for(Iterator<String> it = eventType.iterator(); it.hasNext(); ) {
+                for (Iterator<String> it = eventType.iterator(); it.hasNext(); ) {
                     String event = it.next();
                     filter = new Hashtable();
                     if (event != null && event.length()>0)
@@ -152,7 +152,7 @@ public class SubscribeActionBean extends AbstractRODActionBean {
 
             showMessage("Subscription successful!");
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
         }

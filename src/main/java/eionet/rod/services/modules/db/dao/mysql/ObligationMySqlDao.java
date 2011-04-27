@@ -1327,10 +1327,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1559,10 +1558,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1590,10 +1588,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1622,10 +1619,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1651,10 +1647,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1745,10 +1740,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1827,13 +1821,12 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             conn = getConnection();
             SQLUtil.executeUpdate(editObligationSQL, values, conn);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -1914,13 +1907,12 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             SQLUtil.executeUpdate(insertObligationSQL, values, conn);
             obligationId = SQLUtil.getLastInsertID(conn);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
         return obligationId;

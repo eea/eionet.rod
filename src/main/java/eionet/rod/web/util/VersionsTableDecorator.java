@@ -48,7 +48,7 @@ public class VersionsTableDecorator extends TableDecorator{
 
         try {
             user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(),ver.getTab());
-        } catch(ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 
@@ -99,7 +99,7 @@ public class VersionsTableDecorator extends TableDecorator{
 
         try {
             user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(),ver.getTab());
-        } catch(ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 
@@ -130,7 +130,7 @@ public class VersionsTableDecorator extends TableDecorator{
                     ret.append("'/>");
                 }
             }
-        } catch(ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 

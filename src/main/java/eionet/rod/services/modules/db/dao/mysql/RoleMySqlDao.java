@@ -112,11 +112,11 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 
 
             Vector<String> occupants = (Vector<String>)role.get("OCCUPANTS");
-            if (occupants!=null && occupants.size()>0) {
-                for(int i = 0; i<occupants.size(); i++) {
+            if (occupants != null && occupants.size()>0) {
+                for (int i = 0; i<occupants.size(); i++) {
                     uid = (String)occupants.elementAt(i);
 
-                    if (uid!=null && uid.trim().length()>0) {
+                    if (uid != null && uid.trim().length()>0) {
                         try {
                             person=DirectoryService.getPerson(uid);
                         } catch (DirServiceException dire) {
@@ -131,10 +131,10 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
                         orgId=(String)person.get("ORG_ID");
                     }
 
-                    if (orgId!=null && orgId.trim().length()>0) {
+                    if (orgId != null && orgId.trim().length()>0) {
                         try {
                             org =  DirectoryService.getOrganisation(orgId);
-                            if (org!=null)
+                            if (org != null)
                                 orgName=(String)org.get("NAME");
                         } catch (DirServiceException dire) {
                             logger.error("Error getting organisation " + orgId + ": " + dire.toString());

@@ -74,10 +74,9 @@ public class HelpMySqlDao extends MySqlBaseDao implements IHelpDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -189,10 +188,9 @@ public class HelpMySqlDao extends MySqlBaseDao implements IHelpDao {
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }
@@ -218,13 +216,12 @@ public class HelpMySqlDao extends MySqlBaseDao implements IHelpDao {
             conn = getConnection();
             SQLUtil.executeUpdate(editHelpSQL, values, conn);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
-        }
-        finally {
+        } finally {
             try {
-                if (conn!=null) conn.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {}
         }
     }

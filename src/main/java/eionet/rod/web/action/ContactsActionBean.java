@@ -36,7 +36,7 @@ public class ContactsActionBean extends AbstractRODActionBean {
 
             role = DirectoryService.getRoleDTO(roleId);
 
-        } catch(DirServiceException e) {
+        } catch (DirServiceException e) {
             e.printStackTrace();
         }
 

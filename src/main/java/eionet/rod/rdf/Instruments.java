@@ -111,13 +111,13 @@ public class Instruments extends RDFServletAC {
 
         List<InstrumentRdfDTO> instruments = RODServices.getDbService().getSourceDao().getInstrumentsForRDF();
 
-        for(InstrumentRdfDTO instrument : instruments) {
+        for (InstrumentRdfDTO instrument : instruments) {
             StringBuffer element = genereteElement(instrument);
             s.append(element);
         }
 
         List<SourceLinksDTO> links = RODServices.getDbService().getSourceDao().getSourceLinks();
-        for(Iterator<SourceLinksDTO> it = links.iterator(); it.hasNext();) {
+        for (Iterator<SourceLinksDTO> it = links.iterator(); it.hasNext();) {
             SourceLinksDTO sourceLink = it.next();
             if (sourceLink != null) {
                 s.append("<rdf:Description rdf:about=\"http://rod.eionet.europa.eu/instruments/").append(sourceLink.getChildId()).append("\">")
@@ -180,7 +180,7 @@ public class Instruments extends RDFServletAC {
             s.append("<rdfs:comment>").append(RODUtil.replaceTags(comment, true, true)).append("</rdfs:comment>");
 
         List<InstrumentObligationDTO> obligations = instrument.getObligations();
-        for(InstrumentObligationDTO obligation : obligations) {
+        for (InstrumentObligationDTO obligation : obligations) {
             s.append("<rod:hasObligation rdf:resource=\"/obligations/").append(obligation.getObligationId()).append("\"/>");
         }
 

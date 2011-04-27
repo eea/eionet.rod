@@ -65,7 +65,7 @@ public abstract class AbstractRODActionBean implements ActionBean {
      * @return true if user is logged in.
      */
     public final boolean getIsUserLoggedIn() {
-        return getROUser()!=null;
+        return getROUser() != null;
     }
 
     /**

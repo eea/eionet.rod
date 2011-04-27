@@ -88,8 +88,7 @@ public class ClientsActionBean extends AbstractRODActionBean {
             }
             client = RODServices.getDbService().getClientDao().getClientFactsheet(new Integer(client.getClientId()).toString());
             clientId = new Integer(client.getClientId()).toString();
-        }
-        else
+        } else
             handleRodException(getBundle().getString("not.permitted"), Constants.SEVERITY_WARNING);
 
         return resolution;
@@ -111,8 +110,7 @@ public class ClientsActionBean extends AbstractRODActionBean {
                 resolution = new ForwardResolution("/pages/client.jsp");
             }
             client = RODServices.getDbService().getClientDao().getClientFactsheet(clientId);
-        }
-        else
+        } else
             handleRodException(getBundle().getString("not.permitted"), Constants.SEVERITY_WARNING);
 
         return resolution;

@@ -186,10 +186,10 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
     private List<SourceClassDTO> initSourceClasses() {
         List<SourceClassDTO> ret = new ArrayList<SourceClassDTO>();
 
-        for(Iterator<SourceClassDTO> it = allSourceClasses.iterator(); it.hasNext(); ) {
+        for (Iterator<SourceClassDTO> it = allSourceClasses.iterator(); it.hasNext(); ) {
             boolean hasSc = false;
             SourceClassDTO sc = it.next();
-            for(Iterator<SourceClassDTO> it2 = instrumentSourceClasses.iterator(); it2.hasNext(); ) {
+            for (Iterator<SourceClassDTO> it2 = instrumentSourceClasses.iterator(); it2.hasNext(); ) {
                 SourceClassDTO sc2 = it2.next();
                 if (sc.getClassId() == sc2.getClassId())
                     hasSc = true;
@@ -509,7 +509,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 
             if (isUpdate) {
                 Vector<String> changes = getChanges(instId);
-                for(Enumeration<String> en = changes.elements(); en.hasMoreElements(); ) {
+                for (Enumeration<String> en = changes.elements(); en.hasMoreElements(); ) {
                     String label = en.nextElement();
                     list = new Vector<String>();
                     list.add(events);

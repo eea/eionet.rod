@@ -85,7 +85,7 @@ public class DeadlineCalc {
 
 
       // Update deadlines and save them back to the database
-      for(int i = 0; i < deadlines.length; i++) {
+      for (int i = 0; i < deadlines.length; i++) {
          int m;
          int year = Integer.parseInt(deadlines[i][1].substring(0, 4));
          int month = Integer.parseInt(deadlines[i][1].substring(5, 7));
@@ -123,8 +123,7 @@ public class DeadlineCalc {
                repDate.add(Calendar.MONTH, freq);
             if (repDate.after(toDate))
                repDate.add(Calendar.MONTH, -freq);
-         }
-         else {
+         } else {
             repDate.add(Calendar.DATE, -3);
             while (repDate.before(currDate) && repDate.before(toDate))
                repDate.add(Calendar.MONTH, freq);

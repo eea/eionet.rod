@@ -58,7 +58,7 @@ public class SpatialActionBean extends AbstractRODActionBean {
 
             StringBuffer out = new StringBuffer();
             out.append(header);
-            for(CountryDTO spatial : spatials) {
+            for (CountryDTO spatial : spatials) {
                 out.append("<rod:Locality rdf:about=\"http://rod.eionet.europa.eu/spatial/").append(spatial.getCountryId()).append("\">\n");
                 out.append("<rod:localityName>").append(RODUtil.replaceTags(spatial.getName(),true,true)).append("</rod:localityName>\n");
                 out.append("<rdfs:label>").append(RODUtil.replaceTags(spatial.getName(),true,true)).append("</rdfs:label>\n");
@@ -69,7 +69,7 @@ public class SpatialActionBean extends AbstractRODActionBean {
                 if (spatial.getIsMember() != null && !spatial.getIsMember().equals("") && !spatial.getIsMember().equals("null"))
                     out.append("<rod:isEEAMember>").append(spatial.getIsMember()).append("</rod:isEEAMember>\n");
                 List<ObligationDTO> obligations = RODServices.getDbService().getSpatialDao().getCountryObligationsList(spatial.getCountryId().toString());
-                for(ObligationDTO obligation : obligations) {
+                for (ObligationDTO obligation : obligations) {
                     out.append("<rod:providerFor rdf:resource=\"http://rod.eionet.europa.eu/obligations/").append(obligation.getObligationId()).append("\"/>\n");
                 }
                 out.append("</rod:Locality>");
