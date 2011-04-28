@@ -89,8 +89,10 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
+     * Called when script is run from the command-line. Takes one optional
+     * argument. The mode, which can be 0-3. Assumes 0 if not provided.
      *
-     * @param args
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
 
@@ -101,7 +103,7 @@ public class Extractor implements ExtractorConstants {
             if (args.length == 1) {
                 mode = args[0];
             } else if (args.length > 1) {
-                System.out.println("Usage: Extractor [-mode]");
+                System.out.println("Usage: Extractor [mode]");
                 return;
             } else {
                 mode = String.valueOf(ALL_DATA);
@@ -133,7 +135,7 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * Extract the data
+     * Extract the data.
      *
      * @param mode
      * @param userName
@@ -219,7 +221,7 @@ public class Extractor implements ExtractorConstants {
             extractDeliveries();
         }
 
-        // Get roles from CIRCA Directory and save them, too
+        // Get roles from Eionet Directory and save them, too
         if (mode == ALL_DATA || mode == ROLES) {
             actionText += " - roles ";
             try {
@@ -245,12 +247,12 @@ public class Extractor implements ExtractorConstants {
                 // persons + org name
 
             } catch (Exception e) {
-                log("Operation failed while filling the database from CIRCA Directory. The following error was reported:\n"
+                log("Operation failed while filling the database from Eionet Directory. The following error was reported:\n"
                         + e.toString());
                 e.printStackTrace();
                 exitApp(false); // return;
                 throw new ServiceException(
-                        "Operation failed while filling the database from CIRCA Directory. The following error was reported:\n"
+                        "Operation failed while filling the database from Eionet Directory. The following error was reported:\n"
                                 + e.toString());
             }
         } // mode includes roles
@@ -279,17 +281,26 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     *
+     * Get Reportnet deliveries from the Content Registry using SPARQL.
+     * It first backs up the existing delivery information, then executes
+     * the SPARQL query in chunks of 1000.
      * @throws ServiceException
      */
     private void extractDeliveries() throws ServiceException {
 
         log("Going to extract deliveries from CR");
 
-        String query = "PREFIX dc: <http://purl.org/dc/elements/1.1/> PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
-                + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date WHERE { _:subj a rod:Delivery; "
-                + "rod:link ?link; dc:title ?title; rod:locality ?locality; rod:obligation ?obligation; "
-                + "rod:period ?period; rod:released ?date }";
+        String query = "PREFIX dc: <http://purl.org/dc/elements/1.1/> "
+                + "PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
+                + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date WHERE { "
+                + "_:subj a rod:Delivery; "
+                + "rod:link ?link; "
+                + "dc:title ?title; "
+                + "rod:locality ?locality; "
+                + "rod:obligation ?obligation; "
+                + "rod:period ?period; "
+                + "rod:released ?date "
+                + "}";
 
         RepositoryConnection conn = null;
 
@@ -340,7 +351,7 @@ public class Extractor implements ExtractorConstants {
 
         } catch (Exception e) {
             daoFactory.getDeliveryDao().rollBackDeliveries();
-            log("Error harvesintg deliveries: " + e.toString());
+            log("Error harvesting deliveries: " + e.toString());
 
             log("Operation failed while filling the database from Content Registry. The following error was reported:\n"
                     + e.toString());
