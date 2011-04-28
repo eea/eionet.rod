@@ -136,6 +136,9 @@
 											<token key="XMLRPC.JAR" value="${maven.dependency.xmlrpc.xmlrpc.jar.path}"/>
 											<token key="UITCLIENT.JAR" value="${maven.dependency.eionet.uit-client.jar.path}"/>
 											<token key="LOG4J.JAR" value="${maven.dependency.log4j.log4j.jar.path}"/>
+											<token key="ALIBABA.JAR" value="${maven.dependency.org.openrdf.openrdf-alibaba.jar.path}"/>
+											<token key="SESAME.JAR" value="${maven.dependency.org.openrdf.openrdf-sesame.jar.path}"/>
+											<token key="COMMONSHTTPCLIENT.JAR" value="${maven.dependency.commons-httpclient.commons-httpclient.jar.path}"/>
 											<token key="TOMCATUTIL.JAR" value="${maven.dependency.org.apache.tomcat.tomcat-util.jar.path}"/>
 										</replacetokens>
 									</filterchain>
@@ -382,7 +385,6 @@
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
-			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
