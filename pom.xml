@@ -129,7 +129,6 @@
 											<token key="MYSQL.JAR" value="${maven.dependency.mysql.mysql-connector-java.jar.path}"/>
 											<token key="LDAP.JAR" value="${maven.dependency.ldap.ldap.jar.path}"/>
 											<token key="JNDI.JAR" value="${maven.dependency.jndi.jndi.jar.path}"/>
-											<token key="COMMONSCODEC.JAR" value="${maven.dependency.commons-codec.commons-codec.jar.path}"/>
 											<token key="PROVIDERUTIL.JAR" value="${maven.dependency.providerutil.providerutil.jar.path}"/>
 											<token key="EIONETDIR.JAR" value="${maven.dependency.eionet.eionet-dir.jar.path}"/>
 											<token key="UITSECURITY.JAR" value="${maven.dependency.eionet.uit-security.jar.path}"/>
@@ -138,8 +137,13 @@
 											<token key="LOG4J.JAR" value="${maven.dependency.log4j.log4j.jar.path}"/>
 											<token key="ALIBABA.JAR" value="${maven.dependency.org.openrdf.openrdf-alibaba.jar.path}"/>
 											<token key="SESAME.JAR" value="${maven.dependency.org.openrdf.openrdf-sesame.jar.path}"/>
+											<token key="COMMONSCODEC.JAR" value="${maven.dependency.commons-codec.commons-codec.jar.path}"/>
 											<token key="COMMONSHTTPCLIENT.JAR" value="${maven.dependency.commons-httpclient.commons-httpclient.jar.path}"/>
+											<token key="COMMONSLOGGING.JAR" value="${maven.dependency.commons-logging.commons-logging.jar.path}"/>
+											<token key="COMMONSLANG.JAR" value="${maven.dependency.commons-lang.commons-lang.jar.path}"/>
 											<token key="TOMCATUTIL.JAR" value="${maven.dependency.org.apache.tomcat.tomcat-util.jar.path}"/>
+											<token key="SLF4JLOG.JAR" value="${maven.dependency.org.slf4j.slf4j-log4j12.jar.path}"/>
+											<token key="SLF4JAPI.JAR" value="${maven.dependency.org.slf4j.slf4j-api.jar.path}"/>
 										</replacetokens>
 									</filterchain>
 								</copy>
