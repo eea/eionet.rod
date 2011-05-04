@@ -396,6 +396,11 @@
 	
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>/simpleSearch</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/deadlines</url-pattern>
 	</servlet-mapping>
 	

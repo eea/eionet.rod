@@ -78,20 +78,19 @@
 		
 		<!-- SiteSearch Google -->
 		<br/>
-		<form method="get" action="http://search.eionet.europa.eu/search.jsp">
-			<input value="rod.eionet.europa.eu" name="qp_site" type="hidden"/>
-			<table width="530" style="border: 1px solid #006666">
+		<stripes:form action="/simpleSearch" method="get">
+		    <table width="530" style="border: 1px solid #006666">
 				<tr>
 					<td style="vertical-align:middle" width="30%">
 						<label for="queryfld" style="font-weight:bold">Search ROD website:</label>
 					</td>
 					<td style="vertical-align:middle">
-						<input type="text" name="query" id="queryfld" size="44" maxlength="255" value=""/>&#160;
-						<input type="submit" value="GO" name="GO" class="go_btn"></input>
+						<stripes:text name="expression" size="44" maxlength="255" id="queryfld"/>
+						<stripes:submit name="execute" value="GO" class="go_btn"/>
 					</td>
 				</tr>
 			</table>
-		</form>
+		</stripes:form>
 		<!-- SiteSearch Google -->
 		
 	</stripes:layout-component>

@@ -28,7 +28,6 @@ public class ConnectionUtil {
     /**
      * 
      * @throws NamingException 
-     * @throws DAOException
      */
     private static void initDataSource() throws NamingException{
         
@@ -40,8 +39,10 @@ public class ConnectionUtil {
     
     /**
      * 
-     * @return
-     * @throws SQLException 
+     * @return Connection
+     * @throws DataSourceException
+     * @throws SQLException
+     * @throws ServiceException 
      */
     public static Connection getConnection() throws DataSourceException, SQLException, ServiceException {
         if (ConnectionUtil.returnSimpleConnection)
@@ -52,10 +53,10 @@ public class ConnectionUtil {
 
     /**
      * 
-     * @return
-     * @throws SQLException 
+     * @return Connection
+     * @throws DataSourceException 
      */
-    private static synchronized Connection getJNDIConnection() throws DataSourceException{
+    private static synchronized Connection getJNDIConnection() throws DataSourceException {
         
         try {
             if (dataSource == null)
@@ -68,9 +69,10 @@ public class ConnectionUtil {
     
     /**
      * 
-     * @return
-     * @throws SQLException 
+     * @return Connection
+     * @throws DataSourceException 
      * @throws SQLException
+     * @throws ServiceException
      */
     private static Connection getSimpleConnection() throws DataSourceException, SQLException, ServiceException {
         
@@ -115,7 +117,7 @@ public class ConnectionUtil {
 
     /**
      * 
-     * @return
+     * @return boolean
      */
     public static boolean isReturnSimpleConnection() {
         return returnSimpleConnection;
@@ -123,7 +125,7 @@ public class ConnectionUtil {
 
     /**
      * 
-     * @param testConnection
+     * @param b
      */
     public static void setReturnSimpleConnection(boolean b) {
         ConnectionUtil.returnSimpleConnection = b;
