@@ -1,5 +1,7 @@
 package eionet.rod.web.action;
 
+import java.util.StringTokenizer;
+
 import org.apache.commons.lang.StringUtils;
 
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -37,7 +39,7 @@ public class SearchActionBean extends AbstractRODActionBean {
                 + "PREFIX dc: <http://purl.org/dc/terms/> "
                 + "SELECT DISTINCT ?subject ?type ?found ?name WHERE { "
                 + "?subject a ?type . FILTER ( ?type = rod:Instrument || ?type = rod:Obligation || ?type = rod:Client) "
-                + "?subject ?p ?found . ?found bif:contains \""+expression+"\" . "
+                + "?subject ?p ?found . ?found bif:contains \"'"+expression+"'\" . "
                 + "OPTIONAL { { ?subject dc:title ?name } UNION { ?subject rod:clientName ?name } } "
                 + "}";
             
