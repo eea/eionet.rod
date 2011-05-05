@@ -1,6 +1,9 @@
 package eionet.rod.web.action;
 
-import java.util.StringTokenizer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -13,6 +16,7 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.sparqlClient.helpers.QueryExecutor;
 import eionet.sparqlClient.helpers.QueryResult;
+import eionet.sparqlClient.helpers.ResultValue;
 
 /**
  *
@@ -47,8 +51,31 @@ public class SearchActionBean extends AbstractRODActionBean {
             QueryExecutor executor = new QueryExecutor();
             executor.executeQuery(CRSparqlEndpoint, query);
             result = executor.getResults();
+            
+            // Remove duplicate subjects
+            removeDuplicates();
         }
         return new ForwardResolution("/pages/simpleSearch.jsp");
+    }
+
+    /**
+     * 
+     */
+    private void removeDuplicates() {
+        List<String> existingSubjects = new ArrayList<String>();
+        ArrayList<HashMap<String, ResultValue>> newRows = new ArrayList<HashMap<String, ResultValue>>();
+        if (result != null && result.getRows() != null) {
+            ArrayList<HashMap<String, ResultValue>> rows = result.getRows();
+            for (Iterator<HashMap<String, ResultValue>> it = rows.iterator(); it.hasNext(); ){
+                HashMap<String, ResultValue> row = it.next();
+                ResultValue subject = row.get("subject");
+                if (subject != null && !existingSubjects.contains(subject.getValue())) {
+                    existingSubjects.add(subject.getValue());
+                    newRows.add(row);
+                }
+            }
+        }
+        result.setRows(newRows);
     }
 
     public String getExpression() {
