@@ -24,16 +24,18 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 /**
  * Interceptor that saves to the session last action except login action.
  * <p>
+ * 
  * @author gerasvad
- *
+ * 
  */
-@Intercepts(value=LifecycleStage.EventHandling)
+@Intercepts(value = LifecycleStage.EventHandling)
 public class ActionEventInterceptor implements Interceptor {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see net.sourceforge.stripes.controller.Interceptor#intercept(net.sourceforge.stripes.controller.ExecutionContext)
      */
-    @SuppressWarnings("unchecked")
     public Resolution intercept(ExecutionContext context) throws Exception {
         Resolution resolution = null;
 
@@ -47,12 +49,11 @@ public class ActionEventInterceptor implements Interceptor {
             HttpServletRequest request = context.getActionBean().getContext().getRequest();
             String actionEventURL = null;
 
-                actionEventURL = getActionName(actionBeanClass) + getPathInfo(request) + "?" +
-                ((getEventName(eventMethod) != null) ? getEventName(eventMethod) + "=&" : "") +
-                getRequestParameters(request);
+            actionEventURL = getActionName(actionBeanClass) + getPathInfo(request) + "?"
+                    + ((getEventName(eventMethod) != null) ? getEventName(eventMethod) + "=&" : "") + getRequestParameters(request);
 
-                //this will handle pretty url integration
-                actionEventURL = postProcess(actionEventURL);
+            // this will handle pretty url integration
+            actionEventURL = postProcess(actionEventURL);
 
             request.getSession(true).setAttribute(Constants.LAST_ACTION_URL_SESSION_ATTR, actionEventURL);
         }
@@ -63,37 +64,37 @@ public class ActionEventInterceptor implements Interceptor {
 
     private static String postProcess(String actionEventURL) {
         StringBuilder sb = new StringBuilder(actionEventURL);
-        //first, let's split the string into 2 parts
+        // first, let's split the string into 2 parts
         int actionEndPosition = actionEventURL.indexOf("?");
         String action = actionEventURL.substring(0, actionEndPosition);
         String params = actionEventURL.substring(actionEndPosition + 1);
         Matcher matcher = Pattern.compile("\\{([^\\{]*)\\}").matcher(action);
         while (matcher.find()) {
-            //ok, let's start parsing
-            Matcher paramMatcher = Pattern.compile(matcher.group(1)+"=([^&]*)").matcher(params);
-            //let's find a value to this one
+            // ok, let's start parsing
+            Matcher paramMatcher = Pattern.compile(matcher.group(1) + "=([^&]*)").matcher(params);
+            // let's find a value to this one
             if (!paramMatcher.find()) {
-                //didn't find a value for this param, cannot substitute anything
+                // didn't find a value for this param, cannot substitute anything
                 continue;
             }
             String paramValue = paramMatcher.group(1);
             int insertPoint = sb.indexOf(matcher.group(0));
-            //replace the {xxx} stuff with paramValue
-            sb.delete(insertPoint, insertPoint + matcher.group(0).length()).insert(insertPoint,paramValue);
+            // replace the {xxx} stuff with paramValue
+            sb.delete(insertPoint, insertPoint + matcher.group(0).length()).insert(insertPoint, paramValue);
             insertPoint = sb.indexOf(paramMatcher.group(0));
-            //delete the parameter
-            sb.delete(insertPoint,insertPoint +  paramMatcher.group(0).length());
+            // delete the parameter
+            sb.delete(insertPoint, insertPoint + paramMatcher.group(0).length());
         }
-        //if we have a "?" at the end of the string, delete it
-        if (sb.charAt(sb.length()-1) == '?') {
-            sb.deleteCharAt(sb.length()-1);
+        // if we have a "?" at the end of the string, delete it
+        if (sb.charAt(sb.length() - 1) == '?') {
+            sb.deleteCharAt(sb.length() - 1);
         }
 
-        return  sb.toString();
+        return sb.toString();
     }
 
     private static String getActionName(Class<?> actionBeanClass) {
-        String result =  "/" + actionBeanClass.getName();
+        String result = "/" + actionBeanClass.getName();
 
         if (actionBeanClass.isAnnotationPresent(UrlBinding.class)) {
             UrlBinding urlBinding = actionBeanClass.getAnnotation(UrlBinding.class);
@@ -117,7 +118,6 @@ public class ActionEventInterceptor implements Interceptor {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     private static String getPathInfo(HttpServletRequest request) throws Exception {
 
         String result = "";
@@ -143,9 +143,8 @@ public class ActionEventInterceptor implements Interceptor {
                 sb.append(parameter + "=&");
             } else {
                 for (String parameterValue : parameterValues) {
-                    sb.append(parameter + "=" +
-                            (RODUtil.isNullOrEmpty(parameterValue) ? "" : URLEncoder.encode(parameterValue, "UTF-8")) +
-                            "&");
+                    sb.append(parameter + "="
+                            + (RODUtil.isNullOrEmpty(parameterValue) ? "" : URLEncoder.encode(parameterValue, "UTF-8")) + "&");
                 }
             }
         }

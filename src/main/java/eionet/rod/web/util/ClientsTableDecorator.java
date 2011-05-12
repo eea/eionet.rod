@@ -6,15 +6,15 @@ import eionet.rod.RODUtil;
 import eionet.rod.dto.ClientDTO;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
-public class ClientsTableDecorator extends TableDecorator{
+public class ClientsTableDecorator extends TableDecorator {
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getClientName() {
 
@@ -27,7 +27,5 @@ public class ClientsTableDecorator extends TableDecorator{
 
         return ret.toString();
     }
-
-
 
 }

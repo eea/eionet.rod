@@ -21,33 +21,35 @@
  * Original Code: Kaido Laine (TietoEnator)
  */
 
-
 package eionet.rod.services;
-
 
 /**
  * Exception class for service layer error/exception situations.
- *
- * @author  Rando Valt
+ * 
+ * @author Rando Valt
  * @version 1.0
  */
 public class ServiceException extends java.lang.Exception {
 
-/**
- * Creates new <code>ServiceException</code> without detail message.
- */
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Creates new <code>ServiceException</code> without detail message.
+     */
     public ServiceException() {
     }
 
-
-/**
- * Constructs an <code>ServiceException</code> with the specified detail message.
- * @param msg the detail message.
- */
+    /**
+     * Constructs an <code>ServiceException</code> with the specified detail message.
+     * 
+     * @param msg
+     *            the detail message.
+     */
     public ServiceException(String msg) {
         super(msg);
-        RODServices.getLogService().error(  "Service exception occured with reason <<" + msg + ">>");
+        RODServices.getLogService().error("Service exception occured with reason <<" + msg + ">>");
     }
 }
-
-

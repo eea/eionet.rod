@@ -11,9 +11,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/countrydeadlines")
 public class CountriesActionBean extends AbstractRODActionBean {
@@ -26,8 +26,9 @@ public class CountriesActionBean extends AbstractRODActionBean {
     private int nonMembersCount2;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {

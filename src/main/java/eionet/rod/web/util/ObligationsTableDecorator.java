@@ -5,15 +5,15 @@ import eionet.rod.RODUtil;
 import eionet.rod.dto.ObligationsListDTO;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
-public class ObligationsTableDecorator extends TableDecorator{
+public class ObligationsTableDecorator extends TableDecorator {
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getTitle() {
 
@@ -32,8 +32,8 @@ public class ObligationsTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getInstrument() {
 
@@ -47,8 +47,8 @@ public class ObligationsTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getClient() {
 
@@ -63,8 +63,8 @@ public class ObligationsTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getDeadline() {
 
@@ -86,8 +86,8 @@ public class ObligationsTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getDeliveries() {
 

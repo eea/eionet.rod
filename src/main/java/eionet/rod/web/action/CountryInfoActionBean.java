@@ -12,9 +12,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/countryinfo")
 public class CountryInfoActionBean extends AbstractRODActionBean {
@@ -27,10 +27,10 @@ public class CountryInfoActionBean extends AbstractRODActionBean {
     private CountryInfoDTO countryInfo;
     private String rt;
 
-
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -54,61 +54,49 @@ public class CountryInfoActionBean extends AbstractRODActionBean {
         return new ForwardResolution("/pages/countryinfo.jsp");
     }
 
-
     public String getOid() {
         return oid;
     }
-
 
     public void setOid(String oid) {
         this.oid = oid;
     }
 
-
     public String getSid() {
         return sid;
     }
-
 
     public void setSid(String sid) {
         this.sid = sid;
     }
 
-
     public String getMember() {
         return member;
     }
-
 
     public void setMember(String member) {
         this.member = member;
     }
 
-
     public String getVol() {
         return vol;
     }
-
 
     public void setVol(String vol) {
         this.vol = vol;
     }
 
-
     public CountryInfoDTO getCountryInfo() {
         return countryInfo;
     }
-
 
     public void setCountryInfo(CountryInfoDTO countryInfo) {
         this.countryInfo = countryInfo;
     }
 
-
     public String getRt() {
         return rt;
     }
-
 
     public void setRt(String rt) {
         this.rt = rt;

@@ -1,5 +1,7 @@
 package eionet.rod.web.action;
 
+import org.apache.commons.lang.StringUtils;
+
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -10,9 +12,9 @@ import eionet.directory.dto.RoleDTO;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/contacts")
 public class ContactsActionBean extends AbstractRODActionBean {
@@ -22,19 +24,22 @@ public class ContactsActionBean extends AbstractRODActionBean {
     private RoleDTO role;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
 
         try {
 
-            int index = roleId.lastIndexOf("-");
-            if (index != -1)
-                parentRoleId = roleId.substring(0, index);
-
-            role = DirectoryService.getRoleDTO(roleId);
+            if (!StringUtils.isBlank(roleId)) {
+                int index = roleId.lastIndexOf("-");
+                if (index != -1)
+                    parentRoleId = roleId.substring(0, index);
+    
+                role = DirectoryService.getRoleDTO(roleId);
+            }
 
         } catch (DirServiceException e) {
             e.printStackTrace();

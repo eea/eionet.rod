@@ -748,9 +748,13 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                         StringBuffer values = new StringBuffer();
                         for (Enumeration en = tvec.elements(); en.hasMoreElements();) {
                             String[] ar = (String[]) en.nextElement();
+                            if (ar[0] != null && (ar[0].startsWith("DPSIR_") || ar[0].equalsIgnoreCase("CONTINOUS_REPORTING") || ar[0].equalsIgnoreCase("DRAFT")) 
+                                    && ar[1] != null && ar[1].length() == 0) {
+                                ar[1] = "no";
+                            }
                             cols.append(ar[0]);
                             String q = "";
-                            if (ar[2].equals("y")) q = "'";
+                            if (ar[2].equals("y") && !ar[1].equalsIgnoreCase("null")) q = "'";
                             values.append(q + ar[1] + q);
                             if (en.hasMoreElements()) {
                                 cols.append(",");

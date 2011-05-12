@@ -8,11 +8,10 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
-
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/analysis")
 public class AnalysisActionBean extends AbstractRODActionBean {
@@ -29,8 +28,9 @@ public class AnalysisActionBean extends AbstractRODActionBean {
     private int noIssue;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -127,6 +127,5 @@ public class AnalysisActionBean extends AbstractRODActionBean {
     public void setNoIssue(int noIssue) {
         this.noIssue = noIssue;
     }
-
 
 }

@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 import eionet.rod.Constants;
 import eionet.rod.ROUser;
 import eionet.rod.services.RODServices;
@@ -16,12 +15,11 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.validation.SimpleError;
 
-
 /**
  * Root class for all CR ActionBeans.
- *
+ * 
  * @author altnyris
- *
+ * 
  */
 public abstract class AbstractRODActionBean implements ActionBean {
 
@@ -33,6 +31,7 @@ public abstract class AbstractRODActionBean implements ActionBean {
 
     /*
      * (non-Javadoc)
+     * 
      * @see net.sourceforge.stripes.action.ActionBean#getContext()
      */
     public RODActionBeanContext getContext() {
@@ -41,6 +40,7 @@ public abstract class AbstractRODActionBean implements ActionBean {
 
     /*
      * (non-Javadoc)
+     * 
      * @see net.sourceforge.stripes.action.ActionBean#setContext(net.sourceforge.stripes.action.ActionBeanContext)
      */
     public void setContext(ActionBeanContext context) {
@@ -61,7 +61,7 @@ public abstract class AbstractRODActionBean implements ActionBean {
 
     /**
      * Method checks whether user is logged in or not.
-     *
+     * 
      * @return true if user is logged in.
      */
     public final boolean getIsUserLoggedIn() {
@@ -69,8 +69,9 @@ public abstract class AbstractRODActionBean implements ActionBean {
     }
 
     /**
-     *
-     * @param String exception to handle.
+     * 
+     * @param String
+     *            exception to handle.
      */
     void handleRodException(String exception, int severity) {
         logger.error(exception);
@@ -79,7 +80,7 @@ public abstract class AbstractRODActionBean implements ActionBean {
     }
 
     /**
-     *
+     * 
      * @return
      */
     protected ROUser getROUser() {
@@ -105,8 +106,8 @@ public abstract class AbstractRODActionBean implements ActionBean {
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return ResourceBundle
      */
     public ResourceBundle getBundle() {
         ResourceBundle bundle = ResourceBundle.getBundle("/StripesResources");
@@ -114,16 +115,16 @@ public abstract class AbstractRODActionBean implements ActionBean {
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return boolean
      */
     public boolean isPostRequest() {
         return getContext().getRequest().getMethod().equalsIgnoreCase("POST");
     }
 
     /**
-     *
-     * @param String message
+     * 
+     * @param msg
      */
     void showMessage(String msg) {
         getContext().setSeverity(Constants.SEVERITY_INFO);

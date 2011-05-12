@@ -13,9 +13,9 @@ import eionet.rod.countrysrv.Extractor;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/harvester")
 public class HarvesterActionBean extends AbstractRODActionBean {
@@ -23,8 +23,9 @@ public class HarvesterActionBean extends AbstractRODActionBean {
     private String mode;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -54,9 +55,9 @@ public class HarvesterActionBean extends AbstractRODActionBean {
             int m = Integer.parseInt(mode);
             Extractor ext = new Extractor();
 
-            ext.harvest(m, getUserName() );
+            ext.harvest(m, getUserName());
             showMessage("Harvested! See log for details");
-        } catch (Exception e ) {
+        } catch (Exception e) {
             handleRodException(e.toString(), Constants.SEVERITY_WARNING);
         }
 

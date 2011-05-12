@@ -13,39 +13,30 @@ public class AclMySqlDao extends MySqlBaseDao implements IAclDao {
     public AclMySqlDao() {
     }
 
+    private static final String q_insert_acls = "INSERT INTO ACLS (ACL_NAME, PARENT_NAME, OWNER, DESCRIPTION) "
+            + "VALUES (?,?,?,?)";
 
-    private static final String q_insert_acls =
-        "INSERT INTO ACLS (ACL_NAME, PARENT_NAME, OWNER, DESCRIPTION) " +
-        "VALUES (?,?,?,?)";
+    private static final String q_max_acl_id = "SELECT MAX(ACL_ID) FROM ACLS ";
 
-    private static final String q_max_acl_id =
-        "SELECT MAX(ACL_ID) FROM ACLS ";
+    private static final String q_insert_acl_rows = "INSERT INTO ACL_ROWS (ACL_ID, ENTRY_TYPE, TYPE, PRINCIPAL, PERMISSIONS, STATUS) "
+            + "VALUES(?,?,?,?,?,?)";
 
-
-    private static final String q_insert_acl_rows =
-        "INSERT INTO ACL_ROWS (ACL_ID, ENTRY_TYPE, TYPE, PRINCIPAL, PERMISSIONS, STATUS) "+
-        "VALUES(?,?,?,?,?,?)";
-
-    private static final String q_acl_by_name_and_type =
-        "SELECT ACL_ID AS acl_id " +
-        "FROM ACLS " +
-        "WHERE ACL_NAME = ? AND PARENT_NAME = ?";
-
+    private static final String q_acl_by_name_and_type = "SELECT ACL_ID AS acl_id " + "FROM ACLS "
+            + "WHERE ACL_NAME = ? AND PARENT_NAME = ?";
 
     public void addAcl(String aclPath, String owner, String description) throws ServiceException {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         int lastSlash = aclPath.lastIndexOf("/");
-        String parentName = (lastSlash == 0 ? "/" : aclPath.substring(0,
-                lastSlash));
+        String parentName = (lastSlash == 0 ? "/" : aclPath.substring(0, lastSlash));
         String aclName = aclPath.substring(lastSlash + 1);
-
 
         try {
             connection = getConnection();
             connection.setAutoCommit(false);
-            if (isDebugMode) logQuery(q_insert_acls);
+            if (isDebugMode)
+                logQuery(q_insert_acls);
             preparedStatement = connection.prepareStatement(q_insert_acls);
             preparedStatement.setString(1, aclName);
             preparedStatement.setString(2, parentName);
@@ -71,7 +62,6 @@ public class AclMySqlDao extends MySqlBaseDao implements IAclDao {
             preparedStatement.setInt(6, 1);
             preparedStatement.executeUpdate();
 
-
             preparedStatement.setInt(1, Integer.valueOf(acl_id).intValue());
             preparedStatement.setString(2, "localgroup");
             preparedStatement.setString(3, "object");
@@ -84,13 +74,14 @@ public class AclMySqlDao extends MySqlBaseDao implements IAclDao {
         } catch (SQLException exception) {
             try {
                 connection.rollback();
-            } catch (SQLException e) {logger.error(e);}
+            } catch (SQLException e) {
+                logger.error(e);
+            }
             logger.error(exception);
             throw new ServiceException(exception.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
-
 
     }
 
@@ -102,10 +93,11 @@ public class AclMySqlDao extends MySqlBaseDao implements IAclDao {
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(q_acl_by_name_and_type);
-            if (isDebugMode) logQuery(q_acl_by_name_and_type);
-            preparedStatement.setString(1,acl_name);
-            preparedStatement.setString(2,type);
-            Hashtable hash = _getHashtable(preparedStatement);
+            if (isDebugMode)
+                logQuery(q_acl_by_name_and_type);
+            preparedStatement.setString(1, acl_name);
+            preparedStatement.setString(2, type);
+            Hashtable<String, String> hash = _getHashtable(preparedStatement);
             if (hash != null && hash.size() > 0) {
                 ret = (String) hash.get("acl_id");
             }
@@ -117,6 +109,5 @@ public class AclMySqlDao extends MySqlBaseDao implements IAclDao {
         }
         return ret;
     }
-
 
 }

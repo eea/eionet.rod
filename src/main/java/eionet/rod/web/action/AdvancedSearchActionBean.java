@@ -14,9 +14,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
 @UrlBinding("/search")
 public class AdvancedSearchActionBean extends AbstractRODActionBean {
@@ -26,8 +26,9 @@ public class AdvancedSearchActionBean extends AbstractRODActionBean {
     private List<ClientDTO> clients;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {

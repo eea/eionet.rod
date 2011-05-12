@@ -8,9 +8,9 @@ import java.sql.Timestamp;
 import java.sql.Types;
 
 /**
- *
+ * 
  * @author heinljab
- *
+ * 
  */
 public class SQLValue {
 
@@ -19,7 +19,7 @@ public class SQLValue {
     private int sqlType;
 
     /**
-     *
+     * 
      * @param value
      * @param sqlType
      */
@@ -30,6 +30,8 @@ public class SQLValue {
 
     /**
      * Returns value of this <code>SQLValue</code> as <code>java.lang.String</code>.
+     * 
+     * @return String
      */
     public String getString() {
 
@@ -37,8 +39,11 @@ public class SQLValue {
     }
 
     /**
-     * Returns value of this <code>SQLValue</code> as <code>java.sql.Date</code>
-     * or throws <code>SQLException</code>, if conversion to date fails.
+     * Returns value of this <code>SQLValue</code> as <code>java.sql.Date</code> or throws <code>SQLException</code>, if conversion
+     * to date fails.
+     * 
+     * @return Date
+     * @throws SQLException
      */
     public Date getDate() throws SQLException {
 
@@ -46,24 +51,28 @@ public class SQLValue {
             return null;
 
         switch (sqlType) {
-            case Types.DATE:
-                return (Date)value;
-            case Types.TIME:
-            case Types.TIMESTAMP:
-                return new Date(((java.util.Date) value).getTime());
-            default:
-                throw new SQLException("Incompatible data type date: " + value);
+        case Types.DATE:
+            return (Date) value;
+        case Types.TIME:
+        case Types.TIMESTAMP:
+            return new Date(((java.util.Date) value).getTime());
+        default:
+            throw new SQLException("Incompatible data type date: " + value);
         }
     }
 
     /**
-     * Returns value of this <code>SQLValue</code> as <code>java.sql.Timestamp</code>
-     * or throws <code>SQLException</code>, if conversion to timestamp fails.
+     * Returns value of this <code>SQLValue</code> as <code>java.sql.Timestamp</code> or throws <code>SQLException</code>, if
+     * conversion to timestamp fails.
+     * 
+     * @return Timestamp
+     * @throws SQLException
      */
     public Timestamp getTimestamp() throws SQLException {
-        if (value == null)  return null;
+        if (value == null)
+            return null;
 
-        switch (sqlType)    {
+        switch (sqlType) {
         case Types.TIMESTAMP:
             return (Timestamp) value;
         case Types.TIME:
@@ -75,22 +84,26 @@ public class SQLValue {
     }
 
     /**
-     * Returns value of this <code>SQLValue</code> as <code>int</code>
-     * or throws <code>SQLException</code>, if conversion to integer fails.
+     * Returns value of this <code>SQLValue</code> as <code>int</code> or throws <code>SQLException</code>, if conversion to integer
+     * fails.
+     * 
+     * @return int
+     * @throws SQLException
      */
     public int getIntegerValue() throws SQLException {
-        if (value == null)  return 0;
+        if (value == null)
+            return 0;
 
-        switch (sqlType)    {
+        switch (sqlType) {
         case Types.INTEGER:
-            return (int) ((Long)value).longValue();
+            return (int) ((Long) value).longValue();
         case Types.NUMERIC:
-            return ((BigDecimal)value).intValue();
+            return ((BigDecimal) value).intValue();
         case Types.VARCHAR:
         case Types.CHAR:
-        //case Types.LONGNVARCHAR:
+            // case Types.LONGNVARCHAR:
             try {
-                return Integer.parseInt((String)value);
+                return Integer.parseInt((String) value);
             } catch (NumberFormatException nfe) {
                 throw new SQLException("Incompatible data type for integer: " + value);
             }
@@ -100,30 +113,38 @@ public class SQLValue {
     }
 
     /**
-     * Returns value of this <code>SQLValue</code> as <code>java.lang.Integer</code>
-     * or throws <code>SQLException</code>, if conversion to integer fails.
+     * Returns value of this <code>SQLValue</code> as <code>java.lang.Integer</code> or throws <code>SQLException</code>, if
+     * conversion to integer fails.
+     * 
+     * @return Integer
+     * @throws SQLException
      */
     public Integer getInteger() throws SQLException {
-        if (value == null)  return null;
+        if (value == null)
+            return null;
 
         return new Integer(getIntegerValue());
     }
 
     /**
-     * Returns value of this <code>SQLValue</code> as <code>java.lang.Long</code>
-     * or throws <code>SQLException</code>, if conversion to long integer fails.
+     * Returns value of this <code>SQLValue</code> as <code>java.lang.Long</code> or throws <code>SQLException</code>, if conversion
+     * to long integer fails.
+     * 
+     * @return Long
+     * @throws SQLException
      */
     public Long getLong() throws SQLException {
-        if (value == null)  return null;
+        if (value == null)
+            return null;
 
-        switch (sqlType)    {
+        switch (sqlType) {
         case Types.INTEGER:
             return (Long) value;
         case Types.NUMERIC:
-            return new Long(((BigDecimal)value).longValue());
+            return new Long(((BigDecimal) value).longValue());
         case Types.VARCHAR:
         case Types.CHAR:
-        //case Types.LONGNVARCHAR:
+            // case Types.LONGNVARCHAR:
             try {
                 return new Long((String) value);
             } catch (NumberFormatException nfe) {
@@ -135,20 +156,24 @@ public class SQLValue {
     }
 
     /**
-     * Returns value of this <code>SQLValue</code> as <code>long</code>
-     * or throws <code>SQLException</code>, if conversion to long integer fails.
+     * Returns value of this <code>SQLValue</code> as <code>long</code> or throws <code>SQLException</code>, if conversion to long
+     * integer fails.
+     * 
+     * @return long
+     * @throws SQLException
      */
     public long getLongValue() throws SQLException {
-        if (value == null)  return 0;
+        if (value == null)
+            return 0;
 
-        switch (sqlType)    {
+        switch (sqlType) {
         case Types.INTEGER:
             return ((Long) value).longValue();
         case Types.NUMERIC:
             return ((BigDecimal) value).longValue();
         case Types.VARCHAR:
         case Types.CHAR:
-        //case Types.LONGNVARCHAR:
+            // case Types.LONGNVARCHAR:
             try {
                 return Long.parseLong((String) value);
             } catch (NumberFormatException nfe) {
@@ -160,32 +185,40 @@ public class SQLValue {
     }
 
     /**
-     * Returns value of this <code>SQLValue</code> as <code>java.lang.Double</code>
-     * or throws <code>SQLException</code>, if conversion to double fails.
+     * Returns value of this <code>SQLValue</code> as <code>java.lang.Double</code> or throws <code>SQLException</code>, if
+     * conversion to double fails.
+     * 
+     * @return Double
+     * @throws SQLException
      */
     public Double getDouble() throws SQLException {
-        if (value == null)  return null;
+        if (value == null)
+            return null;
 
         return new Double(getDoubleValue());
     }
 
     /**
-     * Returns value of this <code>SQLValue</code> as <code>double</code>
-     * or throws <code>SQLException</code>, if conversion to double fails.
+     * Returns value of this <code>SQLValue</code> as <code>double</code> or throws <code>SQLException</code>, if conversion to
+     * double fails.
+     * 
+     * @return double
+     * @throws SQLException
      */
     public double getDoubleValue() throws SQLException {
-        if (value == null)  return 0.;
+        if (value == null)
+            return 0.;
 
-        switch (sqlType)    {
+        switch (sqlType) {
         case Types.NUMERIC:
-            return ((BigDecimal)value).doubleValue();
+            return ((BigDecimal) value).doubleValue();
         case Types.INTEGER:
-            return ((Integer)value).doubleValue();
+            return ((Integer) value).doubleValue();
         case Types.VARCHAR:
         case Types.CHAR:
-        //case Types.LONGNVARCHAR:
+            // case Types.LONGNVARCHAR:
             try {
-                return Double.parseDouble((String)value);
+                return Double.parseDouble((String) value);
             } catch (NumberFormatException nfe) {
                 throw new SQLException("Incompatible data type for double: " + value);
             }
@@ -195,21 +228,25 @@ public class SQLValue {
     }
 
     /**
-     * Returns value of this <code>SQLValue</code> as <code>byte[]</code>
-     * or throws <code>SQLException</code>, if conversion to byte array fails.
+     * Returns value of this <code>SQLValue</code> as <code>byte[]</code> or throws <code>SQLException</code>, if conversion to byte
+     * array fails.
+     * 
+     * @return byte[]
+     * @throws SQLException
      */
-    public byte[] getBytes() throws SQLException    {
-        if (value == null)  return null;
+    public byte[] getBytes() throws SQLException {
+        if (value == null)
+            return null;
 
-        switch (sqlType)    {
+        switch (sqlType) {
         case Types.BINARY:
             return (byte[]) value;
         case Types.VARCHAR:
         case Types.CHAR:
-        //case Types.LONGNVARCHAR:
+            // case Types.LONGNVARCHAR:
             try {
                 return ((String) value).getBytes("UTF-8");
-            } catch (UnsupportedEncodingException ue)   {
+            } catch (UnsupportedEncodingException ue) {
                 throw new SQLException("Failed conversion to bytes: " + value);
             }
         default:
@@ -219,6 +256,7 @@ public class SQLValue {
 
     /*
      * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     public String toString() {
@@ -226,16 +264,16 @@ public class SQLValue {
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return Object
      */
     public Object getObject() {
         return value;
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return int
      */
     public int getSQLType() {
         return sqlType;

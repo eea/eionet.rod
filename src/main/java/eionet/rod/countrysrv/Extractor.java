@@ -89,10 +89,11 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * Called when script is run from the command-line. Takes one optional
-     * argument. The mode, which can be 0-3. Assumes 0 if not provided.
-     *
-     * @param args command-line arguments
+     * Called when script is run from the command-line. Takes one optional argument. The mode, which can be 0-3. Assumes 0 if not
+     * provided.
+     * 
+     * @param args
+     *            command-line arguments
      */
     public static void main(String[] args) {
 
@@ -136,7 +137,7 @@ public class Extractor implements ExtractorConstants {
 
     /**
      * Extract the data.
-     *
+     * 
      * @param mode
      * @param userName
      * @throws ServiceException
@@ -270,7 +271,7 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     *
+     * 
      * @param s
      */
     private static void log(String s) {
@@ -281,25 +282,25 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * Get Reportnet deliveries from the Content Registry using SPARQL.
-     * It first backs up the existing delivery information, then executes
-     * the SPARQL query in chunks of 1000.
+     * Get Reportnet deliveries from the Content Registry using SPARQL. It first backs up the existing delivery information, then
+     * executes the SPARQL query in chunks of 1000.
+     * 
      * @throws ServiceException
      */
     private void extractDeliveries() throws ServiceException {
 
         log("Going to extract deliveries from CR");
 
-        String query = "PREFIX dc: <http://purl.org/dc/elements/1.1/> "
+        String query = "PREFIX dc: <http://purl.org/dc/elements/1.1/> " 
                 + "PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
-                + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date WHERE { "
+                + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date WHERE { " 
                 + "_:subj a rod:Delivery; "
-                + "rod:link ?link; "
-                + "dc:title ?title; "
-                + "rod:locality ?locality; "
+                + "rod:link ?link; " 
+                + "dc:title ?title; " 
+                + "rod:locality ?locality; " 
                 + "rod:obligation ?obligation; "
-                + "rod:period ?period; "
-                + "rod:released ?date "
+                + "rod:period ?period; " 
+                + "rod:released ?date " 
                 + "}";
 
         RepositoryConnection conn = null;
@@ -368,7 +369,7 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     *
+     * 
      * @return HashMap<String, Integer>
      * @throws ServiceException
      */
@@ -384,7 +385,7 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     *
+     * 
      * @param roleId
      * @throws ServiceException
      */

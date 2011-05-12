@@ -5,15 +5,15 @@ import eionet.rod.RODUtil;
 import eionet.rod.dto.HistDeadlineDTO;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
-public class HistDeadlinesTableDecorator extends TableDecorator{
+public class HistDeadlinesTableDecorator extends TableDecorator {
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getTitle() {
 

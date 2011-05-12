@@ -14,9 +14,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
 @UrlBinding("/documentation")
 public class DocumentationActionBean extends AbstractRODActionBean {
@@ -26,15 +26,16 @@ public class DocumentationActionBean extends AbstractRODActionBean {
     private String areaId;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
 
         String pathInfo = getContext().getRequest().getPathInfo();
         if (!RODUtil.isNullOrEmpty(pathInfo)) {
-            StringTokenizer st = new StringTokenizer(pathInfo,"/");
+            StringTokenizer st = new StringTokenizer(pathInfo, "/");
             if (st.hasMoreElements())
                 areaId = st.nextToken();
         }

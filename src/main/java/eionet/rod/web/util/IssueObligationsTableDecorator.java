@@ -7,15 +7,15 @@ import eionet.rod.RODUtil;
 import eionet.rod.dto.ObligationDTO;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
-public class IssueObligationsTableDecorator extends TableDecorator{
+public class IssueObligationsTableDecorator extends TableDecorator {
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getObligationTitle() {
 

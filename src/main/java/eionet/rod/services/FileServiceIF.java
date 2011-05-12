@@ -23,248 +23,234 @@
 
 package eionet.rod.services;
 
-
-
 /**
- * Methods for file operations.
- * Property names in the props file
- *
- * @author  Rando Valt
+ * Methods for file operations. Property names in the props file
+ * 
+ * @author Rando Valt
  * @version 1.0
  */
-public interface FileServiceIF  {
+public interface FileServiceIF {
 
-  /**
-  * DB connection URL for DB connection
-  */
-  public static final String DB_URL = "db.url";
+    /**
+     * DB connection URL for DB connection
+     */
+    public static final String DB_URL = "db.url";
 
-  /**
-  * DB driver
-  */
-  public static final String DB_DRV = "db.drv";
+    /**
+     * DB driver
+     */
+    public static final String DB_DRV = "db.drv";
 
-  /**
-  * DB user id for the extractor
-  */
-  public static final String DB_USER_ID = "db.usr";
+    /**
+     * DB user id for the extractor
+     */
+    public static final String DB_USER_ID = "db.usr";
 
-  /**
-  * User PWD  for DB connection
-  */
-  public static final String DB_USER_PWD = "db.pwd";
+    /**
+     * User PWD for DB connection
+     */
+    public static final String DB_USER_PWD = "db.pwd";
 
-  /**
-   * DB connection URL for DB connection
-   */
-   public static final String DB_TEST_URL = "db.unitest.url";
+    /**
+     * DB connection URL for DB connection
+     */
+    public static final String DB_TEST_URL = "db.unitest.url";
 
-   /**
-   * DB driver
-   */
-   public static final String DB_TEST_DRV = "db.unitest.drv";
+    /**
+     * DB driver
+     */
+    public static final String DB_TEST_DRV = "db.unitest.drv";
 
-   /**
-   * DB user id for the extractor
-   */
-   public static final String DB_TEST_USER_ID = "db.unitest.usr";
+    /**
+     * DB user id for the extractor
+     */
+    public static final String DB_TEST_USER_ID = "db.unitest.usr";
 
-   /**
-   * User PWD  for DB connection
-   */
-   public static final String DB_TEST_USER_PWD = "db.unitest.pwd";
+    /**
+     * User PWD for DB connection
+     */
+    public static final String DB_TEST_USER_PWD = "db.unitest.pwd";
 
+    /**
+     * RO namespace
+     */
+    public static final String RO_NAMESPACE = "rod.url.ro_namespace";
 
-  /**
-  * Default type for remote services
-  */
-  public static final String REMOTE_SRV_TYPE = "remote.services.type";
+    /**
+     * Namespace for RA titles
+     */
+    public static final String RA_NAMESPACE = "ra.namespace";
 
-  /**
-  * RO namespace
-  */
-  public static final String RO_NAMESPACE = "rod.url.ro_namespace";
+    /**
+     * Namespace for countries
+     */
+    public static final String COUNTRY_NAMESPACE = "country.namespace";
 
+    /**
+     * Namespace for T_SPATIAL
+     */
+    public static final String SPATIAL_NAMESPACE = "spatial.namespace";
 
-  /**
-  * Namespace for RA titles
-  */
-  public static final String RA_NAMESPACE = "ra.namespace";
+    /**
+     * Namespace for T_ISSUE
+     */
+    public static final String ISSUE_NAMESPACE = "issue.namespace";
 
-  /**
-  * Namespace for countries
-  */
-  public static final String COUNTRY_NAMESPACE = "country.namespace";
+    /**
+     * Namespace for T_CLIENT
+     */
+    public static final String ORGANISATION_NAMESPACE = "organisation.namespace";
 
+    /**
+     * Namespace for Delivery
+     */
+    public static final String DELIVERY_NAMESPACE = "delivery.namespace";
 
-  /**
-  * Namespace for T_SPATIAL
-  */
-  public static final String SPATIAL_NAMESPACE = "spatial.namespace";
+    /**
+     * List of delivery namespaces
+     */
+    public static final String DELIVERY_NAMESPACES = "delivery.namespaces";
 
-  /**
-  * Namespace for T_ISSUE
-  */
-  public static final String ISSUE_NAMESPACE = "issue.namespace";
-
-  /**
-  * Namespace for T_CLIENT
-  */
-  public static final String ORGANISATION_NAMESPACE = "organisation.namespace";
-
-  /**
-  * Namespace for Delivery
-  */
-  public static final String DELIVERY_NAMESPACE = "delivery.namespace";
-
-  /**
-   * List of delivery namespaces
-   */
-   public static final String DELIVERY_NAMESPACES = "delivery.namespaces";
-
-   /**
-    * namespace separator used for separating namespaces in DELIVERY_NAMESPACES
-    */
+    /**
+     * namespace separator used for separating namespaces in DELIVERY_NAMESPACES
+     */
     public static final String NAMESPACE_SEPARATOR = "namespace.separator";
 
     /**
-  * URL for ContReg service
-  */
-  public static final String CONTREG_SRV_URL = "contreg.service.url";
+     * Content Registry SPARQL endpoint
+     */
+    public static final String CR_SPARQL_ENDPOINT = "cr.sparql.endpoint";
 
+    /**
+     * Title Predicate for rdf type
+     */
+    public static final String PRED_RDF_TYPE = "pred.rdf-type";
 
-  /**
-   * Content Registry SPARQL endpoint
-   */
-  public static final String CR_SPARQL_ENDPOINT = "cr.sparql.endpoint";
+    /**
+     * Percent of reporting frequence for approaching deadlines
+     */
+    public static final String PERCENT_OF_FREQ = "percent.of.freq";
 
-  /**
-  * Title Predicate for rdf type
-  */
-  public static final String PRED_RDF_TYPE = "pred.rdf-type";
+    /**
+     * Datefile for DeadlinesDaemon
+     */
+    public static final String DEADLINES_DAEMON_DATEFILE = "deadlines.daemon.datefile";
 
-  /**
-  * Percent of reporting frequence for approaching deadlines
-  */
-  public static final String PERCENT_OF_FREQ = "percent.of.freq";
+    /**
+     * DPSIR values Excel file
+     */
+    public static final String DPSIR_VALUES_FILE = "dpsir.values.file";
 
-  /**
-  * Datefile for DeadlinesDaemon
-  */
-  public static final String DEADLINES_DAEMON_DATEFILE = "deadlines.daemon.datefile";
+    /**
+     * XML-RPC server URL for UNS subscription
+     */
+    public static final String UNS_XMLRPC_SERVER_URL = "uns.xml.rpc.server.url";
 
-  /**
-   * DPSIR values Excel file
-   */
-   public static final String DPSIR_VALUES_FILE = "dpsir.values.file";
+    /**
+     * Channel name for UNS subscription method
+     */
+    public static final String UNS_CHANNEL_NAME = "uns.channel.name";
 
-  /**
-  * XML-RPC server URL for UNS subscription
-  */
-  public static final String UNS_XMLRPC_SERVER_URL = "uns.xml.rpc.server.url";
+    /**
+     * Event type predicate for UNS subscription method
+     */
+    public static final String UNS_EVENTTYPE_PREDICATE = "uns.eventtype.predicate";
 
-  /**
-  * Channel name for UNS subscription method
-  */
-  public static final String UNS_CHANNEL_NAME = "uns.channel.name";
+    /**
+     * Country predicate for UNS subscription method
+     */
+    public static final String UNS_COUNTRY_PREDICATE = "uns.country.predicate";
 
-  /**
-  * Event type predicate for UNS subscription method
-  */
-  public static final String UNS_EVENTTYPE_PREDICATE = "uns.eventtype.predicate";
+    /**
+     * Issue predicate for UNS subscription method
+     */
+    public static final String UNS_ISSUE_PREDICATE = "uns.issue.predicate";
 
-  /**
-  * Country predicate for UNS subscription method
-  */
-  public static final String UNS_COUNTRY_PREDICATE = "uns.country.predicate";
+    /**
+     * Obligation predicate for UNS subscription method
+     */
+    public static final String UNS_OBLIGATION_PREDICATE = "uns.obligation.predicate";
 
-  /**
-  * Issue predicate for UNS subscription method
-  */
-  public static final String UNS_ISSUE_PREDICATE = "uns.issue.predicate";
+    /**
+     * Instrument predicate for UNS subscription method
+     */
+    public static final String UNS_INSTRUMENT_PREDICATE = "uns.instrument.predicate";
 
-  /**
-  * Obligation predicate for UNS subscription method
-  */
-  public static final String UNS_OBLIGATION_PREDICATE = "uns.obligation.predicate";
+    /**
+     * Organisation predicate for UNS subscription method
+     */
+    public static final String UNS_ORGANISATION_PREDICATE = "uns.organisation.predicate";
 
-  /**
-   * Instrument predicate for UNS subscription method
-   */
-   public static final String UNS_INSTRUMENT_PREDICATE = "uns.instrument.predicate";
+    /**
+     * UNS subscriptions URL
+     */
+    public static final String UNS_MY_SUBSCRIPTIONS_URL = "uns.my.subscriptions.url";
 
-  /**
-  * Organisation predicate for UNS subscription method
-  */
-  public static final String UNS_ORGANISATION_PREDICATE = "uns.organisation.predicate";
+    /**
+     * username for UNS subscriptions
+     */
+    public static final String UNS_USERNAME = "uns.username";
 
-  /**
-  * UNS subscriptions URL
-  */
-  public static final String UNS_MY_SUBSCRIPTIONS_URL = "uns.my.subscriptions.url";
+    /**
+     * password for UNS subscriptions
+     */
+    public static final String UNS_PWD = "uns.pwd";
 
-  /**
-  * username for UNS subscriptions
-  */
-  public static final String UNS_USERNAME = "uns.username";
+    /**
+     * UNS xmlrpc function that is called for making subscription
+     */
+    public static final String UNS_MAKE_SUBSCRIPTION = "uns.make.subsription.function";
 
-  /**
-  * password for UNS subscriptions
-  */
-  public static final String UNS_PWD = "uns.pwd";
+    /**
+     * UNS xmlrpc function that is called for sending notifications
+     */
+    public static final String UNS_SEND_NOTIFICATION = "uns.send.notification.function";
 
-  /**
-   * UNS xmlrpc function that is called for making subscription
-   */
-  public static final String UNS_MAKE_SUBSCRIPTION = "uns.make.subsription.function";
+    /**
+     * Undo - number of records per page
+     */
+    public static final String UNDO_STEP = "undo.step";
 
-  /**
-   * UNS xmlrpc function that is called for sending notifications
-   */
-  public static final String UNS_SEND_NOTIFICATION = "uns.send.notification.function";
+    /**
+     * Undo - number of records per page
+     */
+    public static final String HISTORY_UNDO_STEP = "history.undo.step";
 
-  /**
-   * Undo - number of records per page
-   */
-  public static final String UNDO_STEP = "undo.step";
+    /**
+     * Returns String type property from the properties file
+     * 
+     * @param propName
+     * @return String
+     * @throws ServiceException
+     */
+    public String getStringProperty(String propName) throws ServiceException;
 
-  /**
-   * Undo - number of records per page
-   */
-  public static final String HISTORY_UNDO_STEP = "history.undo.step";
+    /**
+     * Returns boolean type property from the properties file
+     * 
+     * @param propName
+     * @return boolean
+     * @throws ServiceException
+     */
+    public boolean getBooleanProperty(String propName) throws ServiceException;
 
-  /**
-  * Returns String type property from the properties file
- * @param propName
- * @return String
- * @throws ServiceException
-  */
-  public String getStringProperty(String propName) throws ServiceException;
+    /**
+     * Returns int type property from the properties file
+     * 
+     * @param propName
+     * @return int
+     * @throws ServiceException
+     */
+    public int getIntProperty(String propName) throws ServiceException;
 
-  /**
-  * Returns boolean type property from the properties file
- * @param propName
- * @return boolean
- * @throws ServiceException
-  */
-  public boolean getBooleanProperty(String propName) throws ServiceException;
-
-  /**
-  * Returns int type property from the properties file
- * @param propName
- * @return int
- * @throws ServiceException
-  */
-  public int getIntProperty(String propName) throws ServiceException;
-
-  /**
-   * Returns String arrray property from the properties file
- * @param propName
- * @param separator
- * @return String[]
- * @throws ServiceException
-   */
-   public String[] getStringArrayProperty(String propName, String separator) throws ServiceException;
+    /**
+     * Returns String arrray property from the properties file
+     * 
+     * @param propName
+     * @param separator
+     * @return String[]
+     * @throws ServiceException
+     */
+    public String[] getStringArrayProperty(String propName, String separator) throws ServiceException;
 
 }
-

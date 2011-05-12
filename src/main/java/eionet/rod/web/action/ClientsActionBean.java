@@ -22,22 +22,22 @@ import eionet.rod.services.ServiceException;
 import eionet.rod.web.util.SeeOtherRedirectResolution;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
 @UrlBinding("/clients")
 public class ClientsActionBean extends AbstractRODActionBean {
 
     private List<ClientDTO> clients;
-    @ValidateNestedProperties({
-        @Validate(field = "url", on ={"edit","add"}, mask = "^((ht|f)tps?://).*")})
+    @ValidateNestedProperties({ @Validate(field = "url", on = { "edit", "add" }, mask = "^((ht|f)tps?://).*") })
     private ClientDTO client;
     private String clientId;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -45,7 +45,7 @@ public class ClientsActionBean extends AbstractRODActionBean {
         String forwardPage = "/pages/client.jsp";
         String pathInfo = getContext().getRequest().getPathInfo();
         if (!RODUtil.isNullOrEmpty(pathInfo)) {
-            StringTokenizer st = new StringTokenizer(pathInfo,"/");
+            StringTokenizer st = new StringTokenizer(pathInfo, "/");
             if (st.hasMoreElements())
                 clientId = st.nextToken();
         }
@@ -73,14 +73,14 @@ public class ClientsActionBean extends AbstractRODActionBean {
     }
 
     /**
-     *
-     * @return
-     * @throws DAOException
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     public Resolution edit() throws ServiceException {
 
         Resolution resolution = new ForwardResolution("/pages/editclient.jsp");
-        if (ROUser.hasPermission(getUserName(),Constants.ACL_CLIENT_NAME,Constants.ACL_UPDATE_PERMISSION)) {
+        if (ROUser.hasPermission(getUserName(), Constants.ACL_CLIENT_NAME, Constants.ACL_UPDATE_PERMISSION)) {
             if (isPostRequest()) {
                 RODServices.getDbService().getClientDao().editClient(client);
                 showMessage(getBundle().getString("update.success"));
@@ -95,14 +95,14 @@ public class ClientsActionBean extends AbstractRODActionBean {
     }
 
     /**
-     *
-     * @return
-     * @throws DAOException
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     public Resolution add() throws ServiceException {
 
         Resolution resolution = new ForwardResolution("/pages/addclient.jsp");
-        if (ROUser.hasPermission(getUserName(),Constants.ACL_CLIENT_NAME,Constants.ACL_INSERT_PERMISSION)) {
+        if (ROUser.hasPermission(getUserName(), Constants.ACL_CLIENT_NAME, Constants.ACL_INSERT_PERMISSION)) {
             if (isPostRequest()) {
                 Integer cId = RODServices.getDbService().getClientDao().addClient(client);
                 clientId = cId.toString();

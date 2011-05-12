@@ -35,11 +35,13 @@ import com.tee.uit.security.AccessControlListIF;
 import com.tee.uit.security.AccessController;
 import com.tee.uit.security.AuthMechanism;
 import com.tee.uit.security.SignOnException;
+
 /**
- * <P>WebROD specific implementation of the
- * Uses database to authenticate users.</P>
- *
- * @author  Rando Valt
+ * <P>
+ * WebROD specific implementation of the Uses database to authenticate users.
+ * </P>
+ * 
+ * @author Rando Valt
  * @version 1.0
  */
 
@@ -58,8 +60,12 @@ public class ROUser {
 
     public ROUser() {
     }
+
     /**
-     *
+     * @param userName
+     * @param userPws
+     * @return boolean
+     * 
      */
     public boolean authenticate(String userName, String userPws) {
         invalidate();
@@ -69,9 +75,9 @@ public class ROUser {
             logger.info("Authenticating user '" + userName + "'");
 
         try {
-            //DirectoryService.sessionLogin(userName, userPws);
+            // DirectoryService.sessionLogin(userName, userPws);
             AuthMechanism.sessionLogin(userName, userPws);
-            //fullName = DirectoryService.getFullName(userName);
+            // fullName = DirectoryService.getFullName(userName);
             fullName = AuthMechanism.getFullName(userName);
 
             // LOG
@@ -88,14 +94,19 @@ public class ROUser {
         }
         return authented;
     }
+
     /**
-     *
+     * @return boolean
+     * 
      */
     public boolean isAuthentic() {
         return authented;
     }
+
     /**
-     *
+     * @param role
+     * @return boolean
+     * 
      */
     public boolean isUserInRole(String role) {
         boolean b = false;
@@ -103,8 +114,8 @@ public class ROUser {
         if (_roles == null)
             getUserRoles();
 
-        for (int i =0; i< _roles.length; i++)
-            if ( _roles[i].equals(role))
+        for (int i = 0; i < _roles.length; i++)
+            if (_roles[i].equals(role))
                 b = true;
 
         return b;
@@ -112,19 +123,24 @@ public class ROUser {
 
     /**
      * FullName
+     * 
+     * @return String
      */
     public String getFullName() {
         return fullName;
     }
 
     /**
-     *
+     * @return String
+     * 
      */
     public String getUserName() {
         return user;
     }
+
     /**
-     *
+     * @return Connection
+     * 
      */
     public Connection getConnection() {
         try {
@@ -133,28 +149,31 @@ public class ROUser {
             throw new RuntimeException(e);
         }
     }
+
     /**
-     * Returns a string array of roles the user is linked to.
-     * Note that the method returns newly constructed array, leaving internal role list unrevealed.
+     * Returns a string array of roles the user is linked to. Note that the method returns newly constructed array, leaving internal
+     * role list unrevealed.
+     * @return String[]
      */
     public String[] getUserRoles() {
-        //String[] roles;
+        // String[] roles;
         if (_roles == null) {
             try {
                 Vector<String> v = DirectoryService.getRoles(user);
                 String[] roles = new String[v.size()];
-                for ( int i=0; i< v.size(); i++) {
-                    roles[i] = (String)v.elementAt(i);
+                for (int i = 0; i < v.size(); i++) {
+                    roles[i] = (String) v.elementAt(i);
                 }
                 _roles = roles;
-            } catch ( Exception e ) {
-                //return empty String, no need for roles
-                _roles = new String[]{};
+            } catch (Exception e) {
+                // return empty String, no need for roles
+                _roles = new String[] {};
             }
         }
-        //return new String[]{};
+        // return new String[]{};
         return _roles;
     }
+
     /**
      *
      */
@@ -163,19 +182,20 @@ public class ROUser {
         user = null;
         password = null;
     }
+
     /**
      *
      */
     public String toString() {
-        return (user == null ? "" : user );
+        return (user == null ? "" : user);
     }
 
     /**
-     *
+     * 
      * @param userName
      * @param aclPath
      * @param prm
-     * @return
+     * @return boolean
      */
     public static boolean hasPermission(String userName, String aclPath, String prm) {
 
@@ -187,7 +207,8 @@ public class ROUser {
             AccessControlListIF acl = AccessController.getAcl(aclPath);
             if (acl != null) {
                 result = acl.checkPermission(userName, prm);
-                logger.info("User " + userName + " " + (result ? "has" : "does not have") + " permission " + prm + " in acl \"" + aclPath + "\"");
+                logger.info("User " + userName + " " + (result ? "has" : "does not have") + " permission " + prm + " in acl \""
+                        + aclPath + "\"");
             } else
                 logger.info("acl \"" + aclPath + "\" not found!");
         } catch (SignOnException soe) {

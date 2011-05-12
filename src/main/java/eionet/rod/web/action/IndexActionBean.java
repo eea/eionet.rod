@@ -13,9 +13,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/index.html")
 public class IndexActionBean extends AbstractRODActionBean {
@@ -26,10 +26,10 @@ public class IndexActionBean extends AbstractRODActionBean {
     private String introduction;
     private String twoBoxes;
 
-
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -44,55 +44,44 @@ public class IndexActionBean extends AbstractRODActionBean {
         return new ForwardResolution("/pages/index.jsp");
     }
 
-
     public List<CountryDTO> getFormCountries() {
         return formCountries;
     }
-
 
     public void setFormCountries(List<CountryDTO> formCountries) {
         this.formCountries = formCountries;
     }
 
-
     public List<IssueDTO> getFormIssues() {
         return formIssues;
     }
-
 
     public void setFormIssues(List<IssueDTO> formIssues) {
         this.formIssues = formIssues;
     }
 
-
     public List<ClientDTO> getFormClients() {
         return formClients;
     }
-
 
     public void setFormClients(List<ClientDTO> formClients) {
         this.formClients = formClients;
     }
 
-
     public String getIntroduction() {
         return introduction;
     }
-
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
     }
 
-
     public String getTwoBoxes() {
         return twoBoxes;
     }
 
-
     public void setTwoBoxes(String twoBoxes) {
         this.twoBoxes = twoBoxes;
     }
-
 
 }

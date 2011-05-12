@@ -12,9 +12,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/updatehistory")
 public class UpdateHistoryActionBean extends AbstractRODActionBean {
@@ -25,8 +25,9 @@ public class UpdateHistoryActionBean extends AbstractRODActionBean {
     private String type;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -72,6 +73,5 @@ public class UpdateHistoryActionBean extends AbstractRODActionBean {
     public void setType(String type) {
         this.type = type;
     }
-
 
 }

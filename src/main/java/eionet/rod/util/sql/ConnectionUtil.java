@@ -17,32 +17,32 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 public class ConnectionUtil {
-    
+
     /** */
     private static Log logger = LogFactory.getLog(ConnectionUtil.class);
 
     /** */
     private static DataSource dataSource = null;
     private static boolean returnSimpleConnection = false;
-    
+
     /**
      * 
-     * @throws NamingException 
+     * @throws NamingException
      */
-    private static void initDataSource() throws NamingException{
-        
+    private static void initDataSource() throws NamingException {
+
         Context initContext = new InitialContext();
         Context context = (Context) initContext.lookup("java:comp/env");
-        DataSource ds = (javax.sql.DataSource)context.lookup("jdbc/webrod");
+        DataSource ds = (javax.sql.DataSource) context.lookup("jdbc/webrod");
         dataSource = ds;
     }
-    
+
     /**
      * 
      * @return Connection
      * @throws DataSourceException
      * @throws SQLException
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     public static Connection getConnection() throws DataSourceException, SQLException, ServiceException {
         if (ConnectionUtil.returnSimpleConnection)
@@ -54,34 +54,34 @@ public class ConnectionUtil {
     /**
      * 
      * @return Connection
-     * @throws DataSourceException 
+     * @throws DataSourceException
      */
     private static synchronized Connection getJNDIConnection() throws DataSourceException {
-        
+
         try {
             if (dataSource == null)
                 initDataSource();
             return dataSource.getConnection();
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new DataSourceException("Failed to get connection through JNDI: " + e.toString(), e);
         }
     }
-    
+
     /**
      * 
      * @return Connection
-     * @throws DataSourceException 
+     * @throws DataSourceException
      * @throws SQLException
      * @throws ServiceException
      */
     private static Connection getSimpleConnection() throws DataSourceException, SQLException, ServiceException {
-        
+
         FileServiceIF fileService = RODServices.getFileService();
-        
+
         String drv = fileService.getStringProperty(FileServiceIF.DB_DRV);
         if (drv == null || drv.trim().length() == 0)
             throw new SQLException("Failed to get connection, missing property: " + FileServiceIF.DB_DRV);
-        
+
         String url = fileService.getStringProperty(FileServiceIF.DB_URL);
         if (url == null || url.trim().length() == 0)
             throw new SQLException("Failed to get connection, missing property: " + FileServiceIF.DB_URL);
@@ -97,11 +97,11 @@ public class ConnectionUtil {
         try {
             Class.forName(drv);
             return DriverManager.getConnection(url, usr, pwd);
-        } catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             throw new DataSourceException("Failed to get connection, driver class not found: " + drv, e);
         }
     }
-    
+
     /**
      * 
      * @param conn

@@ -12,9 +12,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
 @UrlBinding("/instrumentsdue")
 public class InstrumentsDueActionBean extends AbstractRODActionBean {
@@ -22,8 +22,9 @@ public class InstrumentsDueActionBean extends AbstractRODActionBean {
     private List<InstrumentsDueDTO> instruments;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -39,6 +40,5 @@ public class InstrumentsDueActionBean extends AbstractRODActionBean {
     public void setInstruments(List<InstrumentsDueDTO> instruments) {
         this.instruments = instruments;
     }
-
 
 }

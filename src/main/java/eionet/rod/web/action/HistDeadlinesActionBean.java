@@ -11,9 +11,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/histdeadlines")
 public class HistDeadlinesActionBean extends AbstractRODActionBean {
@@ -23,10 +23,10 @@ public class HistDeadlinesActionBean extends AbstractRODActionBean {
 
     private List<HistDeadlineDTO> deadlines;
 
-
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -34,31 +34,25 @@ public class HistDeadlinesActionBean extends AbstractRODActionBean {
         return new ForwardResolution("/pages/histdeadlines.jsp");
     }
 
-
     public String getStartDate() {
         return startDate;
     }
-
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-
     public String getEndDate() {
         return endDate;
     }
-
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-
     public List<HistDeadlineDTO> getDeadlines() {
         return deadlines;
     }
-
 
     public void setDeadlines(List<HistDeadlineDTO> deadlines) {
         this.deadlines = deadlines;

@@ -34,30 +34,35 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RODUtil {
 
-   /**
-   *  Dummy method for getting request parameter
-   */
-   public static String getParameter(HttpServletRequest req, String prmName) {
+    /**
+     * Dummy method for getting request parameter
+     * 
+     * @param req
+     * @param prmName
+     * @return String
+     */
+    public static String getParameter(HttpServletRequest req, String prmName) {
 
+        String p = req.getParameter(prmName);
+        // strongly ugly and bad quick-fix
+        if (prmName.equals("printmode") && (p == null || p.trim().equals("")))
+            p = "N";
+        return p;
 
-      String p =  req.getParameter(prmName);
-      //strongly ugly and bad quick-fix
-      if ( prmName.equals("printmode") &&  ( p == null || p.trim().equals("") ) )
-        p="N";
-      return p;
+    }
 
-   }
-
-   /*
+    /*
     *
     */
     public static String threeDots(String s, int len) {
 
-        if (len<=0) return s;
-        if (s == null || s.length() == 0) return s;
+        if (len <= 0)
+            return s;
+        if (s == null || s.length() == 0)
+            return s;
 
-        if (s.length()>len) {
-            StringBuffer buf = new StringBuffer(s.substring(0,len));
+        if (s.length() > len) {
+            StringBuffer buf = new StringBuffer(s.substring(0, len));
             buf.append("...");
             return buf.toString();
         } else
@@ -76,7 +81,8 @@ public class RODUtil {
      *
      */
     public static Date getDate(String s) {
-        if (s == null || s.equals("")) return null;
+        if (s == null || s.equals(""))
+            return null;
         Date date = null;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -96,8 +102,7 @@ public class RODUtil {
             int len = string.length();
             char c;
 
-            for (int i = 0; i < len; i++)
-                {
+            for (int i = 0; i < len; i++) {
                 c = string.charAt(i);
                 if (c == ' ') {
                     // blank gets extra work,
@@ -128,7 +133,7 @@ public class RODUtil {
                         sb.append("<br/>");
                     else {
                         int ci = 0xffff & c;
-                        if (ci < 160 )
+                        if (ci < 160)
                             // nothing special only 7 Bit
                             sb.append(c);
                         else {
@@ -139,91 +144,93 @@ public class RODUtil {
                         }
                     }
                 }
-                }
+            }
             return sb.toString();
         }
         return null;
     }
 
     /**
-     *
+     * 
      * @param in
-     * @return
+     * @return String
      */
     public static String replaceTags(String in) {
         return replaceTags(in, false, false);
     }
 
     /**
-     *
+     * 
      * @param in
      * @param dontCreateHTMLAnchors
-     * @return
+     * @return String
      */
     public static String replaceTags(String in, boolean dontCreateHTMLAnchors) {
         return replaceTags(in, dontCreateHTMLAnchors, false);
     }
 
     /**
-     *
+     * 
      * @param in
+     * @param dontCreateHTMLAnchors 
+     * @param dontCreateHTMLLineBreaks 
      * @param inTextarea
-     * @return
+     * @return String
      */
-    public static String replaceTags(
-            String in, boolean dontCreateHTMLAnchors, boolean dontCreateHTMLLineBreaks) {
+    public static String replaceTags(String in, boolean dontCreateHTMLAnchors, boolean dontCreateHTMLLineBreaks) {
 
         in = (in != null ? in : "");
         StringBuffer ret = new StringBuffer();
         for (int i = 0; i < in.length(); i++) {
-          char c = in.charAt(i);
-          if (c == '<')
-            ret.append("&lt;");
-          else if (c == '>')
-            ret.append("&gt;");
-          else if (c == '"')
-              ret.append("&quot;");
-          else if (c == '\'')
-              ret.append("&#039;");
-          else if (c == '\\')
-              ret.append("&#092;");
-          else if (c == '&') {
-              boolean startsEscapeSequence = false;
-              int j = in.indexOf(';', i);
-              if (j>0) {
-                  String s = in.substring(i,j+1);
-                  UnicodeEscapes unicodeEscapes = new UnicodeEscapes();
-                  if (unicodeEscapes.isXHTMLEntity(s) || unicodeEscapes.isNumericHTMLEscapeCode(s))
-                      startsEscapeSequence = true;
-              }
+            char c = in.charAt(i);
+            if (c == '<')
+                ret.append("&lt;");
+            else if (c == '>')
+                ret.append("&gt;");
+            else if (c == '"')
+                ret.append("&quot;");
+            else if (c == '\'')
+                ret.append("&#039;");
+            else if (c == '\\')
+                ret.append("&#092;");
+            else if (c == '&') {
+                boolean startsEscapeSequence = false;
+                int j = in.indexOf(';', i);
+                if (j > 0) {
+                    String s = in.substring(i, j + 1);
+                    UnicodeEscapes unicodeEscapes = new UnicodeEscapes();
+                    if (unicodeEscapes.isXHTMLEntity(s) || unicodeEscapes.isNumericHTMLEscapeCode(s))
+                        startsEscapeSequence = true;
+                }
 
-              if (startsEscapeSequence)
-                  ret.append(c);
-              else
-                  ret.append("&amp;");
-          }
-          else if (c == '\n' && dontCreateHTMLLineBreaks == false)
-            ret.append("<br/>");
-          else if (c == '\r' && in.charAt(i+1) == '\n' && dontCreateHTMLLineBreaks == false) {
-            ret.append("<br/>");
-            i = i + 1;
-          }
-          else
-            ret.append(c);
+                if (startsEscapeSequence)
+                    ret.append(c);
+                else
+                    ret.append("&amp;");
+            } else if (c == '\n' && dontCreateHTMLLineBreaks == false)
+                ret.append("<br/>");
+            else if (c == '\r' && in.charAt(i + 1) == '\n' && dontCreateHTMLLineBreaks == false) {
+                ret.append("<br/>");
+                i = i + 1;
+            } else
+                ret.append(c);
         }
 
         String retString = ret.toString();
         if (dontCreateHTMLAnchors == false)
-            retString=setAnchors(retString, false, 50);
+            retString = setAnchors(retString, false, 50);
 
         return retString;
     }
 
     /**
-    * Finds all urls in a given string and replaces them with HTML anchors.
-    * If boolean newWindow==true then target will be a new window, else no.
-    * If boolean cutLink>0 then cut the displayed link lenght cutLink.
-    */
+     * Finds all urls in a given string and replaces them with HTML anchors. If boolean newWindow==true then target will be a new
+     * window, else no. If boolean cutLink>0 then cut the displayed link lenght cutLink.
+     * @param s 
+     * @param newWindow 
+     * @param cutLink 
+     * @return String
+     */
     public static String setAnchors(String s, boolean newWindow, int cutLink) {
 
         StringBuffer buf = new StringBuffer();
@@ -235,12 +242,13 @@ public class RODUtil {
                 buf.append(token);
             else {
                 StringBuffer _buf = new StringBuffer("<a ");
-                if (newWindow) _buf.append("target=\"_blank\" ");
+                if (newWindow)
+                    _buf.append("target=\"_blank\" ");
                 _buf.append("href=\"");
                 _buf.append(token);
                 _buf.append("\">");
 
-                if (cutLink<token.length())
+                if (cutLink < token.length())
                     _buf.append(token.substring(0, cutLink)).append("...");
                 else
                     _buf.append(token);
@@ -254,26 +262,32 @@ public class RODUtil {
     }
 
     /**
-    * Finds all urls in a given string and replaces them with HTML anchors.
-    * If boolean newWindow==true then target will be a new window, else no.
-    */
+     * Finds all urls in a given string and replaces them with HTML anchors. If boolean newWindow==true then target will be a new
+     * window, else no.
+     * @param s 
+     * @param newWindow 
+     * @return String
+     */
     public static String setAnchors(String s, boolean newWindow) {
 
         return setAnchors(s, newWindow, 0);
     }
 
     /**
-    * Finds all urls in a given string and replaces them with HTML anchors
-    * with target being a new window.
-    */
+     * Finds all urls in a given string and replaces them with HTML anchors with target being a new window.
+     * @param s 
+     * @return String
+     */
     public static String setAnchors(String s) {
 
         return setAnchors(s, true);
     }
 
     /**
-    * Checks if the given string is a well-formed URL
-    */
+     * Checks if the given string is a well-formed URL
+     * @param s 
+     * @return boolean
+     */
     public static boolean isURL(String s) {
         try {
             URL url = new URL(s);
@@ -285,18 +299,18 @@ public class RODUtil {
     }
 
     /**
-     *
+     * 
      * @param s
-     * @return
+     * @return boolean
      */
     public static boolean isNullOrEmpty(String s) {
         return s == null || s.length() == 0;
     }
 
     /**
-     *
+     * 
      * @param s
-     * @return
+     * @return boolean
      */
     public static boolean isNumber(String s) {
         boolean ret = true;
@@ -310,56 +324,42 @@ public class RODUtil {
 
     public static String str2Date(String date) {
         if (RODUtil.isNullOrEmpty(date))
-           return "NULL";
+            return "NULL";
 
         int len = date.length();
 
-        //formats the input string in the form dd/mm/yyyy to MySQL date format yyyy-mm-dd
+        // formats the input string in the form dd/mm/yyyy to MySQL date format yyyy-mm-dd
         //
-        //                 0123456789
+        // 0123456789
         // WebROD format: dd/mm/yyyy
-        // MySQL format:   yyyy-mm-dd
+        // MySQL format: yyyy-mm-dd
         //
 
         if (len == 10) {
-           char d1 = date.charAt(0);
-           char d2 = date.charAt(1);
-           char m1 = date.charAt(3);
-           char m2 = date.charAt(4);
-           char y1 = date.charAt(6);
-           char y2 = date.charAt(7);
-           char y3 = date.charAt(8);
-           char y4 = date.charAt(9);
-           char s1 = date.charAt(2);
-           char s2 = date.charAt(5);
+            char d1 = date.charAt(0);
+            char d2 = date.charAt(1);
+            char m1 = date.charAt(3);
+            char m2 = date.charAt(4);
+            char y1 = date.charAt(6);
+            char y2 = date.charAt(7);
+            char y3 = date.charAt(8);
+            char y4 = date.charAt(9);
+            char s1 = date.charAt(2);
+            char s2 = date.charAt(5);
 
-           if (Character.isDigit(d1) &&
-               Character.isDigit(d2) &&
-               Character.isDigit(m1) &&
-               Character.isDigit(m2) &&
-               Character.isDigit(y1) &&
-               Character.isDigit(y2) &&
-               Character.isDigit(y3) &&
-               Character.isDigit(y4) &&
-               s1 == '/' && s2 == '/') {
-              StringBuffer ret = new StringBuffer(10);
-              ret.insert(0, y1)
-                 .insert(1, y2)
-                 .insert(2, y3)
-                 .insert(3, y4)
-                 .insert(4, '-')
-                 .insert(5, m1)
-                 .insert(6, m2)
-                 .insert(7, '-')
-                 .insert(8, d1)
-                 .insert(9, d2);
+            if (Character.isDigit(d1) && Character.isDigit(d2) && Character.isDigit(m1) && Character.isDigit(m2)
+                    && Character.isDigit(y1) && Character.isDigit(y2) && Character.isDigit(y3) && Character.isDigit(y4)
+                    && s1 == '/' && s2 == '/') {
+                StringBuffer ret = new StringBuffer(10);
+                ret.insert(0, y1).insert(1, y2).insert(2, y3).insert(3, y4).insert(4, '-').insert(5, m1).insert(6, m2)
+                        .insert(7, '-').insert(8, d1).insert(9, d2);
 
-              return ret.toString();
-           }
+                return ret.toString();
+            }
         }
 
         return "";
-     }
+    }
 
     public static boolean nullString(String str) {
         return (str == null || str.length() == 0);
@@ -370,11 +370,11 @@ public class RODUtil {
         StringBuffer ret = new StringBuffer("'");
 
         for (int i = 0; i < in.length(); i++) {
-          char c = in.charAt(i);
-          if (c == '\'')
-            ret.append("''");
-          else
-            ret.append(c);
+            char c = in.charAt(i);
+            if (c == '\'')
+                ret.append("''");
+            else
+                ret.append(c);
         }
         ret.append('\'');
 

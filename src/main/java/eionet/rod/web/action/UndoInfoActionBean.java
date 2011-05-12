@@ -4,8 +4,8 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -19,9 +19,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/undoinfo")
 public class UndoInfoActionBean extends AbstractRODActionBean {
@@ -44,8 +44,9 @@ public class UndoInfoActionBean extends AbstractRODActionBean {
     private DifferenceDTO diffInfo;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -55,10 +56,10 @@ public class UndoInfoActionBean extends AbstractRODActionBean {
 
         long ts_long = Long.valueOf(ts).longValue();
 
-        Vector rows = RODServices.getDbService().getUndoDao().getUndoInformation(ts_long,op,tab,id);
+        Vector<Map<String, String>> rows = RODServices.getDbService().getUndoDao().getUndoInformation(ts_long, op, tab, id);
 
-        for (int i=0; i<rows.size(); i++) {
-            Hashtable hash = (Hashtable) rows.elementAt(i);
+        for (int i = 0; i < rows.size(); i++) {
+            Map<String, String> hash = rows.elementAt(i);
 
             String ut = (String) hash.get("undo_time");
             String tabel = (String) hash.get("tab");
@@ -66,10 +67,15 @@ public class UndoInfoActionBean extends AbstractRODActionBean {
             String operation = (String) hash.get("operation");
             String value = (String) hash.get("value");
             String sub_trans_nr = (String) hash.get("sub_trans_nr");
-            String currentValue = RODServices.getDbService().getDifferencesDao().getDifferences(Long.valueOf(ut).longValue(),tabel,col);
-            if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null"))) value = null;
-            if ((currentValue != null && currentValue.trim().equals("")) || (currentValue != null && currentValue.trim().equals("null"))) currentValue = null;
-            boolean diff = (value != null && currentValue != null && value.equals(currentValue)) || (value == null && currentValue == null)  ;
+            String currentValue = RODServices.getDbService().getDifferencesDao()
+                    .getDifferences(Long.valueOf(ut).longValue(), tabel, col);
+            if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null")))
+                value = null;
+            if ((currentValue != null && currentValue.trim().equals(""))
+                    || (currentValue != null && currentValue.trim().equals("null")))
+                currentValue = null;
+            boolean diff = (value != null && currentValue != null && value.equals(currentValue))
+                    || (value == null && currentValue == null);
 
             if (tab.equals("T_OBLIGATION") && col.equals("FK_DELIVERY_COUNTRY_IDS")) {
                 value = addCommas(value);
@@ -92,11 +98,11 @@ public class UndoInfoActionBean extends AbstractRODActionBean {
         int id_int = Integer.valueOf(id).intValue();
 
         if (!op.equals("D") && !op.equals("UD") && !op.equals("UDD") && tab.equals("T_OBLIGATION")) {
-            diffCountries = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts_long,id_int,"N",op);
-            diffVolCountries = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts_long,id_int,"Y",op);
-            diffIssues = RODServices.getDbService().getDifferencesDao().getDifferencesInIssues(ts_long,id_int,op);
-            diffClients = RODServices.getDbService().getDifferencesDao().getDifferencesInClients(ts_long,id_int,"C",op,"A");
-            diffInfo = RODServices.getDbService().getDifferencesDao().getDifferencesInInfo(ts_long,id_int,op,"I");
+            diffCountries = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts_long, id_int, "N", op);
+            diffVolCountries = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts_long, id_int, "Y", op);
+            diffIssues = RODServices.getDbService().getDifferencesDao().getDifferencesInIssues(ts_long, id_int, op);
+            diffClients = RODServices.getDbService().getDifferencesDao().getDifferencesInClients(ts_long, id_int, "C", op, "A");
+            diffInfo = RODServices.getDbService().getDifferencesDao().getDifferencesInInfo(ts_long, id_int, op, "I");
         }
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");

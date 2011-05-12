@@ -1,7 +1,6 @@
 package eionet.rod.util.sql;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,23 +8,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * 
  * @author heinljab
- *
+ * 
  */
-public class SQLValueReader extends ResultSetBaseReader{
+public class SQLValueReader extends ResultSetBaseReader {
 
     /** */
-    private List<Map<String,SQLValue>> result = new ArrayList<Map<String,SQLValue>>();
+    private List<Map<String, SQLValue>> result = new ArrayList<Map<String, SQLValue>>();
 
     /*
      * (non-Javadoc)
+     * 
      * @see eionet.cr.util.sql.ResultSetReader#readRow(java.sql.ResultSet)
      */
     public void readRow(ResultSet rs) throws SQLException {
 
         int colCount = rsMd.getColumnCount();
-        Map<String,SQLValue> rowMap = new HashMap<String,SQLValue>();
+        Map<String, SQLValue> rowMap = new HashMap<String, SQLValue>();
         for (int i = 1; i <= colCount; i++) {
             String colName = rsMd.getColumnName(i);
             int colSQLType = rsMd.getColumnType(i);
@@ -36,10 +36,10 @@ public class SQLValueReader extends ResultSetBaseReader{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return List<Map<String, SQLValue>>
      */
-    public List<Map<String,SQLValue>> getResultList() {
+    public List<Map<String, SQLValue>> getResultList() {
         return result.size() == 0 ? null : result;
     }
 }

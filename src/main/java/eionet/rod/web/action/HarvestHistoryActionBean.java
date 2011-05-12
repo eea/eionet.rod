@@ -11,9 +11,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/history")
 public class HarvestHistoryActionBean extends AbstractRODActionBean {
@@ -21,8 +21,9 @@ public class HarvestHistoryActionBean extends AbstractRODActionBean {
     private List<HarvestHistoryDTO> list;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -37,7 +38,5 @@ public class HarvestHistoryActionBean extends AbstractRODActionBean {
     public void setList(List<HarvestHistoryDTO> list) {
         this.list = list;
     }
-
-
 
 }

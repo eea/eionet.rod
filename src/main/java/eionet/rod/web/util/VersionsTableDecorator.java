@@ -15,21 +15,21 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
-public class VersionsTableDecorator extends TableDecorator{
+public class VersionsTableDecorator extends TableDecorator {
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getTime() {
 
         VersionDTO search = (VersionDTO) getCurrentRowObject();
 
-        DateFormat df = new SimpleDateFormat ("yyyy-MM-dd' 'HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
         Date date = new Date(new Long(search.getUndoTime()).longValue());
         String d = df.format(date);
 
@@ -37,8 +37,8 @@ public class VersionsTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getObject() {
 
@@ -47,7 +47,7 @@ public class VersionsTableDecorator extends TableDecorator{
         String user = null;
 
         try {
-            user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(),ver.getTab());
+            user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(), ver.getTab());
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -55,8 +55,10 @@ public class VersionsTableDecorator extends TableDecorator{
         HttpServletRequest req = (HttpServletRequest) getPageContext().getRequest();
         String path = req.getContextPath();
 
-        ret.append("<a href='").append(path).append("/undoinfo?ts=").append(ver.getUndoTime()).append("&amp;tab=").append(ver.getTab());
-        ret.append("&amp;op=").append(ver.getOperation()).append("&amp;id=").append(ver.getValue()).append("&amp;user=").append(user).append("'>");
+        ret.append("<a href='").append(path).append("/undoinfo?ts=").append(ver.getUndoTime()).append("&amp;tab=")
+                .append(ver.getTab());
+        ret.append("&amp;op=").append(ver.getOperation()).append("&amp;id=").append(ver.getValue()).append("&amp;user=")
+                .append(user).append("'>");
         if (ver.getTab().equals("T_OBLIGATION"))
             ret.append("/obligations/").append(ver.getValue());
         else if (ver.getTab().equals("T_SOURCE"))
@@ -67,8 +69,8 @@ public class VersionsTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getOper() {
 
@@ -89,8 +91,8 @@ public class VersionsTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getUser() {
 
@@ -98,7 +100,7 @@ public class VersionsTableDecorator extends TableDecorator{
         String user = "";
 
         try {
-            user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(),ver.getTab());
+            user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(), ver.getTab());
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -107,8 +109,8 @@ public class VersionsTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getRadio() {
 
@@ -120,13 +122,17 @@ public class VersionsTableDecorator extends TableDecorator{
             String appName = getPageContext().getServletContext().getInitParameter(Attrs.APPPARAM);
             ROUser user = (ROUser) req.getSession().getAttribute(Attrs.USERPREFIX + appName);
 
-            if (ver.getOperation().equals("D") || (!ver.getOperation().equals("D") && !RODServices.getDbService().getGenericlDao().isIdAvailable(ver.getValue(),ver.getTab()))) {
+            if (ver.getOperation().equals("D")
+                    || (!ver.getOperation().equals("D") && !RODServices.getDbService().getGenericlDao()
+                            .isIdAvailable(ver.getValue(), ver.getTab()))) {
                 String aclPath = "/obligations/" + ver.getValue();
                 if (ver.getTab().equals("T_SOURCE"))
                     aclPath = "/instruments/" + ver.getValue();
-                if ((!ver.getOperation().equals("D") && user != null && ROUser.hasPermission(user.getUserName(), aclPath, "u")) || (ver.getOperation().equals("D") && user != null && user.getUserName().equals(getUser()))) {
+                if ((!ver.getOperation().equals("D") && user != null && ROUser.hasPermission(user.getUserName(), aclPath, "u"))
+                        || (ver.getOperation().equals("D") && user != null && user.getUserName().equals(getUser()))) {
                     ret.append("<input type='radio' name='group' value='");
-                    ret.append(ver.getUndoTime()).append(",").append(ver.getTab()).append(",").append(ver.getOperation()).append(",").append(ver.getValue());
+                    ret.append(ver.getUndoTime()).append(",").append(ver.getTab()).append(",").append(ver.getOperation())
+                            .append(",").append(ver.getValue());
                     ret.append("'/>");
                 }
             }

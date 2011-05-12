@@ -11,9 +11,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
 @UrlBinding("/obligationsdue")
 public class ObligationsDueActionBean extends AbstractRODActionBean {
@@ -21,8 +21,9 @@ public class ObligationsDueActionBean extends AbstractRODActionBean {
     private List<ObligationsDueDTO> obligations;
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -38,7 +39,5 @@ public class ObligationsDueActionBean extends AbstractRODActionBean {
     public void setObligations(List<ObligationsDueDTO> obligations) {
         this.obligations = obligations;
     }
-
-
 
 }

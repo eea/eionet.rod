@@ -11,33 +11,38 @@ import eionet.rod.services.RODServices;
 
 public class RestoreObligation extends HttpServlet {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     /*
-     *  (non-Javadoc)
+     * (non-Javadoc)
+     * 
      * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public void service(HttpServletRequest req, HttpServletResponse res)
-                                            throws ServletException, IOException {
+    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         // req.setCharacterEncoding("UTF-8");
         int update = 0;
         String id = req.getParameter("id");
         String pid = req.getParameter("pid");
         String latestversion = req.getParameter("latestversion");
-        if (latestversion != null && !latestversion.equalsIgnoreCase("") &&
-                id != null && !id.equalsIgnoreCase("")) {
+        if (latestversion != null && !latestversion.equalsIgnoreCase("") && id != null && !id.equalsIgnoreCase("")) {
             int latestVer = Integer.parseInt(latestversion);
             try {
 
-                update = RODServices.getDbService().getObligationDao().getRestoreObligation(Integer.valueOf(id), Integer.valueOf(pid), latestVer);
+                update = RODServices.getDbService().getObligationDao()
+                        .getRestoreObligation(Integer.valueOf(id), Integer.valueOf(pid), latestVer);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        System.out.println("+++++++++++++UPDATE: " +update);
+        System.out.println("+++++++++++++UPDATE: " + update);
         if (update != 0) {
-             res.sendRedirect("versions.jsp?id=" +pid);
+            res.sendRedirect("versions.jsp?id=" + pid);
         } else
             System.out.println("Error");
     }

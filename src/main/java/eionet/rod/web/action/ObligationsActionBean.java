@@ -57,27 +57,26 @@ import eionet.rod.services.modules.db.dao.IObligationDao;
 import eionet.rod.services.modules.db.dao.IUndoDao;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/obligations")
 public class ObligationsActionBean extends AbstractRODActionBean implements ValidationErrorHandler {
 
-    @ValidateNestedProperties({
-        @Validate(field = "title", on ={"edit","add"}, required = true),
-        @Validate(field = "description", on ={"edit","add"}, required = true),
-        @Validate(field = "fkClientId", on ={"edit","add"}, expression="this ne '0'"),
-        @Validate(field = "firstReporting", on ={"edit","add"}, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
-        @Validate(field = "validTo", on ={"edit","add"}, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
-        @Validate(field = "validSince", on ={"edit","add"}, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
-        @Validate(field = "reportFormatUrl", on ={"edit","add"}, mask = "^((ht|f)tps?://).*"),
-        @Validate(field = "locationPtr", on ={"edit","add"}, mask = "^((ht|f)tps?://).*"),
-        @Validate(field = "dataUsedForUrl", on ={"edit","add"}, mask = "^((ht|f)tps?://).*"),
-        @Validate(field = "coordinatorUrl", on ={"edit","add"}, mask = "^((ht|f)tps?://).*"),
-        @Validate(field = "overlapUrl", on ={"edit","add"}, mask = "^((ht|f)tps?://).*"),
-        @Validate(field = "rmVerified", on ={"edit","add"}, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
-        @Validate(field = "rmNextUpdate", on ={"edit","add"}, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})")})
+    @ValidateNestedProperties({ @Validate(field = "title", on = { "edit", "add" }, required = true),
+            @Validate(field = "description", on = { "edit", "add" }, required = true),
+            @Validate(field = "fkClientId", on = { "edit", "add" }, expression = "this ne '0'"),
+            @Validate(field = "firstReporting", on = { "edit", "add" }, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
+            @Validate(field = "validTo", on = { "edit", "add" }, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
+            @Validate(field = "validSince", on = { "edit", "add" }, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
+            @Validate(field = "reportFormatUrl", on = { "edit", "add" }, mask = "^((ht|f)tps?://).*"),
+            @Validate(field = "locationPtr", on = { "edit", "add" }, mask = "^((ht|f)tps?://).*"),
+            @Validate(field = "dataUsedForUrl", on = { "edit", "add" }, mask = "^((ht|f)tps?://).*"),
+            @Validate(field = "coordinatorUrl", on = { "edit", "add" }, mask = "^((ht|f)tps?://).*"),
+            @Validate(field = "overlapUrl", on = { "edit", "add" }, mask = "^((ht|f)tps?://).*"),
+            @Validate(field = "rmVerified", on = { "edit", "add" }, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
+            @Validate(field = "rmNextUpdate", on = { "edit", "add" }, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})") })
     private ObligationFactsheetDTO obligation;
     private String id;
     private List<ClientDTO> clients;
@@ -105,7 +104,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
     private String issueName;
     private String clientName;
 
-    //variables for EDIT, ADD and DELETE obligation
+    // variables for EDIT, ADD and DELETE obligation
     private String aid;
 
     private List<String> selectedClients;
@@ -135,15 +134,17 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 
     private boolean hasErrors = false;
 
-    //fields for initializing the instrument after delete
+    // fields for initializing the instrument after delete
     private InstrumentFactsheetDTO instrument;
     private String instId;
     private String dgenv;
-    /////
+
+    // ///
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -151,7 +152,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         String forwardPage = "/pages/obligation.jsp";
         String pathInfo = getContext().getRequest().getPathInfo();
         if (!RODUtil.isNullOrEmpty(pathInfo)) {
-            StringTokenizer st = new StringTokenizer(pathInfo,"/");
+            StringTokenizer st = new StringTokenizer(pathInfo, "/");
             if (st.hasMoreElements())
                 id = st.nextToken();
             if (st.hasMoreElements())
@@ -172,7 +173,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 } else {
                     aid = tab;
                 }
-            } else{
+            } else {
                 obligation = RODServices.getDbService().getObligationDao().getObligationFactsheet(id);
             }
 
@@ -180,7 +181,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
             }
 
-            if (!id.equals("new") && obligation != null && accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")) {
+            if (!id.equals("new") && obligation != null && accept != null && accept.length > 0
+                    && accept[0].equals("application/rdf+xml")) {
                 return new StreamingResolution("application/rdf+xml;charset=UTF-8") {
                     public void stream(HttpServletResponse response) throws Exception {
                         ObligationRdfDTO obligationForRdf = RODServices.getDbService().getObligationDao().getObligationForRDF(id);
@@ -222,7 +224,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                     obligationIssues = RODServices.getDbService().getIssueDao().getObligationIssuesList(id);
                     List<LookupDTO> lookups = RODServices.getDbService().getObligationDao().getLookupList(id);
                     List<String> infoTypes = new ArrayList<String>();
-                    for (Iterator<LookupDTO> it=lookups.iterator(); it.hasNext();) {
+                    for (Iterator<LookupDTO> it = lookups.iterator(); it.hasNext();) {
                         LookupDTO ld = it.next();
                         infoTypes.add(ld.getCvalue());
                     }
@@ -259,8 +261,9 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     public Resolution filter() throws ServiceException {
 
@@ -275,9 +278,11 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         if (!RODUtil.isNullOrEmpty(issue) && !issue.equals("-1") && !issue.equals("NI"))
             issueName = RODServices.getDbService().getIssueDao().getIssueNameById(issue);
 
-        obligations = RODServices.getDbService().getObligationDao().getObligationsList(anmode, country, issue, client, terminated, false);
+        obligations = RODServices.getDbService().getObligationDao()
+                .getObligationsList(anmode, country, issue, client, terminated, false);
         if (!RODUtil.isNullOrEmpty(client) && !client.equals("-1"))
-            indirectObligations = RODServices.getDbService().getObligationDao().getObligationsList(anmode, country, issue, client, terminated, true);
+            indirectObligations = RODServices.getDbService().getObligationDao()
+                    .getObligationsList(anmode, country, issue, client, terminated, true);
 
         return new ForwardResolution("/pages/obligations.jsp");
     }
@@ -287,9 +292,9 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         List<DDParamDTO> retList = new ArrayList<DDParamDTO>();
 
         try {
-            String serviceName  = "DataDictService";
+            String serviceName = "DataDictService";
             String rpcRouterUrl = RODServices.getFileService().getStringProperty("dd.service.url");
-            String methodName   = "getParametersByActivityID";
+            String methodName = "getParametersByActivityID";
 
             if (rpcRouterUrl != null) {
                 ServiceClientIF client = ServiceClients.getServiceClient(serviceName, rpcRouterUrl);
@@ -297,15 +302,15 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 Vector<String> params = new Vector<String>();
                 params.add(id);
 
-                Vector result = (Vector)client.getValue(methodName, params);
+                Vector result = (Vector) client.getValue(methodName, params);
                 for (int i = 0; result != null && i < result.size(); i++) {
-                    Hashtable hash = (Hashtable)result.get(i);
+                    Hashtable hash = (Hashtable) result.get(i);
 
                     DDParamDTO elem = new DDParamDTO();
-                    elem.setElementName((String)hash.get("elm-name")); // element name
-                    elem.setElementUrl((String)hash.get("elm-url"));   // details url
-                    elem.setTableName((String)hash.get("tbl-name"));   // table name
-                    elem.setDatasetName((String)hash.get("dst-name")); // dataset name
+                    elem.setElementName((String) hash.get("elm-name")); // element name
+                    elem.setElementUrl((String) hash.get("elm-url")); // details url
+                    elem.setTableName((String) hash.get("tbl-name")); // table name
+                    elem.setDatasetName((String) hash.get("dst-name")); // dataset name
 
                     retList.add(elem);
                 }
@@ -316,7 +321,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         return retList;
     }
 
-    //methods for EDIT, ADD and DELETE obligation starts
+    // methods for EDIT, ADD and DELETE obligation starts
 
     private void handleCheckboxes() {
         if (RODUtil.isNullOrEmpty(obligation.getCoordinatorRoleSuf()))
@@ -363,12 +368,12 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             return new ForwardResolution("/pages/eobligation.jsp");
         }
 
-        String acl_p = (RODUtil.isNullOrEmpty(id) || id.equals("new"))? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" +id);
+        String acl_p = (RODUtil.isNullOrEmpty(id) || id.equals("new")) ? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" + id);
         boolean ins = false;
         try {
             AccessControlListIF acl = AccessController.getAcl(acl_p);
             ins = acl.checkPermission(userName, Constants.ACL_INSERT_PERMISSION);
-        } catch (Exception e ) {
+        } catch (Exception e) {
             handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
             return new ForwardResolution("/pages/eobligation.jsp");
         }
@@ -386,7 +391,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         id = obligationId.toString();
 
         try {
-            String aclPath = "/obligations/"+id;
+            String aclPath = "/obligations/" + id;
             HashMap acls = AccessController.getAcls();
             if (!acls.containsKey(aclPath)) {
                 AccessController.addAcl(aclPath, userName, "");
@@ -417,12 +422,12 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             return new ForwardResolution("/pages/eobligation.jsp");
         }
 
-        String acl_p = (RODUtil.isNullOrEmpty(id))? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" +id);
+        String acl_p = (RODUtil.isNullOrEmpty(id)) ? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" + id);
         boolean upd = false;
         try {
             AccessControlListIF acl = AccessController.getAcl(acl_p);
             upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
-        } catch (Exception e ) {
+        } catch (Exception e) {
             handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
             return new ForwardResolution("/pages/eobligation.jsp");
         }
@@ -468,12 +473,12 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             return new ForwardResolution("/pages/obligation.jsp");
         }
 
-        String acl_p = (RODUtil.isNullOrEmpty(id))? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" +id);
+        String acl_p = (RODUtil.isNullOrEmpty(id)) ? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" + id);
         boolean del = false;
         try {
             AccessControlListIF acl = AccessController.getAcl(acl_p);
             del = acl.checkPermission(userName, Constants.ACL_DELETE_PERMISSION);
-        } catch (Exception e ) {
+        } catch (Exception e) {
             handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
             return new ForwardResolution("/pages/eobligation.jsp");
         }
@@ -494,7 +499,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 
     private void processLinkedTables() throws ServiceException {
         if (!RODUtil.isNullOrEmpty(obligation.getFkClientId()) && !obligation.getFkClientId().equals("0"))
-            RODServices.getDbService().getClientDao().insertClientLink(Integer.valueOf(obligation.getFkClientId()),Integer.valueOf(id),"M","A");
+            RODServices.getDbService().getClientDao()
+                    .insertClientLink(Integer.valueOf(obligation.getFkClientId()), Integer.valueOf(id), "M", "A");
 
         if (selectedIssues != null && selectedIssues.size() > 0)
             RODServices.getDbService().getIssueDao().insertObligationIssues(id, selectedIssues);
@@ -512,7 +518,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             for (Iterator<String> it = selectedInfoTypes.iterator(); it.hasNext();) {
                 String infoId = it.next();
                 if (!RODUtil.isNullOrEmpty(infoId)) {
-                    obligationDao.insertInfoLink(Integer.valueOf(id),infoId);
+                    obligationDao.insertInfoLink(Integer.valueOf(id), infoId);
                 }
             }
         }
@@ -522,30 +528,30 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 
         undoDao = RODServices.getDbService().getUndoDao();
         obligationDao = RODServices.getDbService().getObligationDao();
-        Extractor ext = new Extractor(); //used for role handling
+        Extractor ext = new Extractor(); // used for role handling
         ts = System.currentTimeMillis();
 
         if (state != null && state.equals("U"))
             undoDao.insertIntoUndo(null, id, "U", "T_OBLIGATION", "PK_RA_ID", ts, "", "y", null);
 
-        String url = "obligations/"+id;
-        undoDao.insertIntoUndo(ts,"T_OBLIGATION","REDIRECT_URL","L","y","n",url,0,"n");
-        undoDao.insertIntoUndo(ts,"T_OBLIGATION","A_USER","K","y","n",userName,0,"n");
-        undoDao.insertIntoUndo(ts,"T_OBLIGATION","TYPE","T","y","n","A",0,"n");
+        String url = "obligations/" + id;
+        undoDao.insertIntoUndo(ts, "T_OBLIGATION", "REDIRECT_URL", "L", "y", "n", url, 0, "n");
+        undoDao.insertIntoUndo(ts, "T_OBLIGATION", "A_USER", "K", "y", "n", userName, 0, "n");
+        undoDao.insertIntoUndo(ts, "T_OBLIGATION", "TYPE", "T", "y", "n", "A", 0, "n");
 
         if (state != null && state.equals("D")) {
-            String acl_path = "/obligations/"+id;
-            undoDao.insertIntoUndo(ts,"T_OBLIGATION","ACL","ACL","y","n",acl_path,0,"n");
+            String acl_path = "/obligations/" + id;
+            undoDao.insertIntoUndo(ts, "T_OBLIGATION", "ACL", "ACL", "y", "n", acl_path, 0, "n");
         }
 
-        //Get role info from Directory and save in T_ROLE
+        // Get role info from Directory and save in T_ROLE
         String roleId = obligation.getResponsibleRole();
         try {
             ext.saveRole(roleId);
             roleId = obligation.getCoordinatorRole();
             ext.saveRole(roleId);
-        } catch (Exception e ) {
-            //don't worry about the role saving if something wrong
+        } catch (Exception e) {
+            // don't worry about the role saving if something wrong
         }
 
         delActivity(state, "y");
@@ -578,10 +584,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 
         if (op != null && op.equals("D")) {
             String acl_id = RODServices.getDbService().getAclDao().getAclId(id, "/obligations");
-            undoDao.insertIntoUndo(null,acl_id, op, "ACLS", "ACL_ID",ts,"","n",null);
-            undoDao.insertIntoUndo(null,acl_id, op, "ACL_ROWS", "ACL_ID",ts,"","n",null);
+            undoDao.insertIntoUndo(null, acl_id, op, "ACLS", "ACL_ID", ts, "", "n", null);
+            undoDao.insertIntoUndo(null, acl_id, op, "ACL_ROWS", "ACL_ID", ts, "", "n", null);
             try {
-                String aclPath = "/obligations/"+id;
+                String aclPath = "/obligations/" + id;
                 AccessController.removeAcl(aclPath);
             } catch (SignOnException e) {
                 e.printStackTrace();
@@ -606,10 +612,11 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         tab = "overview";
     }
 
-    @ValidationMethod(on={"edit","add"})
+    @ValidationMethod(on = { "edit", "add" })
     public void validateDates(ValidationErrors errors) throws Exception {
-        if (RODUtil.isNullOrEmpty(obligation.getNextReporting()) && (RODUtil.isNullOrEmpty(obligation.getFirstReporting()) ||
-                RODUtil.isNullOrEmpty(obligation.getValidTo()) || RODUtil.isNullOrEmpty(obligation.getReportFreqMonths()))) {
+        if (RODUtil.isNullOrEmpty(obligation.getNextReporting())
+                && (RODUtil.isNullOrEmpty(obligation.getFirstReporting()) || RODUtil.isNullOrEmpty(obligation.getValidTo()) || RODUtil
+                        .isNullOrEmpty(obligation.getReportFreqMonths()))) {
             getContext().getMessages().add(new SimpleError(getBundle().getString("both.dates.empty")));
             getContext().setSeverity(Constants.SEVERITY_VALIDATION);
             hasErrors = true;
@@ -617,8 +624,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             getContext().getMessages().add(new SimpleError(getBundle().getString("both.dates.used")));
             getContext().setSeverity(Constants.SEVERITY_VALIDATION);
             hasErrors = true;
-        } else if (RODUtil.isNullOrEmpty(obligation.getNextDeadline()) && RODUtil.isNullOrEmpty(obligation.getFirstReporting()) &&
-                RODUtil.isNullOrEmpty(obligation.getValidTo()) && RODUtil.isNullOrEmpty(obligation.getReportFreqMonths())) {
+        } else if (RODUtil.isNullOrEmpty(obligation.getNextDeadline()) && RODUtil.isNullOrEmpty(obligation.getFirstReporting())
+                && RODUtil.isNullOrEmpty(obligation.getValidTo()) && RODUtil.isNullOrEmpty(obligation.getReportFreqMonths())) {
             getContext().getMessages().add(new SimpleError(getBundle().getString("unable.calculate.due.date")));
             getContext().setSeverity(Constants.SEVERITY_VALIDATION);
             hasErrors = true;
@@ -712,16 +719,16 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             list.add(obligation.getTitle());
             lists.add(list);
 
+            Vector<Map<String, String>> countries = RODServices.getDbService().getSpatialDao()
+                    .getObligationCountries(obligation_id);
 
-            Vector<Map<String,String>> countries = RODServices.getDbService().getSpatialDao().getObligationCountries(obligation_id);
-
-            for (Enumeration<Map<String,String>> en = countries.elements(); en.hasMoreElements(); ) {
-                Map<String,String> hash = en.nextElement();
+            for (Enumeration<Map<String, String>> en = countries.elements(); en.hasMoreElements();) {
+                Map<String, String> hash = en.nextElement();
                 list = new Vector<String>();
                 list.add(events);
                 String loc_schema = fileService.getStringProperty(FileServiceIF.UNS_COUNTRY_PREDICATE);
                 list.add(loc_schema);
-                list.add((String)hash.get("name"));
+                list.add((String) hash.get("name"));
                 lists.add(list);
             }
 
@@ -739,7 +746,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 
             if (isUpdate) {
                 Vector<String> changes = getChanges(id);
-                for (Enumeration<String> en = changes.elements(); en.hasMoreElements(); ) {
+                for (Enumeration<String> en = changes.elements(); en.hasMoreElements();) {
                     String label = (String) en.nextElement();
                     list = new Vector<String>();
                     list.add(events);
@@ -752,12 +759,13 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             list = new Vector<String>();
             list.add(events);
             list.add("http://purl.org/dc/elements/1.1/identifier");
-            String url = "http://rod.eionet.europa.eu/obligations/"+id;
+            String url = "http://rod.eionet.europa.eu/obligations/" + id;
             list.add(url);
 
             lists.add(list);
 
-            if (lists.size() > 0) UNSEventSender.makeCall(lists);
+            if (lists.size() > 0)
+                UNSEventSender.makeCall(lists);
         } catch (Exception e) {
 
         }
@@ -766,19 +774,25 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
     private Vector<String> getChanges(String obligationID) throws ServiceException {
 
         Vector<String> res_vec = new Vector<String>();
-        Vector<Map<String,String>> undo_vec = RODServices.getDbService().getUndoDao().getUndoInformation(ts,"U","T_OBLIGATION",obligationID);
-        for (int i=0; i<undo_vec.size(); i++) {
-            Map<String,String> hash = undo_vec.elementAt(i);
+        Vector<Map<String, String>> undo_vec = RODServices.getDbService().getUndoDao()
+                .getUndoInformation(ts, "U", "T_OBLIGATION", obligationID);
+        for (int i = 0; i < undo_vec.size(); i++) {
+            Map<String, String> hash = undo_vec.elementAt(i);
 
             String label = "";
             String ut = (String) hash.get("undo_time");
             String tabel = (String) hash.get("tab");
             String col = (String) hash.get("col");
             String value = (String) hash.get("value");
-            String currentValue = RODServices.getDbService().getDifferencesDao().getDifferences(Long.valueOf(ut).longValue(),tabel,col);
-            if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null"))) value = null;
-            if ((currentValue != null && currentValue.trim().equals("")) || (currentValue != null && currentValue.trim().equals("null"))) currentValue = null;
-            boolean diff = (value != null && currentValue != null && value.equals(currentValue)) || (value == null && currentValue == null)  ;
+            String currentValue = RODServices.getDbService().getDifferencesDao()
+                    .getDifferences(Long.valueOf(ut).longValue(), tabel, col);
+            if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null")))
+                value = null;
+            if ((currentValue != null && currentValue.trim().equals(""))
+                    || (currentValue != null && currentValue.trim().equals("null")))
+                currentValue = null;
+            boolean diff = (value != null && currentValue != null && value.equals(currentValue))
+                    || (value == null && currentValue == null);
 
             if (!diff) {
                 label = getLabel(col, value, currentValue);
@@ -786,63 +800,65 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             }
         }
         int intId = new Integer(obligationID).intValue();
-        DifferenceDTO countries_formally = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,intId,"N","U");
+        DifferenceDTO countries_formally = RODServices.getDbService().getDifferencesDao()
+                .getDifferencesInCountries(ts, intId, "N", "U");
         if (countries_formally != null) {
             String added = countries_formally.getAdded();
             String removed = countries_formally.getRemoved();
             if (added.length() > 0) {
-                res_vec.add("'Countries reporting formally' added: "+added);
+                res_vec.add("'Countries reporting formally' added: " + added);
             }
             if (removed.length() > 0) {
-                res_vec.add("'Countries reporting formally' removed: "+removed);
+                res_vec.add("'Countries reporting formally' removed: " + removed);
             }
         }
 
-        DifferenceDTO countries_voluntarily = RODServices.getDbService().getDifferencesDao().getDifferencesInCountries(ts,intId,"Y","U");
+        DifferenceDTO countries_voluntarily = RODServices.getDbService().getDifferencesDao()
+                .getDifferencesInCountries(ts, intId, "Y", "U");
         if (countries_voluntarily != null) {
             String added = countries_voluntarily.getAdded();
             String removed = countries_voluntarily.getRemoved();
             if (added.length() > 0) {
-                res_vec.add("'Countries reporting voluntarily' added: "+added);
+                res_vec.add("'Countries reporting voluntarily' added: " + added);
             }
             if (removed.length() > 0) {
-                res_vec.add("'Countries reporting voluntarily' removed: "+removed);
+                res_vec.add("'Countries reporting voluntarily' removed: " + removed);
             }
         }
 
-        DifferenceDTO issues = RODServices.getDbService().getDifferencesDao().getDifferencesInIssues(ts,intId,"U");
+        DifferenceDTO issues = RODServices.getDbService().getDifferencesDao().getDifferencesInIssues(ts, intId, "U");
         if (issues != null) {
             String added = issues.getAdded();
             String removed = issues.getRemoved();
             if (added.length() > 0) {
-                res_vec.add("'Environmental issues' added: "+added);
+                res_vec.add("'Environmental issues' added: " + added);
             }
             if (removed.length() > 0) {
-                res_vec.add("'Environmental issues' removed: "+removed);
+                res_vec.add("'Environmental issues' removed: " + removed);
             }
         }
 
-        DifferenceDTO clients = RODServices.getDbService().getDifferencesDao().getDifferencesInClients(ts,intId,"C","U","A");
+        DifferenceDTO clients = RODServices.getDbService().getDifferencesDao().getDifferencesInClients(ts, intId, "C", "U", "A");
         if (clients != null) {
             String added = clients.getAdded();
             String removed = clients.getRemoved();
             if (added.length() > 0) {
-                res_vec.add("'Other clients using this reporting' added: "+added);
+                res_vec.add("'Other clients using this reporting' added: " + added);
             }
             if (removed.length() > 0) {
-                res_vec.add("'Other clients using this reporting' removed: "+removed);
+                res_vec.add("'Other clients using this reporting' removed: " + removed);
             }
         }
 
-        DifferenceDTO info = RODServices.getDbService().getDifferencesDao().getDifferencesInInfo(ts,intId,"U","I");
+        DifferenceDTO info = RODServices.getDbService().getDifferencesDao().getDifferencesInInfo(ts, intId, "U", "I");
         if (info != null) {
             String added = info.getAdded();
             String removed = info.getRemoved();
             if (added.length() > 0) {
-                res_vec.add("'Type of info reported' added: "+added);
+                res_vec.add("'Type of info reported' added: " + added);
             }
             if (removed.length() > 0) {
-                res_vec.add("'Type of info reported' removed: "+removed);
+                res_vec.add("'Type of info reported' removed: " + removed);
             }
         }
 
@@ -940,7 +956,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         } else if (col != null && col.equalsIgnoreCase("OVERLAP_URL")) {
             label = "'URL of overlapping obligation' changed ";
         } else if (col != null && col.equalsIgnoreCase("OVERLAP_URL")) {
-            //Indicators
+            // Indicators
         } else if (col != null && col.equalsIgnoreCase("COMMENT")) {
             label = "'General comments' changed ";
         } else if (col != null && col.equalsIgnoreCase("AUTHORITY")) {
@@ -968,14 +984,14 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 
     private String getDpsirValue(String value) throws ServiceException {
 
-         String ret = null;
-         if (value.equalsIgnoreCase("null") || value.equalsIgnoreCase("no")) {
-             ret="unchecked";
-         }
-         if (value.equalsIgnoreCase("yes")) {
-             ret="checked";
-         }
-         return ret;
+        String ret = null;
+        if (value.equalsIgnoreCase("null") || value.equalsIgnoreCase("no")) {
+            ret = "unchecked";
+        }
+        if (value.equalsIgnoreCase("yes")) {
+            ret = "checked";
+        }
+        return ret;
     }
 
     private String getChkValue(String value) throws ServiceException {
@@ -983,29 +999,28 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         String ret = null;
         int b = new Integer(value).intValue();
         if (b == 0) {
-            ret="unchecked";
+            ret = "unchecked";
         }
         if (b == 1) {
-            ret="checked";
+            ret = "checked";
         }
         return ret;
-   }
+    }
 
     private String getSuffixValue(String value) throws ServiceException {
 
         String ret = null;
         int b = new Integer(value).intValue();
         if (b == 0) {
-            ret="checked";
+            ret = "checked";
         }
         if (b == 1) {
-            ret="unchecked";
+            ret = "unchecked";
         }
         return ret;
     }
 
-
-    //methods for EDIT, ADD and DELETE obligation ends
+    // methods for EDIT, ADD and DELETE obligation ends
 
     public ObligationFactsheetDTO getObligation() {
         return obligation;
@@ -1047,61 +1062,49 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         this.tab = tab;
     }
 
-
     public List<CountryDeliveryDTO> getDeliveries() {
         return deliveries;
     }
-
 
     public void setDeliveries(List<CountryDeliveryDTO> deliveries) {
         this.deliveries = deliveries;
     }
 
-
     public String getSpatialId() {
         return spatialId;
     }
-
 
     public void setSpatialId(String spatialId) {
         this.spatialId = spatialId;
     }
 
-
     public List<VersionDTO> getVersions() {
         return versions;
     }
-
 
     public void setVersions(List<VersionDTO> versions) {
         this.versions = versions;
     }
 
-
     public List<SiblingObligationDTO> getSiblingObligations() {
         return siblingObligations;
     }
-
 
     public void setSiblingObligations(List<SiblingObligationDTO> siblingObligations) {
         this.siblingObligations = siblingObligations;
     }
 
-
     public List<ObligationCountryDTO> getCountries() {
         return countries;
     }
-
 
     public void setCountries(List<ObligationCountryDTO> countries) {
         this.countries = countries;
     }
 
-
     public List<IssueDTO> getIssues() {
         return issues;
     }
-
 
     public void setIssues(List<IssueDTO> issues) {
         this.issues = issues;
@@ -1343,8 +1346,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         return selectedVoluntaryCountries;
     }
 
-    public void setSelectedVoluntaryCountries(
-            List<String> selectedVoluntaryCountries) {
+    public void setSelectedVoluntaryCountries(List<String> selectedVoluntaryCountries) {
         this.selectedVoluntaryCountries = selectedVoluntaryCountries;
     }
 

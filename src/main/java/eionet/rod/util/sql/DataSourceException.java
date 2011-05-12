@@ -1,11 +1,16 @@
 package eionet.rod.util.sql;
 
 /**
- *
+ * 
  * @author heinljab
- *
+ * 
  */
 public class DataSourceException extends Exception {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     /**
      *
@@ -15,7 +20,7 @@ public class DataSourceException extends Exception {
     }
 
     /**
-     *
+     * 
      * @param message
      */
     public DataSourceException(String message) {
@@ -23,7 +28,7 @@ public class DataSourceException extends Exception {
     }
 
     /**
-     *
+     * 
      * @param message
      * @param cause
      */

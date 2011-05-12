@@ -12,15 +12,15 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
-public class UpdateHistoryTableDecorator extends TableDecorator{
+public class UpdateHistoryTableDecorator extends TableDecorator {
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getDesc() {
 
@@ -29,7 +29,8 @@ public class UpdateHistoryTableDecorator extends TableDecorator{
         String title = null;
 
         try {
-            title = RODServices.getDbService().getUndoDao().getUndoObjectTitle(Long.valueOf(ver.getUndoTime()).longValue(),ver.getTab());
+            title = RODServices.getDbService().getUndoDao()
+                    .getUndoObjectTitle(Long.valueOf(ver.getUndoTime()).longValue(), ver.getTab());
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -50,8 +51,8 @@ public class UpdateHistoryTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getObject() {
 
@@ -61,16 +62,18 @@ public class UpdateHistoryTableDecorator extends TableDecorator{
         String id = ver.getValue();
 
         if (ver.getTab().equals("T_OBLIGATION"))
-            ret.append("<a href='updatehistory?id=").append(id).append("&amp;object=A").append("'>").append("/obligations/").append(id).append("</a>");
+            ret.append("<a href='updatehistory?id=").append(id).append("&amp;object=A").append("'>").append("/obligations/")
+                    .append(id).append("</a>");
         else if (ver.getTab().equals("T_SOURCE"))
-            ret.append("<a href='updatehistory?id=").append(id).append("&amp;object=S").append("'>").append("/instruments/").append(id).append("</a>");
+            ret.append("<a href='updatehistory?id=").append(id).append("&amp;object=S").append("'>").append("/instruments/")
+                    .append(id).append("</a>");
 
         return ret.toString();
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getOper() {
 
@@ -91,8 +94,8 @@ public class UpdateHistoryTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getUser() {
 
@@ -101,7 +104,7 @@ public class UpdateHistoryTableDecorator extends TableDecorator{
         String user = "";
 
         try {
-            user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(),ver.getTab());
+            user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(), ver.getTab());
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -111,19 +114,18 @@ public class UpdateHistoryTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getTime() {
 
         VersionDTO search = (VersionDTO) getCurrentRowObject();
 
-        DateFormat df = new SimpleDateFormat ("yyyy-MM-dd' 'HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
         Date date = new Date(new Long(search.getUndoTime()).longValue());
         String d = df.format(date);
 
         return d;
     }
-
 
 }

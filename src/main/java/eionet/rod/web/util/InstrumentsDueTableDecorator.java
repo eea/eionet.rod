@@ -6,15 +6,15 @@ import eionet.rod.RODUtil;
 import eionet.rod.dto.InstrumentsDueDTO;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
-public class InstrumentsDueTableDecorator extends TableDecorator{
+public class InstrumentsDueTableDecorator extends TableDecorator {
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getInstrumentTitle() {
 
@@ -27,7 +27,5 @@ public class InstrumentsDueTableDecorator extends TableDecorator{
 
         return ret.toString();
     }
-
-
 
 }

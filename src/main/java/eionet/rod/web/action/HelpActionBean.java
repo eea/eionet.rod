@@ -16,9 +16,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
 @UrlBinding("/help")
 public class HelpActionBean extends AbstractRODActionBean {
@@ -26,9 +26,11 @@ public class HelpActionBean extends AbstractRODActionBean {
     private String helpId;
     private HelpDTO help;
     private List<HelpDTO> helpList;
+
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -39,7 +41,7 @@ public class HelpActionBean extends AbstractRODActionBean {
 
         String pathInfo = getContext().getRequest().getPathInfo();
         if (!RODUtil.isNullOrEmpty(pathInfo)) {
-            StringTokenizer st = new StringTokenizer(pathInfo,"/");
+            StringTokenizer st = new StringTokenizer(pathInfo, "/");
             if (st.hasMoreElements())
                 helpId = st.nextToken();
             if (st.hasMoreElements()) {
@@ -74,18 +76,23 @@ public class HelpActionBean extends AbstractRODActionBean {
     public String getHelpId() {
         return helpId;
     }
+
     public void setHelpId(String helpId) {
         this.helpId = helpId;
     }
+
     public HelpDTO getHelp() {
         return help;
     }
+
     public void setHelp(HelpDTO help) {
         this.help = help;
     }
+
     public List<HelpDTO> getHelpList() {
         return helpList;
     }
+
     public void setHelpList(List<HelpDTO> helpList) {
         this.helpList = helpList;
     }

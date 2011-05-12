@@ -21,32 +21,24 @@
  * Original Code: Kaido Laine (TietoEnator)
  */
 
-
 package eionet.rod.countrysrv;
 
 import com.tee.uit.client.ServiceClientIF;
 
 /**
-* Constant values for external services, methods exc
-*/
+ * Constant values for external services, methods exc
+ */
 public interface ExtractorConstants {
 
-  //default type for the remote services
-  public final int SERVICE_CLIENT_TYPE = ServiceClientIF.CLIENT_TYPE_XMLRPC;
+    // default type for the remote services
+    public final int SERVICE_CLIENT_TYPE = ServiceClientIF.CLIENT_TYPE_XMLRPC;
 
-  public final String PROP_FILE = "rod";
-  public final String LOG_FILE = "extractorlog.txt";
+    public final String PROP_FILE = "rod";
+    public final String LOG_FILE = "extractorlog.txt";
 
-  public final String SYSTEM_USER = "ROD - system";
+    public final String SYSTEM_USER = "ROD - system";
 
-
-
-  public final String CONTREG_SRV_NAME = "ContRegService";
-  public final String CONTREG_GETENTRIES_METHOD = "getEntries";
-  public final String CONTREG_GETDELIVERIES_METHOD = "getDeliveries";
-
-  public final String DD_SRV_NAME = "DataDictService";
-  public final String DD_GETPARAMS_METHOD = "getParameters";
-
+    public final String DD_SRV_NAME = "DataDictService";
+    public final String DD_GETPARAMS_METHOD = "getParameters";
 
 }

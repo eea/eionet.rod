@@ -23,6 +23,8 @@
 
 package eionet.rod.services;
 
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 
 import eionet.rod.RODUtil;
@@ -31,26 +33,24 @@ import eionet.rod.services.modules.db.dao.IGenericDao;
 import eionet.rod.services.modules.db.dao.IIssueDao;
 import eionet.rod.services.modules.db.dao.IObligationDao;
 import eionet.rod.services.modules.db.dao.ISpatialDao;
-import eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao;
 
 /**
- * Container class for providing public services of WebROD
- * through XML/RPC || SOAP
+ * Container class for providing public services of WebROD through XML/RPC || SOAP
  * <P>
+ * 
  * @author Kaido Laine
  */
-public  class WebRODService {
+public class WebRODService {
 
     private static LogServiceIF logger = RODServices.getLogService();
 
-    private IObligationDao obligationDao ;
+    private IObligationDao obligationDao;
     private ISpatialDao spatialDao;
     private IIssueDao issueDao;
     private IClientDao clientDao;
     private IGenericDao genericDao;
 
-
-   public WebRODService() {
+    public WebRODService() {
         try {
             obligationDao = RODServices.getDbService().getObligationDao();
             clientDao = RODServices.getDbService().getClientDao();
@@ -61,58 +61,112 @@ public  class WebRODService {
             logger.fatal(e);
         }
 
-   }
+    }
 
-  /**
-    * Returns Activity Ids and Titles
-  * @return Vector (contains hashtables, one for each activity)
-  * @throw ServiceException
-    */
-  public Vector getActivities() throws ServiceException {
-    return obligationDao.getActivities();
-  }
+    /**
+     * Returns Activity Ids and Titles
+     * 
+     * @return Vector<Map<String,String>> (contains hashtables, one for each activity)
+     * @throws ServiceException
+     */
+    public Vector<Map<String,String>> getActivities() throws ServiceException {
+        return obligationDao.getActivities();
+    }
 
-  /**
-  * Returns all countries
-  * @return Vector (contains hashtables, one for each record)
-  * @throw ServiceException
-    */
-  public Vector getCountries() throws ServiceException {
+    /**
+     * Returns all countries
+     * 
+     * @return Vector<Map<String,String>> (contains hashtables, one for each record)
+     * @throws ServiceException
+     */
+    public Vector<Map<String,String>> getCountries() throws ServiceException {
 
-    return spatialDao.getCountries();
-  }
+        return spatialDao.getCountries();
+    }
 
-  public Vector getROComplete() throws ServiceException {
-      return obligationDao.getROComplete();
-  }
+    /**
+     * @return Vector<Map<String,String>>
+     * @throws ServiceException
+     */
+    public Vector<Map<String,String>> getROComplete() throws ServiceException {
+        return obligationDao.getROComplete();
+    }
 
-  public Vector getObligations(String countryId, String issueId, String client, String terminated) throws ServiceException {
-      boolean ccClients = false;
-      if (!RODUtil.isNullOrEmpty(client) && !client.equals("-1"))
-          ccClients = true;
-      Vector ret = obligationDao.getObligationsVector(null, countryId, issueId, client, terminated, ccClients);
-      return ret;
-  }
-  public Vector getRODeadlines() throws ServiceException {
-    return obligationDao.getRODeadlines();
-  }
-  public Vector getROSummary() throws ServiceException {
-   return obligationDao.getROSummary();
-  }
-  public Vector getObligationIssues(String id) throws ServiceException {
-      return issueDao.getObligationIssues(Integer.valueOf(id));
-  }
-  public Vector getObligationOrg(String id) throws ServiceException {
-      return clientDao.getObligationOrg(Integer.valueOf(id));
-  }
-  public Vector getObligationDetail(String id) throws ServiceException {
-      return obligationDao.getObligationDetail(Integer.valueOf(id));
-  }
-  public Vector getTable(String tablename) throws ServiceException {
-      return genericDao.getTable(tablename);
-  }
-  public Vector getTableDesc(String tablename) throws ServiceException {
-      return genericDao.getTableDesc(tablename);
-  }
+    /**
+     * @param countryId 
+     * @param issueId 
+     * @param client 
+     * @param terminated 
+     * @return Vector<Hashtable<String,String>>
+     * @throws ServiceException
+     */
+    public Vector<Hashtable<String,String>> getObligations(String countryId, String issueId, String client, String terminated) throws ServiceException {
+        boolean ccClients = false;
+        if (!RODUtil.isNullOrEmpty(client) && !client.equals("-1"))
+            ccClients = true;
+        Vector<Hashtable<String,String>> ret = obligationDao.getObligationsVector(null, countryId, issueId, client, terminated, ccClients);
+        return ret;
+    }
+
+    /**
+     * @return Vector<Map<String,String>>
+     * @throws ServiceException
+     */
+    public Vector<Map<String,String>> getRODeadlines() throws ServiceException {
+        return obligationDao.getRODeadlines();
+    }
+
+    /**
+     * @return Vector<Map<String,String>>
+     * @throws ServiceException
+     */
+    public Vector<Map<String,String>> getROSummary() throws ServiceException {
+        return obligationDao.getROSummary();
+    }
+
+    /**
+     * @param id 
+     * @return Vector<Map<String,String>>
+     * @throws ServiceException
+     */
+    public Vector<Map<String,String>> getObligationIssues(String id) throws ServiceException {
+        return issueDao.getObligationIssues(Integer.valueOf(id));
+    }
+
+    /**
+     * @param id 
+     * @return Vector<Map<String,String>>
+     * @throws ServiceException
+     */
+    public Vector<Map<String,String>> getObligationOrg(String id) throws ServiceException {
+        return clientDao.getObligationOrg(Integer.valueOf(id));
+    }
+
+    /**
+     * @param id 
+     * @return Vector<Map<String,String>>
+     * @throws ServiceException
+     */
+    public Vector<Map<String,String>> getObligationDetail(String id) throws ServiceException {
+        return obligationDao.getObligationDetail(Integer.valueOf(id));
+    }
+
+    /**
+     * @param tablename 
+     * @return Vector<Map<String,String>>
+     * @throws ServiceException
+     */
+    public Vector<Map<String,String>> getTable(String tablename) throws ServiceException {
+        return genericDao.getTable(tablename);
+    }
+
+    /**
+     * @param tablename 
+     * @return Vector<Hashtable<String,String>>
+     * @throws ServiceException
+     */
+    public Vector<Hashtable<String,String>> getTableDesc(String tablename) throws ServiceException {
+        return genericDao.getTableDesc(tablename);
+    }
 
 }

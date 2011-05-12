@@ -20,8 +20,7 @@ public class CustomTagErrorRenderer implements TagErrorRenderer {
     /** Doesn't need to do anything. */
     public void doAfterEndTag() {
         try {
-            this.tag.getPageContext().getOut().write
-                ("<div class=\"error-hint\" id=\"error-description\">Field is mandatory</div>");
+            this.tag.getPageContext().getOut().write("<div class=\"error-hint\" id=\"error-description\">Field is mandatory</div>");
         } catch (IOException ioe) {
             // Not really a whole lot we can do if writing to out fails!
         }

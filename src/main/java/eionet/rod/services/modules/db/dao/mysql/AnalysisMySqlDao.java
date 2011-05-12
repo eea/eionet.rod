@@ -58,120 +58,110 @@ public class AnalysisMySqlDao extends MySqlBaseDao implements IAnalysisDao {
         return (resultArray != null && resultArray.length > 0) ? resultArray[0][0] : null;
     }
 
-    private static final String getTotalRa =
-        "SELECT COUNT(PK_RA_ID) AS TOTAL_RA FROM T_OBLIGATION ";
+    private static final String getTotalRa = "SELECT COUNT(PK_RA_ID) AS TOTAL_RA FROM T_OBLIGATION ";
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getTotalRa()
      */
     public int getTotalRa() throws ServiceException {
         return getIntValue(getTotalRa);
     }
 
-    private static final String getLastUpdateRa =
-        "SELECT DATE_FORMAT(MAX(LAST_UPDATE), '%d/%m/%y') AS RA_UPDATE FROM T_OBLIGATION ";
+    private static final String getLastUpdateRa = "SELECT DATE_FORMAT(MAX(LAST_UPDATE), '%d/%m/%y') AS RA_UPDATE FROM T_OBLIGATION ";
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getLastUpdateRa()
      */
     public String getLastUpdateRa() throws ServiceException {
         return getStringValue(getLastUpdateRa);
     }
 
-    private static final String getTotalLi =
-        "SELECT COUNT(PK_SOURCE_ID) AS TOTAL_LI FROM T_SOURCE ";
+    private static final String getTotalLi = "SELECT COUNT(PK_SOURCE_ID) AS TOTAL_LI FROM T_SOURCE ";
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getTotalLi()
      */
     public int getTotalLi() throws ServiceException {
         return getIntValue(getTotalLi);
     }
 
-    private static final String getLastUpdateLi =
-        "SELECT DATE_FORMAT(MAX(LAST_UPDATE),  '%d/%m/%y') AS LI_UPDATE FROM T_SOURCE ";
+    private static final String getLastUpdateLi = "SELECT DATE_FORMAT(MAX(LAST_UPDATE),  '%d/%m/%y') AS LI_UPDATE FROM T_SOURCE ";
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getLastUpdateLi()
      */
     public String getLastUpdateLi() throws ServiceException {
         return getStringValue(getLastUpdateLi);
     }
 
-    private static final String getEeaCore =
-        "SELECT COUNT(PK_RA_ID) AS TOTAL_RA FROM T_OBLIGATION WHERE EEA_CORE=1 ";
+    private static final String getEeaCore = "SELECT COUNT(PK_RA_ID) AS TOTAL_RA FROM T_OBLIGATION WHERE EEA_CORE=1 ";
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getEeaCore()
      */
     public int getEeaCore() throws ServiceException {
         return getIntValue(getEeaCore);
     }
 
-    private static final String getEeaPriority =
-        "SELECT COUNT(PK_RA_ID) AS TOTAL_RA FROM T_OBLIGATION WHERE EEA_PRIMARY=1 ";
+    private static final String getEeaPriority = "SELECT COUNT(PK_RA_ID) AS TOTAL_RA FROM T_OBLIGATION WHERE EEA_PRIMARY=1 ";
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getEeaPriority()
      */
     public int getEeaPriority() throws ServiceException {
         return getIntValue(getEeaPriority);
     }
 
-    private static final String getOverlapRa =
-        "SELECT COUNT(PK_RA_ID) AS TOTAL_RA FROM T_OBLIGATION WHERE OVERLAP_URL IS NOT NULL AND OVERLAP_URL != '' ";
+    private static final String getOverlapRa = "SELECT COUNT(PK_RA_ID) AS TOTAL_RA FROM T_OBLIGATION WHERE OVERLAP_URL IS NOT NULL AND OVERLAP_URL != '' ";
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getOverlapRa()
      */
     public int getOverlapRa() throws ServiceException {
         return getIntValue(getOverlapRa);
     }
 
-    private static final String getFlaggedRa =
-        "SELECT COUNT(PK_RA_ID) AS TOTAL_RA FROM T_OBLIGATION WHERE FLAGGED=1 ";
+    private static final String getFlaggedRa = "SELECT COUNT(PK_RA_ID) AS TOTAL_RA FROM T_OBLIGATION WHERE FLAGGED=1 ";
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getFlaggedRa()
      */
     public int getFlaggedRa() throws ServiceException {
         return getIntValue(getFlaggedRa);
     }
 
-    private static final String getInstrumentsDueQuery =
-        "SELECT COUNT(PK_SOURCE_ID) AS TOTAL_SOURCE FROM T_SOURCE ";
+    private static final String getInstrumentsDueQuery = "SELECT COUNT(PK_SOURCE_ID) AS TOTAL_SOURCE FROM T_SOURCE ";
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getInstrumentsDue()
      */
     public int getInstrumentsDue() throws ServiceException {
         return getIntValue(getInstrumentsDueQuery);
     }
 
-    private static final String getNoIssueAllocatedQuery =
-        "SELECT COUNT(PK_RA_ID) FROM T_OBLIGATION WHERE TERMINATE='N' AND PK_RA_ID NOT IN (SELECT DISTINCT FK_RA_ID FROM T_RAISSUE_LNK)";
+    private static final String getNoIssueAllocatedQuery = "SELECT COUNT(PK_RA_ID) FROM T_OBLIGATION WHERE TERMINATE='N' AND PK_RA_ID NOT IN (SELECT DISTINCT FK_RA_ID FROM T_RAISSUE_LNK)";
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see eionet.rod.services.modules.db.dao.IAnalysisDao#getNoIssueAllocated()
      */
     public int getNoIssueAllocated() throws ServiceException {

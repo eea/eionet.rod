@@ -15,9 +15,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/urls.rdf")
 public class UrlsActionBean extends AbstractRODActionBean {
@@ -25,8 +25,9 @@ public class UrlsActionBean extends AbstractRODActionBean {
     protected static final String rdfHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -41,12 +42,9 @@ public class UrlsActionBean extends AbstractRODActionBean {
 
     private String generateRDF() throws ServiceException {
         StringBuffer s = new StringBuffer();
-        s.append(rdfHeader)
-        .append("<rdf:RDF")
-        .append(" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"")
-        .append(" xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"")
-        .append(" xmlns:seis=\"http://www.eionet.europa.eu/rdf/seis/\"")
-        .append(">");
+        s.append(rdfHeader).append("<rdf:RDF").append(" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"")
+                .append(" xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"")
+                .append(" xmlns:seis=\"http://www.eionet.europa.eu/rdf/seis/\"").append(">");
 
         List<UrlDTO> obligationUrls = RODServices.getDbService().getObligationDao().getObligationsUrls();
         s.append(iterateUrls(obligationUrls));
@@ -62,15 +60,14 @@ public class UrlsActionBean extends AbstractRODActionBean {
     private String iterateUrls(List<UrlDTO> urls) throws ServiceException {
         StringBuilder s = new StringBuilder();
 
-        for (Iterator<UrlDTO> it = urls.iterator(); it.hasNext(); ) {
+        for (Iterator<UrlDTO> it = urls.iterator(); it.hasNext();) {
             UrlDTO dto = it.next();
             String title = RODUtil.replaceTags(dto.getTitle(), true, true);
             String url = dto.getUrl();
             if (!RODUtil.isNullOrEmpty(url)) {
                 if (!RODUtil.isNullOrEmpty(title) && !title.equals(url)) {
-                    s.append("<seis:Resource rdf:about=\"").append(url).append("\">")
-                    .append("<rdfs:label>").append(title).append("</rdfs:label>")
-                    .append("</seis:Resource>");
+                    s.append("<seis:Resource rdf:about=\"").append(url).append("\">").append("<rdfs:label>").append(title)
+                            .append("</rdfs:label>").append("</seis:Resource>");
                 } else {
                     s.append("<seis:Resource rdf:about=\"").append(url).append("\"/>");
                 }
@@ -79,6 +76,5 @@ public class UrlsActionBean extends AbstractRODActionBean {
 
         return s.toString();
     }
-
 
 }

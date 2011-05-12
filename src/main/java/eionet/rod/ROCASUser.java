@@ -26,8 +26,9 @@ public class ROCASUser extends ROUser {
     }
 
     /**
-     *
-     * @return
+     * 
+     * @param userName 
+     * @return ROCASUser
      */
     public static ROCASUser create(String userName) {
         ROCASUser user = new ROCASUser();

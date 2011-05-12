@@ -11,9 +11,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/versions")
 public class VersionsActionBean extends AbstractRODActionBean {
@@ -23,10 +23,10 @@ public class VersionsActionBean extends AbstractRODActionBean {
     private String tab;
     private String id_field;
 
-
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -39,41 +39,33 @@ public class VersionsActionBean extends AbstractRODActionBean {
         return new ForwardResolution("/pages/versions.jsp");
     }
 
-
     public List<VersionDTO> getVersions() {
         return versions;
     }
-
 
     public void setVersions(List<VersionDTO> versions) {
         this.versions = versions;
     }
 
-
     public String getId() {
         return id;
     }
-
 
     public void setId(String id) {
         this.id = id;
     }
 
-
     public String getTab() {
         return tab;
     }
-
 
     public void setTab(String tab) {
         this.tab = tab;
     }
 
-
     public String getId_field() {
         return id_field;
     }
-
 
     public void setId_field(String id_field) {
         this.id_field = id_field;

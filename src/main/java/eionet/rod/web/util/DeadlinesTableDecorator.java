@@ -10,15 +10,15 @@ import eionet.rod.RODUtil;
 import eionet.rod.dto.SearchDTO;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
-public class DeadlinesTableDecorator extends TableDecorator{
+public class DeadlinesTableDecorator extends TableDecorator {
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getTitle() {
 
@@ -37,8 +37,8 @@ public class DeadlinesTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getClient() {
 
@@ -53,8 +53,8 @@ public class DeadlinesTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getDeadline() {
 
@@ -76,8 +76,8 @@ public class DeadlinesTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return Date
      */
     public Date getDeadlineSort() {
 
@@ -85,8 +85,7 @@ public class DeadlinesTableDecorator extends TableDecorator{
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
         Date zeroDate = new Date();
-        try
-        {
+        try {
             zeroDate = df.parse("0000-00-00");
         } catch (ParseException e) {
             e.printStackTrace();
@@ -97,8 +96,7 @@ public class DeadlinesTableDecorator extends TableDecorator{
         if (RODUtil.isNullOrEmpty(nextDeadline)) {
             ret = zeroDate;
         } else {
-            try
-            {
+            try {
                 ret = df.parse(nextDeadline);
             } catch (ParseException e) {
                 ret = zeroDate;
@@ -109,8 +107,8 @@ public class DeadlinesTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getRole() {
 
@@ -144,8 +142,8 @@ public class DeadlinesTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getHasDelivery() {
 

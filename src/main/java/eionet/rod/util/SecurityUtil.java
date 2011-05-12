@@ -18,12 +18,10 @@ public class SecurityUtil {
     private static String casLoginUrl;
     private static String casServerName;
 
-    private static final String REMOTEUSER = "com.tee.xmlserver.user";
-
     /**
-     *
+     * 
      * @param request
-     * @return
+     * @return String
      */
     public static String getLoginURL(HttpServletRequest request) {
 
@@ -41,15 +39,18 @@ public class SecurityUtil {
             String action = (String) request.getSession(true).getAttribute(Constants.LAST_ACTION_URL_SESSION_ATTR);
             String afterUrl = request.getScheme() + "://" + casServerName + request.getContextPath();
             if (RODUtil.isNullOrEmpty(action))
-                afterUrl = request.getRequestURL().toString() + (request.getQueryString() != null ? ("?" +request.getQueryString()):"");
+                afterUrl = request.getRequestURL().toString()
+                        + (request.getQueryString() != null ? ("?" + request.getQueryString()) : "");
             else
                 afterUrl = request.getScheme() + "://" + casServerName + request.getContextPath() + action;
 
             request.getSession().setAttribute("afterLogin", afterUrl);
 
             try {
-                result = casLoginUrl + "?service=" + URLEncoder.encode(
-                        request.getScheme() + "://" + casServerName + request.getContextPath() + "/login", "UTF-8");
+                result = casLoginUrl
+                        + "?service="
+                        + URLEncoder.encode(request.getScheme() + "://" + casServerName + request.getContextPath() + "/login",
+                                "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e.toString(), e);
             }
@@ -57,8 +58,10 @@ public class SecurityUtil {
 
         return result;
     }
+
     /**
-     * @return the casLoginUrl
+     * @param request
+     * @return String
      */
     public static String getCasLoginUrl(HttpServletRequest request) {
 
@@ -69,6 +72,7 @@ public class SecurityUtil {
     }
 
     /**
+     * @param request
      * @return the casServerName
      */
     public static String getCasServerName(HttpServletRequest request) {
@@ -80,9 +84,9 @@ public class SecurityUtil {
     }
 
     /**
-     *
+     * 
      * @param request
-     * @return
+     * @return String
      */
     public static String getLogoutURL(HttpServletRequest request) {
 
@@ -97,8 +101,8 @@ public class SecurityUtil {
                         + " context parameter has been specified, so must be " + CASFilter.SERVERNAME_INIT_PARAM);
 
             try {
-                result = casLoginUrl.replaceFirst("/login", "/logout") + "?url=" + URLEncoder.encode(
-                        request.getScheme() + "://" + casServerName + request.getContextPath(), "UTF-8");
+                result = casLoginUrl.replaceFirst("/login", "/logout") + "?url="
+                        + URLEncoder.encode(request.getScheme() + "://" + casServerName + request.getContextPath(), "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e.toString(), e);
             }
@@ -108,31 +112,33 @@ public class SecurityUtil {
     }
 
     /**
-    * Returns current user, or null, if the current session
-    * does not have user attached to it.
-    */
+     * Returns current user, or null, if the current session does not have user attached to it.
+     * 
+     * @param request
+     * @return ROUser
+     */
     public static final ROUser getUser(HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         String appName = session.getServletContext().getInitParameter(Attrs.APPPARAM);
-        ROUser user = (ROUser)session.getAttribute(REMOTEUSER + appName);
+        ROUser user = (ROUser) session.getAttribute(Attrs.USERPREFIX + appName);
 
         if (user == null) {
-            String casUserName = (String)session.getAttribute(CASFilter.CAS_FILTER_USER);
+            String casUserName = (String) session.getAttribute(CASFilter.CAS_FILTER_USER);
             if (casUserName != null) {
                 user = ROCASUser.create(casUserName);
-                session.setAttribute(REMOTEUSER, user);
+                session.setAttribute(Attrs.USERPREFIX + appName, user);
             }
         } else if (user instanceof ROCASUser) {
-            String casUserName = (String)session.getAttribute(CASFilter.CAS_FILTER_USER);
+            String casUserName = (String) session.getAttribute(CASFilter.CAS_FILTER_USER);
             if (casUserName == null) {
                 user.invalidate();
                 user = null;
-                session.removeAttribute(REMOTEUSER);
+                session.removeAttribute(Attrs.USERPREFIX + appName);
             } else if (!casUserName.equals(user.getUserName())) {
                 user.invalidate();
                 user = ROCASUser.create(casUserName);
-                session.setAttribute(REMOTEUSER, user);
+                session.setAttribute(Attrs.USERPREFIX + appName, user);
             }
         }
 

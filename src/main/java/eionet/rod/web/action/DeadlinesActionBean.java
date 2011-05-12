@@ -16,9 +16,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
 @UrlBinding("/deadlines")
 public class DeadlinesActionBean extends AbstractRODActionBean {
@@ -38,10 +38,10 @@ public class DeadlinesActionBean extends AbstractRODActionBean {
     private String date2;
     private String order;
 
-
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution search() throws ServiceException {
@@ -52,7 +52,8 @@ public class DeadlinesActionBean extends AbstractRODActionBean {
         if (!RODUtil.isNullOrEmpty(spatialId))
             spatialName = RODServices.getDbService().getSpatialDao().getCountryById(new Integer(spatialId).intValue());
 
-        searchList = RODServices.getDbService().getObligationDao().getSearchObligationsList(spatialId, clientId, issueId, date1, date2, deadlines, order);
+        searchList = RODServices.getDbService().getObligationDao()
+                .getSearchObligationsList(spatialId, clientId, issueId, date1, date2, deadlines, order);
         return new ForwardResolution("/pages/deadlines.jsp");
     }
 

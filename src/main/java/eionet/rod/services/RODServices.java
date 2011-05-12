@@ -30,94 +30,118 @@ import eionet.rod.services.modules.db.dao.mysql.MySqlDaoFactory;
 
 /**
  * Proxy class for accessing CountrySrv services
+ * 
  * @author Kaido Laine
  */
 
-public class RODServices  {
+public class RODServices {
 
+    private static LogServiceIF _logSrv = null;
+    private static RODDaoFactory daoFactory = null;
+    private static FileServiceIF _fSrv = null;
 
-private static LogServiceIF   _logSrv = null;
-private static RODDaoFactory daoFactory = null;
-private static FileServiceIF   _fSrv = null;
-
-
-  /**
-  * Instance of RODDaoFactory
-  */
+    /**
+     * Instance of RODDaoFactory
+     * @return RODDaoFactory
+     * @throws ServiceException 
+     */
     public static RODDaoFactory getDbService() throws ServiceException {
-        if (daoFactory == null) daoFactory = new MySqlDaoFactory();
+        if (daoFactory == null)
+            daoFactory = new MySqlDaoFactory();
         return daoFactory; // new DbServiceImpl();
     }
 
-  /**
-  * Instance of FileServiceIF (reads from props file)
-  */
+    /**
+     * Instance of FileServiceIF (reads from props file)
+     * @return FileServiceIF
+     * @throws ServiceException 
+     */
     public static FileServiceIF getFileService() throws ServiceException {
-    if ( _fSrv == null)
-      _fSrv = new FileServiceImpl();
+        if (_fSrv == null)
+            _fSrv = new FileServiceImpl();
 
-    return _fSrv; //new FileServiceImpl();
-  }
-
-
-  /**
-   * Logging Service
-   * @return LogServiceIF
-   */
-  public static LogServiceIF getLogService() {
-    if (_logSrv == null)  {
-      try {
-        _logSrv = new Log4jLoggerImpl();
-      } catch (Exception se) {
-        _logSrv = new StderrLogger();
-      }
+        return _fSrv; // new FileServiceImpl();
     }
 
-    return _logSrv;
-  }
-
-
-  // stderr logger for a case, if no logger module is available
-  static class StderrLogger implements LogServiceIF {
-
-    private void out(String severity, Object msg, Throwable t) {
-      System.err.println("<" + severity + "> " + msg);
-      if (t != null)
-        t.printStackTrace(System.err);
-    }
-
-    public boolean enable(int level)              { return true; }
-
-    public void debug(Object msg)                 { debug(msg, null); }
-    public void debug(Object msg, Throwable t)    { out("DEBUG", msg, t); }
-
-    public void info(Object msg)                  { info(msg, null); }
-    public void info(Object msg, Throwable t)     { out("INFO", msg, t); }
-
-    public void warning(Object msg)               { warning(msg, null); }
-    public void warning(Object msg, Throwable t)  { out("WARNING", msg, t); }
-
-    public void error(Object msg) {
-        if (msg instanceof Throwable) {
-              Throwable t = (Throwable) msg;
-                error(t.getMessage(),t);
-           }else{
-              error(msg, null);
-           }
+    /**
+     * Logging Service
+     * 
+     * @return LogServiceIF
+     */
+    public static LogServiceIF getLogService() {
+        if (_logSrv == null) {
+            try {
+                _logSrv = new Log4jLoggerImpl();
+            } catch (Exception se) {
+                _logSrv = new StderrLogger();
+            }
         }
-    public void error(Object msg, Throwable t)    { out("ERROR", msg, t); }
 
-    public void fatal(Object msg) {
+        return _logSrv;
+    }
+
+    // stderr logger for a case, if no logger module is available
+    static class StderrLogger implements LogServiceIF {
+
+        private void out(String severity, Object msg, Throwable t) {
+            System.err.println("<" + severity + "> " + msg);
+            if (t != null)
+                t.printStackTrace(System.err);
+        }
+
+        public boolean enable(int level) {
+            return true;
+        }
+
+        public void debug(Object msg) {
+            debug(msg, null);
+        }
+
+        public void debug(Object msg, Throwable t) {
+            out("DEBUG", msg, t);
+        }
+
+        public void info(Object msg) {
+            info(msg, null);
+        }
+
+        public void info(Object msg, Throwable t) {
+            out("INFO", msg, t);
+        }
+
+        public void warning(Object msg) {
+            warning(msg, null);
+        }
+
+        public void warning(Object msg, Throwable t) {
+            out("WARNING", msg, t);
+        }
+
+        public void error(Object msg) {
             if (msg instanceof Throwable) {
                 Throwable t = (Throwable) msg;
-                fatal(t.getMessage(),t);
-            }else{
+                error(t.getMessage(), t);
+            } else {
+                error(msg, null);
+            }
+        }
+
+        public void error(Object msg, Throwable t) {
+            out("ERROR", msg, t);
+        }
+
+        public void fatal(Object msg) {
+            if (msg instanceof Throwable) {
+                Throwable t = (Throwable) msg;
+                fatal(t.getMessage(), t);
+            } else {
                 fatal(msg, null);
             }
+        }
+
+        public void fatal(Object msg, Throwable t) {
+            out("FATAL", msg, t);
+        }
     }
-    public void fatal(Object msg, Throwable t)    { out("FATAL", msg, t); }
-  }
 
 }
-
-

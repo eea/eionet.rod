@@ -7,15 +7,15 @@ import eionet.rod.RODUtil;
 import eionet.rod.dto.CountryDeliveryDTO;
 
 /**
- *
+ * 
  * @author altnyris
- *
+ * 
  */
-public class CountryDeliveriesTableDecorator extends TableDecorator{
+public class CountryDeliveriesTableDecorator extends TableDecorator {
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getContact() {
 
@@ -38,8 +38,10 @@ public class CountryDeliveriesTableDecorator extends TableDecorator{
                     ret.append("</div>");
                 }
             } else {
-                ret.append("<a href='").append(path).append("/responsible?role=").append(delivery.getObligationRespRole()).append("&amp;spatial=");
-                ret.append(delivery.getSpatialTwoLetter()).append("&amp;member=").append(delivery.getSpatialIsMember()).append("'>");
+                ret.append("<a href='").append(path).append("/responsible?role=").append(delivery.getObligationRespRole())
+                        .append("&amp;spatial=");
+                ret.append(delivery.getSpatialTwoLetter()).append("&amp;member=").append(delivery.getSpatialIsMember())
+                        .append("'>");
                 ret.append(RODUtil.threeDots(delivery.getRoleName(), 15));
                 ret.append("</a>");
             }
@@ -49,8 +51,8 @@ public class CountryDeliveriesTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getTitle() {
 
@@ -67,8 +69,8 @@ public class CountryDeliveriesTableDecorator extends TableDecorator{
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return String
      */
     public String getDate() {
 

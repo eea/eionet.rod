@@ -7,13 +7,13 @@ package eionet.rod;
 import java.util.Hashtable;
 
 /**
- *
+ * 
  * @author jaanus
  */
-public class UnicodeEscapes{
+public class UnicodeEscapes {
 
     /** */
-    private Hashtable unicodeEscapes = new Hashtable();
+    private Hashtable<String, String> unicodeEscapes = new Hashtable<String, String>();
 
     /**
      *
@@ -275,50 +275,58 @@ public class UnicodeEscapes{
     }
 
     /**
-     *
+     * 
      * @param ent
-     * @return
+     * @return int
      */
     public int getDecimal(String ent) {
 
         String sDecimal = (String) unicodeEscapes.get(ent);
-        if (sDecimal == null) return -1;
+        if (sDecimal == null)
+            return -1;
         return Integer.parseInt(sDecimal);
     }
 
     /**
-     *
+     * 
      * @param s
-     * @return
+     * @return boolean
      */
     public boolean isXHTMLEntity(String s) {
 
-        if (s == null || s.length() == 0) return false;
-        if (!(s.startsWith("&") && s.endsWith(";"))) return false;
+        if (s == null || s.length() == 0)
+            return false;
+        if (!(s.startsWith("&") && s.endsWith(";")))
+            return false;
 
-        if (s.length() == 2) return false;
+        if (s.length() == 2)
+            return false;
 
-        String ss = s.substring(1, s.length()-1);
+        String ss = s.substring(1, s.length() - 1);
         return unicodeEscapes.containsKey(ss);
     }
 
     /**
-     *
+     * 
      * @param s
-     * @return
+     * @return boolean
      */
     public boolean isNumericHTMLEscapeCode(String s) {
 
-        if (s == null || s.length() == 0) return false;
-        if (!(s.startsWith("&") && s.endsWith(";"))) return false;
+        if (s == null || s.length() == 0)
+            return false;
+        if (!(s.startsWith("&") && s.endsWith(";")))
+            return false;
 
         char c = s.charAt(1);
-        if (c!='#') return false;
+        if (c != '#')
+            return false;
 
-        if (s.length() == 3) return false;
+        if (s.length() == 3)
+            return false;
 
         try {
-            Integer.parseInt(s.substring(2, s.length()-1));
+            Integer.parseInt(s.substring(2, s.length() - 1));
         } catch (NumberFormatException e) {
             return false;
         }

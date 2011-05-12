@@ -12,9 +12,9 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- *
+ * 
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
+ * 
  */
 @UrlBinding("/responsible")
 public class ResponsibleActionBean extends AbstractRODActionBean {
@@ -25,10 +25,10 @@ public class ResponsibleActionBean extends AbstractRODActionBean {
 
     private ResponsibleRoleDTO responsibleRole;
 
-
     /**
-     *
-     * @return
+     * 
+     * @return Resolution
+     * @throws ServiceException
      */
     @DefaultHandler
     public Resolution init() throws ServiceException {
@@ -48,7 +48,7 @@ public class ResponsibleActionBean extends AbstractRODActionBean {
         }
 
         if (role != null && !role.equals("") && spatial != null && !spatial.equals("") && member != null && !member.equals("")) {
-            responsibleRole = RODServices.getDbService().getRoleDao().getRoleDesc(id,role);
+            responsibleRole = RODServices.getDbService().getRoleDao().getRoleDesc(id, role);
         } else {
             return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -56,41 +56,33 @@ public class ResponsibleActionBean extends AbstractRODActionBean {
         return new ForwardResolution("/pages/responsible.jsp");
     }
 
-
     public String getRole() {
         return role;
     }
-
 
     public void setRole(String role) {
         this.role = role;
     }
 
-
     public String getSpatial() {
         return spatial;
     }
-
 
     public void setSpatial(String spatial) {
         this.spatial = spatial;
     }
 
-
     public String getMember() {
         return member;
     }
-
 
     public void setMember(String member) {
         this.member = member;
     }
 
-
     public ResponsibleRoleDTO getResponsibleRole() {
         return responsibleRole;
     }
-
 
     public void setResponsibleRole(ResponsibleRoleDTO responsibleRole) {
         this.responsibleRole = responsibleRole;
