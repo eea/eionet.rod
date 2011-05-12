@@ -880,9 +880,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         Connection con = null;
         PreparedStatement preparedStatement = null;
 
-        System.out.println("Operation is " + op);
-        System.out.println("Table is " + tab);
-        System.out.println("Id is " + id);
+        //System.out.println("Operation is " + op);
+        //System.out.println("Table is " + tab);
+        //System.out.println("Id is " + id);
 
         try {
             con = getConnection();
@@ -892,7 +892,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             preparedStatement.setString(3, tab);
             if (isDebugMode) logQuery(qSelectAllUndoByTableAndOperation);
             vec = _getVectorOfHashes(preparedStatement);
-            System.out.println("Vector is " + vec);
+            //System.out.println("Vector is " + vec);
             preparedStatement.close();
 
             if (tab.equals("T_SOURCE") && op.equals("D")) {
