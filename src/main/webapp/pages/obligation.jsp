@@ -38,6 +38,16 @@
 		    			</c:otherwise>
 		    		</c:choose>
 		    	</c:if>
+		    	<c:if test="${actionBean.productsExist}">
+    	    		<c:choose>
+    	    			<c:when test="${actionBean.tab == 'products'}">
+    	    				<li id="currenttab"><span>Products</span></li>
+    	    			</c:when>
+    	    			<c:otherwise>
+    	    				<li><a href="${pageContext.request.contextPath}/obligations/${actionBean.id}/products">Products</a></li>
+    	    			</c:otherwise>
+    	    		</c:choose>
+	    		</c:if>
 		    	<c:if test="${!empty actionBean.obligation.parameters}">
 		    		<c:choose>
 		    			<c:when test="${actionBean.tab == 'parameters'}">
@@ -94,6 +104,9 @@
 			</c:when>
 			<c:when test="${actionBean.tab == 'deliveries'}">
 				<jsp:include page="/pages/obligation_deliveries.jsp"/>
+			</c:when>
+			<c:when test="${actionBean.tab == 'products'}">
+				<jsp:include page="/pages/obligation_products.jsp"/>
 			</c:when>
 			<c:when test="${actionBean.tab == 'history'}">
 				<jsp:include page="/pages/obligation_history.jsp"/>

@@ -12,6 +12,8 @@ import java.util.Vector;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.tee.uit.client.ServiceClientIF;
 import com.tee.uit.client.ServiceClients;
 import com.tee.uit.security.AccessControlListIF;
@@ -55,6 +57,8 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IObligationDao;
 import eionet.rod.services.modules.db.dao.IUndoDao;
+import eionet.sparqlClient.helpers.QueryExecutor;
+import eionet.sparqlClient.helpers.QueryResult;
 
 /**
  * 
@@ -83,6 +87,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
     private List<LookupDTO> infoTypeList;
     private String tab;
     private List<CountryDeliveryDTO> deliveries;
+    private QueryResult products;
     private String spatialId;
     private List<VersionDTO> versions;
     private List<SiblingObligationDTO> siblingObligations;
@@ -202,6 +207,12 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 issues = RODServices.getDbService().getIssueDao().getObligationIssuesList(id);
             } else if (tab.equals("deliveries")) {
                 deliveries = RODServices.getDbService().getDeliveryDao().getCountyDeliveriesList(id, spatialId);
+            } else if (tab.equals("products")) {
+                try {
+                    getProductsList();
+                } catch (Exception e) {
+                    handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
+                }
             } else if (tab.equals("history")) {
                 versions = RODServices.getDbService().getUndoDao().getPreviousActionsReportSpecific(id, "T_OBLIGATION", "PK_RA_ID");
             } else if (tab.equals("parameters")) {
@@ -285,6 +296,55 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                     .getObligationsList(anmode, country, issue, client, terminated, true);
 
         return new ForwardResolution("/pages/obligations.jsp");
+    }
+    
+    public boolean getProductsExist() throws Exception {
+        
+        boolean ret = false;
+        
+        String query = "PREFIX data: <http://www.eea.europa.eu/portal_types/Data#> "
+            + "PREFIX dct: <http://purl.org/dc/terms/> "
+            + "ASK { "
+            + "?product data:reportingObligations \"" + id + "\" ; "
+            + "dct:title ?title ; "
+            + "dct:effective ?effective "
+            + "}";
+        
+        String CRSparqlEndpoint = RODServices.getFileService().getStringProperty("cr.sparql.endpoint");
+        try {
+            if (!StringUtils.isBlank(CRSparqlEndpoint)) {
+                QueryExecutor executor = new QueryExecutor();
+                ret = executor.executeASKQuery(CRSparqlEndpoint, query);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("SPARQL endpoint threw error", e.getCause());
+        }
+        
+        return ret;
+    }
+    
+    private void getProductsList() throws Exception {
+        
+        String query = "PREFIX data: <http://www.eea.europa.eu/portal_types/Data#> "
+            + "PREFIX dct: <http://purl.org/dc/terms/> "
+            + "SELECT DISTINCT ?product ?title xsd:date(?effective) as ?published WHERE { "
+            + "?product data:reportingObligations \"" + id + "\" ; "
+            + "dct:title ?title ; "
+            + "dct:effective ?effective "
+            + "} ORDER BY DESC(?published) ";
+        
+        String CRSparqlEndpoint = RODServices.getFileService().getStringProperty("cr.sparql.endpoint");
+        try {
+            if (!StringUtils.isBlank(CRSparqlEndpoint)) {
+                QueryExecutor executor = new QueryExecutor();
+                executor.executeQuery(CRSparqlEndpoint, query);
+                products = executor.getResults();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("SPARQL endpoint threw error", e.getCause());
+        }
     }
 
     private List<DDParamDTO> getDDParams() {
@@ -1396,5 +1456,9 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 
     public void setTs(long ts) {
         this.ts = ts;
+    }
+
+    public QueryResult getProducts() {
+        return products;
     }
 }
