@@ -74,8 +74,8 @@ public class SearchActionBean extends AbstractRODActionBean {
                     newRows.add(row);
                 }
             }
+            result.setRows(newRows);
         }
-        result.setRows(newRows);
     }
 
     public String getExpression() {
