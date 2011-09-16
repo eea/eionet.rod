@@ -24,97 +24,45 @@
 package eionet.rod.rdf;
 
 import java.util.List;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 
-import eionet.rod.RODUtil;
 import eionet.rod.dto.ClientDTO;
+import eionet.rod.dto.IssueDTO;
 import eionet.rod.dto.ObligationRdfDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 
 /**
- * <P>Servlet URL: <CODE>rdf</CODE></P>
- *
- * <P>Database tables involved: T_ACTIVITY</P>
- *
- * <P>XSL file used: <CODE>index.xsl</CODE><BR>
- * Query file used: <CODE>index.xrs</CODE></P>
- *
- * @author  Kaido Laine
- * @version 1.1
+ * Generates RDF for obligation(s)
+ * @author altnyris
+ * @version 1.2
  */
 public class Activities extends RDFServletAC {
 
-  private static String allNameSpaces =  rdfNameSpace +  rdfSNameSpace +
-    "xmlns:dcterms='http://purl.org/dc/terms/'";
+    private static final long serialVersionUID = 1L;
 
-  public String getRdf(HttpServletRequest req) throws ServiceException {
-      return getRdf(req, null);
-  }
+    public String getRdf(HttpServletRequest req) throws Exception {
+        return getRdf(req, null);
+    }
 
-  public String getRdf(HttpServletRequest req, ObligationRdfDTO obligation) throws ServiceException {
-        try {
-            props = ResourceBundle.getBundle(PROP_FILE);
-        } catch (MissingResourceException mre) {
-            mre.printStackTrace();
+    public String getRdf(HttpServletRequest req, ObligationRdfDTO obligation) throws Exception {
+        if (obligation != null) {
+            return generateRDFSingleObligation(obligation);
+        } else {
+            return generateRDF(req);
         }
-
-        if (activitiesNamespace == null)
-            activitiesNamespace = props.getString(ROD_URL_NS);
-
-        if (instrumentsNamespace == null)
-            try {
-                instrumentsNamespace = props.getString(ROD_LI_NS);
-            } catch (MissingResourceException mre ) {
-                instrumentsNamespace="http://rod.eionet.europa.eu/instruments/";
-            }
-
-        if (issuesNamespace == null)
-            try {
-                issuesNamespace = props.getString(ROD_ISSUES_NS);
-            } catch (MissingResourceException mre ) {
-                issuesNamespace="http://rod.eionet.europa.eu/issues/";
-            }
-
-        if (spatialNamespace == null)
-            try {
-                spatialNamespace = props.getString("spatial.namespace");
-            } catch (MissingResourceException mre ) {
-                issuesNamespace="http://rod.eionet.europa.eu/spatial/";
-            }
-
-
-        if (obligationsNamespace == null)
-            obligationsNamespace = props.getString(ROD_URL_RO_NS);
-
-        if (rodSchemaNamespace == null)
-            try {
-                rodSchemaNamespace=props.getString("schema.namespace");
-                //quite likely it will not change
-            } catch (MissingResourceException mre ) {
-                rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
-            }
-
-            if (obligation != null)
-                return generateRDFSingleObligation(obligation);
-            else
-                return generateRDF(req);
     }
 
     protected String generateRDFSingleObligation(ObligationRdfDTO obligation) throws ServiceException {
         StringBuffer s = new StringBuffer();
-        s.append(rdfHeader);
-        s.append("<rdf:RDF ").append(" xmlns:rod=\"").append(rodSchemaNamespace).append("#\"")
-        .append(" ").append(allNameSpaces).append(">");
+        s.append(RDF_HEADER);
 
         StringBuffer content = genereteElement(obligation);
         s.append(content);
 
-        s.append("</rdf:RDF>");
+        s.append(RDF_FOOTER);
 
         return s.toString();
     }
@@ -122,9 +70,7 @@ public class Activities extends RDFServletAC {
     protected String generateRDF(HttpServletRequest req) throws ServiceException {
 
         StringBuffer s = new StringBuffer();
-        s.append(rdfHeader);
-        s.append("<rdf:RDF ").append(" xmlns:rod=\"").append(rodSchemaNamespace).append("#\"")
-        .append(" ").append(allNameSpaces).append(">");
+        s.append(RDF_HEADER);
 
         List<ObligationRdfDTO> obligations = RODServices.getDbService().getObligationDao().getObligationsForRDF();
 
@@ -132,30 +78,7 @@ public class Activities extends RDFServletAC {
             StringBuffer element = genereteElement(obligation);
             s.append(element);
         }
-
-        String[][] raIds=RODServices.getDbService().getObligationDao().getObligationIds();
-
-        //issues list
-        String [][] issues = RODServices.getDbService().getIssueDao().getIssueIdPairs();
-        for (int i= 0; i< issues.length; i++) {
-            String pk = issues[i][0];
-            String name = issues[i][1];
-            s.append("<rod:Issue rdf:about=\"").append(issuesNamespace).append(pk).append("\">")
-            .append("<rdfs:label>").append(name).append("</rdfs:label>")
-            .append("</rod:Issue>");
-
-        }
-
-        for (int i= 0; i< raIds.length; i++) {
-
-            s.append("<rdf:Description rdf:about=\"").append(obligationsNamespace).append("/").append(raIds[i][0]).append("\">");
-            String[][] iIds = RODServices.getDbService().getIssueDao().getIssues(Integer.valueOf(raIds[i][0]));
-            for (int j=0; j<iIds.length; j++)
-                s.append("<rod:issue rdf:resource=\"" + issuesNamespace + iIds[j][0] + "\"/>");
-                s.append("</rdf:Description>");
-        }
-
-        s.append("</rdf:RDF>");
+        s.append(RDF_FOOTER);
 
         return s.toString();
 
@@ -163,98 +86,69 @@ public class Activities extends RDFServletAC {
 
     private StringBuffer genereteElement(ObligationRdfDTO obligation) throws ServiceException {
 
-        int pk = obligation.getObligationId();
-        String title = obligation.getTitle();
-        int sourceId = obligation.getSourceId();
-        int clientId = obligation.getClientId();
-
-        String validSince = obligation.getValidSince();
-        String terminated = obligation.getTerminated();
-        String comment = obligation.getComment();
-
-        String respRole = obligation.getResponsibleRole();
-        String nextDeadline = obligation.getNextDeadline();
-        String nextDeadline2 = obligation.getNextDeadline2();
-
-        String repFormat = obligation.getReportingFormat();
-        String formatName = obligation.getFormatName();
-        String repFormatUrl = obligation.getReportFormatUrl();
-
-        String description = obligation.getDescription();
-        String eea_primary = obligation.getEeaPrimary();
-        String dataUsedForUrl = obligation.getDataUsedForUrl();
-
-        if ((formatName == null || formatName.equals("")) && (repFormatUrl != null && !repFormatUrl.equals("")))
-            formatName = repFormatUrl;
-
-        if (terminated != null && terminated.equals("Y"))
-            terminated = "1";
-        else
-            terminated = "0";
-
-        String detailsUrl = "http://rod.eionet.europa.eu/obligations/"+pk;
-
-        title = RODUtil.replaceTags(title, true, true);
-        description = RODUtil.replaceTags(description, true, true);
-        comment = RODUtil.replaceTags(comment, true, true);
-        respRole = RODUtil.replaceTags(respRole, true, true);
-        repFormat = RODUtil.replaceTags(repFormat, true, true);
-        formatName = RODUtil.replaceTags(formatName, true, true);
-        repFormatUrl = RODUtil.replaceTags(repFormatUrl, true, true);
-        detailsUrl = RODUtil.replaceTags(detailsUrl, true, true);
-        dataUsedForUrl = RODUtil.replaceTags(dataUsedForUrl, true, true);
+        int oblId = obligation.getObligationId();
 
         StringBuffer s = new StringBuffer();
+        s.append("<Obligation rdf:about=\"obligations/").append(oblId).append("\">");
+        s.append(RDFUtil.writeReference("code", "instruments/" + obligation.getSourceId()));
+        s.append(RDFUtil.writeLiteral("dcterms:valid", obligation.getValidSince(), null, "date"));
+        s.append(RDFUtil.writeLiteral("dcterms:title", obligation.getTitle()));
+        s.append(RDFUtil.writeLiteral("guidelines", obligation.getReportingFormat()));
+        s.append(RDFUtil.writeLiteral("comment", obligation.getComment()));
+        s.append(RDFUtil.writeLiteral("responsibleRole", obligation.getResponsibleRole()));
+        s.append(RDFUtil.writeLiteral("nextdeadline", obligation.getNextDeadline(), null, "date"));
+        s.append(RDFUtil.writeLiteral("nextdeadline2", obligation.getNextDeadline2(), null, "date"));
+        s.append(RDFUtil.writeLiteral("lastUpdate", obligation.getLastUpdate(), null, "date"));
+        s.append(RDFUtil.writeLiteral("isTerminated", obligation.getTerminated()));
+        s.append(RDFUtil.writeLiteral("validSince", obligation.getValidSince(), null, "date"));
+        s.append(RDFUtil.writeLiteral("nextUpdate", obligation.getNextUpdate(), null, "date"));
+        s.append(RDFUtil.writeLiteral("verified", obligation.getVerified(), null, "date"));
+        s.append(RDFUtil.writeLiteral("verifiedBy", obligation.getVerifiedBy()));
+        s.append(RDFUtil.writeLiteral("lastHarvested", obligation.getLastHarvested(), null, "dateTime"));
+        s.append(RDFUtil.writeReference("requester", "clients/" + obligation.getRequester()));
+        s.append(RDFUtil.writeLiteral("dcterms:abstract", obligation.getDescription()));
+        s.append(RDFUtil.writeLiteral("coordinatorUrl", obligation.getCoordinatorUrl()));
+        s.append(RDFUtil.writeLiteral("validatedBy", obligation.getValidatedBy()));
+        s.append(RDFUtil.writeLiteral("isEEAPrimary", obligation.getEeaPrimary()));
+        s.append(RDFUtil.writeLiteral("isEEACore", obligation.getEeaCore()));
+        s.append(RDFUtil.writeLiteral("isFlagged", obligation.getFlagged()));
+        s.append(RDFUtil.writeReference("dpsirCategory", obligation.getDpsirD()));
+        s.append(RDFUtil.writeReference("dpsirCategory", obligation.getDpsirP()));
+        s.append(RDFUtil.writeReference("dpsirCategory", obligation.getDpsirS()));
+        s.append(RDFUtil.writeReference("dpsirCategory", obligation.getDpsirI()));
+        s.append(RDFUtil.writeReference("dpsirCategory", obligation.getDpsirR()));
+        s.append(RDFUtil.writeReference("dataUsedFor", obligation.getDataUsedForUrl()));
+        s.append("</Obligation>");
 
-        s.append("<rod:Obligation rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">")
-        .append("<dcterms:title>").append(title).append("</dcterms:title>")
-        .append("<dcterms:abstract>").append(description).append("</dcterms:abstract>");
-        if (!RODUtil.nullString(validSince))
-            s.append("<dcterms:valid>").append(validSince).append("</dcterms:valid>");
-        s.append("<rod:terminated>").append(terminated).append("</rod:terminated>")
-        .append("<rod:eea_primary>").append(eea_primary).append("</rod:eea_primary>");
-        if (!RODUtil.isNullOrEmpty(comment))
-            s.append("<rod:comment>").append(comment).append("</rod:comment>");
-
-        if (!RODUtil.isNullOrEmpty(respRole))
-            s.append("<rod:responsiblerole>").append(respRole).append("</rod:responsiblerole>");
-
-        s.append("<rod:nextdeadline rdf:datatype=\"http://www.w3.org/2001/XMLSchema#date\">").append(nextDeadline).append("</rod:nextdeadline>")
-        .append("<rod:nextdeadline2 rdf:datatype=\"http://www.w3.org/2001/XMLSchema#date\">").append(nextDeadline2).append("</rod:nextdeadline2>");
-
-        if (!RODUtil.isNullOrEmpty(repFormat))
-            s.append("<rod:guidelines>").append(repFormat).append("</rod:guidelines>");
-
-        s.append("<rod:instrument rdf:resource=\"" + instrumentsNamespace + sourceId + "\"/>");
-
-        if (!repFormatUrl.equals(""))
-            s.append("<rod:guidelines_url rdf:resource=\"" + repFormatUrl + "\"/>");
-
-        s.append("<rod:requester rdf:resource=\"/clients/" + clientId + "\"/>");
-        List<ClientDTO> clients = RODServices.getDbService().getClientDao().getClients(new Integer(pk).toString());
-        if (clients != null) {
+        s.append("<rdf:Description rdf:about=\"obligations/").append(oblId).append("\">");
+        List<ClientDTO> clients = RODServices.getDbService().getClientDao().getClients(new Integer(oblId).toString());
+        if (clients != null && clients.size() > 0) {
             for (ClientDTO client : clients) {
-                s.append("<rod:otherClient rdf:resource=\"/clients/" + client.getClientId() + "\"/>");
-            }
-        }
-        if (!RODUtil.isNullOrEmpty(dataUsedForUrl))
-            s.append("<rod:dataUsedFor rdf:resource=\"" + dataUsedForUrl + "\"/>");
-
-        List<Integer> voluntaryCountries = RODServices.getDbService().getSpatialDao().getObligationCountries(pk, true);
-        if (voluntaryCountries != null) {
-            for (Integer countryId : voluntaryCountries) {
-                s.append("<rod:voluntaryReporter rdf:resource=\"/spatial/" + countryId + "\"/>");
+                s.append(RDFUtil.writeReference("otherClient", "clients/" + client.getClientId()));
             }
         }
 
-        List<Integer> mandatoryCountries = RODServices.getDbService().getSpatialDao().getObligationCountries(pk, false);
-        if (mandatoryCountries != null) {
+        List<Integer> mandatoryCountries = RODServices.getDbService().getSpatialDao().getObligationCountries(oblId, false);
+        if (mandatoryCountries != null && mandatoryCountries.size() > 0) {
             for (Integer countryId : mandatoryCountries) {
-                s.append("<rod:formalReporter rdf:resource=\"/spatial/" + countryId + "\"/>");
+                s.append(RDFUtil.writeReference("formalReporter", "spatial/" + countryId));
             }
         }
 
-        s.append("</rod:Obligation>");
+        List<Integer> voluntaryCountries = RODServices.getDbService().getSpatialDao().getObligationCountries(oblId, true);
+        if (voluntaryCountries != null && voluntaryCountries.size() > 0) {
+            for (Integer countryId : voluntaryCountries) {
+                s.append(RDFUtil.writeReference("voluntaryReporter", "spatial/" + countryId));
+            }
+        }
+
+        List<IssueDTO> issues = RODServices.getDbService().getIssueDao().getObligationIssuesList(new Integer(oblId).toString());
+        if (issues != null && issues.size() > 0) {
+            for (IssueDTO issue : issues) {
+                s.append(RDFUtil.writeReference("issue", "issues/" + issue.getIssueId()));
+            }
+        }
+        s.append("</rdf:Description>");
 
         return s;
     }

@@ -23,24 +23,18 @@
 
 package eionet.rod.rdf;
 
+import java.io.IOException;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import eionet.rod.services.WebRODService;
-
-import java.util.Hashtable;
-import java.util.Vector;
-import eionet.rod.services.ServiceException;
-import javax.servlet.ServletConfig;
-
 import eionet.rod.Constants;
+import eionet.rod.services.ServiceException;
 
 /**
  * <P>Servlet URL: <CODE>rdf</CODE></P>
@@ -56,100 +50,118 @@ import eionet.rod.Constants;
 
 public abstract class RDFServletAC extends HttpServlet implements Constants {
 
-  protected String activitiesNamespace;
+    protected static final String RDF_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + " <rdf:RDF xmlns:foaf=\"http://xmlns.com/foaf/0.1/\"\n"
+        + " xmlns:owl=\"http://www.w3.org/2002/07/owl#\"\n"
+        + " xmlns=\"http://rod.eionet.europa.eu/schema.rdf#\"\n"
+        + " xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"\n"
+        + " xmlns:cc=\"http://creativecommons.org/ns#\"\n"
+        + " xmlns:skos=\"http://www.w3.org/2004/02/skos/core#\"\n"
+        + " xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
+        + " xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\"\n"
+        + " xmlns:dcterms=\"http://purl.org/dc/terms/\"\n"
+        + " xmlns:geo=\"http://www.w3.org/2003/01/geo/wgs84_pos#\"\n"
+        + " xml:base=\"http://rod.eionet.europa.eu/\">\n";
 
-  protected String obligationsNamespace;
-  protected String instrumentsNamespace;
-  protected String clientsNamespace;
-  protected String rodSchemaNamespace;
+    protected static final String RDF_FOOTER = "</rdf:RDF>";
+
+    protected String activitiesNamespace;
+
+    protected String obligationsNamespace;
+    protected String instrumentsNamespace;
+    protected String clientsNamespace;
+    protected String rodSchemaNamespace;
 
 
-  protected String issuesNamespace;
-  protected String spatialNamespace;
+    protected String issuesNamespace;
+    protected String spatialNamespace;
 
-  protected static ResourceBundle props;
+    protected static ResourceBundle props;
 
-  protected static final String rdfHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-  protected static final String rdfNameSpace = "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" ";
-  protected static final String rdfSNameSpace = "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" ";
+    protected static final String rdfHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    protected static final String rdfNameSpace = "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" ";
+    protected static final String rdfSNameSpace = "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" ";
 
-  protected static final String dcNs = " xmlns:dc=\"http://purl.org/dc/elements/1.1/\" ";
+    protected static final String dcNs = " xmlns:dc=\"http://purl.org/dc/elements/1.1/\" ";
 
-  public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) throws ServletException {
 
-    try {
-        props = ResourceBundle.getBundle(PROP_FILE);
-     } catch (MissingResourceException mre) {
-       throw new ServletException("Properties file " + PROP_FILE + ".properties not found");
-     }
+        try {
+            props = ResourceBundle.getBundle(PROP_FILE);
+        } catch (MissingResourceException mre) {
+            throw new ServletException("Properties file " + PROP_FILE + ".properties not found");
+        }
 
-    if (activitiesNamespace == null)
-      activitiesNamespace = props.getString(ROD_URL_NS);
+        if (activitiesNamespace == null) {
+            activitiesNamespace = props.getString(ROD_URL_NS);
+        }
 
-    if (instrumentsNamespace == null)
-      try {
-        instrumentsNamespace = props.getString(ROD_LI_NS);
-      } catch (MissingResourceException mre ) {
-        instrumentsNamespace="http://rod.eionet.europa.eu/instruments/";
-      }
+        if (instrumentsNamespace == null) {
+            try {
+                instrumentsNamespace = props.getString(ROD_LI_NS);
+            } catch (MissingResourceException mre ) {
+                instrumentsNamespace="http://rod.eionet.europa.eu/instruments/";
+            }
+        }
 
-    if (clientsNamespace == null)
-      try {
-          clientsNamespace = props.getString(ROD_CL_NS);
-      } catch (MissingResourceException mre ) {
-          clientsNamespace="http://rod.eionet.europa.eu/clients/";
+        if (clientsNamespace == null) {
+            try {
+                clientsNamespace = props.getString(ROD_CL_NS);
+            } catch (MissingResourceException mre ) {
+                clientsNamespace="http://rod.eionet.europa.eu/clients/";
+            }
+        }
+
+        if (issuesNamespace == null) {
+            try {
+                issuesNamespace = props.getString(ROD_ISSUES_NS);
+            } catch (MissingResourceException mre ) {
+                issuesNamespace="http://rod.eionet.europa.eu/issues/";
+            }
+        }
+
+        if (spatialNamespace == null) {
+            try {
+                spatialNamespace = props.getString("spatial.namespace");
+            } catch (MissingResourceException mre ) {
+                issuesNamespace="http://rod.eionet.europa.eu/spatial/";
+            }
+        }
+
+
+        if (obligationsNamespace == null) {
+            obligationsNamespace = props.getString(ROD_URL_RO_NS);
+        }
+
+        if (rodSchemaNamespace == null) {
+            try {
+                rodSchemaNamespace=props.getString("schema.namespace");
+                //quite likely it will not change
+            } catch (MissingResourceException mre ) {
+                rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
+            }
+        }
     }
 
-    if (issuesNamespace == null)
-      try {
-        issuesNamespace = props.getString(ROD_ISSUES_NS);
-      } catch (MissingResourceException mre ) {
-        issuesNamespace="http://rod.eionet.europa.eu/issues/";
-      }
+    protected abstract String generateRDF(HttpServletRequest req) throws ServiceException;
 
-    if (spatialNamespace == null)
-      try {
-        spatialNamespace = props.getString("spatial.namespace");
-      } catch (MissingResourceException mre ) {
-        issuesNamespace="http://rod.eionet.europa.eu/spatial/";
-      }
+    public void doGet( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException {
 
-
-    if (obligationsNamespace == null)
-      obligationsNamespace = props.getString(ROD_URL_RO_NS);
-
-    if (rodSchemaNamespace == null)
-      try {
-        rodSchemaNamespace=props.getString("schema.namespace");
-        //quite likely it will not change
-      } catch (MissingResourceException mre ) {
-        rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
-      }
-
-  }
-  protected abstract String generateRDF(HttpServletRequest req) throws ServiceException;
-
-  public void doGet( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException {
-
-    res.setContentType("application/rdf+xml;charset=UTF-8");
-
-    try {
-
-      String rdf = generateRDF(req);
-
-      res.getWriter().write( rdf) ;
-    } catch (ServiceException se ) {
-      throw new ServletException( "Error getting values for activities " + se.toString(), se);
+        res.setContentType("application/rdf+xml;charset=UTF-8");
+        try {
+            String rdf = generateRDF(req);
+            res.getWriter().write( rdf) ;
+        } catch (ServiceException se ) {
+            throw new ServletException( "Error getting values for activities " + se.toString(), se);
+        }
     }
 
-  }
+    protected String getActivityUrl(String id, String aid) {
+        String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
+        URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AMODE;
+        return url;
 
- protected String getActivityUrl(String id, String aid) {
-    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
-      URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AMODE;
-    return url;
-
- }
+    }
 
     protected static void _log(String s) { System.out.println("****** " + s);}
 }

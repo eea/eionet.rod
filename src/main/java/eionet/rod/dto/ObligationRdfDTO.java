@@ -7,15 +7,17 @@ package eionet.rod.dto;
  */
 public class ObligationRdfDTO implements java.io.Serializable{
 
+    private static final long serialVersionUID = 1L;
+
     private int obligationId;
     private int sourceId;
     private String title;
     private String sourceTitle;
     private String detailsUrl;
     private String uri;
-    private String terminated;
+    private boolean terminated;
     private String validSince;
-    private String eeaPrimary;
+    private boolean eeaPrimary;
     private String responsibleRole;
     private String description;
     private String nextDeadline;
@@ -26,6 +28,21 @@ public class ObligationRdfDTO implements java.io.Serializable{
     private String reportFormatUrl;
     private int clientId;
     private String dataUsedForUrl;
+    private String lastUpdate;
+    private String nextUpdate;
+    private String verified;
+    private String verifiedBy;
+    private String lastHarvested;
+    private String validatedBy;
+    private boolean eeaCore;
+    private boolean flagged;
+    private String coordinatorUrl;
+    private String requester;
+    private String dpsirD;
+    private String dpsirP;
+    private String dpsirS;
+    private String dpsirI;
+    private String dpsirR;
 
     /**
      *
@@ -81,11 +98,11 @@ public class ObligationRdfDTO implements java.io.Serializable{
         this.uri = uri;
     }
 
-    public String getTerminated() {
+    public boolean getTerminated() {
         return terminated;
     }
 
-    public void setTerminated(String terminated) {
+    public void setTerminated(boolean terminated) {
         this.terminated = terminated;
     }
 
@@ -161,11 +178,11 @@ public class ObligationRdfDTO implements java.io.Serializable{
         this.reportFormatUrl = reportFormatUrl;
     }
 
-    public String getEeaPrimary() {
+    public boolean getEeaPrimary() {
         return eeaPrimary;
     }
 
-    public void setEeaPrimary(String eeaPrimary) {
+    public void setEeaPrimary(boolean eeaPrimary) {
         this.eeaPrimary = eeaPrimary;
     }
 
@@ -183,6 +200,126 @@ public class ObligationRdfDTO implements java.io.Serializable{
 
     public void setDataUsedForUrl(String dataUsedForUrl) {
         this.dataUsedForUrl = dataUsedForUrl;
+    }
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public String getNextUpdate() {
+        return nextUpdate;
+    }
+
+    public void setNextUpdate(String nextUpdate) {
+        this.nextUpdate = nextUpdate;
+    }
+
+    public String getVerified() {
+        return verified;
+    }
+
+    public void setVerified(String verified) {
+        this.verified = verified;
+    }
+
+    public String getVerifiedBy() {
+        return verifiedBy;
+    }
+
+    public void setVerifiedBy(String verifiedBy) {
+        this.verifiedBy = verifiedBy;
+    }
+
+    public String getLastHarvested() {
+        return lastHarvested;
+    }
+
+    public void setLastHarvested(String lastHarvested) {
+        this.lastHarvested = lastHarvested;
+    }
+
+    public String getValidatedBy() {
+        return validatedBy;
+    }
+
+    public void setValidatedBy(String validatedBy) {
+        this.validatedBy = validatedBy;
+    }
+
+    public boolean getEeaCore() {
+        return eeaCore;
+    }
+
+    public void setEeaCore(boolean eeaCore) {
+        this.eeaCore = eeaCore;
+    }
+
+    public boolean getFlagged() {
+        return flagged;
+    }
+
+    public void setFlagged(boolean flagged) {
+        this.flagged = flagged;
+    }
+
+    public String getCoordinatorUrl() {
+        return coordinatorUrl;
+    }
+
+    public void setCoordinatorUrl(String coordinatorUrl) {
+        this.coordinatorUrl = coordinatorUrl;
+    }
+
+    public String getRequester() {
+        return requester;
+    }
+
+    public void setRequester(String requester) {
+        this.requester = requester;
+    }
+
+    public String getDpsirD() {
+        return dpsirD;
+    }
+
+    public void setDpsirD(String dpsirD) {
+        this.dpsirD = dpsirD;
+    }
+
+    public String getDpsirP() {
+        return dpsirP;
+    }
+
+    public void setDpsirP(String dpsirP) {
+        this.dpsirP = dpsirP;
+    }
+
+    public String getDpsirS() {
+        return dpsirS;
+    }
+
+    public void setDpsirS(String dpsirS) {
+        this.dpsirS = dpsirS;
+    }
+
+    public String getDpsirI() {
+        return dpsirI;
+    }
+
+    public void setDpsirI(String dpsirI) {
+        this.dpsirI = dpsirI;
+    }
+
+    public String getDpsirR() {
+        return dpsirR;
+    }
+
+    public void setDpsirR(String dpsirR) {
+        this.dpsirR = dpsirR;
     }
 
 
