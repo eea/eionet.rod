@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import eionet.rod.RODUtil;
 import eionet.rod.dto.InstrumentObligationDTO;
 import eionet.rod.dto.InstrumentRdfDTO;
 import eionet.rod.services.RODServices;
@@ -77,7 +78,8 @@ public class Instruments extends RDFServletAC {
         s.append(RDFUtil.writeLiteral("lastModified", instrument.getSourceLastModified(), null, "date"));
         s.append(RDFUtil.writeLiteral("issuedBy", instrument.getSourceIssuedBy()));
         s.append(RDFUtil.writeLiteral("dcterms:valid", instrument.getSourceValidFrom(), null, "date"));
-        s.append(RDFUtil.writeLiteral("dcterms:alternative", instrument.getSourceAlias()));
+        s.append(RDFUtil.writeLiteral("dcterms:alternative",
+                RODUtil.nullString(instrument.getSourceAlias()) ? instrument.getSourceTitle() : instrument.getSourceAlias()));
         s.append(RDFUtil.writeLiteral("rdfs:label", instrument.getSourceAlias()));
         s.append(RDFUtil.writeReference("dcterms:creator", "clients/" + instrument.getClientId()));
         s.append(RDFUtil.writeLiteral("lastUpdate", instrument.getSourceLastUpdate(), null, "dateTime"));

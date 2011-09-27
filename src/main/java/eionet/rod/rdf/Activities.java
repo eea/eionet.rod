@@ -90,7 +90,7 @@ public class Activities extends RDFServletAC {
 
         StringBuffer s = new StringBuffer();
         s.append("<Obligation rdf:about=\"obligations/").append(oblId).append("\">");
-        s.append(RDFUtil.writeReference("code", "instruments/" + obligation.getSourceId()));
+        s.append(RDFUtil.writeReference("instrument", "instruments/" + obligation.getSourceId()));
         s.append(RDFUtil.writeLiteral("dcterms:valid", obligation.getValidSince(), null, "date"));
         s.append(RDFUtil.writeLiteral("dcterms:title", obligation.getTitle()));
         s.append(RDFUtil.writeLiteral("guidelines", obligation.getReportingFormat()));
