@@ -23,17 +23,12 @@
 
 package eionet.rod.countrysrv;
 
-import java.util.Date;
-import java.io.PrintWriter;
 import java.io.FileWriter;
-import java.util.Hashtable;
-import java.util.HashSet;
-
-import eionet.rod.services.*;
-import eionet.rod.services.modules.db.dao.RODDaoFactory;
-import eionet.directory.DirectoryService;
-import eionet.directory.DirServiceException;
+import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
@@ -44,6 +39,14 @@ import org.openrdf.repository.sparql.SPARQLRepository;
 
 import com.tee.uit.security.AuthMechanism;
 import com.tee.uit.security.SignOnException;
+
+import eionet.directory.DirServiceException;
+import eionet.directory.DirectoryService;
+import eionet.rod.services.FileServiceIF;
+import eionet.rod.services.LogServiceIF;
+import eionet.rod.services.RODServices;
+import eionet.rod.services.ServiceException;
+import eionet.rod.services.modules.db.dao.RODDaoFactory;
 
 /**
  * Pulls information from various services and saves it to DB.
@@ -254,7 +257,7 @@ public class Extractor implements ExtractorConstants {
                 exitApp(false); // return;
                 throw new ServiceException(
                         "Operation failed while filling the database from Eionet Directory. The following error was reported:\n"
-                                + e.toString());
+                        + e.toString());
             }
         } // mode includes roles
 
@@ -291,17 +294,17 @@ public class Extractor implements ExtractorConstants {
 
         log("Going to extract deliveries from CR");
 
-        String query = "PREFIX dc: <http://purl.org/dc/elements/1.1/> " 
-                + "PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
-                + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date WHERE { " 
-                + "_:subj a rod:Delivery; "
-                + "rod:link ?link; " 
-                + "dc:title ?title; " 
-                + "rod:locality ?locality; " 
-                + "rod:obligation ?obligation; "
-                + "rod:period ?period; " 
-                + "rod:released ?date " 
-                + "}";
+        String query = "PREFIX dc: <http://purl.org/dc/elements/1.1/> "
+            + "PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
+            + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date WHERE { "
+            + "_:subj a rod:Delivery; "
+            + "rod:link ?link; "
+            + "dc:title ?title; "
+            + "rod:locality ?locality; "
+            + "rod:obligation ?obligation; "
+            + "rod:released ?date "
+            + "OPTIONAL { _:subj rod:period ?period }"
+            + "}";
 
         RepositoryConnection conn = null;
 
