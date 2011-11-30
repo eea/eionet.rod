@@ -68,7 +68,11 @@
 	      <param-value>utf-8</param-value>
 	    </init-param>
 	</filter>
-	
+	<filter>
+	    <filter-name>RdfFilter</filter-name>
+	    <filter-class>eionet.rod.rdf.RdfFilter</filter-class>
+	</filter>
+
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<!--              Configuration of the Stripes Filter.                   -->
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -80,7 +84,7 @@
 		<display-name>Stripes Filter</display-name>
 		<filter-name>StripesFilter</filter-name>
 		<filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
-		
+
 		<init-param>
 			<param-name>ActionResolver.Packages</param-name>
 			<param-value>eionet.rod</param-value>
@@ -92,7 +96,7 @@
 			<param-name>ActionBeanContext.Class</param-name>
 			<param-value>eionet.rod.web.context.RODActionBeanContext</param-value>
 		</init-param>
-		
+
 		<init-param>
 			<param-name>Interceptor.Classes</param-name>
 			<param-value>
@@ -103,45 +107,49 @@
 
 	<!-- Filter Mappings -->
 	<filter-mapping>
+		<filter-name>RdfFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+  	</filter-mapping>
+	<filter-mapping>
 		<filter-name>Character encoding</filter-name>
 		<url-pattern>/clients</url-pattern>
-  	</filter-mapping>	
+  	</filter-mapping>
 	<filter-mapping>
 		<filter-name>Character encoding</filter-name>
 		<url-pattern>/obligations</url-pattern>
-  	</filter-mapping>	
+  	</filter-mapping>
 	<filter-mapping>
 		<filter-name>Character encoding</filter-name>
 		<url-pattern>/instruments</url-pattern>
-  	</filter-mapping>	
+  	</filter-mapping>
 	<filter-mapping>
 		<filter-name>Character encoding</filter-name>
 		<url-pattern>/help</url-pattern>
-  	</filter-mapping>	
+  	</filter-mapping>
 	<filter-mapping>
 		<filter-name>Browser cache controller</filter-name>
 		<servlet-name>index</servlet-name>
-  	</filter-mapping>	
+  	</filter-mapping>
 	<filter-mapping>
 		<filter-name>CAS Filter</filter-name>
 		<url-pattern>/login</url-pattern>
   	</filter-mapping>
 	<filter-mapping>
 		<filter-name>CAS Filter</filter-name>
-		<url-pattern>/eionetCookieLogin/*</url-pattern>		
-  	</filter-mapping>  	
+		<url-pattern>/eionetCookieLogin/*</url-pattern>
+  	</filter-mapping>
 	<filter-mapping>
 		<filter-name>CAS Filter</filter-name>
-		<url-pattern>/versions</url-pattern>		
-  	</filter-mapping>  	
+		<url-pattern>/versions</url-pattern>
+  	</filter-mapping>
 	<filter-mapping>
 		<filter-name>CAS Filter</filter-name>
-		<url-pattern>/subscribe</url-pattern>		
-  	</filter-mapping>	
+		<url-pattern>/subscribe</url-pattern>
+  	</filter-mapping>
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
-		<url-pattern>/*</url-pattern>		
-  	</filter-mapping>	
+		<url-pattern>/*</url-pattern>
+  	</filter-mapping>
 
 	<servlet>
 		<servlet-name>AfterCASLoginServlet</servlet-name>
@@ -176,24 +184,8 @@
 		<servlet-class>eionet.rod.LoginServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>countries_rdf</servlet-name>
-		<servlet-class>eionet.rod.rdf.Countries</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>instruments_rss</servlet-name>
 		<servlet-class>eionet.rod.rdf.InstrumentsRSS</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>instruments_rdf</servlet-name>
-		<servlet-class>eionet.rod.rdf.Instruments</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>clients_rdf</servlet-name>
-		<servlet-class>eionet.rod.rdf.Clients</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>obligations_rdf</servlet-name>
-		<servlet-class>eionet.rod.rdf.Activities</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>issue_activities_rss</servlet-name>
@@ -248,24 +240,8 @@
 		<url-pattern>/login_servlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>instruments_rdf</servlet-name>
-		<url-pattern>/instruments.rdf</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>instruments_rss</servlet-name>
 		<url-pattern>/instruments.rss</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>clients_rdf</servlet-name>
-		<url-pattern>/clients.rdf</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>obligations_rdf</servlet-name>
-		<url-pattern>/obligations.rdf</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>countries_rdf</servlet-name>
-		<url-pattern>/countries</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>issue_activities_rss</servlet-name>
@@ -287,143 +263,143 @@
 		<servlet-name>logout</servlet-name>
 		<url-pattern>/logout_servlet</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/index.html</url-pattern>
 	</servlet-mapping>
-			
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/analysis</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/history</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/countrydeadlines</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/urls.rdf</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/obligations/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/obligationsdue</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/subscribe</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/countryinfo</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/responsible</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/harvester</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/undoinfo</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/instruments/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/clients/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/issues/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/spatial/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/documentation/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/help/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/instrumentsdue</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/search</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/simpleSearch</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/deadlines</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/histdeadlines</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/countrydeliveries</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/versions</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/updatehistory</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/contacts</url-pattern>

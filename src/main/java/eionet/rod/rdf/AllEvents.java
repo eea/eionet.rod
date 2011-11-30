@@ -30,119 +30,115 @@ import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.StringTokenizer;
 
+import javax.servlet.http.HttpServletRequest;
+
 import eionet.rod.Constants;
 import eionet.rod.RODUtil;
-import eionet.rod.services.ServiceException;
 import eionet.rod.services.RODServices;
-
-import javax.servlet.http.HttpServletRequest;
+import eionet.rod.services.ServiceException;
 
 public class AllEvents extends RSSServletAC {
 
-  protected String generateRDF(HttpServletRequest req) throws ServiceException {
+    private static final long serialVersionUID = 1L;
 
-    String issuesParam = req.getParameter("issues");
-    StringTokenizer issuesTemp = null;
-    StringTokenizer issues = null;
+    protected String generateRDF(HttpServletRequest req) throws ServiceException {
 
-    String countriesParam = req.getParameter("countries");
-    StringTokenizer countriesTemp = null;
-    StringTokenizer countries = null;
+        String issuesParam = req.getParameter("issues");
+        StringTokenizer issuesTemp = null;
+        StringTokenizer issues = null;
 
-    if (issuesParam != null && issuesParam.length() > 0)
-       issuesTemp = new StringTokenizer(issuesParam, ",");
+        String countriesParam = req.getParameter("countries");
+        StringTokenizer countriesTemp = null;
+        StringTokenizer countries = null;
 
-    if (countriesParam != null && countriesParam.length() > 0)
-        countriesTemp = new StringTokenizer(countriesParam, ",");
+        if (issuesParam != null && issuesParam.length() > 0)
+            issuesTemp = new StringTokenizer(issuesParam, ",");
 
-    StringBuffer strIssues = new StringBuffer();
-    if (issuesTemp != null) {
-        while (issuesTemp.hasMoreTokens()) {
-            String token  = issuesTemp.nextToken();
-            if (isNumeric(token)) {
-                strIssues.append(token);
-                strIssues.append(" ");
-            } else {
-                strIssues.append("-1");
-                strIssues.append(" ");
+        if (countriesParam != null && countriesParam.length() > 0)
+            countriesTemp = new StringTokenizer(countriesParam, ",");
+
+        StringBuffer strIssues = new StringBuffer();
+        if (issuesTemp != null) {
+            while (issuesTemp.hasMoreTokens()) {
+                String token = issuesTemp.nextToken();
+                if (isNumeric(token)) {
+                    strIssues.append(token);
+                    strIssues.append(" ");
+                } else {
+                    strIssues.append("-1");
+                    strIssues.append(" ");
+                }
+            }
+            if (strIssues.toString() != null)
+                issues = new StringTokenizer(strIssues.toString());
+        }
+
+        StringBuffer strCountries = new StringBuffer();
+        if (countriesTemp != null) {
+            while (countriesTemp.hasMoreTokens()) {
+                String token = countriesTemp.nextToken();
+                if (isNumeric(token)) {
+                    strCountries.append(token);
+                    strCountries.append(" ");
+                } else {
+                    strCountries.append("-1");
+                    strCountries.append(" ");
+                }
+            }
+            if (strCountries.toString() != null)
+                countries = new StringTokenizer(strCountries.toString());
+        }
+
+        StringBuffer s = new StringBuffer();
+        s.append(rdfHeader);
+
+        s.append("<rdf:RDF ").append(rdfNameSpace).append(eventsNs).append(rssNs).append(">");
+
+        String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
+        addChannelTag(s, eventsUrl);
+
+        String[][] events = RODServices.getDbService().getObligationDao().getAllActivityDeadlines(issues, countries);
+
+        s.append("<items><rdf:Seq>");
+        for (int i = 0; i < events.length; i++) {
+            String pk = events[i][0];
+
+            s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/").append(pk).append("\"/>");
+
+        }
+        s.append("</rdf:Seq></items>");
+        addChannelEnd(s);
+        for (int i = 0; i < events.length; i++) {
+            String pk = events[i][0];
+            String title = "Deadline for Reporting Obligation: " + events[i][1];
+            String date = events[i][2];
+            String link = getActivityUrl(pk, events[i][3]);
+            String description = events[i][4];
+
+            s.append("<item rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">").append("<title>")
+            .append(RODUtil.replaceTags(title, true, true)).append("</title>").append("<link>")
+            .append(RODUtil.replaceTags(link, true, true)).append("</link>").append("<description>")
+            .append(RODUtil.replaceTags(description, true, true)).append("</description>").append("<ev:startdate>")
+            .append(date).append("</ev:startdate>");
+
+            s.append("</item>");
+        }
+
+        s.append("</rdf:RDF>");
+
+        return s.toString();
+    }
+
+    public static boolean isNumeric(String inString) {
+        CharacterIterator theIterator = new StringCharacterIterator(inString);
+
+        for (char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next()) {
+            if (!Character.isDigit(ch)) {
+                return false;
             }
         }
-        if (strIssues.toString() != null)
-            issues = new StringTokenizer(strIssues.toString());
+
+        return true;
     }
-
-
-    StringBuffer strCountries = new StringBuffer();
-    if (countriesTemp != null) {
-        while (countriesTemp.hasMoreTokens()) {
-            String token  = countriesTemp.nextToken();
-            if (isNumeric(token)) {
-                strCountries.append(token);
-                strCountries.append(" ");
-            } else {
-                strCountries.append("-1");
-                strCountries.append(" ");
-            }
-        }
-        if (strCountries.toString() != null)
-            countries = new StringTokenizer(strCountries.toString());
-    }
-
-    StringBuffer s = new StringBuffer();
-    s.append(rdfHeader);
-
-    s.append("<rdf:RDF ").append(rdfNameSpace)
-      .append(eventsNs).append(rssNs)
-      .append(">");
-
-    String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
-    addChannelTag(s, eventsUrl);
-
-    String[][] events = RODServices.getDbService().getObligationDao().getAllActivityDeadlines(issues, countries);
-
-    s.append("<items><rdf:Seq>");
-    for (int i = 0; i < events.length; i++) {
-      String pk = events[i][0];
-
-      s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/")
-        .append(pk).append("\"/>");
-
-    }
-    s.append("</rdf:Seq></items>");
-    addChannelEnd(s);
-    for (int i = 0; i < events.length; i++) {
-      String pk = events[i][0];
-      String title = "Deadline for Reporting Obligation: " + events[i][1];
-      String date = events[i][2];
-      String link = getActivityUrl(pk, events[i][3] );
-      String description=events[i][4];
-
-      s.append( "<item rdf:about=\"").append(obligationsNamespace).append("/")
-        .append(pk).append("\">")
-        .append("<title>").append(RODUtil.replaceTags(title,true,true)).append("</title>")
-        .append("<link>").append(RODUtil.replaceTags(link,true,true)).append("</link>")
-        .append("<description>").append(RODUtil.replaceTags(description,true,true)).append("</description>")
-        .append("<ev:startdate>").append(date).append("</ev:startdate>");
-
-      s.append("</item>");
-    }
-
-    s.append("</rdf:RDF>");
-
-    return s.toString();
-  }
-
-  public static boolean isNumeric( String inString )
-  {
-    CharacterIterator theIterator = new StringCharacterIterator( inString );
-
-    for (char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next()) {
-        if (!Character.isDigit(ch)) {
-            return false;
-        }
-    }
-
-    return true;
-  }
 
 }

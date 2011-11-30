@@ -1,7 +1,6 @@
 package eionet.rod.web.action;
 
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,21 +11,19 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
-
 import eionet.rod.Constants;
 import eionet.rod.RODUtil;
 import eionet.rod.ROUser;
 import eionet.rod.dto.ClientDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
-import eionet.rod.web.util.SeeOtherRedirectResolution;
 
 /**
- * 
+ *
  * @author altnyris
- * 
+ *
  */
-@UrlBinding("/clients")
+@UrlBinding("/clients/{clientId}")
 public class ClientsActionBean extends AbstractRODActionBean {
 
     private List<ClientDTO> clients;
@@ -35,7 +32,7 @@ public class ClientsActionBean extends AbstractRODActionBean {
     private String clientId;
 
     /**
-     * 
+     *
      * @return Resolution
      * @throws ServiceException
      */
@@ -43,26 +40,11 @@ public class ClientsActionBean extends AbstractRODActionBean {
     public Resolution init() throws ServiceException {
 
         String forwardPage = "/pages/client.jsp";
-        String pathInfo = getContext().getRequest().getPathInfo();
-        if (!RODUtil.isNullOrEmpty(pathInfo)) {
-            StringTokenizer st = new StringTokenizer(pathInfo, "/");
-            if (st.hasMoreElements())
-                clientId = st.nextToken();
-        }
-
-        String acceptHeader = getContext().getRequest().getHeader("accept");
-        String[] accept = null;
-        if (acceptHeader != null && acceptHeader.length() > 0)
-            accept = acceptHeader.split(",");
 
         if (!RODUtil.isNullOrEmpty(clientId)) {
-            if (accept != null && accept.length > 0 && accept[0].equals("application/rdf+xml")) {
-                return new SeeOtherRedirectResolution("/clients.rdf");
-            } else {
-                client = RODServices.getDbService().getClientDao().getClientFactsheet(clientId);
-                if (client == null || !RODUtil.isNumber(clientId)) {
-                    return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
-                }
+            client = RODServices.getDbService().getClientDao().getClientFactsheet(clientId);
+            if (client == null || !RODUtil.isNumber(clientId)) {
+                return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
             }
         } else {
             clients = RODServices.getDbService().getClientDao().getAllClients();
@@ -73,7 +55,7 @@ public class ClientsActionBean extends AbstractRODActionBean {
     }
 
     /**
-     * 
+     *
      * @return Resolution
      * @throws ServiceException
      */
@@ -95,7 +77,7 @@ public class ClientsActionBean extends AbstractRODActionBean {
     }
 
     /**
-     * 
+     *
      * @return Resolution
      * @throws ServiceException
      */

@@ -50,6 +50,8 @@ import eionet.rod.services.ServiceException;
 
 public abstract class RDFServletAC extends HttpServlet implements Constants {
 
+    private static final long serialVersionUID = 1L;
+
     protected static final String RDF_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         + " <rdf:RDF xmlns:foaf=\"http://xmlns.com/foaf/0.1/\"\n"
         + " xmlns:owl=\"http://www.w3.org/2002/07/owl#\"\n"
