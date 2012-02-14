@@ -30,9 +30,12 @@ public class SearchActionBean extends AbstractRODActionBean {
     private QueryResult result;
 
     /**
-     *
+     * Perform a full text search using bif:contains. This is a query
+     * that is supposed to only return objects stored on ROD. We could
+     * in the future get other organisations to provide instruments using the
+     * same vocabulary. We don't want to see those currently.
      * @return Resolution
-     * @throws ServiceException 
+     * @throws ServiceException if Sparql endpoint is unaccessible.
      */
     @DefaultHandler
     public Resolution execute() throws ServiceException {
@@ -40,11 +43,15 @@ public class SearchActionBean extends AbstractRODActionBean {
         if (!StringUtils.isBlank(expression)) {
             
             String query = "PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
-                + "PREFIX dc: <http://purl.org/dc/terms/> "
-                + "SELECT DISTINCT ?subject ?type ?found ?name WHERE { "
-                + "?subject a ?type . FILTER ( ?type = rod:Instrument || ?type = rod:Obligation || ?type = rod:Client) "
+                + "PREFIX dct: <http://purl.org/dc/terms/> "
+                + "SELECT DISTINCT ?subject ?type ?found ?name "
+                + "FROM <http://rod.eionet.europa.eu/obligations/rdf> "
+                + "FROM <http://rod.eionet.europa.eu/instruments/rdf> "
+                + "FROM <http://rod.eionet.europa.eu/clients/rdf> "
+                + "WHERE { "
+                + "?subject a ?type . FILTER (?type IN (rod:Instrument, rod:Obligation, rod:Client)) "
                 + "?subject ?p ?found . ?found bif:contains \"'"+expression+"'\" . "
-                + "OPTIONAL { { ?subject dc:title ?name } UNION { ?subject rod:clientName ?name } } "
+                + "OPTIONAL { { ?subject dct:title ?name } UNION { ?subject rod:clientName ?name } } "
                 + "}";
             
             String CRSparqlEndpoint = RODServices.getFileService().getStringProperty(FileServiceIF.CR_SPARQL_ENDPOINT);
