@@ -28,8 +28,7 @@
 				</c:otherwise>
 			</c:choose>
 			<meta name="description" content="${description}"/>
-			<meta name="Publisher" content="EEA, The European Environment Agency" />
-			<meta name="Rights" content="Copyright EEA Copenhagen 2003-2006" />
+			<meta name="publisher" content="EEA, The European Environment Agency" />
 			
 			<!--[if IE]>
 			<style type="text/css" media="screen">
@@ -48,6 +47,15 @@
 			<script type="text/javascript" src="<c:url value="/script/pageops.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/mark_special_links.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/editor.js"/>"></script>
+			<script type="text/javascript">
+//<![CDATA[
+function addsite() {
+ f = document.getElementById('freesrchfld');
+ f.value = f.value + ' site:rod.eionet.europa.eu';
+ return true;
+}
+//]]>
+      </script>
 			<stripes:layout-component name="head"/>
 		</head>
 		<c:choose>
@@ -82,10 +90,9 @@
 						<a id="printlink" title="Print this page" href="javascript:this.print();"><span>Print</span></a>
 				        <a id="fullscreenlink" href="javascript:toggleFullScreenMode()" title="Switch to/from full screen mode"><span>Switch to/from full screen mode</span></a>
 				        <a id="acronymlink" href="http://www.eionet.europa.eu/acronyms" title="Look up acronyms"><span>Acronyms</span></a>
-				        <form action="http://search.eionet.europa.eu/search.jsp" method="get">
+				        <form action="http://google.com/search" method="get" onsubmit="return addsite()">
 							<div id="freesrchform"><label for="freesrchfld">Search</label>
-								<input type="text" id="freesrchfld" name="query" onfocus="if(this.value=='Search ROD')this.value='';" onblur="if(this.value=='')this.value='Search ROD';" value="Search ROD" size="10"/>
-								<input value="rod.eionet.europa.eu" name="qp_site" type="hidden"/>
+								<input type="text" id="freesrchfld" name="q" onfocus="if(this.value=='Search ROD')this.value='';" onblur="if(this.value=='')this.value='Search ROD';" value="Search ROD" size="10"/>
 								<input id="freesrchbtn" type="image" src="<c:url value="/images/button_go.gif"/>" alt="Go"/>
 							</div>
 						</form>
