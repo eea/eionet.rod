@@ -47,15 +47,6 @@
 			<script type="text/javascript" src="<c:url value="/script/pageops.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/mark_special_links.js"/>"></script>
 			<script type="text/javascript" src="<c:url value="/script/editor.js"/>"></script>
-			<script type="text/javascript">
-//<![CDATA[
-function addsite() {
- f = document.getElementById('freesrchfld');
- f.value = f.value + ' site:rod.eionet.europa.eu';
- return true;
-}
-//]]>
-      </script>
 			<stripes:layout-component name="head"/>
 		</head>
 		<c:choose>
@@ -90,9 +81,10 @@ function addsite() {
 						<a id="printlink" title="Print this page" href="javascript:this.print();"><span>Print</span></a>
 				        <a id="fullscreenlink" href="javascript:toggleFullScreenMode()" title="Switch to/from full screen mode"><span>Switch to/from full screen mode</span></a>
 				        <a id="acronymlink" href="http://www.eionet.europa.eu/acronyms" title="Look up acronyms"><span>Acronyms</span></a>
-				        <form action="http://google.com/search" method="get" onsubmit="return addsite()">
+				        <form action="http://google.com/search" method="get">
 							<div id="freesrchform"><label for="freesrchfld">Search</label>
 								<input type="text" id="freesrchfld" name="q" onfocus="if(this.value=='Search ROD')this.value='';" onblur="if(this.value=='')this.value='Search ROD';" value="Search ROD" size="10"/>
+								<input type="hidden" name="sitesearch" value="rod.eionet.europa.eu" />
 								<input id="freesrchbtn" type="image" src="<c:url value="/images/button_go.gif"/>" alt="Go"/>
 							</div>
 						</form>
