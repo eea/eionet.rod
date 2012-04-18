@@ -19,7 +19,7 @@ public class SecurityUtil {
     private static String casServerName;
 
     /**
-     * 
+     *
      * @param request
      * @return String
      */
@@ -31,26 +31,29 @@ public class SecurityUtil {
         if (casLoginUrl != null) {
 
             String casServerName = getCasServerName(request);
-            if (casServerName == null)
+            if (casServerName == null) {
                 throw new RuntimeException("If " + CASFilter.LOGIN_INIT_PARAM
                         + " context parameter has been specified, so must be " + CASFilter.SERVERNAME_INIT_PARAM);
+            }
 
             // set the after-login-url
             String action = (String) request.getSession(true).getAttribute(Constants.LAST_ACTION_URL_SESSION_ATTR);
             String afterUrl = request.getScheme() + "://" + casServerName + request.getContextPath();
-            if (RODUtil.isNullOrEmpty(action))
+            if (RODUtil.isNullOrEmpty(action)) {
                 afterUrl = request.getRequestURL().toString()
-                        + (request.getQueryString() != null ? ("?" + request.getQueryString()) : "");
-            else
-                afterUrl = request.getScheme() + "://" + casServerName + request.getContextPath() + action;
+                + (request.getQueryString() != null ? ("?" + request.getQueryString()) : "");
+            } else {
+                afterUrl = action;
+                //afterUrl = request.getScheme() + "://" + casServerName + request.getContextPath() + action;
+            }
 
             request.getSession().setAttribute("afterLogin", afterUrl);
 
             try {
                 result = casLoginUrl
-                        + "?service="
-                        + URLEncoder.encode(request.getScheme() + "://" + casServerName + request.getContextPath() + "/login",
-                                "UTF-8");
+                + "?service="
+                + URLEncoder.encode(request.getScheme() + "://" + casServerName + request.getContextPath() + "/login",
+                "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e.toString(), e);
             }
@@ -65,8 +68,9 @@ public class SecurityUtil {
      */
     public static String getCasLoginUrl(HttpServletRequest request) {
 
-        if (SecurityUtil.casLoginUrl == null)
+        if (SecurityUtil.casLoginUrl == null) {
             SecurityUtil.casLoginUrl = request.getSession().getServletContext().getInitParameter(CASFilter.LOGIN_INIT_PARAM);
+        }
 
         return SecurityUtil.casLoginUrl;
     }
@@ -77,14 +81,15 @@ public class SecurityUtil {
      */
     public static String getCasServerName(HttpServletRequest request) {
 
-        if (SecurityUtil.casServerName == null)
+        if (SecurityUtil.casServerName == null) {
             SecurityUtil.casServerName = request.getSession().getServletContext().getInitParameter(CASFilter.SERVERNAME_INIT_PARAM);
+        }
 
         return SecurityUtil.casServerName;
     }
 
     /**
-     * 
+     *
      * @param request
      * @return String
      */
@@ -96,13 +101,14 @@ public class SecurityUtil {
         if (casLoginUrl != null) {
 
             String casServerName = getCasServerName(request);
-            if (casServerName == null)
+            if (casServerName == null) {
                 throw new RuntimeException("If " + CASFilter.LOGIN_INIT_PARAM
                         + " context parameter has been specified, so must be " + CASFilter.SERVERNAME_INIT_PARAM);
+            }
 
             try {
                 result = casLoginUrl.replaceFirst("/login", "/logout") + "?url="
-                        + URLEncoder.encode(request.getScheme() + "://" + casServerName + request.getContextPath(), "UTF-8");
+                + URLEncoder.encode(request.getScheme() + "://" + casServerName + request.getContextPath(), "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e.toString(), e);
             }
@@ -113,7 +119,7 @@ public class SecurityUtil {
 
     /**
      * Returns current user, or null, if the current session does not have user attached to it.
-     * 
+     *
      * @param request
      * @return ROUser
      */
@@ -142,10 +148,11 @@ public class SecurityUtil {
             }
         }
 
-        if (user != null)
+        if (user != null) {
             return user.isAuthentic() ? user : null;
-        else
+        } else {
             return null;
+        }
     }
 
 }

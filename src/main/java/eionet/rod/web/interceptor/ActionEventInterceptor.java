@@ -8,10 +8,6 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import eionet.rod.Constants;
-import eionet.rod.RODUtil;
-import eionet.rod.web.interceptor.annotation.DontSaveLastActionEvent;
-
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.HandlesEvent;
 import net.sourceforge.stripes.action.Resolution;
@@ -20,22 +16,25 @@ import net.sourceforge.stripes.controller.ExecutionContext;
 import net.sourceforge.stripes.controller.Interceptor;
 import net.sourceforge.stripes.controller.Intercepts;
 import net.sourceforge.stripes.controller.LifecycleStage;
+import eionet.rod.Constants;
+import eionet.rod.RODUtil;
+import eionet.rod.web.interceptor.annotation.DontSaveLastActionEvent;
 
 /**
  * Interceptor that saves to the session last action except login action.
  * <p>
- * 
+ *
  * @author gerasvad
- * 
+ *
  */
 @Intercepts(value = LifecycleStage.EventHandling)
 public class ActionEventInterceptor implements Interceptor {
 
     /*
      * (non-Javadoc)
-     * 
      * @see net.sourceforge.stripes.controller.Interceptor#intercept(net.sourceforge.stripes.controller.ExecutionContext)
      */
+    @Override
     public Resolution intercept(ExecutionContext context) throws Exception {
         Resolution resolution = null;
 
@@ -49,15 +48,19 @@ public class ActionEventInterceptor implements Interceptor {
             HttpServletRequest request = context.getActionBean().getContext().getRequest();
             String actionEventURL = null;
 
-            actionEventURL = getActionName(actionBeanClass) + getPathInfo(request) + "?"
-                    + ((getEventName(eventMethod) != null) ? getEventName(eventMethod) + "=&" : "") + getRequestParameters(request);
+            String requestUrl =
+                request.getRequestURL().toString()
+                + (request.getQueryString() != null ? ("?" + request.getQueryString()) : "");
+            request.getSession(true).setAttribute(Constants.LAST_ACTION_URL_SESSION_ATTR, requestUrl);
+
+            actionEventURL =
+                getActionName(actionBeanClass) + getPathInfo(request) + "?"
+                + ((getEventName(eventMethod) != null) ? getEventName(eventMethod) + "=&" : "")
+                + getRequestParameters(request);
 
             // this will handle pretty url integration
             actionEventURL = postProcess(actionEventURL);
-
-            request.getSession(true).setAttribute(Constants.LAST_ACTION_URL_SESSION_ATTR, actionEventURL);
         }
-
         resolution = context.proceed();
         return resolution;
     }
@@ -122,8 +125,9 @@ public class ActionEventInterceptor implements Interceptor {
 
         String result = "";
         String pathInfo = request.getPathInfo();
-        if (!RODUtil.isNullOrEmpty(pathInfo))
+        if (!RODUtil.isNullOrEmpty(pathInfo)) {
             result = pathInfo;
+        }
 
         return result;
     }
