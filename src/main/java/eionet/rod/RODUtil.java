@@ -36,7 +36,7 @@ public class RODUtil {
 
     /**
      * Dummy method for getting request parameter
-     * 
+     *
      * @param req
      * @param prmName
      * @return String
@@ -45,33 +45,37 @@ public class RODUtil {
 
         String p = req.getParameter(prmName);
         // strongly ugly and bad quick-fix
-        if (prmName.equals("printmode") && (p == null || p.trim().equals("")))
+        if (prmName.equals("printmode") && (p == null || p.trim().equals(""))) {
             p = "N";
+        }
         return p;
 
     }
 
     /*
-    *
-    */
+     *
+     */
     public static String threeDots(String s, int len) {
 
-        if (len <= 0)
+        if (len <= 0) {
             return s;
-        if (s == null || s.length() == 0)
+        }
+        if (s == null || s.length() == 0) {
             return s;
+        }
 
         if (s.length() > len) {
             StringBuffer buf = new StringBuffer(s.substring(0, len));
             buf.append("...");
             return buf.toString();
-        } else
+        } else {
             return s;
+        }
     }
 
     /*
-    *
-    */
+     *
+     */
     public static String concatRole(String param1, String param2, String param3) {
 
         return param1 + param2 + param3;
@@ -81,8 +85,9 @@ public class RODUtil {
      *
      */
     public static Date getDate(String s) {
-        if (s == null || s.equals(""))
+        if (s == null || s.equals("")) {
             return null;
+        }
         Date date = null;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -120,23 +125,23 @@ public class RODUtil {
                     lastWasBlankChar = false;
                     //
                     // HTML Special Chars
-                    if (c == '"')
+                    if (c == '"') {
                         sb.append("&quot;");
-                    else if (c == '&')
+                    } else if (c == '&') {
                         sb.append("&amp;");
-                    else if (c == '<')
+                    } else if (c == '<') {
                         sb.append("&lt;");
-                    else if (c == '>')
+                    } else if (c == '>') {
                         sb.append("&gt;");
-                    else if (c == '\n')
+                    } else if (c == '\n') {
                         // Handle Newline
                         sb.append("<br/>");
-                    else {
+                    } else {
                         int ci = 0xffff & c;
-                        if (ci < 160)
+                        if (ci < 160) {
                             // nothing special only 7 Bit
                             sb.append(c);
-                        else {
+                        } else {
                             // Not 7 Bit use the unicode system
                             sb.append("&#");
                             sb.append(new Integer(ci).toString());
@@ -151,7 +156,7 @@ public class RODUtil {
     }
 
     /**
-     * 
+     *
      * @param in
      * @return String
      */
@@ -160,7 +165,7 @@ public class RODUtil {
     }
 
     /**
-     * 
+     *
      * @param in
      * @param dontCreateHTMLAnchors
      * @return String
@@ -170,10 +175,10 @@ public class RODUtil {
     }
 
     /**
-     * 
+     *
      * @param in
-     * @param dontCreateHTMLAnchors 
-     * @param dontCreateHTMLLineBreaks 
+     * @param dontCreateHTMLAnchors
+     * @param dontCreateHTMLLineBreaks
      * @param inTextarea
      * @return String
      */
@@ -183,42 +188,46 @@ public class RODUtil {
         StringBuffer ret = new StringBuffer();
         for (int i = 0; i < in.length(); i++) {
             char c = in.charAt(i);
-            if (c == '<')
+            if (c == '<') {
                 ret.append("&lt;");
-            else if (c == '>')
+            } else if (c == '>') {
                 ret.append("&gt;");
-            else if (c == '"')
+            } else if (c == '"') {
                 ret.append("&quot;");
-            else if (c == '\'')
+            } else if (c == '\'') {
                 ret.append("&#039;");
-            else if (c == '\\')
+            } else if (c == '\\') {
                 ret.append("&#092;");
-            else if (c == '&') {
+            } else if (c == '&') {
                 boolean startsEscapeSequence = false;
                 int j = in.indexOf(';', i);
                 if (j > 0) {
                     String s = in.substring(i, j + 1);
                     UnicodeEscapes unicodeEscapes = new UnicodeEscapes();
-                    if (unicodeEscapes.isXHTMLEntity(s) || unicodeEscapes.isNumericHTMLEscapeCode(s))
+                    if (unicodeEscapes.isXHTMLEntity(s) || unicodeEscapes.isNumericHTMLEscapeCode(s)) {
                         startsEscapeSequence = true;
+                    }
                 }
 
-                if (startsEscapeSequence)
+                if (startsEscapeSequence) {
                     ret.append(c);
-                else
+                } else {
                     ret.append("&amp;");
-            } else if (c == '\n' && dontCreateHTMLLineBreaks == false)
+                }
+            } else if (c == '\n' && dontCreateHTMLLineBreaks == false) {
                 ret.append("<br/>");
-            else if (c == '\r' && in.charAt(i + 1) == '\n' && dontCreateHTMLLineBreaks == false) {
+            } else if (c == '\r' && in.charAt(i + 1) == '\n' && dontCreateHTMLLineBreaks == false) {
                 ret.append("<br/>");
                 i = i + 1;
-            } else
+            } else {
                 ret.append(c);
+            }
         }
 
         String retString = ret.toString();
-        if (dontCreateHTMLAnchors == false)
+        if (dontCreateHTMLAnchors == false) {
             retString = setAnchors(retString, false, 50);
+        }
 
         return retString;
     }
@@ -226,32 +235,34 @@ public class RODUtil {
     /**
      * Finds all urls in a given string and replaces them with HTML anchors. If boolean newWindow==true then target will be a new
      * window, else no. If boolean cutLink>0 then cut the displayed link lenght cutLink.
-     * @param s 
-     * @param newWindow 
-     * @param cutLink 
+     * @param s
+     * @param newWindow
+     * @param cutLink
      * @return String
      */
     public static String setAnchors(String s, boolean newWindow, int cutLink) {
 
         StringBuffer buf = new StringBuffer();
 
-        StringTokenizer st = new StringTokenizer(s, " \t\n\r\f", true);
+        StringTokenizer st = new StringTokenizer(s, " \t\n\r\f|(|)", true);
         while (st.hasMoreTokens()) {
             String token = st.nextToken();
-            if (!isURL(token))
+            if (!isURL(token)) {
                 buf.append(token);
-            else {
+            } else {
                 StringBuffer _buf = new StringBuffer("<a ");
-                if (newWindow)
+                if (newWindow) {
                     _buf.append("target=\"_blank\" ");
+                }
                 _buf.append("href=\"");
                 _buf.append(token);
                 _buf.append("\">");
 
-                if (cutLink < token.length())
+                if (cutLink < token.length()) {
                     _buf.append(token.substring(0, cutLink)).append("...");
-                else
+                } else {
                     _buf.append(token);
+                }
 
                 _buf.append("</a>");
                 buf.append(_buf.toString());
@@ -264,8 +275,8 @@ public class RODUtil {
     /**
      * Finds all urls in a given string and replaces them with HTML anchors. If boolean newWindow==true then target will be a new
      * window, else no.
-     * @param s 
-     * @param newWindow 
+     * @param s
+     * @param newWindow
      * @return String
      */
     public static String setAnchors(String s, boolean newWindow) {
@@ -275,7 +286,7 @@ public class RODUtil {
 
     /**
      * Finds all urls in a given string and replaces them with HTML anchors with target being a new window.
-     * @param s 
+     * @param s
      * @return String
      */
     public static String setAnchors(String s) {
@@ -285,7 +296,7 @@ public class RODUtil {
 
     /**
      * Checks if the given string is a well-formed URL
-     * @param s 
+     * @param s
      * @return boolean
      */
     public static boolean isURL(String s) {
@@ -299,7 +310,7 @@ public class RODUtil {
     }
 
     /**
-     * 
+     *
      * @param s
      * @return boolean
      */
@@ -308,7 +319,7 @@ public class RODUtil {
     }
 
     /**
-     * 
+     *
      * @param s
      * @return boolean
      */
@@ -323,8 +334,9 @@ public class RODUtil {
     }
 
     public static String str2Date(String date) {
-        if (RODUtil.isNullOrEmpty(date))
+        if (RODUtil.isNullOrEmpty(date)) {
             return "NULL";
+        }
 
         int len = date.length();
 
@@ -352,7 +364,7 @@ public class RODUtil {
                     && s1 == '/' && s2 == '/') {
                 StringBuffer ret = new StringBuffer(10);
                 ret.insert(0, y1).insert(1, y2).insert(2, y3).insert(3, y4).insert(4, '-').insert(5, m1).insert(6, m2)
-                        .insert(7, '-').insert(8, d1).insert(9, d2);
+                .insert(7, '-').insert(8, d1).insert(9, d2);
 
                 return ret.toString();
             }
@@ -371,10 +383,11 @@ public class RODUtil {
 
         for (int i = 0; i < in.length(); i++) {
             char c = in.charAt(i);
-            if (c == '\'')
+            if (c == '\'') {
                 ret.append("''");
-            else
+            } else {
                 ret.append(c);
+            }
         }
         ret.append('\'');
 
