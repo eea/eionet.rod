@@ -6,19 +6,18 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-
 import eionet.rod.RODUtil;
-import eionet.rod.dto.SearchDTO;
 import eionet.rod.dto.ClientDTO;
 import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.IssueDTO;
+import eionet.rod.dto.SearchDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * 
+ *
  * @author altnyris
- * 
+ *
  */
 @UrlBinding("/deadlines")
 public class DeadlinesActionBean extends AbstractRODActionBean {
@@ -38,8 +37,11 @@ public class DeadlinesActionBean extends AbstractRODActionBean {
     private String date2;
     private String order;
 
+    private String idspatial;
+    private String actionUrl;
+
     /**
-     * 
+     *
      * @return Resolution
      * @throws ServiceException
      */
@@ -49,9 +51,21 @@ public class DeadlinesActionBean extends AbstractRODActionBean {
         issues = RODServices.getDbService().getIssueDao().getIssuesList();
         clients = RODServices.getDbService().getClientDao().getClientsList();
 
-        if (!RODUtil.isNullOrEmpty(spatialId))
-            spatialName = RODServices.getDbService().getSpatialDao().getCountryById(new Integer(spatialId).intValue());
+        if (!RODUtil.isNullOrEmpty(idspatial)) {
+            if (RODUtil.isNullOrEmpty(spatialId)) {
+                setSpatialId(idspatial);
+            }
 
+            spatialName = RODServices.getDbService().getSpatialDao().getCountryById(new Integer(spatialId).intValue());
+            setActionUrl("/spatial/" + idspatial + "/deadlines");
+        } else {
+            setActionUrl("/deadlines");
+        }
+
+
+        if (RODUtil.isNullOrEmpty(order)) {
+            order = "NEXT_REPORTING, DEADLINE";
+        }
         searchList = RODServices.getDbService().getObligationDao()
                 .getSearchObligationsList(spatialId, clientId, issueId, date1, date2, deadlines, order);
         return new ForwardResolution("/pages/deadlines.jsp");
@@ -151,6 +165,22 @@ public class DeadlinesActionBean extends AbstractRODActionBean {
 
     public void setOrder(String order) {
         this.order = order;
+    }
+
+    public String getIdspatial() {
+        return idspatial;
+    }
+
+    public void setIdspatial(String idspatial) {
+        this.idspatial = idspatial;
+    }
+
+    public String getActionUrl() {
+        return actionUrl;
+    }
+
+    public void setActionUrl(String actionUrl) {
+        this.actionUrl = actionUrl;
     }
 
 }

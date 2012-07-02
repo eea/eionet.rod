@@ -6,29 +6,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.displaytag.decorator.TableDecorator;
+
 import eionet.rod.RODUtil;
 import eionet.rod.dto.SearchDTO;
 
 /**
- * 
+ *
  * @author altnyris
- * 
+ *
  */
 public class DeadlinesTableDecorator extends TableDecorator {
 
     /**
-     * 
+     *
      * @return String
      */
     public String getTitle() {
 
         StringBuilder ret = new StringBuilder();
         SearchDTO search = (SearchDTO) getCurrentRowObject();
-        ret.append("<a href='obligations/").append(search.getObligationId()).append("'>");
+        ret.append("<a href='" + getContextPath() + "/obligations/").append(search.getObligationId()).append("'>");
         ret.append(RODUtil.replaceTags(RODUtil.threeDots(search.getObligationTitle(), 40), true, true));
         ret.append("</a>");
         if (!RODUtil.isNullOrEmpty(search.getSourceCode())) {
-            ret.append("<br/><a href='instruments/").append(search.getSourceId()).append("'>");
+            ret.append("<br/><a href='" + getContextPath() + "/instruments/").append(search.getSourceId()).append("'>");
             ret.append(RODUtil.replaceTags(search.getSourceCode(), true, true));
             ret.append("</a>");
         }
@@ -37,14 +38,14 @@ public class DeadlinesTableDecorator extends TableDecorator {
     }
 
     /**
-     * 
+     *
      * @return String
      */
     public String getClient() {
 
         StringBuilder ret = new StringBuilder();
         SearchDTO search = (SearchDTO) getCurrentRowObject();
-        ret.append("<a href='clients/").append(search.getClientId()).append("' title='");
+        ret.append("<a href='" + getContextPath() + "/clients/").append(search.getClientId()).append("' title='");
         ret.append(RODUtil.replaceTags(search.getClientName(), true, true)).append("'>");
         ret.append(RODUtil.replaceTags(RODUtil.threeDots(search.getClientDescr(), 20), true, true));
         ret.append("</a>");
@@ -53,7 +54,7 @@ public class DeadlinesTableDecorator extends TableDecorator {
     }
 
     /**
-     * 
+     *
      * @return String
      */
     public String getDeadline() {
@@ -76,7 +77,7 @@ public class DeadlinesTableDecorator extends TableDecorator {
     }
 
     /**
-     * 
+     *
      * @return Date
      */
     public Date getDeadlineSort() {
@@ -107,7 +108,7 @@ public class DeadlinesTableDecorator extends TableDecorator {
     }
 
     /**
-     * 
+     *
      * @return String
      */
     public String getRole() {
@@ -129,7 +130,7 @@ public class DeadlinesTableDecorator extends TableDecorator {
                     ret.append("</div>");
                 }
             } else {
-                ret.append("<a href='responsible?role=").append(search.getObligationRespRole()).append("&amp;spatial=");
+                ret.append("<a href='" + getContextPath() +  "/responsible?role=").append(search.getObligationRespRole()).append("&amp;spatial=");
                 ret.append(search.getSpatialTwoLetter()).append("&amp;member=").append(search.getSpatialIsMember()).append("'>");
                 ret.append(RODUtil.replaceTags(RODUtil.threeDots(search.getRoleDescr(), 15), true, true));
                 ret.append("</a>");
@@ -142,7 +143,7 @@ public class DeadlinesTableDecorator extends TableDecorator {
     }
 
     /**
-     * 
+     *
      * @return String
      */
     public String getHasDelivery() {
@@ -150,7 +151,7 @@ public class DeadlinesTableDecorator extends TableDecorator {
         StringBuilder ret = new StringBuilder();
         SearchDTO search = (SearchDTO) getCurrentRowObject();
         if (search.getObligationHasDelivery() == 1) {
-            ret.append("<a href='countrydeliveries?actDetailsId=").append(search.getObligationId());
+            ret.append("<a href='" + getContextPath() + "/countrydeliveries?actDetailsId=").append(search.getObligationId());
             ret.append("&amp;spatialId=").append(search.getSpatialId()).append("'>Show list</a>");
         } else {
             ret.append("None");
@@ -159,4 +160,11 @@ public class DeadlinesTableDecorator extends TableDecorator {
         return ret.toString();
     }
 
+    /**
+     * Since the JSP is used by different beans href's are dependent on context path.
+     * @return context path
+     */
+    private String getContextPath() {
+        return getPageContext().getServletContext().getContextPath();
+    }
 }
