@@ -5,6 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
+
 import org.displaytag.decorator.TableDecorator;
 
 import eionet.rod.RODUtil;
@@ -165,6 +168,10 @@ public class DeadlinesTableDecorator extends TableDecorator {
      * @return context path
      */
     private String getContextPath() {
-        return getPageContext().getServletContext().getContextPath();
+
+        PageContext pc = getPageContext();
+        HttpServletRequest req = (HttpServletRequest) pc.getRequest();
+
+        return req.getContextPath();
     }
 }
