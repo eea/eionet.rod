@@ -2,11 +2,11 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>
 
-<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Country deadlines">
+<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Countries">
 
   <stripes:layout-component name="contents">
 
-        <h1>Country deadlines</h1>
+        <h1>Countries</h1>
         <p>
     This part of ROD helps countries co-ordinate and manage their international
     reporting obligations. It provides information about when countries have to
@@ -15,13 +15,13 @@
     browse national deliveries by choosing a country below or query the contents
     of ROD and CDR by using the advanced search.
     </p>
-        <table cellspacing="0" style="width: 650px;">
+      <table cellspacing="0" style="width: 100%;">
       <colgroup span="3" width="33%"/>
       <tr valign="top">
-        <th align="left" colspan="3"><b>EEA member countries</b></th>
+        <th colspan="3" style="text-align:left; font-weight:bold">EEA member countries</th>
       </tr>
       <tr>
-        <td bgcolor="#FFFFFF" style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
+        <td style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
           <c:forEach items="${actionBean.memberCountries}" begin="0" end="${actionBean.membersCount1 - 1}" var="country" varStatus="loop">
               <img src="images/Folder_icon.gif" alt=""/>
               <a href="spatial/${country.countryId}/deadlines">${rodfn:replaceTags(country.name)}</a>
@@ -30,7 +30,7 @@
               </c:if>
           </c:forEach>
         </td>
-        <td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
+        <td style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
           <c:forEach items="${actionBean.memberCountries}" begin="${actionBean.membersCount1}" end="${actionBean.membersCount2 - 1}" var="country" varStatus="loop">
               <img src="images/Folder_icon.gif" alt=""/>
               <a href="spatial/${country.countryId}/deadlines">${rodfn:replaceTags(country.name)}</a>
@@ -39,7 +39,7 @@
               </c:if>
           </c:forEach>
         </td>
-        <td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="top">
+        <td style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="top">
           <c:forEach items="${actionBean.memberCountries}" begin="${actionBean.membersCount2}" var="country" varStatus="loop">
               <img src="images/Folder_icon.gif" alt=""/>
               <a href="spatial/${country.countryId}/deadlines">${rodfn:replaceTags(country.name)}</a>
@@ -50,10 +50,10 @@
         </td>
       </tr>
       <tr valign="top">
-        <th align="left" colspan="3"><b>Other countries </b></th>
+        <th colspan="3" style="text-align:left; font-weight:bold">Other countries</th>
       </tr>
       <tr>
-        <td bgcolor="#FFFFFF" style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
+        <td style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
           <c:forEach items="${actionBean.nonMemberCountries}" begin="0" end="${actionBean.nonMembersCount1 - 1}" var="country" varStatus="loop">
               <img src="images/Folder_icon.gif" alt=""/>
               <a href="spatial/${country.countryId}/deadlines">${rodfn:replaceTags(country.name)}</a>
@@ -62,7 +62,7 @@
               </c:if>
           </c:forEach>
         </td>
-        <td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
+        <td style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
           <c:forEach items="${actionBean.nonMemberCountries}" begin="${actionBean.nonMembersCount1}" end="${actionBean.nonMembersCount2 - 1}" var="country" varStatus="loop">
               <img src="images/Folder_icon.gif" alt=""/>
               <a href="spatial/${country.countryId}/deadlines">${rodfn:replaceTags(country.name)}</a>
@@ -71,7 +71,7 @@
               </c:if>
           </c:forEach>
         </td>
-        <td bgcolor="#FFFFFF" style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="top">
+        <td style="border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #008080 1px solid" valign="top">
           <c:forEach items="${actionBean.nonMemberCountries}" begin="${actionBean.nonMembersCount2}" var="country" varStatus="loop">
               <img src="images/Folder_icon.gif" alt=""/>
               <a href="spatial/${country.countryId}/deadlines">${rodfn:replaceTags(country.name)}</a>

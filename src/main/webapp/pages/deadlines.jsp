@@ -2,9 +2,9 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>
 
-<c:set var="page_title" value="Reporting overview"></c:set>
+<c:set var="page_title" value="Reporting deadlines"></c:set>
 <c:if test="${!empty actionBean.spatialName}">
-  <c:set var="page_title" value="Reporting overview: ${rodfn:replaceTags(actionBean.spatialName)}"></c:set>
+  <c:set var="page_title" value="Reporting deadlines: ${rodfn:replaceTags(actionBean.spatialName)}"></c:set>
 </c:if>
 <stripes:layout-render name="/pages/common/template.jsp" pageTitle="${page_title}">
 
