@@ -30,8 +30,13 @@ public class SpatialActionBean extends AbstractRODActionBean {
      */
     @DefaultHandler
     public Resolution deadlines() throws ServiceException {
-        //default Forwarding: Tab is not taken into account at the moment
-        return new ForwardResolution(DeadlinesActionBean.class).addParameter("idspatial", idspatial);
+        //if no spatial Id show country deadlines page
+        if (idspatial == null) {
+            return new ForwardResolution(CountriesActionBean.class);
+            //default Forwarding: "tab" is not taken into account at the moment
+        } else {
+            return new ForwardResolution(DeadlinesActionBean.class).addParameter("idspatial", idspatial);
+        }
     }
 
     public String getIdspatial() {
