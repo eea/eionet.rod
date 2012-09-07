@@ -24,7 +24,8 @@
     <void:uriPattern>^http://rod.eionet.europa.eu/.*</void:uriPattern>
     <void:subset rdf:resource="#obligations"/>
     <void:subset rdf:resource="#instruments"/>
-    <void:subset rdf:resource="#countries"/>
+    <void:subset rdf:resource="#spatials"/>
+    <void:subset rdf:resource="#issues"/>
   </void:Dataset>
 
   <void:Dataset rdf:ID="obligations">
@@ -32,7 +33,7 @@
     <dcterms:license rdf:resource="http://creativecommons.org/licenses/by/2.5/dk/"/>
     <dcterms:creator rdf:resource="/clients/3"/>
     <void:exampleResource rdf:resource="http://rod.eionet.europa.eu/obligations/523"/>
-    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/obligations.rdf"/>
+    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/obligations/rdf"/>
     <void:vocabulary rdf:resource="http://purl.org/dc/elements/1.1/"/>
     <void:vocabulary rdf:resource="http://purl.org/dc/terms/"/>
     <void:vocabulary rdf:resource="http://rod.eionet.europa.eu/schema.rdf"/>
@@ -43,36 +44,27 @@
     <dcterms:license rdf:resource="http://creativecommons.org/licenses/by/2.5/dk/"/>
     <dcterms:creator rdf:resource="/clients/3"/>
     <void:exampleResource rdf:resource="http://rod.eionet.europa.eu/instruments/545"/>
-    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/instruments.rdf"/>
+    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/instruments/rdf"/>
     <void:vocabulary rdf:resource="http://purl.org/dc/elements/1.1/"/>
     <void:vocabulary rdf:resource="http://purl.org/dc/terms/"/>
     <void:vocabulary rdf:resource="http://rod.eionet.europa.eu/schema.rdf"/>
   </void:Dataset>
 
-  <void:Dataset rdf:ID="countries">
-    <dcterms:title>Countries</dcterms:title>
-    <dcterms:license rdf:resource="http://creativecommons.org/licenses/by/2.5/dk/"/>
-    <dcterms:creator rdf:resource="/clients/3"/>
-    <void:exampleResource rdf:resource="http://rod.eionet.europa.eu/spatial/2"/>
-    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/countries"/>
-    <void:vocabulary rdf:resource="http://rod.eionet.europa.eu/schema.rdf"/>
-  </void:Dataset>
-  
   <void:Dataset rdf:ID="issues">
     <dcterms:title>Issues</dcterms:title>
     <dcterms:license rdf:resource="http://creativecommons.org/licenses/by/2.5/dk/"/>
     <dcterms:creator rdf:resource="/clients/3"/>
     <void:exampleResource rdf:resource="http://rod.eionet.europa.eu/issues/6"/>
-    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/issues"/>
+    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/issues/rdf"/>
     <void:vocabulary rdf:resource="http://rod.eionet.europa.eu/schema.rdf"/>
   </void:Dataset>
   
   <void:Dataset rdf:ID="spatials">
-    <dcterms:title>Spatials</dcterms:title>
+    <dcterms:title>Countries &amp; regions</dcterms:title>
     <dcterms:license rdf:resource="http://creativecommons.org/licenses/by/2.5/dk/"/>
     <dcterms:creator rdf:resource="/clients/3"/>
     <void:exampleResource rdf:resource="http://rod.eionet.europa.eu/spatials/5"/>
-    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/spatials"/>
+    <void:dataDump rdf:resource="http://rod.eionet.europa.eu/spatial/rdf"/>
     <void:vocabulary rdf:resource="http://rod.eionet.europa.eu/schema.rdf"/>
   </void:Dataset>
 
