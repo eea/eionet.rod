@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
+import eionet.rdfexport.RDFExportService;
+import eionet.rdfexport.RDFExportServiceImpl;
 import eionet.rod.util.sql.ConnectionUtil;
 
 /**
@@ -66,9 +68,12 @@ public class RdfFilter implements Filter {
                     Connection con = ConnectionUtil.getConnection();
                     httpResponse.setContentType(ACCEPT_RDF_HEADER);
                     httpResponse.setCharacterEncoding("UTF-8");
-                    GenerateRDF genRdf = new GenerateRDF(new PrintStream(httpResponse.getOutputStream()), con);
-                    genRdf.exportTable(table, identifier);
-                    genRdf.close();
+
+                    Properties props = new Properties();
+                    props.load(getClass().getClassLoader().getResourceAsStream("rdfexport.properties"));
+                    RDFExportService rdfExportService = new RDFExportServiceImpl(new PrintStream(httpResponse.getOutputStream()), con, props);
+                    rdfExportService.exportTable(table, identifier);
+                    con.close();
                     return;
                 } catch (Exception e) {
                     e.printStackTrace();
