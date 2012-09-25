@@ -39,6 +39,7 @@ public class RdfFilter implements Filter {
     /**
      * Take this filter out of service.
      */
+    @Override
     public void destroy() {
     }
 
@@ -51,6 +52,7 @@ public class RdfFilter implements Filter {
      * @exception IOException - if an input/output error occurs
      * @exception ServletException - if a servlet error occurs
      */
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         this.identifier = null;
@@ -64,20 +66,23 @@ public class RdfFilter implements Filter {
         if (uri != null && uri.endsWith("/rdf")){
             boolean rdf = extractTableAndIdentifier(uri, cpath);
             if (rdf) {
+                Connection conn = null;
                 try {
-                    Connection con = ConnectionUtil.getConnection();
+                    conn = ConnectionUtil.getConnection();
                     httpResponse.setContentType(ACCEPT_RDF_HEADER);
                     httpResponse.setCharacterEncoding("UTF-8");
 
                     Properties props = new Properties();
                     props.load(getClass().getClassLoader().getResourceAsStream("rdfexport.properties"));
-                    RDFExportService rdfExportService = new RDFExportServiceImpl(new PrintStream(httpResponse.getOutputStream()), con, props);
+                    RDFExportService rdfExportService = new RDFExportServiceImpl(new PrintStream(httpResponse.getOutputStream()), conn, props);
                     rdfExportService.exportTable(table, identifier);
-                    con.close();
                     return;
                 } catch (Exception e) {
                     e.printStackTrace();
                     throw new ServletException(e.getMessage(), e);
+                }
+                finally{
+                    ConnectionUtil.closeConnection(conn);
                 }
             }
         } else if(uri != null && uri.endsWith(".rdf")) {
@@ -140,6 +145,7 @@ public class RdfFilter implements Filter {
      *
      * @param filterConfig - The filter configuration object
      */
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 

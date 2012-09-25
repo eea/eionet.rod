@@ -44,27 +44,36 @@ public class RdfExporter {
                 i++;
             }
 
+            Connection conn = null;
+            FileOutputStream fos = null;
             try {
                 ResourceBundle props = ResourceBundle.getBundle("rdfexport");
                 String dir = props.getString("files.dest.dir");
 
                 File file = new File(dir, table + ".rdf");
-                FileOutputStream fos = new FileOutputStream(file);
+                fos = new FileOutputStream(file);
 
                 ConnectionUtil.setReturnSimpleConnection(true);
-                Connection con = ConnectionUtil.getConnection();
+                conn = ConnectionUtil.getConnection();
 
                 Properties properties = new Properties();
                 properties.load(RdfExporter.class.getClassLoader().getResourceAsStream("rdfexport.properties"));
-                RDFExportService rdfExportService = new RDFExportServiceImpl(new PrintStream(fos), con, properties);
+                RDFExportService rdfExportService = new RDFExportServiceImpl(new PrintStream(fos), conn, properties);
                 rdfExportService.exportTable(table, identifier);
-
-                con.close();
-                fos.close();
 
                 System.out.println("Successfully exported to: " + dir + "/" + table + ".rdf");
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+            finally{
+                try {
+                    if (fos != null){
+                        fos.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                ConnectionUtil.closeConnection(conn);
             }
         }
     }
