@@ -9,7 +9,9 @@
               driverClassName="${db.drv}"
               url="${db.host}${db.host.ending.escaped}"
               validationQuery="select 1"
-              maxActive="10" 
-              maxIdle="4"/>
+			  maxActive="100"
+              maxIdle="30"
+              maxWait="10000">
+    </Resource>
 </Context>
 
