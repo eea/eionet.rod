@@ -32,33 +32,86 @@ import eionet.rod.services.modules.db.dao.IHistoryDao;
 import eionet.rod.services.modules.db.dao.IUndoDao;
 import eionet.rod.util.sql.SQLUtil;
 
+/**
+ * Queries to implement the UNDO functionality in MySQL.
+ *
+ * The specification has been lost, so this is reconstructed from memory and the source code.
+ * The principle is that before an update is written to an object, the old content is written
+ * to the UNDO table. An update can involve several tables - normally what you would make
+ * atomic with start transaction/commit statements. An undo-operation has a timestamp. It is
+ * to be able to order them historically, but it is also the key for all the rows in T_UNDO
+ * that constitute an undo. Make sure you don't do two undo-operations with the same time-stamp.
+ * The <code>tab</code> column holds the name of the table you are copying a record from. The
+ * <code>col</code> is the column name. The <code>value</code> holds the value of the row of
+ * the column. <code>sub_trans_nr</code> is used if you copy more than one row into T_UNDO
+ * from the same table. It is a simple number that starts with 0. <code>operation</code>
+ * is a code for what the operation was on the table.
+ * <ul>
+ * <li>I - </li>
+ * <li>D - delete</li>
+ * <li>U - update</li>
+ * <li>A - holds a WHERE clause?</li>
+ * <li>L - holds a link</li>
+ * <li>K - the account name who did the transaction</li>
+ * <li>O - </li>
+ * <li>UN - is used for storing information about undos - Redo update</li>
+ * <li>UD - is used for storing information about undos - Redo delete</li>
+ * <li>UDD - is used for storing information about undos.</li>
+ * <li>T - </li>
+ * <li>ACL - </li>
+ * </ul>
+ * The <code>quotes</code> column is used when you do an undo and reconstruct the UPDATE or INSERT
+ * statement that writes the information back into the table. It tells you whether you must
+ * put the value in quotes. The <code>p_key</code> is also used for the reconstruction. It is
+ * used for the primary key. <code>show_object</code> is used for the page that displays
+ * the UNDO transactions.
+ * This is the MySql table:
+ * <pre>
+ * CREATE TABLE T_UNDO (
+ *   undo_time bigint(20) NOT NULL default '0',
+ *   tab varchar(32) NOT NULL default '',
+ *   col varchar(32) NOT NULL default '',
+ *   operation enum('I','D','U','A','L','K','O','UN','UD','UDD','T','ACL') NOT NULL default 'I',
+ *   quotes enum('n','y') default NULL,
+ *   p_key enum('n','y') default NULL,
+ *   value blob,
+ *   sub_trans_nr int(11) NOT NULL default '0',
+ *   show_object enum('n','y') default NULL,
+ *   PRIMARY KEY  (undo_time,tab,col,operation,sub_trans_nr),
+ *   KEY col (col)
+ * ) ENGINE=MyISAM DEFAULT CHARSET=utf8
+ * </pre>
+ */
 public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
+    /**
+     * Empty constructor. What is it doing here?
+     */
     public UndoMySqlDao() {
     }
 
-    private final static String qCountSql =
-        "SELECT COUNT(*) AS count " +
-        "FROM T_UNDO " +
-        "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') " +
-        "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') " +
-        "AND show_object='y'";
+    private final static String Q_COUNT_SQL =
+        "SELECT COUNT(*) AS count "
+        + "FROM T_UNDO "
+        + "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') "
+        + "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') "
+        + "AND show_object='y'";
 
-    private final static String qUndoReportGeneral =
-        "select undo_time, col, tab, operation, value, show_object " +
-        "from T_UNDO " +
-        "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') " +
-            "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') " +
-        "ORDER BY undo_time DESC, tab LIMIT ?,?";
+    private final static String Q_UNDO_REPORT_GENERAL =
+        "SELECT undo_time, col, tab, operation, value, show_object "
+        + "from T_UNDO "
+        + "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') "
+        + "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') "
+        + "ORDER BY undo_time DESC, tab LIMIT ?,?";
 
-    private final static String qUndoReportSpecific =
-        "select a.undo_time, a.col, a.tab, a.operation, a.value, a.show_object " +
-        "from T_UNDO a, T_UNDO b " + "WHERE a.undo_time = b.undo_time " +
-            "AND b.col =? " +
-            "AND b.value =? " +
-            "AND a.tab =? " +
-            "AND (a.operation='U' OR a.operation='D' OR a.operation='UN' OR a.operation='UD' OR a.operation='UDD') " +
-        "ORDER BY a.undo_time DESC";
+    private final static String Q_UNDO_REPORT_SPECIFIC =
+        "SELECT a.undo_time, a.col, a.tab, a.operation, a.value, a.show_object "
+        + "from T_UNDO a, T_UNDO b " + "WHERE a.undo_time = b.undo_time "
+        + "AND b.col =? "
+        + "AND b.value =? "
+        + "AND a.tab =? "
+        + "AND (a.operation='U' OR a.operation='D' OR a.operation='UN' OR a.operation='UD' OR a.operation='UDD') "
+        + "ORDER BY a.undo_time DESC";
 
     /*
      * (non-Javadoc)
@@ -82,8 +135,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 int step = fileSrv.getIntProperty(FileServiceIF.UNDO_STEP);
 
                 con = getConnection();
-                preparedStatement = con.prepareStatement(qCountSql);
-                if (isDebugMode) logQuery(qCountSql);
+                preparedStatement = con.prepareStatement(Q_COUNT_SQL);
+                if (isDebugMode) logQuery(Q_COUNT_SQL);
                 rset = preparedStatement.executeQuery();
                 int count = 0;
                 while (rset.next()) {
@@ -100,7 +153,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 preparedStatement.close();
                 int start = 0;
                 for (int i = 1; i <= pages; i++) {
-                    preparedStatement = con.prepareStatement(qUndoReportGeneral);
+                    preparedStatement = con.prepareStatement(Q_UNDO_REPORT_GENERAL);
                     preparedStatement.setInt(1, start);
                     preparedStatement.setInt(2, step);
                     Vector vec = _getVectorOfHashes(preparedStatement);
@@ -121,7 +174,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 // a.operation='UDD') ORDER BY a.undo_time DESC";
                 // Vector vec = _getVectorOfHashes(sql);
                 con = getConnection();
-                preparedStatement = con.prepareStatement(qUndoReportSpecific);
+                preparedStatement = con.prepareStatement(Q_UNDO_REPORT_SPECIFIC);
                 preparedStatement.setString(1, id_field);
                 preparedStatement.setString(2, id);
                 preparedStatement.setString(3, tab);
@@ -130,7 +183,6 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             }
 
         } catch (SQLException e) {
-
             logger.error("Error occurred when processing result set: " + sql, e);
             throw new ServiceException("Error occurred when processing result set: " + sql);
         } catch (NullPointerException nue) {
@@ -149,11 +201,11 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      */
     public List<VersionDTO> getPreviousActionsGeneral() throws ServiceException {
 
-        String query = "select undo_time, col, tab, operation, value, show_object " +
-            "from T_UNDO " +
-            "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') " +
-                "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' " +
-            "ORDER BY undo_time DESC";
+        String query = "SELECT undo_time, col, tab, operation, value, show_object "
+            + "from T_UNDO "
+            + "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') "
+            + "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' "
+            + "ORDER BY undo_time DESC";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -181,13 +233,13 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      */
     public List<VersionDTO> getPreviousActionsReportSpecific(String id, String tab, String id_field) throws ServiceException {
 
-        String query = "select undo_time, col, tab, operation, value, show_object " +
-            "from T_UNDO WHERE " +
-                "col = '" + id_field + "' " +
-                "AND value = '" + id + "' " +
-                "AND tab = '" + tab + "' " +
-                "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') " +
-            "ORDER BY undo_time DESC";
+        String query = "SELECT undo_time, col, tab, operation, value, show_object "
+            + "from T_UNDO WHERE "
+            + "col = '" + id_field + "' "
+            + "AND value = '" + id + "' "
+            + "AND tab = '" + tab + "' "
+            + "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') "
+            + "ORDER BY undo_time DESC";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -208,11 +260,11 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         }
     }
 
-    private static final String qDeletedFromUndo =
-        "select undo_time, col, tab, operation, value, show_object " +
-        "from T_UNDO " +
-        "where tab=? AND operation='D' " +
-        "ORDER BY undo_time DESC, tab";
+    private static final String Q_DELETED_FROM_UNDO =
+        "SELECT undo_time, col, tab, operation, value, show_object "
+        + "from T_UNDO "
+        + "where tab=? AND operation='D' "
+        + "ORDER BY undo_time DESC, tab";
 
     /*
      * (non-Javadoc)
@@ -230,8 +282,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         Vector result = null;
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(qDeletedFromUndo);
-            preparedStatement = connection.prepareStatement(qDeletedFromUndo);
+            if (isDebugMode) logQuery(Q_DELETED_FROM_UNDO);
+            preparedStatement = connection.prepareStatement(Q_DELETED_FROM_UNDO);
             preparedStatement.setString(1, tab);
             result = _getVectorOfHashes(preparedStatement);
         } catch (SQLException exception) {
@@ -244,12 +296,11 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
     }
 
-    private final static String qSourceObligations =
-        "SELECT PK_RA_ID AS id " +
-        "FROM T_OBLIGATION " +
-        "WHERE FK_SOURCE_ID=?";
+    private final static String Q_SOURCE_OBLIGATIONS = "SELECT PK_RA_ID AS id "
+        + "FROM T_OBLIGATION "
+        + "WHERE FK_SOURCE_ID=?";
 
-    private final static String qAddObligationIdsIntoUndo =
+    private final static String Q_ADD_OBLIGATION_IDS_INTO_UNDO =
         "INSERT INTO T_UNDO VALUES (?,?,'OBLIGATIONS','O','y','n',?,0,'y')";
 
     /*
@@ -264,8 +315,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         Vector ids = null;
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(qSourceObligations);
-            preparedStatement = connection.prepareStatement(qSourceObligations);
+            if (isDebugMode) logQuery(Q_SOURCE_OBLIGATIONS);
+            preparedStatement = connection.prepareStatement(Q_SOURCE_OBLIGATIONS);
             preparedStatement.setInt(1, id.intValue());
             ids = _getVectorOfHashes(preparedStatement);
             preparedStatement.close();
@@ -279,8 +330,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             // table + "','OBLIGATIONS','O','y','n','" +
             // obligation_ids.toString() + "',0,'y')";
             // _executeUpdate(ids_sql);
-            if (isDebugMode) logQuery(qAddObligationIdsIntoUndo);
-            preparedStatement = connection.prepareStatement(qAddObligationIdsIntoUndo);
+            if (isDebugMode) logQuery(Q_ADD_OBLIGATION_IDS_INTO_UNDO);
+            preparedStatement = connection.prepareStatement(Q_ADD_OBLIGATION_IDS_INTO_UNDO);
             preparedStatement.setLong(1, ts);
             preparedStatement.setString(2, table);
             preparedStatement.setString(3, obligation_ids.toString());
@@ -294,9 +345,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
     }
 
-    private final static String qInsertTransactionInfo =
-        "INSERT INTO T_UNDO " +
-        "VALUES (?,?,?,?,'y','n',?,0,'n')";
+    private final static String Q_INSERT_TRANSACTION_INFO =
+        "INSERT INTO T_UNDO VALUES (?,?,?,?,'y','n',?,0,'n')";
 
     /*
      * (non-Javadoc)
@@ -317,8 +367,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(qInsertTransactionInfo);
-            preparedStatement = connection.prepareStatement(qInsertTransactionInfo);
+            if (isDebugMode) logQuery(Q_INSERT_TRANSACTION_INFO);
+            preparedStatement = connection.prepareStatement(Q_INSERT_TRANSACTION_INFO);
             preparedStatement.setLong(1, ts);
             preparedStatement.setString(2, table);
             preparedStatement.setString(3, id_field);
@@ -335,9 +385,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
     }
 
 
-    private final static String qInsertIntoUndo =
-        "INSERT INTO T_UNDO " +
-        "VALUES (?,?,?,?,?,?,?,?,?)";
+    private final static String Q_INSERT_INTO_UNDO =
+        "INSERT INTO T_UNDO "
+        + "VALUES (?,?,?,?,?,?,?,?,?)";
 
     /*
      * (non-Javadoc)
@@ -368,7 +418,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             if (state.equals("U") || state.equals("D") || state.equals("UN") || state.equals("UDD")) {
                 int colCnt = md.getColumnCount();
                 int rowCnt = 0;
-                PreparedStatement preparedStatement = con.prepareStatement(qInsertIntoUndo);
+                PreparedStatement preparedStatement = con.prepareStatement(Q_INSERT_INTO_UNDO);
                 while (rset.next()) {
                     for (int i = 1; i < (colCnt + 1); ++i) {
                         String value = rset.getString(i);
@@ -435,18 +485,18 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         return "n";
     }
 
-    private static final String tinfo_sql =
-        "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr " +
-        "FROM T_UNDO " +
-        "WHERE undo_time=? AND operation = 'A' " +
-        "ORDER BY undo_time,tab,sub_trans_nr";
+    private static final String Q_T_INFO_SQL =
+        "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr "
+        + "FROM T_UNDO "
+        + "WHERE undo_time=? AND operation = 'A' "
+        + "ORDER BY undo_time,tab,sub_trans_nr";
 
-    private static final String opinfo_sql =
-        "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr, p_key, show_object " +
-        "FROM T_UNDO " +
-        "WHERE undo_time=? " +
-            "AND (operation = 'A' OR operation = 'ACL' OR operation = 'K' OR operation = 'T' OR operation = 'O' OR operation = 'L' OR operation = ? ) " +
-            "ORDER BY undo_time,tab,sub_trans_nr";
+    private static final String Q_OP_INFO_SQL =
+        "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr, p_key, show_object "
+        + "FROM T_UNDO "
+        + "WHERE undo_time=? "
+        + "AND (operation = 'A' OR operation = 'ACL' OR operation = 'K' OR operation = 'T' OR operation = 'O' OR operation = 'L' OR operation = ? ) "
+        + "ORDER BY undo_time,tab,sub_trans_nr";
 
     /**
      * @param state
@@ -463,8 +513,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         try {
 
             if (!state.equals("UD")) {
-                if (isDebugMode) logQuery(tinfo_sql);
-                preparedStatement = connection.prepareStatement(tinfo_sql);
+                if (isDebugMode) logQuery(Q_T_INFO_SQL);
+                preparedStatement = connection.prepareStatement(Q_T_INFO_SQL);
                 preparedStatement.setLong(1, ts);
                 Vector tinfo_vec = _getVectorOfHashes(preparedStatement);
 
@@ -473,7 +523,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                     String t = (String) hash.get("tab");
                     String v = (String) hash.get("value");
 
-                    if (!state.equals("UNN") && !state.equals("UDD")) insertIntoUndo(connection, null, state, t, null, ut, null, "y", v);
+                    if (!state.equals("UNN") && !state.equals("UDD"))
+                        insertIntoUndo(connection, null, state, t, null, ut, null, "y", v);
                     if (del) {
                         String delete_stmt = "DELETE FROM " + hash.get("tab") + " WHERE " + hash.get("value");
                         statement = connection.createStatement();
@@ -485,8 +536,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             }
             if (!state.equals("UNN") && !state.equals("UDD")) {
 
-                if (isDebugMode) logQuery(opinfo_sql);
-                preparedStatement = connection.prepareStatement(opinfo_sql);
+                if (isDebugMode) logQuery(Q_OP_INFO_SQL);
+                preparedStatement = connection.prepareStatement(Q_OP_INFO_SQL);
                 preparedStatement.setLong(1, ts);
                 preparedStatement.setString(2, state.equals("UD") ? "D" : "L");
                 Vector opinfo_vec = _getVectorOfHashes(preparedStatement);
@@ -510,7 +561,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                     String a = "";
                     // if (quotes.equalsIgnoreCase("y") || val.equals("")) a =
                     // "'";
-                    preparedStatement = connection.prepareStatement(qInsertIntoUndo);
+                    preparedStatement = connection.prepareStatement(Q_INSERT_INTO_UNDO);
                     preparedStatement.setLong(1, ut);
                     preparedStatement.setString(2, t);
                     preparedStatement.setString(3, c);
@@ -538,36 +589,36 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         }
     }
 
-    private static final String qSelectUndoByOperation =
-        "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr " +
-        "FROM T_UNDO " +
-        "WHERE undo_time=? AND operation=? " +
-        "ORDER BY undo_time,tab,sub_trans_nr";
+    private static final String Q_SELECT_UNDO_BY_OPERATION =
+        "SELECT undo_time, col, tab, operation, value, quotes, sub_trans_nr "
+        + "FROM T_UNDO "
+        + "WHERE undo_time=? AND operation=? "
+        + "ORDER BY undo_time,tab,sub_trans_nr";
 
-    private static final String qSelectUndoByTableAndOperation =
-        "SELECT value FROM T_UNDO " +
-        "WHERE undo_time=? AND operation=? AND tab=?";
+    private static final String Q_SELECT_UNDO_BY_TABLE_AND_OPERATION =
+        "SELECT value FROM T_UNDO "
+        + "WHERE undo_time=? AND operation=? AND tab=?";
 
-    private static final String qGetObligationSql =
-        "SELECT undo_time " +
-        "FROM T_UNDO " +
-        "WHERE tab='T_OBLIGATION' " +
-        "AND col='PK_RA_ID' " +
-        "AND operation=? " +
-        "AND value=?";
+    private static final String Q_GetObligationSql =
+        "SELECT undo_time "
+        + "FROM T_UNDO "
+        + "WHERE tab='T_OBLIGATION' "
+        + "AND col='PK_RA_ID' "
+        + "AND operation=? "
+        + "AND value=?";
 
-    private static final String q_delete_from_undo_by_operation_and_table =
-        "DELETE FROM T_UNDO " +
-        "WHERE undo_time=?  AND tab=? AND operation =?";
+    private static final String Q_DELETE_FROM_UNDO_BY_OPERATION_AND_TABLE =
+        "DELETE FROM T_UNDO "
+        + "WHERE undo_time=?  AND tab=? AND operation =?";
 
-    private static final String q_delete_undo_by_operations_in_A_K_O_T =
-        "DELETE FROM T_UNDO " +
-        "WHERE undo_time=? " +
-            "AND (operation = 'A' OR operation = 'ACL' OR operation = 'K' OR operation = 'O' OR operation = 'T')";
+    private static final String Q_DELETE_UNDO_BY_OPERATIONS_IN_A_K_O_T =
+        "DELETE FROM T_UNDO "
+        + "WHERE undo_time=? "
+        + "AND (operation = 'A' OR operation = 'ACL' OR operation = 'K' OR operation = 'O' OR operation = 'T')";
 
-    private static final String q_delete_location =
-        "DELETE FROM T_UNDO " +
-        "WHERE undo_time =? AND operation = 'L'";
+    private static final String Q_DELETE_LOCATION =
+        "DELETE FROM T_UNDO "
+        + "WHERE undo_time =? AND operation = 'L'";
 
     /*
      * (non-Javadoc)
@@ -588,10 +639,10 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         try {
             con = getConnection();
 
-            ps = con.prepareStatement(qSelectUndoByOperation);
+            ps = con.prepareStatement(Q_SELECT_UNDO_BY_OPERATION);
             ps.setLong(1, ts);
             ps.setString(2, op);
-            if (isDebugMode) logQuery(qSelectUndoByOperation);
+            if (isDebugMode) logQuery(Q_SELECT_UNDO_BY_OPERATION);
             rset = ps.executeQuery();
             // sql_stmt = "SELECT undo_time, col, tab, operation, value, quotes,
             // sub_trans_nr FROM T_UNDO " + "WHERE undo_time = " + ts + " AND
@@ -604,11 +655,11 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 copyUndo(con, "UNN", ts, true);
             } else if (op.equals("D")) {
                 if (tab.equals("T_SOURCE")) {
-                    preparedStatement = con.prepareStatement(qSelectUndoByTableAndOperation);
+                    preparedStatement = con.prepareStatement(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
                     preparedStatement.setLong(1, ts);
                     preparedStatement.setString(2, "0");
                     preparedStatement.setString(3, tab);
-                    if (isDebugMode) logQuery(qSelectUndoByTableAndOperation);
+                    if (isDebugMode) logQuery(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
                     String[][] array = _executeStringQuery(preparedStatement);
                     preparedStatement.close();
                     if (array.length > 0) {
@@ -616,10 +667,10 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                         StringTokenizer st = new StringTokenizer(ids, ",");
                         while (st.hasMoreTokens()) {
                             String oid = st.nextToken();
-                            preparedStatement = con.prepareStatement(qGetObligationSql);
+                            preparedStatement = con.prepareStatement(Q_GetObligationSql);
                             preparedStatement.setString(1, op);
                             preparedStatement.setString(2, oid);
-                            if (isDebugMode) logQuery(qGetObligationSql);
+                            if (isDebugMode) logQuery(Q_GetObligationSql);
                             String[][] oa = _executeStringQuery(preparedStatement);
 
                             if (oa.length > 0) {
@@ -632,11 +683,11 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 copyUndo(con, "UD", ts, false);
             } else if (op.equals("UD")) {
                 if (tab.equals("T_SOURCE")) {
-                    preparedStatement = con.prepareStatement(qSelectUndoByTableAndOperation);
+                    preparedStatement = con.prepareStatement(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
                     preparedStatement.setLong(1, ts);
                     preparedStatement.setString(2, "0");
                     preparedStatement.setString(3, tab);
-                    if (isDebugMode) logQuery(qSelectUndoByTableAndOperation);
+                    if (isDebugMode) logQuery(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
                     String[][] array = _executeStringQuery(preparedStatement);
                     preparedStatement.close();
                     if (array.length > 0) {
@@ -644,10 +695,10 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                         StringTokenizer st = new StringTokenizer(ids, ",");
                         while (st.hasMoreTokens()) {
                             String oid = st.nextToken();
-                            preparedStatement = con.prepareStatement(qGetObligationSql);
+                            preparedStatement = con.prepareStatement(Q_GetObligationSql);
                             preparedStatement.setString(1, op);
                             preparedStatement.setString(2, oid);
-                            if (isDebugMode) logQuery(qGetObligationSql);
+                            if (isDebugMode) logQuery(Q_GetObligationSql);
                             String[][] oa = _executeStringQuery(preparedStatement);
 
                             if (oa.length > 0) {
@@ -660,22 +711,22 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 copyUndo(con, "UDD", ts, true);
             }
 
-            preparedStatement = con.prepareStatement(qSelectUndoByTableAndOperation);
+            preparedStatement = con.prepareStatement(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
             preparedStatement.setLong(1, ts);
             preparedStatement.setString(2, "K");
             preparedStatement.setString(3, tab);
-            if (isDebugMode) logQuery(qSelectUndoByTableAndOperation);
+            if (isDebugMode) logQuery(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
             String[][] user_array = _executeStringQuery(preparedStatement);
             preparedStatement.close();
 
             String user = "";
             if (user_array.length > 0) user = user_array[0][0];
 
-            preparedStatement = con.prepareStatement(qSelectUndoByTableAndOperation);
+            preparedStatement = con.prepareStatement(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
             preparedStatement.setLong(1, ts);
             preparedStatement.setString(2, "T");
             preparedStatement.setString(3, tab);
-            if (isDebugMode) logQuery(qSelectUndoByTableAndOperation);
+            if (isDebugMode) logQuery(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
             String[][] type_array = _executeStringQuery(preparedStatement);
             preparedStatement.close();
 
@@ -696,7 +747,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 historyDao.logHistory(type, id, user, "N", "Undo Delete");
             else if (op.equals("UN"))
                 historyDao.logHistory(type, id, user, "R", "Redo Update");
-            else if (op.equals("UD")) historyDao.logHistory(type, id, user, "R", "Redo Delete");
+            else if (op.equals("UD"))
+                historyDao.logHistory(type, id, user, "R", "Redo Delete");
 
             String prev_ut = null;
             String prev_table = null;
@@ -748,7 +800,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                         StringBuffer values = new StringBuffer();
                         for (Enumeration en = tvec.elements(); en.hasMoreElements();) {
                             String[] ar = (String[]) en.nextElement();
-                            if (ar[0] != null && (ar[0].startsWith("DPSIR_") || ar[0].equalsIgnoreCase("CONTINOUS_REPORTING") || ar[0].equalsIgnoreCase("DRAFT")) 
+                            if (ar[0] != null && (ar[0].startsWith("DPSIR_") || ar[0].equalsIgnoreCase("CONTINOUS_REPORTING") || ar[0].equalsIgnoreCase("DRAFT"))
                                     && ar[1] != null && ar[1].length() == 0) {
                                 ar[1] = "no";
                             }
@@ -792,16 +844,16 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                                  e.printStackTrace();
                              }
                          }
-                        preparedStatement = con.prepareStatement(q_delete_from_undo_by_operation_and_table);
+                        preparedStatement = con.prepareStatement(Q_DELETE_FROM_UNDO_BY_OPERATION_AND_TABLE);
                         preparedStatement.setLong(1, Long.valueOf(prev_ut).longValue());
                         preparedStatement.setString(2, prev_table);
                         preparedStatement.setString(3, op);
-                        if (isDebugMode) logQuery(q_delete_from_undo_by_operation_and_table);
+                        if (isDebugMode) logQuery(Q_DELETE_FROM_UNDO_BY_OPERATION_AND_TABLE);
                         preparedStatement.executeUpdate();
                         preparedStatement.close();
-                        preparedStatement = con.prepareStatement(q_delete_undo_by_operations_in_A_K_O_T);
+                        preparedStatement = con.prepareStatement(Q_DELETE_UNDO_BY_OPERATIONS_IN_A_K_O_T);
                         preparedStatement.setLong(1, Long.valueOf(prev_ut).longValue());
-                        if (isDebugMode) logQuery(q_delete_undo_by_operations_in_A_K_O_T);
+                        if (isDebugMode) logQuery(Q_DELETE_UNDO_BY_OPERATIONS_IN_A_K_O_T);
                         preparedStatement.executeUpdate();
                         preparedStatement.close();
                         tvec = new Vector();
@@ -814,20 +866,20 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 prev_value = value;
                 prev_quotes = quotes;
             }
-            preparedStatement = con.prepareStatement(qSelectUndoByTableAndOperation);
+            preparedStatement = con.prepareStatement(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
             preparedStatement.setLong(1, ts);
             preparedStatement.setString(2, "L");
             preparedStatement.setString(3, tab);
-            if (isDebugMode) logQuery(qSelectUndoByTableAndOperation);
+            if (isDebugMode) logQuery(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
             String[][] url_array = _executeStringQuery(preparedStatement);
 
             if (url_array.length > 0) {
                 if (!op.equals("UD")) {
                     location = url_array[0][0];
                 }
-                preparedStatement = con.prepareStatement(q_delete_location);
+                preparedStatement = con.prepareStatement(Q_DELETE_LOCATION);
                 preparedStatement.setLong(1, Long.valueOf(prev_ut).longValue());
-                if (isDebugMode) logQuery(q_delete_location);
+                if (isDebugMode) logQuery(Q_DELETE_LOCATION);
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
             }
@@ -842,31 +894,31 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         return location;
     }
 
-    private static final String qSelectAllUndoByTableAndOperation =
-        "SELECT * FROM T_UNDO " +
-        "WHERE undo_time=? AND operation=? AND tab=?";
+    private static final String Q_SELECT_ALL_UNDO_BY_TABLE_AND_OPERATION =
+        "SELECT * FROM T_UNDO "
+        + "WHERE undo_time=? AND operation=? AND tab=?";
 
-    private static final String q_ut =
-        "SELECT undo_time " +
-        "FROM T_UNDO " +
-        "WHERE tab='T_SOURCE' " +
-        "AND col='PK_SOURCE_ID' AND value=?";
+    private static final String Q_UT =
+        "SELECT undo_time "
+        + "FROM T_UNDO "
+        + "WHERE tab='T_SOURCE' "
+        + "AND col='PK_SOURCE_ID' AND value=?";
 
-    private static final String q_ids_sql =
-        "SELECT value " +
-        "FROM T_UNDO WHERE " +
-        "tab='T_SOURCE' AND operation='O' AND undo_time=?";
+    private static final String Q_T_SOURCE_IDS =
+        "SELECT value "
+        + "FROM T_UNDO WHERE "
+        + "tab='T_SOURCE' AND operation='O' AND undo_time=?";
 
-    private static final String q_utime_sql =
-        "SELECT undo_time " +
-        "FROM T_UNDO " +
-        "WHERE tab = 'T_OBLIGATION' " +
-        "AND operation = 'D' AND col='PK_RA_ID' AND value=?";
+    private static final String Q_UTIME =
+        "SELECT undo_time "
+        + "FROM T_UNDO "
+        + "WHERE tab = 'T_OBLIGATION' "
+        + "AND operation = 'D' AND col='PK_RA_ID' AND value=?";
 
-    private static final String q_ob_sql =
-        "SELECT * " +
-        "FROM T_UNDO " +
-        "WHERE tab='T_OBLIGATION' AND operation='D' AND undo_time=?";
+    private static final String Q_DELETED_OBLIGATIONS =
+        "SELECT * "
+        + "FROM T_UNDO "
+        + "WHERE tab='T_OBLIGATION' AND operation='D' AND undo_time=?";
 
     /*
      * (non-Javadoc)
@@ -886,28 +938,28 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
         try {
             con = getConnection();
-            preparedStatement = con.prepareStatement(qSelectAllUndoByTableAndOperation + " ORDER BY undo_time,tab,sub_trans_nr");
+            preparedStatement = con.prepareStatement(Q_SELECT_ALL_UNDO_BY_TABLE_AND_OPERATION + " ORDER BY undo_time,tab,sub_trans_nr");
             preparedStatement.setLong(1, ts);
             preparedStatement.setString(2, op);
             preparedStatement.setString(3, tab);
-            if (isDebugMode) logQuery(qSelectAllUndoByTableAndOperation);
+            if (isDebugMode) logQuery(Q_SELECT_ALL_UNDO_BY_TABLE_AND_OPERATION);
             vec = _getVectorOfHashes(preparedStatement);
             //System.out.println("Vector is " + vec);
             preparedStatement.close();
 
             if (tab.equals("T_SOURCE") && op.equals("D")) {
                 String ids = "";
-                preparedStatement = con.prepareStatement(q_ut);
+                preparedStatement = con.prepareStatement(Q_UT);
                 preparedStatement.setString(1, id);
-                if (isDebugMode) logQuery(q_ut);
+                if (isDebugMode) logQuery(Q_UT);
                 String[][] tsa = _executeStringQuery(preparedStatement);
                 preparedStatement.close();
 
                 if (tsa.length > 0) {
                     String undo_time = tsa[0][0];
-                    preparedStatement = con.prepareStatement(q_ids_sql);
+                    preparedStatement = con.prepareStatement(Q_T_SOURCE_IDS);
                     preparedStatement.setLong(1, Long.valueOf(undo_time).longValue());
-                    if (isDebugMode) logQuery(q_ids_sql);
+                    if (isDebugMode) logQuery(Q_T_SOURCE_IDS);
                     String[][] idsa = _executeStringQuery(preparedStatement);
                     preparedStatement.close();
 
@@ -917,16 +969,16 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 StringTokenizer st = new StringTokenizer(ids, ",");
                 while (st.hasMoreTokens()) {
                     String token = st.nextToken();
-                    preparedStatement = con.prepareStatement(q_utime_sql);
+                    preparedStatement = con.prepareStatement(Q_UTIME);
                     preparedStatement.setString(1, token);
-                    if (isDebugMode) logQuery(q_utime_sql);
+                    if (isDebugMode) logQuery(Q_UTIME);
                     String[][] utime = _executeStringQuery(preparedStatement);
                     preparedStatement.close();
 
                     if (utime.length > 0) {
-                        preparedStatement = con.prepareStatement(q_ob_sql);
+                        preparedStatement = con.prepareStatement(Q_DELETED_OBLIGATIONS);
                         preparedStatement.setLong(1, Long.valueOf(utime[0][0]).longValue());
-                        if (isDebugMode) logQuery(q_ob_sql);
+                        if (isDebugMode) logQuery(Q_DELETED_OBLIGATIONS);
                         obligations_vec = _getVectorOfHashes(preparedStatement);
                         if (obligations_vec.size() > 0) vec.addAll(obligations_vec);
                         preparedStatement.close();
@@ -956,11 +1008,11 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
         try {
             con = getConnection();
-            preparedStatement = con.prepareStatement(qSelectUndoByTableAndOperation);
+            preparedStatement = con.prepareStatement(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
             preparedStatement.setLong(1, ts);
             preparedStatement.setString(2, "K");
             preparedStatement.setString(3, tab);
-            if (isDebugMode) logQuery(qSelectUndoByTableAndOperation);
+            if (isDebugMode) logQuery(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
             ua = _executeStringQuery(preparedStatement);
         } catch (SQLException e) {
             logger.error(e);
@@ -973,10 +1025,10 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         return null;
     }
 
-    private static final String q_undo_object_id =
-        "SELECT value " +
-        "FROM T_UNDO " +
-        "WHERE undo_time=? AND tab=? AND col=?";
+    private static final String Q_UNDO_OBJECT_ID =
+        "SELECT value "
+        + "FROM T_UNDO "
+        + "WHERE undo_time=? AND tab=? AND col=?";
 
     /*
      * (non-Javadoc)
@@ -991,11 +1043,11 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
         try {
             con = getConnection();
-            preparedStatement = con.prepareStatement(q_undo_object_id);
+            preparedStatement = con.prepareStatement(Q_UNDO_OBJECT_ID);
             preparedStatement.setLong(1, ts);
             preparedStatement.setString(2, tab);
             preparedStatement.setString(3, col);
-            if (isDebugMode) logQuery(q_undo_object_id);
+            if (isDebugMode) logQuery(Q_UNDO_OBJECT_ID);
             ua = _executeStringQuery(preparedStatement);
         } catch (SQLException e) {
             logger.error(e);
@@ -1008,20 +1060,20 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         return null;
     }
 
-    private static final String q_ts =
-        "SELECT undo_time " +
-        "FROM T_UNDO " +
-        "WHERE tab='T_SOURCE' AND col='PK_SOURCE_ID' AND value=?";
+    private static final String Q_T_SOURCE_TIME =
+        "SELECT undo_time "
+        + "FROM T_UNDO "
+        + "WHERE tab='T_SOURCE' AND col='PK_SOURCE_ID' AND value=?";
 
-    private static final String q_ids_sql2 =
-        "SELECT value " +
-        "FROM T_UNDO " +
-        "WHERE tab='T_SOURCE' AND undo_time=? AND col='OBLIGATIONS'";
+    private static final String Q_RELATED_OBLIGATIONS =
+        "SELECT value "
+        + "FROM T_UNDO "
+        + "WHERE tab='T_SOURCE' AND undo_time=? AND col='OBLIGATIONS'";
 
-    private static final String q_oblligation_id =
-        "SELECT PK_RA_ID AS id " +
-        "FROM T_OBLIGATION " +
-        "WHERE PK_RA_ID=?";
+    private static final String Q_OBLIGATION_ID =
+        "SELECT PK_RA_ID AS id "
+        + "FROM T_OBLIGATION "
+        + "WHERE PK_RA_ID=?";
 
     /*
      * (non-Javadoc)
@@ -1034,17 +1086,17 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         String result = "";
         try {
             con = getConnection();
-            preparedStatement = con.prepareStatement(q_ts);
+            preparedStatement = con.prepareStatement(Q_T_SOURCE_TIME);
             preparedStatement.setString(1, id);
-            if (isDebugMode) logQuery(q_ts);
+            if (isDebugMode) logQuery(Q_T_SOURCE_TIME);
             String[][] tsa = _executeStringQuery(preparedStatement);
             preparedStatement.close();
             String ids = "";
             if (tsa.length > 0) {
                 String undo_time = tsa[0][0];
-                preparedStatement = con.prepareStatement(q_ids_sql2);
+                preparedStatement = con.prepareStatement(Q_RELATED_OBLIGATIONS);
                 preparedStatement.setLong(1, Long.valueOf(undo_time).longValue());
-                if (isDebugMode) logQuery(q_ids_sql2);
+                if (isDebugMode) logQuery(Q_RELATED_OBLIGATIONS);
                 String[][] idsa = _executeStringQuery(preparedStatement);
                 preparedStatement.close();
                 if (idsa.length > 0) ids = idsa[0][0];
@@ -1052,11 +1104,11 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
             Vector vec = new Vector();
             StringTokenizer st = new StringTokenizer(ids, ",");
-            preparedStatement = con.prepareStatement(q_oblligation_id);
+            preparedStatement = con.prepareStatement(Q_OBLIGATION_ID);
             while (st.hasMoreTokens()) {
                 String token = st.nextToken();
                 preparedStatement.setInt(1, Integer.valueOf(token).intValue());
-                if (isDebugMode) logQuery(q_oblligation_id);
+                if (isDebugMode) logQuery(Q_OBLIGATION_ID);
                 String[][] sa = _executeStringQuery(preparedStatement);
                 if (sa.length > 0) {
                     vec.add(sa[0][0]);
@@ -1088,8 +1140,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         PreparedStatement preparedStatement = null;
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(qInsertIntoUndo);
-            preparedStatement = connection.prepareStatement(qInsertIntoUndo);
+            if (isDebugMode) logQuery(Q_INSERT_INTO_UNDO);
+            preparedStatement = connection.prepareStatement(Q_INSERT_INTO_UNDO);
             preparedStatement.setLong(1, ts);
             preparedStatement.setString(2, table);
             preparedStatement.setString(3, column);
@@ -1119,10 +1171,10 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      */
     public List<VersionDTO> getUpdateHistory(String id, String object) throws ServiceException {
 
-        String query = "select undo_time, col, tab, operation, value, show_object " +
-            "from T_UNDO " +
-            "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') " +
-            "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' ";
+        String query = "SELECT undo_time, col, tab, operation, value, show_object "
+        + "from T_UNDO "
+        + "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') "
+        + "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' ";
         if (!RODUtil.isNullOrEmpty(id))
             query = query + "AND value='"+id+"' ";
         if (!RODUtil.isNullOrEmpty(object)) {
@@ -1155,9 +1207,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         }
     }
 
-    private static final String qSelectUndoObjectTitle =
-        "SELECT value FROM T_UNDO " +
-        "WHERE undo_time=? AND col=? AND tab=?";
+    private static final String Q_SELECT_UNDO_OBJECT_TITLE =
+        "SELECT value FROM T_UNDO "
+        + "WHERE undo_time=? AND col=? AND tab=?";
 
     /*
      * (non-Javadoc)
@@ -1172,11 +1224,11 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
         try {
             con = getConnection();
-            preparedStatement = con.prepareStatement(qSelectUndoObjectTitle);
+            preparedStatement = con.prepareStatement(Q_SELECT_UNDO_OBJECT_TITLE);
             preparedStatement.setLong(1, ts);
             preparedStatement.setString(2, "TITLE");
             preparedStatement.setString(3, tab);
-            if (isDebugMode) logQuery(qSelectUndoObjectTitle);
+            if (isDebugMode) logQuery(Q_SELECT_UNDO_OBJECT_TITLE);
             ua = _executeStringQuery(preparedStatement);
         } catch (SQLException e) {
             logger.error(e);
@@ -1189,17 +1241,17 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         return null;
     }
 
-    private static final String qSelectUndoByUser =
-        "SELECT undo_time FROM T_UNDO " +
-        "WHERE operation=? AND value=? " +
-        "ORDER BY undo_time DESC LIMIT 100";
+    private static final String Q_SELECT_UNDO_BY_USER =
+        "SELECT undo_time FROM T_UNDO "
+        + "WHERE operation=? AND value=? "
+        + "ORDER BY undo_time DESC LIMIT 100";
 
-    private static final String qSelectUndoListByUndoTime =
-        "SELECT undo_time, col, tab, operation, value, show_object " +
-        "FROM T_UNDO " +
-        "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') " +
-        "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' " +
-        "AND undo_time=?";
+    private static final String Q_SELECT_UNDO_LIST_BY_UNDO_TIME =
+        "SELECT undo_time, col, tab, operation, value, show_object "
+        + "FROM T_UNDO "
+        + "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') "
+        + "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' "
+        + "AND undo_time=?";
 
     /*
      * (non-Javadoc)
@@ -1218,17 +1270,17 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         try {
             conn = getConnection();
 
-            preparedStatement = conn.prepareStatement(qSelectUndoByUser);
+            preparedStatement = conn.prepareStatement(Q_SELECT_UNDO_BY_USER);
             preparedStatement.setString(1, "K");
             preparedStatement.setString(2, username);
-            if (isDebugMode) logQuery(qSelectUndoByUser);
+            if (isDebugMode) logQuery(Q_SELECT_UNDO_BY_USER);
             utlist = _getVectorOfHashes(preparedStatement);
 
             for (Iterator<Map<String,String>> it = utlist.iterator(); it.hasNext(); ) {
                 Map<String,String> hash = it.next();
                 String utime = (String) hash.get("undo_time");
 
-                preparedStatement = conn.prepareStatement(qSelectUndoListByUndoTime);
+                preparedStatement = conn.prepareStatement(Q_SELECT_UNDO_LIST_BY_UNDO_TIME);
                 preparedStatement.setString(1, utime);
                 rs = preparedStatement.executeQuery();
                 VersionDTO ver = new VersionDTO();
@@ -1266,8 +1318,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      */
     public List<VersionDTO> getDeleted(String type) throws ServiceException {
 
-        String query = "select undo_time, col, tab, operation, value, show_object " +
-            "from T_UNDO WHERE ";
+        String query = "SELECT undo_time, col, tab, operation, value, show_object "
+            + "from T_UNDO WHERE ";
         if (!RODUtil.isNullOrEmpty(type)) {
             String obj = "";
             if (type.equals("O"))
