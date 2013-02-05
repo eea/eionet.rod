@@ -90,21 +90,21 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
     public UndoMySqlDao() {
     }
 
-    private final static String Q_COUNT_SQL =
+    private static final String Q_COUNT_SQL =
         "SELECT COUNT(*) AS count "
         + "FROM T_UNDO "
         + "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') "
         + "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') "
         + "AND show_object='y'";
 
-    private final static String Q_UNDO_REPORT_GENERAL =
+    private static final String Q_UNDO_REPORT_GENERAL =
         "SELECT undo_time, col, tab, operation, value, show_object "
         + "from T_UNDO "
         + "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') "
         + "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') "
         + "ORDER BY undo_time DESC, tab LIMIT ?,?";
 
-    private final static String Q_UNDO_REPORT_SPECIFIC =
+    private static final String Q_UNDO_REPORT_SPECIFIC =
         "SELECT a.undo_time, a.col, a.tab, a.operation, a.value, a.show_object "
         + "from T_UNDO a, T_UNDO b " + "WHERE a.undo_time = b.undo_time "
         + "AND b.col =? "
@@ -296,11 +296,11 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
     }
 
-    private final static String Q_SOURCE_OBLIGATIONS = "SELECT PK_RA_ID AS id "
+    private static final String Q_SOURCE_OBLIGATIONS = "SELECT PK_RA_ID AS id "
         + "FROM T_OBLIGATION "
         + "WHERE FK_SOURCE_ID=?";
 
-    private final static String Q_ADD_OBLIGATION_IDS_INTO_UNDO =
+    private static final String Q_ADD_OBLIGATION_IDS_INTO_UNDO =
         "INSERT INTO T_UNDO VALUES (?,?,'OBLIGATIONS','O','y','n',?,0,'y')";
 
     /*
@@ -345,7 +345,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
     }
 
-    private final static String Q_INSERT_TRANSACTION_INFO =
+    private static final String Q_INSERT_TRANSACTION_INFO =
         "INSERT INTO T_UNDO VALUES (?,?,?,?,'y','n',?,0,'n')";
 
     /*
@@ -385,7 +385,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
     }
 
 
-    private final static String Q_INSERT_INTO_UNDO =
+    private static final String Q_INSERT_INTO_UNDO =
         "INSERT INTO T_UNDO "
         + "VALUES (?,?,?,?,?,?,?,?,?)";
 

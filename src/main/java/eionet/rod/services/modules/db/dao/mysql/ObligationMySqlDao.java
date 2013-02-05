@@ -33,16 +33,19 @@ import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IObligationDao;
 import eionet.rod.util.sql.SQLUtil;
 
+/**
+ * Queries for obligations in MySQL.
+ */
 public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     public ObligationMySqlDao() {
     }
 
-    private final static String qDeadlines =
-        "SELECT PK_RA_ID, FIRST_REPORTING, REPORT_FREQ_MONTHS, VALID_TO, TERMINATE " +
-        "FROM T_OBLIGATION " +
-        "WHERE FIRST_REPORTING > 0 " +
-        "AND VALID_TO > 0";
+    private static final String Q_DEADLINES =
+        "SELECT PK_RA_ID, FIRST_REPORTING, REPORT_FREQ_MONTHS, VALID_TO, TERMINATE "
+        + "FROM T_OBLIGATION "
+        + "WHERE FIRST_REPORTING > 0 "
+        + "AND VALID_TO > 0";
 
     /*
      * (non-Javadoc)
@@ -55,8 +58,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         String[][] result = null;
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(qDeadlines);
-            if (isDebugMode) logQuery(qDeadlines);
+            preparedStatement = connection.prepareStatement(Q_DEADLINES);
+            if (isDebugMode) logQuery(Q_DEADLINES);
             result = _executeStringQuery(preparedStatement);
         } catch (SQLException exception) {
             logger.error(exception);
@@ -68,18 +71,18 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return result != null ? result : new String[][] {};
     }
 
-    private final static String qUpdateDeadlines =
-        "UPDATE T_OBLIGATION " +
-        "SET NEXT_DEADLINE = ?, NEXT_DEADLINE2 = NULL " + "WHERE PK_RA_ID = ?";
+    private static final String qUpdateDeadlines =
+        "UPDATE T_OBLIGATION "
+        + "SET NEXT_DEADLINE = ?, NEXT_DEADLINE2 = NULL " + "WHERE PK_RA_ID = ?";
 
-    private final static String qUpdateDeadlines2 =
-        "UPDATE T_OBLIGATION " +
-        "SET NEXT_DEADLINE =?, NEXT_DEADLINE2=? " +
-        "WHERE PK_RA_ID=? ";
+    private static final String qUpdateDeadlines2 =
+        "UPDATE T_OBLIGATION "
+        + "SET NEXT_DEADLINE =?, NEXT_DEADLINE2=? "
+        + "WHERE PK_RA_ID=? ";
 
-    private final static String qInsertToHistoricDeadlines =
-        "INSERT IGNORE INTO T_HISTORIC_DEADLINES " +
-        "SET FK_RA_ID=?, DEADLINE=?";
+    private static final String qInsertToHistoricDeadlines =
+        "INSERT IGNORE INTO T_HISTORIC_DEADLINES "
+        + "SET FK_RA_ID=?, DEADLINE=?";
 
     /*
      * (non-Javadoc)
@@ -93,7 +96,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         PreparedStatement preparedStatement = null;
 
         try {
-            String query = ((next2 == null || next2.equals(""))? qUpdateDeadlines : qUpdateDeadlines2);
+            String query = ((next2 == null || next2.equals("")) ? qUpdateDeadlines : qUpdateDeadlines2);
             connection = getConnection();
             if (isDebugMode) logQuery(query);
             preparedStatement = connection.prepareStatement(query);
@@ -118,10 +121,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     }
 
-    private final static String qTerminate =
-        "UPDATE T_OBLIGATION " +
-        "SET TERMINATE=? " +
-        "WHERE PK_RA_ID=?";
+    private static final String qTerminate =
+        "UPDATE T_OBLIGATION "
+        + "SET TERMINATE=? "
+        + "WHERE PK_RA_ID=?";
 
     /*
      * (non-Javadoc)
@@ -149,10 +152,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     }
 
-    private static final String qRaData =
-        "SELECT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE " +
-        "FROM T_OBLIGATION a " +
-        "ORDER BY a.PK_RA_ID";
+    private static final String Q_RA_DATA =
+        "SELECT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE "
+        + "FROM T_OBLIGATION a "
+        + "ORDER BY a.PK_RA_ID";
 
     /*
      * (non-Javadoc)
@@ -168,8 +171,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(qRaData);
-            logQuery(qRaData);
+            preparedStatement = connection.prepareStatement(Q_RA_DATA);
+            logQuery(Q_RA_DATA);
             resultSet = preparedStatement.executeQuery();
             result = getResults(resultSet);
 
@@ -183,40 +186,42 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return result != null ? result : new String[][] {};
     }
 
-    private final static String qResponsibleRole =
-        "SELECT DISTINCT RESPONSIBLE_ROLE " +
-        "FROM T_OBLIGATION " +
-        "WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' ";
+    private static final String qResponsibleRole =
+        "SELECT DISTINCT RESPONSIBLE_ROLE "
+        + "FROM T_OBLIGATION "
+        + "WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' ";
 
-    private final static String qCountryResponsibleRole =
-        "SELECT DISTINCT CONCAT(a.RESPONSIBLE_ROLE, '-' , (CASE s.SPATIAL_ISMEMBERCOUNTRY WHEN 'Y' THEN 'mc' WHEN 'N' THEN 'cc' END), '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo " +
-        "FROM T_OBLIGATION a, T_SPATIAL s,  T_RASPATIAL_LNK sl " +
-        "WHERE  a.RESPONSIBLE_ROLE_SUF=1 " +
-        "AND sl.FK_RA_ID=a.PK_RA_ID " +
-        "AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID " +
-        "AND a.RESPONSIBLE_ROLE IS NOT NULL " +
-        "AND a.RESPONSIBLE_ROLE <> '' " +
-        "AND s.SPATIAL_TYPE = 'C' " +
-        "AND s.SPATIAL_TWOLETTER IS NOT NULL " +
-        "AND TRIM(s.SPATIAL_TWOLETTER) <> '' ";
+    private static final String qCountryResponsibleRole =
+        "SELECT DISTINCT CONCAT(a.RESPONSIBLE_ROLE, '-' , "
+        + "(CASE s.SPATIAL_ISMEMBERCOUNTRY WHEN 'Y' THEN 'mc' WHEN 'N' THEN 'cc' END), '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo "
+        + "FROM T_OBLIGATION a, T_SPATIAL s,  T_RASPATIAL_LNK sl "
+        + "WHERE  a.RESPONSIBLE_ROLE_SUF=1 "
+        + "AND sl.FK_RA_ID=a.PK_RA_ID "
+        + "AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID "
+        + "AND a.RESPONSIBLE_ROLE IS NOT NULL "
+        + "AND a.RESPONSIBLE_ROLE <> '' "
+        + "AND s.SPATIAL_TYPE = 'C' "
+        + "AND s.SPATIAL_TWOLETTER IS NOT NULL "
+        + "AND TRIM(s.SPATIAL_TWOLETTER) <> '' ";
 
-    private final static String qCoordinatorRole =
-        "SELECT DISTINCT COORDINATOR_ROLE " +
-        "FROM T_OBLIGATION " +
-        "WHERE COORDINATOR_ROLE IS NOT NULL " +
-        "AND COORDINATOR_ROLE <> '' ";
+    private static final String qCoordinatorRole =
+        "SELECT DISTINCT COORDINATOR_ROLE "
+        + "FROM T_OBLIGATION "
+        + "WHERE COORDINATOR_ROLE IS NOT NULL "
+        + "AND COORDINATOR_ROLE <> '' ";
 
-    private final static String qCountryCoordinatorRole =
-        "SELECT DISTINCT CONCAT(a.COORDINATOR_ROLE, '-' , (CASE s.SPATIAL_ISMEMBERCOUNTRY WHEN 'Y' THEN 'mc' WHEN 'N' THEN 'cc' END), '-' , LCASE(s.SPATIAL_TWOLETTER)) " +
-        "FROM T_OBLIGATION a, T_SPATIAL s,  T_RASPATIAL_LNK sl  " +
-        "WHERE  a.COORDINATOR_ROLE_SUF=1 " +
-        "AND sl.FK_RA_ID=a.PK_RA_ID " +
-        "AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID " +
-        "AND a.COORDINATOR_ROLE IS NOT NULL " +
-        "AND a.COORDINATOR_ROLE <> '' " +
-        "AND s.SPATIAL_TYPE = 'C' " +
-        "AND s.SPATIAL_TWOLETTER IS NOT NULL AND " +
-        "TRIM(s.SPATIAL_TWOLETTER) <> '' ";
+    private static final String qCountryCoordinatorRole =
+        "SELECT DISTINCT CONCAT(a.COORDINATOR_ROLE, '-' , "
+        + "(CASE s.SPATIAL_ISMEMBERCOUNTRY WHEN 'Y' THEN 'mc' WHEN 'N' THEN 'cc' END), '-' , LCASE(s.SPATIAL_TWOLETTER)) "
+        + "FROM T_OBLIGATION a, T_SPATIAL s,  T_RASPATIAL_LNK sl "
+        + "WHERE  a.COORDINATOR_ROLE_SUF=1 "
+        + "AND sl.FK_RA_ID=a.PK_RA_ID "
+        + "AND sl.FK_SPATIAL_ID = s.PK_SPATIAL_ID "
+        + "AND a.COORDINATOR_ROLE IS NOT NULL "
+        + "AND a.COORDINATOR_ROLE <> '' "
+        + "AND s.SPATIAL_TYPE = 'C' "
+        + "AND s.SPATIAL_TWOLETTER IS NOT NULL AND "
+        + "TRIM(s.SPATIAL_TWOLETTER) <> '' ";
 
     private static String[] respRolesQueries = { qResponsibleRole, qCountryResponsibleRole, qCoordinatorRole, qCountryCoordinatorRole };
 
@@ -250,20 +255,20 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return roles.toArray(new String[0]);
     }
 
-    private final static String qUpcomingDeadlines =
-        "SELECT " +
-        "o.TITLE AS title, " +
-        "o.PK_RA_ID AS id, " +
-        "o.FK_SOURCE_ID AS src_id, " +
-        "o.REPORT_FREQ_MONTHS AS freq, " +
-        "c.CLIENT_NAME AS client, " +
-        "o.NEXT_DEADLINE AS next_deadline, " +
-        "o.NEXT_DEADLINE2 AS next_deadline2, " +
-        "o.RESPONSIBLE_ROLE AS responsible_role " +
-        "FROM T_OBLIGATION o, T_CLIENT c " +
-        "WHERE CURDATE() < o.NEXT_DEADLINE " +
-        "AND (CURDATE() + INTERVAL (o.REPORT_FREQ_MONTHS * ? ) DAY) > o.NEXT_DEADLINE " +
-        "AND c.PK_CLIENT_ID = o.FK_CLIENT_ID ";
+    private static final String qUpcomingDeadlines =
+        "SELECT "
+        + "o.TITLE AS title, "
+        + "o.PK_RA_ID AS id, "
+        + "o.FK_SOURCE_ID AS src_id, "
+        + "o.REPORT_FREQ_MONTHS AS freq, "
+        + "c.CLIENT_NAME AS client, "
+        + "o.NEXT_DEADLINE AS next_deadline, "
+        + "o.NEXT_DEADLINE2 AS next_deadline2, "
+        + "o.RESPONSIBLE_ROLE AS responsible_role "
+        + "FROM T_OBLIGATION o, T_CLIENT c "
+        + "WHERE CURDATE() < o.NEXT_DEADLINE "
+        + "AND (CURDATE() + INTERVAL (o.REPORT_FREQ_MONTHS * ? ) DAY) > o.NEXT_DEADLINE "
+        + "AND c.PK_CLIENT_ID = o.FK_CLIENT_ID ";
 
     /*
      * (non-Javadoc)
@@ -292,19 +297,19 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     }
 
-    private final static String qActivities =
-        "SELECT " +
-        "a.PK_RA_ID, " +
-        "s.PK_SOURCE_ID, " +
-        "a.TITLE, " +
-        "IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, " +
-        "a.LAST_UPDATE, " +
-        "CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url, " +
-        "CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri, " +
-        "IF (TERMINATE='Y', 1, 0) AS 'terminated' " +
-        "FROM T_OBLIGATION a , T_SOURCE s " +
-        "WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID " +
-        "ORDER BY a.PK_RA_ID";
+    private static final String qActivities =
+        "SELECT "
+        + "a.PK_RA_ID, "
+        + "s.PK_SOURCE_ID, "
+        + "a.TITLE, "
+        + "IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, "
+        + "a.LAST_UPDATE, "
+        + "CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url, "
+        + "CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri, "
+        + "IF (TERMINATE='Y', 1, 0) AS 'terminated' "
+        + "FROM T_OBLIGATION a , T_SOURCE s "
+        + "WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID "
+        + "ORDER BY a.PK_RA_ID";
 
     /*
      * (non-Javadoc)
@@ -331,39 +336,39 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     }
 
-    private final static String qObligations =
-        "SELECT " +
-        "a.PK_RA_ID, " +
-        "s.PK_SOURCE_ID, " +
-        "a.TITLE AS TITLE, " +
-        "IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, " +
-        "CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url, " +
-        "CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri," +
-        "IF(a.TERMINATE='Y','true','false') AS 'terminated', " +
-        "a.VALID_SINCE, " +
-        "a.EEA_PRIMARY, a.RESPONSIBLE_ROLE AS RESPONSIBLE_ROLE, " +
-        "a.DESCRIPTION AS DESCRIPTION, " +
-        "a.NEXT_DEADLINE, a.NEXT_DEADLINE2, a.LAST_UPDATE, a.RM_NEXT_UPDATE, " +
-        "a.COMMENT AS COMMENT, " +
-        "a.REPORTING_FORMAT AS REPORTING_FORMAT, " +
-        "a.FORMAT_NAME AS FORMAT_NAME, " +
-        "a.REPORT_FORMAT_URL AS REPORT_FORMAT_URL, " +
-        "a.DATA_USED_FOR_URL, " +
-        "a.RM_VERIFIED, a.RM_VERIFIED_BY, " +
-        "a.LAST_HARVESTED, a.FK_CLIENT_ID, a.VALIDATED_BY, a.COORDINATOR_URL, " +
-        "IF(a.EEA_PRIMARY=1,'true','false') AS 'isEEAPrimary', " +
-        "IF(a.EEA_CORE=1,'true','false') AS 'isEEACore', " +
-        "IF(a.FLAGGED=1,'true','false') AS 'isFlagged', " +
-        "IF(a.DPSIR_D='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/D',NULL) AS 'dpsirD', " +
-        "IF(a.DPSIR_P='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/P',NULL) AS 'dpsirP', " +
-        "IF(a.DPSIR_S='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/S',NULL) AS 'dpsirS', " +
-        "IF(a.DPSIR_I='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/I',NULL) AS 'dpsirI', " +
-        "IF(a.DPSIR_R='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/R',NULL) AS 'dpsirR', " +
-        "clk.FK_CLIENT_ID " +
-        "FROM T_OBLIGATION a , T_SOURCE s, T_CLIENT_LNK clk "+
-        "WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID AND clk.TYPE='A' " +
-        "AND clk.STATUS='M' AND clk.FK_OBJECT_ID=a.PK_RA_ID " +
-        "ORDER BY TITLE";
+    private static final String Q_OBLIGATIONS =
+        "SELECT "
+        + "a.PK_RA_ID, "
+        + "s.PK_SOURCE_ID, "
+        + "a.TITLE AS TITLE, "
+        + "IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, "
+        + "CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url, "
+        + "CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri,"
+        + "IF(a.TERMINATE='Y','true','false') AS 'terminated', "
+        + "a.VALID_SINCE, "
+        + "a.EEA_PRIMARY, a.RESPONSIBLE_ROLE AS RESPONSIBLE_ROLE, "
+        + "a.DESCRIPTION AS DESCRIPTION, "
+        + "a.NEXT_DEADLINE, a.NEXT_DEADLINE2, a.LAST_UPDATE, a.RM_NEXT_UPDATE, "
+        + "a.COMMENT AS COMMENT, "
+        + "a.REPORTING_FORMAT AS REPORTING_FORMAT, "
+        + "a.FORMAT_NAME AS FORMAT_NAME, "
+        + "a.REPORT_FORMAT_URL AS REPORT_FORMAT_URL, "
+        + "a.DATA_USED_FOR_URL, "
+        + "a.RM_VERIFIED, a.RM_VERIFIED_BY, "
+        + "a.LAST_HARVESTED, a.FK_CLIENT_ID, a.VALIDATED_BY, a.COORDINATOR_URL, "
+        + "IF(a.EEA_PRIMARY=1,'true','false') AS 'isEEAPrimary', "
+        + "IF(a.EEA_CORE=1,'true','false') AS 'isEEACore', "
+        + "IF(a.FLAGGED=1,'true','false') AS 'isFlagged', "
+        + "IF(a.DPSIR_D='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/D',NULL) AS 'dpsirD', "
+        + "IF(a.DPSIR_P='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/P',NULL) AS 'dpsirP', "
+        + "IF(a.DPSIR_S='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/S',NULL) AS 'dpsirS', "
+        + "IF(a.DPSIR_I='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/I',NULL) AS 'dpsirI', "
+        + "IF(a.DPSIR_R='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/R',NULL) AS 'dpsirR', "
+        + "clk.FK_CLIENT_ID "
+        + "FROM T_OBLIGATION a , T_SOURCE s, T_CLIENT_LNK clk "
+        + "WHERE a.FK_SOURCE_ID = s.PK_SOURCE_ID AND clk.TYPE='A' "
+        + "AND clk.STATUS='M' AND clk.FK_OBJECT_ID=a.PK_RA_ID "
+        + "ORDER BY TITLE";
 
     /*
      * (non-Javadoc)
@@ -378,8 +383,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(qObligations);
-            preparedStatement = connection.prepareStatement(qObligations);
+            if (isDebugMode) logQuery(Q_OBLIGATIONS);
+            preparedStatement = connection.prepareStatement(Q_OBLIGATIONS);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 ObligationRdfDTO obligation = new ObligationRdfDTO();
@@ -430,38 +435,38 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return ret;
     }
 
-    private final static String qObligationForRdf =
-        "SELECT " +
-        "a.PK_RA_ID, " +
-        "s.PK_SOURCE_ID, " +
-        "a.TITLE AS TITLE, " +
-        "IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, " +
-        "CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url, " +
-        "CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri," +
-        "IF(a.TERMINATE='Y','true','false') AS 'terminated', " +
-        "a.VALID_SINCE, " +
-        "a.RESPONSIBLE_ROLE AS RESPONSIBLE_ROLE, " +
-        "a.DESCRIPTION AS DESCRIPTION, " +
-        "a.NEXT_DEADLINE, a.NEXT_DEADLINE2, a.LAST_UPDATE, a.RM_NEXT_UPDATE," +
-        "a.COMMENT AS COMMENT, " +
-        "a.REPORTING_FORMAT AS REPORTING_FORMAT, " +
-        "a.FORMAT_NAME AS FORMAT_NAME, " +
-        "a.REPORT_FORMAT_URL AS REPORT_FORMAT_URL, " +
-        "a.DATA_USED_FOR_URL, " +
-        "a.RM_VERIFIED, a.RM_VERIFIED_BY, " +
-        "a.LAST_HARVESTED, a.FK_CLIENT_ID, a.VALIDATED_BY, a.COORDINATOR_URL, " +
-        "IF(a.EEA_PRIMARY=1,'true','false') AS 'isEEAPrimary', " +
-        "IF(a.EEA_CORE=1,'true','false') AS 'isEEACore', " +
-        "IF(a.FLAGGED=1,'true','false') AS 'isFlagged', " +
-        "IF(a.DPSIR_D='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/D',NULL) AS 'dpsirD', " +
-        "IF(a.DPSIR_P='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/P',NULL) AS 'dpsirP', " +
-        "IF(a.DPSIR_S='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/S',NULL) AS 'dpsirS', " +
-        "IF(a.DPSIR_I='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/I',NULL) AS 'dpsirI', " +
-        "IF(a.DPSIR_R='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/R',NULL) AS 'dpsirR', " +
-        "clk.FK_CLIENT_ID " +
-        "FROM T_OBLIGATION a , T_SOURCE s, T_CLIENT_LNK clk "+
-        "WHERE a.PK_RA_ID = ? AND a.FK_SOURCE_ID = s.PK_SOURCE_ID AND clk.TYPE='A' " +
-        "AND clk.STATUS='M' AND clk.FK_OBJECT_ID=a.PK_RA_ID";
+    private static final String qObligationForRdf =
+        "SELECT "
+        + "a.PK_RA_ID, "
+        + "s.PK_SOURCE_ID, "
+        + "a.TITLE AS TITLE, "
+        + "IF( s.ALIAS IS NULL OR TRIM(s.ALIAS) = '', s.TITLE, s.ALIAS) AS SOURCE_TITLE, "
+        + "CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url, "
+        + "CONCAT('" + roNs + "', '/',  a.PK_RA_ID) AS uri,"
+        + "IF(a.TERMINATE='Y','true','false') AS 'terminated', "
+        + "a.VALID_SINCE, "
+        + "a.RESPONSIBLE_ROLE AS RESPONSIBLE_ROLE, "
+        + "a.DESCRIPTION AS DESCRIPTION, "
+        + "a.NEXT_DEADLINE, a.NEXT_DEADLINE2, a.LAST_UPDATE, a.RM_NEXT_UPDATE,"
+        + "a.COMMENT AS COMMENT, "
+        + "a.REPORTING_FORMAT AS REPORTING_FORMAT, "
+        + "a.FORMAT_NAME AS FORMAT_NAME, "
+        + "a.REPORT_FORMAT_URL AS REPORT_FORMAT_URL, "
+        + "a.DATA_USED_FOR_URL, "
+        + "a.RM_VERIFIED, a.RM_VERIFIED_BY, "
+        + "a.LAST_HARVESTED, a.FK_CLIENT_ID, a.VALIDATED_BY, a.COORDINATOR_URL, "
+        + "IF(a.EEA_PRIMARY=1,'true','false') AS 'isEEAPrimary', "
+        + "IF(a.EEA_CORE=1,'true','false') AS 'isEEACore', "
+        + "IF(a.FLAGGED=1,'true','false') AS 'isFlagged', "
+        + "IF(a.DPSIR_D='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/D',NULL) AS 'dpsirD', "
+        + "IF(a.DPSIR_P='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/P',NULL) AS 'dpsirP', "
+        + "IF(a.DPSIR_S='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/S',NULL) AS 'dpsirS', "
+        + "IF(a.DPSIR_I='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/I',NULL) AS 'dpsirI', "
+        + "IF(a.DPSIR_R='yes','http://rdfdata.eionet.europa.eu/eea/dpsir/R',NULL) AS 'dpsirR', "
+        + "clk.FK_CLIENT_ID "
+        + "FROM T_OBLIGATION a , T_SOURCE s, T_CLIENT_LNK clk "
+        + "WHERE a.PK_RA_ID = ? AND a.FK_SOURCE_ID = s.PK_SOURCE_ID AND clk.TYPE='A' "
+        + "AND clk.STATUS='M' AND clk.FK_OBJECT_ID=a.PK_RA_ID";
 
     /*
      * (non-Javadoc)
@@ -528,10 +533,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return obligation;
     }
 
-    private final static String qSubscribeObligations =
-        "SELECT TITLE " +
-        "FROM T_OBLIGATION "+
-        "ORDER BY TITLE";
+    private static final String qSubscribeObligations =
+        "SELECT TITLE "
+        + "FROM T_OBLIGATION "
+        + "ORDER BY TITLE";
 
     /*
      * (non-Javadoc)
@@ -706,14 +711,14 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     }
 
-    private final static String qObligationById =
-        "SELECT " +
-        "o.TITLE as title, " +
-        "c.CLIENT_NAME AS client, " +
-        "o.PK_RA_ID AS obligationID, " +
-        "c.PK_CLIENT_ID AS clientID " +
-        "FROM T_OBLIGATION o, T_CLIENT c " +
-        "WHERE c.PK_CLIENT_ID = o.FK_CLIENT_ID AND o.PK_RA_ID=?";
+    private static final String qObligationById =
+        "SELECT "
+        + "o.TITLE as title, "
+        + "c.CLIENT_NAME AS client, "
+        + "o.PK_RA_ID AS obligationID, "
+        + "c.PK_CLIENT_ID AS clientID "
+        + "FROM T_OBLIGATION o, T_CLIENT c "
+        + "WHERE c.PK_CLIENT_ID = o.FK_CLIENT_ID AND o.PK_RA_ID=?";
 
     /*
      * (non-Javadoc)
@@ -740,18 +745,18 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return result != null ? result : new Hashtable<String,String>();
     }
 
-    private final static String qObligationDetail =
-        "SELECT " +
-        "TITLE AS title, " +
-        "DESCRIPTION as description, " +
-        "NEXT_DEADLINE AS next_deadline, " +
-        "NEXT_DEADLINE2 AS next_deadline2, " +
-        "COMMENT as comment, " +
-        "DATE_COMMENTS as date_comments, " +
-        "REPORT_FREQ as report_freq, " +
-        "CONCAT('" + rodDomain + "/obligations/', " + "PK_RA_ID) AS details_url " +
-        "FROM T_OBLIGATION " +
-        "WHERE PK_RA_ID=?";
+    private static final String qObligationDetail =
+        "SELECT "
+        + "TITLE AS title, "
+        + "DESCRIPTION as description, "
+        + "NEXT_DEADLINE AS next_deadline, "
+        + "NEXT_DEADLINE2 AS next_deadline2, "
+        + "COMMENT as comment, "
+        + "DATE_COMMENTS as date_comments, "
+        + "REPORT_FREQ as report_freq, "
+        + "CONCAT('" + rodDomain + "/obligations/', " + "PK_RA_ID) AS details_url "
+        + "FROM T_OBLIGATION "
+        + "WHERE PK_RA_ID=?";
 
     /*
      * (non-Javadoc)
@@ -778,10 +783,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return result != null ? result : new Vector<Map<String,String>>();
     }
 
-    private final static String qParentObligationId =
-        "SELECT PARENT_OBLIGATION " +
-        "FROM T_OBLIGATION " +
-        "WHERE PK_RA_ID= ?";
+    private static final String qParentObligationId =
+        "SELECT PARENT_OBLIGATION "
+        + "FROM T_OBLIGATION "
+        + "WHERE PK_RA_ID= ?";
 
     /*
      * (non-Javadoc)
@@ -812,10 +817,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return result != null ? result : new String[][] {};
     }
 
-    private final static String qLatestVersionId =
-        "select PK_RA_ID " +
-        "from T_OBLIGATION " +
-        "where (PARENT_OBLIGATION=? OR PK_RA_ID=?)";
+    private static final String qLatestVersionId =
+        "select PK_RA_ID "
+        + "from T_OBLIGATION "
+        + "where (PARENT_OBLIGATION=? OR PK_RA_ID=?)";
 
     /*
      * (non-Javadoc)
@@ -847,15 +852,15 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return result != null ? result : new String[][] {};
     }
 
-    private final static String qRestoreObligation1 =
-        "UPDATE T_OBLIGATION " +
-        "SET VERSION=?, HAS_NEWER_VERSION=? " +
-        "WHERE PK_RA_ID=?";
+    private static final String qRestoreObligation1 =
+        "UPDATE T_OBLIGATION "
+        + "SET VERSION=?, HAS_NEWER_VERSION=? "
+        + "WHERE PK_RA_ID=?";
 
-    private final static String qRestoreObligation2 =
-        "UPDATE T_OBLIGATION " +
-        "SET HAS_NEWER_VERSION=? " +
-        "WHERE (PK_RA_ID=? OR PARENT_OBLIGATION=?) AND VERSION=?";
+    private static final String qRestoreObligation2 =
+        "UPDATE T_OBLIGATION "
+        + "SET HAS_NEWER_VERSION=? "
+        + "WHERE (PK_RA_ID=? OR PARENT_OBLIGATION=?) AND VERSION=?";
 
     /*
      * (non-Javadoc)
@@ -905,10 +910,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return success;
     }
 
-    private final static String qObligationIds =
-        "SELECT PK_RA_ID " +
-        "FROM T_OBLIGATION " +
-        "ORDER BY PK_RA_ID";
+    private static final String qObligationIds =
+        "SELECT PK_RA_ID "
+        + "FROM T_OBLIGATION "
+        + "ORDER BY PK_RA_ID";
 
     /*
      * (non-Javadoc)
@@ -938,7 +943,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     }
 
-    private final static String qROComplete = "SELECT * FROM T_OBLIGATION";
+    private static final String qROComplete = "SELECT * FROM T_OBLIGATION";
 
     /*
      * (non-Javadoc)
@@ -963,13 +968,13 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return result != null ? result : new Vector<Map<String,String>>();
     }
 
-    private final static String qROSummary =
-        "SELECT " +
-        "TITLE, " +
-        "LAST_UPDATE, " +
-        "DESCRIPTION, " +
-        "CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url " +
-        "FROM T_OBLIGATION ";
+    private static final String qROSummary =
+        "SELECT "
+        + "TITLE, "
+        + "LAST_UPDATE, "
+        + "DESCRIPTION, "
+        + "CONCAT('" + rodDomain + "/obligations/', PK_RA_ID) AS details_url "
+        + "FROM T_OBLIGATION ";
 
     /*
      * (non-Javadoc)
@@ -994,14 +999,14 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return result != null ? result : new Vector<Map<String,String>>();
     }
 
-    private final static String qRODeadlines =
-        "SELECT " +
-        "o.TITLE, " +
-        "c.CLIENT_NAME, " +
-        "IF (o.NEXT_DEADLINE IS NULL, o.NEXT_REPORTING, o.NEXT_DEADLINE) AS NEXT_DEADLINE, " +
-        "o.NEXT_DEADLINE2, " +
-        "o.DATE_COMMENTS " +
-        "FROM T_OBLIGATION o LEFT OUTER JOIN T_CLIENT c ON o.FK_CLIENT_ID=c.PK_CLIENT_ID";
+    private static final String qRODeadlines =
+        "SELECT "
+        + "o.TITLE, "
+        + "c.CLIENT_NAME, "
+        + "IF (o.NEXT_DEADLINE IS NULL, o.NEXT_REPORTING, o.NEXT_DEADLINE) AS NEXT_DEADLINE, "
+        + "o.NEXT_DEADLINE2, "
+        + "o.DATE_COMMENTS "
+        + "FROM T_OBLIGATION o LEFT OUTER JOIN T_CLIENT c ON o.FK_CLIENT_ID=c.PK_CLIENT_ID";
 
     /*
      * (non-Javadoc)
@@ -1052,16 +1057,16 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         }
     }
 
-    private final static String qParameters =
-        "SELECT p.PARAMETER_NAME, u.UNIT_NAME " +
-        "FROM T_PARAMETER p, T_PARAMETER_LNK pl LEFT OUTER JOIN T_UNIT u ON pl.FK_UNIT_ID=u.PK_UNIT_ID " +
-        "WHERE pl.FK_PARAMETER_ID=p.PK_PARAMETER_ID AND pl.FK_RA_ID=? " +
-        "ORDER BY PARAMETER_NAME";
+    private static final String qParameters =
+        "SELECT p.PARAMETER_NAME, u.UNIT_NAME "
+        + "FROM T_PARAMETER p, T_PARAMETER_LNK pl LEFT OUTER JOIN T_UNIT u ON pl.FK_UNIT_ID=u.PK_UNIT_ID "
+        + "WHERE pl.FK_PARAMETER_ID=p.PK_PARAMETER_ID AND pl.FK_RA_ID=? "
+        + "ORDER BY PARAMETER_NAME";
 
-    private final static String qUpdateParameters =
-        "UPDATE T_OBLIGATION " +
-        "SET PARAMETERS=? " +
-        "WHERE (PARAMETERS IS NULL OR PARAMETERS='') AND PK_RA_ID=?";
+    private static final String qUpdateParameters =
+        "UPDATE T_OBLIGATION "
+        + "SET PARAMETERS=? "
+        + "WHERE (PARAMETERS IS NULL OR PARAMETERS='') AND PK_RA_ID=?";
 
     /*
      * (non-Javadoc)
@@ -1113,8 +1118,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     }
 
     private static final String q_delete_issue_link =
-        "DELETE FROM T_RAISSUE_LNK " +
-        "WHERE FK_RA_ID=?";
+        "DELETE FROM T_RAISSUE_LNK "
+        + "WHERE FK_RA_ID=?";
 
     public void deleteIssueLink(Integer raId) throws ServiceException{
         Connection connection = null;
@@ -1154,8 +1159,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
 
     private static final String q_delete_spatial_link_ext =
-        "DELETE FROM T_RASPATIAL_LNK " +
-        "WHERE FK_RA_ID=? AND FK_SPATIAL_ID=?";
+        "DELETE FROM T_RASPATIAL_LNK "
+        + "WHERE FK_RA_ID=? AND FK_SPATIAL_ID=?";
     public void deleteSpatialLink(Integer raId, Integer spatialId) throws ServiceException{
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -1219,8 +1224,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
 
     private static final String q_insert_info_link =
-        "INSERT INTO T_INFO_LNK (FK_RA_ID, FK_INFO_ID) " +
-        "VALUES (?,?)";
+        "INSERT INTO T_INFO_LNK (FK_RA_ID, FK_INFO_ID) "
+        + "VALUES (?,?)";
 
 
     public void insertInfoLink(Integer raId, String infoId) throws ServiceException{
@@ -1270,9 +1275,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     }
 
     private static final String q_check_obligationid =
-        "SELECT PK_RA_ID AS id " +
-        "FROM T_OBLIGATION " +
-        "WHERE PK_RA_ID =?";
+        "SELECT PK_RA_ID AS id "
+        + "FROM T_OBLIGATION "
+        + "WHERE PK_RA_ID =?";
 
     /*
      * (non-Javadoc)
@@ -1308,15 +1313,17 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     private String getSearchSql(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, String order) throws ServiceException {
 
         StringBuilder q_obligations_list = new StringBuilder(
-        "SELECT DISTINCT T_OBLIGATION.PK_RA_ID, T_OBLIGATION.TITLE, T_OBLIGATION.RESPONSIBLE_ROLE, T_OBLIGATION.NEXT_REPORTING, T_OBLIGATION.NEXT_DEADLINE, ");
-        q_obligations_list.append("IF(T_OBLIGATION.NEXT_DEADLINE IS NULL, T_OBLIGATION.NEXT_REPORTING, T_OBLIGATION.NEXT_DEADLINE) AS DEADLINE, T_OBLIGATION.NEXT_DEADLINE2 AS DEADLINE2, ");
+            "SELECT DISTINCT T_OBLIGATION.PK_RA_ID, T_OBLIGATION.TITLE, T_OBLIGATION.RESPONSIBLE_ROLE, "
+            + "T_OBLIGATION.NEXT_REPORTING, T_OBLIGATION.NEXT_DEADLINE, ");
+        q_obligations_list.append("IF(T_OBLIGATION.NEXT_DEADLINE IS NULL, T_OBLIGATION.NEXT_REPORTING, "
+            + "T_OBLIGATION.NEXT_DEADLINE) AS DEADLINE, T_OBLIGATION.NEXT_DEADLINE2 AS DEADLINE2, ");
 
-        q_obligations_list.append("T_OBLIGATION.TERMINATE, T_OBLIGATION.FK_SOURCE_ID, T_OBLIGATION.FK_CLIENT_ID AS CLIENTID, T_OBLIGATION.FK_DELIVERY_COUNTRY_IDS, " +
-                "T_OBLIGATION.FK_DELIVERY_COUNTRY_IDS REGEXP CONCAT(',',T_SPATIAL.PK_SPATIAL_ID,',') AS HAS_DELIVERY, T_ROLE.ROLE_NAME AS ROLE_DESCR, T_ROLE.ROLE_URL, T_ROLE.ROLE_MEMBERS_URL, " +
-                "T_CLIENT_LNK.FK_CLIENT_ID, T_CLIENT_LNK.FK_OBJECT_ID, T_CLIENT_LNK.TYPE, T_CLIENT_LNK.STATUS, " +
-                "T_CLIENT.PK_CLIENT_ID, T_CLIENT.CLIENT_NAME, IF(T_CLIENT.CLIENT_ACRONYM='', T_CLIENT.CLIENT_NAME, T_CLIENT.CLIENT_ACRONYM) AS CLIENT_DESCR, " +
-                "T_RASPATIAL_LNK.FK_RA_ID, T_RASPATIAL_LNK.FK_SPATIAL_ID, T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_SPATIAL.SPATIAL_TWOLETTER, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY, " +
-        "T_SOURCE.PK_SOURCE_ID, T_SOURCE.SOURCE_CODE ");
+        q_obligations_list.append("T_OBLIGATION.TERMINATE, T_OBLIGATION.FK_SOURCE_ID, T_OBLIGATION.FK_CLIENT_ID AS CLIENTID, T_OBLIGATION.FK_DELIVERY_COUNTRY_IDS, "
+        + "T_OBLIGATION.FK_DELIVERY_COUNTRY_IDS REGEXP CONCAT(',',T_SPATIAL.PK_SPATIAL_ID,',') AS HAS_DELIVERY, T_ROLE.ROLE_NAME AS ROLE_DESCR, T_ROLE.ROLE_URL, T_ROLE.ROLE_MEMBERS_URL, "
+        + "T_CLIENT_LNK.FK_CLIENT_ID, T_CLIENT_LNK.FK_OBJECT_ID, T_CLIENT_LNK.TYPE, T_CLIENT_LNK.STATUS, "
+        + "T_CLIENT.PK_CLIENT_ID, T_CLIENT.CLIENT_NAME, IF(T_CLIENT.CLIENT_ACRONYM='', T_CLIENT.CLIENT_NAME, T_CLIENT.CLIENT_ACRONYM) AS CLIENT_DESCR, "
+        + "T_RASPATIAL_LNK.FK_RA_ID, T_RASPATIAL_LNK.FK_SPATIAL_ID, T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_SPATIAL.SPATIAL_TWOLETTER, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY, "
+        + "T_SOURCE.PK_SOURCE_ID, T_SOURCE.SOURCE_CODE ");
         if (!RODUtil.nullString(issueId) && !issueId.equals("0")) {
             q_obligations_list.append(", T_RAISSUE_LNK.FK_RA_ID, T_RAISSUE_LNK.FK_ISSUE_ID ");
         }
@@ -1324,12 +1331,12 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         if (!RODUtil.nullString(issueId) && !issueId.equals("0")) {
             q_obligations_list.append("(");
         }
-        q_obligations_list.append("(T_RASPATIAL_LNK LEFT JOIN T_SPATIAL ON T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID) " +
-                "JOIN T_OBLIGATION ON T_RASPATIAL_LNK.FK_RA_ID=T_OBLIGATION.PK_RA_ID " +
-                "LEFT JOIN T_SOURCE ON T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID " +
-                "LEFT JOIN T_ROLE ON CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',IF(T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y','mc','cc'),'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID " +
-                "LEFT JOIN T_CLIENT_LNK ON T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID " +
-        "LEFT JOIN T_CLIENT ON T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID ");
+        q_obligations_list.append("(T_RASPATIAL_LNK LEFT JOIN T_SPATIAL ON T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID) "
+        + "JOIN T_OBLIGATION ON T_RASPATIAL_LNK.FK_RA_ID=T_OBLIGATION.PK_RA_ID "
+        + "LEFT JOIN T_SOURCE ON T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID "
+        + "LEFT JOIN T_ROLE ON CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',IF(T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y','mc','cc'),'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID "
+        + "LEFT JOIN T_CLIENT_LNK ON T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID "
+        + "LEFT JOIN T_CLIENT ON T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID ");
         if (!RODUtil.nullString(issueId) && !issueId.equals("0")) {
             q_obligations_list.append(") JOIN T_RAISSUE_LNK ON T_OBLIGATION.PK_RA_ID=T_RAISSUE_LNK.FK_RA_ID ");
         }
@@ -1426,7 +1433,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     // dd/mm/yyyy -> yyyy-mm-dd
     private String cnvDate(String date ) {
-        date = date.substring(6) +"-"+  date.substring(3,5) +"-"+  date.substring(0,2);
+        date = date.substring(6) + "-" + date.substring(3,5) + "-" + date.substring(0,2);
         return date;
     }
 
@@ -1445,36 +1452,36 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     }
 
     private static final String q_obligation_factsheet =
-        "SELECT OB.PK_RA_ID, OB.FK_SOURCE_ID, DATE_FORMAT(OB.VALID_SINCE, '%d/%m/%Y') AS VALID_SINCE, DATE_FORMAT(OB.VALID_TO, '%d/%m/%Y') AS VALID_TO, " +
-        "OB.TITLE, OB.LAST_HARVESTED, OB.TERMINATE, " +
-        "OB.REPORT_FREQ_MONTHS, IF(OB.NEXT_DEADLINE, DATE_FORMAT(OB.NEXT_DEADLINE, '%d/%m/%Y'), '') AS NEXT_DEADLINE, " +
-        "IF(OB.NEXT_DEADLINE2, DATE_FORMAT(OB.NEXT_DEADLINE2, '%d/%m/%Y'), '') AS NEXT_DEADLINE2, " +
-        "OB.FORMAT_NAME, OB.REPORT_FORMAT_URL, OB.RESPONSIBLE_ROLE, OB.REPORT_FORMAT_URL, OB.REPORT_FREQ, OB.REPORT_FREQ_DETAIL, " +
-        "REPLACE(REPLACE(OB.REPORTING_FORMAT, '\r\n', '\n'), '\r', '\n') AS REPORTING_FORMAT, " +
-        "IF(OB.FIRST_REPORTING, DATE_FORMAT(OB.FIRST_REPORTING, '%d/%m/%Y'), '') AS FIRST_REPORTING, " +
-        "OB.NEXT_REPORTING, OB.DATE_COMMENTS, DATE_FORMAT(OB.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE, " +
-        "REPLACE(REPLACE(OB.COMMENT, '\r\n', '\n'), '\r', '\n') AS COMMENT, OB.FK_DELIVERY_COUNTRY_IDS, " +
-        "DATE_FORMAT(OB.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE, " +
-        "DATE_FORMAT(OB.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED, " +
-        "OB.RM_VERIFIED_BY, OB.LOCATION_PTR, OB.LOCATION_INFO, OB.DATA_USED_FOR, OB.DATA_USED_FOR_URL, " +
-        "OB.FK_CLIENT_ID, OB.RESPONSIBLE_ROLE_SUF, OB.NATIONAL_CONTACT, OB.NATIONAL_CONTACT_URL, " +
-        "REPLACE(REPLACE(OB.DESCRIPTION, '\r\n', '\n'), '\r', '\n') AS DESCRIPTION, " +
-        "OB.COORDINATOR_ROLE, OB.COORDINATOR_ROLE_SUF, OB.COORDINATOR, OB.COORDINATOR_URL, OB.AUTHORITY, OB.EEA_PRIMARY, " +
-        "OB.PARAMETERS, OB.VALIDATED_BY, OB.LEGAL_MORAL, OB.OVERLAP_URL, OB.EEA_CORE, OB.FLAGGED, OB.DPSIR_D, OB.DPSIR_P, OB.DPSIR_S, OB.DPSIR_I, OB.DPSIR_R, OB.CONTINOUS_REPORTING, " +
-        "SO.PK_SOURCE_ID, SO.TITLE AS SOURCE_TITLE, SO.ALIAS, SO.CELEX_REF, SO.SOURCE_CODE, " +
-        "RRO.ROLE_ID AS R_ROLE_ID, RRO.ROLE_NAME AS R_ROLE_NAME, RRO.ROLE_URL AS R_ROLE_URL, RRO.ROLE_MEMBERS_URL AS R_ROLE_MEMBERS_URL, " +
-        "CRO.ROLE_ID AS C_ROLE_ID, CRO.ROLE_NAME AS C_ROLE_NAME, CRO.ROLE_URL AS C_ROLE_URL, CRO.ROLE_MEMBERS_URL AS C_ROLE_MEMBERS_URL, " +
-        "LU.C_VALUE, LU.C_TERM, " +
-        "CLK.FK_CLIENT_ID AS CLK_FK_CLIENT_ID, CLK.FK_OBJECT_ID, CLK.TYPE, CLK.STATUS, " +
-        "CL.PK_CLIENT_ID, CL.CLIENT_NAME " +
-        "FROM T_OBLIGATION OB " +
-        "LEFT JOIN T_SOURCE SO ON SO.PK_SOURCE_ID = OB.FK_SOURCE_ID " +
-        "LEFT JOIN T_ROLE RRO ON RRO.ROLE_ID=OB.RESPONSIBLE_ROLE " +
-        "LEFT JOIN T_ROLE CRO ON CRO.ROLE_ID=OB.COORDINATOR_ROLE " +
-        "LEFT JOIN T_LOOKUP LU ON LU.C_VALUE=OB.LEGAL_MORAL AND LU.CATEGORY='2' " +
-        "LEFT JOIN T_CLIENT_LNK CLK ON CLK.TYPE='A' AND CLK.STATUS='M' AND CLK.FK_OBJECT_ID=OB.PK_RA_ID " +
-        "LEFT JOIN T_CLIENT CL ON CLK.FK_CLIENT_ID=CL.PK_CLIENT_ID " +
-        "WHERE OB.PK_RA_ID=?";
+        "SELECT OB.PK_RA_ID, OB.FK_SOURCE_ID, DATE_FORMAT(OB.VALID_SINCE, '%d/%m/%Y') AS VALID_SINCE, DATE_FORMAT(OB.VALID_TO, '%d/%m/%Y') AS VALID_TO, "
+        + "OB.TITLE, OB.LAST_HARVESTED, OB.TERMINATE, "
+        + "OB.REPORT_FREQ_MONTHS, IF(OB.NEXT_DEADLINE, DATE_FORMAT(OB.NEXT_DEADLINE, '%d/%m/%Y'), '') AS NEXT_DEADLINE, "
+        + "IF(OB.NEXT_DEADLINE2, DATE_FORMAT(OB.NEXT_DEADLINE2, '%d/%m/%Y'), '') AS NEXT_DEADLINE2, "
+        + "OB.FORMAT_NAME, OB.REPORT_FORMAT_URL, OB.RESPONSIBLE_ROLE, OB.REPORT_FORMAT_URL, OB.REPORT_FREQ, OB.REPORT_FREQ_DETAIL, "
+        + "REPLACE(REPLACE(OB.REPORTING_FORMAT, '\r\n', '\n'), '\r', '\n') AS REPORTING_FORMAT, "
+        + "IF(OB.FIRST_REPORTING, DATE_FORMAT(OB.FIRST_REPORTING, '%d/%m/%Y'), '') AS FIRST_REPORTING, "
+        + "OB.NEXT_REPORTING, OB.DATE_COMMENTS, DATE_FORMAT(OB.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE, "
+        + "REPLACE(REPLACE(OB.COMMENT, '\r\n', '\n'), '\r', '\n') AS COMMENT, OB.FK_DELIVERY_COUNTRY_IDS, "
+        + "DATE_FORMAT(OB.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE, "
+        + "DATE_FORMAT(OB.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED, "
+        + "OB.RM_VERIFIED_BY, OB.LOCATION_PTR, OB.LOCATION_INFO, OB.DATA_USED_FOR, OB.DATA_USED_FOR_URL, "
+        + "OB.FK_CLIENT_ID, OB.RESPONSIBLE_ROLE_SUF, OB.NATIONAL_CONTACT, OB.NATIONAL_CONTACT_URL, "
+        + "REPLACE(REPLACE(OB.DESCRIPTION, '\r\n', '\n'), '\r', '\n') AS DESCRIPTION, "
+        + "OB.COORDINATOR_ROLE, OB.COORDINATOR_ROLE_SUF, OB.COORDINATOR, OB.COORDINATOR_URL, OB.AUTHORITY, OB.EEA_PRIMARY, "
+        + "OB.PARAMETERS, OB.VALIDATED_BY, OB.LEGAL_MORAL, OB.OVERLAP_URL, OB.EEA_CORE, OB.FLAGGED, OB.DPSIR_D, OB.DPSIR_P, OB.DPSIR_S, OB.DPSIR_I, OB.DPSIR_R, OB.CONTINOUS_REPORTING, "
+        + "SO.PK_SOURCE_ID, SO.TITLE AS SOURCE_TITLE, SO.ALIAS, SO.CELEX_REF, SO.SOURCE_CODE, "
+        + "RRO.ROLE_ID AS R_ROLE_ID, RRO.ROLE_NAME AS R_ROLE_NAME, RRO.ROLE_URL AS R_ROLE_URL, RRO.ROLE_MEMBERS_URL AS R_ROLE_MEMBERS_URL, "
+        + "CRO.ROLE_ID AS C_ROLE_ID, CRO.ROLE_NAME AS C_ROLE_NAME, CRO.ROLE_URL AS C_ROLE_URL, CRO.ROLE_MEMBERS_URL AS C_ROLE_MEMBERS_URL, "
+        + "LU.C_VALUE, LU.C_TERM, "
+        + "CLK.FK_CLIENT_ID AS CLK_FK_CLIENT_ID, CLK.FK_OBJECT_ID, CLK.TYPE, CLK.STATUS, "
+        + "CL.PK_CLIENT_ID, CL.CLIENT_NAME "
+        + "FROM T_OBLIGATION OB "
+        + "LEFT JOIN T_SOURCE SO ON SO.PK_SOURCE_ID = OB.FK_SOURCE_ID "
+        + "LEFT JOIN T_ROLE RRO ON RRO.ROLE_ID=OB.RESPONSIBLE_ROLE "
+        + "LEFT JOIN T_ROLE CRO ON CRO.ROLE_ID=OB.COORDINATOR_ROLE "
+        + "LEFT JOIN T_LOOKUP LU ON LU.C_VALUE=OB.LEGAL_MORAL AND LU.CATEGORY='2' "
+        + "LEFT JOIN T_CLIENT_LNK CLK ON CLK.TYPE='A' AND CLK.STATUS='M' AND CLK.FK_OBJECT_ID=OB.PK_RA_ID "
+        + "LEFT JOIN T_CLIENT CL ON CLK.FK_CLIENT_ID=CL.PK_CLIENT_ID "
+        + "WHERE OB.PK_RA_ID=?";
 
     /*
      * (non-Javadoc)
@@ -1593,9 +1600,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      */
     public List<LookupDTO> getLookupList(String obligationId) throws ServiceException {
 
-        String query = "SELECT T_LOOKUP.C_TERM, T_LOOKUP.C_VALUE " +
-        "FROM T_LOOKUP, T_INFO_LNK " +
-        "WHERE T_INFO_LNK.FK_RA_ID = " + obligationId + " AND T_LOOKUP.C_VALUE=T_INFO_LNK.FK_INFO_ID AND CATEGORY='I'";
+        String query = "SELECT T_LOOKUP.C_TERM, T_LOOKUP.C_VALUE "
+        + "FROM T_LOOKUP, T_INFO_LNK "
+        + "WHERE T_INFO_LNK.FK_RA_ID = " + obligationId + " AND T_LOOKUP.C_VALUE=T_INFO_LNK.FK_INFO_ID AND CATEGORY='I'";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -1623,9 +1630,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      */
     public List<LookupDTO> getLookupListByCategory(String cat) throws ServiceException {
 
-        String query = "SELECT C_TERM, C_VALUE " +
-        "FROM T_LOOKUP " +
-        "WHERE CATEGORY='"+cat+"' ORDER BY C_TERM";
+        String query = "SELECT C_TERM, C_VALUE "
+        + "FROM T_LOOKUP "
+        + "WHERE CATEGORY='" + cat + "' ORDER BY C_TERM";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -1653,10 +1660,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      */
     public List<SiblingObligationDTO> getSiblingObligations(String obligationId) throws ServiceException {
 
-        String query = "SELECT o2.PK_RA_ID, o2.FK_SOURCE_ID, o2.TITLE, o2.AUTHORITY, o2.TERMINATE " +
-        "FROM T_OBLIGATION o1, T_OBLIGATION o2, T_SOURCE " +
-        "WHERE T_SOURCE.PK_SOURCE_ID=o1.FK_SOURCE_ID AND o1.PK_RA_ID = "+obligationId+" AND o2.PK_RA_ID != "+obligationId+" AND o2.FK_SOURCE_ID = T_SOURCE.PK_SOURCE_ID " +
-        "ORDER BY o2.TITLE";
+        String query = "SELECT o2.PK_RA_ID, o2.FK_SOURCE_ID, o2.TITLE, o2.AUTHORITY, o2.TERMINATE "
+        + "FROM T_OBLIGATION o1, T_OBLIGATION o2, T_SOURCE "
+        + "WHERE T_SOURCE.PK_SOURCE_ID=o1.FK_SOURCE_ID AND o1.PK_RA_ID = " + obligationId + " AND o2.PK_RA_ID != " + obligationId + " AND o2.FK_SOURCE_ID = T_SOURCE.PK_SOURCE_ID "
+        + "ORDER BY o2.TITLE";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -1723,10 +1730,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
         StringBuilder query = new StringBuilder();
 
-        query.append("SELECT DISTINCT o.PK_RA_ID, o.TITLE, o.NEXT_DEADLINE, o.NEXT_REPORTING, o.FK_DELIVERY_COUNTRY_IDS, o.TERMINATE, " +
-                "s.PK_SOURCE_ID, s.TITLE AS SOURCE_TITLE, " +
-                "c.PK_CLIENT_ID, c.CLIENT_NAME, IF(c.CLIENT_ACRONYM='', c.CLIENT_NAME, c.CLIENT_ACRONYM) AS CLIENT_DESCR " +
-        "FROM T_OBLIGATION o, T_SOURCE s, T_CLIENT c ");
+        query.append("SELECT DISTINCT o.PK_RA_ID, o.TITLE, o.NEXT_DEADLINE, o.NEXT_REPORTING, o.FK_DELIVERY_COUNTRY_IDS, o.TERMINATE, "
+        + "s.PK_SOURCE_ID, s.TITLE AS SOURCE_TITLE, "
+        + "c.PK_CLIENT_ID, c.CLIENT_NAME, IF(c.CLIENT_ACRONYM='', c.CLIENT_NAME, c.CLIENT_ACRONYM) AS CLIENT_DESCR "
+        + "FROM T_OBLIGATION o, T_SOURCE s, T_CLIENT c ");
         if (!RODUtil.isNullOrEmpty(country) && !country.equals("-1"))
             query.append(", T_RASPATIAL_LNK r ");
         if (!RODUtil.isNullOrEmpty(issue) && !issue.equals("-1"))
@@ -1776,8 +1783,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      */
     public List<ObligationsDueDTO> getObligationsDue() throws ServiceException {
 
-        String query = "SELECT PK_RA_ID, TITLE, LAST_UPDATE, VALIDATED_BY, RM_NEXT_UPDATE, RM_VERIFIED, RM_VERIFIED_BY " +
-        "FROM T_OBLIGATION ORDER BY RM_NEXT_UPDATE";
+        String query = "SELECT PK_RA_ID, TITLE, LAST_UPDATE, VALIDATED_BY, RM_NEXT_UPDATE, RM_VERIFIED, RM_VERIFIED_BY "
+        + "FROM T_OBLIGATION ORDER BY RM_NEXT_UPDATE";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -1799,17 +1806,17 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     }
 
     /** */
-    private static final String editObligationSQL = "UPDATE T_OBLIGATION SET " +
-    "TITLE=?, DESCRIPTION=?, FIRST_REPORTING=?, VALID_TO=?, REPORT_FREQ_MONTHS=?, " +
-    "NEXT_DEADLINE=?, NEXT_DEADLINE2=?, TERMINATE=?, NEXT_REPORTING=?, DATE_COMMENTS=?, " +
-    "FORMAT_NAME=?, REPORT_FORMAT_URL=?, VALID_SINCE=?, REPORTING_FORMAT=?, LOCATION_INFO=?, " +
-    "LOCATION_PTR=?, DATA_USED_FOR=?, DATA_USED_FOR_URL=?, COORDINATOR_ROLE=?, " +
-    "COORDINATOR_ROLE_SUF=?, COORDINATOR=?, COORDINATOR_URL=?, RESPONSIBLE_ROLE=?, " +
-    "RESPONSIBLE_ROLE_SUF=?, NATIONAL_CONTACT=?, NATIONAL_CONTACT_URL=?, LEGAL_MORAL=?, " +
-    "PARAMETERS=?, EEA_PRIMARY=?, EEA_CORE=?, FLAGGED=?, DPSIR_D=?, DPSIR_P=?, DPSIR_S=?, " +
-    "DPSIR_I=?, DPSIR_R=?, OVERLAP_URL=?, COMMENT=?, AUTHORITY=?, RM_VERIFIED=?, " +
-    "RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, VALIDATED_BY=?, LAST_UPDATE=CURDATE(), FK_CLIENT_ID=?, CONTINOUS_REPORTING=? " +
-    "WHERE PK_RA_ID=?";
+    private static final String editObligationSQL = "UPDATE T_OBLIGATION SET "
+    + "TITLE=?, DESCRIPTION=?, FIRST_REPORTING=?, VALID_TO=?, REPORT_FREQ_MONTHS=?, "
+    + "NEXT_DEADLINE=?, NEXT_DEADLINE2=?, TERMINATE=?, NEXT_REPORTING=?, DATE_COMMENTS=?, "
+    + "FORMAT_NAME=?, REPORT_FORMAT_URL=?, VALID_SINCE=?, REPORTING_FORMAT=?, LOCATION_INFO=?, "
+    + "LOCATION_PTR=?, DATA_USED_FOR=?, DATA_USED_FOR_URL=?, COORDINATOR_ROLE=?, "
+    + "COORDINATOR_ROLE_SUF=?, COORDINATOR=?, COORDINATOR_URL=?, RESPONSIBLE_ROLE=?, "
+    + "RESPONSIBLE_ROLE_SUF=?, NATIONAL_CONTACT=?, NATIONAL_CONTACT_URL=?, LEGAL_MORAL=?, "
+    + "PARAMETERS=?, EEA_PRIMARY=?, EEA_CORE=?, FLAGGED=?, DPSIR_D=?, DPSIR_P=?, DPSIR_S=?, "
+    + "DPSIR_I=?, DPSIR_R=?, OVERLAP_URL=?, COMMENT=?, AUTHORITY=?, RM_VERIFIED=?, "
+    + "RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, VALIDATED_BY=?, LAST_UPDATE=CURDATE(), FK_CLIENT_ID=?, CONTINOUS_REPORTING=? "
+    + "WHERE PK_RA_ID=?";
 
     /*
      * (non-Javadoc)
@@ -1883,17 +1890,17 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     }
 
     /** */
-    private static final String insertObligationSQL = "INSERT INTO T_OBLIGATION SET " +
-    "TITLE=?, DESCRIPTION=?, FIRST_REPORTING=?, VALID_TO=?, REPORT_FREQ_MONTHS=?, " +
-    "NEXT_DEADLINE=?, NEXT_DEADLINE2=?, TERMINATE=?, NEXT_REPORTING=?, DATE_COMMENTS=?, " +
-    "FORMAT_NAME=?, REPORT_FORMAT_URL=?, VALID_SINCE=?, REPORTING_FORMAT=?, LOCATION_INFO=?, " +
-    "LOCATION_PTR=?, DATA_USED_FOR=?, DATA_USED_FOR_URL=?, COORDINATOR_ROLE=?, " +
-    "COORDINATOR_ROLE_SUF=?, COORDINATOR=?, COORDINATOR_URL=?, RESPONSIBLE_ROLE=?, " +
-    "RESPONSIBLE_ROLE_SUF=?, NATIONAL_CONTACT=?, NATIONAL_CONTACT_URL=?, LEGAL_MORAL=?, " +
-    "PARAMETERS=?, EEA_PRIMARY=?, EEA_CORE=?, FLAGGED=?, DPSIR_D=?, DPSIR_P=?, DPSIR_S=?, " +
-    "DPSIR_I=?, DPSIR_R=?, OVERLAP_URL=?, COMMENT=?, AUTHORITY=?, RM_VERIFIED=?, " +
-    "RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, VALIDATED_BY=?, LAST_UPDATE=CURDATE(), FK_CLIENT_ID=?, FK_SOURCE_ID=?, " +
-    "CONTINOUS_REPORTING=?";
+    private static final String insertObligationSQL = "INSERT INTO T_OBLIGATION SET "
+    + "TITLE=?, DESCRIPTION=?, FIRST_REPORTING=?, VALID_TO=?, REPORT_FREQ_MONTHS=?, "
+    + "NEXT_DEADLINE=?, NEXT_DEADLINE2=?, TERMINATE=?, NEXT_REPORTING=?, DATE_COMMENTS=?, "
+    + "FORMAT_NAME=?, REPORT_FORMAT_URL=?, VALID_SINCE=?, REPORTING_FORMAT=?, LOCATION_INFO=?, "
+    + "LOCATION_PTR=?, DATA_USED_FOR=?, DATA_USED_FOR_URL=?, COORDINATOR_ROLE=?, "
+    + "COORDINATOR_ROLE_SUF=?, COORDINATOR=?, COORDINATOR_URL=?, RESPONSIBLE_ROLE=?, "
+    + "RESPONSIBLE_ROLE_SUF=?, NATIONAL_CONTACT=?, NATIONAL_CONTACT_URL=?, LEGAL_MORAL=?, "
+    + "PARAMETERS=?, EEA_PRIMARY=?, EEA_CORE=?, FLAGGED=?, DPSIR_D=?, DPSIR_P=?, DPSIR_S=?, "
+    + "DPSIR_I=?, DPSIR_R=?, OVERLAP_URL=?, COMMENT=?, AUTHORITY=?, RM_VERIFIED=?, "
+    + "RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, VALIDATED_BY=?, LAST_UPDATE=CURDATE(), FK_CLIENT_ID=?, FK_SOURCE_ID=?, "
+    + "CONTINOUS_REPORTING=?";
 
     /*
      * (non-Javadoc)
@@ -1970,9 +1977,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     }
 
     private static final String q_obligation_urls =
-        "SELECT FORMAT_NAME, REPORT_FORMAT_URL, LOCATION_INFO, LOCATION_PTR, NATIONAL_CONTACT, NATIONAL_CONTACT_URL, " +
-        "COORDINATOR, COORDINATOR_URL, OVERLAP_URL, DATA_USED_FOR, DATA_USED_FOR_URL " +
-        "FROM T_OBLIGATION";
+        "SELECT FORMAT_NAME, REPORT_FORMAT_URL, LOCATION_INFO, LOCATION_PTR, NATIONAL_CONTACT, NATIONAL_CONTACT_URL, "
+        + "COORDINATOR, COORDINATOR_URL, OVERLAP_URL, DATA_USED_FOR, DATA_USED_FOR_URL "
+        + "FROM T_OBLIGATION";
 
     /*
      * (non-Javadoc)

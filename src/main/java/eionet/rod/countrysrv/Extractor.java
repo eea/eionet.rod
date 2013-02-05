@@ -94,7 +94,7 @@ public class Extractor implements ExtractorConstants {
     /**
      * Called when script is run from the command-line. Takes one optional argument. The mode, which can be 0-3. Assumes 0 if not
      * provided.
-     * 
+     *
      * @param args
      *            command-line arguments
      */
@@ -140,7 +140,7 @@ public class Extractor implements ExtractorConstants {
 
     /**
      * Extract the data.
-     * 
+     *
      * @param mode
      * @param userName
      * @throws ServiceException
@@ -274,7 +274,7 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * 
+     *
      * @param s
      */
     private static void log(String s) {
@@ -287,7 +287,7 @@ public class Extractor implements ExtractorConstants {
     /**
      * Get Reportnet deliveries from the Content Registry using SPARQL. It first backs up the existing delivery information, then
      * executes the SPARQL query in chunks of 1000.
-     * 
+     *
      * @throws ServiceException
      */
     private void extractDeliveries() throws ServiceException {
@@ -372,9 +372,10 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * 
-     * @return HashMap<String, Integer>
-     * @throws ServiceException
+     * Get countries from the database and return them as a hash-map.
+     *
+     * @return HashMap<String, Integer> - hashmap where key is the country name and value is the numeric code.
+     * @throws ServiceException - if there is no access to the database.
      */
     public HashMap<String, Integer> getKnownCountries() throws ServiceException {
 
@@ -388,7 +389,8 @@ public class Extractor implements ExtractorConstants {
     }
 
     /**
-     * 
+     * Get the role from the directory service and save it to database.
+     *
      * @param roleId
      * @throws ServiceException
      */

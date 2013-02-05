@@ -58,7 +58,7 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
 
     }
 
-    private final static String qObligationIssues =
+    private static final String qObligationIssues =
         "SELECT i.ISSUE_NAME AS name " +
         "FROM T_ISSUE i, T_RAISSUE_LNK r " +
         "WHERE  r.FK_RA_ID = ? AND i.PK_ISSUE_ID = r.FK_ISSUE_ID " +
