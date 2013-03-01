@@ -257,6 +257,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         return new ForwardResolution("/pages/obligations.jsp");
     }
 
+    /**
+     * Runs a SPARQL query that checks if there are products for that obligation.
+     * Pay no attention to the misleading method name.
+     */
     public boolean getProductsExist() throws Exception {
 
         boolean ret = false;
@@ -266,14 +270,14 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             + "ASK { "
             + "?product data:reportingObligations \"" + id + "\" ; "
             + "dct:title ?title ; "
-            + "dct:effective ?effective "
+            + "dct:issued ?effective "
             + "}";
 
-        String CRSparqlEndpoint = RODServices.getFileService().getStringProperty("cr.sparql.endpoint");
+        String sparqlEndpoint = RODServices.getFileService().getStringProperty("cr.sparql.endpoint");
         try {
-            if (!StringUtils.isBlank(CRSparqlEndpoint)) {
+            if (!StringUtils.isBlank(sparqlEndpoint)) {
                 QueryExecutor executor = new QueryExecutor();
-                ret = executor.executeASKQuery(CRSparqlEndpoint, query);
+                ret = executor.executeASKQuery(sparqlEndpoint, query);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -283,6 +287,9 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         return ret;
     }
 
+    /**
+     * Runs a SPARQL query that gets the products for that obligation.
+     */
     private void getProductsList() throws Exception {
 
         String query = "PREFIX data: <http://www.eea.europa.eu/portal_types/Data#> "
@@ -290,14 +297,14 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             + "SELECT DISTINCT ?product ?title xsd:date(?effective) as ?published WHERE { "
             + "?product data:reportingObligations \"" + id + "\" ; "
             + "dct:title ?title ; "
-            + "dct:effective ?effective "
+            + "dct:issued ?effective "
             + "} ORDER BY DESC(?published) ";
 
-        String CRSparqlEndpoint = RODServices.getFileService().getStringProperty("cr.sparql.endpoint");
+        String sparqlEndpoint = RODServices.getFileService().getStringProperty("cr.sparql.endpoint");
         try {
-            if (!StringUtils.isBlank(CRSparqlEndpoint)) {
+            if (!StringUtils.isBlank(sparqlEndpoint)) {
                 QueryExecutor executor = new QueryExecutor();
-                executor.executeQuery(CRSparqlEndpoint, query);
+                executor.executeQuery(sparqlEndpoint, query);
                 products = executor.getResults();
             }
         } catch (Exception e) {
@@ -387,10 +394,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             return new ForwardResolution("/pages/eobligation.jsp");
         }
 
-        String acl_p = (RODUtil.isNullOrEmpty(id) || id.equals("new")) ? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" + id);
+        String aclPath = (RODUtil.isNullOrEmpty(id) || id.equals("new")) ? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" + id);
         boolean ins = false;
         try {
-            AccessControlListIF acl = AccessController.getAcl(acl_p);
+            AccessControlListIF acl = AccessController.getAcl(aclPath);
             ins = acl.checkPermission(userName, Constants.ACL_INSERT_PERMISSION);
         } catch (Exception e) {
             handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
@@ -441,10 +448,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             return new ForwardResolution("/pages/eobligation.jsp");
         }
 
-        String acl_p = (RODUtil.isNullOrEmpty(id)) ? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" + id);
+        String aclPath = (RODUtil.isNullOrEmpty(id)) ? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" + id);
         boolean upd = false;
         try {
-            AccessControlListIF acl = AccessController.getAcl(acl_p);
+            AccessControlListIF acl = AccessController.getAcl(aclPath);
             upd = acl.checkPermission(userName, Constants.ACL_UPDATE_PERMISSION);
         } catch (Exception e) {
             handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
@@ -492,10 +499,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             return new ForwardResolution("/pages/obligation.jsp");
         }
 
-        String acl_p = (RODUtil.isNullOrEmpty(id)) ? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" + id);
+        String aclPath = (RODUtil.isNullOrEmpty(id)) ? Constants.ACL_RA_NAME : (Constants.ACL_RA_NAME + "/" + id);
         boolean del = false;
         try {
-            AccessControlListIF acl = AccessController.getAcl(acl_p);
+            AccessControlListIF acl = AccessController.getAcl(aclPath);
             del = acl.checkPermission(userName, Constants.ACL_DELETE_PERMISSION);
         } catch (Exception e) {
             handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
@@ -559,8 +566,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         undoDao.insertIntoUndo(ts, "T_OBLIGATION", "TYPE", "T", "y", "n", "A", 0, "n");
 
         if (state != null && state.equals("D")) {
-            String acl_path = "/obligations/" + id;
-            undoDao.insertIntoUndo(ts, "T_OBLIGATION", "ACL", "ACL", "y", "n", acl_path, 0, "n");
+            String aclPath = "/obligations/" + id;
+            undoDao.insertIntoUndo(ts, "T_OBLIGATION", "ACL", "ACL", "y", "n", aclPath, 0, "n");
         }
 
         // Get role info from Directory and save in T_ROLE
@@ -634,8 +641,9 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
     @ValidationMethod(on = { "edit", "add" })
     public void validateDates(ValidationErrors errors) throws Exception {
         if (RODUtil.isNullOrEmpty(obligation.getNextReporting())
-                && (RODUtil.isNullOrEmpty(obligation.getFirstReporting()) || RODUtil.isNullOrEmpty(obligation.getValidTo()) || RODUtil
-                        .isNullOrEmpty(obligation.getReportFreqMonths()))) {
+                && (RODUtil.isNullOrEmpty(obligation.getFirstReporting())
+                  || RODUtil.isNullOrEmpty(obligation.getValidTo())
+                  || RODUtil.isNullOrEmpty(obligation.getReportFreqMonths()))) {
             getContext().getMessages().add(new SimpleError(getBundle().getString("both.dates.empty")));
             getContext().setSeverity(Constants.SEVERITY_VALIDATION);
             hasErrors = true;

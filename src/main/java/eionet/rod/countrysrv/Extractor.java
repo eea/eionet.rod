@@ -294,12 +294,13 @@ public class Extractor implements ExtractorConstants {
 
         log("Going to extract deliveries from CR");
 
-        String query = "PREFIX dc: <http://purl.org/dc/elements/1.1/> "
+        //TODO: Add rod:coverageNote
+        String query = "PREFIX dct: <http://purl.org/dc/terms/> "
             + "PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
             + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date WHERE { "
             + "_:subj a rod:Delivery; "
             + "rod:link ?link; "
-            + "dc:title ?title; "
+            + "dct:title ?title; "
             + "rod:locality ?locality; "
             + "rod:obligation ?obligation; "
             + "rod:released ?date "
