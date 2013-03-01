@@ -417,10 +417,10 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         id = obligationId.toString();
 
         try {
-            String aclPath = "/obligations/" + id;
+            String aclPathForNewObl = "/obligations/" + id;
             HashMap acls = AccessController.getAcls();
-            if (!acls.containsKey(aclPath)) {
-                AccessController.addAcl(aclPath, userName, "");
+            if (!acls.containsKey(aclPathForNewObl)) {
+                AccessController.addAcl(aclPathForNewObl, userName, "");
             }
         } catch (SignOnException e) {
             e.printStackTrace();
