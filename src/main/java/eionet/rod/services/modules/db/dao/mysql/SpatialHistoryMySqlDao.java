@@ -14,23 +14,23 @@ public class SpatialHistoryMySqlDao extends MySqlBaseDao implements ISpatialHist
     }
 
     private static final String q_select_sh_by_voluntary_raid_and_spatialId =
-        "SELECT * " +
-        "FROM T_SPATIAL_HISTORY " +
-        "WHERE VOLUNTARY=? AND END_DATE=NOW() AND FK_RA_ID=? AND FK_SPATIAL_ID=? ";
+        "SELECT * "
+        + "FROM T_SPATIAL_HISTORY "
+        + "WHERE VOLUNTARY=? AND END_DATE=NOW() AND FK_RA_ID=? AND FK_SPATIAL_ID=? ";
 
     private static final String q_insert_into_sh =
-        "INSERT INTO T_SPATIAL_HISTORY (FK_RA_ID, FK_SPATIAL_ID, VOLUNTARY, START_DATE) " +
-        "VALUES(?,?,?,{fn now()})";
+        "INSERT INTO T_SPATIAL_HISTORY (FK_RA_ID, FK_SPATIAL_ID, VOLUNTARY, START_DATE) "
+        + "VALUES(?,?,?,{fn now()})";
 
     private static final String q_update_sh =
-        "UPDATE T_SPATIAL_HISTORY " +
-        "SET END_DATE=NULL " +
-        "WHERE END_DATE=NOW() AND VOLUNTARY=? AND FK_RA_ID=? AND FK_SPATIAL_ID=?";
+        "UPDATE T_SPATIAL_HISTORY "
+        + "SET END_DATE=NULL "
+        + "WHERE END_DATE=NOW() AND VOLUNTARY=? AND FK_RA_ID=? AND FK_SPATIAL_ID=?";
 
     private static final String q_clear_sh =
-        "DELETE FROM T_SPATIAL_HISTORY " +
-        "WHERE START_DATE=END_DATE " +
-        "AND END_DATE=NOW()";
+        "DELETE FROM T_SPATIAL_HISTORY "
+        + "WHERE START_DATE=END_DATE "
+        + "AND END_DATE=NOW()";
 
     /*
      * (non-Javadoc)
@@ -83,14 +83,14 @@ public class SpatialHistoryMySqlDao extends MySqlBaseDao implements ISpatialHist
     }
 
     private static final String q_update_period_by_spatialHistoryId =
-        "UPDATE T_SPATIAL_HISTORY " +
-        "SET START_DATE=?, END_DATE=? " +
-        "WHERE PK_SPATIAL_HISTORY_ID=?";
+        "UPDATE T_SPATIAL_HISTORY "
+        + "SET START_DATE=?, END_DATE=? "
+        + "WHERE PK_SPATIAL_HISTORY_ID=?";
 
     private static final String q_update_period_by_raId =
-        "UPDATE T_SPATIAL_HISTORY " +
-        "SET START_DATE=?, END_DATE=? " +
-        "WHERE FK_RA_ID=?";
+        "UPDATE T_SPATIAL_HISTORY "
+        + "SET START_DATE=?, END_DATE=? "
+        + "WHERE FK_RA_ID=?";
 
     private static SimpleDateFormat simpFormater = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -129,11 +129,11 @@ public class SpatialHistoryMySqlDao extends MySqlBaseDao implements ISpatialHist
     }
 
     private static final String q_update_end_date_for_obligation =
-        "UPDATE T_SPATIAL_HISTORY " +
-        "SET END_DATE= {fn now()} " +
-        "WHERE END_DATE IS NULL AND FK_RA_ID=?";
+        "UPDATE T_SPATIAL_HISTORY "
+        + "SET END_DATE= {fn now()} "
+        + "WHERE END_DATE IS NULL AND FK_RA_ID=?";
 
-    public void updateEndDateForObligation(Integer raId) throws ServiceException{
+    public void updateEndDateForObligation(Integer raId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {

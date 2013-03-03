@@ -1,6 +1,3 @@
-/**
- *
- */
 package eionet.rod.rdf;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-/**
+/*
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
@@ -38,6 +38,9 @@ import eionet.rod.RODUtil;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
+/**
+ * Write RSS for events.
+ */
 public class Events extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
@@ -161,6 +164,10 @@ public class Events extends RSSServletAC {
         return s.toString();
     }
 
+    /**
+     * Checks if input string is a number.
+     * FIXME: Should use RODUtil.isNumber() instead.
+     */
     public static boolean isNumeric(String inString) {
         CharacterIterator theIterator = new StringCharacterIterator(inString);
 
@@ -173,6 +180,11 @@ public class Events extends RSSServletAC {
         return true;
     }
 
+    /**
+     * Calculates if next deadline for an obligation should be listed in the RSS output.
+     *
+     * @param date - misnamed - next deadline must be after this cut-off date.
+     */
     public static boolean isUpcomingEvent(String nd, String freq, Date date) {
         int year = Integer.parseInt(nd.substring(0, 4)) - 1900;
         int month = Integer.parseInt(nd.substring(5, 7)) - 1;
@@ -183,8 +195,10 @@ public class Events extends RSSServletAC {
 
         int f = Integer.parseInt(freq);
         int period = new Double(3.0 * f).intValue();
+        //TODO: long period = 3L * Integer.parseInt(freq);
         long periodMillis =
             (new Long(period).longValue() * new Long(24).longValue() * new Long(3600).longValue() * new Long(1000).longValue());
+        //TODO: long periodMillis = period * 24L * 3600L * 1000L;
         Date periodStartDate = new Date(nextDeadlineMillis - periodMillis);
 
         if (nextDeadline.after(date) && periodStartDate.before(date)) {

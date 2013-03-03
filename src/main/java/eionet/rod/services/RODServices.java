@@ -1,4 +1,4 @@
-/**
+/*
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
@@ -29,11 +29,10 @@ import eionet.rod.services.modules.db.dao.RODDaoFactory;
 import eionet.rod.services.modules.db.dao.mysql.MySqlDaoFactory;
 
 /**
- * Proxy class for accessing CountrySrv services
+ * Proxy class for accessing CountrySrv services.
  * 
  * @author Kaido Laine
  */
-
 public class RODServices {
 
     private static LogServiceIF _logSrv = null;
@@ -41,7 +40,7 @@ public class RODServices {
     private static FileServiceIF _fSrv = null;
 
     /**
-     * Instance of RODDaoFactory
+     * Instance of RODDaoFactory.
      * @return RODDaoFactory
      * @throws ServiceException 
      */
@@ -52,7 +51,7 @@ public class RODServices {
     }
 
     /**
-     * Instance of FileServiceIF (reads from props file)
+     * Instance of FileServiceIF (reads from props file).
      * @return FileServiceIF
      * @throws ServiceException 
      */
@@ -64,7 +63,7 @@ public class RODServices {
     }
 
     /**
-     * Logging Service
+     * Logging Service.
      * 
      * @return LogServiceIF
      */
@@ -80,7 +79,9 @@ public class RODServices {
         return _logSrv;
     }
 
-    // stderr logger for a case, if no logger module is available
+    /**
+     * Stderr logger for a case, if no logger module is available.
+     */
     static class StderrLogger implements LogServiceIF {
 
         private void out(String severity, Object msg, Throwable t) {

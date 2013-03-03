@@ -1,4 +1,4 @@
-/**
+/*
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 public class RODUtil {
 
     /**
-     * Dummy method for getting request parameter
+     * Dummy method for getting request parameter.
      *
      * @param req
      * @param prmName

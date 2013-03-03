@@ -26,8 +26,8 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
     }
 
     private static final String q_roleIds =
-        "SELECT ROLE_ID " +
-        "FROM T_ROLE";
+        "SELECT ROLE_ID "
+        + "FROM T_ROLE";
 
     /*
      * (non-Javadoc)
@@ -58,32 +58,32 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
     }
 
     private static final String q_delete_role_data =
-        "DELETE FROM T_ROLE " +
-        "WHERE ROLE_ID=? AND STATUS=1";
+        "DELETE FROM T_ROLE "
+        + "WHERE ROLE_ID=? AND STATUS=1";
 
     private static final String q_insert_role =
-        "INSERT INTO T_ROLE " +
-        "SET STATUS=?, LAST_HARVESTED={fn now()}, ROLE_NAME=?, ROLE_EMAIL=?, ROLE_ID=?, ROLE_URL=?, ROLE_MEMBERS_URL=?";
+        "INSERT INTO T_ROLE "
+        + "SET STATUS=?, LAST_HARVESTED={fn now()}, ROLE_NAME=?, ROLE_EMAIL=?, ROLE_ID=?, ROLE_URL=?, ROLE_MEMBERS_URL=?";
 
     private static final String q_insert_role_occupants =
-        "INSERT INTO T_ROLE_OCCUPANTS " +
-        "SET ROLE_ID=?, PERSON=?, INSTITUTE=?";
+        "INSERT INTO T_ROLE_OCCUPANTS "
+        + "SET ROLE_ID=?, PERSON=?, INSTITUTE=?";
 
     private static final String q_delete_role_occupants =
-        "DELETE FROM T_ROLE_OCCUPANTS " +
-        "WHERE ROLE_ID=?";
+        "DELETE FROM T_ROLE_OCCUPANTS "
+        + "WHERE ROLE_ID=?";
 
     private static final String q_update_role_rollback =
-        "UPDATE T_ROLE " +
-        "SET STATUS=1 " +
-        "WHERE STATUS=0 AND ROLE_ID=?";
+        "UPDATE T_ROLE "
+        + "SET STATUS=1 "
+        + "WHERE STATUS=0 AND ROLE_ID=?";
 
     /*
      * (non-Javadoc)
      *
      * @see eionet.rod.services.modules.db.dao.IRoleDao#saveRole(java.util.Hashtable)
      */
-    public void saveRole(Hashtable<String,Object> role) throws ServiceException {
+    public void saveRole(Hashtable<String, Object> role) throws ServiceException {
         // backup ->
         String roleId = (String) role.get("ID");
         Connection connection = null;
@@ -103,22 +103,22 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
             preparedStatement.executeUpdate();
             preparedStatement.close();
 
-            String uid="";
-            String orgId="";
-            String orgName=orgId;
-            String fullName=uid;
-            Hashtable<String,String> person = null;
-            Hashtable<String,Object> org = null;
+            String uid = "";
+            String orgId = "";
+            String orgName = orgId;
+            String fullName = uid;
+            Hashtable<String, String> person = null;
+            Hashtable<String, Object> org = null;
 
 
-            Vector<String> occupants = (Vector<String>)role.get("OCCUPANTS");
-            if (occupants != null && occupants.size()>0) {
-                for (int i = 0; i<occupants.size(); i++) {
-                    uid = (String)occupants.elementAt(i);
+            Vector<String> occupants = (Vector<String>) role.get("OCCUPANTS");
+            if (occupants != null && occupants.size() > 0) {
+                for (int i = 0; i < occupants.size(); i++) {
+                    uid = (String) occupants.elementAt(i);
 
-                    if (uid != null && uid.trim().length()>0) {
+                    if (uid != null && uid.trim().length() > 0) {
                         try {
-                            person=DirectoryService.getPerson(uid);
+                            person = DirectoryService.getPerson(uid);
                         } catch (DirServiceException dire) {
                             logger.error("Error getting person " + uid + ": " + dire.toString());
                         } catch (Exception e) {
@@ -127,15 +127,15 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
                     }
 
                     if (person != null) {
-                        fullName=(String)person.get("FULLNAME");
-                        orgId=(String)person.get("ORG_ID");
+                        fullName = (String) person.get("FULLNAME");
+                        orgId = (String) person.get("ORG_ID");
                     }
 
-                    if (orgId != null && orgId.trim().length()>0) {
+                    if (orgId != null && orgId.trim().length() > 0) {
                         try {
                             org =  DirectoryService.getOrganisation(orgId);
                             if (org != null)
-                                orgName=(String)org.get("NAME");
+                                orgName = (String) org.get("NAME");
                         } catch (DirServiceException dire) {
                             logger.error("Error getting organisation " + orgId + ": " + dire.toString());
                         } catch (Exception e) {
@@ -299,30 +299,30 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
     }
 
     private static final String q_role_description =
-        "SELECT " +
-            "ROLE_NAME, " +
-            "ROLE_ID, " +
-            "ROLE_EMAIL, " +
-            "ROLE_URL, " +
-            "ROLE_MEMBERS_URL, " +
-            "LAST_HARVESTED " +
-        "FROM T_ROLE " +
-        "WHERE ROLE_ID =? ";
+        "SELECT "
+        + "ROLE_NAME, "
+        + "ROLE_ID, "
+        + "ROLE_EMAIL, "
+        + "ROLE_URL, "
+        + "ROLE_MEMBERS_URL, "
+        + "LAST_HARVESTED "
+        + "FROM T_ROLE "
+        + "WHERE ROLE_ID =? ";
 
     private static final String q_role_occupants =
-        "SELECT " +
-            "PERSON, " +
-            "INSTITUTE " +
-        "FROM T_ROLE_OCCUPANTS " +
-        "WHERE ROLE_ID =? ";
+        "SELECT "
+        + "PERSON, "
+        + "INSTITUTE "
+        + "FROM T_ROLE_OCCUPANTS "
+        + "WHERE ROLE_ID =? ";
 
     private static final String q_role_obligations =
-        "SELECT " +
-            "PK_RA_ID, " +
-            "FK_SOURCE_ID, " +
-            "TITLE " +
-        "FROM T_OBLIGATION " +
-        "WHERE RESPONSIBLE_ROLE =? ";
+        "SELECT "
+        + "PK_RA_ID, "
+        + "FK_SOURCE_ID, "
+        + "TITLE "
+        + "FROM T_OBLIGATION "
+        + "WHERE RESPONSIBLE_ROLE =? ";
 
     /*
      * (non-Javadoc)
@@ -378,8 +378,8 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
     }
 
     private static final String q_check_role =
-        "SELECT ROLE_ID FROM T_ROLE " +
-        "WHERE ROLE_ID =? ";
+        "SELECT ROLE_ID FROM T_ROLE "
+            + "WHERE ROLE_ID =? ";
 
     /*
      * (non-Javadoc)
@@ -390,7 +390,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Hashtable<String,String> result = null;
+        Hashtable<String, String> result = null;
 
         try {
             connection = getConnection();

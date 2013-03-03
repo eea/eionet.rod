@@ -1,4 +1,4 @@
-/**
+/*
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
@@ -101,32 +101,36 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
         if (instrumentsNamespace == null) {
             try {
                 instrumentsNamespace = props.getString(ROD_LI_NS);
-            } catch (MissingResourceException mre ) {
-                instrumentsNamespace="http://rod.eionet.europa.eu/instruments/";
+            } catch (MissingResourceException mre) {
+                //TODO: No defaulting. Let exception be thrown
+                instrumentsNamespace = "http://rod.eionet.europa.eu/instruments/";
             }
         }
 
         if (clientsNamespace == null) {
             try {
                 clientsNamespace = props.getString(ROD_CL_NS);
-            } catch (MissingResourceException mre ) {
-                clientsNamespace="http://rod.eionet.europa.eu/clients/";
+            } catch (MissingResourceException mre) {
+                //TODO: No defaulting. Let exception be thrown
+                clientsNamespace = "http://rod.eionet.europa.eu/clients/";
             }
         }
 
         if (issuesNamespace == null) {
             try {
                 issuesNamespace = props.getString(ROD_ISSUES_NS);
-            } catch (MissingResourceException mre ) {
-                issuesNamespace="http://rod.eionet.europa.eu/issues/";
+            } catch (MissingResourceException mre) {
+                //TODO: No defaulting. Let exception be thrown
+                issuesNamespace = "http://rod.eionet.europa.eu/issues/";
             }
         }
 
         if (spatialNamespace == null) {
             try {
                 spatialNamespace = props.getString("spatial.namespace");
-            } catch (MissingResourceException mre ) {
-                issuesNamespace="http://rod.eionet.europa.eu/spatial/";
+            } catch (MissingResourceException mre) {
+                //TODO: No defaulting. Let exception be thrown
+                issuesNamespace = "http://rod.eionet.europa.eu/spatial/";
             }
         }
 
@@ -139,27 +143,27 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
             try {
                 rodSchemaNamespace=props.getString("schema.namespace");
                 //quite likely it will not change
-            } catch (MissingResourceException mre ) {
-                rodSchemaNamespace="http://rod.eionet.europa.eu/schema.rdf";
+            } catch (MissingResourceException mre) {
+                rodSchemaNamespace = "http://rod.eionet.europa.eu/schema.rdf";
             }
         }
     }
 
     protected abstract String generateRDF(HttpServletRequest req) throws ServiceException;
 
-    public void doGet( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         res.setContentType("application/rdf+xml;charset=UTF-8");
         try {
             String rdf = generateRDF(req);
-            res.getWriter().write( rdf) ;
-        } catch (ServiceException se ) {
-            throw new ServletException( "Error getting values for activities " + se.toString(), se);
+            res.getWriter().write(rdf) ;
+        } catch (ServiceException se) {
+            throw new ServletException("Error getting values for activities " + se.toString(), se);
         }
     }
 
     protected String getActivityUrl(String id, String aid) {
-        String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
+        String url = props.getString(ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
         URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AMODE;
         return url;
 

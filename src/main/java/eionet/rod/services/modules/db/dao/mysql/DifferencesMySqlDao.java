@@ -13,14 +13,14 @@ import eionet.rod.services.modules.db.dao.IDifferencesDao;
 public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao {
 
     private static final String q_current_sql_differences_in_countries =
-        "SELECT FK_SPATIAL_ID " +
-        "FROM T_RASPATIAL_LNK " +
-        "WHERE " + "FK_RA_ID=?  AND VOLUNTARY =?";
+        "SELECT FK_SPATIAL_ID "
+        + "FROM T_RASPATIAL_LNK "
+        + "WHERE " + "FK_RA_ID=?  AND VOLUNTARY =?";
 
     private static final String q_undo_sql_differences =
-        "SELECT value, sub_trans_nr " +
-        "FROM T_UNDO WHERE " +
-        "undo_time =? AND col=? AND operation = ?";
+        "SELECT value, sub_trans_nr "
+        + "FROM T_UNDO WHERE "
+        + "undo_time =? AND col=? AND operation = ?";
 
     public DifferencesMySqlDao() {
     }
@@ -57,8 +57,10 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
             undoPreparedStatement.setString(2, "FK_SPATIAL_ID");
             undoPreparedStatement.setString(3, op);
             if (isDebugMode) logQuery(q_undo_sql_differences);
-            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null, "SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ", null);
-            undo = _getVectorOfNames(undoPreparedStatement, ts, "T_RASPATIAL_LNK", "VOLUNTARY", voluntary, "SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ", null);
+            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null,
+                    "SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ", null);
+            undo = _getVectorOfNames(undoPreparedStatement, ts, "T_RASPATIAL_LNK", "VOLUNTARY", voluntary,
+                    "SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ", null);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
         } catch (SQLException exception) {
@@ -109,9 +111,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
     }
 
     private static final String q_current_sql_differences_in_clients =
-        "SELECT FK_CLIENT_ID " +
-        "FROM T_CLIENT_LNK WHERE " +
-        "FK_OBJECT_ID =? AND STATUS =? AND TYPE =?";
+        "SELECT FK_CLIENT_ID "
+        + "FROM T_CLIENT_LNK WHERE "
+        + "FK_OBJECT_ID =? AND STATUS =? AND TYPE =?";
 
     /*
      * (non-Javadoc)
@@ -147,8 +149,10 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
             undoPreparedStatement.setString(2, "FK_CLIENT_ID");
             undoPreparedStatement.setString(3, op);
             if (isDebugMode) logQuery(q_undo_sql_differences);
-            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null, "SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ", null);
-            undo = _getVectorOfNames(undoPreparedStatement, ts, "T_CLIENT_LNK", "TYPE", type, "SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ", status);
+            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null,
+                    "SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ", null);
+            undo = _getVectorOfNames(undoPreparedStatement, ts, "T_CLIENT_LNK", "TYPE", type,
+                    "SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ", status);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
         } catch (SQLException exception) {
@@ -199,9 +203,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
     }
 
     private static final String q_current_sql_differences_in_eurlex_categories =
-        "SELECT FK_SOURCE_PARENT_ID " +
-        "FROM T_SOURCE_LNK WHERE " +
-        "FK_SOURCE_CHILD_ID =? AND PARENT_TYPE='C' AND CHILD_TYPE='S'";
+        "SELECT FK_SOURCE_PARENT_ID "
+        + "FROM T_SOURCE_LNK WHERE "
+        + "FK_SOURCE_CHILD_ID =? AND PARENT_TYPE='C' AND CHILD_TYPE='S'";
 
     /*
      * (non-Javadoc)
@@ -235,8 +239,10 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
             undoPreparedStatement.setString(2, "FK_SOURCE_PARENT_ID");
             undoPreparedStatement.setString(3, op);
             if (isDebugMode) logQuery(q_undo_sql_differences);
-            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null, "SELECT CLASS_NAME FROM T_SOURCE_CLASS WHERE PK_CLASS_ID = ", null);
-            undo = _getVectorOfNames(undoPreparedStatement, ts, "T_SOURCE_LNK", "CHILD_TYPE", "S", "SELECT CLASS_NAME FROM T_SOURCE_CLASS WHERE PK_CLASS_ID = ", null);
+            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null,
+                    "SELECT CLASS_NAME FROM T_SOURCE_CLASS WHERE PK_CLASS_ID = ", null);
+            undo = _getVectorOfNames(undoPreparedStatement, ts, "T_SOURCE_LNK", "CHILD_TYPE", "S",
+                    "SELECT CLASS_NAME FROM T_SOURCE_CLASS WHERE PK_CLASS_ID = ", null);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
         } catch (SQLException exception) {
@@ -287,9 +293,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
     }
 
     private static final String q_current_sql_differences_in_issues =
-        "SELECT FK_ISSUE_ID " +
-        "FROM T_RAISSUE_LNK " +
-        "WHERE FK_RA_ID =? ";
+        "SELECT FK_ISSUE_ID "
+        + "FROM T_RAISSUE_LNK "
+        + "WHERE FK_RA_ID =? ";
 
     /*
      * (non-Javadoc)
@@ -323,8 +329,10 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
             undoPreparedStatement.setString(2, "FK_ISSUE_ID");
             undoPreparedStatement.setString(3, op);
             if (isDebugMode) logQuery(q_undo_sql_differences);
-            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null, "SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ", null);
-            undo = _getVectorOfNames(undoPreparedStatement, ts, null, null, null, "SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ", null);
+            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null,
+                    "SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ", null);
+            undo = _getVectorOfNames(undoPreparedStatement, ts, null, null, null,
+                    "SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ", null);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
         } catch (SQLException exception) {
@@ -375,9 +383,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
     }
 
     private static final String q_current_sql_differences_in_info =
-        "SELECT FK_INFO_ID " +
-        "FROM T_INFO_LNK " +
-        "WHERE FK_RA_ID =? ";
+        "SELECT FK_INFO_ID "
+        + "FROM T_INFO_LNK "
+        + "WHERE FK_RA_ID =? ";
 
     /*
      * (non-Javadoc)
@@ -411,8 +419,10 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
             undoPreparedStatement.setString(2, "FK_INFO_ID");
             undoPreparedStatement.setString(3, op);
             if (isDebugMode) logQuery(q_undo_sql_differences);
-            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null, "SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '" + cat + "' AND C_VALUE = ", null);
-            undo = _getVectorOfNames(undoPreparedStatement, ts, null, null, null, "SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '" + cat + "' AND C_VALUE = ", null);
+            current = _getVectorOfNames(currentPreparedStatement, ts, null, null, null,
+                    "SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '" + cat + "' AND C_VALUE = ", null);
+            undo = _getVectorOfNames(undoPreparedStatement, ts, null, null, null,
+                    "SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '" + cat + "' AND C_VALUE = ", null);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
         } catch (SQLException exception) {
@@ -463,9 +473,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
     }
 
     private static final String q_where_sql =
-        "SELECT value " +
-        "FROM T_UNDO " +
-        "WHERE undo_time=? AND tab=? AND operation='A'";
+        "SELECT value "
+                + "FROM T_UNDO "
+                + "WHERE undo_time=? AND tab=? AND operation='A'";
 
     public String getDifferences(long ts, String tab, String col) throws ServiceException {
 

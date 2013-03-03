@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+/**
+ * Write RDF/XML triples.
+ */
 public class RDFUtil {
 
     /**

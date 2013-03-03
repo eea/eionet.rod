@@ -1,7 +1,7 @@
 /*
  * Created on 2.03.2006
  */
-/**
+/*
  * The contents of this file are subject to the Mozilla Public
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
@@ -129,6 +129,10 @@ public class AllEvents extends RSSServletAC {
         return s.toString();
     }
 
+    /**
+     * Checks if input string is a number.
+     * FIXME: Should use RODUtil.isNumber() instead.
+     */
     public static boolean isNumeric(String inString) {
         CharacterIterator theIterator = new StringCharacterIterator(inString);
 

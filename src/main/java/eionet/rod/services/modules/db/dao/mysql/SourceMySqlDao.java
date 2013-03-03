@@ -39,7 +39,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
     public SourceMySqlDao() {
     }
 
-    private static final String q_instruments =
+    //TODO: escaping HTML should be done in the presentation layer.
+    private static final String Q_INSTRUMENTS =
         "SELECT "
         + "s.PK_SOURCE_ID, "
         + "s.SOURCE_CODE, "
@@ -58,13 +59,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         + "FROM T_SOURCE s LEFT OUTER JOIN T_CLIENT c ON s.FK_CLIENT_ID=c.PK_CLIENT_ID "
         + "ORDER BY TITLE ";
 
-    private static final String q_instruments_ids = "SELECT PK_SOURCE_ID FROM T_SOURCE";
+    private static final String Q_INSTRUMENTS_IDS = "SELECT PK_SOURCE_ID FROM T_SOURCE";
 
     /*
      * (non-Javadoc)
      *
      * @see eionet.rod.services.modules.db.dao.ISourceDao#getInstruments()
      */
+    @Override
     public Vector<Map<String, String>> getInstruments() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -72,8 +74,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(q_instruments);
-            if (isDebugMode) logQuery(q_instruments);
+            preparedStatement = connection.prepareStatement(Q_INSTRUMENTS);
+            if (isDebugMode) logQuery(Q_INSTRUMENTS);
             result = _getVectorOfHashes(preparedStatement);
         } catch (SQLException exception) {
             logger.error(exception);
@@ -86,7 +88,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
     }
 
-    private static final String q_rdf_instruments_factsheet =
+    private static final String Q_RDF_INSTRUMENTS_FACTSHEET =
         "SELECT SO.PK_SOURCE_ID, SO.SOURCE_CODE, SO.CELEX_REF, SO.TITLE, SO.LEGAL_NAME, SO.ALIAS, SO.URL, "
         + "SO.ABSTRACT, SO.VALID_FROM, SO.COMMENT, SO.LAST_UPDATE, SO.RM_NEXT_UPDATE, SO.RM_VERIFIED, SO.RM_VERIFIED_BY, "
         + "SO.EC_ACCESSION, SO.EC_ENTRY_INTO_FORCE, SO.LAST_MODIFIED, "
@@ -95,7 +97,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         + "FROM T_SOURCE SO, T_CLIENT_LNK CL, T_CLIENT C "
         + "WHERE CL.TYPE='S' AND CL.STATUS='M' AND CL.FK_OBJECT_ID=SO.PK_SOURCE_ID AND C.PK_CLIENT_ID = CL.FK_CLIENT_ID";
 
-    private static final String q_rdf_instrument_obligations =
+    private static final String Q_RDF_INSTRUMENT_OBLIGATIONS =
         "SELECT OB.PK_RA_ID, OB.TITLE, OB.AUTHORITY, OB.TERMINATE "
         + "FROM T_OBLIGATION OB, T_SOURCE SO "
         + "WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=OB.FK_SOURCE_ID";
@@ -105,6 +107,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getInstrumentsForRDF()
      */
+    @Override
     public List<InstrumentRdfDTO> getInstrumentsForRDF() throws ServiceException {
 
         List<InstrumentRdfDTO> ret = new ArrayList<InstrumentRdfDTO>();
@@ -115,8 +118,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(q_rdf_instruments_factsheet);
-            preparedStatement = connection.prepareStatement(q_rdf_instruments_factsheet);
+            if (isDebugMode) logQuery(Q_RDF_INSTRUMENTS_FACTSHEET);
+            preparedStatement = connection.prepareStatement(Q_RDF_INSTRUMENTS_FACTSHEET);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 InstrumentRdfDTO inst = new InstrumentRdfDTO();
@@ -142,7 +145,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 inst.setClientName(rs.getString("C.CLIENT_NAME"));
 
                 List<InstrumentObligationDTO> obligations = new ArrayList<InstrumentObligationDTO>();
-                preparedStatement = connection.prepareStatement(q_rdf_instrument_obligations);
+                preparedStatement = connection.prepareStatement(Q_RDF_INSTRUMENT_OBLIGATIONS);
                 preparedStatement.setInt(1, rs.getInt("SO.PK_SOURCE_ID"));
                 subRs = preparedStatement.executeQuery();
                 while (subRs.next()) {
@@ -167,7 +170,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         return ret;
     }
 
-    private static final String q_rdf_instrument_factsheet =
+    private static final String Q_RDF_INSTRUMENT_FACTSHEET =
         "SELECT SO.PK_SOURCE_ID, SO.SOURCE_CODE, SO.CELEX_REF, SO.TITLE, SO.LEGAL_NAME, SO.ALIAS, SO.URL, "
         + "SO.ABSTRACT, SO.VALID_FROM, SO.COMMENT, SO.LAST_UPDATE, SO.RM_NEXT_UPDATE, SO.RM_VERIFIED, SO.RM_VERIFIED_BY, "
         + "SO.EC_ACCESSION, SO.EC_ENTRY_INTO_FORCE, SO.LAST_MODIFIED, "
@@ -181,6 +184,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getInstrumentForRDF(String id)
      */
+    @Override
     public InstrumentRdfDTO getInstrumentForRDF(String id) throws ServiceException {
 
         InstrumentRdfDTO ret = null;
@@ -193,8 +197,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(q_rdf_instrument_factsheet);
-            preparedStatement = connection.prepareStatement(q_rdf_instrument_factsheet);
+            if (isDebugMode) logQuery(Q_RDF_INSTRUMENT_FACTSHEET);
+            preparedStatement = connection.prepareStatement(Q_RDF_INSTRUMENT_FACTSHEET);
             preparedStatement.setString(1, id);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -220,7 +224,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 ret.setClientId(new Integer(rs.getInt("C.PK_CLIENT_ID")));
                 ret.setClientName(rs.getString("C.CLIENT_NAME"));
 
-                preparedStatement = connection.prepareStatement(q_rdf_instrument_obligations);
+                preparedStatement = connection.prepareStatement(Q_RDF_INSTRUMENT_OBLIGATIONS);
                 preparedStatement.setInt(1, rs.getInt("SO.PK_SOURCE_ID"));
                 subRs = preparedStatement.executeQuery();
                 while (subRs.next()) {
@@ -244,16 +248,18 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         return ret;
     }
 
-    private static final String q_subscribe_instruments =
+    //TODO: escaping HTML should be done in the presentation layer.
+    private static final String Q_SUBSCRIBE_INSTRUMENTS =
         "SELECT REPLACE(TITLE, '&', '&#038;') AS TITLE "
-        + "FROM T_SOURCE "
-        + "ORDER BY TITLE ";
+                + "FROM T_SOURCE "
+                + "ORDER BY TITLE ";
 
     /*
      * (non-Javadoc)
      *
      * @see eionet.rod.services.modules.db.dao.ISourceDao#getSubscribeInstruments()
      */
+    @Override
     public List<String> getSubscribeInstruments() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -261,8 +267,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(q_subscribe_instruments);
-            if (isDebugMode) logQuery(q_subscribe_instruments);
+            preparedStatement = connection.prepareStatement(Q_SUBSCRIBE_INSTRUMENTS);
+            if (isDebugMode) logQuery(Q_SUBSCRIBE_INSTRUMENTS);
             ResultSet rs = null;
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -280,7 +286,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
     }
 
-    private static final String qInstrumentById =
+    //TODO: escaping HTML should be done in the presentation layer.
+    private static final String Q_INSTRUMENT_BY_ID =
         "SELECT "
         + "PK_SOURCE_ID AS instrumentID, "
         + "REPLACE(TITLE, '&', '&#038;') AS TITLE "
@@ -291,14 +298,15 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.services.modules.db.dao.ISourceDao#getInstrumentById(java.lang.Integer)
      */
+    @Override
     public Hashtable<String, String> getInstrumentById(Integer id) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         Hashtable<String, String> result = null;
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(qInstrumentById);
-            preparedStatement = connection.prepareStatement(qInstrumentById);
+            if (isDebugMode) logQuery(Q_INSTRUMENT_BY_ID);
+            preparedStatement = connection.prepareStatement(Q_INSTRUMENT_BY_ID);
             preparedStatement.setInt(1, id.intValue());
             result = _getHashtable(preparedStatement);
         } catch (SQLException exception) {
@@ -311,7 +319,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         return result != null ? result : new Hashtable<String, String>();
     }
 
-    private static final String q_instruments_rss =
+    //TODO: escaping HTML should be done in the presentation layer.
+    private static final String Q_INSTRUMENTS_RSS =
         "SELECT "
         + "PK_SOURCE_ID, "
         + "REPLACE(TITLE, '&', '&#038;') AS TITLE, "
@@ -325,14 +334,15 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.services.modules.db.dao.ISourceDao#getInstrumentsRSS()
      */
+    @Override
     public String[][] getInstrumentsRSS() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String[][] result = null;
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(q_instruments_rss);
-            if (isDebugMode) logQuery(q_instruments_rss);
+            preparedStatement = connection.prepareStatement(Q_INSTRUMENTS_RSS);
+            if (isDebugMode) logQuery(Q_INSTRUMENTS_RSS);
             result = _executeStringQuery(preparedStatement);
         } catch (SQLException exception) {
             logger.error(exception);
@@ -345,17 +355,17 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
     }
 
-    private static final String q_delete_child_link =
+    private static final String Q_DELETE_CHILD_LINK =
         "DELETE FROM T_SOURCE_LNK "
         + "WHERE CHILD_TYPE='S' AND FK_SOURCE_CHILD_ID=?";
 
-    public void deleteChildLink(Integer childId) throws ServiceException{
+    public void deleteChildLink(Integer childId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(q_delete_child_link);
-            preparedStatement = connection.prepareStatement(q_delete_child_link);
+            if (isDebugMode) logQuery(Q_DELETE_CHILD_LINK);
+            preparedStatement = connection.prepareStatement(Q_DELETE_CHILD_LINK);
             preparedStatement.setInt(1, childId.intValue());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
@@ -367,18 +377,18 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
     }
 
 
-    private static final String q_delete_parent_link =
+    private static final String Q_DELETE_PARENT_LINK =
         "DELETE FROM T_SOURCE_LNK "
         + "WHERE PARENT_TYPE='S' AND FK_SOURCE_PARENT_ID=?";
 
 
-    public void deleteParentLink(Integer parentId) throws ServiceException{
+    public void deleteParentLink(Integer parentId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(q_delete_parent_link);
-            preparedStatement = connection.prepareStatement(q_delete_parent_link);
+            if (isDebugMode) logQuery(Q_DELETE_PARENT_LINK);
+            preparedStatement = connection.prepareStatement(Q_DELETE_PARENT_LINK);
             preparedStatement.setInt(1, parentId.intValue());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
@@ -390,16 +400,15 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
     }
 
 
-    private static final String q_delete_source =
-        "DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=?";
+    private static final String Q_DELETE_SOURCE = "DELETE FROM T_SOURCE WHERE PK_SOURCE_ID=?";
 
-    public void deleteSource(Integer sourceId) throws ServiceException{
+    public void deleteSource(Integer sourceId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(q_delete_source);
-            preparedStatement = connection.prepareStatement(q_delete_source);
+            if (isDebugMode) logQuery(Q_DELETE_SOURCE);
+            preparedStatement = connection.prepareStatement(Q_DELETE_SOURCE);
             preparedStatement.setInt(1, sourceId.intValue());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
@@ -417,8 +426,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         String[][] result = null;
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(q_instruments_ids);
-            if (isDebugMode) logQuery(q_instruments_ids);
+            preparedStatement = connection.prepareStatement(Q_INSTRUMENTS_IDS);
+            if (isDebugMode) logQuery(Q_INSTRUMENTS_IDS);
             result = _executeStringQuery(preparedStatement);
         } catch (SQLException exception) {
             logger.error(exception);
@@ -430,16 +439,16 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         return result != null ? result : new String[][] {};
     }
 
-    private static final String qDGEnv =
-        "SELECT "
-        + "C_TERM AS name "
-        + "FROM T_LOOKUP WHERE C_VALUE=? AND CATEGORY = 'DGS' ";
+    private static final String Q_DG_ENV =
+        "SELECT C_TERM AS name "
+                + "FROM T_LOOKUP WHERE C_VALUE=? AND CATEGORY = 'DGS' ";
 
     /*
      * (non-Javadoc)
      *
      * @see eionet.rod.services.modules.db.dao.ISourceDao#getDGEnvName(java.lang.String)
      */
+    @Override
     public String getDGEnvName(String value) throws ServiceException {
         Connection connection = null;
         ResultSet resultSet = null;
@@ -449,9 +458,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(qDGEnv);
+            preparedStatement = connection.prepareStatement(Q_DG_ENV);
             preparedStatement.setString(1, value);
-            if (isDebugMode) logQuery(qDGEnv);
+            if (isDebugMode) logQuery(Q_DG_ENV);
             resultSet = preparedStatement.executeQuery();
             result = getResults(resultSet);
             resultSet.close();
@@ -474,10 +483,11 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getInstrumentsDue()
      */
+    @Override
     public List<InstrumentsDueDTO> getInstrumentsDue() throws ServiceException {
 
         String query = "SELECT PK_SOURCE_ID, TITLE, RM_NEXT_UPDATE, RM_VERIFIED, RM_VERIFIED_BY "
-        + "FROM T_SOURCE ORDER BY RM_NEXT_UPDATE";
+                + "FROM T_SOURCE ORDER BY RM_NEXT_UPDATE";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -498,35 +508,40 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         }
     }
 
-    private static final String q_instrument_factsheet =
+    private static final String Q_INSTRUMENT_FACTSHEET =
         "SELECT SO.PK_SOURCE_ID, SO.SOURCE_CODE, SO.CELEX_REF, SO.TITLE, SO.LEGAL_NAME, SO.ALIAS, SO.URL, SO.FK_CLIENT_ID, "
         + "SO.ISSUED_BY_URL, CONCAT(LEFT(SO.ISSUED_BY_URL, 40), IF( LENGTH(SO.ISSUED_BY_URL) > 40 ,'...', '')) AS ISSUED_BY_URL_LABEL, "
         + "SO.SECRETARIAT, SO.SECRETARIAT_URL, SO.ABSTRACT, IF(SO.VALID_FROM, DATE_FORMAT(SO.VALID_FROM,'%d/%m/%Y'), '') AS VALID_FROM, "
         + "IF(SO.EC_ACCESSION, DATE_FORMAT(SO.EC_ACCESSION,'%d/%m/%Y'), '') AS EC_ACCESSION, "
         + "IF(SO.EC_ENTRY_INTO_FORCE, DATE_FORMAT(SO.EC_ENTRY_INTO_FORCE,'%d/%m/%Y'), '') AS EC_ENTRY_INTO_FORCE, SO.COMMENT, "
         + "DATE_FORMAT(SO.LAST_UPDATE, '%d/%m/%Y') AS LAST_UPDATE, DATE_FORMAT(SO.RM_NEXT_UPDATE, '%d/%m/%Y') AS RM_NEXT_UPDATE, "
-        + "DATE_FORMAT(SO.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED, SO.RM_VERIFIED_BY, SO.RM_VALIDATED_BY, SO.RM_VALIDATED_BY, SO.GEOGRAPHIC_SCOPE, SO.DGENV_REVIEW, SO.DRAFT, "
+        + "DATE_FORMAT(SO.RM_VERIFIED, '%d/%m/%Y') AS RM_VERIFIED, SO.RM_VERIFIED_BY, "
+        + "SO.RM_VALIDATED_BY, SO.RM_VALIDATED_BY, SO.GEOGRAPHIC_SCOPE, SO.DGENV_REVIEW, SO.DRAFT, "
         + "CL.FK_CLIENT_ID, CL.FK_OBJECT_ID, CL.STATUS, CL.TYPE, "
         + "C.PK_CLIENT_ID, C.CLIENT_NAME "
         + "FROM T_SOURCE SO, T_CLIENT_LNK CL, T_CLIENT C "
-        + "WHERE SO.PK_SOURCE_ID=? AND CL.TYPE='S' AND CL.STATUS='M' AND CL.FK_OBJECT_ID=SO.PK_SOURCE_ID AND C.PK_CLIENT_ID = CL.FK_CLIENT_ID";
+        + "WHERE SO.PK_SOURCE_ID=? AND CL.TYPE='S' AND CL.STATUS='M' AND "
+        + "CL.FK_OBJECT_ID=SO.PK_SOURCE_ID AND C.PK_CLIENT_ID = CL.FK_CLIENT_ID";
 
-    private static final String q_parent_instruments =
+    private static final String Q_PARENT_INSTRUMENTS =
         "SELECT SC.PK_CLASS_ID, SC.CLASSIFICATOR, SC.CLASS_NAME "
         + "FROM T_SOURCE_CLASS SC, T_SOURCE_LNK SL, T_SOURCE SO "
-        + "WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID = SL.FK_SOURCE_CHILD_ID AND SL.FK_SOURCE_PARENT_ID = SC.PK_CLASS_ID AND SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='C'";
+        + "WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID = SL.FK_SOURCE_CHILD_ID AND "
+        + "SL.FK_SOURCE_PARENT_ID = SC.PK_CLASS_ID AND SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='C'";
 
-    private static final String q_related_instruments =
+    private static final String Q_RELATED_INSTRUMENTS =
         "SELECT LSOURCE.PK_SOURCE_ID, LSOURCE.TITLE, LSOURCE.ALIAS "
         + "FROM T_SOURCE_LNK SL, T_SOURCE LSOURCE, T_SOURCE SO "
-        + "WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=SL.FK_SOURCE_PARENT_ID AND SL.FK_SOURCE_CHILD_ID=LSOURCE.PK_SOURCE_ID AND SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='S'";
+        + "WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=SL.FK_SOURCE_PARENT_ID AND "
+        + "SL.FK_SOURCE_CHILD_ID=LSOURCE.PK_SOURCE_ID AND SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='S'";
 
-    private static final String q_origin_instruments =
+    private static final String Q_ORIGIN_INSTRUMENTS =
         "SELECT LSOURCE.PK_SOURCE_ID, LSOURCE.TITLE, LSOURCE.ALIAS "
         + "FROM T_SOURCE_LNK SL, T_SOURCE LSOURCE, T_SOURCE SO "
-        + "WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=SL.FK_SOURCE_CHILD_ID AND SL.FK_SOURCE_PARENT_ID=LSOURCE.PK_SOURCE_ID AND SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='S'";
+        + "WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=SL.FK_SOURCE_CHILD_ID AND "
+        + "SL.FK_SOURCE_PARENT_ID=LSOURCE.PK_SOURCE_ID AND SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='S'";
 
-    private static final String q_instrument_obligations =
+    private static final String Q_INSTRUMENT_OBLIGATIONS =
         "SELECT OB.PK_RA_ID, OB.TITLE, OB.AUTHORITY, OB.TERMINATE "
         + "FROM T_OBLIGATION OB, T_SOURCE SO "
         + "WHERE SO.PK_SOURCE_ID=? AND SO.PK_SOURCE_ID=OB.FK_SOURCE_ID";
@@ -536,6 +551,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getInstrumentFactsheet(String id)
      */
+    @Override
     public InstrumentFactsheetDTO getInstrumentFactsheet(String id) throws ServiceException {
 
         InstrumentFactsheetDTO ret = null;
@@ -550,8 +566,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(q_instrument_factsheet);
-            preparedStatement = connection.prepareStatement(q_instrument_factsheet);
+            if (isDebugMode) logQuery(Q_INSTRUMENT_FACTSHEET);
+            preparedStatement = connection.prepareStatement(Q_INSTRUMENT_FACTSHEET);
             preparedStatement.setString(1, id);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -590,7 +606,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 ret.setClientId(new Integer(rs.getInt("PK_CLIENT_ID")));
                 ret.setClientName(rs.getString("CLIENT_NAME"));
 
-                preparedStatement = connection.prepareStatement(q_parent_instruments);
+                preparedStatement = connection.prepareStatement(Q_PARENT_INSTRUMENTS);
                 preparedStatement.setString(1, id);
                 subRs = preparedStatement.executeQuery();
                 while (subRs.next()) {
@@ -602,7 +618,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 }
                 ret.setParents(parents);
 
-                preparedStatement = connection.prepareStatement(q_origin_instruments);
+                preparedStatement = connection.prepareStatement(Q_ORIGIN_INSTRUMENTS);
                 preparedStatement.setString(1, id);
                 subRs = preparedStatement.executeQuery();
                 while (subRs.next()) {
@@ -613,7 +629,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                     ret.setOrigin(origin);
                 }
 
-                preparedStatement = connection.prepareStatement(q_related_instruments);
+                preparedStatement = connection.prepareStatement(Q_RELATED_INSTRUMENTS);
                 preparedStatement.setString(1, id);
                 subRs = preparedStatement.executeQuery();
                 while (subRs.next()) {
@@ -625,7 +641,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 }
                 ret.setRelatedInstruments(relatedInstruments);
 
-                preparedStatement = connection.prepareStatement(q_instrument_obligations);
+                preparedStatement = connection.prepareStatement(Q_INSTRUMENT_OBLIGATIONS);
                 preparedStatement.setString(1, id);
                 subRs = preparedStatement.executeQuery();
                 while (subRs.next()) {
@@ -649,7 +665,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         return ret;
     }
 
-    private static final String q_instrument_DGEnv =
+    private static final String Q_INSTRUMENT_DG_ENV =
         "SELECT "
         + "L.C_TERM AS name "
         + "FROM T_LOOKUP L, T_SOURCE S "
@@ -660,6 +676,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.services.modules.db.dao.ISourceDao#getDGEnvNameByInstrumentId(java.lang.String)
      */
+    @Override
     public String getDGEnvNameByInstrumentId(String id) throws ServiceException {
         Connection connection = null;
         ResultSet resultSet = null;
@@ -669,9 +686,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(q_instrument_DGEnv);
+            preparedStatement = connection.prepareStatement(Q_INSTRUMENT_DG_ENV);
             preparedStatement.setString(1, id);
-            if (isDebugMode) logQuery(q_instrument_DGEnv);
+            if (isDebugMode) logQuery(Q_INSTRUMENT_DG_ENV);
             resultSet = preparedStatement.executeQuery();
             result = getResults(resultSet);
             resultSet.close();
@@ -689,17 +706,18 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         return res != null ? res : "";
     }
 
-    private static final String q_hierarchy_instrument =
+    private static final String Q_HIERARCHY_INSTRUMENT =
         "SELECT SC.PK_CLASS_ID, SC.CLASSIFICATOR, SC.CLASS_NAME, SL.FK_SOURCE_PARENT_ID "
-        + "FROM T_SOURCE_CLASS SC, T_SOURCE_LNK SL "
-        + "WHERE SC.PK_CLASS_ID=? AND SC.PK_CLASS_ID=SL.FK_SOURCE_CHILD_ID AND SL.CHILD_TYPE='C' AND SL.PARENT_TYPE='C' "
-        + "ORDER BY SC.CLASSIFICATOR";
+                + "FROM T_SOURCE_CLASS SC, T_SOURCE_LNK SL "
+                + "WHERE SC.PK_CLASS_ID=? AND SC.PK_CLASS_ID=SL.FK_SOURCE_CHILD_ID AND SL.CHILD_TYPE='C' AND SL.PARENT_TYPE='C' "
+                + "ORDER BY SC.CLASSIFICATOR";
 
     /*
      * (non-Javadoc)
      *
      * @see eionet.rod.dao.ISourceDao#getHierarchyInstrument(String id)
      */
+    @Override
     public InstrumentsListDTO getHierarchyInstrument(String id) throws ServiceException {
 
         InstrumentsListDTO ret = new InstrumentsListDTO();
@@ -709,8 +727,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(q_hierarchy_instrument);
-            preparedStatement = connection.prepareStatement(q_hierarchy_instrument);
+            if (isDebugMode) logQuery(Q_HIERARCHY_INSTRUMENT);
+            preparedStatement = connection.prepareStatement(Q_HIERARCHY_INSTRUMENT);
             preparedStatement.setString(1, id);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -730,23 +748,26 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         return ret;
     }
 
-    private static final String q_hierarchy =
+    private static final String Q_HIERARCHY =
         "SELECT SC.PK_CLASS_ID, SC.CLASSIFICATOR, SC.CLASS_NAME, SL.FK_SOURCE_PARENT_ID "
-        + "FROM T_SOURCE_CLASS SC_PARENT, T_SOURCE_CLASS SC, T_SOURCE_LNK SL "
-        + "WHERE SC_PARENT.PK_CLASS_ID=? AND SC_PARENT.PK_CLASS_ID=SL.FK_SOURCE_PARENT_ID AND SL.FK_SOURCE_CHILD_ID=SC.PK_CLASS_ID AND SL.CHILD_TYPE='C' AND SL.PARENT_TYPE='C' "
-        + "ORDER BY SC.CLASSIFICATOR";
+                + "FROM T_SOURCE_CLASS SC_PARENT, T_SOURCE_CLASS SC, T_SOURCE_LNK SL "
+                + "WHERE SC_PARENT.PK_CLASS_ID=? AND SC_PARENT.PK_CLASS_ID=SL.FK_SOURCE_PARENT_ID "
+                + "AND SL.FK_SOURCE_CHILD_ID=SC.PK_CLASS_ID AND SL.CHILD_TYPE='C' AND SL.PARENT_TYPE='C' "
+                + "ORDER BY SC.CLASSIFICATOR";
 
-    private static final String q_hierarchy_cnt =
+    private static final String Q_HIERARCHY_CNT =
         "SELECT COUNT(*) "
-        + "FROM T_SOURCE_CLASS SC_PARENT, T_SOURCE_CLASS SC, T_SOURCE_LNK SL "
-        + "WHERE SC_PARENT.PK_CLASS_ID=? AND SC_PARENT.PK_CLASS_ID=SL.FK_SOURCE_PARENT_ID AND SL.FK_SOURCE_CHILD_ID=SC.PK_CLASS_ID AND SL.CHILD_TYPE='C' AND SL.PARENT_TYPE='C' "
-        + "ORDER BY SC.CLASSIFICATOR";
+                + "FROM T_SOURCE_CLASS SC_PARENT, T_SOURCE_CLASS SC, T_SOURCE_LNK SL "
+                + "WHERE SC_PARENT.PK_CLASS_ID=? AND SC_PARENT.PK_CLASS_ID=SL.FK_SOURCE_PARENT_ID "
+                + "AND SL.FK_SOURCE_CHILD_ID=SC.PK_CLASS_ID AND SL.CHILD_TYPE='C' AND SL.PARENT_TYPE='C' "
+                + "ORDER BY SC.CLASSIFICATOR";
 
     /*
      * (non-Javadoc)
      *
      * @see eionet.rod.dao.ISourceDao#getHierarchy(String id, boolean hasParent)
      */
+    @Override
     public String getHierarchy(String id, boolean hasParent, String mode) throws ServiceException {
 
         String newLine = "\n";
@@ -759,25 +780,27 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         try {
             connection = getConnection();
 
-            preparedStatement = connection.prepareStatement(q_hierarchy_cnt);
+            preparedStatement = connection.prepareStatement(Q_HIERARCHY_CNT);
             preparedStatement.setString(1, id);
             rs = preparedStatement.executeQuery();
             int cnt = 0;
-            while (rs.next())
+            while (rs.next()) {
                 cnt = rs.getInt(1);
+            }
 
-            if (isDebugMode) logQuery(q_hierarchy);
-            preparedStatement = connection.prepareStatement(q_hierarchy);
+            if (isDebugMode) logQuery(Q_HIERARCHY);
+            preparedStatement = connection.prepareStatement(Q_HIERARCHY);
             preparedStatement.setString(1, id);
             rs = preparedStatement.executeQuery();
             String style = "category";
-            if (!hasParent)
+            if (!hasParent) {
                 style = "topcategory";
+            }
 
             if (cnt > 0) {
                 ret.append("<ul class='").append(style).append("'>").append(newLine);
                 while (rs.next()) {
-                    String child_id = rs.getString("PK_CLASS_ID");
+                    String childId = rs.getString("PK_CLASS_ID");
                     String classificator = rs.getString("CLASSIFICATOR");
                     String className = rs.getString("CLASS_NAME");
                     ret.append("<li>").append(newLine);
@@ -785,11 +808,11 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                         if (!RODUtil.isNullOrEmpty(classificator))
                             ret.append(classificator).append("&#160;").append(newLine);
                     }
-                    ret.append("<a href='instruments?id=").append(child_id);
+                    ret.append("<a href='instruments?id=").append(childId);
                     if (mode != null && mode.equals("X"))
                         ret.append("&amp;mode=X");
                     ret.append("'>").append(className).append("</a>").append(newLine);
-                    ret.append(getHierarchy(child_id, true, mode));
+                    ret.append(getHierarchy(childId, true, mode));
                     ret.append("</li>").append(newLine);
                 }
                 ret.append("</ul>").append(newLine);
@@ -809,16 +832,16 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getHierarchyInstruments(String id)
      */
+    @Override
     public List<HierarchyInstrumentDTO> getHierarchyInstruments(String id) throws ServiceException {
 
-        String query =
-            "SELECT S.PK_SOURCE_ID, S.TITLE, S.ALIAS, S.URL, "
+        String query = "SELECT S.PK_SOURCE_ID, S.TITLE, S.ALIAS, S.URL, "
             + "PS.PK_SOURCE_ID AS PARENT_ID, PS.TITLE AS PARENT_TITLE, PS.ALIAS AS PARENT_ALIAS, PS.URL AS PARENT_URL "
             + "FROM T_SOURCE_CLASS SC JOIN T_SOURCE_LNK SL ON SC.PK_CLASS_ID=SL.FK_SOURCE_PARENT_ID "
             + "JOIN T_SOURCE S ON SL.FK_SOURCE_CHILD_ID=S.PK_SOURCE_ID "
             + "LEFT OUTER JOIN T_SOURCE_LNK PSL ON PSL.FK_SOURCE_CHILD_ID=S.PK_SOURCE_ID AND PSL.CHILD_TYPE='S' AND PSL.PARENT_TYPE='S' "
             + "LEFT OUTER JOIN T_SOURCE PS ON PS.PK_SOURCE_ID=PSL.FK_SOURCE_PARENT_ID "
-            + "WHERE SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='C' AND SC.PK_CLASS_ID=" +id+ " ORDER BY S.TITLE";
+            + "WHERE SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='C' AND SC.PK_CLASS_ID=" + id + " ORDER BY S.TITLE";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -844,11 +867,12 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getLookupList(String category)
      */
+    @Override
     public List<LookupDTO> getLookupList(String category) throws ServiceException {
 
         String query = "SELECT C_TERM, C_VALUE "
-        + "FROM T_LOOKUP "
-        + "WHERE CATEGORY='" + category + "' ORDER BY C_TERM";
+                + "FROM T_LOOKUP "
+                + "WHERE CATEGORY='" + category + "' ORDER BY C_TERM";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -874,10 +898,11 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getParentInstrumentsList(String id)
      */
+    @Override
     public List<InstrumentDTO> getParentInstrumentsList(String id) throws ServiceException {
 
         String query = "SELECT PK_SOURCE_ID, CONCAT(IF(ALIAS != '', CONCAT(ALIAS, ' - '), ''),  TITLE) AS TITLE "
-        + "FROM T_SOURCE WHERE PK_SOURCE_ID != " + id + " ORDER BY TITLE";
+                + "FROM T_SOURCE WHERE PK_SOURCE_ID != " + id + " ORDER BY TITLE";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -900,13 +925,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
     private static final String qParentInstrumentId =
         "SELECT FK_SOURCE_PARENT_ID "
-        + "FROM T_SOURCE_LNK WHERE FK_SOURCE_CHILD_ID=? AND CHILD_TYPE = 'S' AND PARENT_TYPE = 'S'";
+                + "FROM T_SOURCE_LNK WHERE FK_SOURCE_CHILD_ID=? AND CHILD_TYPE = 'S' AND PARENT_TYPE = 'S'";
 
     /*
      * (non-Javadoc)
      *
      * @see eionet.rod.services.modules.db.dao.ISourceDao#getParentInstrumentId(String childId)
      */
+    @Override
     public String getParentInstrumentId(String childId) throws ServiceException {
         Connection connection = null;
         ResultSet resultSet = null;
@@ -941,10 +967,11 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getAllSourceClasses()
      */
+    @Override
     public List<SourceClassDTO> getAllSourceClasses() throws ServiceException {
 
         String query = "SELECT PK_CLASS_ID, CLASSIFICATOR, CLASS_NAME "
-        + "FROM T_SOURCE_CLASS WHERE CLASS_NAME != '' ORDER BY CLASSIFICATOR";
+                + "FROM T_SOURCE_CLASS WHERE CLASS_NAME != '' ORDER BY CLASSIFICATOR";
 
         List<Object> values = new ArrayList<Object>();
 
@@ -970,11 +997,12 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getSourceClassesByInstrumentId(String id)
      */
+    @Override
     public List<SourceClassDTO> getSourceClassesByInstrumentId(String id) throws ServiceException {
 
         String query = "SELECT T_SOURCE_CLASS.PK_CLASS_ID, T_SOURCE_CLASS.CLASSIFICATOR, T_SOURCE_CLASS.CLASS_NAME, "
         + "T_SOURCE_LNK.FK_SOURCE_PARENT_ID "
-        + "FROM T_SOURCE_LNK, T_SOURCE_CLASS WHERE T_SOURCE_LNK.FK_SOURCE_CHILD_ID = " +id+ " "
+        + "FROM T_SOURCE_LNK, T_SOURCE_CLASS WHERE T_SOURCE_LNK.FK_SOURCE_CHILD_ID = " + id + " "
         + "AND T_SOURCE_LNK.FK_SOURCE_PARENT_ID=T_SOURCE_CLASS.PK_CLASS_ID "
         + "AND T_SOURCE_LNK.PARENT_TYPE='C' AND T_SOURCE_LNK.CHILD_TYPE='S' "
         + "ORDER BY CLASSIFICATOR";
@@ -1003,6 +1031,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getInstrumentSourceClassesList(List<String> scIds)
      */
+    @Override
     public List<SourceClassDTO> getInstrumentSourceClassesList(List<String> scIds) throws ServiceException {
 
         StringBuilder ids = new StringBuilder();
@@ -1044,18 +1073,19 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
     }
 
     /** */
-    private static final String editSourceSQL = "UPDATE T_SOURCE SET "
-    + "TITLE=?, ALIAS=?, SOURCE_CODE=?, DRAFT=?, URL=?, CELEX_REF=?, "
-    + "FK_CLIENT_ID=?, ISSUED_BY_URL=?, DGENV_REVIEW=?, VALID_FROM=?, GEOGRAPHIC_SCOPE=?, ABSTRACT=?, "
-    + "COMMENT=?, EC_ENTRY_INTO_FORCE=?, EC_ACCESSION=?, SECRETARIAT=?, SECRETARIAT_URL=?, RM_VERIFIED=?, "
-    + "RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, RM_VALIDATED_BY=?, LAST_UPDATE=CURDATE() "
-    + "WHERE PK_SOURCE_ID=?";
+    private static final String Q_EDIT_SOURCE = "UPDATE T_SOURCE SET "
+            + "TITLE=?, ALIAS=?, SOURCE_CODE=?, DRAFT=?, URL=?, CELEX_REF=?, "
+            + "FK_CLIENT_ID=?, ISSUED_BY_URL=?, DGENV_REVIEW=?, VALID_FROM=?, GEOGRAPHIC_SCOPE=?, ABSTRACT=?, "
+            + "COMMENT=?, EC_ENTRY_INTO_FORCE=?, EC_ACCESSION=?, SECRETARIAT=?, SECRETARIAT_URL=?, RM_VERIFIED=?, "
+            + "RM_VERIFIED_BY=?, RM_NEXT_UPDATE=?, RM_VALIDATED_BY=?, LAST_UPDATE=CURDATE() "
+            + "WHERE PK_SOURCE_ID=?";
 
     /*
      * (non-Javadoc)
      *
      * @see eionet.rod.dao.ISourceDao#editInstrument(InstrumentFactsheetDTO instrument)
      */
+    @Override
     public void editInstrument(InstrumentFactsheetDTO instrument) throws ServiceException {
 
         List<Object> values = new ArrayList<Object>();
@@ -1086,7 +1116,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         Connection conn = null;
         try {
             conn = getConnection();
-            SQLUtil.executeUpdate(editSourceSQL, values, conn);
+            SQLUtil.executeUpdate(Q_EDIT_SOURCE, values, conn);
 
         } catch (Exception e) {
             logger.error(e);
@@ -1098,7 +1128,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         }
     }
 
-    private static final String q_insert_parent_instrument =
+    private static final String Q_INSERT_PARENT_INSTRUMENT =
         "INSERT INTO T_SOURCE_LNK (FK_SOURCE_PARENT_ID, FK_SOURCE_CHILD_ID, CHILD_TYPE, PARENT_TYPE) VALUES (?,?,'S','S')";
 
     public void addParentInstrument(String instId, String parentInstrumentId) throws ServiceException {
@@ -1109,7 +1139,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             values = new ArrayList<Object>();
             values.add(parentInstrumentId);
             values.add(instId);
-            SQLUtil.executeUpdate(q_insert_parent_instrument, values, conn);
+            SQLUtil.executeUpdate(Q_INSERT_PARENT_INSTRUMENT, values, conn);
         } catch (Exception e) {
             logger.error(e);
             throw new ServiceException(e.getMessage());
@@ -1120,7 +1150,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         }
     }
 
-    private static final String q_insert_linked_sources =
+    private static final String Q_INSERT_LINKED_SOURCES =
         "INSERT INTO T_SOURCE_LNK (FK_SOURCE_PARENT_ID, FK_SOURCE_CHILD_ID, CHILD_TYPE, PARENT_TYPE) VALUES (?,?,'S','C')";
 
     public void addLinkedSources(String instId, List<String> selectedSourceClasses) throws ServiceException {
@@ -1133,7 +1163,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 values = new ArrayList<Object>();
                 values.add(sourceId);
                 values.add(instId);
-                SQLUtil.executeUpdate(q_insert_linked_sources, values, conn);
+                SQLUtil.executeUpdate(Q_INSERT_LINKED_SOURCES, values, conn);
             }
         } catch (Exception e) {
             logger.error(e);
@@ -1146,7 +1176,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
     }
 
     /** */
-    private static final String addSourceSQL = "INSERT INTO T_SOURCE SET "
+    private static final String Q_ADD_SOURCE = "INSERT INTO T_SOURCE SET "
     + "TITLE=?, ALIAS=?, SOURCE_CODE=?, DRAFT=?, URL=?, CELEX_REF=?, "
     + "FK_CLIENT_ID=?, ISSUED_BY_URL=?, DGENV_REVIEW=?, VALID_FROM=?, GEOGRAPHIC_SCOPE=?, ABSTRACT=?, "
     + "COMMENT=?, EC_ENTRY_INTO_FORCE=?, EC_ACCESSION=?, SECRETARIAT=?, SECRETARIAT_URL=?, RM_VERIFIED=?, "
@@ -1157,6 +1187,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#addInstrument(InstrumentFactsheetDTO instrument)
      */
+    @Override
     public Integer addInstrument(InstrumentFactsheetDTO instrument) throws ServiceException {
 
         List<Object> values = new ArrayList<Object>();
@@ -1187,7 +1218,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         Connection conn = null;
         try {
             conn = getConnection();
-            SQLUtil.executeUpdate(addSourceSQL, values, conn);
+            SQLUtil.executeUpdate(Q_ADD_SOURCE, values, conn);
             instrumentId = SQLUtil.getLastInsertID(conn);
 
         } catch (Exception e) {
@@ -1201,7 +1232,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         return instrumentId;
     }
 
-    private static final String q_instrument_urls =
+    private static final String Q_INSTRUMENT_URLS =
         "SELECT URL, SECRETARIAT, SECRETARIAT_URL, ALIAS, ISSUED_BY_URL "
         + "FROM T_SOURCE";
 
@@ -1210,6 +1241,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao##getInstrumentsUrls()
      */
+    @Override
     public List<UrlDTO> getInstrumentsUrls() throws ServiceException {
 
         List<UrlDTO> ret = new ArrayList<UrlDTO>();
@@ -1218,8 +1250,8 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         ResultSet rs = null;
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(q_instrument_urls);
-            preparedStatement = connection.prepareStatement(q_instrument_urls);
+            if (isDebugMode) logQuery(Q_INSTRUMENT_URLS);
+            preparedStatement = connection.prepareStatement(Q_INSTRUMENT_URLS);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 UrlDTO url = new UrlDTO();
@@ -1253,6 +1285,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      *
      * @see eionet.rod.dao.ISourceDao#getSourceLinks()
      */
+    @Override
     public List<SourceLinksDTO> getSourceLinks() throws ServiceException {
 
         String query = "SELECT FK_SOURCE_CHILD_ID, FK_SOURCE_PARENT_ID "
