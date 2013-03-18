@@ -1,6 +1,6 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 
-<%@ include file="/pages/common/taglibs.jsp"%>	
+<%@ include file="/pages/common/taglibs.jsp"%>
 
 <h1>Legislation for: ${rodfn:replaceTags(actionBean.obligation.title)}</h1>
 
@@ -60,7 +60,7 @@
 			<th scope="row" class="scope-row">Countries</th>
 			<td>
 				<c:forEach items="${actionBean.countries}" var="country" varStatus="loop">
-					<a href="${pageContext.request.contextPath}/countryinfo?oid=${actionBean.id}&amp;sid=${country.countryId}&amp;member=${country.isMemberCountry}&amp;vol=${country.voluntary}">
+					<a href="${pageContext.request.contextPath}/countrydeliveries?spatialId=${country.countryId}&amp;actDetailsId=${actionBean.id}">
 						<c:choose>
 			    			<c:when test="${country.voluntary == 'Y'}">
 			    				<span title="Informal participation in the reporting obligation">${rodfn:replaceTags(country.name)}*</span>

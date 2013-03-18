@@ -17,6 +17,7 @@ public class CountryDeliveryDTOReader extends ResultSetBaseReader {
      * (non-Javadoc)
      * @see eionet.rod.util.sql.ResultSetBaseReader#readRow(java.sql.ResultSet)
      */
+    @Override
     public void readRow(ResultSet rs) throws SQLException {
 
         CountryDeliveryDTO deliveryDTO = new CountryDeliveryDTO();
@@ -29,6 +30,7 @@ public class CountryDeliveryDTOReader extends ResultSetBaseReader {
         deliveryDTO.setDeliveryType(rs.getString("DELIVERY_TYPE"));
         deliveryDTO.setDeliveryFormat(rs.getString("FORMAT"));
         deliveryDTO.setDeliveryCoverage(rs.getString("COVERAGE"));
+        deliveryDTO.setDeliveryCoverageNote(rs.getString("COVERAGE_NOTE"));
 
         deliveryDTO.setObligationId(new Integer(rs.getInt("PK_RA_ID")));
         deliveryDTO.setObligationFKSourceId(new Integer(rs.getInt("FK_SOURCE_ID")));

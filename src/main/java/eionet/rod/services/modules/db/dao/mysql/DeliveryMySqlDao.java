@@ -37,8 +37,8 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
     private static DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private static final String qSaveDeliveries = "INSERT INTO T_DELIVERY (TITLE,RA_URL,TYPE,FORMAT,COVERAGE,"
-            + "STATUS,UPLOAD_DATE,DELIVERY_URL,FK_SPATIAL_ID,FK_RA_ID) "
-            + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+            + "STATUS,UPLOAD_DATE,DELIVERY_URL,FK_SPATIAL_ID,FK_RA_ID,COVERAGE_NOTE) "
+            + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     public DeliveryMySqlDao() {
     };
@@ -67,6 +67,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
      *
      * @see eionet.rod.services.modules.db.dao.IDeliveryDao#saveDeliveries(TupleQueryResult, HashMap<String,HashSet<Integer>>)
      */
+    @Override
     public int saveDeliveries(TupleQueryResult bindings, HashMap<String, HashSet<Integer>> savedCountriesByObligationId)
             throws ServiceException {
 
@@ -94,6 +95,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
                 String obligation = (pairs.getValue("obligation") != null) ? pairs.getValue("obligation").stringValue() : "";
                 String period = (pairs.getValue("period") != null) ? pairs.getValue("period").stringValue() : "";
                 String sdate = (pairs.getValue("date") != null) ? pairs.getValue("date").stringValue() : "";
+                String note = (pairs.getValue("note") != null) ? pairs.getValue("note").stringValue() : "";
                 Date date = null;
                 try {
                     date = isoDateFormat.parse(sdate);
@@ -128,11 +130,12 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
                             preparedStatement.setString(8, link);
                             preparedStatement.setInt(9, Integer.parseInt(countryId));
                             preparedStatement.setInt(10, Integer.parseInt(obligationId));
+                            preparedStatement.setString(11, note);
 
                             preparedStatement.addBatch();
                             batchCounter++;
 
-                            HashSet<Integer> savedCountries = (HashSet<Integer>) savedCountriesByObligationId.get(obligationId);
+                            HashSet<Integer> savedCountries = savedCountriesByObligationId.get(obligationId);
                             if (savedCountries == null) {
                                 savedCountries = new HashSet<Integer>();
                                 savedCountriesByObligationId.put(obligationId, savedCountries);
@@ -171,14 +174,16 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(qRollBackDeliveriesDelete);
             preparedStatement.setInt(1, raId.intValue());
-            if (isDebugMode)
+            if (isDebugMode) {
                 logQuery(qRollBackDeliveriesDelete);
+            }
             preparedStatement.executeUpdate();
             preparedStatement.close();
             preparedStatement = connection.prepareStatement(qRollBackDeliveriesUpdate);
             preparedStatement.setInt(1, raId.intValue());
-            if (isDebugMode)
+            if (isDebugMode) {
                 logQuery(qRollBackDeliveriesUpdate);
+            }
             preparedStatement.executeUpdate();
 
         } catch (SQLException exception) {
@@ -195,6 +200,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
      *
      * @see eionet.rod.services.modules.db.dao.IDeliveryDao#rollBackDeliveries()
      */
+    @Override
     public void rollBackDeliveries() throws ServiceException {
 
         Connection connection = null;
@@ -221,6 +227,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
      *
      * @see eionet.rod.services.modules.db.dao.IDeliveryDao#commitDeliveriesNew(java.util.HashMap)
      */
+    @Override
     public void commitDeliveries(HashMap<String, HashSet<Integer>> deliveredCountriesByObligations) throws ServiceException {
 
         Connection connection = null;
@@ -244,8 +251,8 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
                 while (entries.hasNext()) {
 
                     Entry<String, HashSet<Integer>> entry = entries.next();
-                    String obligId = (String) entry.getKey();
-                    HashSet<Integer> countryIdsSet = (HashSet<Integer>) entry.getValue();
+                    String obligId = entry.getKey();
+                    HashSet<Integer> countryIdsSet = entry.getValue();
                     if (countryIdsSet != null && !countryIdsSet.isEmpty()) {
                         String countryIds = "," + cnvHashSet(countryIdsSet, ",") + ",";
                         markCountries(Integer.valueOf(obligId), countryIds, connection);
@@ -268,14 +275,16 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
      *
      * @see eionet.rod.services.modules.db.dao.IDeliveryDao#backUpDeliveries()
      */
+    @Override
     public void backUpDeliveries() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(qBackUpDeliveries);
-            if (isDebugMode)
+            if (isDebugMode) {
                 logQuery(qBackUpDeliveries);
+            }
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             logger.error(exception);
@@ -290,24 +299,25 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
         StringBuilder q_obligations_list = new StringBuilder(
                 "SELECT T_DELIVERY.FK_RA_ID, T_DELIVERY.FK_SPATIAL_ID, T_DELIVERY.TITLE, ");
         q_obligations_list
-                .append("T_DELIVERY.DELIVERY_URL, T_DELIVERY.UPLOAD_DATE, T_DELIVERY.TYPE AS DELIVERY_TYPE, T_DELIVERY.FORMAT, T_DELIVERY.COVERAGE, "
-                        + "T_OBLIGATION.PK_RA_ID, T_OBLIGATION.FK_SOURCE_ID, T_OBLIGATION.TITLE AS OBLIGATION_TITLE, T_OBLIGATION.REPORT_FREQ_MONTHS, "
-                        + "T_OBLIGATION.TERMINATE, T_OBLIGATION.NEXT_DEADLINE, T_OBLIGATION.REPORT_FORMAT_URL, T_OBLIGATION.RESPONSIBLE_ROLE, "
-                        + "T_OBLIGATION.FORMAT_NAME, T_OBLIGATION.FK_DELIVERY_COUNTRY_IDS, T_OBLIGATION.PARAMETERS, "
-                        + "T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_SPATIAL.SPATIAL_TWOLETTER, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY, "
-                        + "T_ROLE.ROLE_NAME, T_ROLE.ROLE_URL, T_ROLE.ROLE_MEMBERS_URL, "
-                        + "T_CLIENT_LNK.FK_CLIENT_ID, T_CLIENT_LNK.FK_OBJECT_ID, T_CLIENT_LNK.STATUS, T_CLIENT_LNK.TYPE, "
-                        + "T_CLIENT.PK_CLIENT_ID, T_CLIENT.CLIENT_NAME "
-                        + "FROM T_DELIVERY JOIN T_OBLIGATION ON T_DELIVERY.FK_RA_ID=T_OBLIGATION.PK_RA_ID "
-                        + "JOIN T_SPATIAL ON T_SPATIAL.PK_SPATIAL_ID=T_DELIVERY.FK_SPATIAL_ID "
-                        + "LEFT JOIN T_ROLE ON CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',IF(T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y','mc','cc'),'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID "
-                        + "LEFT JOIN T_CLIENT_LNK ON T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID "
-                        + "LEFT JOIN T_CLIENT ON T_CLIENT_LNK.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID "
-                        + "WHERE T_DELIVERY.FK_RA_ID="
-                        + actDetailsId);
+        .append("T_DELIVERY.DELIVERY_URL, T_DELIVERY.UPLOAD_DATE, T_DELIVERY.TYPE AS DELIVERY_TYPE, T_DELIVERY.FORMAT, T_DELIVERY.COVERAGE, T_DELIVERY.COVERAGE_NOTE, "
+                + "T_OBLIGATION.PK_RA_ID, T_OBLIGATION.FK_SOURCE_ID, T_OBLIGATION.TITLE AS OBLIGATION_TITLE, T_OBLIGATION.REPORT_FREQ_MONTHS, "
+                + "T_OBLIGATION.TERMINATE, T_OBLIGATION.NEXT_DEADLINE, T_OBLIGATION.REPORT_FORMAT_URL, T_OBLIGATION.RESPONSIBLE_ROLE, "
+                + "T_OBLIGATION.FORMAT_NAME, T_OBLIGATION.FK_DELIVERY_COUNTRY_IDS, T_OBLIGATION.PARAMETERS, "
+                + "T_SPATIAL.PK_SPATIAL_ID, T_SPATIAL.SPATIAL_NAME, T_SPATIAL.SPATIAL_TWOLETTER, T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY, "
+                + "T_ROLE.ROLE_NAME, T_ROLE.ROLE_URL, T_ROLE.ROLE_MEMBERS_URL, "
+                + "T_CLIENT_LNK.FK_CLIENT_ID, T_CLIENT_LNK.FK_OBJECT_ID, T_CLIENT_LNK.STATUS, T_CLIENT_LNK.TYPE, "
+                + "T_CLIENT.PK_CLIENT_ID, T_CLIENT.CLIENT_NAME "
+                + "FROM T_DELIVERY JOIN T_OBLIGATION ON T_DELIVERY.FK_RA_ID=T_OBLIGATION.PK_RA_ID "
+                + "JOIN T_SPATIAL ON T_SPATIAL.PK_SPATIAL_ID=T_DELIVERY.FK_SPATIAL_ID "
+                + "LEFT JOIN T_ROLE ON CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',IF(T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y','mc','cc'),'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID "
+                + "LEFT JOIN T_CLIENT_LNK ON T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID "
+                + "LEFT JOIN T_CLIENT ON T_CLIENT_LNK.FK_CLIENT_ID=T_CLIENT.PK_CLIENT_ID "
+                + "WHERE T_DELIVERY.FK_RA_ID="
+                + actDetailsId);
 
-        if (!RODUtil.isNullOrEmpty(spatialId))
+        if (!RODUtil.isNullOrEmpty(spatialId)) {
             q_obligations_list.append(" AND T_DELIVERY.FK_SPATIAL_ID = " + spatialId);
+        }
 
         q_obligations_list.append(" ORDER BY T_SPATIAL.SPATIAL_NAME, T_DELIVERY.UPLOAD_DATE DESC");
 
@@ -319,6 +329,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
      *
      * @see eionet.rod.dao.IDeliveryDao#getCountryDeliveriesList()
      */
+    @Override
     public List<CountryDeliveryDTO> getCountyDeliveriesList(String actDetailsId, String spatialId) throws ServiceException {
 
         String query = getDeliveriesListSql(actDetailsId, spatialId);
@@ -337,8 +348,9 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
             throw new ServiceException(e.getMessage());
         } finally {
             try {
-                if (conn != null)
+                if (conn != null) {
                     conn.close();
+                }
             } catch (SQLException e) {
             }
         }
@@ -356,6 +368,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
      *
      * @see eionet.rod.dao.IDeliveryDao#getDeliveryData()
      */
+    @Override
     public CountryDeliveryDataDTO getDeliveryData(String actDetailsId) throws ServiceException {
 
         CountryDeliveryDataDTO ret = new CountryDeliveryDataDTO();
@@ -364,8 +377,9 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
         ResultSet rs = null;
         try {
             connection = getConnection();
-            if (isDebugMode)
+            if (isDebugMode) {
                 logQuery(q_delivery_data);
+            }
             preparedStatement = connection.prepareStatement(q_delivery_data);
             preparedStatement.setString(1, actDetailsId);
             rs = preparedStatement.executeQuery();

@@ -16,6 +16,7 @@ public class CountryDeliveryDTO implements java.io.Serializable{
     private String deliveryType;
     private String deliveryFormat;
     private String deliveryCoverage;
+    private String deliveryCoverageNote;
 
     //Fields from T_OBLIGATION table
     private Integer obligationId;
@@ -244,7 +245,16 @@ public class CountryDeliveryDTO implements java.io.Serializable{
     public void setClientName(String clientName) {
         this.clientName = clientName;
     }
-
-
-
+    /**
+     * @return the deliveryCoverageNote
+     */
+    public String getDeliveryCoverageNote() {
+        return deliveryCoverageNote;
+    }
+    /**
+     * @param deliveryCoverageNote the deliveryCoverageNote to set
+     */
+    public void setDeliveryCoverageNote(String deliveryCoverageNote) {
+        this.deliveryCoverageNote = deliveryCoverageNote;
+    }
 }

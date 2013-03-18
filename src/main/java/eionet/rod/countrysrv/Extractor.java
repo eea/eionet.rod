@@ -245,8 +245,9 @@ public class Extractor implements ExtractorConstants {
 
                 daoFactory.getRoleDao().commitRoles();
 
-                if (debugLog)
+                if (debugLog) {
                     log("* Roles OK");
+                }
 
                 // persons + org name
 
@@ -257,7 +258,7 @@ public class Extractor implements ExtractorConstants {
                 exitApp(false); // return;
                 throw new ServiceException(
                         "Operation failed while filling the database from Eionet Directory. The following error was reported:\n"
-                        + e.toString());
+                                + e.toString());
             }
         } // mode includes roles
 
@@ -296,16 +297,17 @@ public class Extractor implements ExtractorConstants {
 
         //TODO: Add rod:coverageNote
         String query = "PREFIX dct: <http://purl.org/dc/terms/> "
-            + "PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
-            + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date WHERE { "
-            + "_:subj a rod:Delivery; "
-            + "rod:link ?link; "
-            + "dct:title ?title; "
-            + "rod:locality ?locality; "
-            + "rod:obligation ?obligation; "
-            + "rod:released ?date "
-            + "OPTIONAL { _:subj rod:period ?period }"
-            + "}";
+                + "PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
+                + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date ?note WHERE { "
+                + "_:subj a rod:Delivery; "
+                + "rod:link ?link; "
+                + "dct:title ?title; "
+                + "rod:locality ?locality; "
+                + "rod:obligation ?obligation; "
+                + "rod:released ?date "
+                + "OPTIONAL { _:subj rod:period ?period } "
+                + "OPTIONAL { _:subj rod:coverageNote ?note }"
+                + "}";
 
         RepositoryConnection conn = null;
 
@@ -397,8 +399,9 @@ public class Extractor implements ExtractorConstants {
      */
     public void saveRole(String roleId) throws ServiceException {
 
-        if (roleId == null || roleId.trim().length() == 0)
+        if (roleId == null || roleId.trim().length() == 0) {
             return;
+        }
 
         String roleName = roleId;
         Hashtable<String, Object> role = null;
@@ -411,8 +414,9 @@ public class Extractor implements ExtractorConstants {
             e.printStackTrace();
         }
 
-        if (role == null)
+        if (role == null) {
             return;
+        }
 
         daoFactory.getRoleDao().saveRole(role);
     }

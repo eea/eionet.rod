@@ -1,13 +1,13 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 
-<%@ include file="/pages/common/taglibs.jsp"%>	
+<%@ include file="/pages/common/taglibs.jsp"%>
 
 <stripes:layout-render name="/pages/common/template.jsp" pageTitle="Advanced search">
 
 	<stripes:layout-component name="contents">
 
         <h1>Status of deliveries<c:if test="${!empty actionBean.spatialName}">: ${actionBean.spatialName}</c:if></h1>
-        
+
         <table class="datatable">
         	<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName, '/Admin/Harvest', 'v')}">
 	        	<tr>
@@ -40,24 +40,24 @@
 				<td><a href="${rodfn:replaceTags2(actionBean.deliveryData.obligationReportFormatUrl, true, true)}">${rodfn:replaceTags(actionBean.deliveryData.obligationFormatName)}</a></td>
 			</tr>
 		</table>
-        
-        
+
+
         <display:table name="${actionBean.deliveries}" class="sortable" pagesize="50" sort="list" id="listItem" htmlId="listItem" requestURI="/countrydeliveries" decorator="eionet.rod.web.util.CountryDeliveriesTableDecorator" style="width:100%">
-		
-			<display:column property="contact" title="Contact" sortable="true" sortProperty="roleName"/>
+
 			<display:column property="title" title="Delivery Title" sortable="true" sortProperty="deliveryTitle"/>
 			<display:column property="date" title="Delivery Date" sortable="true" sortProperty="deliveryUploadDate"/>
 			<display:column property="deliveryCoverage" title="Period covered" sortable="true"/>
+			<display:column property="deliveryCoverageNote" title="Coverage note" sortable="true"/>
 			<c:if test="${actionBean.allCountries}">
 				<display:column property="spatialName" title="Country" sortable="true"/>
 			</c:if>
-			
+
 		</display:table>
-		
+
 		<p style="text-align:center">
 			Note: This page currently only shows deliveries made to the Reportnet Central Data Repository.<br/>
 	        There can be a delay of up to one day before they show up.
 		</p>
-        
+
 	</stripes:layout-component>
 </stripes:layout-render>
