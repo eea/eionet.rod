@@ -193,7 +193,7 @@
                                             <token key="PROVIDERUTIL.JAR"
                                                 value="${maven.dependency.providerutil.providerutil.jar.path}" />
                                             <token key="EIONETDIR.JAR"
-                                                value="${maven.dependency.eionet.eionet-dir.jar.path}" />
+                                                value="${maven.dependency.eionet.directory.eionet-dir.jar.path}" />
                                             <token key="UITSECURITY.JAR"
                                                 value="${maven.dependency.eionet.uit-security.jar.path}" />
                                             <token key="XMLRPC.JAR"
