@@ -319,7 +319,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
             q_obligations_list.append(" AND T_DELIVERY.FK_SPATIAL_ID = " + spatialId);
         }
 
-        q_obligations_list.append(" ORDER BY T_SPATIAL.SPATIAL_NAME, T_DELIVERY.UPLOAD_DATE DESC");
+        q_obligations_list.append(" ORDER BY T_DELIVERY.UPLOAD_DATE DESC");
 
         return q_obligations_list.toString();
     }
