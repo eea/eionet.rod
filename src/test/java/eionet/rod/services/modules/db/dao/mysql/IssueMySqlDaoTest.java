@@ -1,19 +1,14 @@
-package eionet.rod.services.modules.db.dao.mysql.test;
+package eionet.rod.services.modules.db.dao.mysql;
 
 import java.util.Map;
 import java.util.Vector;
 
-import eionet.rod.services.modules.db.dao.mysql.IssueMySqlDao;
 
 public class IssueMySqlDaoTest extends BaseMySqlDaoTest {
 
     private IssueMySqlDao issueMySqlDao = new IssueMySqlDao();
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(IssueMySqlDaoTest.class);
-    }
-
-    public IssueMySqlDaoTest(String arg0) {
+    public IssueMySqlDaoTest(String arg0) throws Exception {
         super(arg0);
     }
 

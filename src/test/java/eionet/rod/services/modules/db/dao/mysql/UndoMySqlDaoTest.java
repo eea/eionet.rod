@@ -1,12 +1,8 @@
-package eionet.rod.services.modules.db.dao.mysql.test;
+package eionet.rod.services.modules.db.dao.mysql;
 
 public class UndoMySqlDaoTest extends BaseMySqlDaoTest {
 
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(UndoMySqlDaoTest.class);
-    }
-
-    public UndoMySqlDaoTest(String arg0) {
+    public UndoMySqlDaoTest(String arg0) throws Exception {
         super(arg0);
     }
 

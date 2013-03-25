@@ -1,4 +1,4 @@
-package eionet.rod.services.modules.db.dao.mysql.test;
+package eionet.rod.services.modules.db.dao.mysql;
 
 import java.io.File;
 import java.io.BufferedReader;
@@ -63,12 +63,17 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
     /**
      * Constructor.
      */
-    public BaseMySqlDaoTest(String arg0) {
+    public BaseMySqlDaoTest(String arg0) throws Exception {
         super(arg0);
 
         //FIXME: What is contreg doing here?
         System.setProperty("contreg.maven.phase","test");
+        getJDBCConnection();
+        createTables();
 
+    }
+
+    private void getJDBCConnection() {
         try {
             Class.forName(properties.get(FileServiceIF.DB_TEST_DRV).toString());
             connection = DriverManager.getConnection(
@@ -76,14 +81,11 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
                     properties.get(FileServiceIF.DB_TEST_USER_ID).toString(),
                     properties.get(FileServiceIF.DB_TEST_USER_PWD).toString());
 
-            createTables();
         } catch (Throwable e) {
             System.err.println(e.getMessage());
             System.exit(1);
         }
-
     }
-
     /**
      * Create tables from rod.ddl.
      */
@@ -117,13 +119,14 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
 
     /**
      * Creates a connection for the test method - Required by DatabaseTestCase.
-     * Note that it assumed a MYSQL database.
+     * Note that it assumed it is a MYSQL database.
      */
     @Override
     protected IDatabaseConnection getConnection() throws Exception {
 
         Properties properties = new Properties();
         properties.setProperty("http://www.dbunit.org/properties/datatypeFactory", "org.dbunit.ext.mysql.MySqlDataTypeFactory");
+        getJDBCConnection();
         DatabaseConnection dbConn = new DatabaseConnection(connection);
         dbConn.getConfig().setPropertiesByString(properties);
         return dbConn;
