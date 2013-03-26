@@ -4,7 +4,7 @@ import eionet.rod.services.modules.db.dao.mysql.BaseMySqlDaoTest;
 
 public class CSSearchStatementTest extends BaseMySqlDaoTest {
 
-    public CSSearchStatementTest(String arg0) {
+    public CSSearchStatementTest(String arg0) throws Exception {
         super(arg0);
     }
 
