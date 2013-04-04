@@ -11,7 +11,7 @@
 	<display:column property="title" title="Delivery Title" sortable="true" sortProperty="deliveryTitle"/>
 	<display:column property="date" title="Delivery Date" sortable="true" sortProperty="deliveryUploadDate"/>
 	<display:column property="deliveryCoverage" title="Period covered" sortable="true"/>
-	<display:column sortProperty="spatialName" title="Country" sortable="true">
+	<display:column sortProperty="spatialName" title="Coverage" sortable="true">
 	    <stripes:link beanclass="${actionBean.countryDeliveriesActionBeanClass.name}">
 	        <stripes:param name="spatialId" value="${listItem.spatialId}"/>
 	        <stripes:param name="actDetailsId" value="${actionBean.id}"/>

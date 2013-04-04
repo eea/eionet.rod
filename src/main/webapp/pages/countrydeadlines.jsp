@@ -8,7 +8,7 @@
 
         <h1>Countries and territories</h1>
         <p>
-    This part of ROD helps countries and territories co-ordinate and manage their international
+    This part of ROD helps administrations co-ordinate and manage their international
     reporting obligations. It provides information about when to
     report, who is responsible for reporting, and to which organisation the data
     set should be delivered. It is geared towards EEA member countries. You can

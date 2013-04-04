@@ -61,7 +61,7 @@
 						</td>
 						<td style="border-left: 1px solid #C0C0C0">
 							<stripes:select name="country" style="color: #000000; font-size: 9pt; width:223px" size="1">
-								<stripes:option value="-1" label="Any country"/>
+								<stripes:option value="-1" label="Any country or territory"/>
 			    				<c:forEach items="${actionBean.formCountries}" var="country" varStatus="loop">
 			    					<stripes:option value="${country.countryId}" label="${country.name}"/>
 			    				</c:forEach>
