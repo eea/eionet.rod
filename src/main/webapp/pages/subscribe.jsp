@@ -58,11 +58,11 @@
 				</tr>
 				<tr>
 					<td scope="row">
-						<strong>Country:</strong>
+						<strong>Coverage:</strong>
 					</td>
 					<td>
 						<stripes:select name="selectedCountry"> 
-							<stripes:option value="" label="All countries"/>
+							<stripes:option value="" label="All countries or territories"/>
 		    				<c:forEach items="${actionBean.countries}" var="country" varStatus="loop">
 		    					<stripes:option value="${country.name}" label="${country.name}"/>
 		    				</c:forEach>

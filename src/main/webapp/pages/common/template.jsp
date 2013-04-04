@@ -127,7 +127,7 @@
 				<div id="leftcolumn" class="localnav">
 					<ul>
 						<li><a href="${pageContext.request.contextPath}/index.html" title="ROD Home">Home</a></li>
-						<li><a href="${pageContext.request.contextPath}/spatial">Countries</a></li>
+						<li><a href="${pageContext.request.contextPath}/spatial">Countries/territories</a></li>
 						<li><a href="${pageContext.request.contextPath}/obligations" title="Reporting Obligations">Obligations</a></li>
 						<li><a href="${pageContext.request.contextPath}/clients" title="Clients">Clients</a></li>
 						<li><a href="${pageContext.request.contextPath}/subscribe" title="Create a UNS Subscription">Subscribe</a></li>

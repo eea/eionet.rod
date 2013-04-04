@@ -49,7 +49,7 @@
 			<display:column property="deliveryCoverage" title="Period covered" sortable="true"/>
 			<display:column property="deliveryCoverageNote" title="Coverage note" sortable="true"/>
 			<c:if test="${actionBean.allCountries}">
-				<display:column property="spatialName" title="Country" sortable="true"/>
+				<display:column property="spatialName" title="Coverage" sortable="true"/>
 			</c:if>
 
 		</display:table>

@@ -19,11 +19,11 @@
 					</tr>
 					<tr>
 						<td width="30%" bgcolor="#FFFFFF" class="lab">
-							<stripes:label for="spatialId">For a country</stripes:label>
+							<stripes:label for="spatialId">For a locality</stripes:label>
 						</td>
 						<td class="dat">
 							<stripes:select name="spatialId" id="spatialId" class="dat" size="1">
-								<stripes:option value="" label="Any country"/>
+								<stripes:option value="" label="Any country or territory"/>
 								<c:forEach items="${actionBean.countries}" var="country" varStatus="loop">
 			    					<stripes:option value="${country.countryId}" label="${country.name}"/>
 			    				</c:forEach>

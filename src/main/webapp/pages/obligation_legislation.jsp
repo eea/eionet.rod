@@ -57,7 +57,7 @@
 			</td>
 		</tr>
 		<tr class="zebraeven">
-			<th scope="row" class="scope-row">Countries</th>
+			<th scope="row" class="scope-row">Participating countries/territories</th>
 			<td>
 				<c:forEach items="${actionBean.countries}" var="country" varStatus="loop">
 					<a href="${pageContext.request.contextPath}/countrydeliveries?spatialId=${country.countryId}&amp;actDetailsId=${actionBean.id}">

@@ -27,11 +27,11 @@
 					</tr>
 					<tr>
 						<td>
-								<label class="question">Country</label>
+								<label class="question">Country or territory</label>
 						</td>
 						<td>
 							<stripes:select name="country" size="1">
-								<stripes:option value="-1" label="Any country"/>
+								<stripes:option value="-1" label="Any country or territory"/>
 			    				<c:forEach items="${actionBean.formCountries}" var="country" varStatus="loop">
 			    					<stripes:option value="${country.countryId}" label="${country.name}"/>
 			    				</c:forEach>

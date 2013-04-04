@@ -2,17 +2,17 @@
 
 <%@ include file="/pages/common/taglibs.jsp"%>
 
-<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Countries">
+<stripes:layout-render name="/pages/common/template.jsp" pageTitle="Countries and territories">
 
   <stripes:layout-component name="contents">
 
-        <h1>Countries</h1>
+        <h1>Countries and territories</h1>
         <p>
-    This part of ROD helps countries co-ordinate and manage their international
-    reporting obligations. It provides information about when countries have to
+    This part of ROD helps countries and territories co-ordinate and manage their international
+    reporting obligations. It provides information about when to
     report, who is responsible for reporting, and to which organisation the data
     set should be delivered. It is geared towards EEA member countries. You can
-    browse national deliveries by choosing a country below or query the contents
+    browse deliveries by choosing a locality below or query the contents
     of ROD and CDR by using the advanced search.
     </p>
       <table cellspacing="0" style="width: 100%;">
