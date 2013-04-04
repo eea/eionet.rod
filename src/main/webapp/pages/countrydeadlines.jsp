@@ -50,7 +50,7 @@
         </td>
       </tr>
       <tr valign="top">
-        <th colspan="3" style="text-align:left; font-weight:bold">Other countries</th>
+        <th colspan="3" style="text-align:left; font-weight:bold">Other countries and territories</th>
       </tr>
       <tr>
         <td style="border-left: #008080 1px solid; border-top: #008080 1px solid; border-bottom: #008080 1px solid; border-right: #C0C0C0 1px solid" valign="top">
