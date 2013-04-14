@@ -68,8 +68,10 @@ public abstract class MySqlBaseDao {
             rodDomain  = RODServices.getFileService().getStringProperty( Constants.ROD_URL_DOMAIN );
             roNs= RODServices.getFileService().getStringProperty( FileServiceIF.RO_NAMESPACE);
 
+            /*
             String mavenPhase = System.getProperty("contreg.maven.phase");
             isUnitTest = mavenPhase != null && mavenPhase.trim().equals("test");
+            */
 
             if (!isUnitTest) {
                 try {

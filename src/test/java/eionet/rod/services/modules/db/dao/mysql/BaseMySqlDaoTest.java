@@ -26,9 +26,6 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.RODServices;
 
-// In case we want to shut down the database
-//import com.mysql.management.driverlaunched.ServerLauncherSocketFactory;
-
 public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
 
 
@@ -51,6 +48,12 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
     static {
         try {
             FileServiceIF fileService = RODServices.getFileService();
+            properties.put(FileServiceIF.DB_DRV, fileService.getStringProperty(FileServiceIF.DB_DRV));
+            properties.put(FileServiceIF.DB_URL, fileService.getStringProperty(FileServiceIF.DB_URL));
+            properties.put(FileServiceIF.DB_USER_ID, fileService.getStringProperty(FileServiceIF.DB_USER_ID));
+            properties.put(FileServiceIF.DB_USER_PWD, fileService.getStringProperty(FileServiceIF.DB_USER_PWD));
+
+            //FIXME: Not needed
             properties.put(FileServiceIF.DB_TEST_DRV, fileService.getStringProperty(FileServiceIF.DB_TEST_DRV));
             properties.put(FileServiceIF.DB_TEST_URL, fileService.getStringProperty(FileServiceIF.DB_TEST_URL));
             properties.put(FileServiceIF.DB_TEST_USER_ID, fileService.getStringProperty(FileServiceIF.DB_TEST_USER_ID));
@@ -66,20 +69,20 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
     public BaseMySqlDaoTest(String arg0) throws Exception {
         super(arg0);
 
-        //FIXME: What is contreg doing here?
+        //FIXME: Signal to tell the app we are unit testing is not needed now.
         System.setProperty("contreg.maven.phase","test");
         getJDBCConnection();
-        createTables();
+        //createTables();
 
     }
 
     private void getJDBCConnection() {
         try {
-            Class.forName(properties.get(FileServiceIF.DB_TEST_DRV).toString());
+            Class.forName(properties.get(FileServiceIF.DB_DRV).toString());
             connection = DriverManager.getConnection(
-                    properties.get(FileServiceIF.DB_TEST_URL).toString(),
-                    properties.get(FileServiceIF.DB_TEST_USER_ID).toString(),
-                    properties.get(FileServiceIF.DB_TEST_USER_PWD).toString());
+                    properties.get(FileServiceIF.DB_URL).toString(),
+                    properties.get(FileServiceIF.DB_USER_ID).toString(),
+                    properties.get(FileServiceIF.DB_USER_PWD).toString());
 
         } catch (Throwable e) {
             System.err.println(e.getMessage());
@@ -89,6 +92,7 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
     /**
      * Create tables from rod.ddl.
      */
+    /*
     private void createTables() throws Exception {
         String sqlQuery;
         StringBuffer sqlBatch = new StringBuffer();
@@ -116,6 +120,7 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
 
         localStatement.close();
     }
+    */
 
     /**
      * Creates a connection for the test method - Required by DatabaseTestCase.
