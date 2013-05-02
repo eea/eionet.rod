@@ -10,6 +10,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <env>local</env>
         <java_version>1.6</java_version>
+        <checkstyle.config.location>${basedir}/docs/checkstyle.xml</checkstyle.config.location>
         <maven.test.skip>true</maven.test.skip>
     </properties>
 
@@ -249,6 +250,17 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <!-- Maven 2.0.4 wants version 2.2 -->
+                <!-- <version>2.5.2</version> -->
+                <configuration>
+                   <formats>
+                       <format>xml</format>
+                   </formats>
+                </configuration>
             </plugin>
 
         </plugins>
@@ -532,7 +544,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <configLocation>docs/checkstyle.xml</configLocation>
+                    <configLocation>${checkstyle.config.location}</configLocation>
                 </configuration>
             </plugin>
             <plugin>
