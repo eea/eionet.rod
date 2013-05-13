@@ -557,6 +557,32 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liqui
     <changeSet author="heinlja" id="rev-36">
         <comment>Add COVERAGE_NOTE column to T_DELIVERY</comment>
         <sql>ALTER TABLE T_DELIVERY ADD COLUMN COVERAGE_NOTE TEXT DEFAULT NULL AFTER COVERAGE</sql>
-   </changeSet>
+    </changeSet>
+
+    <changeSet author="roug" id="rev-37">
+        <comment>Labels for names in T_ATTRIBUTE</comment>
+        <sql>CREATE TABLE T_NAMELABEL (
+  NAME varchar(50) NOT NULL default '',
+  LABEL varchar(64) default '',
+  PRIMARY KEY  (NAME)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Labels for names in T_ATTRIBUTE'</sql>
+    </changeSet>
+
+    <changeSet author="roug" id="rev-38">
+        <comment>Ability to have random attributes on main objects</comment>
+        <sql>CREATE TABLE T_ATTRIBUTE (
+  ID int(11) NOT NULL default '-1',
+  SCOPE enum('obligations','instruments','clients','spatial') NOT NULL default 'obligations',
+  NAME varchar(50) NOT NULL default '',
+  OBJECT varchar(255) NOT NULL default '',
+  OBJECTLANG varchar(10) NOT NULL default '',
+  TYPE enum('reference','','string','integer','decimal','boolean','dateTime','date') default '',
+  LINKTEXT varchar(64) default '',
+  PRIMARY KEY  (ID,SCOPE,NAME,OBJECT,OBJECTLANG),
+  KEY PREDICATE (NAME),
+  KEY OBJECT (OBJECT),
+  CONSTRAINT T_ATTRIBUTE_ibfk_1 FOREIGN KEY (NAME) REFERENCES T_NAMELABEL (NAME)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Object attributes'</sql>
+    </changeSet>
 
 </databaseChangeLog>
