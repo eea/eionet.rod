@@ -196,8 +196,8 @@
                                                 value="${maven.dependency.providerutil.providerutil.jar.path}" />
                                             <token key="EIONETDIR.JAR"
                                                 value="${maven.dependency.eionet.directory.eionet-dir.jar.path}" />
-                                            <token key="UITSECURITY.JAR"
-                                                value="${maven.dependency.eionet.uit-security.jar.path}" />
+                                            <token key="ACL.JAR"
+                                                value="${maven.dependency.eionet.acl.acl.jar.path}" />
                                             <token key="XMLRPC.JAR"
                                                 value="${maven.dependency.xmlrpc.xmlrpc.jar.path}" />
                                             <token key="UITCLIENT.JAR"
@@ -370,9 +370,9 @@
             <version>1.1.1</version>
         </dependency>
         <dependency>
-            <groupId>eionet</groupId>
-            <artifactId>uit-security</artifactId>
-            <version>1.1c</version>
+            <groupId>eionet.acl</groupId>
+            <artifactId>acl</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
