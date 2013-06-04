@@ -22,7 +22,7 @@ cp=@MYSQL.JAR@
 cp=$cp:@SERVLETAPI.JAR@
 
 cp=$cp:@EIONETDIR.JAR@
-cp=$cp:@TOMCATUTIL.JAR@:@XMLRPC.JAR@:@UITSECURITY.JAR@
+cp=$cp:@TOMCATUTIL.JAR@:@XMLRPC.JAR@:@ACL.JAR@
 cp=$cp:@LOG4J.JAR@:$CLASSPATH
 
 $java -cp $cp eionet.rod.DeadlinesDaemon
