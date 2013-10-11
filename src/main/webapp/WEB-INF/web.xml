@@ -30,7 +30,7 @@
 	</context-param>
 	<context-param>
 		<param-name>edu.yale.its.tp.cas.client.filter.serverName</param-name>
-		<param-value>rod.eionet.europa.eu</param-value>
+		<param-value>${edu.yale.its.tp.cas.client.filter.serverName}</param-value>
 	</context-param>
 	<filter>
 	    <filter-name>CAS Filter</filter-name>
@@ -45,7 +45,7 @@
 	    </init-param>
 	    <init-param>
 	      <param-name>edu.yale.its.tp.cas.client.filter.serverName</param-name>
-	      <param-value>rod.eionet.europa.eu</param-value>
+	      <param-value>${edu.yale.its.tp.cas.client.filter.serverName}</param-value>
 	    </init-param>
 	   <init-param>
 	      <param-name>edu.yale.its.tp.cas.client.filter.wrapRequest</param-name>

@@ -3,7 +3,6 @@ package eionet.rod.web.action;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +24,6 @@ import net.sourceforge.stripes.validation.ValidationMethod;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.tee.uit.client.ServiceClientIF;
-import com.tee.uit.client.ServiceClients;
 import com.tee.uit.security.AccessControlListIF;
 import com.tee.uit.security.AccessController;
 import com.tee.uit.security.SignOnException;
@@ -39,7 +36,6 @@ import eionet.rod.countrysrv.Extractor;
 import eionet.rod.dto.ClientDTO;
 import eionet.rod.dto.CountryDTO;
 import eionet.rod.dto.CountryDeliveryDTO;
-import eionet.rod.dto.DDParamDTO;
 import eionet.rod.dto.DifferenceDTO;
 import eionet.rod.dto.InstrumentFactsheetDTO;
 import eionet.rod.dto.IssueDTO;
@@ -90,7 +86,6 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
     private List<SiblingObligationDTO> siblingObligations;
     private List<ObligationCountryDTO> countries;
     private List<IssueDTO> issues;
-    private List<DDParamDTO> ddparameters;
 
     private String anmode;
     private List<ObligationsListDTO> obligations;
@@ -187,8 +182,6 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 }
             } else if (tab.equals("history")) {
                 versions = RODServices.getDbService().getUndoDao().getPreviousActionsReportSpecific(id, "T_OBLIGATION", "PK_RA_ID");
-            } else if (tab.equals("parameters")) {
-                ddparameters = getDDParams();
             } else if (id.equals("new") || tab.equals("edit")) {
                 forwardPage = "/pages/eobligation.jsp";
 
@@ -316,40 +309,6 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             e.printStackTrace();
             throw new Exception("SPARQL endpoint threw error", e.getCause());
         }
-    }
-
-    private List<DDParamDTO> getDDParams() {
-
-        List<DDParamDTO> retList = new ArrayList<DDParamDTO>();
-
-        try {
-            String serviceName = "DataDictService";
-            String rpcRouterUrl = RODServices.getFileService().getStringProperty("dd.service.url");
-            String methodName = "getParametersByActivityID";
-
-            if (rpcRouterUrl != null) {
-                ServiceClientIF client = ServiceClients.getServiceClient(serviceName, rpcRouterUrl);
-
-                Vector<String> params = new Vector<String>();
-                params.add(id);
-
-                Vector result = (Vector) client.getValue(methodName, params);
-                for (int i = 0; result != null && i < result.size(); i++) {
-                    Hashtable hash = (Hashtable) result.get(i);
-
-                    DDParamDTO elem = new DDParamDTO();
-                    elem.setElementName((String) hash.get("elm-name")); // element name
-                    elem.setElementUrl((String) hash.get("elm-url")); // details url
-                    elem.setTableName((String) hash.get("tbl-name")); // table name
-                    elem.setDatasetName((String) hash.get("dst-name")); // dataset name
-
-                    retList.add(elem);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return retList;
     }
 
     // methods for EDIT, ADD and DELETE obligation starts
@@ -1162,14 +1121,6 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
 
     public void setIssues(List<IssueDTO> issues) {
         this.issues = issues;
-    }
-
-    public List<DDParamDTO> getDdparameters() {
-        return ddparameters;
-    }
-
-    public void setDdparameters(List<DDParamDTO> ddparameters) {
-        this.ddparameters = ddparameters;
     }
 
     public List<ObligationsListDTO> getObligations() {
