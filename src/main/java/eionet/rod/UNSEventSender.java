@@ -2,47 +2,94 @@ package eionet.rod;
 
 import java.util.Vector;
 
-import javax.servlet.ServletException;
-
 import org.apache.xmlrpc.XmlRpcClient;
 
 import eionet.rod.services.FileServiceIF;
+import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 
 /**
- * @author jaanus
- * 
- *         To change the template for this generated type comment go to Window>Preferences>Java>Code Generation>Code and Comments
+ * A simple utility class for sending UNS notifications.
+ *
+ * @author altnyris
+ * @author heinlja
  */
 public class UNSEventSender {
 
-    public UNSEventSender() {
+    /** Static logger for this class. */
+    private static final LogServiceIF LOGGER = RODServices.getLogService();
+
+    /**
+     * Hide utility class constructor.
+     */
+    private UNSEventSender() {
+        // Nothing to do here.
     }
 
-    /*
+    /**
+     * Utility class for sending the given notifications.
      *
+     * @param notifications The notifications to be sent.
      */
-    public static void makeCall(Object notifications) throws Exception {
+    @SuppressWarnings("deprecation")
+    public static void makeCall(Vector<Vector<String>> notifications) {
         try {
             FileServiceIF fileSrv = RODServices.getFileService();
             String server_url = fileSrv.getStringProperty(FileServiceIF.UNS_XMLRPC_SERVER_URL);
             String channel_name = fileSrv.getStringProperty(FileServiceIF.UNS_CHANNEL_NAME);
-            if (notifications == null)
+            if (notifications == null) {
                 throw new Exception("Cannot send a null object via XML-RPC");
+            }
 
             XmlRpcClient server = new XmlRpcClient(server_url);
             server.setBasicAuthentication(fileSrv.getStringProperty(FileServiceIF.UNS_USERNAME),
                     fileSrv.getStringProperty(FileServiceIF.UNS_PWD));
 
+            Vector<Vector<String>> sanitizedNotifications = sanitizeNotifications(notifications);
             Vector<Object> params = new Vector<Object>();
             params.add(channel_name);
-            params.add(notifications);
+            params.add(sanitizedNotifications);
 
-            server.execute(fileSrv.getStringProperty(FileServiceIF.UNS_SEND_NOTIFICATION), params);
+            String remoteMethodName = fileSrv.getStringProperty(FileServiceIF.UNS_SEND_NOTIFICATION);
+            server.execute(remoteMethodName, params);
 
-        } catch (Throwable t) {
-            t.printStackTrace(System.out);
-            throw new ServletException(t);
+        } catch (Exception e) {
+            LOGGER.error("Failed to send notification", e);
         }
+    }
+
+    /**
+     * Sanitizes the given notifications before they should be sent.
+     *
+     * @param notifications The given notifications.
+     * @return Sanitized notifications.
+     */
+    private static Vector<Vector<String>> sanitizeNotifications(Vector<Vector<String>> notifications) {
+
+        if (notifications == null) {
+            return new Vector<Vector<String>>();
+        }
+
+        // Now vector for the sanitized notifications.
+        Vector<Vector<String>> result = new Vector<Vector<String>>();
+
+        // Loop through the vector of notifications.
+        // Each notification is a vector too, containing 3 elements, representing an RDF triple (i.e. subject, predicate, obejct).
+        for (Vector<String> notification : notifications) {
+
+            if (notification == null) {
+                // Lets replace a null notification with an empty vector, to avoid null-pointer exceptions.
+                result.add(new Vector<String>());
+            } else {
+                Vector<String> sanitizedNotification = new Vector<String>();
+                for (String subjectOrPredicateOrObject : notification) {
+                    // If a subject/predicate/object is null, replace it with empty string.
+                    sanitizedNotification.add(subjectOrPredicateOrObject == null ? "" : subjectOrPredicateOrObject);
+                }
+                result.add(sanitizedNotification);
+            }
+        }
+
+        return result;
     }
 }
