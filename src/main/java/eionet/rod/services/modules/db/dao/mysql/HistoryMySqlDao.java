@@ -37,6 +37,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
      * @see eionet.rod.services.modules.db.dao.IHistoryDao#getItemHistory(java.lang.String,
      *      int)
      */
+    @Override
     public String[][] getItemHistory(String itemType, int itemId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -70,6 +71,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
      *
      * @see eionet.rod.services.modules.db.dao.mysql.IHistoryDao#getDeletedItems(java.lang.String)
      */
+    @Override
     public String[][] getDeletedItems(String itemType) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -108,6 +110,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
      *
      * @see eionet.rod.services.modules.db.dao.mysql.IHistoryDao#getDeletedItemsVector(java.lang.String)
      */
+    @Override
     public Hashtable<String,Object> getDeletedItemsVector(String itemType) throws ServiceException {
 
         String sql = null;
@@ -160,7 +163,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
             logger.error("Error occurred when processing result set: " + sql, e);
             throw new ServiceException("Error occurred when processing result set: " + sql);
         } catch (NullPointerException nue) {
-            nue.printStackTrace(System.out);
+            logger.error("getDeletedItemsVector() NullPointerException " + nue);
         } finally {
             closeAllResources(null, preparedStatement, con);
         }
@@ -179,6 +182,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
      * @see eionet.rod.services.modules.db.dao.mysql.IHistoryDao#getHistory(int,
      *      java.lang.String)
      */
+    @Override
     public Vector<Map<String,String>> getHistory(int id, String tab) throws ServiceException {
 
         String type = null;
@@ -218,6 +222,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
      *      java.lang.String)
      */
 
+    @Override
     public void logHistory(String itemType, String itemId, String userName, String actionType, String description) throws ServiceException {
 
         Connection connection = null;
@@ -247,6 +252,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
      *
      * @see eionet.rod.services.modules.db.dao.mysql.IHistoryDao#getHarvestHistory()
      */
+    @Override
     public List<HarvestHistoryDTO> getHarvestHistory() throws ServiceException {
 
         String query =

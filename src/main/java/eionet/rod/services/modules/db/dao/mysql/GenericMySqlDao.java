@@ -25,6 +25,7 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
      *
      * @see eionet.rod.services.modules.db.dao.IGenericlDao#getTable(java.lang.String)
      */
+    @Override
     public Vector<Map<String,String>> getTable(String tablename) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -54,6 +55,7 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
      *
      * @see eionet.rod.services.modules.db.dao.IGenericlDao#getTableDesc(java.lang.String)
      */
+    @Override
     public Vector<Hashtable<String,String>> getTableDesc(String tablename) throws ServiceException {
         tablename = tablename.toUpperCase();
         if (allowedTable(tablename)) {
@@ -106,11 +108,12 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
                 logger.error("Error occurred when processing result set: " + sql_stmt, e);
                 throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
             } catch (NullPointerException nue) {
-                nue.printStackTrace(System.out);
+                nue.printStackTrace();
+                logger.error("getTableDesc() NullPointerException " + nue);
             } finally {
                 closeAllResources(null, stmt, con);
             }
-            // _log(" return vec");
+
             return rvec;
         }
         return null;
@@ -126,6 +129,7 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
         "FROM T_SOURCE " +
         "WHERE PK_SOURCE_ID=?";
 
+    @Override
     public boolean isIdAvailable(String id, String table) throws ServiceException {
 
         Connection connection = null;
@@ -167,6 +171,7 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
         return false;
     }
 
+    @Override
     public String getLastUpdate() throws ServiceException {
 
         String ret = null;

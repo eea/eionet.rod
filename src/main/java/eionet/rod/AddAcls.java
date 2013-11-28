@@ -10,19 +10,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tee.uit.security.AccessController;
 
+import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 
 public class AddAcls extends HttpServlet {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
+    protected static LogServiceIF logger = RODServices.getLogService();
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         try {
@@ -45,7 +48,7 @@ public class AddAcls extends HttpServlet {
             }
             res.sendRedirect("index.html");
         } catch (Throwable t) {
-            t.printStackTrace(System.out);
+            logger.error("Error adding acls " + t);
         }
     }
 }

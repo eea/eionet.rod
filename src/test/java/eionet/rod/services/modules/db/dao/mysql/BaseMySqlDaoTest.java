@@ -1,16 +1,11 @@
 package eionet.rod.services.modules.db.dao.mysql;
 
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -24,10 +19,12 @@ import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 
 import eionet.rod.services.FileServiceIF;
+import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 
 public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
 
+    protected static LogServiceIF logger = RODServices.getLogService();
 
     /** Only used in getDataSet(). */
     private FlatXmlDataSet loadedDataSet;
@@ -164,8 +161,8 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
     }
 
     protected static void printVectorResult(Vector<Map<String,String>> vector) {
-        System.out.println("\n\n\nResult size is " + vector.size());
-        System.out.println("\nResult is\n " + vector.toString().replaceAll(", \\{", "\n{") + "\n");
+        logger.debug("\n\n\nResult size is " + vector.size());
+        logger.debug("\nResult is\n " + vector.toString().replaceAll(", \\{", "\n{") + "\n");
     }
 
     protected static void printMatrixResult(String[][] matrix) {
@@ -176,7 +173,7 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
             for (int j = 0; j < strings.length; j++) {
                 result += strings[j] + " ";
             }
-            System.out.println(result + "\n");
+            logger.debug(result + "\n");
         }
     }
 

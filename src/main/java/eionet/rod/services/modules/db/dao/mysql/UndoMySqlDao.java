@@ -21,7 +21,6 @@ import java.util.Vector;
 import com.tee.uit.security.AccessController;
 import com.tee.uit.security.SignOnException;
 
-
 import eionet.rod.RODUtil;
 import eionet.rod.dto.VersionDTO;
 import eionet.rod.dto.readers.VersionDTOReader;
@@ -119,6 +118,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getPreviousActions(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
+    @Override
     public Hashtable getPreviousActions(String id, String tab, String id_field) throws ServiceException {
 
         String sql = null;
@@ -186,7 +186,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             logger.error("Error occurred when processing result set: " + sql, e);
             throw new ServiceException("Error occurred when processing result set: " + sql);
         } catch (NullPointerException nue) {
-            nue.printStackTrace(System.out);
+            logger.error("getPreviousActions() NullPointerException " + nue);
+            nue.printStackTrace();
         } finally {
             closeAllResources(null, preparedStatement, con);
         }
@@ -199,6 +200,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      *
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getPreviousActionsGeneral()
      */
+    @Override
     public List<VersionDTO> getPreviousActionsGeneral() throws ServiceException {
 
         String query = "SELECT undo_time, col, tab, operation, value, show_object "
@@ -231,6 +233,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      *
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getPreviousActionsReportSpecific()
      */
+    @Override
     public List<VersionDTO> getPreviousActionsReportSpecific(String id, String tab, String id_field) throws ServiceException {
 
         String query = "SELECT undo_time, col, tab, operation, value, show_object "
@@ -271,6 +274,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      *
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getDeletedFromUndo(java.lang.String)
      */
+    @Override
     public Vector getDeletedFromUndo(String item_type) throws ServiceException {
 
         String tab = null;
@@ -309,6 +313,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      * @see eionet.rod.services.modules.db.dao.IUndoDao#addObligationIdsIntoUndo(java.lang.Integer,
      *      long, java.lang.String)
      */
+    @Override
     public void addObligationIdsIntoUndo(Integer id, long ts, String table) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -355,6 +360,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      *      java.lang.String, java.lang.String, java.lang.String, long,
      *      java.lang.String)
      */
+    @Override
     public void insertTransactionInfo(String id, String state, String table, String id_field, long ts, String extraSQL) throws ServiceException {
 
         String whereClause = id_field + " = " + id + " " + extraSQL;
@@ -397,6 +403,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      *      java.lang.String, long, java.lang.String, java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public boolean insertIntoUndo(Connection con, String id, String state, String table, String id_field, long ts, String extraSQL, String show, String whereClause) throws ServiceException {
         Statement stmt = null;
         ResultSet rset = null;
@@ -626,6 +633,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      * @see eionet.rod.services.modules.db.dao.IUndoDao#undo(long,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
+    @Override
     public String undo(long ts, String tab, String op, String id) throws ServiceException {
         Connection con = null;
         ResultSet rset = null;
@@ -926,6 +934,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getUndoInformation(long,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
+    @Override
     public Vector<Map<String,String>> getUndoInformation(long ts, String op, String tab, String id) throws ServiceException {
 
         Vector<Map<String,String>> vec = new Vector<Map<String,String>>();
@@ -1001,6 +1010,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getUndoUser(long,
      *      java.lang.String)
      */
+    @Override
     public String getUndoUser(long ts, String tab) throws ServiceException {
         Connection con = null;
         PreparedStatement preparedStatement = null;
@@ -1036,6 +1046,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getUndoObjetcId(long,
      *      java.lang.String, java.lang.String)
      */
+    @Override
     public String getUndoObjetcId(long ts, String tab, String col) throws ServiceException {
         Connection con = null;
         PreparedStatement preparedStatement = null;
@@ -1080,6 +1091,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      *
      * @see eionet.rod.services.modules.db.dao.IUndoDao#areRelatedObligationsIdsAvailable(java.lang.String)
      */
+    @Override
     public String areRelatedObligationsIdsAvailable(String id) throws ServiceException {
         Connection con = null;
         PreparedStatement preparedStatement = null;
@@ -1135,6 +1147,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
     }
 
 
+    @Override
     public void insertIntoUndo(long ts, String table, String column, String state, String quotes, String isPrimary, String value, int rowCnt , String show) throws ServiceException{
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -1169,6 +1182,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      *
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getUpdateHistory(String id, String object)
      */
+    @Override
     public List<VersionDTO> getUpdateHistory(String id, String object) throws ServiceException {
 
         String query = "SELECT undo_time, col, tab, operation, value, show_object "
@@ -1217,6 +1231,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getUndoObjectTitle(long,
      *      java.lang.String)
      */
+    @Override
     public String getUndoObjectTitle(long ts, String tab) throws ServiceException {
         Connection con = null;
         PreparedStatement preparedStatement = null;
@@ -1258,6 +1273,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      *
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getUpdateHistoryByUser()
      */
+    @Override
     public List<VersionDTO> getUpdateHistoryByUser(String username) throws ServiceException {
 
         List<VersionDTO> ret = new ArrayList<VersionDTO>();
@@ -1278,7 +1294,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
             for (Iterator<Map<String,String>> it = utlist.iterator(); it.hasNext(); ) {
                 Map<String,String> hash = it.next();
-                String utime = (String) hash.get("undo_time");
+                String utime = hash.get("undo_time");
 
                 preparedStatement = conn.prepareStatement(Q_SELECT_UNDO_LIST_BY_UNDO_TIME);
                 preparedStatement.setString(1, utime);
@@ -1316,6 +1332,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      *
      * @see eionet.rod.services.modules.db.dao.IUndoDao#getDeleted(String type)
      */
+    @Override
     public List<VersionDTO> getDeleted(String type) throws ServiceException {
 
         String query = "SELECT undo_time, col, tab, operation, value, show_object "

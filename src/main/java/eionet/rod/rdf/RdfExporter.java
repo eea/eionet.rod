@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 
 import eionet.rdfexport.RDFExportService;
 import eionet.rdfexport.RDFExportServiceImpl;
+import eionet.rod.services.LogServiceIF;
+import eionet.rod.services.RODServices;
 import eionet.rod.util.sql.ConnectionUtil;
 
 /**
@@ -16,7 +18,7 @@ import eionet.rod.util.sql.ConnectionUtil;
  *
  */
 public class RdfExporter {
-
+    protected static LogServiceIF logger = RODServices.getLogService();
     /**
      * main method.
      *
@@ -25,8 +27,10 @@ public class RdfExporter {
      */
     public static void main(String... args) {
         if (args.length == 0) {
-            System.out.println("Missing argument what to import!");
-            System.out.println("Usage: rdfExporter [table] [identifier]");
+            //feedback to command line not debugging
+            log("Missing argument what to import!", true);
+            log("Usage: rdfExporter [table] [identifier]", true);
+
         } else {
             String table = null;
             String identifier = null;
@@ -58,7 +62,8 @@ public class RdfExporter {
                 RDFExportService rdfExportService = new RDFExportServiceImpl(new PrintStream(fos), conn, properties);
                 rdfExportService.exportTable(table, identifier);
 
-                System.out.println("Successfully exported to: " + dir + "/" + table + ".rdf");
+                //feedback to command line user
+                log("Successfully exported to: " + dir + "/" + table + ".rdf", false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -72,6 +77,20 @@ public class RdfExporter {
                 }
                 ConnectionUtil.closeConnection(conn);
             }
+        }
+    }
+
+    /**
+     * Give feedback to command line user and add a row to the log file if called by cron.
+     * @param str String to be logged.
+     * @param error if true logger.error() is called otherwise logger.debug()
+     */
+    private static void log(String str, boolean error) {
+        System.out.println(str);
+        if (error) {
+            logger.error(str);
+        } else {
+            logger.debug(str);
         }
     }
 }

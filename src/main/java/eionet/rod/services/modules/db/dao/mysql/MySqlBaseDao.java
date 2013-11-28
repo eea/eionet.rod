@@ -228,7 +228,7 @@ public abstract class MySqlBaseDao {
             rval = new String[rvec.size()][];
 
             for (int i = 0; i < rvec.size(); ++i)
-                rval[i] = (String[]) rvec.elementAt(i);
+                rval[i] = rvec.elementAt(i);
         }
 
         // Success
@@ -269,7 +269,7 @@ public abstract class MySqlBaseDao {
             rval = new String[rvec.size()][];
 
             for (int i = 0; i < rvec.size(); ++i)
-                rval[i] = (String[]) rvec.elementAt(i);
+                rval[i] = rvec.elementAt(i);
         }
 
         // Success
@@ -312,7 +312,7 @@ public abstract class MySqlBaseDao {
             rval = new String[rvec.size()][];
 
             for (int i = 0; i < rvec.size(); ++i)
-                rval[i] = (String[]) rvec.elementAt(i);
+                rval[i] = rvec.elementAt(i);
         }
 
         // Success
@@ -362,7 +362,7 @@ public abstract class MySqlBaseDao {
             logger.error("Error occurred when processing result set: " + sql_stmt, e);
             throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
         } catch (NullPointerException nue) {
-            nue.printStackTrace(System.out);
+            logger.error("_getVectorOfHashes() NullPointerException " + nue);
         } finally {
             closeAllResources(rset, stmt, con);
         }
@@ -580,7 +580,7 @@ public abstract class MySqlBaseDao {
             logger.error("Error occurred when processing result set: " + sql_stmt, e);
             throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
         } catch (NullPointerException nue) {
-            nue.printStackTrace(System.out);
+            logger.error("_getHashtable() NullPointerException " + nue);
         } finally {
             closeAllResources(null, stmt, con);
         }
@@ -620,7 +620,8 @@ public abstract class MySqlBaseDao {
             logger.error(e);
             throw new ServiceException(e.getMessage());
         } catch (NullPointerException nue) {
-            nue.printStackTrace(System.out);
+            logger.error("_getHashtable() NullPointerException " + nue);
+            nue.printStackTrace();
         } finally {
             closeAllResources(null, stmt, con);
         }
@@ -674,7 +675,7 @@ public abstract class MySqlBaseDao {
                 countryMap.put(countryName, countryId);
             }
         }
-        return (Integer) (countryMap.get(countryName));
+        return (countryMap.get(countryName));
     }
 
     protected Vector<String> _getVectorOfNames(PreparedStatement preparedStatement, long ts, String tab, String col, String vol, String sql, String status) throws ServiceException {
@@ -722,7 +723,8 @@ public abstract class MySqlBaseDao {
                 }
             }
         } catch (NullPointerException nue) {
-            nue.printStackTrace(System.out);
+            logger.error("_getVectorOfNames() NullPointerException " + nue);
+            nue.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e);

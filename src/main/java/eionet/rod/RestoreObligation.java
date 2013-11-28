@@ -7,20 +7,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 
 public class RestoreObligation extends HttpServlet {
 
+    protected static LogServiceIF logger = RODServices.getLogService();
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         // req.setCharacterEncoding("UTF-8");
@@ -36,14 +39,16 @@ public class RestoreObligation extends HttpServlet {
                         .getRestoreObligation(Integer.valueOf(id), Integer.valueOf(pid), latestVer);
 
             } catch (Exception e) {
+                logger.error("RestoreObligation.service() error when updating " + e);
                 e.printStackTrace();
             }
         }
 
-        System.out.println("+++++++++++++UPDATE: " + update);
+        logger.debug("RestoreObligation.service() update status: " + update);
         if (update != 0) {
             res.sendRedirect("versions.jsp?id=" + pid);
-        } else
-            System.out.println("Error");
+        } else {
+            logger.error("RestoreObligation.service() update status is not correct.");
+        }
     }
 }

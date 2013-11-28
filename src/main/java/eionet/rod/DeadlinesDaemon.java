@@ -15,15 +15,18 @@ import javax.servlet.ServletException;
 import org.apache.xmlrpc.XmlRpcClient;
 
 import eionet.rod.services.FileServiceIF;
+import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
  * @author risto alt
- * 
+ *
  *         To change the template for this generated type comment go to Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class DeadlinesDaemon {
+    /** logger. */
+    protected static LogServiceIF logger = RODServices.getLogService();
 
     public DeadlinesDaemon() {
     }
@@ -65,7 +68,8 @@ public class DeadlinesDaemon {
             in.close();
 
         } catch (Throwable t) {
-            t.printStackTrace(System.out);
+            logger.error("Error in DeadlinesDaemond " + t);
+            t.printStackTrace();
         }
     }
 
@@ -81,7 +85,7 @@ public class DeadlinesDaemon {
         for (Enumeration<Map<String, String>> en = vec.elements(); en.hasMoreElements();) {
             Map<String, String> h = en.nextElement();
 
-            String nd = (String) h.get("next_deadline");
+            String nd = h.get("next_deadline");
             int year = Integer.parseInt(nd.substring(0, 4)) - 1900;
             int month = Integer.parseInt(nd.substring(5, 7)) - 1;
             int day = Integer.parseInt(nd.substring(8, 10));
@@ -89,7 +93,7 @@ public class DeadlinesDaemon {
 
             long nextDeadlineMillis = nextDeadline.getTime();
 
-            String freq = (String) h.get("freq");
+            String freq = h.get("freq");
             int f = Integer.parseInt(freq);
             int period = new Double(days * f).intValue();
             long periodMillis = (new Long(period).longValue() * new Long(24).longValue() * new Long(3600).longValue() * new Long(
@@ -136,12 +140,12 @@ public class DeadlinesDaemon {
                 list.add(h.get("title"));
                 lists.add(list);
 
-                String id = (String) h.get("id");
+                String id = h.get("id");
                 Vector<Map<String, String>> countries = RODServices.getDbService().getSpatialDao()
                         .getObligationCountries(Integer.valueOf(id).intValue());
                 for (Enumeration<Map<String, String>> cen = countries.elements(); cen.hasMoreElements();) {
                     Map<String, String> hash = cen.nextElement();
-                    String country = (String) hash.get("name");
+                    String country = hash.get("name");
                     if (country != null && !country.equals("")) {
                         list = new Vector<String>();
                         list.add(events);
@@ -190,7 +194,8 @@ public class DeadlinesDaemon {
             server.execute(fileSrv.getStringProperty(FileServiceIF.UNS_SEND_NOTIFICATION), params);
 
         } catch (Throwable t) {
-            t.printStackTrace(System.out);
+            logger.error("Error in DeadlinesDaemond makeCall() " + t);
+            t.printStackTrace();
             throw new ServletException(t);
         }
     }

@@ -37,6 +37,7 @@ public class InstrumentsRSS extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
     protected String generateRDF(HttpServletRequest req) throws ServiceException {
 
         StringBuffer s = new StringBuffer();
@@ -79,8 +80,6 @@ public class InstrumentsRSS extends RSSServletAC {
         }
 
         s.append("</rdf:RDF>");
-
-        // System.out.println(s.toString());
 
         return s.toString();
     }

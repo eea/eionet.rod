@@ -12,11 +12,13 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
         super(arg0);
     }
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         obligationMySqlDao = new ObligationMySqlDao();
     }
 
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
     }
@@ -62,24 +64,17 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
     public void testGetRespRoles() throws Exception{
         String[] roles = obligationMySqlDao.getRespRoles();
         assertEquals(3, roles.length);
-        /*
-        System.out.println("Roles " + "\n");
-        for (int i = 0; i < roles.length; i++) {
-            System.out.println(roles[i]);
-        }
-        */
-
     }
 
     /*
      * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getUpcomingDeadlines(double)'
      */
     public void testGetUpcomingDeadlines() throws Exception{
-        Vector<Map<String,String>> v = obligationMySqlDao.getUpcomingDeadlines((double)2);
+        Vector<Map<String,String>> v = obligationMySqlDao.getUpcomingDeadlines(2);
         assertEquals(0, v.size());
         statement = getConnection().getConnection().createStatement();
         statement.executeUpdate("update T_OBLIGATION SET next_deadline = (CURDATE() + INTERVAL 10 DAY) where PK_RA_ID=15");
-        v = obligationMySqlDao.getUpcomingDeadlines((double)2);
+        v = obligationMySqlDao.getUpcomingDeadlines(2);
         assertEquals(1, v.size());
 //      printVectorResult(v);
 
@@ -210,5 +205,5 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
 
     }*/
 
-        
+
 }

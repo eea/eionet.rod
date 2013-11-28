@@ -86,6 +86,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
     protected static final String dcNs = " xmlns:dc=\"http://purl.org/dc/elements/1.1/\" ";
 
+    @Override
     public void init(ServletConfig config) throws ServletException {
 
         try {
@@ -151,6 +152,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
     protected abstract String generateRDF(HttpServletRequest req) throws ServiceException;
 
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         res.setContentType("application/rdf+xml;charset=UTF-8");
@@ -169,5 +171,4 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
     }
 
-    protected static void _log(String s) { System.out.println("****** " + s);}
 }

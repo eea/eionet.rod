@@ -107,7 +107,10 @@ public class Extractor implements ExtractorConstants {
             if (args.length == 1) {
                 mode = args[0];
             } else if (args.length > 1) {
+                //this is feedback to the user not debugging as this class is executed in the cmd line
+                //also log to file for other applications
                 System.out.println("Usage: Extractor [mode]");
+                logger.error("Usage: Extractor [mode]");
                 return;
             } else {
                 mode = String.valueOf(ALL_DATA);
