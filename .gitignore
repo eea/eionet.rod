@@ -1,0 +1,7 @@
+/rebuild.bat
+/deploy.bat
+/local.properties
+/target
+/.classpath
+/.project
+/.settings
