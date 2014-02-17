@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.SimpleMessage;
+import net.sourceforge.stripes.controller.AnnotatedClassActionResolver;
 import net.sourceforge.stripes.validation.SimpleError;
 
 import org.apache.commons.logging.Log;
@@ -17,17 +18,17 @@ import eionet.rod.services.ServiceException;
 import eionet.rod.web.context.RODActionBeanContext;
 
 /**
- * Root class for all CR ActionBeans.
+ * Base class for ROD's Stripes action beans.
  *
  * @author altnyris
  *
  */
 public abstract class AbstractRODActionBean implements ActionBean {
 
-    /** */
-    private static Log logger = LogFactory.getLog(AbstractRODActionBean.class);
+    /** Static logger for this class. */
+    private static final Log LOGGER = LogFactory.getLog(AbstractRODActionBean.class);
 
-    /** */
+    /** ROD's extension to the Stripes action bean context. */
     private RODActionBeanContext context;
 
     /*
@@ -51,13 +52,16 @@ public abstract class AbstractRODActionBean implements ActionBean {
     }
 
     /**
+     * Gets the current session's user name.
+     *
      * @return logged in user name or default value for not logged in users.
      */
-    public final String getUserName() {
+    public String getUserName() {
         String ret = null;
         ROUser roUser = getContext().getROUser();
-        if (roUser != null)
+        if (roUser != null) {
             ret = roUser.getUserName();
+        }
 
         return ret;
     }
@@ -67,50 +71,71 @@ public abstract class AbstractRODActionBean implements ActionBean {
      *
      * @return true if user is logged in.
      */
-    public final boolean getIsUserLoggedIn() {
+    public boolean getIsUserLoggedIn() {
         return getROUser() != null;
     }
 
     /**
+     * Handles the given exception message.
      *
-     * @param String
-     *            exception to handle.
+     * @param String The exception message to handle.
+     * @param String The exception's severity indicator.
      */
     void handleRodException(String exception, int severity) {
-        logger.error(exception);
+        LOGGER.error(exception);
         getContext().setSeverity(severity);
         getContext().getMessages().add(new SimpleError(exception));
     }
 
     /**
+     * Returns the current session's {@link ROUser} object.
      *
-     * @return
+     * @return The user object.
      */
     protected ROUser getROUser() {
         return getContext().getROUser();
     }
 
-    public final String getLoginURL() {
+    /**
+     * Return login URL for the current Stripes request execution context.
+     *
+     * @return The login URL.
+     */
+    public String getLoginURL() {
         return getContext().getCASLoginURL();
     }
 
-    public final String getLogoutURL() {
-        return getContext().getCASLogoutURL();
+    /**
+     * Return logout URL for the current Stripes request execution context.
+     *
+     * @return The logout URL.
+     */
+    public String getLogoutURL() {
+
+        String contextPath = getContext().getRequest().getContextPath();
+        return new StringBuilder(contextPath).append(new AnnotatedClassActionResolver().getUrlBinding(LogoutActionBean.class))
+                .toString();
     }
 
-    public final String getLastUpdate() {
+    /**
+     * Returns the last update date of any ROD database contents.
+     *
+     * @return The date formatted as string.
+     */
+    public String getLastUpdate() {
         String ret = "";
         try {
             ret = RODServices.getDbService().getGenericlDao().getLastUpdate();
         } catch (ServiceException e) {
-            logger.error(e.toString(), e);
+            LOGGER.error(e.toString(), e);
         }
         return ret;
     }
 
     /**
+     * Returns current Stripes resource bundle.
      *
-     * @return ResourceBundle
+     * @return ResourceBundle The bundle.
      */
     public ResourceBundle getBundle() {
         ResourceBundle bundle = ResourceBundle.getBundle("/StripesResources");
@@ -118,29 +143,30 @@ public abstract class AbstractRODActionBean implements ActionBean {
     }
 
     /**
+     * Returns true if the current request is a POST request.
      *
-     * @return boolean
+     * @return boolean True/false.
      */
     public boolean isPostRequest() {
         return getContext().getRequest().getMethod().equalsIgnoreCase("POST");
     }
 
     /**
+     * Adds the given string message into current Stripes request execution messages, using severity level INFO.
      *
-     * @param msg
+     * @param msg The message.
      */
     void showMessage(String msg) {
         getContext().setSeverity(Constants.SEVERITY_INFO);
         getContext().getMessages().add(new SimpleMessage(msg));
     }
 
-
     /**
-     * Returns context path of the bean.
-     * @return full context url
+     * Returns context path of the currently executed request.
+     *
+     * @return Full context url.
      */
     public String getContextPath() {
         return getContext().getRequest().getContextPath();
     }
-
 }
