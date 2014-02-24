@@ -57,6 +57,25 @@ public class RODUtilTest extends TestCase {
                 RODUtil.replaceTags("<a href=\"http://cnn.org/\">CNN</a>"));
     }
 
+    /*
+     * This test documents an actual bug in the system.
+     */
+    public void test_replaceTagsMultiLine() {
+        String input = "The templates (XML schema) and the reporting manual are available"
+           + " at: http://www.eionet.europa.eu/schemas/eprtr\n\nTemplate for resubmissions is"
+           + " available at: http://circa.europa.eu/Public/irc/env/e_prtr/library?l=/e-prtr_re-delivery/resubmissionxls/_EN_1.0_&a=i";
+
+        String expected = "The templates (XML schema) and the reporting manual are available"
+           + " at: <a href=\"http://www.eionet.europa.eu/schemas/eprtr\">http://www.eionet.e"
+           + "uropa.eu/schemas/eprtr</a><br/><br/>Template for resubmissions is"
+           + " available at: <a href=\"http://circa.europa.eu/Public/irc/env/e_prtr/library?"
+           + "l=/e-prtr_re-delivery/resubmissionxls/_EN_1.0_&amp;a=i\">http://circa.europa.eu"
+           + "/Public/irc/env/e_prtr/libra...</a><br/><br/>";
+
+        String result = RODUtil.replaceTags(input);
+        assertEquals(expected, result);
+    }
+
     public void test_replaceTags2() {
         // Unusual entity
         assertEquals("Fruit &euro; Vegetables", RODUtil.replaceTags("Fruit &euro; Vegetables"));
