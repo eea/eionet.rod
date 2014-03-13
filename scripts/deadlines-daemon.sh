@@ -20,7 +20,7 @@ cp=@MYSQL.JAR@
 
 # place the right path in here !!!
 cp=$cp:@SERVLETAPI.JAR@
-
+cp=$cp:@COMMONSCODEC.JAR@
 cp=$cp:@EIONETDIR.JAR@
 cp=$cp:@TOMCATUTIL.JAR@:@XMLRPC.JAR@:@ACL.JAR@
 cp=$cp:@LOG4J.JAR@:$CLASSPATH
