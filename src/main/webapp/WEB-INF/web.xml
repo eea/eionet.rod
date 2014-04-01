@@ -158,7 +158,9 @@
     <listener>
         <listener-class>eionet.rod.scheduled.DeadlineCalcJob</listener-class>
     </listener>
-
+    <listener>
+        <listener-class>eionet.rod.scheduled.DeadlinesDaemonJob</listener-class>
+    </listener>
 	<servlet>
 		<servlet-name>AfterCASLoginServlet</servlet-name>
 		<servlet-class>eionet.rod.AfterCASLoginServlet</servlet-class>

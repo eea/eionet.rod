@@ -1,5 +1,12 @@
 package eionet.rod;
 
+import eionet.rod.services.FileServiceIF;
+import eionet.rod.services.LogServiceIF;
+import eionet.rod.services.RODServices;
+import eionet.rod.services.ServiceException;
+import org.apache.xmlrpc.XmlRpcClient;
+
+import javax.servlet.ServletException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,15 +16,6 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Vector;
-
-import javax.servlet.ServletException;
-
-import org.apache.xmlrpc.XmlRpcClient;
-
-import eionet.rod.services.FileServiceIF;
-import eionet.rod.services.LogServiceIF;
-import eionet.rod.services.RODServices;
-import eionet.rod.services.ServiceException;
 
 /**
  * @author risto alt
@@ -31,11 +29,12 @@ public class DeadlinesDaemon {
     public DeadlinesDaemon() {
     }
 
-    /*
-     *
-     */
-    public static void main(String[] args) throws ServiceException {
 
+    /**
+     * executes the job.
+     * @throws ServiceException if error in writing files
+     */
+    public static void execute() throws ServiceException {
         try {
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy");
@@ -71,6 +70,13 @@ public class DeadlinesDaemon {
             logger.error("Error in DeadlinesDaemond " + t);
             t.printStackTrace();
         }
+    }
+
+    /*
+     *
+     */
+    public static void main(String[] args) throws ServiceException {
+        execute();
     }
 
     private static void makeStructure(Date date) throws Exception {

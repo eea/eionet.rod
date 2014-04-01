@@ -17,10 +17,10 @@
  *
  * Contributor(s): Kaido Laine
  */
-
 package eionet.rod.scheduled;
 
-import eionet.rod.DeadlineCalc;
+import eionet.rod.DeadlinesDaemon;
+import eionet.rod.services.ServiceException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.JobExecutionContext;
@@ -28,13 +28,10 @@ import org.quartz.JobExecutionException;
 
 import javax.servlet.ServletContextListener;
 
-
 /**
- * Scheduled job for deadlinecalc.
- *
- * @author Kaido Laine
+ * Deadlines daemon scheduled job.
  */
-public class DeadlineCalcJob extends AbstractScheduledJob implements ServletContextListener {
+public class DeadlinesDaemonJob extends AbstractScheduledJob implements ServletContextListener {
 
     /**
      * Class logger.
@@ -43,13 +40,19 @@ public class DeadlineCalcJob extends AbstractScheduledJob implements ServletCont
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        LOGGER.info("Starting to update deadlines.");
-        DeadlineCalc.execute();
-        LOGGER.info("Deadlines updated.");
+        LOGGER.info("Starting Deadlines daemon job.");
+
+        try {
+            DeadlinesDaemon.execute();
+        } catch (ServiceException e) {
+            throw new JobExecutionException(e);
+        }
+        LOGGER.info("Deadlines daemon job finished.");
     }
 
     @Override
     protected String getName() {
-        return "deadlinecalc";
+        return "deadlinesdaemon";
     }
+
 }
