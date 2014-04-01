@@ -217,6 +217,17 @@ public interface FileServiceIF {
     public static final String HISTORY_UNDO_STEP = "history.undo.step";
 
     /**
+     * Deadlines calc interval property name.
+     */
+    public static final String DEADLINECALC_JOB_INTERVAL = "deadlinecalc.job.interval";
+
+    /**
+     * Deadlines calc crontab property name.
+     */
+    public static final String DEADLINECALC_JOB_CRONTAB = "deadlinecalc.job.crontab";
+
+
+    /**
      * Returns String type property from the properties file
      * 
      * @param propName
@@ -253,4 +264,22 @@ public interface FileServiceIF {
      */
     public String[] getStringArrayProperty(String propName, String separator) throws ServiceException;
 
-}
+    /**
+     * returns long value of property.
+     * @param propName property name
+     * @param defaultValue default value for case if property not specified
+     * @return property value
+     * @throws ServiceException if reading fails
+     */
+    long getLongProperty(String propName, long defaultValue) throws  ServiceException;
+
+    /**
+     * Get property value of time in milliseconds presented by time value and unit suffix (1h, 30m, 15s etc).
+     *
+     * @param key property name
+     * @param defaultValue default value to be returned if file does not contain the property
+     * @return propertyValue
+     */
+    public Long getTimePropertyMilliseconds(final String key, Long defaultValue);
+
+    }
