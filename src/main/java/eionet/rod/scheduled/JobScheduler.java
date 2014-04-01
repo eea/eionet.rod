@@ -19,6 +19,12 @@ import static org.quartz.TriggerBuilder.newTrigger;
  */
 public class JobScheduler implements ServletContextListener {
 
+    /**
+     * default interval for jobs if not defined in the props file.
+     * 24h.
+     */
+    static final long DEFAULT_SCHEDULE_INTERVAL = 24 * 60 * 60 * 1000;
+
     /** local logger. */
     private static Log LOGGER = LogFactory.getLog(JobScheduler.class);
 

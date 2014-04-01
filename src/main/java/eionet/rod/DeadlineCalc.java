@@ -23,14 +23,14 @@
 
 package eionet.rod;
 
+import eionet.rod.services.LogServiceIF;
+import eionet.rod.services.RODServices;
+import eionet.rod.services.modules.db.dao.IObligationDao;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-
-import eionet.rod.services.LogServiceIF;
-import eionet.rod.services.RODServices;
-import eionet.rod.services.modules.db.dao.IObligationDao;
 
 public class DeadlineCalc {
     private static LogServiceIF logger;
@@ -46,7 +46,7 @@ public class DeadlineCalc {
             logger.error("DeadlineCalc v1.0 - failed to complete.");
     }
 
-    public static void main(String[] args) {
+    public static void execute() {
         DeadlineCalc dCalc = new DeadlineCalc();
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
         IObligationDao db;
@@ -185,5 +185,9 @@ public class DeadlineCalc {
         logger.info("Update complete.");
 
         dCalc.exitApp(true);
+    }
+
+    public static void main(String[] args) {
+        execute();
     }
 }

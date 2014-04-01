@@ -218,14 +218,9 @@ public interface FileServiceIF {
 
     /**
      * Deadlines calc interval property name.
+     * Property can be given either in cron expression format or interval
      */
     public static final String DEADLINECALC_JOB_INTERVAL = "deadlinecalc.job.interval";
-
-    /**
-     * Deadlines calc crontab property name.
-     */
-    public static final String DEADLINECALC_JOB_CRONTAB = "deadlinecalc.job.crontab";
-
 
     /**
      * Returns String type property from the properties file

@@ -3,18 +3,14 @@ package eionet.rod.scheduled;
 import eionet.rod.DeadlineCalc;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.RODServices;
-import eionet.rod.services.ServiceException;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.quartz.JobDetail;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.StatefulJob;
+import org.quartz.*;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import static org.quartz.JobBuilder.*;
+
+import static org.quartz.JobBuilder.newJob;
 
 
 /**
@@ -22,9 +18,11 @@ import static org.quartz.JobBuilder.*;
  *
  * @author Kaido Laine
  */
-public class DeadlineCalcJob implements ServletContextListener, StatefulJob {
+public class DeadlineCalcJob implements ServletContextListener, Job {
 
-    /** Class logger. */
+    /**
+     * Class logger.
+     */
     private static Log LOGGER = LogFactory.getLog(DeadlineCalcJob.class);
     /**
      * Job running interval in ms.
@@ -33,13 +31,15 @@ public class DeadlineCalcJob implements ServletContextListener, StatefulJob {
 
 
     /**
-     * Crontab entry for the job.
+     * Property value in props file.
+     * can be cron expression or interval expression
      */
-    private static String cronTab;
+    private static String intervalPrpValue;
 
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        LOGGER.debug(getClass().getName() + " context destroyed.");
     }
 
     @Override
@@ -49,22 +49,19 @@ public class DeadlineCalcJob implements ServletContextListener, StatefulJob {
         JobDetail jobDetails = newJob(clazz).withIdentity(clazz.getSimpleName(), clazz.getName()).build();
 
         try {
-            try {
-                cronTab = RODServices.getFileService().getStringProperty(FileServiceIF.DEADLINECALC_JOB_CRONTAB);
-            } catch (ServiceException se) {
-                LOGGER.info("Crontab entry not defined in the props File");
-            }
 
-            if (StringUtils.isNotBlank(cronTab)) {
-                JobScheduler.scheduleCronJob(cronTab, jobDetails);
-                LOGGER.info("DeadlineCalc job started crontab " + cronTab);
+            intervalPrpValue = RODServices.getFileService().getStringProperty(FileServiceIF.DEADLINECALC_JOB_INTERVAL);
+
+            if (CronExpression.isValidExpression(intervalPrpValue)) {
+                JobScheduler.scheduleCronJob(intervalPrpValue, jobDetails);
+                LOGGER.info("DeadlineCalc job started crontab " + intervalPrpValue);
             } else {
                 interval = RODServices.getFileService().getTimePropertyMilliseconds(FileServiceIF.DEADLINECALC_JOB_INTERVAL,
-                        4320000L);
-
+                        JobScheduler.DEFAULT_SCHEDULE_INTERVAL);
                 JobScheduler.scheduleIntervalJob(interval, jobDetails);
-                LOGGER.info("DeadlineCalc job started with interval " + interval);
+                LOGGER.info("DeadlineCalc job started with interval " + interval + " ms");
             }
+
         } catch (Exception e) {
             LOGGER.error("Failed to initialize DeadlinesCalc job: " + e);
         }
@@ -73,7 +70,7 @@ public class DeadlineCalcJob implements ServletContextListener, StatefulJob {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         LOGGER.info("Starting to update deadlines.");
-        DeadlineCalc.main(null);
+        DeadlineCalc.execute();
         LOGGER.info("Deadlines updated.");
 
     }
