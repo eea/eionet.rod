@@ -226,6 +226,16 @@ public interface FileServiceIF {
     public String getStringProperty(String propName) throws ServiceException;
 
     /**
+     * Returns String type property. If no property returns default value.
+     * @param propName property name
+     * @param defaultValue default value if no property
+     * @return property value
+     * @throws ServiceException if reading file does not succeed
+     */
+    public String getStringProperty(String propName, String defaultValue) throws ServiceException;
+
+
+    /**
      * Returns boolean type property from the properties file
      * 
      * @param propName

@@ -39,7 +39,7 @@ public class DeadlineCalcJob extends AbstractScheduledJob implements ServletCont
     /**
      * Class logger.
      */
-    private static Log LOGGER = LogFactory.getLog(DeadlineCalcJob.class);
+    private static final Log LOGGER = LogFactory.getLog(DeadlineCalcJob.class);
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {

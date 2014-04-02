@@ -169,6 +169,14 @@ public class FileServiceImpl implements FileServiceIF, ExtractorConstants {
         return value;
     }
 
+    @Override
+    public String getStringProperty(String propName, String defaultValue) throws ServiceException {
+        if (props.containsKey(propName)) {
+            return  getStringProperty(propName);
+        }
+
+        return defaultValue;
+    }
 }
 
 

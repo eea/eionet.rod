@@ -21,6 +21,7 @@
 package eionet.rod.scheduled;
 
 import eionet.rod.services.RODServices;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.CronExpression;
@@ -29,6 +30,9 @@ import org.quartz.JobDetail;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import static org.quartz.JobBuilder.newJob;
 
@@ -42,17 +46,7 @@ public abstract class AbstractScheduledJob implements ServletContextListener, Jo
     /**
      * local logger.
      */
-    private static Log LOGGER = LogFactory.getLog(AbstractScheduledJob.class);
-    /**
-     * Job running interval in ms.
-     */
-    private long interval;
-
-    /**
-     * Property value in props file.
-     * can be cron expression or interval expression
-     */
-    private String intervalPrpValue;
+    private static final Log LOGGER = LogFactory.getLog(AbstractScheduledJob.class);
 
     /**
      * Job Name.
@@ -61,28 +55,37 @@ public abstract class AbstractScheduledJob implements ServletContextListener, Jo
      */
     protected abstract String getName();
 
-
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
         String propName = getName() + ".job.interval";
+        List<JobDetail> jobs = new ArrayList<JobDetail>(10);
 
         Class<? extends AbstractScheduledJob> clazz = this.getClass();
 
-        JobDetail jobDetails = newJob(clazz).withIdentity(clazz.getSimpleName(), clazz.getName()).build();
-
         try {
 
-            intervalPrpValue = RODServices.getFileService().getStringProperty(propName);
-
-            if (CronExpression.isValidExpression(intervalPrpValue)) {
-                JobScheduler.scheduleCronJob(intervalPrpValue, jobDetails);
-                LOGGER.info(getName() + " job started crontab " + intervalPrpValue);
+            String jobData = RODServices.getFileService().getStringProperty(getName() + ".job.data", "");
+            if (StringUtils.isNotBlank(jobData)) {
+                parseJobData(clazz, jobs, jobData);
             } else {
-                interval = RODServices.getFileService().getTimePropertyMilliseconds(propName,
-                        JobScheduler.DEFAULT_SCHEDULE_INTERVAL);
-                JobScheduler.scheduleIntervalJob(interval, jobDetails);
-                LOGGER.info(getName() + " job started with interval " + interval + " ms");
+                JobDetail job = newJob(clazz).withIdentity(clazz.getSimpleName(), clazz.getName()).build();
+                jobs.add(job);
+            }
+
+            String intervalPrpValue = RODServices.getFileService().getStringProperty(propName);
+
+            for (JobDetail jobDetails : jobs) {
+
+                if (CronExpression.isValidExpression(intervalPrpValue)) {
+                    JobScheduler.scheduleCronJob(intervalPrpValue, jobDetails);
+                    LOGGER.info(getName() + " job started crontab " + intervalPrpValue);
+                } else {
+                    long interval = RODServices.getFileService().getTimePropertyMilliseconds(propName,
+                            JobScheduler.DEFAULT_SCHEDULE_INTERVAL);
+                    JobScheduler.scheduleIntervalJob(interval, jobDetails);
+                    LOGGER.info(getName() + " job started with interval " + interval + " ms");
+                }
             }
 
         } catch (Exception e) {
@@ -94,5 +97,29 @@ public abstract class AbstractScheduledJob implements ServletContextListener, Jo
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         LOGGER.debug(getName() + " context destroyed.");
+    }
+
+    /**
+     * Parses job params value from props file and adds to job data map.
+     *
+     * @param clazz   class which is used for building the job
+     * @param jobs    list of jobs
+     * @param jobData full String for several jobs in format key1=valueA;key2=valueB|key1=valueC;key2=valueD|...|key1=valueN
+     */
+    private void parseJobData(Class clazz, List<JobDetail> jobs, String jobData) {
+        StringTokenizer differentJobs = new StringTokenizer(jobData, "|");
+        while (differentJobs.hasMoreTokens()) {
+            String jobParams = differentJobs.nextToken();
+            JobDetail jobDetails = newJob(clazz).withIdentity(clazz.getSimpleName()+ ":" + jobParams, clazz.getName()).build();
+            StringTokenizer args = new StringTokenizer(jobParams, ";");
+            while (args.hasMoreTokens()) {
+                String arg = args.nextToken();
+                String key = StringUtils.substringBefore(arg, "=");
+                String value = StringUtils.substringAfter(arg, "=");
+                jobDetails.getJobDataMap().put(key, value);
+            }
+            jobs.add(jobDetails);
+        }
+
     }
 }

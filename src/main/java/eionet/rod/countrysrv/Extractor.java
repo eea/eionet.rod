@@ -116,16 +116,31 @@ public class Extractor implements ExtractorConstants {
                 mode = String.valueOf(ALL_DATA);
             }
 
+/*
             if (extractor == null) {
                 extractor = new Extractor();
             }
 
             extractor.harvest(Integer.parseInt(mode), userName);
+*/
+
+            execute(Integer.parseInt(mode), userName);
         } catch (Exception se) {
             logger.error(se.toString());
         }
     }
 
+    public static void execute(int mode, String userName) {
+        try {
+            if (extractor == null) {
+                extractor = new Extractor();
+            }
+
+            extractor.harvest(mode, userName);
+        } catch (Exception se) {
+            logger.error(se.toString());
+        }
+    }
     private String cDT() {
         Date d = new Date();
         return new String("[" + d.toString() + "] ");
