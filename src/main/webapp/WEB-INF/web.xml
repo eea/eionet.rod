@@ -164,6 +164,9 @@
     <listener>
         <listener-class>eionet.rod.scheduled.ExtractorJob</listener-class>
     </listener>
+    <listener>
+        <listener-class>eionet.rod.scheduled.RdfExporterJob</listener-class>
+    </listener>
 
     <servlet>
 		<servlet-name>AfterCASLoginServlet</servlet-name>

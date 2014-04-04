@@ -44,42 +44,50 @@ public class RdfExporter {
                 }
                 i++;
             }
+            execute(table, identifier);
 
-            Connection conn = null;
-            FileOutputStream fos = null;
-            try {
-                ResourceBundle props = ResourceBundle.getBundle("rdfexport");
-                String dir = props.getString("files.dest.dir");
-
-                File file = new File(dir, table + ".rdf");
-                fos = new FileOutputStream(file);
-
-                ConnectionUtil.setReturnSimpleConnection(true);
-                conn = ConnectionUtil.getConnection();
-
-                Properties properties = new Properties();
-                properties.load(RdfExporter.class.getClassLoader().getResourceAsStream("rdfexport.properties"));
-                RDFExportService rdfExportService = new RDFExportServiceImpl(new PrintStream(fos), conn, properties);
-                rdfExportService.exportTable(table, identifier);
-
-                //feedback to command line user
-                log("Successfully exported to: " + dir + "/" + table + ".rdf", false);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            finally{
-                try {
-                    if (fos != null){
-                        fos.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                ConnectionUtil.closeConnection(conn);
-            }
         }
     }
 
+    /**
+     * Does RDF export of the table.
+     * @param table table name
+     * @param identifier identifier (optional) should be null if not specified
+     */
+    public static void execute(String table, String identifier) {
+        Connection conn = null;
+        FileOutputStream fos = null;
+        try {
+            ResourceBundle props = ResourceBundle.getBundle("rdfexport");
+            String dir = props.getString("files.dest.dir");
+
+            File file = new File(dir, table + ".rdf");
+            fos = new FileOutputStream(file);
+
+            ConnectionUtil.setReturnSimpleConnection(true);
+            conn = ConnectionUtil.getConnection();
+
+            Properties properties = new Properties();
+            properties.load(RdfExporter.class.getClassLoader().getResourceAsStream("rdfexport.properties"));
+            RDFExportService rdfExportService = new RDFExportServiceImpl(new PrintStream(fos), conn, properties);
+            rdfExportService.exportTable(table, identifier);
+
+            //feedback to command line user
+            log("Successfully exported to: " + dir + "/" + table + ".rdf", false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            try {
+                if (fos != null){
+                    fos.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ConnectionUtil.closeConnection(conn);
+        }
+    }
     /**
      * Give feedback to command line user and add a row to the log file if called by cron.
      * @param str String to be logged.
