@@ -110,7 +110,7 @@ public abstract class AbstractScheduledJob implements ServletContextListener, Jo
         StringTokenizer differentJobs = new StringTokenizer(jobData, "|");
         while (differentJobs.hasMoreTokens()) {
             String jobParams = differentJobs.nextToken();
-            JobDetail jobDetails = newJob(clazz).withIdentity(clazz.getSimpleName()+ ":" + jobParams, clazz.getName()).build();
+            JobDetail jobDetails = newJob(clazz).withIdentity(clazz.getSimpleName() + ":" + jobParams, clazz.getName()).build();
             StringTokenizer args = new StringTokenizer(jobParams, ";");
             while (args.hasMoreTokens()) {
                 String arg = args.nextToken();

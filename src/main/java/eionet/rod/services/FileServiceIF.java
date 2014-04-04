@@ -236,7 +236,7 @@ public interface FileServiceIF {
 
 
     /**
-     * Returns boolean type property from the properties file
+     * Returns boolean type property from the properties file.
      * 
      * @param propName
      * @return boolean

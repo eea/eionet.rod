@@ -26,7 +26,7 @@ public class JobScheduler implements ServletContextListener {
     static final long DEFAULT_SCHEDULE_INTERVAL = 24 * 60 * 60 * 1000;
 
     /** local logger. */
-    private static Log LOGGER = LogFactory.getLog(JobScheduler.class);
+    private static final Log LOGGER = LogFactory.getLog(JobScheduler.class);
 
     /** Quarz scheduler instance. */
     private static Scheduler quartzScheduler = null;

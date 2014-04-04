@@ -36,7 +36,7 @@ public class DeadlinesDaemonJob extends AbstractScheduledJob implements ServletC
     /**
      * Class logger.
      */
-    private static Log LOGGER = LogFactory.getLog(DeadlineCalcJob.class);
+    private static final Log LOGGER = LogFactory.getLog(DeadlineCalcJob.class);
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
