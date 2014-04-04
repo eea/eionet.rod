@@ -143,8 +143,8 @@ public class FileServiceImpl implements FileServiceIF, ExtractorConstants {
                     propValue = propValue.replace("ms", "");
                 }
 
-                if (propValue.length() > 1 && propValue.endsWith("s") &&
-                        propValue.replace("s", "").length() == propValue.length() - 1) {
+                if (propValue.length() > 1 && propValue.endsWith("s")
+                        && propValue.replace("s", "").length() == propValue.length() - 1) {
                     coefficient = 1000;
                     propValue = propValue.replace("s", "");
                 }
