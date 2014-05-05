@@ -30,30 +30,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import javax.servlet.http.HttpServletRequest;
-
+/**
+ * Various general utility methods.
+ */
 public class RODUtil {
 
+    /** Used by {@link #getDate(String)}. */
+    public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+
     /**
-     * Dummy method for getting request parameter.
+     * Cuts string to the given length and replaces the cut-off tail with three dots.
      *
-     * @param req
-     * @param prmName
-     * @return String
-     */
-    public static String getParameter(HttpServletRequest req, String prmName) {
-
-        String p = req.getParameter(prmName);
-        // strongly ugly and bad quick-fix
-        if (prmName.equals("printmode") && (p == null || p.trim().equals(""))) {
-            p = "N";
-        }
-        return p;
-
-    }
-
-    /*
-     *
+     * @param s Given string.
+     * @param len Given length.
+     * @return The resulting string.
      */
     public static String threeDots(String s, int len) {
 
@@ -73,16 +63,11 @@ public class RODUtil {
         }
     }
 
-    /*
+    /**
+     * Null-safe and exception-less method for converting given string to a {@link Date} formatted by {@link #SIMPLE_DATE_FORMAT}.
      *
-     */
-    public static String concatRole(String param1, String param2, String param3) {
-
-        return param1 + param2 + param3;
-    }
-
-    /*
-     *
+     * @param s The string.
+     * @return The resulting date.
      */
     public static Date getDate(String s) {
         if (s == null || s.equals("")) {
@@ -90,8 +75,7 @@ public class RODUtil {
         }
         Date date = null;
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            date = sdf.parse(s);
+            date = SIMPLE_DATE_FORMAT.parse(s);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -99,6 +83,12 @@ public class RODUtil {
         return date;
     }
 
+    /**
+     * Processes given text for display in HTML pages.
+     *
+     * @param string The string.
+     * @return The processed string.
+     */
     public static String replaceTags2(String string) {
         if (string != null) {
             StringBuffer sb = new StringBuffer(string.length());
@@ -156,31 +146,35 @@ public class RODUtil {
     }
 
     /**
+     * Returns the result of {@link #replaceTags(String, boolean, boolean)}, passing on the given string,
+     * and setting the booleans to false.
      *
-     * @param in
-     * @return String
+     * @param in Passed on.
+     * @return String The result.
      */
     public static String replaceTags(String in) {
         return replaceTags(in, false, false);
     }
 
     /**
+     * Returns the result of {@link #replaceTags(String, boolean, boolean)}, passing on the given string and boolean,
+     * and setting the last boolean to false.
      *
-     * @param in
-     * @param dontCreateHTMLAnchors
-     * @return String
+     * @param in Passed on.
+     * @param dontCreateHTMLAnchors Passed on.
+     * @return String The result.
      */
     public static String replaceTags(String in, boolean dontCreateHTMLAnchors) {
         return replaceTags(in, dontCreateHTMLAnchors, false);
     }
 
     /**
+     * Processes given text for display in HTML pages.
      *
-     * @param in
-     * @param dontCreateHTMLAnchors
-     * @param dontCreateHTMLLineBreaks
-     * @param inTextarea
-     * @return String
+     * @param in Text to process.
+     * @param dontCreateHTMLAnchors If true, no HTML links will be interpreted.
+     * @param dontCreateHTMLLineBreaks If true, no HTML line-breaks will be interpreted.
+     * @return The result.
      */
     public static String replaceTags(String in, boolean dontCreateHTMLAnchors, boolean dontCreateHTMLLineBreaks) {
 
@@ -233,18 +227,19 @@ public class RODUtil {
     }
 
     /**
-     * Finds all urls in a given string and replaces them with HTML anchors. If boolean newWindow==true then target will be a new
-     * window, else no. If boolean cutLink>0 then cut the displayed link lenght cutLink.
-     * @param s
-     * @param newWindow
-     * @param cutLink
-     * @return String
+     * Finds all URLs in a given string and replaces them with HTML anchors. If boolean newWindow==true then target will be a new
+     * window, else no. If boolean cutLink>0 then cut the displayed link length.
+     *
+     * @param s String to parse.
+     * @param newWindow Generate or not the "target=_blank" attribute.
+     * @param cutLink Cut links display text to this length, replace the tail with 3 dots.
+     * @return The resulting text.
      */
     public static String setAnchors(String s, boolean newWindow, int cutLink) {
 
         StringBuffer buf = new StringBuffer();
 
-        StringTokenizer st = new StringTokenizer(s, " \t\n\r\f|(|)", true);
+        StringTokenizer st = new StringTokenizer(s, " \t\n\r\f|(|)<>", true);
         while (st.hasMoreTokens()) {
             String token = st.nextToken();
             if (!isURL(token)) {
@@ -273,11 +268,14 @@ public class RODUtil {
     }
 
     /**
-     * Finds all urls in a given string and replaces them with HTML anchors. If boolean newWindow==true then target will be a new
+     * Finds all URLs in a given string and replaces them with HTML anchors. If boolean newWindow==true then target will be a new
      * window, else no.
-     * @param s
-     * @param newWindow
-     * @return String
+     *
+     * This method calls {@link #setAnchors(String, boolean, int)}, passing on the string and the boolean, and setting int=0.
+     *
+     * @param s String to parse.
+     * @param newWindow Generate or not the "target=_blank" attribute.
+     * @return The resulting text.
      */
     public static String setAnchors(String s, boolean newWindow) {
 
@@ -285,9 +283,10 @@ public class RODUtil {
     }
 
     /**
-     * Finds all urls in a given string and replaces them with HTML anchors with target being a new window.
-     * @param s
-     * @return String
+     * Calls {@link #setAnchors(String, boolean)}, passing on the string and giving true for the boolean.
+     *
+     * @param s Passed on.
+     * @return String The parsed string.
      */
     public static String setAnchors(String s) {
 
@@ -296,32 +295,34 @@ public class RODUtil {
 
     /**
      * Checks if the given string is a well-formed URL
-     * @param s
-     * @return boolean
+     *
+     * @param s The given string.
+     * @return boolean True/false.
      */
     public static boolean isURL(String s) {
         try {
             URL url = new URL(s);
+            return url != null;
         } catch (MalformedURLException e) {
             return false;
         }
-
-        return true;
     }
 
     /**
+     * Returns true if the given string is null or empty.
      *
-     * @param s
-     * @return boolean
+     * @param s The string.
+     * @return boolean Is or not.
      */
     public static boolean isNullOrEmpty(String s) {
         return s == null || s.length() == 0;
     }
 
     /**
+     * Returns true if the given string is integer number.
      *
-     * @param s
-     * @return boolean
+     * @param s The string.
+     * @return boolean Is or not.
      */
     public static boolean isNumber(String s) {
         boolean ret = true;
@@ -333,6 +334,13 @@ public class RODUtil {
         return ret;
     }
 
+    /**
+     * Expects given string to be in date format like "dd/mm/yyyy", and returns corresponding value in the MySQL format:
+     * yyyy-mm-dd. Returns "NULL" if string is null or empty.
+     *
+     * @param date The string to parse.
+     * @return The result.
+     */
     public static String str2Date(String date) {
         if (RODUtil.isNullOrEmpty(date)) {
             return "NULL";
@@ -364,7 +372,7 @@ public class RODUtil {
                     && s1 == '/' && s2 == '/') {
                 StringBuffer ret = new StringBuffer(10);
                 ret.insert(0, y1).insert(1, y2).insert(2, y3).insert(3, y4).insert(4, '-').insert(5, m1).insert(6, m2)
-                .insert(7, '-').insert(8, d1).insert(9, d2);
+                        .insert(7, '-').insert(8, d1).insert(9, d2);
 
                 return ret.toString();
             }
@@ -373,10 +381,22 @@ public class RODUtil {
         return "";
     }
 
+    /**
+     * Returns true if the string is null or empty.
+     *
+     * @param str The string.
+     * @return Is or nor.
+     */
     public static boolean nullString(String str) {
         return (str == null || str.length() == 0);
     }
 
+    /**
+     * Surrounds given string with apostrophes and also escapes any apostrophes inside the text for SQL.
+     *
+     * @param in The text to parse.
+     * @return The result.
+     */
     public static String strLiteral(String in) {
         in = (in != null ? in : "");
         StringBuffer ret = new StringBuffer("'");
@@ -393,5 +413,4 @@ public class RODUtil {
 
         return ret.toString();
     }
-
 }

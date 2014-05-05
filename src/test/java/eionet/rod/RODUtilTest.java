@@ -61,16 +61,18 @@ public class RODUtilTest extends TestCase {
      * This test documents an actual bug in the system.
      */
     public void test_replaceTagsMultiLine() {
-        String input = "The templates (XML schema) and the reporting manual are available"
-           + " at: http://www.eionet.europa.eu/schemas/eprtr\n\nTemplate for resubmissions is"
-           + " available at: http://circa.europa.eu/Public/irc/env/e_prtr/library?l=/e-prtr_re-delivery/resubmissionxls/_EN_1.0_&a=i";
+        String input =
+                "The templates (XML schema) and the reporting manual are available"
+                        + " at: http://www.eionet.europa.eu/schemas/eprtr\n\nTemplate for resubmissions is"
+                        + " available at: http://circa.europa.eu/Public/irc/env/e_prtr/library?l=/e-prtr_re-delivery/resubmissionxls/_EN_1.0_&a=i";
 
-        String expected = "The templates (XML schema) and the reporting manual are available"
-           + " at: <a href=\"http://www.eionet.europa.eu/schemas/eprtr\">http://www.eionet.e"
-           + "uropa.eu/schemas/eprtr</a><br/><br/>Template for resubmissions is"
-           + " available at: <a href=\"http://circa.europa.eu/Public/irc/env/e_prtr/library?"
-           + "l=/e-prtr_re-delivery/resubmissionxls/_EN_1.0_&amp;a=i\">http://circa.europa.eu"
-           + "/Public/irc/env/e_prtr/libra...</a><br/><br/>";
+        String expected =
+                "The templates (XML schema) and the reporting manual are available"
+                        + " at: <a href=\"http://www.eionet.europa.eu/schemas/eprtr\">http://www.eionet.e"
+                        + "uropa.eu/schemas/eprtr</a><br/><br/>Template for resubmissions is"
+                        + " available at: <a href=\"http://circa.europa.eu/Public/irc/env/e_prtr/library?"
+                        + "l=/e-prtr_re-delivery/resubmissionxls/_EN_1.0_&amp;a=i\">http://circa.europa.eu"
+                        + "/Public/irc/env/e_prtr/libra...</a>";
 
         String result = RODUtil.replaceTags(input);
         assertEquals(expected, result);
@@ -103,8 +105,8 @@ public class RODUtilTest extends TestCase {
     public void test_threeDotsElektra() {
         // Verify that threeDots() can handle "Elektra" in the Greek alphabet
         char data[] =
-        { '\u03a4', '\u03af', '\u03c4', '\u03bb', '\u03bf', '\u03c2', '\u003a', '\u0020', '\u0397', '\u03bb', '\u03ad',
-                '\u03ba', '\u03c4', '\u03c1', '\u03b1' };
+                {'\u03a4', '\u03af', '\u03c4', '\u03bb', '\u03bf', '\u03c2', '\u003a', '\u0020', '\u0397', '\u03bb', '\u03ad',
+                        '\u03ba', '\u03c4', '\u03c1', '\u03b1'};
         assertEquals("Τίτλος: Ηλέκτρα", RODUtil.threeDots(new String(data), 60));
     }
 
@@ -112,8 +114,8 @@ public class RODUtilTest extends TestCase {
         // Verify that threeDots() can cut after 6 greek characters
         // Ensure that it fails if javac's charset is not UNICODE
         char data[] =
-        { '\u03a4', '\u03af', '\u03c4', '\u03bb', '\u03bf', '\u03c2', '\u003a', '\u0020', '\u0397', '\u03bb', '\u03ad',
-                '\u03ba', '\u03c4', '\u03c1', '\u03b1' };
+                {'\u03a4', '\u03af', '\u03c4', '\u03bb', '\u03bf', '\u03c2', '\u003a', '\u0020', '\u0397', '\u03bb', '\u03ad',
+                        '\u03ba', '\u03c4', '\u03c1', '\u03b1'};
         assertEquals("Τίτλος...", RODUtil.threeDots(new String(data), 6));
     }
 
