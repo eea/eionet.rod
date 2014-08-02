@@ -150,14 +150,14 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
         }
     }
 
-    protected abstract String generateRDF(HttpServletRequest req) throws ServiceException;
+    protected abstract String generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException;
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         res.setContentType("application/rdf+xml;charset=UTF-8");
         try {
-            String rdf = generateRDF(req);
+            String rdf = generateRDF(req, res);
             res.getWriter().write(rdf) ;
         } catch (ServiceException se) {
             throw new ServletException("Error getting values for activities " + se.toString(), se);

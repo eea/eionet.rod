@@ -614,8 +614,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             whereClause1 = getWhereClause("il.FK_ISSUE_ID", issues);
             whereClause2 = getWhereClause("r.FK_SPATIAL_ID", countries);
 
-            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID,");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
+            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
             buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " + "a.NEXT_DEADLINE > '0000-00-00'");
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
@@ -624,8 +623,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
             // EK 010306
             // Create UNION SELECT
-            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID,");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
+            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
             buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE2 IS NOT NULL AND " + "a.NEXT_DEADLINE2 > '0000-00-00'");
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
@@ -634,16 +632,13 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
         } else if (issues != null && countries == null) {
             whereClause1 = getWhereClause("il.FK_ISSUE_ID", issues);
-            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
+            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, a.TITLE AS TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
             buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " + "a.NEXT_DEADLINE > '0000-00-00'");
 
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
-            // EK 010306
             // Create UNION SELECT
-            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
+            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
             buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE2 IS NOT NULL AND " + "a.NEXT_DEADLINE2 > '0000-00-00'");
 
             buf_sql.append(" AND ");
@@ -652,28 +647,22 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } else if (issues == null && countries != null) {
             whereClause1 = getWhereClause("il.FK_SPATIAL_ID", countries);
 
-            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
+            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
             buf_sql.append(" FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " + "a.NEXT_DEADLINE > '0000-00-00'");
 
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
-            // EK 010306
             // Create UNION SELECT
-            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
+            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
             buf_sql.append(" FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE2 IS NOT NULL AND " + "a.NEXT_DEADLINE2 > '0000-00-00'");
 
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
         } else {
-            buf_sql.append("SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE AS DEADLINE, FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("DESCRIPTION", "DESRCIPTION"));
+            buf_sql.append("SELECT PK_RA_ID, TITLE, NEXT_DEADLINE AS DEADLINE, FK_SOURCE_ID, DESCRIPTION");
             buf_sql.append(" FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND " + "NEXT_DEADLINE > '0000-00-00'");
-            // EK 010306
             // Create UNION SELECT
-            buf_sql.append(" UNION SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE2 AS DEADLINE, FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("DESCRIPTION", "DESRCIPTION"));
+            buf_sql.append(" UNION SELECT PK_RA_ID, TITLE, NEXT_DEADLINE2 AS DEADLINE, FK_SOURCE_ID, DESCRIPTION");
             buf_sql.append(" FROM T_OBLIGATION WHERE NEXT_DEADLINE2 IS NOT NULL AND " + "NEXT_DEADLINE2 > '0000-00-00'");
         }
         return _executeStringQuery(buf_sql.toString());

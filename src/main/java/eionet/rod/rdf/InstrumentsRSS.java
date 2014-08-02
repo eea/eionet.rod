@@ -24,6 +24,7 @@
 package eionet.rod.rdf;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.Constants;
 import eionet.rod.RODUtil;
@@ -38,7 +39,7 @@ public class InstrumentsRSS extends RSSServletAC {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected String generateRDF(HttpServletRequest req) throws ServiceException {
+    protected String generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException {
 
         StringBuffer s = new StringBuffer();
         s.append(rdfHeader);

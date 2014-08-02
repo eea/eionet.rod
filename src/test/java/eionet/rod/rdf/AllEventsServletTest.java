@@ -23,6 +23,14 @@ public class AllEventsServletTest extends BaseMySqlDaoTest {
         super(arg0);
     }
 
+    private void assertContains(String result, String expected) {
+        Assert.assertTrue(expected, result.contains(expected));
+    }
+
+    private void assertNotContains(String result, String notExpected) {
+        Assert.assertFalse(notExpected, result.contains(notExpected));
+    }
+
     @Override
     protected IDataSet getDataSet() throws Exception {
         FlatXmlDataSet loadedDataSet;
@@ -33,10 +41,6 @@ public class AllEventsServletTest extends BaseMySqlDaoTest {
 
     }
 
-    /**
-     * If the frequency is every 12 months, then the event will not appear
-     * until 36 days before.
-     */
     @Test
     public void testNoParameters() throws  Exception {
         ServletRunner sr = new ServletRunner();
@@ -49,16 +53,17 @@ public class AllEventsServletTest extends BaseMySqlDaoTest {
         String resp = response.getText();
         //System.out.println(resp);
 
+        assertNotContains(resp, "xmlns:ev=\" xmlns:ev=");
         // Obl. 15
-        Assert.assertTrue(resp.contains("<ev:startdate>2007-01-01</ev:startdate>"));
-        Assert.assertTrue(resp.contains("<title>Deadline for Reporting Obligation: &lt;&#038;&gt;</title>"));
-        Assert.assertTrue(resp.contains("<description>&quot;&#038;amp;&quot;</description>"));
+        assertContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
+        assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
+        assertContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
         // Obl. 15 a year later
-        Assert.assertTrue(resp.contains("<ev:startdate>2008-01-01</ev:startdate>"));
+        assertContains(resp, "<ev:startdate>2008-01-01</ev:startdate>");
         // Obl. 514
-        Assert.assertTrue(resp.contains("<title>Deadline for Reporting Obligation: Obl. 514—&gt;&#038;&lt;</title>"));
-        Assert.assertTrue(resp.contains("<ev:startdate>2008-08-31</ev:startdate>"));
-        Assert.assertTrue(resp.contains("<description>&#038;&#038;&quot;—</description>"));
+        assertContains(resp, "<title>Deadline for Reporting Obligation: Obl. 514—&gt;&amp;&lt;</title>");
+        assertContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
+        assertContains(resp, "<description>&amp;&amp;&quot;—</description>");
     }
 
     @Test
@@ -76,9 +81,11 @@ public class AllEventsServletTest extends BaseMySqlDaoTest {
         //System.out.println(resp);
 
         // Obl. 15
-        Assert.assertTrue(resp.contains("<ev:startdate>2008-01-01</ev:startdate>"));
-        Assert.assertTrue(resp.contains("<title>Deadline for Reporting Obligation: &lt;&#038;&gt;</title>"));
-        Assert.assertTrue(resp.contains("<description>&quot;&#038;amp;&quot;</description>"));
+        assertContains(resp, "<ev:startdate>2008-01-01</ev:startdate>");
+        assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
+        assertContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
+        // Obl. 514 is not there.
+        assertNotContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
     }
 
     @Test
@@ -87,7 +94,7 @@ public class AllEventsServletTest extends BaseMySqlDaoTest {
         sr.registerServlet("allevents.rss", AllEvents.class.getName());
         ServletUnitClient sc = sr.newClient();
         WebRequest request   = new GetMethodWebRequest("http://test.meterware.com/allevents.rss");
-        request.setParameter("countries", "1,2,3");
+        request.setParameter("countries", "2");
         WebResponse response = sc.getResponse(request);
         Assert.assertNotNull("No response received", response);
         Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
@@ -95,8 +102,37 @@ public class AllEventsServletTest extends BaseMySqlDaoTest {
         //System.out.println(resp);
 
         // Obl. 15
-        Assert.assertTrue(resp.contains("<ev:startdate>2007-01-01</ev:startdate>"));
-        Assert.assertTrue(resp.contains("<title>Deadline for Reporting Obligation: &lt;&#038;&gt;</title>"));
-        Assert.assertTrue(resp.contains("<description>&quot;&#038;amp;&quot;</description>"));
+        assertContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
+        assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
+        assertContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
+        // Obl. 514 is not there.
+        assertNotContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
     }
+
+    @Test
+    public void testWithBothParameters() throws  Exception {
+        ServletRunner sr = new ServletRunner();
+        sr.registerServlet("allevents.rss", AllEvents.class.getName());
+        ServletUnitClient sc = sr.newClient();
+        WebRequest request   = new GetMethodWebRequest("http://test.meterware.com/allevents.rss");
+        request.setParameter("issues", "6");
+        request.setParameter("countries", "1");
+        WebResponse response = sc.getResponse(request);
+        Assert.assertNotNull("No response received", response);
+        Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        String resp = response.getText();
+        //System.out.println(resp);
+
+        // Obl. 15
+        assertNotContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
+        assertNotContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
+        assertNotContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
+        // Obl. 15 a year later
+        assertNotContains(resp, "<ev:startdate>2008-01-01</ev:startdate>");
+        // Obl. 514
+        assertContains(resp, "<title>Deadline for Reporting Obligation: Obl. 514—&gt;&amp;&lt;</title>");
+        assertContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
+        assertContains(resp, "<description>&amp;&amp;&quot;—</description>");
+    }
+
 } 

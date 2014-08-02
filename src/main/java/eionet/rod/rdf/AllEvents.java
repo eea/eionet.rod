@@ -31,17 +31,18 @@ import java.text.StringCharacterIterator;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.Constants;
-import eionet.rod.RODUtil;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import java.io.IOException;
 
 public class AllEvents extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
 
-    protected String generateRDF(HttpServletRequest req) throws ServiceException {
+    protected String generateRDF(final HttpServletRequest req, final HttpServletResponse res) throws ServiceException {
 
         String issuesParam = req.getParameter("issues");
         StringTokenizer issuesTemp = null;
@@ -89,51 +90,56 @@ public class AllEvents extends RSSServletAC {
                 countries = new StringTokenizer(strCountries.toString());
         }
 
-        StringBuffer s = new StringBuffer();
-        s.append(rdfHeader);
+        try {
+            RDFUtil rdfOut = new RDFUtil(res.getWriter());
+            rdfOut.addNamespace("ev", "http://purl.org/rss/1.0/modules/event/");
+            rdfOut.setVocabulary("http://purl.org/rss/1.0/");
+            rdfOut.writeRdfHeader();
 
-        s.append("<rdf:RDF ").append(rdfNameSpace).append(eventsNs).append(rssNs).append(">");
+            String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
+            rdfOut.writeStartResource("channel", eventsUrl);
 
-        String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
-        addChannelTag(s, eventsUrl);
+            String[][] events = RODServices.getDbService().getObligationDao().getAllActivityDeadlines(issues, countries);
 
-        String[][] events = RODServices.getDbService().getObligationDao().getAllActivityDeadlines(issues, countries);
+            rdfOut.writeStartLiteral("items");
+            rdfOut.writeStartResource("rdf:Seq");
+            for (int i = 0; i < events.length; i++) {
+                String pk = events[i][0];
 
-        s.append("<items><rdf:Seq>");
-        for (int i = 0; i < events.length; i++) {
-            String pk = events[i][0];
+                rdfOut.writeReference("rdf:li", obligationsNamespace + "/" + pk);
+            }
+            rdfOut.writeEndResource("rdf:Seq");
+            rdfOut.writeEndLiteral("items");
 
-            s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/").append(pk).append("\"/>");
+            rdfOut.writeEndResource("channel");
+            for (int i = 0; i < events.length; i++) {
+                String pk = events[i][0];
+                String title = "Deadline for Reporting Obligation: " + events[i][1];
+                String date = events[i][2];
+                String link = getActivityUrl(pk, events[i][3]);
+                String description = events[i][4];
 
+                rdfOut.writeStartResource("item", obligationsNamespace + "/" + pk);
+                rdfOut.writeLiteral("title", title);
+                rdfOut.writeLiteral("link", link);
+                rdfOut.writeLiteral("description", description);
+                rdfOut.writeLiteral("ev:startdate", date);
+
+                rdfOut.writeEndResource("item");
+            }
+
+            rdfOut.writeRdfFooter();
+        } catch (IOException e) {
         }
-        s.append("</rdf:Seq></items>");
-        addChannelEnd(s);
-        for (int i = 0; i < events.length; i++) {
-            String pk = events[i][0];
-            String title = "Deadline for Reporting Obligation: " + events[i][1];
-            String date = events[i][2];
-            String link = getActivityUrl(pk, events[i][3]);
-            String description = events[i][4];
 
-            s.append("<item rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">").append("<title>")
-            .append(RODUtil.replaceTags(title, true, true)).append("</title>").append("<link>")
-            .append(RODUtil.replaceTags(link, true, true)).append("</link>").append("<description>")
-            .append(RODUtil.replaceTags(description, true, true)).append("</description>").append("<ev:startdate>")
-            .append(date).append("</ev:startdate>");
-
-            s.append("</item>");
-        }
-
-        s.append("</rdf:RDF>");
-
-        return s.toString();
+        return "";
     }
 
     /**
      * Checks if input string is a number.
      * FIXME: Should use RODUtil.isNumber() instead.
      */
-    public static boolean isNumeric(String inString) {
+    public static boolean isNumeric(final String inString) {
         CharacterIterator theIterator = new StringCharacterIterator(inString);
 
         for (char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next()) {

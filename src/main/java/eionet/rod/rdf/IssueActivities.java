@@ -28,6 +28,7 @@ import java.text.StringCharacterIterator;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.Constants;
 import eionet.rod.RODUtil;
@@ -41,7 +42,7 @@ public class IssueActivities extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
 
-    protected String generateRDF(HttpServletRequest req) throws ServiceException {
+    protected String generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException {
 
         String issuesParam = req.getParameter("issues");
         StringTokenizer issuesTemp = null;

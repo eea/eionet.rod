@@ -70,7 +70,7 @@ public abstract class RSSServletAC extends RDFServletAC implements Constants  {
         res.setContentType("application/rss+xml;charset=UTF-8");
         try {
 
-            String rss = generateRDF(req);
+            String rss = generateRDF(req, res);
 
             res.getWriter().write( rss) ;
 
