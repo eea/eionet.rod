@@ -104,7 +104,7 @@ public class Events extends RSSServletAC {
 
         String[][] events = RODServices.getDbService().getObligationDao().getActivityDeadlines(issues, countries);
         Vector eventsVec = new Vector();
-        Date currentDate = new Date();
+        Date currentDate = getTodaysDate();
         for (int i = 0; i < events.length; i++) {
             String nd = events[i][2];
             String freq = events[i][3];
@@ -208,4 +208,12 @@ public class Events extends RSSServletAC {
         return false;
     }
 
+    /**
+     * Get the date of today from the computer.
+     *
+     * @return today's date
+     */
+    protected Date getTodaysDate() {
+        return new Date();
+    }
 }
