@@ -16,13 +16,19 @@
 
 <!-- Obligation 514 -->
   <T_OBLIGATION PK_RA_ID="514" FK_SOURCE_ID="170"
-    TITLE="Obl. 514:&gt;&#38;&lt;"
+    TITLE="Obl. 514—&gt;&#38;&lt;"
     FORMAT_NAME="" REPORT_FORMAT_URL="" TERMINATE="N"
     REPORTING_FORMAT="Implementation"
     NEXT_DEADLINE="2008-08-31" FIRST_REPORTING="2008-08-31"
-    DESCRIPTION="&amp;&amp;&quot;" 
+    DESCRIPTION="&amp;&amp;&quot;—" 
     REPORT_FREQ_MONTHS="0" NEXT_REPORTING="" VALID_TO="2008-08-31" FK_DELIVERY_COUNTRY_IDS=""
   />
+
+  <T_ISSUE PK_ISSUE_ID="1" ISSUE_NAME="Climate Change"/>
+  <T_ISSUE PK_ISSUE_ID="2" ISSUE_NAME="Ozone Depletion"/>
+  <T_ISSUE PK_ISSUE_ID="3" ISSUE_NAME="Acidification"/>
+  <T_ISSUE PK_ISSUE_ID="4" ISSUE_NAME="Soil"/>
+  <T_ISSUE PK_ISSUE_ID="6" ISSUE_NAME="Air quality"/>
 
   <T_RAISSUE_LNK FK_ISSUE_ID="1" FK_RA_ID="15"/>
   <T_RAISSUE_LNK FK_ISSUE_ID="6" FK_RA_ID="15"/>
