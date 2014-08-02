@@ -44,51 +44,8 @@ public class IssueActivities extends RSSServletAC {
 
     protected String generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException {
 
-        String issuesParam = req.getParameter("issues");
-        StringTokenizer issuesTemp = null;
-        StringTokenizer issues = null;
-
-        String countriesParam = req.getParameter("countries");
-        StringTokenizer countriesTemp = null;
-        StringTokenizer countries = null;
-
-        if (issuesParam != null)
-            issuesTemp = new StringTokenizer(issuesParam, ",");
-
-        if (countriesParam != null)
-            countriesTemp = new StringTokenizer(countriesParam, ",");
-
-        StringBuffer strIssues = new StringBuffer();
-        if (issuesTemp != null) {
-            while (issuesTemp.hasMoreTokens()) {
-                String token = issuesTemp.nextToken();
-                if (isNumeric(token)) {
-                    strIssues.append(token);
-                    strIssues.append(" ");
-                } else {
-                    strIssues.append("-1");
-                    strIssues.append(" ");
-                }
-            }
-            if (strIssues.toString() != null)
-                issues = new StringTokenizer(strIssues.toString());
-        }
-
-        StringBuffer strCountries = new StringBuffer();
-        if (countriesTemp != null) {
-            while (countriesTemp.hasMoreTokens()) {
-                String token = countriesTemp.nextToken();
-                if (isNumeric(token)) {
-                    strCountries.append(token);
-                    strCountries.append(" ");
-                } else {
-                    strCountries.append("-1");
-                    strCountries.append(" ");
-                }
-            }
-            if (strCountries.toString() != null)
-                countries = new StringTokenizer(strCountries.toString());
-        }
+        StringTokenizer issues = tokenizeParam(req.getParameter("issues"));
+        StringTokenizer countries = tokenizeParam(req.getParameter("countries"));
 
         StringBuffer s = new StringBuffer();
         s.append(rdfHeader);
@@ -144,6 +101,37 @@ public class IssueActivities extends RSSServletAC {
         }
 
         return true;
+    }
+
+    /**
+     * Split param on comma and remove non-numeric values.
+     *
+     * @param param - The parameter provided by the user.
+     * @return List of values
+     */ 
+    private StringTokenizer tokenizeParam(String param) {
+        if (param == null || param.length() == 0) {
+            return null;
+        }       
+            
+        StringTokenizer uncleanTemp = new StringTokenizer(param, ",");
+        StringBuffer cleanStr = new StringBuffer();
+        if (uncleanTemp != null) {
+            while (uncleanTemp.hasMoreTokens()) {
+                String token = uncleanTemp.nextToken();
+                if (isNumeric(token)) {
+                    cleanStr.append(token);
+                    cleanStr.append(" ");
+                } else {
+                    cleanStr.append("-1");
+                    cleanStr.append(" ");
+                }
+            }
+            if (cleanStr.toString() != null) {
+                return new StringTokenizer(cleanStr.toString());
+            }
+        }
+        return null;
     }
 
 }
