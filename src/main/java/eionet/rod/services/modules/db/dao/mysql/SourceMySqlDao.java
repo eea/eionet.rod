@@ -321,11 +321,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
     //TODO: escaping HTML should be done in the presentation layer.
     private static final String Q_INSTRUMENTS_RSS =
-        "SELECT "
-        + "PK_SOURCE_ID, "
-        + "REPLACE(TITLE, '&', '&#038;') AS TITLE, "
+        "SELECT PK_SOURCE_ID, TITLE, "
         + "CONCAT('" + rodDomain + "/instruments/', PK_SOURCE_ID) AS LINK, "
-        + "REPLACE(COMMENT, '&', '&#038;') AS COMMENT "
+        + "COMMENT "
         + "FROM T_SOURCE "
         + "ORDER BY PK_SOURCE_ID ";
 

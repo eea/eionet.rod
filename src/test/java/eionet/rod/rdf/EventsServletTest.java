@@ -56,14 +56,14 @@ public class EventsServletTest extends BaseMySqlDaoTest {
         assertNotContains(resp, "xmlns:ev=\" xmlns:ev=");
         // Obl. 15
         assertContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
-        assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&#038;&gt;</title>");
-        assertContains(resp, "<description>&quot;&#038;amp;&quot;</description>");
+        assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
+        assertContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
         // Obl. 15 a year later
         assertNotContains(resp, "<ev:startdate>2008-01-01</ev:startdate>");
         // Obl. 514
-        assertNotContains(resp, "<title>Deadline for Reporting Obligation: Obl. 514—&gt;&#038;&lt;</title>");
+        assertNotContains(resp, "<title>Deadline for Reporting Obligation: Obl. 514—&gt;&amp;&lt;</title>");
         assertNotContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
-        assertNotContains(resp, "<description>&#038;&#038;&quot;—</description>");
+        assertNotContains(resp, "<description>&amp;&amp;&quot;—</description>");
     }
 
     @Test
@@ -82,8 +82,8 @@ public class EventsServletTest extends BaseMySqlDaoTest {
 
         // Obl. 15
         assertContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
-        assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&#038;&gt;</title>");
-        assertContains(resp, "<description>&quot;&#038;amp;&quot;</description>");
+        assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
+        assertContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
         // Obl. 514 is not there.
         assertNotContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
     }
@@ -103,8 +103,8 @@ public class EventsServletTest extends BaseMySqlDaoTest {
 
         // Obl. 15
         assertContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
-        assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&#038;&gt;</title>");
-        assertContains(resp, "<description>&quot;&#038;amp;&quot;</description>");
+        assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
+        assertContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
         // Obl. 514 is not there.
         assertNotContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
     }
@@ -125,14 +125,14 @@ public class EventsServletTest extends BaseMySqlDaoTest {
 
         // Obl. 15
         assertNotContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
-        assertNotContains(resp, "<title>Deadline for Reporting Obligation: &lt;&#038;&gt;</title>");
-        assertNotContains(resp, "<description>&quot;&#038;amp;&quot;</description>");
+        assertNotContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
+        assertNotContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
         // Obl. 15 a year later
         assertNotContains(resp, "<ev:startdate>2008-01-01</ev:startdate>");
         // Obl. 514
-        assertNotContains(resp, "<title>Deadline for Reporting Obligation: Obl. 514—&gt;&#038;&lt;</title>");
+        assertNotContains(resp, "<title>Deadline for Reporting Obligation: Obl. 514—&gt;&amp;&lt;</title>");
         assertNotContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
-        assertNotContains(resp, "<description>&#038;&#038;&quot;—</description>");
+        assertNotContains(resp, "<description>&amp;&amp;&quot;—</description>");
     }
 
 } 

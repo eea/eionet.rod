@@ -23,6 +23,7 @@
 
 package eionet.rod.rdf;
 
+import java.io.IOException;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.StringTokenizer;
@@ -47,48 +48,51 @@ public class IssueActivities extends RSSServletAC {
         StringTokenizer issues = tokenizeParam(req.getParameter("issues"));
         StringTokenizer countries = tokenizeParam(req.getParameter("countries"));
 
-        StringBuffer s = new StringBuffer();
-        s.append(rdfHeader);
+        try {
+            RDFUtil rdfOut = new RDFUtil(res.getWriter());
+            rdfOut.addNamespace("ev", "http://purl.org/rss/1.0/modules/event/");
+            rdfOut.setVocabulary("http://purl.org/rss/1.0/");
+            rdfOut.writeRdfHeader();
 
-        s.append("<rdf:RDF ").append(rdfNameSpace).append(rssNs).append(eventsNs).append(">");
+            String actsUrl = props.getString(Constants.ROD_URL_ACTIVITIES);
+            rdfOut.writeStartResource("channel", actsUrl);
 
-        String actsUrl = props.getString(Constants.ROD_URL_ACTIVITIES);
-        addChannelTag(s, actsUrl);
+            String[][] acts = RODServices.getDbService().getObligationDao().getIssueActivities(issues, countries);
 
-        String[][] acts = RODServices.getDbService().getObligationDao().getIssueActivities(issues, countries);
+            rdfOut.writeStartLiteral("items");
+            rdfOut.writeStartResource("rdf:Seq");
+            for (int i = 0; i < acts.length; i++) {
+                String pk = acts[i][0];
 
-        s.append("<items><rdf:Seq>");
-        for (int i = 0; i < acts.length; i++) {
-            String pk = acts[i][0];
+                rdfOut.writeReference("rdf:li", obligationsNamespace + "/" + pk);
+            }
+            rdfOut.writeEndResource("rdf:Seq");
+            rdfOut.writeEndLiteral("items");
 
-            s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/").append(pk).append("\"/>");
+            rdfOut.writeEndResource("channel");
 
+            for (int i = 0; i < acts.length; i++) {
+                String pk = acts[i][0];
+                String title = acts[i][1];
+                String date = acts[i][2];
+                String link = getActivityUrl(pk, acts[i][3]);
+                String description = acts[i][4];
+
+                rdfOut.writeStartResource("item", obligationsNamespace + "/" + pk);
+                rdfOut.writeLiteral("title", title);
+                rdfOut.writeLiteral("link", link);
+                rdfOut.writeLiteral("description", description);
+                rdfOut.writeLiteral("ev:startdate", date);
+
+                rdfOut.writeEndResource("item");
+            }
+
+            rdfOut.writeRdfFooter();
+        } catch (IOException e) {
         }
-        s.append("</rdf:Seq></items>");
-        addChannelEnd(s);
-        for (int i = 0; i < acts.length; i++) {
-            String pk = acts[i][0];
-            String title = acts[i][1];
-            String date = acts[i][2];
-            String link = getActivityUrl(pk, acts[i][3]);
-            String description = acts[i][4];
 
-            s.append("<item rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">").append("<title>")
-            .append(RODUtil.replaceTags(title, true, true)).append("</title>").append("<link>")
-            .append(RODUtil.replaceTags(link, true, true)).append("</link>").append("<description>")
-            .append(RODUtil.replaceTags(description, true, true)).append("</description>");
+        return "";
 
-            if (date != null)
-                s.append("<ev:startdate>").append(date).append("</ev:startdate>");
-            else
-                s.append("<ev:startdate/>");
-
-            s.append("</item>");
-        }
-
-        s.append("</rdf:RDF>");
-
-        return s.toString();
     }
 
     public static boolean isNumeric(String inString) {

@@ -39,6 +39,7 @@ import eionet.rod.Constants;
 import eionet.rod.RODUtil;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import java.io.IOException;
 
 /**
  * Write RSS for events.
@@ -52,75 +53,80 @@ public class Events extends RSSServletAC {
         StringTokenizer issues = tokenizeParam(req.getParameter("issues"));
         StringTokenizer countries = tokenizeParam(req.getParameter("countries"));
 
-        StringBuffer s = new StringBuffer();
-        s.append(rdfHeader);
+        try {
+            RDFUtil rdfOut = new RDFUtil(res.getWriter());
+            rdfOut.addNamespace("ev", "http://purl.org/rss/1.0/modules/event/");
+            rdfOut.setVocabulary("http://purl.org/rss/1.0/");
+            rdfOut.writeRdfHeader();
 
-        s.append("<rdf:RDF ").append(rdfNameSpace).append(eventsNs).append(rssNs).append(">");
+            String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
+            rdfOut.writeStartResource("channel", eventsUrl);
 
-        String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
-        addChannelTag(s, eventsUrl);
+            String[][] events = RODServices.getDbService().getObligationDao().getActivityDeadlines(issues, countries);
 
-        String[][] events = RODServices.getDbService().getObligationDao().getActivityDeadlines(issues, countries);
-        Vector eventsVec = new Vector();
-        Date currentDate = getTodaysDate();
-        for (int i = 0; i < events.length; i++) {
-            String nd = events[i][2];
-            String freq = events[i][3];
-            boolean isUpcoming = isUpcomingEvent(nd, freq, currentDate);
-            if (isUpcoming) {
-                Hashtable hash = new Hashtable();
-                hash.put("pk", events[i][0]);
-                hash.put("title", events[i][1]);
-                hash.put("next_deadline", nd);
-                hash.put("freq", freq);
-                hash.put("link", events[i][4]);
-                hash.put("desc", events[i][5]);
-                eventsVec.add(hash);
+            Vector eventsVec = new Vector();
+            Date currentDate = getTodaysDate();
+            for (int i = 0; i < events.length; i++) {
+                String nd = events[i][2];
+                String freq = events[i][3];
+                boolean isUpcoming = isUpcomingEvent(nd, freq, currentDate);
+                if (isUpcoming) {
+                    Hashtable hash = new Hashtable();
+                    hash.put("pk", events[i][0]);
+                    hash.put("title", events[i][1]);
+                    hash.put("next_deadline", nd);
+                    hash.put("freq", freq);
+                    hash.put("link", events[i][4]);
+                    hash.put("desc", events[i][5]);
+                    eventsVec.add(hash);
+                }
             }
+
+            String[][] upcomingEvents = new String[eventsVec.size()][6];
+            int cnt = 0;
+            for (Enumeration en = eventsVec.elements(); en.hasMoreElements();) {
+                Hashtable h = (Hashtable) en.nextElement();
+                upcomingEvents[cnt][0] = (String) h.get("pk");
+                upcomingEvents[cnt][1] = (String) h.get("title");
+                upcomingEvents[cnt][2] = (String) h.get("next_deadline");
+                upcomingEvents[cnt][3] = (String) h.get("freq");
+                upcomingEvents[cnt][4] = (String) h.get("link");
+                upcomingEvents[cnt][5] = (String) h.get("desc");
+
+                cnt++;
+            }
+
+            rdfOut.writeStartLiteral("items");
+            rdfOut.writeStartResource("rdf:Seq");
+            for (int i = 0; i < upcomingEvents.length; i++) {
+                String pk = upcomingEvents[i][0];
+
+                rdfOut.writeReference("rdf:li", obligationsNamespace + "/" + pk);
+            }
+            rdfOut.writeEndResource("rdf:Seq");
+            rdfOut.writeEndLiteral("items");
+            rdfOut.writeEndResource("channel");
+            for (int i = 0; i < upcomingEvents.length; i++) {
+                String pk = upcomingEvents[i][0];
+                String title = "Deadline for Reporting Obligation: " + upcomingEvents[i][1];
+                String date = upcomingEvents[i][2];
+                String link = getActivityUrl(pk, upcomingEvents[i][4]);
+                String description = upcomingEvents[i][5];
+
+                rdfOut.writeStartResource("item", obligationsNamespace + "/" + pk);
+                rdfOut.writeLiteral("title", title);
+                rdfOut.writeLiteral("link", link);
+                rdfOut.writeLiteral("description", description);
+                rdfOut.writeLiteral("ev:startdate", date);
+
+                rdfOut.writeEndResource("item");
+            }
+
+            rdfOut.writeRdfFooter();
+        } catch (IOException e) {
         }
 
-        String[][] upcomingEvents = new String[eventsVec.size()][6];
-        int cnt = 0;
-        for (Enumeration en = eventsVec.elements(); en.hasMoreElements();) {
-            Hashtable h = (Hashtable) en.nextElement();
-            upcomingEvents[cnt][0] = (String) h.get("pk");
-            upcomingEvents[cnt][1] = (String) h.get("title");
-            upcomingEvents[cnt][2] = (String) h.get("next_deadline");
-            upcomingEvents[cnt][3] = (String) h.get("freq");
-            upcomingEvents[cnt][4] = (String) h.get("link");
-            upcomingEvents[cnt][5] = (String) h.get("desc");
-
-            cnt++;
-        }
-
-        s.append("<items><rdf:Seq>");
-        for (int i = 0; i < upcomingEvents.length; i++) {
-            String pk = upcomingEvents[i][0];
-
-            s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/").append(pk).append("\"/>");
-
-        }
-        s.append("</rdf:Seq></items>");
-        addChannelEnd(s);
-        for (int i = 0; i < upcomingEvents.length; i++) {
-            String pk = upcomingEvents[i][0];
-            String title = "Deadline for Reporting Obligation: " + upcomingEvents[i][1];
-            String date = upcomingEvents[i][2];
-            String link = getActivityUrl(pk, upcomingEvents[i][4]);
-            String description = upcomingEvents[i][5];
-
-            s.append("<item rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">").append("<title>")
-            .append(RODUtil.replaceTags(title, true, true)).append("</title>").append("<link>")
-            .append(RODUtil.replaceTags(link, true, true)).append("</link>").append("<description>")
-            .append(RODUtil.replaceTags(description, true, true)).append("</description>").append("<ev:startdate>")
-            .append(date).append("</ev:startdate>");
-
-            s.append("</item>");
-        }
-
-        s.append("</rdf:RDF>");
-
-        return s.toString();
+        return "";
     }
 
     /**

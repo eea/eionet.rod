@@ -36,7 +36,7 @@ public class InstrumentsRSSTest extends BaseMySqlDaoTest {
         FlatXmlDataSet loadedDataSet;
         FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
         builder.setColumnSensing(true);
-        loadedDataSet = builder.build(this.getClass().getClassLoader().getResourceAsStream("seed-rod.xml"));
+        loadedDataSet = builder.build(this.getClass().getClassLoader().getResourceAsStream("seed-events.xml"));
         return loadedDataSet;
 
     }
@@ -57,12 +57,12 @@ public class InstrumentsRSSTest extends BaseMySqlDaoTest {
         assertContains(resp, "<channel rdf:about=\"http://rod.eionet.europa.eu/instruments.rss\">");
         assertContains(resp, "<rdf:li rdf:resource=\"http://rod.eionet.europa.eu/instruments/170\"/>");
         // Instrument 170
-        assertContains(resp, "<title>Convention for the protection of the marine environment of the north-east Atlantic</title>");
+        assertContains(resp, "<title>Convention for the protection of the marine environment of the &lt;&lt;north-east Atlantic&gt;&gt;</title>");
         assertContains(resp, "<description>The Convention for the Protection of the Marine Environment o");
         // Instrument 499
         assertContains(resp, "<title>EEA Annual Management Plan</title>");
         assertContains(resp, "<link>http://rod.eionet.europa.eu/instruments/499</link>");
-        assertContains(resp, "<description>Former name was Annual Work Programme</description>");
+        assertContains(resp, "<description>Former name was Annual Work Programme &amp; MAWP</description>");
     }
 
 } 

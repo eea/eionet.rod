@@ -109,6 +109,34 @@ public class AllEventsServletTest extends BaseMySqlDaoTest {
         assertNotContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
     }
 
+    /*
+     * The effect is that the bad values in the parameters are ignored and the
+     * filtering happens on the rest. A side-effect, is that if there are no
+     * good values, then nothing is returned.
+     */
+    @Test
+    public void testWithBadCountriesParameter() throws  Exception {
+        ServletRunner sr = new ServletRunner();
+        sr.registerServlet("allevents.rss", AllEvents.class.getName());
+        ServletUnitClient sc = sr.newClient();
+        WebRequest request   = new GetMethodWebRequest("http://test.meterware.com/allevents.rss");
+        request.setParameter("countries", "ABC,2");
+        WebResponse response = sc.getResponse(request);
+        String resp = response.getText();
+        //System.out.println(resp);
+
+        // Obl. 15
+        assertContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
+        assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
+        assertContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
+        // Obl. 514 is not there.
+        assertNotContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
+    }
+
+    /*
+    /*
+     * The effect of both issues and countries is that they are AND-ed.
+     */
     @Test
     public void testWithBothParameters() throws  Exception {
         ServletRunner sr = new ServletRunner();

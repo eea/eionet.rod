@@ -43,7 +43,7 @@
 <!-- Source for obligation 514 -->
 
   <T_SOURCE PK_SOURCE_ID="170" FK_TYPE_ID="16" SOURCE_CODE=""
-  TITLE="Convention for the protection of the marine environment of the north-east Atlantic"
+  TITLE="Convention for the protection of the marine environment of the &lt;&lt;north-east Atlantic&gt;&gt;"
   CELEX_REF="2998A0403(01)"
   LEGAL_NAME="Convention for the Protection of the Marine Environment of the North-East Atlantic (OSPAR Convention 1992)"
   URL="http://www.eur-lex.europa.eu/Notice.do?val=225381:cs&amp;lang=en&amp;list=225381:cs,&amp;pos=1&amp;page=1&amp;nbl=1&amp;pgs=10&amp;hwords=&amp;checktexte=checkbox&amp;visu=#texte"
@@ -67,6 +67,7 @@ As its predecessors, the OSPAR Commission has the status of an international org
   <T_SOURCE PK_SOURCE_ID="499" FK_TYPE_ID="15" SOURCE_CODE="" TITLE="EEA Annual Management Plan" CELEX_REF="" LEGAL_NAME=""
   URL="http://org.eea.eu.int/documents/" SECRETARIAT="" SECRETARIAT_URL=""
   ABSTRACT=""
+  COMMENT="Former name was Annual Work Programme &amp; MAWP"
   LAST_MODIFIED="2004-04-01" ISSUED_BY="EEA" VALID_FROM="2005-03-09" ALIAS="EEA AMP" ISSUED_BY_URL="http://www.eea.europa.eu" FK_CLIENT_ID="3" LAST_UPDATE="2007-11-27 10:14:21.0" RM_NEXT_UPDATE="2007-05-04" RM_VERIFIED="2006-10-10" RM_VERIFIED_BY="ETC TE JFE" GEOGRAPHIC_SCOPE="EEA area" DGENV_REVIEW="" RM_VALIDATED_BY=""/>
 
 

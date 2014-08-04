@@ -56,12 +56,12 @@ public class IssueActivitiesTest extends BaseMySqlDaoTest {
         assertNotContains(resp, "xmlns:ev=\" xmlns:ev=");
         // Obl. 15
         assertContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
-        assertContains(resp, "<title>&lt;&#038;&gt;</title>");
-        assertContains(resp, "<description>&quot;&#038;amp;&quot;</description>");
+        assertContains(resp, "<title>&lt;&amp;&gt;</title>");
+        assertContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
         // Obl. 514
-        assertContains(resp, "<title>Obl. 514—&gt;&#038;&lt;</title>");
+        assertContains(resp, "<title>Obl. 514—&gt;&amp;&lt;</title>");
         assertContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
-        assertContains(resp, "<description>&#038;&#038;&quot;—</description>");
+        assertContains(resp, "<description>&amp;&amp;&quot;—</description>");
     }
 
 } 
