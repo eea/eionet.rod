@@ -58,6 +58,7 @@ public class EventsServletTest extends BaseMySqlDaoTest {
         assertContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
         assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
         assertContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
+        assertContains(resp, "<link>http://rod.eionet.europa.eu/obligations/15</link>");
         // Obl. 15 a year later
         assertNotContains(resp, "<ev:startdate>2008-01-01</ev:startdate>");
         // Obl. 514
@@ -84,6 +85,7 @@ public class EventsServletTest extends BaseMySqlDaoTest {
         assertContains(resp, "<ev:startdate>2007-01-01</ev:startdate>");
         assertContains(resp, "<title>Deadline for Reporting Obligation: &lt;&amp;&gt;</title>");
         assertContains(resp, "<description>&quot;&amp;amp;&quot;</description>");
+        assertContains(resp, "<link>http://rod.eionet.europa.eu/obligations/15</link>");
         // Obl. 514 is not there.
         assertNotContains(resp, "<ev:startdate>2008-08-31</ev:startdate>");
     }

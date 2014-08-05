@@ -165,8 +165,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
     }
 
     protected String getActivityUrl(String id, String aid) {
-        String url = props.getString(ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
-        URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AMODE;
+        String url = props.getString(ROD_URL_DOMAIN) + URL_SERVLET + "/" + id;
         return url;
 
     }

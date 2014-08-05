@@ -52,15 +52,12 @@ public abstract class RSSServletAC extends RDFServletAC implements Constants  {
 
 
     /* protected String getObligationUrl(String id, String aid) {
-    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
-      URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AID + "=" + aid + "&amp;" +
+    String url = props.getString(ROD_URL_DOMAIN) + URL_SERVLET + id;
       URL_ACTIVITY_RMODE;
     return url;
 } */
     /* protected String getActivityUrl(String id, String aid) {
-    String url = props.getString( ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
-      URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AID + "=" + aid + "&amp;" +
-      URL_ACTIVITY_AMODE;
+    String url = props.getString(ROD_URL_DOMAIN) + URL_SERVLET + id;
     return url;
 
  } */

@@ -168,7 +168,7 @@ public interface Constants {
     /**
      * Servlet name showing RA
      */
-    public static final String URL_SERVLET = "show.jsv";
+    public static final String URL_SERVLET = "/obligations";
     /**
      * RA ID in Url
      */
