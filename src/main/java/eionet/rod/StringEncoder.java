@@ -19,7 +19,7 @@
  *        Søren Roug, EEA
  */
 
-package eionet.rod.rdf;
+package eionet.rod;
 
 /**
  * Class to help escape strings for XML and URI components.

@@ -1,9 +1,10 @@
 package eionet.rod.rdf;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
-import java.io.IOException;
 import java.util.HashMap;
+import eionet.rod.StringEncoder;
 
 /**
  * Write RDF/XML triples.

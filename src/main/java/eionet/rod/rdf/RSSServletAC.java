@@ -39,38 +39,13 @@ public abstract class RSSServletAC extends RDFServletAC implements Constants  {
 
     private static final long serialVersionUID = 1L;
 
-    protected static final String eventsNs = " xmlns:ev=\"http://purl.org/rss/1.0/modules/event/\" ";
-    protected static final String rssNs = " xmlns=\"http://purl.org/rss/1.0/\" "  ;
+    protected static final String eventsNs = "http://purl.org/rss/1.0/modules/event/";
+    protected static final String rssNs = "http://purl.org/rss/1.0/"  ;
 
-    protected void addChannelTag(StringBuffer s, String ns ) {
-        s.append("<channel rdf:about=\"").append(ns).append("\">");
-    }
-
-    protected void addChannelEnd(StringBuffer s) {
-        s.append("</channel>");
-    }
-
-
-    /* protected String getObligationUrl(String id, String aid) {
-    String url = props.getString(ROD_URL_DOMAIN) + URL_SERVLET + id;
-      URL_ACTIVITY_RMODE;
-    return url;
-} */
-    /* protected String getActivityUrl(String id, String aid) {
-    String url = props.getString(ROD_URL_DOMAIN) + URL_SERVLET + id;
-    return url;
-
- } */
-
-
-    public void doGet( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException {
         res.setContentType("application/rss+xml;charset=UTF-8");
         try {
-
-            String rss = generateRDF(req, res);
-
-            res.getWriter().write( rss) ;
-
+            generateRDF(req, res);
         } catch (ServiceException se ) {
             throw new ServletException( "Error getting values for events " + se.toString(), se);
         }

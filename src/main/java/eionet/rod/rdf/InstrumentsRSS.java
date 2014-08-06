@@ -33,61 +33,56 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * Activities RSS
+ * Activities RSS.
  */
 public class InstrumentsRSS extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected String generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException {
+    protected void generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException, IOException {
 
+        RDFUtil rdfOut = new RDFUtil(res.getWriter());
+        rdfOut.addNamespace("ev", eventsNs);
+        rdfOut.setVocabulary(rssNs);
+        rdfOut.writeRdfHeader();
+
+        String lisUrl = "http://rod.eionet.europa.eu/instruments.rss";
         try {
-            RDFUtil rdfOut = new RDFUtil(res.getWriter());
-            rdfOut.addNamespace("ev", "http://purl.org/rss/1.0/modules/event/");
-            rdfOut.setVocabulary("http://purl.org/rss/1.0/");
-            rdfOut.writeRdfHeader();
+            lisUrl = props.getString(Constants.ROD_URL_INSTRUMENTS);
+        } catch (Exception e) {
+            // use default
+        }
+        rdfOut.writeStartResource("channel", lisUrl);
 
-            String lisUrl = "http://rod.eionet.europa.eu/instruments.rss";
-            try {
-                lisUrl = props.getString(Constants.ROD_URL_INSTRUMENTS);
-            } catch (Exception e) {
-                // use default
-            }
-            rdfOut.writeStartResource("channel", lisUrl);
+        String[][] lis = RODServices.getDbService().getSourceDao().getInstrumentsRSS();
 
-            String[][] lis = RODServices.getDbService().getSourceDao().getInstrumentsRSS();
+        rdfOut.writeStartLiteral("items");
+        rdfOut.writeStartResource("rdf:Seq");
+        for (int i = 0; i < lis.length; i++) {
+            String pk = lis[i][0];
 
-            rdfOut.writeStartLiteral("items");
-            rdfOut.writeStartResource("rdf:Seq");
-            for (int i = 0; i < lis.length; i++) {
-                String pk = lis[i][0];
+            rdfOut.writeReference("rdf:li", instrumentsNamespace + pk);
+        }
+        rdfOut.writeEndResource("rdf:Seq");
+        rdfOut.writeEndLiteral("items");
 
-                rdfOut.writeReference("rdf:li", instrumentsNamespace + pk);
-            }
-            rdfOut.writeEndResource("rdf:Seq");
-            rdfOut.writeEndLiteral("items");
+        rdfOut.writeEndResource("channel");
+        for (int i = 0; i < lis.length; i++) {
+            String pk = lis[i][0];
+            String title = lis[i][1];
+            String link = lis[i][2];
+            String description = lis[i][3];
 
-            rdfOut.writeEndResource("channel");
-            for (int i = 0; i < lis.length; i++) {
-                String pk = lis[i][0];
-                String title = lis[i][1];
-                String link = lis[i][2];
-                String description = lis[i][3];
+            rdfOut.writeStartResource("item", instrumentsNamespace + pk);
+            rdfOut.writeLiteral("title", title);
+            rdfOut.writeLiteral("link", link);
+            rdfOut.writeLiteral("description", description);
 
-                rdfOut.writeStartResource("item", instrumentsNamespace + pk);
-                rdfOut.writeLiteral("title", title);
-                rdfOut.writeLiteral("link", link);
-                rdfOut.writeLiteral("description", description);
-
-                rdfOut.writeEndResource("item");
-            }
-
-            rdfOut.writeRdfFooter();
-        } catch (IOException e) {
+            rdfOut.writeEndResource("item");
         }
 
-        return "";
+        rdfOut.writeRdfFooter();
     }
 
 }

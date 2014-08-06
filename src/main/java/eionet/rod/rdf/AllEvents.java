@@ -42,54 +42,50 @@ public class AllEvents extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
 
-    protected String generateRDF(final HttpServletRequest req, final HttpServletResponse res) throws ServiceException {
+    @Override
+    protected void generateRDF(final HttpServletRequest req, final HttpServletResponse res) throws ServiceException, IOException {
 
         StringTokenizer issues = tokenizeParam(req.getParameter("issues"));
         StringTokenizer countries = tokenizeParam(req.getParameter("countries"));
 
-        try {
-            RDFUtil rdfOut = new RDFUtil(res.getWriter());
-            rdfOut.addNamespace("ev", "http://purl.org/rss/1.0/modules/event/");
-            rdfOut.setVocabulary("http://purl.org/rss/1.0/");
-            rdfOut.writeRdfHeader();
+        RDFUtil rdfOut = new RDFUtil(res.getWriter());
+        rdfOut.addNamespace("ev", eventsNs);
+        rdfOut.setVocabulary(rssNs);
+        rdfOut.writeRdfHeader();
 
-            String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
-            rdfOut.writeStartResource("channel", eventsUrl);
+        String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
+        rdfOut.writeStartResource("channel", eventsUrl);
 
-            String[][] events = RODServices.getDbService().getObligationDao().getAllActivityDeadlines(issues, countries);
+        String[][] events = RODServices.getDbService().getObligationDao().getAllActivityDeadlines(issues, countries);
 
-            rdfOut.writeStartLiteral("items");
-            rdfOut.writeStartResource("rdf:Seq");
-            for (int i = 0; i < events.length; i++) {
-                String pk = events[i][0];
+        rdfOut.writeStartLiteral("items");
+        rdfOut.writeStartResource("rdf:Seq");
+        for (int i = 0; i < events.length; i++) {
+            String pk = events[i][0];
 
-                rdfOut.writeReference("rdf:li", obligationsNamespace + "/" + pk);
-            }
-            rdfOut.writeEndResource("rdf:Seq");
-            rdfOut.writeEndLiteral("items");
+            rdfOut.writeReference("rdf:li", obligationsNamespace + "/" + pk);
+        }
+        rdfOut.writeEndResource("rdf:Seq");
+        rdfOut.writeEndLiteral("items");
 
-            rdfOut.writeEndResource("channel");
-            for (int i = 0; i < events.length; i++) {
-                String pk = events[i][0];
-                String title = "Deadline for Reporting Obligation: " + events[i][1];
-                String date = events[i][2];
-                String link = getActivityUrl(pk, events[i][3]);
-                String description = events[i][4];
+        rdfOut.writeEndResource("channel");
+        for (int i = 0; i < events.length; i++) {
+            String pk = events[i][0];
+            String title = "Deadline for Reporting Obligation: " + events[i][1];
+            String date = events[i][2];
+            String link = getActivityUrl(pk, events[i][3]);
+            String description = events[i][4];
 
-                rdfOut.writeStartResource("item", obligationsNamespace + "/" + pk);
-                rdfOut.writeLiteral("title", title);
-                rdfOut.writeLiteral("link", link);
-                rdfOut.writeLiteral("description", description);
-                rdfOut.writeLiteral("ev:startdate", date);
+            rdfOut.writeStartResource("item", obligationsNamespace + "/" + pk);
+            rdfOut.writeLiteral("title", title);
+            rdfOut.writeLiteral("link", link);
+            rdfOut.writeLiteral("description", description);
+            rdfOut.writeLiteral("ev:startdate", date);
 
-                rdfOut.writeEndResource("item");
-            }
-
-            rdfOut.writeRdfFooter();
-        } catch (IOException e) {
+            rdfOut.writeEndResource("item");
         }
 
-        return "";
+        rdfOut.writeRdfFooter();
     }
 
     /**
