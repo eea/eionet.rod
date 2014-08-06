@@ -13,11 +13,13 @@ import eionet.rod.RODUtil;
 import eionet.rod.dto.UrlDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import eionet.rod.StringEncoder;
 
 /**
- * 
- * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- * 
+ * Create list of URLs to check periodically for CR.
+ * The method will create an RDF list of all columns containing URLs it finds in T_OBLIGATION and T_INSTRUMENT.
+ *
+ * @author Risto Alt
  */
 @UrlBinding("/urls.rdf")
 public class UrlsActionBean extends AbstractRODActionBean {
@@ -42,7 +44,7 @@ public class UrlsActionBean extends AbstractRODActionBean {
 
     private String generateRDF() throws ServiceException {
         StringBuffer s = new StringBuffer();
-        s.append(rdfHeader).append("<rdf:RDF").append(" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"")
+        s.append(rdfHeader).append("\n<rdf:RDF").append(" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"")
                 .append(" xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"")
                 .append(" xmlns:seis=\"http://www.eionet.europa.eu/rdf/seis/\"").append(">");
 
@@ -52,7 +54,7 @@ public class UrlsActionBean extends AbstractRODActionBean {
         List<UrlDTO> instrumentUrls = RODServices.getDbService().getSourceDao().getInstrumentsUrls();
         s.append(iterateUrls(instrumentUrls));
 
-        s.append("</rdf:RDF>");
+        s.append("</rdf:RDF>\n");
 
         return s.toString();
     }
@@ -63,13 +65,13 @@ public class UrlsActionBean extends AbstractRODActionBean {
         for (Iterator<UrlDTO> it = urls.iterator(); it.hasNext();) {
             UrlDTO dto = it.next();
             String title = RODUtil.replaceTags(dto.getTitle(), true, true);
-            String url = dto.getUrl();
+            String url = StringEncoder.encodeToXml(dto.getUrl());
             if (!RODUtil.isNullOrEmpty(url)) {
                 if (!RODUtil.isNullOrEmpty(title) && !title.equals(url)) {
                     s.append("<seis:Resource rdf:about=\"").append(url).append("\">").append("<rdfs:label>").append(title)
-                            .append("</rdfs:label>").append("</seis:Resource>");
+                            .append("</rdfs:label>").append("</seis:Resource>\n");
                 } else {
-                    s.append("<seis:Resource rdf:about=\"").append(url).append("\"/>");
+                    s.append("<seis:Resource rdf:about=\"").append(url).append("\"/>\n");
                 }
             }
         }
