@@ -65,7 +65,7 @@ public final class StringEncoder {
      *            - The string to escape.
      * @return escaped string.
      */
-    public static String encodeToXml(String s) {
+    public static String encodeToXml(final String s) {
         return escapeString(s, BAD_XML_CHARS, BAD_XML_CHARS_ESCAPES);
     }
 
@@ -76,7 +76,7 @@ public final class StringEncoder {
      *            is a string.
      * @return escaped URI
      */
-    public static String encodeToIRI(String url) {
+    public static String encodeToIRI(final String url) {
         return escapeString(url, BAD_IRI_CHARS, BAD_IRI_CHARS_ESCAPES);
     }
 
@@ -88,7 +88,7 @@ public final class StringEncoder {
      *            The string to %-escape.
      * @return The escaped string.
      */
-    public static String encodeURIComponent(String s) {
+    public static String encodeURIComponent(final String s) {
         return escapeString(s, BAD_CMP_CHARS, BAD_CMP_CHARS_ESCAPES);
     }
 
@@ -103,7 +103,7 @@ public final class StringEncoder {
      *            - A list of the strings to escape to.
      * @return escaped string.
      */
-    private static String escapeString(String s, char[] badChars, String[] escapeStrings) {
+    private static String escapeString(final String s, final char[] badChars, final String[] escapeStrings) {
         if (s == null) {
             return s;
         }
@@ -144,7 +144,7 @@ public final class StringEncoder {
      *            - A list of the strings to escape to.
      * @return length of new string
      */
-    private static int calculateNewLength(String s, char[] badChars, String[] escapeStrings) {
+    private static int calculateNewLength(final String s, final char[] badChars, final String[] escapeStrings) {
         int orgLength = s.length();
         int newLength = orgLength;
         for (int i = 0; i < orgLength; i++) {

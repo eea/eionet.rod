@@ -14,32 +14,32 @@ public interface IHistoryDao {
     /**
      * Type for RO in HISTORY table
      */
-    public static final String RO_LOG_TYPE = "O";
+    static final String RO_LOG_TYPE = "O";
 
     /**
      * Type for RA in HISTORY table
      */
-    public static final String RA_LOG_TYPE = "A";
+    static final String RA_LOG_TYPE = "A";
 
     /**
      * Type for LI in HISTORY table
      */
-    public static final String LI_LOG_TYPE = "L";
+    static final String LI_LOG_TYPE = "L";
 
     /**
      * Action type for UPDATE statements in HISTORY table
      */
-    public static final String UPDATE_ACTION_TYPE = "U";
+    static final String UPDATE_ACTION_TYPE = "U";
 
     /**
      * Action type for DELETE statements in HISTORY table
      */
-    public static final String DELETE_ACTION_TYPE = "D";
+    static final String DELETE_ACTION_TYPE = "D";
 
     /**
      * Action type for INSERT statements in HISTORY table
      */
-    public static final String INSERT_ACTION_TYPE = "I";
+    static final String INSERT_ACTION_TYPE = "I";
 
     /**
      * Returns the change history of the item
@@ -48,7 +48,7 @@ public interface IHistoryDao {
      * @return String[][]  (0:log_time, 1:action_type, 2:user, 3:description)
      * @throws ServiceException
      */
-    public String[][] getItemHistory(String itemType, int itemId) throws ServiceException;
+    String[][] getItemHistory(String itemType, int itemId) throws ServiceException;
 
     /**
      * Returns deleted items of this type
@@ -56,7 +56,7 @@ public interface IHistoryDao {
      * @return String[][]  (0:ITEM_ID, 1:LOG_TIME, 2:USER )
      * @throws ServiceException
      */
-    public String[][] getDeletedItems(String itemType) throws ServiceException;
+    String[][] getDeletedItems(String itemType) throws ServiceException;
 
     /**
      * Returns deleted items of this type
@@ -64,7 +64,7 @@ public interface IHistoryDao {
      * @return Vector  (0:ITEM_ID, 1:LOG_TIME, 2:USER, 3:ACTION_TYPE, 4:ITEM_TYPE )
      * @throws ServiceException
      */
-    public Hashtable<String,Object> getDeletedItemsVector(String itemType) throws ServiceException;
+    Hashtable<String,Object> getDeletedItemsVector(String itemType) throws ServiceException;
 
     /**
      * Returns history of current object
@@ -73,7 +73,7 @@ public interface IHistoryDao {
      * @return history of current object
      * @throws ServiceException
      */
-    public Vector<Map<String,String>> getHistory(int id, String tab) throws ServiceException;
+    Vector<Map<String,String>> getHistory(int id, String tab) throws ServiceException;
 
 
     /**
@@ -85,12 +85,12 @@ public interface IHistoryDao {
      * @param description
      * @throws ServiceException
      */
-    public void logHistory(String itemType, String itemId, String userName, String actionType, String description) throws ServiceException ;
+    void logHistory(String itemType, String itemId, String userName, String actionType, String description) throws ServiceException ;
 
     /**
      * Returns list of harvesting history
      * @return List of HarvestHistoryDTO
      * @throws ServiceException
      */
-    public List<HarvestHistoryDTO> getHarvestHistory() throws ServiceException;
+    List<HarvestHistoryDTO> getHarvestHistory() throws ServiceException;
 }

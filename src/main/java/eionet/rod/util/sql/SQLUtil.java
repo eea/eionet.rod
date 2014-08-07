@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  * @author heinljab
- * 
+ *
  */
 public class SQLUtil {
 
     /**
-     * 
+     *
      * @param parameterizedSQL
      * @param values
      * @param conn
@@ -34,7 +34,7 @@ public class SQLUtil {
     }
 
     /**
-     * 
+     *
      * @param parameterizedSQL
      * @param values
      * @param rsReader
@@ -69,7 +69,7 @@ public class SQLUtil {
     }
 
     /**
-     * 
+     *
      * @param sql
      * @param conn
      * @return List<Map<String,SQLValue>>
@@ -83,7 +83,7 @@ public class SQLUtil {
     }
 
     /**
-     * 
+     *
      * @param sql
      * @param rsReader
      * @param conn
@@ -100,8 +100,9 @@ public class SQLUtil {
                 ResultSetMetaData rsMd = rs.getMetaData();
                 if (rsMd != null && rsMd.getColumnCount() > 0) {
                     rsReader.setResultSetMetaData(rsMd);
-                    while (rs.next())
+                    while (rs.next()) {
                         rsReader.readRow(rs);
+                    }
                 }
             }
         } finally {
@@ -117,7 +118,7 @@ public class SQLUtil {
     }
 
     /**
-     * 
+     *
      * @param parameterizedSQL
      * @param values
      * @param conn
@@ -140,7 +141,7 @@ public class SQLUtil {
     }
 
     /**
-     * 
+     *
      * @param parameterizedSQL
      * @param values
      * @param conn
@@ -166,7 +167,7 @@ public class SQLUtil {
     }
 
     /**
-     * 
+     *
      * @param conn
      * @return Integer
      * @throws SQLException

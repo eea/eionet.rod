@@ -10,7 +10,7 @@ public interface IAclDao {
      * @param description
      * @throws ServiceException
      */
-    public void addAcl(String aclPath, String owner, String description) throws ServiceException;
+    void addAcl(String aclPath, String owner, String description) throws ServiceException;
 
     /**
      * @param acl_name
@@ -18,5 +18,5 @@ public interface IAclDao {
      * @return
      * @throws ServiceException
      */
-    public String getAclId(String acl_name, String type) throws ServiceException;
+    String getAclId(String acl_name, String type) throws ServiceException;
 }

@@ -12,24 +12,24 @@ public interface IRoleDao {
      * @return All role IDs existing in T_ROLE tablke
      * @throws ServiceException
      */
-    public String[][] getRoleIds() throws ServiceException;
+    String[][] getRoleIds() throws ServiceException;
 
     /**
      * Saves roles
      * @param role
      * @throws ServiceException
      */
-    public void saveRole(Hashtable<String,Object> role) throws ServiceException;
+    void saveRole(Hashtable<String,Object> role) throws ServiceException;
 
     /**
      * @throws ServiceException
      */
-    public void backUpRoles() throws ServiceException;
+    void backUpRoles() throws ServiceException;
 
     /**
      * @throws ServiceException
      */
-    public void commitRoles() throws ServiceException;
+    void commitRoles() throws ServiceException;
 
     /**
      * Returns role information
@@ -38,7 +38,7 @@ public interface IRoleDao {
      * @return role information
      * @throws ServiceException
      */
-    public ResponsibleRoleDTO getRoleDesc(String role_id, String role_name) throws ServiceException;
+    ResponsibleRoleDTO getRoleDesc(String role_id, String role_name) throws ServiceException;
 
 
     /**
@@ -46,6 +46,6 @@ public interface IRoleDao {
      * @param role_id
      * @throws ServiceException
      */
-    public boolean checkRole(String role_id) throws ServiceException;
+    boolean checkRole(String role_id) throws ServiceException;
 
 }

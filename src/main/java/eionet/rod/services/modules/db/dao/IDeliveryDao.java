@@ -15,18 +15,18 @@ public interface IDeliveryDao {
     /**
      * @throws ServiceException
      */
-    public void rollBackDeliveries() throws ServiceException;
+    void rollBackDeliveries() throws ServiceException;
 
     /**
      * @param deliveredCountriesByObligations
      * @throws ServiceException
      */
-    public void commitDeliveries(HashMap<String,HashSet<Integer>> deliveredCountriesByObligations) throws ServiceException;
+    void commitDeliveries(HashMap<String,HashSet<Integer>> deliveredCountriesByObligations) throws ServiceException;
 
     /**
      * @throws ServiceException
      */
-    public void backUpDeliveries() throws ServiceException;
+    void backUpDeliveries() throws ServiceException;
 
     /**
      * @param actDetailsId
@@ -34,14 +34,14 @@ public interface IDeliveryDao {
      * @return List<CountryDeliveryDTO>
      * @throws ServiceException
      */
-    public List<CountryDeliveryDTO> getCountyDeliveriesList(String actDetailsId, String spatialId) throws ServiceException;
+    List<CountryDeliveryDTO> getCountyDeliveriesList(String actDetailsId, String spatialId) throws ServiceException;
 
     /**
      * @param actDetailsId
      * @return CountryDeliveryDataDTO
      * @throws ServiceException
      */
-    public CountryDeliveryDataDTO getDeliveryData(String actDetailsId) throws ServiceException;
+    CountryDeliveryDataDTO getDeliveryData(String actDetailsId) throws ServiceException;
 
     /**
      *
@@ -50,5 +50,5 @@ public interface IDeliveryDao {
      * @return int
      * @throws ServiceException
      */
-    public int saveDeliveries(TupleQueryResult bindings, HashMap<String,HashSet<Integer>> savedCountriesByObligationId) throws ServiceException;
+    int saveDeliveries(TupleQueryResult bindings, HashMap<String,HashSet<Integer>> savedCountriesByObligationId) throws ServiceException;
 }

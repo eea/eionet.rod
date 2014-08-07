@@ -14,13 +14,13 @@ public interface IClientDao {
      * @return client name
      * @throws ServiceException
      */
-    public String getOrganisationNameByID(String clientId) throws ServiceException;
+    String getOrganisationNameByID(String clientId) throws ServiceException;
 
     /**
      * @return
      * @throws ServiceException
      */
-    public Vector<Map<String,String>> getOrganisations() throws ServiceException;
+    Vector<Map<String,String>> getOrganisations() throws ServiceException;
 
     /**
      * Returns obligation organisations
@@ -28,15 +28,15 @@ public interface IClientDao {
      * @return obligation organisations
      * @throws ServiceException
      */
-    public Vector<Map<String,String>> getObligationOrg(Integer obligationId) throws ServiceException;
+    Vector<Map<String,String>> getObligationOrg(Integer obligationId) throws ServiceException;
 
 
     /**
-     * Deletes link with an obligation
+     * Deletes link with an obligation.
      * @param raId
      * @throws ServiceException
      */
-    public void deleteObligationLink(Integer raId) throws ServiceException;
+    void deleteObligationLink(Integer raId) throws ServiceException;
 
     /**
      * @param clientId
@@ -45,83 +45,83 @@ public interface IClientDao {
      * @param type
      * @throws ServiceException
      */
-    public void insertClientLink(Integer clientId, Integer objectId, String status, String type) throws ServiceException;
+    void insertClientLink(Integer clientId, Integer objectId, String status, String type) throws ServiceException;
 
 
 
     /**
-     * Deletes source link
+     * Deletes source link.
      * @param srcId
      * @throws ServiceException
      */
-    public void deleteSourceLink(Integer srcId) throws ServiceException;
+    void deleteSourceLink(Integer srcId) throws ServiceException;
 
 
     /**
-     * Deletes all linked parameter and medium records and in delete mode also the self record
+     * Deletes all linked parameter and medium records and in delete mode also the self record.
      * @param objectId
      * @throws ServiceException
      */
-    public void deleteParameterLink(Integer objectId) throws ServiceException;
+    void deleteParameterLink(Integer objectId) throws ServiceException;
 
     /**
      * @return all clients as list of ClientDTOs
      * @throws ServiceException
      */
-    public List<ClientDTO> getClientsList() throws ServiceException;
+    List<ClientDTO> getClientsList() throws ServiceException;
 
     /**
-     * Returns clients
+     * Returns clients.
      * @param objectId
      * @throws ServiceException
      */
-    public List<ClientDTO> getClients(String objectId) throws ServiceException;
+    List<ClientDTO> getClients(String objectId) throws ServiceException;
 
     /**
-     * Returns clients
+     * Returns clients.
      * @param clientIds
      * @throws ServiceException
      */
-    public List<ClientDTO> getClients(List<String> clientIds) throws ServiceException;
+    List<ClientDTO> getClients(List<String> clientIds) throws ServiceException;
 
     /**
-     * Returns list of all clients
+     * Returns list of all clients.
      * @throws ServiceException
      */
-    public List<ClientDTO> getAllClients() throws ServiceException;
+    List<ClientDTO> getAllClients() throws ServiceException;
 
     /**
-     * Returns list of all clients
+     * Returns list of all clients.
      * @throws ServiceException
      */
-    public List<ClientDTO> getSubscribeClients() throws ServiceException;
+    List<ClientDTO> getSubscribeClients() throws ServiceException;
 
     /**
-     * Returns client factsheet
+     * Returns client factsheet.
      * @param clientId
      * @throws ServiceException
      */
-    public ClientDTO getClientFactsheet(String id) throws ServiceException;
+    ClientDTO getClientFactsheet(String id) throws ServiceException;
 
     /**
-     * Updates client
+     * Updates client.
      * @param client
      * @throws ServiceException
      */
-    public void editClient(ClientDTO client) throws ServiceException;
+    void editClient(ClientDTO client) throws ServiceException;
 
     /**
-     * Inserts new client
+     * Inserts new client.
      * @param client
      * @throws ServiceException
      */
-    public Integer addClient(ClientDTO client) throws ServiceException;
+    Integer addClient(ClientDTO client) throws ServiceException;
 
     /**
-     * Inserts obligation clients
+     * Inserts obligation clients.
      * @param obligation ID
      * @param list of selected clients
      * @throws ServiceException
      */
-    public void insertObligationClients(String obligationId, List<String> selectedClients) throws ServiceException;
+    void insertObligationClients(String obligationId, List<String> selectedClients) throws ServiceException;
 }

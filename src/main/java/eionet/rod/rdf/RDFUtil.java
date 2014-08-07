@@ -26,7 +26,12 @@ public class RDFUtil {
     /** The URL of the null namespace. */
     private String nullNamespace;
 
-    public RDFUtil(Writer stream) {
+    /**
+     * Constructor.
+     *
+     * @param stream - the stream to write the output to
+     */
+    public RDFUtil(final Writer stream) {
         outputStream = stream;
         namespaces = new HashMap<String, String>();
         namespaces.put("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
@@ -43,6 +48,16 @@ public class RDFUtil {
     }
 
     /**
+     * Set the base URL.
+     *
+     * @param url
+     *            - the base url.
+     */
+    public void setBaseURL(final String url) {
+        baseurl = url;
+    }
+
+    /**
      * Add namespace to table.
      *
      * @param name
@@ -50,10 +65,18 @@ public class RDFUtil {
      * @param url
      *            - namespace url.
      */
-    public void addNamespace(String name, String url) {
+    public void addNamespace(final String name, final String url) {
         namespaces.put(name, url);
     }
 
+    /**
+     * Generate the RDF header element. You can in principle get the encoding
+     * from the output stream, but it returns it as a string that is not
+     * understandable by XML parsers.
+     *
+     * @throws IOException
+     *             - if the output is not open.
+     */
     public void writeRdfHeader() throws IOException {
         if (rdfHeaderWritten) {
             throw new RuntimeException("Can't write header twice!");
@@ -82,6 +105,12 @@ public class RDFUtil {
         rdfHeaderWritten = true;
     }
 
+    /**
+     * Generate the RDF footer element.
+     *
+     * @throws IOException
+     *             - if the output is not open.
+     */
     public void writeRdfFooter() throws IOException {
         if (!rdfHeaderWritten) {
             writeRdfHeader();
@@ -90,11 +119,27 @@ public class RDFUtil {
         flush();
     }
 
-    public void writeStartResource(String rdfClass) throws IOException {
+    /**
+     * Write the start of an anonymous resource.
+     * @param rdfClass
+     *            - the class to assign
+     * @throws IOException
+     *             - if the output is not open.
+     */
+    public void writeStartResource(final String rdfClass) throws IOException {
         writeStartResource(rdfClass, null);
     }
 
-    public void writeStartResource(String rdfClass, String url) throws IOException {
+    /**
+     * Write the start of a resource - the line with rdf:about.
+     * @param rdfClass
+     *            - the class to assign
+     * @param url
+     *            - the identifier of the resource
+     * @throws IOException
+     *             - if the output is not open.
+     */
+    public void writeStartResource(final String rdfClass, final String url) throws IOException {
         output("<");
         output(rdfClass);
         if (url != null) {
@@ -105,7 +150,14 @@ public class RDFUtil {
         output(">\n");
     }
 
-    public void writeEndResource(String rdfClass) throws IOException {
+    /**
+     * Write the end of a resource.
+     * @param rdfClass
+     *            - the class to assign
+     * @throws IOException
+     *             - if the output is not open.
+     */
+    public void writeEndResource(final String rdfClass) throws IOException {
         output("</");
         output(rdfClass);
         output(">\n");
@@ -117,6 +169,8 @@ public class RDFUtil {
      *
      * @param tag - the name of the predicate.
      * @param ref - the URL of the other object as a string.
+     * @throws IOException
+     *             - if the output is not open.
      */
     public void writeReference(final String tag, final String ref) throws IOException {
         output("<");
@@ -136,6 +190,8 @@ public class RDFUtil {
      * @param val - value to write.
      * @param langcode - language code.
      * @param type - type of literal - unless "reference"
+     * @throws IOException
+     *             - if the output is not open.
      */
     public void writeProperty(final String tag, final String val, final String langcode, final String type) throws IOException {
         if (null != type && type.equals("reference")) {
@@ -160,6 +216,8 @@ public class RDFUtil {
      * @param val - value to write.
      * @param langcode - language code.
      * @param type - type of literal
+     * @throws IOException
+     *             - if the output is not open.
      */
     public void writeLiteral(final String tag, final String val, final String langcode, final String type) throws IOException {
         if (val != null && val.length() > 0) {
@@ -190,6 +248,8 @@ public class RDFUtil {
      *
      * @param tag - the name of the predicate.
      * @param val - value to write.
+     * @throws IOException
+     *             - if the output is not open.
      */
     public void writeLiteral(final String tag, final String val) throws IOException {
         writeLiteral(tag, val, null);
@@ -204,6 +264,8 @@ public class RDFUtil {
      * @param tag - the name of the predicate.
      * @param val - value to write.
      * @param langcode - language code
+     * @throws IOException
+     *             - if the output is not open.
      */
     public void writeLiteral(final String tag, final String val, final String langcode) throws IOException {
         if (val != null && val.length() > 0) {
@@ -227,6 +289,8 @@ public class RDFUtil {
      *
      * @param tag - the name of the predicate.
      * @param val - value to write.
+     * @throws IOException
+     *             - if the output is not open.
      */
     public void writeLiteral(final String tag, final Boolean val) throws IOException {
         if (val != null) {
@@ -245,6 +309,8 @@ public class RDFUtil {
      *
      * @param tag - the name of the predicate.
      * @param val - value to write.
+     * @throws IOException
+     *             - if the output is not open.
      */
     public void writeLiteral(final String tag, final Integer val) throws IOException {
         if (val != null) {
@@ -263,6 +329,8 @@ public class RDFUtil {
      *
      * @param tag - the name of the predicate.
      * @param val - value to write.
+     * @throws IOException
+     *             - if the output is not open.
      */
     public void writeLiteral(final String tag, final BigDecimal val) throws IOException {
         if (val != null) {
@@ -276,12 +344,26 @@ public class RDFUtil {
         }
     }
 
+    /**
+     * Write the start element of a literal.
+     *
+     * @param tag - the name of the predicate.
+     * @throws IOException
+     *             - if the output is not open.
+     */
     public void writeStartLiteral(final String tag) throws IOException {
         output("<");
         output(tag);
         output(">");
     }
 
+    /**
+     * Write the end element of a literal.
+     *
+     * @param tag - the name of the predicate.
+     * @throws IOException
+     *             - if the output is not open.
+     */
     public void writeEndLiteral(final String tag) throws IOException {
         output("</");
         output(tag);

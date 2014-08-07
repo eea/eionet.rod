@@ -10,7 +10,7 @@ public interface ISpatialHistoryDao {
      * @param voluntary
      * @throws ServiceException
      */
-    public void logSpatialHistory(int raId, int spatialId, String voluntary) throws ServiceException;
+    void logSpatialHistory(int raId, int spatialId, String voluntary) throws ServiceException;
 
     /**
      * @param start
@@ -19,12 +19,12 @@ public interface ISpatialHistoryDao {
      * @param ra_id
      * @throws ServiceException
      */
-    public void editPeriod(String start, String end, String spatialHistoryID, String ra_id) throws ServiceException;
+    void editPeriod(String start, String end, String spatialHistoryID, String ra_id) throws ServiceException;
 
     /**
      * Updates end date for to now for an obligation
      * @param raId
      * @throws ServiceException
      */
-    public void updateEndDateForObligation(Integer raId) throws ServiceException;
+    void updateEndDateForObligation(Integer raId) throws ServiceException;
 }

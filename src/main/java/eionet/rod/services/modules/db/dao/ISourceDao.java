@@ -24,14 +24,14 @@ public interface ISourceDao {
      * @return array of hashes
      * @throws ServiceException
      */
-    public Vector<Map<String,String>> getInstruments() throws ServiceException;
+    Vector<Map<String,String>> getInstruments() throws ServiceException;
 
     /**
      * Legal Instruments List for RDF
      * @return List of InstrumentRdfDTO objects
      * @throws ServiceException
      */
-    public List<InstrumentRdfDTO> getInstrumentsForRDF() throws ServiceException;
+    List<InstrumentRdfDTO> getInstrumentsForRDF() throws ServiceException;
 
     /**
      * Legal Instrument for RDF
@@ -39,14 +39,14 @@ public interface ISourceDao {
      * @return InstrumentRdfDTO object
      * @throws ServiceException
      */
-    public InstrumentRdfDTO getInstrumentForRDF(String id) throws ServiceException;
+    InstrumentRdfDTO getInstrumentForRDF(String id) throws ServiceException;
 
     /**
      * All instruments
      * @return list of strings
      * @throws ServiceException
      */
-    public List<String> getSubscribeInstruments() throws ServiceException;
+    List<String> getSubscribeInstruments() throws ServiceException;
 
     /**
      * Returns instrument by id
@@ -54,26 +54,26 @@ public interface ISourceDao {
      * @return instrument by id
      * @throws ServiceException
      */
-    public Hashtable<String,String> getInstrumentById(Integer id) throws ServiceException;
+    Hashtable<String,String> getInstrumentById(Integer id) throws ServiceException;
 
     /**
      * @return
      * @throws ServiceException
      */
-    public String[][] getInstrumentsRSS() throws ServiceException;
+    String[][] getInstrumentsRSS() throws ServiceException;
 
 
     /**
      * @param childId
      * @throws ServiceException
      */
-    public void deleteChildLink(Integer childId) throws ServiceException;
+    void deleteChildLink(Integer childId) throws ServiceException;
 
     /**
      * @param parentId
      * @throws ServiceException
      */
-    public void deleteParentLink(Integer parentId) throws ServiceException;
+    void deleteParentLink(Integer parentId) throws ServiceException;
 
 
     /**
@@ -81,7 +81,7 @@ public interface ISourceDao {
      * @param sourceId
      * @throws ServiceException
      */
-    public void deleteSource(Integer sourceId) throws ServiceException;
+    void deleteSource(Integer sourceId) throws ServiceException;
 
 
     /**
@@ -89,7 +89,7 @@ public interface ISourceDao {
      * @return instruments ID numbers
      * @throws ServiceException
      */
-    public String[][] getInstrumentIds() throws ServiceException ;
+    String[][] getInstrumentIds() throws ServiceException ;
 
     /**
      * Returns reporting theme name by value
@@ -97,14 +97,14 @@ public interface ISourceDao {
      * @return reporting theme name by value
      * @throws ServiceException
      */
-    public String getDGEnvName(String value) throws ServiceException ;
+    String getDGEnvName(String value) throws ServiceException ;
 
     /**
      * Returns legal instruments sorted on next update
      * @return legal instruments sorted on next update
      * @throws ServiceException
      */
-    public List<InstrumentsDueDTO> getInstrumentsDue() throws ServiceException;
+    List<InstrumentsDueDTO> getInstrumentsDue() throws ServiceException;
 
     /**
      * Returns instrument factsheet by id
@@ -112,7 +112,7 @@ public interface ISourceDao {
      * @return instrument factsheet by id
      * @throws ServiceException
      */
-    public InstrumentFactsheetDTO getInstrumentFactsheet(String id) throws ServiceException;
+    InstrumentFactsheetDTO getInstrumentFactsheet(String id) throws ServiceException;
 
     /**
      * Returns dgenv name by instrument id
@@ -120,14 +120,14 @@ public interface ISourceDao {
      * @return dgenv name by instrument id
      * @throws ServiceException
      */
-    public String getDGEnvNameByInstrumentId(String id) throws ServiceException;
+    String getDGEnvNameByInstrumentId(String id) throws ServiceException;
 
     /**
      * Returns instrument for hierarchy
      * @param id
      * @throws ServiceException
      */
-    public InstrumentsListDTO getHierarchyInstrument(String id) throws ServiceException;
+    InstrumentsListDTO getHierarchyInstrument(String id) throws ServiceException;
 
     /**
      * Returns instruments hierarchy
@@ -136,21 +136,21 @@ public interface ISourceDao {
      * @param mode
      * @throws ServiceException
      */
-    public String getHierarchy(String id, boolean hasParent, String mode) throws ServiceException;
+    String getHierarchy(String id, boolean hasParent, String mode) throws ServiceException;
 
     /**
      * Returns hierarchy instruments
      * @param id
      * @throws ServiceException
      */
-    public List<HierarchyInstrumentDTO> getHierarchyInstruments(String id) throws ServiceException;
+    List<HierarchyInstrumentDTO> getHierarchyInstruments(String id) throws ServiceException;
 
     /**
      * Returns lookups list
      * @param category
      * @throws ServiceException
      */
-    public List<LookupDTO> getLookupList(String category) throws ServiceException;
+    List<LookupDTO> getLookupList(String category) throws ServiceException;
 
     /**
      * Returns list of all instruments except instrument with given id
@@ -158,71 +158,71 @@ public interface ISourceDao {
      * @return list of all instruments except instrument with given id
      * @throws ServiceException
      */
-    public List<InstrumentDTO> getParentInstrumentsList(String id) throws ServiceException;
+    List<InstrumentDTO> getParentInstrumentsList(String id) throws ServiceException;
 
     /**
      * @param ID of child instrument
      * @return parent instrument ID
      * @throws ServiceException
      */
-    public String getParentInstrumentId(String childId) throws ServiceException;
+    String getParentInstrumentId(String childId) throws ServiceException;
 
     /**
      * @return list of all records from T_SOURCE_CLASS table
      * @throws ServiceException
      */
-    public List<SourceClassDTO> getAllSourceClasses() throws ServiceException;
+    List<SourceClassDTO> getAllSourceClasses() throws ServiceException;
 
     /**
      * @param instrument ID
      * @return list of source classes for current instrument
      * @throws ServiceException
      */
-    public List<SourceClassDTO> getSourceClassesByInstrumentId(String id) throws ServiceException;
+    List<SourceClassDTO> getSourceClassesByInstrumentId(String id) throws ServiceException;
 
     /**
      * @param list of selected source class IDs
      * @return list of selected source class objects
      * @throws ServiceException
      */
-    public List<SourceClassDTO> getInstrumentSourceClassesList(List<String> scIds) throws ServiceException;
+    List<SourceClassDTO> getInstrumentSourceClassesList(List<String> scIds) throws ServiceException;
 
     /**
      * @param instrument DTO
      * @throws ServiceException
      */
-    public void editInstrument(InstrumentFactsheetDTO instrument) throws ServiceException;
+    void editInstrument(InstrumentFactsheetDTO instrument) throws ServiceException;
 
     /**
      * @param instrument ID
      * @param parent instrument ID
      * @throws ServiceException
      */
-    public void addParentInstrument(String instId, String parentInstrumentId) throws ServiceException;
+    void addParentInstrument(String instId, String parentInstrumentId) throws ServiceException;
 
     /**
      * @param instrument ID
      * @param list of linked sources IDs
      * @throws ServiceException
      */
-    public void addLinkedSources(String instId, List<String> selectedSourceClasses) throws ServiceException;
+    void addLinkedSources(String instId, List<String> selectedSourceClasses) throws ServiceException;
 
     /**
      * @param instrument DTO
      * @throws ServiceException
      */
-    public Integer addInstrument(InstrumentFactsheetDTO instrument) throws ServiceException;
+    Integer addInstrument(InstrumentFactsheetDTO instrument) throws ServiceException;
 
     /**
      * @return list of all urls in T_SOURCE
      * @throws ServiceException
      */
-    public List<UrlDTO> getInstrumentsUrls() throws ServiceException;
+    List<UrlDTO> getInstrumentsUrls() throws ServiceException;
 
     /**
      * @return list of source links where child_type='S' and parent_type='S'
      * @throws ServiceException
      */
-    public List<SourceLinksDTO> getSourceLinks() throws ServiceException;
+    List<SourceLinksDTO> getSourceLinks() throws ServiceException;
 
 }
