@@ -741,7 +741,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             String type = "";
             if (type_array.length > 0) type = type_array[0][0];
 
-                        String acl_stmt = "SELECT value FROM T_UNDO WHERE operation='ACL' AND undo_time="+ts+" AND tab='"+tab+"'";
+                        String acl_stmt = "SELECT value FROM T_UNDO WHERE operation='ACL' AND undo_time="
+                            + ts + " AND tab='" + tab + "'";
                         String[][] acl_array = _executeStringQuery(acl_stmt);
                         String aclPath = "";
                         if (acl_array.length > 0)
@@ -1190,14 +1191,14 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         + "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') "
         + "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' ";
         if (!RODUtil.isNullOrEmpty(id))
-            query = query + "AND value='"+id+"' ";
+            query = query + "AND value='" + id + "' ";
         if (!RODUtil.isNullOrEmpty(object)) {
             String obj = "";
             if (object.equals("A"))
                 obj = "T_OBLIGATION";
             else if (object.equals("S"))
                 obj = "T_SOURCE";
-            query = query + "AND tab='"+obj+"' ";
+            query = query + "AND tab='" + obj + "' ";
         }
 
         query = query + "ORDER BY undo_time DESC LIMIT 100";
@@ -1343,7 +1344,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 obj = "PK_RA_ID";
             else if (type.equals("S"))
                 obj = "PK_SOURCE_ID";
-            query = query + "col='"+obj+"' ";
+            query = query + "col='" + obj + "' ";
         }
 
         query = query + "AND operation='D' AND show_object='y' ORDER BY undo_time DESC";
