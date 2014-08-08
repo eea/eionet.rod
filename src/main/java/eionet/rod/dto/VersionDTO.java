@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class VersionDTO implements java.io.Serializable{
+public class VersionDTO implements java.io.Serializable {
 
     private String undoTime;
     private String col;

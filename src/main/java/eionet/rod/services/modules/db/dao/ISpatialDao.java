@@ -18,7 +18,7 @@ public interface ISpatialDao {
      * @return countries from the DB
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getCountries() throws ServiceException;
+    Vector<Map<String, String>> getCountries() throws ServiceException;
 
     /**
      * Returns country by its id.
@@ -44,7 +44,7 @@ public interface ISpatialDao {
      * @return obligation countries
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getObligationCountries(int id) throws ServiceException;
+    Vector<Map<String, String>> getObligationCountries(int id) throws ServiceException;
 
     /**
      * Returns the id-name pars for countries.

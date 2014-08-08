@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class LookupDTO implements java.io.Serializable{
+public class LookupDTO implements java.io.Serializable {
 
     private String cterm;
     private String cvalue;

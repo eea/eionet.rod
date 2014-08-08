@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class DifferenceDTO implements java.io.Serializable{
+public class DifferenceDTO implements java.io.Serializable {
 
     private String undo;
     private String current;

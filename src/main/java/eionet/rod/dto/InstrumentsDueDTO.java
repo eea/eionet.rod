@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class InstrumentsDueDTO implements java.io.Serializable{
+public class InstrumentsDueDTO implements java.io.Serializable {
 
     private Integer instrumentId;
     private String title;

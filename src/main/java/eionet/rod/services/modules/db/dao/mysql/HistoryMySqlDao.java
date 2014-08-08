@@ -111,14 +111,14 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
      * @see eionet.rod.services.modules.db.dao.mysql.IHistoryDao#getDeletedItemsVector(java.lang.String)
      */
     @Override
-    public Hashtable<String,Object> getDeletedItemsVector(String itemType) throws ServiceException {
+    public Hashtable<String, Object> getDeletedItemsVector(String itemType) throws ServiceException {
 
         String sql = null;
         Connection con = null;
         PreparedStatement preparedStatement = null;
         ResultSet rset = null;
 
-        Hashtable<String,Object> ret = new Hashtable<String,Object>();
+        Hashtable<String, Object> ret = new Hashtable<String, Object>();
 
         FileServiceIF fileSrv = RODServices.getFileService();
         int step = fileSrv.getIntProperty(FileServiceIF.HISTORY_UNDO_STEP);
@@ -153,7 +153,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
                 preparedStatement.setInt(4, start);
                 preparedStatement.setInt(5, step);
                 if (isDebugMode) logQuery(selectDeletedSql);
-                Vector<Map<String,String>> vec = _getVectorOfHashes(preparedStatement);
+                Vector<Map<String, String>> vec = _getVectorOfHashes(preparedStatement);
                 ret.put(new Integer(i).toString(), vec);
                 start = start + step;
             }
@@ -183,7 +183,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
      *      java.lang.String)
      */
     @Override
-    public Vector<Map<String,String>> getHistory(int id, String tab) throws ServiceException {
+    public Vector<Map<String, String>> getHistory(int id, String tab) throws ServiceException {
 
         String type = null;
         if (tab.equals("T_OBLIGATION"))
@@ -192,7 +192,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(qHistory);
@@ -207,7 +207,7 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
             closeAllResources(resultSet, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     private static final String qLogHistory =

@@ -72,14 +72,14 @@ public interface IObligationDao {
      * @return pcoming deadlines
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getUpcomingDeadlines(double days) throws ServiceException;
+    Vector<Map<String, String>> getUpcomingDeadlines(double days) throws ServiceException;
 
     /**
      * Activities used in XML/RPC.
      * @return array of hashes (PK_RA_ID, TITLE, etc)
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getActivities() throws ServiceException;
+    Vector<Map<String, String>> getActivities() throws ServiceException;
 
     /**
      * @return List of ObligationRdfDTO objects
@@ -137,7 +137,7 @@ public interface IObligationDao {
      * @return obligation by id and client
      * @throws ServiceException
      */
-    Hashtable<String,String> getObligationById(Integer id) throws ServiceException;
+    Hashtable<String, String> getObligationById(Integer id) throws ServiceException;
 
     /**
      * Returns obligation details.
@@ -145,7 +145,7 @@ public interface IObligationDao {
      * @return obligation details
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getObligationDetail(Integer id) throws ServiceException;
+    Vector<Map<String, String>> getObligationDetail(Integer id) throws ServiceException;
 
     /**
      * @param id
@@ -181,21 +181,21 @@ public interface IObligationDao {
      * @return
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getROComplete() throws ServiceException;
+    Vector<Map<String, String>> getROComplete() throws ServiceException;
 
     /**
      * XML/RPC methods for WebRODService.
      * @return
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getROSummary() throws ServiceException;
+    Vector<Map<String, String>> getROSummary() throws ServiceException;
 
     /**
      * XML/RPC methods for WebRODService.
      * @return
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getRODeadlines() throws ServiceException;
+    Vector<Map<String, String>> getRODeadlines() throws ServiceException;
 
     /**
      * takes DPSIR values from Excel file and insert them into database.
@@ -341,7 +341,7 @@ public interface IObligationDao {
      * @param ccClients
      * @throws ServiceException
      */
-    Vector<Hashtable<String,String>> getObligationsVector(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException;
+    Vector<Hashtable<String, String>> getObligationsVector(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException;
 
     /**
      * Returns obligations ordered by next update.

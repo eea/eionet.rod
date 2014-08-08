@@ -22,7 +22,7 @@ public class SQLUtil {
      * @param parameterizedSQL
      * @param values
      * @param conn
-     * @return List<Map<String,SQLValue>>
+     * @return List<Map<String, SQLValue>>
      * @throws SQLException
      */
     public static List<Map<String, SQLValue>> executeQuery(String parameterizedSQL, List<Object> values, Connection conn)
@@ -72,7 +72,7 @@ public class SQLUtil {
      *
      * @param sql
      * @param conn
-     * @return List<Map<String,SQLValue>>
+     * @return List<Map<String, SQLValue>>
      * @throws SQLException
      */
     public static List<Map<String, SQLValue>> executeQuery(String sql, Connection conn) throws SQLException {

@@ -7,7 +7,7 @@ import java.util.List;
  * @author altnyris
  *
  */
-public class InstrumentFactsheetDTO implements java.io.Serializable{
+public class InstrumentFactsheetDTO implements java.io.Serializable {
 
     //Fields from T_SOURCE table
     private int sourceId;

@@ -20,7 +20,7 @@ public interface IClientDao {
      * @return
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getOrganisations() throws ServiceException;
+    Vector<Map<String, String>> getOrganisations() throws ServiceException;
 
     /**
      * Returns obligation organisations
@@ -28,7 +28,7 @@ public interface IClientDao {
      * @return obligation organisations
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getObligationOrg(Integer obligationId) throws ServiceException;
+    Vector<Map<String, String>> getObligationOrg(Integer obligationId) throws ServiceException;
 
 
     /**

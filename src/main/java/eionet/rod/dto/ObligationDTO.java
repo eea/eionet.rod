@@ -5,14 +5,14 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class ObligationDTO implements java.io.Serializable{
+public class ObligationDTO implements java.io.Serializable {
 
     private Integer obligationId;
     private Integer sourceId;
     private String title;
 
     /**
-     *
+     * Constructor.
      */
     public ObligationDTO() {
     }

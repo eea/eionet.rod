@@ -34,12 +34,12 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
      *
      * @see eionet.rod.services.modules.db.dao.IIssueDao#getIssues()
      */
-    public Vector<Map<String,String>> getIssues() throws ServiceException {
+    public Vector<Map<String, String>> getIssues() throws ServiceException {
 
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
 
         try {
             connection = getConnection();
@@ -54,7 +54,7 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
             closeAllResources(resultSet, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
 
     }
 
@@ -69,11 +69,11 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
      *
      * @see eionet.rod.services.modules.db.dao.IIssueDao#getObligationIssues(java.lang.Integer)
      */
-    public Vector<Map<String,String>> getObligationIssues(Integer id) throws ServiceException {
+    public Vector<Map<String, String>> getObligationIssues(Integer id) throws ServiceException {
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
 
         try {
             connection = getConnection();
@@ -88,7 +88,7 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
             closeAllResources(resultSet, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     private static final String qIssueIdPairs =

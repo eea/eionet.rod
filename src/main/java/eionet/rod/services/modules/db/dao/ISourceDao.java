@@ -24,7 +24,7 @@ public interface ISourceDao {
      * @return array of hashes
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getInstruments() throws ServiceException;
+    Vector<Map<String, String>> getInstruments() throws ServiceException;
 
     /**
      * Legal Instruments List for RDF
@@ -54,7 +54,7 @@ public interface ISourceDao {
      * @return instrument by id
      * @throws ServiceException
      */
-    Hashtable<String,String> getInstrumentById(Integer id) throws ServiceException;
+    Hashtable<String, String> getInstrumentById(Integer id) throws ServiceException;
 
     /**
      * @return

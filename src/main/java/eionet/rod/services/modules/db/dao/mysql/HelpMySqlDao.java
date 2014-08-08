@@ -140,7 +140,7 @@ public class HelpMySqlDao extends MySqlBaseDao implements IHelpDao {
             connection = getConnection();
             if (isDebugMode) logQuery(q_get_help);
             preparedStatement = connection.prepareStatement(q_get_help);
-            preparedStatement.setString(1,id);
+            preparedStatement.setString(1, id);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 ret = new HelpDTO();

@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class SourceLinksDTO implements java.io.Serializable{
+public class SourceLinksDTO implements java.io.Serializable {
 
     private int childId;
     private int parentId;

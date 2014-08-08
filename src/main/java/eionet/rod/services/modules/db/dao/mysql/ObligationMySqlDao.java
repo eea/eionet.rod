@@ -275,10 +275,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getUpcomingDeadlines(double)
      */
-    public Vector<Map<String,String>> getUpcomingDeadlines(double days) throws ServiceException {
+    public Vector<Map<String, String>> getUpcomingDeadlines(double days) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
 
         try {
             connection = getConnection();
@@ -293,7 +293,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             closeAllResources(null, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
 
     }
 
@@ -316,10 +316,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getActivities()
      */
-    public Vector<Map<String,String>> getActivities() throws ServiceException {
+    public Vector<Map<String, String>> getActivities() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qActivities);
@@ -332,7 +332,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             closeAllResources(null, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
 
     }
 
@@ -744,10 +744,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getObligationById(java.lang.Integer)
      */
-    public Hashtable<String,String> getObligationById(Integer id) throws ServiceException {
+    public Hashtable<String, String> getObligationById(Integer id) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Hashtable<String,String> result = null;
+        Hashtable<String, String> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qObligationById);
@@ -761,7 +761,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             closeAllResources(null, preparedStatement, connection);
         }
 
-        return result != null ? result : new Hashtable<String,String>();
+        return result != null ? result : new Hashtable<String, String>();
     }
 
     private static final String qObligationDetail =
@@ -782,10 +782,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getObligationDetail(java.lang.Integer)
      */
-    public Vector<Map<String,String>> getObligationDetail(Integer id) throws ServiceException {
+    public Vector<Map<String, String>> getObligationDetail(Integer id) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qObligationDetail);
@@ -799,7 +799,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             closeAllResources(null, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     private static final String qParentObligationId =
@@ -969,10 +969,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getROComplete()
      */
-    public Vector<Map<String,String>> getROComplete() throws ServiceException {
+    public Vector<Map<String, String>> getROComplete() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qROComplete);
@@ -984,7 +984,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     private static final String qROSummary =
@@ -1000,10 +1000,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getROSummary()
      */
-    public Vector<Map<String,String>> getROSummary() throws ServiceException {
+    public Vector<Map<String, String>> getROSummary() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qROSummary);
@@ -1015,7 +1015,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     private static final String qRODeadlines =
@@ -1032,10 +1032,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getRODeadlines()
      */
-    public Vector<Map<String,String>> getRODeadlines() throws ServiceException {
+    public Vector<Map<String, String>> getRODeadlines() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qRODeadlines);
@@ -1047,7 +1047,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
 
     }
 
@@ -1278,7 +1278,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             connection = getConnection();
             if (isDebugMode) logQuery(q_obligations_by_source);
             preparedStatement = connection.prepareStatement(q_obligations_by_source);
-            preparedStatement.setInt(1,sourceId.intValue());
+            preparedStatement.setInt(1, sourceId.intValue());
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 obligations.add(resultSet.getString(1));
@@ -1307,7 +1307,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Hashtable<String,String> result = null;
+        Hashtable<String, String> result = null;
 
         try {
             connection = getConnection();
@@ -1518,7 +1518,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             connection = getConnection();
             if (isDebugMode) logQuery(q_obligation_factsheet);
             preparedStatement = connection.prepareStatement(q_obligation_factsheet);
-            preparedStatement.setString(1,obligationId);
+            preparedStatement.setString(1, obligationId);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
 
@@ -1732,9 +1732,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         }
     }
 
-    public Vector<Hashtable<String,String>> getObligationsVector(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException {
+    public Vector<Hashtable<String, String>> getObligationsVector(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException {
 
-        Vector<Hashtable<String,String>> ret = null;
+        Vector<Hashtable<String, String>> ret = null;
         String query = getObligationsListQuery(anmode, country, issue, client, terminated, ccClients);
 
         try {
@@ -1743,7 +1743,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             logger.error(e);
             throw new ServiceException(e.getMessage());
         }
-        return ret != null ? ret : new Vector<Hashtable<String,String>>();
+        return ret != null ? ret : new Vector<Hashtable<String, String>>();
     }
 
     private String getObligationsListQuery(String anmode, String country, String issue, String client, String terminated, boolean ccClients) {

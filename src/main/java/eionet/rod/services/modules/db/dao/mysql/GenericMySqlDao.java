@@ -26,10 +26,10 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
      * @see eionet.rod.services.modules.db.dao.IGenericlDao#getTable(java.lang.String)
      */
     @Override
-    public Vector<Map<String,String>> getTable(String tablename) throws ServiceException {
+    public Vector<Map<String, String>> getTable(String tablename) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
 
         tablename = tablename.toUpperCase();
         if (allowedTable(tablename)) {
@@ -47,7 +47,7 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
             }
 
         }
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     /*
@@ -56,16 +56,16 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
      * @see eionet.rod.services.modules.db.dao.IGenericlDao#getTableDesc(java.lang.String)
      */
     @Override
-    public Vector<Hashtable<String,String>> getTableDesc(String tablename) throws ServiceException {
+    public Vector<Hashtable<String, String>> getTableDesc(String tablename) throws ServiceException {
         tablename = tablename.toUpperCase();
         if (allowedTable(tablename)) {
-            Vector<Hashtable<String,String>> rvec = new Vector<Hashtable<String,String>>();
+            Vector<Hashtable<String, String>> rvec = new Vector<Hashtable<String, String>>();
 
             Connection con = null;
             PreparedStatement stmt = null;
             ResultSet rset = null;
 
-            Hashtable<String,String> h = null;
+            Hashtable<String, String> h = null;
 
             String sql_stmt = "SHOW FULL COLUMNS FROM " + tablename;
             try {
@@ -79,7 +79,7 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
                 int columnCnt = md.getColumnCount();
 
                 while (rset.next()) {
-                    h = new Hashtable<String,String>();
+                    h = new Hashtable<String, String>();
                     for (int i = 0; i < columnCnt; i++) {
                         String name = md.getColumnName(i + 1);
                         String value = rset.getString(i + 1);
@@ -146,7 +146,7 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
             if (query != null) {
                 connection = getConnection();
                 preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setInt(1,Integer.valueOf(id).intValue());
+                preparedStatement.setInt(1, Integer.valueOf(id).intValue());
                 if (isDebugMode) logQuery(query);
                 m = _executeStringQuery(preparedStatement);
                 if (m.length == 0) result = true;

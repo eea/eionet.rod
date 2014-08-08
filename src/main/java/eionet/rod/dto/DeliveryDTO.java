@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class DeliveryDTO implements java.io.Serializable{
+public class DeliveryDTO implements java.io.Serializable {
 
     private String title;
     private String url;

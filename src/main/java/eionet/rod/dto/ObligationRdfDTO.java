@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class ObligationRdfDTO implements java.io.Serializable{
+public class ObligationRdfDTO implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,7 +45,7 @@ public class ObligationRdfDTO implements java.io.Serializable{
     private String dpsirR;
 
     /**
-     *
+     * Constructor.
      */
     public ObligationRdfDTO() {
     }

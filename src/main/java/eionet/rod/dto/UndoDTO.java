@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class UndoDTO implements java.io.Serializable{
+public class UndoDTO implements java.io.Serializable {
 
     private String undoTime;
     private String tabel;

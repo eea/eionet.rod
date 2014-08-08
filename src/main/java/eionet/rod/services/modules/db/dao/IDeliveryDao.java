@@ -21,7 +21,7 @@ public interface IDeliveryDao {
      * @param deliveredCountriesByObligations
      * @throws ServiceException
      */
-    void commitDeliveries(HashMap<String,HashSet<Integer>> deliveredCountriesByObligations) throws ServiceException;
+    void commitDeliveries(HashMap<String, HashSet<Integer>> deliveredCountriesByObligations) throws ServiceException;
 
     /**
      * @throws ServiceException
@@ -50,5 +50,5 @@ public interface IDeliveryDao {
      * @return int
      * @throws ServiceException
      */
-    int saveDeliveries(TupleQueryResult bindings, HashMap<String,HashSet<Integer>> savedCountriesByObligationId) throws ServiceException;
+    int saveDeliveries(TupleQueryResult bindings, HashMap<String, HashSet<Integer>> savedCountriesByObligationId) throws ServiceException;
 }

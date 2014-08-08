@@ -120,14 +120,14 @@ public class Log4jLoggerImpl implements LogServiceIF {
   public void error(Object msg) {
     if (msg instanceof Throwable) {
         Throwable t = (Throwable) msg;
-        logger.error(t.getMessage(),t);
-    }else{
+        logger.error(t.getMessage(), t);
+    } else {
         logger.error(msg);
     }
   }
 
   public void error(Object msg, Throwable t)  {
-    logger.error(msg,t);
+    logger.error(msg, t);
   }
 
 /**
@@ -136,13 +136,13 @@ public class Log4jLoggerImpl implements LogServiceIF {
   public void fatal(Object msg) {
     if (msg instanceof Throwable) {
         Throwable t = (Throwable) msg;
-        logger.fatal(t.getMessage(),t);
-    }else{
+        logger.fatal(t.getMessage(), t);
+    } else {
         logger.fatal(msg, null);
     }
   }
 
   public void fatal(Object msg, Throwable t)  {
-    logger.fatal(msg,t);
+    logger.fatal(msg, t);
   }
 }

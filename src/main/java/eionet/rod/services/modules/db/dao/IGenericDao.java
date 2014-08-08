@@ -13,14 +13,14 @@ public interface IGenericDao {
      * @return
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getTable(String tablename) throws ServiceException;
+    Vector<Map<String, String>> getTable(String tablename) throws ServiceException;
 
     /**
      * @param tablename
      * @return
      * @throws ServiceException
      */
-    Vector<Hashtable<String,String>> getTableDesc(String tablename) throws ServiceException;
+    Vector<Hashtable<String, String>> getTableDesc(String tablename) throws ServiceException;
 
     /**
      * @param id

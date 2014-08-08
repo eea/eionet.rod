@@ -7,7 +7,7 @@ import java.util.List;
  * @author altnyris
  *
  */
-public class InstrumentRdfDTO implements java.io.Serializable{
+public class InstrumentRdfDTO implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
 

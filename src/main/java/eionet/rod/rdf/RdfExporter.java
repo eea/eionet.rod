@@ -79,7 +79,7 @@ public class RdfExporter {
         }
         finally{
             try {
-                if (fos != null){
+                if (fos != null) {
                     fos.close();
                 }
             } catch (Exception e) {

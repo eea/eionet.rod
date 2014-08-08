@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class SearchDTO implements java.io.Serializable{
+public class SearchDTO implements java.io.Serializable {
 
     //Fields from T_OBLIGATION table
     private Integer obligationId;

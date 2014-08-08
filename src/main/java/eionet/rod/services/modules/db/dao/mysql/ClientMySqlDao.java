@@ -87,11 +87,11 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
      *
      * @see eionet.rod.services.modules.db.dao.IClientDao#getOrganisations()
      */
-    public Vector<Map<String,String>> getOrganisations() throws ServiceException {
+    public Vector<Map<String, String>> getOrganisations() throws ServiceException {
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
 
         try {
             connection = getConnection();
@@ -106,7 +106,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             closeAllResources(resultSet, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     /*
@@ -114,12 +114,12 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
      *
      * @see eionet.rod.services.modules.db.dao.IClientDao#getObligationOrg(java.lang.Integer)
      */
-    public Vector<Map<String,String>> getObligationOrg(Integer obligationId) throws ServiceException {
+    public Vector<Map<String, String>> getObligationOrg(Integer obligationId) throws ServiceException {
 
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
 
         try {
             connection = getConnection();
@@ -134,7 +134,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             closeAllResources(resultSet, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     private static final String q_delete_obligation_link =
@@ -450,7 +450,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             connection = getConnection();
             if (isDebugMode) logQuery(q_client_factsheet);
             preparedStatement = connection.prepareStatement(q_client_factsheet);
-            preparedStatement.setString(1,id);
+            preparedStatement.setString(1, id);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 ret = new ClientDTO();
@@ -467,7 +467,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
                 ret.setCountry(rs.getString("COUNTRY"));
 
                 preparedStatement = connection.prepareStatement(q_direct_obligations);
-                preparedStatement.setString(1,id);
+                preparedStatement.setString(1, id);
                 sub_rs = preparedStatement.executeQuery();
                 while (sub_rs.next()) {
                     ObligationFactsheetDTO obligation = new ObligationFactsheetDTO();
@@ -480,7 +480,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
                 ret.setDirectObligations(directObligations);
 
                 preparedStatement = connection.prepareStatement(q_indirect_obligations);
-                preparedStatement.setString(1,id);
+                preparedStatement.setString(1, id);
                 sub_rs = preparedStatement.executeQuery();
                 while (sub_rs.next()) {
                     ObligationFactsheetDTO obligation = new ObligationFactsheetDTO();
@@ -493,7 +493,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
                 ret.setIndirectObligations(indirectObligations);
 
                 preparedStatement = connection.prepareStatement(q_direct_instruments);
-                preparedStatement.setString(1,id);
+                preparedStatement.setString(1, id);
                 sub_rs = preparedStatement.executeQuery();
                 while (sub_rs.next()) {
                     InstrumentDTO instrument = new InstrumentDTO();
@@ -506,7 +506,7 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
                 ret.setDirectInstruments(directInstruments);
 
                 preparedStatement = connection.prepareStatement(q_indirect_instruments);
-                preparedStatement.setString(1,id);
+                preparedStatement.setString(1, id);
                 sub_rs = preparedStatement.executeQuery();
                 while (sub_rs.next()) {
                     InstrumentDTO instrument = new InstrumentDTO();

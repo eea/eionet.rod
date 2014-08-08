@@ -64,7 +64,7 @@ public interface IHistoryDao {
      * @return Vector  (0:ITEM_ID, 1:LOG_TIME, 2:USER, 3:ACTION_TYPE, 4:ITEM_TYPE )
      * @throws ServiceException
      */
-    Hashtable<String,Object> getDeletedItemsVector(String itemType) throws ServiceException;
+    Hashtable<String, Object> getDeletedItemsVector(String itemType) throws ServiceException;
 
     /**
      * Returns history of current object
@@ -73,7 +73,7 @@ public interface IHistoryDao {
      * @return history of current object
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getHistory(int id, String tab) throws ServiceException;
+    Vector<Map<String, String>> getHistory(int id, String tab) throws ServiceException;
 
 
     /**

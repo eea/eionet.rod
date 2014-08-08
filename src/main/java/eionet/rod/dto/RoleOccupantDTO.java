@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class RoleOccupantDTO implements java.io.Serializable{
+public class RoleOccupantDTO implements java.io.Serializable {
 
     private String person;
     private String institute;

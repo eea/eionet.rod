@@ -7,7 +7,7 @@ import java.util.List;
  * @author altnyris
  *
  */
-public class ResponsibleRoleDTO implements java.io.Serializable{
+public class ResponsibleRoleDTO implements java.io.Serializable {
 
     private String name;
     private String email;

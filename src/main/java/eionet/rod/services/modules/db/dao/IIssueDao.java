@@ -14,7 +14,7 @@ public interface IIssueDao {
      * @return
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getIssues() throws ServiceException;
+    Vector<Map<String, String>> getIssues() throws ServiceException;
 
     /**
      * Returns obligation issues
@@ -22,7 +22,7 @@ public interface IIssueDao {
      * @return obligation issues
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getObligationIssues(Integer id) throws ServiceException;
+    Vector<Map<String, String>> getObligationIssues(Integer id) throws ServiceException;
 
     /**
      * @return

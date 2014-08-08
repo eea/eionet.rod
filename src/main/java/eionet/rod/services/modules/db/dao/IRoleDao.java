@@ -19,7 +19,7 @@ public interface IRoleDao {
      * @param role
      * @throws ServiceException
      */
-    void saveRole(Hashtable<String,Object> role) throws ServiceException;
+    void saveRole(Hashtable<String, Object> role) throws ServiceException;
 
     /**
      * @throws ServiceException

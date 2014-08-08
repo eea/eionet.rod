@@ -96,7 +96,7 @@ public interface IUndoDao {
      * @return
      * @throws ServiceException
      */
-    Vector<Map<String,String>> getUndoInformation(long ts, String op, String tab, String id) throws ServiceException;
+    Vector<Map<String, String>> getUndoInformation(long ts, String op, String tab, String id) throws ServiceException;
 
     /**
      * Returns user who performed the action
