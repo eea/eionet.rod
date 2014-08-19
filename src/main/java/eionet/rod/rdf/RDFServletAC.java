@@ -37,6 +37,7 @@ import eionet.rod.Constants;
 import eionet.rod.services.ServiceException;
 
 /**
+ * Parent class for all RDF and RSS 1.0 servlets.
  * <P>Servlet URL: <CODE>rdf</CODE></P>
  *
  * <P>Database tables involved: T_ACTIVITY</P>
@@ -121,7 +122,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
         if (rodSchemaNamespace == null) {
             try {
-                rodSchemaNamespace=props.getString("schema.namespace");
+                rodSchemaNamespace = props.getString("schema.namespace");
                 //quite likely it will not change
             } catch (MissingResourceException mre) {
                 rodSchemaNamespace = "http://rod.eionet.europa.eu/schema.rdf";

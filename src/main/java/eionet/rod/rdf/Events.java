@@ -24,8 +24,6 @@
 
 package eionet.rod.rdf;
 
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -36,7 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.Constants;
-import eionet.rod.RODUtil;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import java.io.IOException;
@@ -48,6 +45,9 @@ public class Events extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
 
+    private static final long TEN_PCT_OF_MONTH_IN_DAYS = 3L;
+    private static final long DAY_IN_MILLISECONDS = 86400000L;
+
     @Override
     protected void generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException, IOException {
 
@@ -55,8 +55,8 @@ public class Events extends RSSServletAC {
         StringTokenizer countries = tokenizeParam(req.getParameter("countries"));
 
         RDFUtil rdfOut = new RDFUtil(res.getWriter());
-        rdfOut.addNamespace("ev", eventsNs);
-        rdfOut.setVocabulary(rssNs);
+        rdfOut.addNamespace("ev", EVENTS_NS);
+        rdfOut.setVocabulary(RSS_NS);
         rdfOut.writeRdfHeader();
 
         String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
@@ -126,25 +126,12 @@ public class Events extends RSSServletAC {
     }
 
     /**
-     * Checks if input string is a number.
-     * FIXME: Should use RODUtil.isNumber() instead.
-     */
-    public static boolean isNumeric(String inString) {
-        CharacterIterator theIterator = new StringCharacterIterator(inString);
-
-        for (char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next()) {
-            if (!Character.isDigit(ch)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Calculates if next deadline for an obligation should be listed in the RSS output.
      *
+     * @param nd - next deadline as a string date
+     * @param freq - Frequency - every X months.
      * @param date - misnamed - next deadline must be after this cut-off date.
+     * @return true if nextdeadline is within 10 % of reporting period in the future.
      */
     public static boolean isUpcomingEvent(String nd, String freq, Date date) {
         int year = Integer.parseInt(nd.substring(0, 4)) - 1900;
@@ -155,48 +142,13 @@ public class Events extends RSSServletAC {
         long nextDeadlineMillis = nextDeadline.getTime();
 
         int f = Integer.parseInt(freq);
-        int period = new Double(3.0 * f).intValue();
-        //TODO: long period = 3L * Integer.parseInt(freq);
-        long periodMillis =
-            (new Long(period).longValue() * new Long(24).longValue() * new Long(3600).longValue() * new Long(1000).longValue());
-        //TODO: long periodMillis = period * 24L * 3600L * 1000L;
-        Date periodStartDate = new Date(nextDeadlineMillis - periodMillis);
+        long tenPctMillis = Integer.parseInt(freq) * TEN_PCT_OF_MONTH_IN_DAYS * DAY_IN_MILLISECONDS;
+        Date deadlineMinus10Pct = new Date(nextDeadlineMillis - tenPctMillis);
 
-        if (nextDeadline.after(date) && periodStartDate.before(date)) {
+        if (nextDeadline.after(date) && deadlineMinus10Pct.before(date)) {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Split param on comma and remove non-numeric values.
-     *
-     * @param param - The parameter provided by the user.
-     * @return List of values
-     */ 
-    private StringTokenizer tokenizeParam(String param) {
-        if (param == null || param.length() == 0) {
-            return null;
-        }       
-            
-        StringTokenizer uncleanTemp = new StringTokenizer(param, ",");
-        StringBuffer cleanStr = new StringBuffer();
-        if (uncleanTemp != null) {
-            while (uncleanTemp.hasMoreTokens()) {
-                String token = uncleanTemp.nextToken();
-                if (isNumeric(token)) {
-                    cleanStr.append(token);
-                    cleanStr.append(" ");
-                } else {
-                    cleanStr.append("-1");
-                    cleanStr.append(" ");
-                }
-            }
-            if (cleanStr.toString() != null) {
-                return new StringTokenizer(cleanStr.toString());
-            }
-        }
-        return null;
     }
 
     /**

@@ -1,3 +1,25 @@
+/*
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of
+ * the License at http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * rights and limitations under the License.
+ *
+ * The Original Code is "ROD2"
+ *
+ * The Initial Developer of the Original Code is European.
+ * Environment Agency (EEA).
+ *
+ * Copyright (C) 2000-2014 by European Environment Agency.  All
+ * Rights Reserved.
+ *
+ * Original Code: Søren Roug
+ */
+
 package eionet.rod.rdf;
 
 import java.io.IOException;
@@ -385,8 +407,6 @@ public class RDFUtil {
     /**
      * Called from the other methods to flush the output.
      *
-     * @param v
-     *            - value to print.
      * @throws IOException
      *             - if the output is not open.
      */

@@ -1,12 +1,13 @@
 package eionet.rod.services;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * fileservice tests.
  */
 public class FileServiceTest {
+
     @Test
     public void getTimePropertyTest() throws  Exception {
         FileServiceIF fileService = RODServices.getFileService();

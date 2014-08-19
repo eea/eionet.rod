@@ -15,29 +15,27 @@
  * The Original Code code was developed for the European
  * Environment Agency (EEA) under the IDA/EINRC framework contract.
  *
- * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Copyright (C) 2000-2014 by European Environment Agency.  All
  * Rights Reserved.
  *
  * Original Code: Kaido Laine (TietoEnator)
+ * Contributor: Søren Roug
  */
 
 package eionet.rod.rdf;
 
 import java.io.IOException;
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.Constants;
-import eionet.rod.RODUtil;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * Activities RSS
+ * Activities RSS.
  */
 public class IssueActivities extends RSSServletAC {
 
@@ -50,8 +48,8 @@ public class IssueActivities extends RSSServletAC {
         StringTokenizer countries = tokenizeParam(req.getParameter("countries"));
 
         RDFUtil rdfOut = new RDFUtil(res.getWriter());
-        rdfOut.addNamespace("ev", eventsNs);
-        rdfOut.setVocabulary(rssNs);
+        rdfOut.addNamespace("ev", EVENTS_NS);
+        rdfOut.setVocabulary(RSS_NS);
         rdfOut.writeRdfHeader();
 
         String actsUrl = props.getString(Constants.ROD_URL_ACTIVITIES);
@@ -88,49 +86,6 @@ public class IssueActivities extends RSSServletAC {
         }
 
         rdfOut.writeRdfFooter();
-    }
-
-    public static boolean isNumeric(String inString) {
-        CharacterIterator theIterator = new StringCharacterIterator(inString);
-
-        for (char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next()) {
-            if (!Character.isDigit(ch)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Split param on comma and remove non-numeric values.
-     *
-     * @param param - The parameter provided by the user.
-     * @return List of values
-     */ 
-    private StringTokenizer tokenizeParam(String param) {
-        if (param == null || param.length() == 0) {
-            return null;
-        }       
-            
-        StringTokenizer uncleanTemp = new StringTokenizer(param, ",");
-        StringBuffer cleanStr = new StringBuffer();
-        if (uncleanTemp != null) {
-            while (uncleanTemp.hasMoreTokens()) {
-                String token = uncleanTemp.nextToken();
-                if (isNumeric(token)) {
-                    cleanStr.append(token);
-                    cleanStr.append(" ");
-                } else {
-                    cleanStr.append("-1");
-                    cleanStr.append(" ");
-                }
-            }
-            if (cleanStr.toString() != null) {
-                return new StringTokenizer(cleanStr.toString());
-            }
-        }
-        return null;
     }
 
 }

@@ -30,13 +30,13 @@ public class EventsTest {
                 + " frequency " + freq;
     }
 
-    private void assertTrue(String nextDeadline, String freq, Date testFrom) {
+    private void assertAppear(String nextDeadline, String freq, Date testFrom) {
         String explanation = pretty(nextDeadline, freq, testFrom);
         boolean result = Events.isUpcomingEvent(nextDeadline, freq, testFrom);
         Assert.assertTrue(explanation, result);
     }
 
-    private void assertFalse(String nextDeadline, String freq, Date testFrom) {
+    private void assertNotAppear(String nextDeadline, String freq, Date testFrom) {
         String explanation = pretty(nextDeadline, freq, testFrom);
         boolean result = Events.isUpcomingEvent(nextDeadline, freq, testFrom);
         Assert.assertFalse(explanation, result);
@@ -51,7 +51,7 @@ public class EventsTest {
         Date testFrom = dateFromString("2014-07-15");
         String nextDeadline = "2014-07-25"; // 10 days from base
         String freq = "12";
-        assertTrue(nextDeadline, freq, testFrom);
+        assertAppear(nextDeadline, freq, testFrom);
     }
 
     /**
@@ -63,7 +63,43 @@ public class EventsTest {
         Date testFrom = dateFromString("2014-07-30");
         String nextDeadline = "2014-09-30"; // 60 days away
         String freq = "12";
-        assertFalse(nextDeadline, freq, testFrom);
+        assertNotAppear(nextDeadline, freq, testFrom);
+    }
+
+    /**
+     * The event will not appear if the deadline is before the cut-off date.
+     * NOT LOGICALLY POSIBLE.
+     */
+    @Test
+    public void yearlyIs15DaysBefore() throws  Exception {
+        Date testFrom = dateFromString("2014-07-30");
+        String nextDeadline = "2014-07-15"; // 15 days before
+        String freq = "12";
+        assertNotAppear(nextDeadline, freq, testFrom);
+    }
+
+    /**
+     * If the frequency is every 72 months, then the event will not appear
+     * until 215 days before.
+     */
+    @Test
+    public void sixYearlyIsUpcomingWithin212Days() throws  Exception {
+        Date testFrom = dateFromString("2014-01-15");
+        String nextDeadline = "2014-08-15"; // 212 days from base
+        String freq = "72";
+        assertAppear(nextDeadline, freq, testFrom);
+    }
+
+    /**
+     * If the frequency is every 72 months, then the event will not appear
+     * until 215 days before.
+     */
+    @Test
+    public void sixYearlyIsUpcomingWithin217Days() throws  Exception {
+        Date testFrom = dateFromString("2014-01-15");
+        String nextDeadline = "2014-08-20"; // 217 days from base
+        String freq = "72";
+        assertNotAppear(nextDeadline, freq, testFrom);
     }
 
     /**
@@ -74,6 +110,6 @@ public class EventsTest {
         Date testFrom = dateFromString("2014-01-15");
         String nextDeadline = "2014-02-15";
         String freq = "0";
-        assertFalse(nextDeadline, freq, testFrom);
+        assertNotAppear(nextDeadline, freq, testFrom);
     }
 }

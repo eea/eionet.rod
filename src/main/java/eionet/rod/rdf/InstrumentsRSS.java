@@ -42,8 +42,8 @@ public class InstrumentsRSS extends RSSServletAC {
     protected void generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException, IOException {
 
         RDFUtil rdfOut = new RDFUtil(res.getWriter());
-        rdfOut.addNamespace("ev", eventsNs);
-        rdfOut.setVocabulary(rssNs);
+        rdfOut.addNamespace("ev", EVENTS_NS);
+        rdfOut.setVocabulary(RSS_NS);
         rdfOut.writeRdfHeader();
 
         String lisUrl = "http://rod.eionet.europa.eu/instruments.rss";

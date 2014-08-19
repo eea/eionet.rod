@@ -2,15 +2,17 @@ package eionet.rod;
 
 import java.util.Date;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
- * @author Jaanus Heinlaid, e-mail: <a href="mailto:jaanus.heinlaid@tietoenator.com">jaanus.heinlaid@tietoenator.com</a>
+ * @author Jaanus Heinlaid
  *
  */
-public class RODUtilTest extends TestCase {
+public class RODUtilTest {
 
+    @Test
     public void test_replaceTags() {
         assertEquals(
                 "<a href=\"http://cdr.eionet.europa.eu/search?y=1&amp;z=2\">http://cdr.eionet.europa.eu/search?y=1&amp;z=2</a>",
@@ -60,6 +62,7 @@ public class RODUtilTest extends TestCase {
     /*
      * This test documents an actual bug in the system.
      */
+    @Test
     public void test_replaceTagsMultiLine() {
         String input =
                 "The templates (XML schema) and the reporting manual are available"
@@ -78,6 +81,7 @@ public class RODUtilTest extends TestCase {
         assertEquals(expected, result);
     }
 
+    @Test
     public void test_replaceTags2() {
         // Unusual entity
         assertEquals("Fruit &euro; Vegetables", RODUtil.replaceTags("Fruit &euro; Vegetables"));
@@ -89,6 +93,7 @@ public class RODUtilTest extends TestCase {
         assertEquals("X &nbsp;X", RODUtil.replaceTags2("X  X"));
     }
 
+    @Test
     public void test_isURL() {
         assertTrue(RODUtil.isURL("http://cdr.eionet.europa.eu/"));
         assertTrue(RODUtil.isURL("ftp://ftp.eionet.europa.eu/"));
@@ -96,12 +101,14 @@ public class RODUtilTest extends TestCase {
         assertFalse(RODUtil.isURL("XXX"));
     }
 
+    @Test
     public void test_threeDots() {
         assertEquals("Fahrvergnügen", RODUtil.threeDots("Fahrvergnügen", 13));
         assertEquals("Königsschloß und ...", RODUtil.threeDots("Königsschloß und Papstgefängnis", 17));
         assertEquals("http://en....", RODUtil.threeDots("http://en.wikipedia.org/wiki/Fahrvergnügen", 10));
     }
 
+    @Test
     public void test_threeDotsElektra() {
         // Verify that threeDots() can handle "Elektra" in the Greek alphabet
         char data[] =
@@ -110,6 +117,7 @@ public class RODUtilTest extends TestCase {
         assertEquals("Τίτλος: Ηλέκτρα", RODUtil.threeDots(new String(data), 60));
     }
 
+    @Test
     public void test_threeDotsElektra6() {
         // Verify that threeDots() can cut after 6 greek characters
         // Ensure that it fails if javac's charset is not UNICODE
@@ -119,6 +127,7 @@ public class RODUtilTest extends TestCase {
         assertEquals("Τίτλος...", RODUtil.threeDots(new String(data), 6));
     }
 
+    @Test
     public void test_setAnchors() {
         // Simple check
         assertEquals("<a href=\"http://en.wikipedia.org/wiki/Fahrvergnügen\">http://en....</a>",
@@ -134,6 +143,7 @@ public class RODUtilTest extends TestCase {
                 RODUtil.setAnchors("http://cdr.eionet.europa.eu/search?y=1&z=2", false, 0));
     }
 
+    @Test
     public void test_setAnchorsInParenthesis() {
         assertEquals(
                 "Some text (<a href=\"http://en.wikipedia.org/wiki/Fahrvergnügen\">http://en.wikipedia.org/wiki/Fahrvergnügen</a>).",
@@ -145,6 +155,7 @@ public class RODUtilTest extends TestCase {
     }
 
     // Testing correct syntax
+    @Test
     public void test_getDate() {
         Date date = RODUtil.getDate("22/03/2008");
         assertEquals(date.getDate(), 22);
@@ -153,12 +164,14 @@ public class RODUtilTest extends TestCase {
     }
 
     // Testing getDate() with empty string param
+    @Test
     public void test_getEmptyDate() {
         assertNull(RODUtil.getDate(""));
     }
 
     // Having a bad syntax will cause the method to return null
     // .. and print stack trace
+    @Test
     public void test_getDateWithDashes() {
         assertNotNull(RODUtil.getDate("22/03/2008"));
     }

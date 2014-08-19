@@ -31,6 +31,11 @@ public class IssueActivitiesTest extends BaseMySqlDaoTest {
         Assert.assertFalse(notExpected, result.contains(notExpected));
     }
 
+    private void checkRSSContentType(WebResponse response) {
+        Assert.assertNotNull("No response received", response);
+        Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+    }
+
     @Override
     protected IDataSet getDataSet() throws Exception {
         FlatXmlDataSet loadedDataSet;
@@ -48,8 +53,9 @@ public class IssueActivitiesTest extends BaseMySqlDaoTest {
         ServletUnitClient sc = sr.newClient();
         WebRequest request   = new GetMethodWebRequest("http://test.meterware.com/instruments.rss");
         WebResponse response = sc.getResponse(request);
-        Assert.assertNotNull("No response received", response);
-        Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        //Assert.assertNotNull("No response received", response);
+        //Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        checkRSSContentType(response);
         String resp = response.getText();
         //System.out.println(resp);
 

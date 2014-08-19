@@ -31,6 +31,11 @@ public class EventsServletTest extends BaseMySqlDaoTest {
         Assert.assertFalse(notExpected, result.contains(notExpected));
     }
 
+    private void checkRSSContentType(WebResponse response) {
+        Assert.assertNotNull("No response received", response);
+        Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+    }
+
     @Override
     protected IDataSet getDataSet() throws Exception {
         FlatXmlDataSet loadedDataSet;
@@ -48,8 +53,9 @@ public class EventsServletTest extends BaseMySqlDaoTest {
         ServletUnitClient sc = sr.newClient();
         WebRequest request   = new GetMethodWebRequest("http://test.meterware.com/events.rss");
         WebResponse response = sc.getResponse(request);
-        Assert.assertNotNull("No response received", response);
-        Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        //Assert.assertNotNull("No response received", response);
+        //Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        checkRSSContentType(response);
         String resp = response.getText();
         //System.out.println(resp);
 
@@ -76,8 +82,9 @@ public class EventsServletTest extends BaseMySqlDaoTest {
         // issue 1 OR 4. No obligation in test data has #4
         request.setParameter("issues", "1,4");
         WebResponse response = sc.getResponse(request);
-        Assert.assertNotNull("No response received", response);
-        Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        //Assert.assertNotNull("No response received", response);
+        //Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        checkRSSContentType(response);
         String resp = response.getText();
         //System.out.println(resp);
 
@@ -98,8 +105,9 @@ public class EventsServletTest extends BaseMySqlDaoTest {
         WebRequest request   = new GetMethodWebRequest("http://test.meterware.com/events.rss");
         request.setParameter("countries", "2");
         WebResponse response = sc.getResponse(request);
-        Assert.assertNotNull("No response received", response);
-        Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        //Assert.assertNotNull("No response received", response);
+        //Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        checkRSSContentType(response);
         String resp = response.getText();
         //System.out.println(resp);
 
@@ -120,8 +128,9 @@ public class EventsServletTest extends BaseMySqlDaoTest {
         request.setParameter("issues", "6");
         request.setParameter("countries", "1");
         WebResponse response = sc.getResponse(request);
-        Assert.assertNotNull("No response received", response);
-        Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        //Assert.assertNotNull("No response received", response);
+        //Assert.assertEquals("content type", "application/rss+xml", response.getContentType());
+        checkRSSContentType(response);
         String resp = response.getText();
         //System.out.println(resp);
 
