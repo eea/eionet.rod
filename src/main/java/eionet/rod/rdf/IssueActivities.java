@@ -15,99 +15,60 @@
  * The Original Code code was developed for the European
  * Environment Agency (EEA) under the IDA/EINRC framework contract.
  *
- * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Copyright (C) 2000-2014 by European Environment Agency.  All
  * Rights Reserved.
  *
  * Original Code: Kaido Laine (TietoEnator)
+ * Contributor: Søren Roug
  */
 
 package eionet.rod.rdf;
 
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.Constants;
-import eionet.rod.RODUtil;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * Activities RSS
+ * Activities RSS.
  */
 public class IssueActivities extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
 
-    protected String generateRDF(HttpServletRequest req) throws ServiceException {
+    @Override
+    protected void generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException, IOException {
 
-        String issuesParam = req.getParameter("issues");
-        StringTokenizer issuesTemp = null;
-        StringTokenizer issues = null;
+        StringTokenizer issues = tokenizeParam(req.getParameter("issues"));
+        StringTokenizer countries = tokenizeParam(req.getParameter("countries"));
 
-        String countriesParam = req.getParameter("countries");
-        StringTokenizer countriesTemp = null;
-        StringTokenizer countries = null;
-
-        if (issuesParam != null)
-            issuesTemp = new StringTokenizer(issuesParam, ",");
-
-        if (countriesParam != null)
-            countriesTemp = new StringTokenizer(countriesParam, ",");
-
-        StringBuffer strIssues = new StringBuffer();
-        if (issuesTemp != null) {
-            while (issuesTemp.hasMoreTokens()) {
-                String token = issuesTemp.nextToken();
-                if (isNumeric(token)) {
-                    strIssues.append(token);
-                    strIssues.append(" ");
-                } else {
-                    strIssues.append("-1");
-                    strIssues.append(" ");
-                }
-            }
-            if (strIssues.toString() != null)
-                issues = new StringTokenizer(strIssues.toString());
-        }
-
-        StringBuffer strCountries = new StringBuffer();
-        if (countriesTemp != null) {
-            while (countriesTemp.hasMoreTokens()) {
-                String token = countriesTemp.nextToken();
-                if (isNumeric(token)) {
-                    strCountries.append(token);
-                    strCountries.append(" ");
-                } else {
-                    strCountries.append("-1");
-                    strCountries.append(" ");
-                }
-            }
-            if (strCountries.toString() != null)
-                countries = new StringTokenizer(strCountries.toString());
-        }
-
-        StringBuffer s = new StringBuffer();
-        s.append(rdfHeader);
-
-        s.append("<rdf:RDF ").append(rdfNameSpace).append(rssNs).append(eventsNs).append(">");
+        RDFUtil rdfOut = new RDFUtil(res.getWriter());
+        rdfOut.addNamespace("ev", EVENTS_NS);
+        rdfOut.setVocabulary(RSS_NS);
+        rdfOut.writeRdfHeader();
 
         String actsUrl = props.getString(Constants.ROD_URL_ACTIVITIES);
-        addChannelTag(s, actsUrl);
+        rdfOut.writeStartResource("channel", actsUrl);
 
         String[][] acts = RODServices.getDbService().getObligationDao().getIssueActivities(issues, countries);
 
-        s.append("<items><rdf:Seq>");
+        rdfOut.writeStartLiteral("items");
+        rdfOut.writeStartResource("rdf:Seq");
         for (int i = 0; i < acts.length; i++) {
             String pk = acts[i][0];
 
-            s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/").append(pk).append("\"/>");
-
+            rdfOut.writeReference("rdf:li", obligationsNamespace + "/" + pk);
         }
-        s.append("</rdf:Seq></items>");
-        addChannelEnd(s);
+        rdfOut.writeEndResource("rdf:Seq");
+        rdfOut.writeEndLiteral("items");
+
+        rdfOut.writeEndResource("channel");
+
         for (int i = 0; i < acts.length; i++) {
             String pk = acts[i][0];
             String title = acts[i][1];
@@ -115,34 +76,16 @@ public class IssueActivities extends RSSServletAC {
             String link = getActivityUrl(pk, acts[i][3]);
             String description = acts[i][4];
 
-            s.append("<item rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">").append("<title>")
-            .append(RODUtil.replaceTags(title, true, true)).append("</title>").append("<link>")
-            .append(RODUtil.replaceTags(link, true, true)).append("</link>").append("<description>")
-            .append(RODUtil.replaceTags(description, true, true)).append("</description>");
+            rdfOut.writeStartResource("item", obligationsNamespace + "/" + pk);
+            rdfOut.writeLiteral("title", title);
+            rdfOut.writeLiteral("link", link);
+            rdfOut.writeLiteral("description", description);
+            rdfOut.writeLiteral("ev:startdate", date);
 
-            if (date != null)
-                s.append("<ev:startdate>").append(date).append("</ev:startdate>");
-            else
-                s.append("<ev:startdate/>");
-
-            s.append("</item>");
+            rdfOut.writeEndResource("item");
         }
 
-        s.append("</rdf:RDF>");
-
-        return s.toString();
-    }
-
-    public static boolean isNumeric(String inString) {
-        CharacterIterator theIterator = new StringCharacterIterator(inString);
-
-        for (char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next()) {
-            if (!Character.isDigit(ch)) {
-                return false;
-            }
-        }
-
-        return true;
+        rdfOut.writeRdfFooter();
     }
 
 }

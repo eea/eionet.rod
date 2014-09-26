@@ -7,7 +7,7 @@ import java.util.List;
  * @author altnyris
  *
  */
-public class CountryInfoDTO implements java.io.Serializable{
+public class CountryInfoDTO implements java.io.Serializable {
 
     private String obligationTitle;
     private String role;

@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class ObligationFactsheetDTO implements java.io.Serializable{
+public class ObligationFactsheetDTO implements java.io.Serializable {
 
     //Fields from T_OBLIGATION table
     private String obligationId;

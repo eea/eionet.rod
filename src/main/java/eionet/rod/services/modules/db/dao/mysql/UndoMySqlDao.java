@@ -449,7 +449,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                         preparedStatement.setString(6, isPrimary);
                         //preparedStatement.setString(7, value != null ? value : "");
                         preparedStatement.setString(7, value != null ? value : "null");
-                        //preparedStatement.setString(7,value);
+                        //preparedStatement.setString(7, value);
                         preparedStatement.setInt(8, rowCnt);
                         preparedStatement.setString(9, show);
                         // String insert_stmt = "INSERT INTO T_UNDO VALUES (" +
@@ -741,7 +741,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             String type = "";
             if (type_array.length > 0) type = type_array[0][0];
 
-                        String acl_stmt = "SELECT value FROM T_UNDO WHERE operation='ACL' AND undo_time="+ts+" AND tab='"+tab+"'";
+                        String acl_stmt = "SELECT value FROM T_UNDO WHERE operation='ACL' AND undo_time="
+                            + ts + " AND tab='" + tab + "'";
                         String[][] acl_array = _executeStringQuery(acl_stmt);
                         String aclPath = "";
                         if (acl_array.length > 0)
@@ -935,9 +936,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
      *      java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public Vector<Map<String,String>> getUndoInformation(long ts, String op, String tab, String id) throws ServiceException {
+    public Vector<Map<String, String>> getUndoInformation(long ts, String op, String tab, String id) throws ServiceException {
 
-        Vector<Map<String,String>> vec = new Vector<Map<String,String>>();
+        Vector<Map<String, String>> vec = new Vector<Map<String, String>>();
         Connection con = null;
         PreparedStatement preparedStatement = null;
 
@@ -974,7 +975,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
                     if (idsa.length > 0) ids = idsa[0][0];
                 }
-                Vector<Map<String,String>> obligations_vec = new Vector<Map<String,String>>();
+                Vector<Map<String, String>> obligations_vec = new Vector<Map<String, String>>();
                 StringTokenizer st = new StringTokenizer(ids, ",");
                 while (st.hasMoreTokens()) {
                     String token = st.nextToken();
@@ -1190,14 +1191,14 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
         + "WHERE (col='PK_RA_ID' OR col='PK_SOURCE_ID') "
         + "AND (operation='U' OR operation='D' OR operation='UN' OR operation='UD' OR operation='UDD') AND show_object='y' ";
         if (!RODUtil.isNullOrEmpty(id))
-            query = query + "AND value='"+id+"' ";
+            query = query + "AND value='" + id + "' ";
         if (!RODUtil.isNullOrEmpty(object)) {
             String obj = "";
             if (object.equals("A"))
                 obj = "T_OBLIGATION";
             else if (object.equals("S"))
                 obj = "T_SOURCE";
-            query = query + "AND tab='"+obj+"' ";
+            query = query + "AND tab='" + obj + "' ";
         }
 
         query = query + "ORDER BY undo_time DESC LIMIT 100";
@@ -1280,7 +1281,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
-        Vector<Map<String,String>> utlist = null;
+        Vector<Map<String, String>> utlist = null;
 
         Connection conn = null;
         try {
@@ -1292,8 +1293,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             if (isDebugMode) logQuery(Q_SELECT_UNDO_BY_USER);
             utlist = _getVectorOfHashes(preparedStatement);
 
-            for (Iterator<Map<String,String>> it = utlist.iterator(); it.hasNext(); ) {
-                Map<String,String> hash = it.next();
+            for (Iterator<Map<String, String>> it = utlist.iterator(); it.hasNext(); ) {
+                Map<String, String> hash = it.next();
                 String utime = hash.get("undo_time");
 
                 preparedStatement = conn.prepareStatement(Q_SELECT_UNDO_LIST_BY_UNDO_TIME);
@@ -1343,7 +1344,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 obj = "PK_RA_ID";
             else if (type.equals("S"))
                 obj = "PK_SOURCE_ID";
-            query = query + "col='"+obj+"' ";
+            query = query + "col='" + obj + "' ";
         }
 
         query = query + "AND operation='D' AND show_object='y' ORDER BY undo_time DESC";

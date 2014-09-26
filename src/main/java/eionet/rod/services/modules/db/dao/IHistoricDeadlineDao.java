@@ -14,7 +14,7 @@ public interface IHistoricDeadlineDao {
      * @return historical deadlines between given range
      * @throws ServiceException
      */
-    public List<HistDeadlineDTO> getHistoricDeadlines(String start_date, String end_date) throws ServiceException;
+    List<HistDeadlineDTO> getHistoricDeadlines(String start_date, String end_date) throws ServiceException;
 
 
     /**
@@ -22,6 +22,6 @@ public interface IHistoricDeadlineDao {
      * @param raId
      * @throws ServiceException
      */
-    public void  deleteByObligationId(Integer raId) throws ServiceException;
+    void  deleteByObligationId(Integer raId) throws ServiceException;
 
 }

@@ -40,7 +40,7 @@ import com.tee.uit.security.SignOnException;
  * <P>
  * WebROD specific implementation of the Uses database to authenticate users.
  * </P>
- * 
+ *
  * @author Rando Valt
  * @version 1.0
  */
@@ -65,7 +65,7 @@ public class ROUser {
      * @param userName
      * @param userPws
      * @return boolean
-     * 
+     *
      */
     public boolean authenticate(String userName, String userPws) {
         invalidate();
@@ -97,7 +97,7 @@ public class ROUser {
 
     /**
      * @return boolean
-     * 
+     *
      */
     public boolean isAuthentic() {
         return authented;
@@ -106,7 +106,7 @@ public class ROUser {
     /**
      * @param role
      * @return boolean
-     * 
+     *
      */
     public boolean isUserInRole(String role) {
         boolean b = false;
@@ -122,8 +122,8 @@ public class ROUser {
     }
 
     /**
-     * FullName
-     * 
+     * FullName.
+     *
      * @return String
      */
     public String getFullName() {
@@ -132,7 +132,7 @@ public class ROUser {
 
     /**
      * @return String
-     * 
+     *
      */
     public String getUserName() {
         return user;
@@ -140,7 +140,7 @@ public class ROUser {
 
     /**
      * @return Connection
-     * 
+     *
      */
     public Connection getConnection() {
         try {
@@ -151,8 +151,10 @@ public class ROUser {
     }
 
     /**
-     * Returns a string array of roles the user is linked to. Note that the method returns newly constructed array, leaving internal
+     * Returns a string array of roles the user is linked to. Note that the
+     * method returns newly constructed array, leaving internal
      * role list unrevealed.
+     *
      * @return String[]
      */
     public String[] getUserRoles() {
@@ -191,7 +193,7 @@ public class ROUser {
     }
 
     /**
-     * 
+     *
      * @param userName
      * @param aclPath
      * @param prm

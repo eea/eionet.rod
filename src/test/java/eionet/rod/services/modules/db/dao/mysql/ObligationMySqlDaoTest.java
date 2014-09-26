@@ -2,6 +2,7 @@ package eionet.rod.services.modules.db.dao.mysql;
 
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
@@ -104,11 +105,22 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
     /*
      * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getActivityDeadlines(StringTokenizer, StringTokenizer)'
      */
-    public void testGetActivityDeadlines() throws Exception{
-        // TODO Auto-generated method stub
 
-
+    public void testGetActivityDeadlines() throws Exception {
+        StringTokenizer issues = null;
+        StringTokenizer countries = null;
+        String [][] m = obligationMySqlDao.getActivityDeadlines(issues, countries);
+        assertEquals(2, m.length);
+        for (String[] row : m) {
+            assertEquals(6, row.length);
+            if ("15".equals(row[0])) {
+                assertEquals("CLRTAP (AE-1)", row[1]);
+            } else if ("514".equals(row[0])) {
+                assertEquals("2008-08-31", row[2]);
+            }
+        }
     }
+
 
     /*
      * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getAllActivityDeadlines(StringTokenizer, StringTokenizer)'

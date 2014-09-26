@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class HarvestHistoryDTO implements java.io.Serializable{
+public class HarvestHistoryDTO implements java.io.Serializable {
 
     private String historyId;
     private String itemId;

@@ -60,7 +60,7 @@ public class RdfFilter implements Filter {
 
         String uri = httpRequest.getRequestURI();
         String cpath = httpRequest.getContextPath();
-        if (uri != null && uri.endsWith("/rdf")){
+        if (uri != null && uri.endsWith("/rdf")) {
             boolean rdf = extractTableAndIdentifier(uri, cpath);
             if (rdf) {
                 Connection conn = null;
@@ -82,7 +82,7 @@ public class RdfFilter implements Filter {
                     ConnectionUtil.closeConnection(conn);
                 }
             }
-        } else if(uri != null && uri.endsWith(".rdf")) {
+        } else if (uri != null && uri.endsWith(".rdf")) {
             // Also check for ".rdf" to ensure that old URLs work
             uri = uri.replace(".rdf", "/rdf");
             if (isRdfTable(uri, cpath)) {
@@ -90,7 +90,7 @@ public class RdfFilter implements Filter {
                 httpResponse.setHeader("Location", uri);
                 return;
             }
-        } else if (StringUtils.contains(httpRequest.getHeader("accept"), ACCEPT_RDF_HEADER)){
+        } else if (StringUtils.contains(httpRequest.getHeader("accept"), ACCEPT_RDF_HEADER)) {
             if (isRdfTable(uri, cpath)) {
                 httpResponse.sendRedirect(uri + "/rdf");
                 return;

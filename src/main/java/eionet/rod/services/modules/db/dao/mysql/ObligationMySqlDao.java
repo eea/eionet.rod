@@ -275,10 +275,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getUpcomingDeadlines(double)
      */
-    public Vector<Map<String,String>> getUpcomingDeadlines(double days) throws ServiceException {
+    public Vector<Map<String, String>> getUpcomingDeadlines(double days) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
 
         try {
             connection = getConnection();
@@ -293,7 +293,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             closeAllResources(null, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
 
     }
 
@@ -316,10 +316,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getActivities()
      */
-    public Vector<Map<String,String>> getActivities() throws ServiceException {
+    public Vector<Map<String, String>> getActivities() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qActivities);
@@ -332,7 +332,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             closeAllResources(null, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
 
     }
 
@@ -435,7 +435,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return ret;
     }
 
-    private static final String qObligationForRdf =
+    private static final String Q_OBLIGATION_FOR_RDF =
         "SELECT "
         + "a.PK_RA_ID, "
         + "s.PK_SOURCE_ID, "
@@ -481,8 +481,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(qObligationForRdf);
-            preparedStatement = connection.prepareStatement(qObligationForRdf);
+            if (isDebugMode) logQuery(Q_OBLIGATION_FOR_RDF);
+            preparedStatement = connection.prepareStatement(Q_OBLIGATION_FOR_RDF);
             preparedStatement.setString(1, obligationId);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -579,20 +579,31 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         String sql = "";
 
         if (issues != null && countries != null) {
-            sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.REPORT_FREQ_MONTHS, a.FK_SOURCE_ID," + rplAmp("a.DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " + "a.NEXT_DEADLINE > '0000-00-00'";
+            sql = "SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE, a.REPORT_FREQ_MONTHS, a.FK_SOURCE_ID, a.DESCRIPTION"
+                + " FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE "
+                + "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND "
+                + "a.NEXT_DEADLINE > '0000-00-00'";
 
             sql = sql + " AND " + getWhereClause("il.FK_ISSUE_ID", issues);
             sql = sql + " AND " + getWhereClause("r.FK_SPATIAL_ID", countries);
         } else if (issues != null && countries == null) {
-            sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.REPORT_FREQ_MONTHS, a.FK_SOURCE_ID, " + rplAmp("a.DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " + "a.NEXT_DEADLINE > '0000-00-00'";
+            sql = "SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE, a.REPORT_FREQ_MONTHS, a.FK_SOURCE_ID, a.DESCRIPTION"
+                + " FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE "
+                + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND "
+                + "a.NEXT_DEADLINE > '0000-00-00'";
 
             sql = sql + " AND " + getWhereClause("il.FK_ISSUE_ID", issues);
         } else if (issues == null && countries != null) {
-            sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.REPORT_FREQ_MONTHS, a.FK_SOURCE_ID, " + rplAmp("a.DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " + "a.NEXT_DEADLINE > '0000-00-00'";
+            sql = "SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE, a.REPORT_FREQ_MONTHS, a.FK_SOURCE_ID, a.DESCRIPTION"
+                + " FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE "
+                + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND "
+                + "a.NEXT_DEADLINE > '0000-00-00'";
 
             sql = sql + " AND " + getWhereClause("il.FK_SPATIAL_ID", countries);
         } else {
-            sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE, REPORT_FREQ_MONTHS, FK_SOURCE_ID, " + rplAmp("DESCRIPTION", "DESRCIPTION") + " FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND " + "NEXT_DEADLINE > '0000-00-00'";
+            sql = "SELECT PK_RA_ID, TITLE, NEXT_DEADLINE, REPORT_FREQ_MONTHS, FK_SOURCE_ID, DESCRIPTION"
+                + " FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND "
+                + "NEXT_DEADLINE > '0000-00-00'";
         }
 
         return _executeStringQuery(sql);
@@ -604,6 +615,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getAllActivityDeadlines(java.util.StringTokenizer,
      *      java.util.StringTokenizer)
      */
+    @Override
     public String[][] getAllActivityDeadlines(StringTokenizer issues, StringTokenizer countries) throws ServiceException {
 
         StringBuffer buf_sql = new StringBuffer();
@@ -614,9 +626,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             whereClause1 = getWhereClause("il.FK_ISSUE_ID", issues);
             whereClause2 = getWhereClause("r.FK_SPATIAL_ID", countries);
 
-            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID,");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
-            buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " + "a.NEXT_DEADLINE > '0000-00-00'");
+            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
+            buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE "
+                + "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND "
+                + "a.NEXT_DEADLINE > '0000-00-00'");
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
             buf_sql.append(" AND ");
@@ -624,9 +637,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
             // EK 010306
             // Create UNION SELECT
-            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID,");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
-            buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE2 IS NOT NULL AND " + "a.NEXT_DEADLINE2 > '0000-00-00'");
+            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
+            buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE "
+                + "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID AND a.NEXT_DEADLINE2 IS NOT NULL AND "
+                + "a.NEXT_DEADLINE2 > '0000-00-00'");
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
             buf_sql.append(" AND ");
@@ -634,17 +648,18 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
         } else if (issues != null && countries == null) {
             whereClause1 = getWhereClause("il.FK_ISSUE_ID", issues);
-            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
-            buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " + "a.NEXT_DEADLINE > '0000-00-00'");
+            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, a.TITLE AS TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
+            buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE "
+                + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND "
+                + "a.NEXT_DEADLINE > '0000-00-00'");
 
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
-            // EK 010306
             // Create UNION SELECT
-            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
-            buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE2 IS NOT NULL AND " + "a.NEXT_DEADLINE2 > '0000-00-00'");
+            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
+            buf_sql.append(" FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE "
+                + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE2 IS NOT NULL AND "
+                + "a.NEXT_DEADLINE2 > '0000-00-00'");
 
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
@@ -652,28 +667,27 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } else if (issues == null && countries != null) {
             whereClause1 = getWhereClause("il.FK_SPATIAL_ID", countries);
 
-            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
-            buf_sql.append(" FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND " + "a.NEXT_DEADLINE > '0000-00-00'");
+            buf_sql.append("SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
+            buf_sql.append(" FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE "
+                + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE IS NOT NULL AND "
+                + "a.NEXT_DEADLINE > '0000-00-00'");
 
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
-            // EK 010306
             // Create UNION SELECT
-            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("a.DESCRIPTION", "DESCRIPTION"));
-            buf_sql.append(" FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE2 IS NOT NULL AND " + "a.NEXT_DEADLINE2 > '0000-00-00'");
+            buf_sql.append(" UNION SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE2 AS DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION");
+            buf_sql.append(" FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE "
+                + "  a.PK_RA_ID = il.FK_RA_ID AND a.NEXT_DEADLINE2 IS NOT NULL AND "
+                + "a.NEXT_DEADLINE2 > '0000-00-00'");
 
             buf_sql.append(" AND ");
             buf_sql.append(whereClause1);
         } else {
-            buf_sql.append("SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE AS DEADLINE, FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("DESCRIPTION", "DESRCIPTION"));
-            buf_sql.append(" FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND " + "NEXT_DEADLINE > '0000-00-00'");
-            // EK 010306
+            buf_sql.append("SELECT PK_RA_ID, TITLE, NEXT_DEADLINE AS DEADLINE, FK_SOURCE_ID, DESCRIPTION");
+            buf_sql.append(" FROM T_OBLIGATION WHERE NEXT_DEADLINE IS NOT NULL AND "
+                + "NEXT_DEADLINE > '0000-00-00'");
             // Create UNION SELECT
-            buf_sql.append(" UNION SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE , NEXT_DEADLINE2 AS DEADLINE, FK_SOURCE_ID, ");
-            buf_sql.append(rplAmp("DESCRIPTION", "DESRCIPTION"));
+            buf_sql.append(" UNION SELECT PK_RA_ID, TITLE, NEXT_DEADLINE2 AS DEADLINE, FK_SOURCE_ID, DESCRIPTION");
             buf_sql.append(" FROM T_OBLIGATION WHERE NEXT_DEADLINE2 IS NOT NULL AND " + "NEXT_DEADLINE2 > '0000-00-00'");
         }
         return _executeStringQuery(buf_sql.toString());
@@ -685,24 +699,29 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getIssueActivities(java.util.StringTokenizer,
      *      java.util.StringTokenizer)
      */
+    @Override
     public String[][] getIssueActivities(StringTokenizer issues, StringTokenizer countries) throws ServiceException {
         String sql = "";
 
         if (issues != null && countries != null) {
-            sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID," + rplAmp("a.DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE " + "  a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID";
+            sql = "SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION"
+                + " FROM T_OBLIGATION a, T_RAISSUE_LNK il, T_RASPATIAL_LNK r WHERE "
+                + " a.PK_RA_ID = il.FK_RA_ID AND a.PK_RA_ID = r.FK_RA_ID";
 
             sql = sql + " AND " + getWhereClause("il.FK_ISSUE_ID", issues);
             sql = sql + " AND " + getWhereClause("r.FK_SPATIAL_ID", countries);
         } else if (issues != null && countries == null) {
-            sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " + rplAmp("a.DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID";
+            sql = "SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION"
+                + " FROM T_OBLIGATION a, T_RAISSUE_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID";
 
             sql = sql + " AND " + getWhereClause("il.FK_ISSUE_ID", issues);
         } else if (issues == null && countries != null) {
-            sql = "SELECT DISTINCT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') AS TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, " + rplAmp("a.DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID";
+            sql = "SELECT DISTINCT a.PK_RA_ID, a.TITLE, a.NEXT_DEADLINE, a.FK_SOURCE_ID, a.DESCRIPTION"
+                + " FROM T_OBLIGATION a, T_RASPATIAL_LNK il WHERE " + "  a.PK_RA_ID = il.FK_RA_ID";
 
             sql = sql + " AND " + getWhereClause("il.FK_SPATIAL_ID", countries);
         } else {
-            sql = "SELECT PK_RA_ID, REPLACE(TITLE, '&', '&#038;') AS TITLE, NEXT_DEADLINE, " + " FK_SOURCE_ID, " + rplAmp("DESCRIPTION", "DESCRIPTION") + " FROM T_OBLIGATION";
+            sql = "SELECT PK_RA_ID, TITLE, NEXT_DEADLINE, FK_SOURCE_ID, DESCRIPTION FROM T_OBLIGATION";
         }
 
         sql += " ORDER BY PK_RA_ID";
@@ -725,10 +744,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getObligationById(java.lang.Integer)
      */
-    public Hashtable<String,String> getObligationById(Integer id) throws ServiceException {
+    public Hashtable<String, String> getObligationById(Integer id) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Hashtable<String,String> result = null;
+        Hashtable<String, String> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qObligationById);
@@ -742,7 +761,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             closeAllResources(null, preparedStatement, connection);
         }
 
-        return result != null ? result : new Hashtable<String,String>();
+        return result != null ? result : new Hashtable<String, String>();
     }
 
     private static final String qObligationDetail =
@@ -763,10 +782,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getObligationDetail(java.lang.Integer)
      */
-    public Vector<Map<String,String>> getObligationDetail(Integer id) throws ServiceException {
+    public Vector<Map<String, String>> getObligationDetail(Integer id) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qObligationDetail);
@@ -780,7 +799,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             closeAllResources(null, preparedStatement, connection);
         }
 
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     private static final String qParentObligationId =
@@ -950,10 +969,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getROComplete()
      */
-    public Vector<Map<String,String>> getROComplete() throws ServiceException {
+    public Vector<Map<String, String>> getROComplete() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qROComplete);
@@ -965,7 +984,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     private static final String qROSummary =
@@ -981,10 +1000,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getROSummary()
      */
-    public Vector<Map<String,String>> getROSummary() throws ServiceException {
+    public Vector<Map<String, String>> getROSummary() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qROSummary);
@@ -996,7 +1015,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
     }
 
     private static final String qRODeadlines =
@@ -1013,10 +1032,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getRODeadlines()
      */
-    public Vector<Map<String,String>> getRODeadlines() throws ServiceException {
+    public Vector<Map<String, String>> getRODeadlines() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Vector<Map<String,String>> result = null;
+        Vector<Map<String, String>> result = null;
         try {
             connection = getConnection();
             if (isDebugMode) logQuery(qRODeadlines);
@@ -1028,7 +1047,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
-        return result != null ? result : new Vector<Map<String,String>>();
+        return result != null ? result : new Vector<Map<String, String>>();
 
     }
 
@@ -1121,7 +1140,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         "DELETE FROM T_RAISSUE_LNK "
         + "WHERE FK_RA_ID=?";
 
-    public void deleteIssueLink(Integer raId) throws ServiceException{
+    public void deleteIssueLink(Integer raId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -1140,7 +1159,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     private static final String q_delete_spatial_link = "DELETE FROM T_RASPATIAL_LNK WHERE FK_RA_ID=?";
 
-    public void deleteSpatialLink(Integer raId) throws ServiceException{
+    public void deleteSpatialLink(Integer raId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -1161,7 +1180,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     private static final String q_delete_spatial_link_ext =
         "DELETE FROM T_RASPATIAL_LNK "
         + "WHERE FK_RA_ID=? AND FK_SPATIAL_ID=?";
-    public void deleteSpatialLink(Integer raId, Integer spatialId) throws ServiceException{
+    public void deleteSpatialLink(Integer raId, Integer spatialId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -1182,7 +1201,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     private static final String q_delete_info_link ="DELETE FROM T_INFO_LNK WHERE FK_RA_ID=?";
 
-    public void deleteInfoLink(Integer raId) throws ServiceException{
+    public void deleteInfoLink(Integer raId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -1205,7 +1224,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     private static final String q_delete_obligation = "DELETE FROM T_OBLIGATION WHERE PK_RA_ID=?";
 
-    public void deleteObligation(Integer raId) throws ServiceException{
+    public void deleteObligation(Integer raId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -1228,7 +1247,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         + "VALUES (?,?)";
 
 
-    public void insertInfoLink(Integer raId, String infoId) throws ServiceException{
+    public void insertInfoLink(Integer raId, String infoId) throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -1250,7 +1269,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
     private static final String q_obligations_by_source =
         "SELECT PK_RA_ID FROM T_OBLIGATION WHERE FK_SOURCE_ID=?";
 
-    public List<String> getObligationsBySource(Integer sourceId) throws ServiceException{
+    public List<String> getObligationsBySource(Integer sourceId) throws ServiceException {
         List<String> obligations = new ArrayList<String>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -1259,7 +1278,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             connection = getConnection();
             if (isDebugMode) logQuery(q_obligations_by_source);
             preparedStatement = connection.prepareStatement(q_obligations_by_source);
-            preparedStatement.setInt(1,sourceId.intValue());
+            preparedStatement.setInt(1, sourceId.intValue());
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 obligations.add(resultSet.getString(1));
@@ -1288,7 +1307,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Hashtable<String,String> result = null;
+        Hashtable<String, String> result = null;
 
         try {
             connection = getConnection();
@@ -1310,7 +1329,8 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         return false;
     }
 
-    private String getSearchSql(String spatialId, String clientId, String issueId, String date1, String date2, String dlCase, String order) throws ServiceException {
+    private String getSearchSql(String spatialId, String clientId, String issueId, String date1,
+                String date2, String dlCase, String order) throws ServiceException {
 
         StringBuilder q_obligations_list = new StringBuilder(
             "SELECT DISTINCT T_OBLIGATION.PK_RA_ID, T_OBLIGATION.TITLE, T_OBLIGATION.RESPONSIBLE_ROLE, "
@@ -1498,7 +1518,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             connection = getConnection();
             if (isDebugMode) logQuery(q_obligation_factsheet);
             preparedStatement = connection.prepareStatement(q_obligation_factsheet);
-            preparedStatement.setString(1,obligationId);
+            preparedStatement.setString(1, obligationId);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
 
@@ -1712,9 +1732,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         }
     }
 
-    public Vector<Hashtable<String,String>> getObligationsVector(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException {
+    public Vector<Hashtable<String, String>> getObligationsVector(String anmode, String country, String issue, String client, String terminated, boolean ccClients) throws ServiceException {
 
-        Vector<Hashtable<String,String>> ret = null;
+        Vector<Hashtable<String, String>> ret = null;
         String query = getObligationsListQuery(anmode, country, issue, client, terminated, ccClients);
 
         try {
@@ -1723,7 +1743,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             logger.error(e);
             throw new ServiceException(e.getMessage());
         }
-        return ret != null ? ret : new Vector<Hashtable<String,String>>();
+        return ret != null ? ret : new Vector<Hashtable<String, String>>();
     }
 
     private String getObligationsListQuery(String anmode, String country, String issue, String client, String terminated, boolean ccClients) {

@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class IssueDTO implements java.io.Serializable{
+public class IssueDTO implements java.io.Serializable {
 
     private Integer issueId;
     private String name;

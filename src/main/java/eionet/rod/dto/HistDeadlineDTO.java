@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class HistDeadlineDTO implements java.io.Serializable{
+public class HistDeadlineDTO implements java.io.Serializable {
 
     private Integer obligationId;
     private Integer sourceId;

@@ -18,96 +18,56 @@
  * The Original Code code was developed for the European
  * Environment Agency (EEA) under the IDA/EINRC framework contract.
  *
- * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Copyright (C) 2000-2014 by European Environment Agency.  All
  * Rights Reserved.
  *
  * Original Code: Kaido Laine (TietoEnator)
+ * Contributor: Søren Roug
  */
 
 package eionet.rod.rdf;
 
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.Constants;
-import eionet.rod.RODUtil;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import java.io.IOException;
 
 public class AllEvents extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
 
-    protected String generateRDF(HttpServletRequest req) throws ServiceException {
+    @Override
+    protected void generateRDF(final HttpServletRequest req, final HttpServletResponse res) throws ServiceException, IOException {
 
-        String issuesParam = req.getParameter("issues");
-        StringTokenizer issuesTemp = null;
-        StringTokenizer issues = null;
+        StringTokenizer issues = tokenizeParam(req.getParameter("issues"));
+        StringTokenizer countries = tokenizeParam(req.getParameter("countries"));
 
-        String countriesParam = req.getParameter("countries");
-        StringTokenizer countriesTemp = null;
-        StringTokenizer countries = null;
-
-        if (issuesParam != null && issuesParam.length() > 0)
-            issuesTemp = new StringTokenizer(issuesParam, ",");
-
-        if (countriesParam != null && countriesParam.length() > 0)
-            countriesTemp = new StringTokenizer(countriesParam, ",");
-
-        StringBuffer strIssues = new StringBuffer();
-        if (issuesTemp != null) {
-            while (issuesTemp.hasMoreTokens()) {
-                String token = issuesTemp.nextToken();
-                if (isNumeric(token)) {
-                    strIssues.append(token);
-                    strIssues.append(" ");
-                } else {
-                    strIssues.append("-1");
-                    strIssues.append(" ");
-                }
-            }
-            if (strIssues.toString() != null)
-                issues = new StringTokenizer(strIssues.toString());
-        }
-
-        StringBuffer strCountries = new StringBuffer();
-        if (countriesTemp != null) {
-            while (countriesTemp.hasMoreTokens()) {
-                String token = countriesTemp.nextToken();
-                if (isNumeric(token)) {
-                    strCountries.append(token);
-                    strCountries.append(" ");
-                } else {
-                    strCountries.append("-1");
-                    strCountries.append(" ");
-                }
-            }
-            if (strCountries.toString() != null)
-                countries = new StringTokenizer(strCountries.toString());
-        }
-
-        StringBuffer s = new StringBuffer();
-        s.append(rdfHeader);
-
-        s.append("<rdf:RDF ").append(rdfNameSpace).append(eventsNs).append(rssNs).append(">");
+        RDFUtil rdfOut = new RDFUtil(res.getWriter());
+        rdfOut.addNamespace("ev", EVENTS_NS);
+        rdfOut.setVocabulary(RSS_NS);
+        rdfOut.writeRdfHeader();
 
         String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
-        addChannelTag(s, eventsUrl);
+        rdfOut.writeStartResource("channel", eventsUrl);
 
         String[][] events = RODServices.getDbService().getObligationDao().getAllActivityDeadlines(issues, countries);
 
-        s.append("<items><rdf:Seq>");
+        rdfOut.writeStartLiteral("items");
+        rdfOut.writeStartResource("rdf:Seq");
         for (int i = 0; i < events.length; i++) {
             String pk = events[i][0];
 
-            s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/").append(pk).append("\"/>");
-
+            rdfOut.writeReference("rdf:li", obligationsNamespace + "/" + pk);
         }
-        s.append("</rdf:Seq></items>");
-        addChannelEnd(s);
+        rdfOut.writeEndResource("rdf:Seq");
+        rdfOut.writeEndLiteral("items");
+
+        rdfOut.writeEndResource("channel");
         for (int i = 0; i < events.length; i++) {
             String pk = events[i][0];
             String title = "Deadline for Reporting Obligation: " + events[i][1];
@@ -115,34 +75,16 @@ public class AllEvents extends RSSServletAC {
             String link = getActivityUrl(pk, events[i][3]);
             String description = events[i][4];
 
-            s.append("<item rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">").append("<title>")
-            .append(RODUtil.replaceTags(title, true, true)).append("</title>").append("<link>")
-            .append(RODUtil.replaceTags(link, true, true)).append("</link>").append("<description>")
-            .append(RODUtil.replaceTags(description, true, true)).append("</description>").append("<ev:startdate>")
-            .append(date).append("</ev:startdate>");
+            rdfOut.writeStartResource("item", obligationsNamespace + "/" + pk);
+            rdfOut.writeLiteral("title", title);
+            rdfOut.writeLiteral("link", link);
+            rdfOut.writeLiteral("description", description);
+            rdfOut.writeLiteral("ev:startdate", date);
 
-            s.append("</item>");
+            rdfOut.writeEndResource("item");
         }
 
-        s.append("</rdf:RDF>");
-
-        return s.toString();
-    }
-
-    /**
-     * Checks if input string is a number.
-     * FIXME: Should use RODUtil.isNumber() instead.
-     */
-    public static boolean isNumeric(String inString) {
-        CharacterIterator theIterator = new StringCharacterIterator(inString);
-
-        for (char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next()) {
-            if (!Character.isDigit(ch)) {
-                return false;
-            }
-        }
-
-        return true;
+        rdfOut.writeRdfFooter();
     }
 
 }

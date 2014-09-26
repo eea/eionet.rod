@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class HelpDTO implements java.io.Serializable{
+public class HelpDTO implements java.io.Serializable {
 
     private String helpId;
     private String helpTitle;

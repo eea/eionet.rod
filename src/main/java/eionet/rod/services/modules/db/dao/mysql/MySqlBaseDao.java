@@ -45,7 +45,7 @@ public abstract class MySqlBaseDao {
 
     protected static boolean isDebugMode = true; // logger.enable(LogServiceIF.DEBUG);
 
-    protected static Map<String,String> properties = new HashMap<String,String>();
+    protected static Map<String, String> properties = new HashMap<String, String>();
 
     private static boolean isUnitTest = false;
 
@@ -301,8 +301,7 @@ public abstract class MySqlBaseDao {
                 rvec.addElement(row); // Store the row into the vector
             }
         } catch (SQLException e) {
-            // logger.error("Error occurred when processing result set: " +
-            // sql,e);
+            // logger.error("Error occurred when processing result set: " + sql, e);
             logger.error(e);
             throw new SQLException("Error occurred when processing result set: " + "");
         }
@@ -319,15 +318,15 @@ public abstract class MySqlBaseDao {
         return rval;
     }
 
-    protected Vector<Hashtable<String,String>> _getVectorOfHashes(String sql_stmt) throws ServiceException {
+    protected Vector<Hashtable<String, String>> _getVectorOfHashes(String sql_stmt) throws ServiceException {
 
-        Vector<Hashtable<String,String>> rvec = new Vector<Hashtable<String,String>>(); // Return value as Vector
+        Vector<Hashtable<String, String>> rvec = new Vector<Hashtable<String, String>>(); // Return value as Vector
 
         Connection con = null;
         Statement stmt = null;
         ResultSet rset = null;
 
-        Hashtable<String,String> h = null;
+        Hashtable<String, String> h = null;
 
         if (isDebugMode) logQuery(sql_stmt);
 
@@ -344,7 +343,7 @@ public abstract class MySqlBaseDao {
             // _log("COLS OK" + colCnt);
 
             while (rset.next()) {
-                h = new Hashtable<String,String>();
+                h = new Hashtable<String, String>();
 
                 // Retrieve the columns of the result set
                 for (int i = 0; i < colCnt; ++i) {
@@ -372,10 +371,10 @@ public abstract class MySqlBaseDao {
     }
 
     // a new method
-    protected Vector<Map<String,String>> _getVectorOfHashes(PreparedStatement pstatement) throws SQLException {
+    protected Vector<Map<String, String>> _getVectorOfHashes(PreparedStatement pstatement) throws SQLException {
 
-        Vector<Map<String,String>> rvec = new Vector<Map<String,String>>(); // Return value as Vector
-        Map<String,String> record;
+        Vector<Map<String, String>> rvec = new Vector<Map<String, String>>(); // Return value as Vector
+        Map<String, String> record;
         ResultSet rs = null;
 
         rs = pstatement.executeQuery();
@@ -386,7 +385,7 @@ public abstract class MySqlBaseDao {
         String value = null;
         try {
             while (rs.next()) {
-                record = new Hashtable<String,String>();
+                record = new Hashtable<String, String>();
                 // Retrieve the columns of the result set
                 for (int i = 0; i < colCnt; ++i) {
                     String name = md.getColumnLabel(i + 1);
@@ -543,13 +542,13 @@ public abstract class MySqlBaseDao {
         return curDate;
     }
 
-    protected Hashtable<String,String> _getHashtable(String sql_stmt) throws ServiceException {
+    protected Hashtable<String, String> _getHashtable(String sql_stmt) throws ServiceException {
 
         Connection con = null;
         Statement stmt = null;
         ResultSet rset = null;
 
-        Hashtable<String,String> h = null;
+        Hashtable<String, String> h = null;
 
         if (isDebugMode) logQuery(sql_stmt);
 
@@ -566,7 +565,7 @@ public abstract class MySqlBaseDao {
             // _log("COLS OK" + colCnt);
 
             while (rset.next()) {
-                h = new Hashtable<String,String>();
+                h = new Hashtable<String, String>();
                 // Retrieve the columns of the result set
                 for (int i = 0; i < colCnt; ++i) {
                     String name = md.getColumnLabel(i + 1);
@@ -589,13 +588,13 @@ public abstract class MySqlBaseDao {
 
     }
 
-    protected Hashtable<String,String> _getHashtable(PreparedStatement preparedStatement) throws ServiceException {
+    protected Hashtable<String, String> _getHashtable(PreparedStatement preparedStatement) throws ServiceException {
 
         Connection con = null;
         Statement stmt = null;
         ResultSet rset = null;
 
-        Hashtable<String,String> h = null;
+        Hashtable<String, String> h = null;
         try {
             rset = preparedStatement.executeQuery();
             // _log("RESULT OK");
@@ -606,7 +605,7 @@ public abstract class MySqlBaseDao {
             // _log("COLS OK" + colCnt);
 
             while (rset.next()) {
-                h = new Hashtable<String,String>();
+                h = new Hashtable<String, String>();
                 // Retrieve the columns of the result set
                 for (int i = 0; i < colCnt; ++i) {
                     String name = md.getColumnLabel(i + 1);
@@ -661,7 +660,7 @@ public abstract class MySqlBaseDao {
 
     private static final String qCountryId = "" + "SELECT PK_SPATIAL_ID " + "FROM T_SPATIAL " + "WHERE SPATIAL_TYPE='C' AND SPATIAL_NAME=?";
 
-    protected Integer getCountryId(String countryName, HashMap<String,Integer> countryMap, Connection connection) throws Exception {
+    protected Integer getCountryId(String countryName, HashMap<String, Integer> countryMap, Connection connection) throws Exception {
         Integer countryId = null;
         if (!countryMap.containsKey(countryName)) {
 

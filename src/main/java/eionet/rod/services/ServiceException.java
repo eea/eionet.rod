@@ -25,14 +25,14 @@ package eionet.rod.services;
 
 /**
  * Exception class for service layer error/exception situations.
- * 
+ *
  * @author Rando Valt
  * @version 1.0
  */
 public class ServiceException extends java.lang.Exception {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class ServiceException extends java.lang.Exception {
 
     /**
      * Constructs an <code>ServiceException</code> with the specified detail message.
-     * 
+     *
      * @param msg
      *            the detail message.
      */

@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class ObligationCountryDTO implements java.io.Serializable{
+public class ObligationCountryDTO implements java.io.Serializable {
 
     private Integer countryId;
     private String name;

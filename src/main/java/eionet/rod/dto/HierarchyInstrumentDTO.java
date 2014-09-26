@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class HierarchyInstrumentDTO implements java.io.Serializable{
+public class HierarchyInstrumentDTO implements java.io.Serializable {
 
     //Fields from T_SOURCE table
     private int sourceId;

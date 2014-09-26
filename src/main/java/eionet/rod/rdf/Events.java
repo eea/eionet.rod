@@ -9,22 +9,21 @@
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
- * The Original Code is "NaMod project".
+ * The Original Code is "ROD2"
  *
  * The Initial Developer of the Original Code is TietoEnator.
  * The Original Code code was developed for the European
  * Environment Agency (EEA) under the IDA/EINRC framework contract.
  *
- * Copyright (C) 2000-2002 by European Environment Agency.  All
+ * Copyright (C) 2000-2014 by European Environment Agency.  All
  * Rights Reserved.
  *
  * Original Code: Kaido Laine (TietoEnator)
+ * Contributor: Søren Roug
  */
 
 package eionet.rod.rdf;
 
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -32,11 +31,12 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.Constants;
-import eionet.rod.RODUtil;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import java.io.IOException;
 
 /**
  * Write RSS for events.
@@ -45,65 +45,27 @@ public class Events extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
 
-    protected String generateRDF(HttpServletRequest req) throws ServiceException {
+    private static final long TEN_PCT_OF_MONTH_IN_DAYS = 3L;
+    private static final long DAY_IN_MILLISECONDS = 86400000L;
 
-        String issuesParam = req.getParameter("issues");
-        StringTokenizer issuesTemp = null;
-        StringTokenizer issues = null;
+    @Override
+    protected void generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException, IOException {
 
-        String countriesParam = req.getParameter("countries");
-        StringTokenizer countriesTemp = null;
-        StringTokenizer countries = null;
+        StringTokenizer issues = tokenizeParam(req.getParameter("issues"));
+        StringTokenizer countries = tokenizeParam(req.getParameter("countries"));
 
-        if (issuesParam != null && issuesParam.length() > 0)
-            issuesTemp = new StringTokenizer(issuesParam, ",");
-
-        if (countriesParam != null && countriesParam.length() > 0)
-            countriesTemp = new StringTokenizer(countriesParam, ",");
-
-        StringBuffer strIssues = new StringBuffer();
-        if (issuesTemp != null) {
-            while (issuesTemp.hasMoreTokens()) {
-                String token = issuesTemp.nextToken();
-                if (isNumeric(token)) {
-                    strIssues.append(token);
-                    strIssues.append(" ");
-                } else {
-                    strIssues.append("-1");
-                    strIssues.append(" ");
-                }
-            }
-            if (strIssues.toString() != null)
-                issues = new StringTokenizer(strIssues.toString());
-        }
-
-        StringBuffer strCountries = new StringBuffer();
-        if (countriesTemp != null) {
-            while (countriesTemp.hasMoreTokens()) {
-                String token = countriesTemp.nextToken();
-                if (isNumeric(token)) {
-                    strCountries.append(token);
-                    strCountries.append(" ");
-                } else {
-                    strCountries.append("-1");
-                    strCountries.append(" ");
-                }
-            }
-            if (strCountries.toString() != null)
-                countries = new StringTokenizer(strCountries.toString());
-        }
-
-        StringBuffer s = new StringBuffer();
-        s.append(rdfHeader);
-
-        s.append("<rdf:RDF ").append(rdfNameSpace).append(eventsNs).append(rssNs).append(">");
+        RDFUtil rdfOut = new RDFUtil(res.getWriter());
+        rdfOut.addNamespace("ev", EVENTS_NS);
+        rdfOut.setVocabulary(RSS_NS);
+        rdfOut.writeRdfHeader();
 
         String eventsUrl = props.getString(Constants.ROD_URL_EVENTS);
-        addChannelTag(s, eventsUrl);
+        rdfOut.writeStartResource("channel", eventsUrl);
 
         String[][] events = RODServices.getDbService().getObligationDao().getActivityDeadlines(issues, countries);
+
         Vector eventsVec = new Vector();
-        Date currentDate = new Date();
+        Date currentDate = getTodaysDate();
         for (int i = 0; i < events.length; i++) {
             String nd = events[i][2];
             String freq = events[i][3];
@@ -134,15 +96,16 @@ public class Events extends RSSServletAC {
             cnt++;
         }
 
-        s.append("<items><rdf:Seq>");
+        rdfOut.writeStartLiteral("items");
+        rdfOut.writeStartResource("rdf:Seq");
         for (int i = 0; i < upcomingEvents.length; i++) {
             String pk = upcomingEvents[i][0];
 
-            s.append("<rdf:li rdf:resource=\"").append(obligationsNamespace).append("/").append(pk).append("\"/>");
-
+            rdfOut.writeReference("rdf:li", obligationsNamespace + "/" + pk);
         }
-        s.append("</rdf:Seq></items>");
-        addChannelEnd(s);
+        rdfOut.writeEndResource("rdf:Seq");
+        rdfOut.writeEndLiteral("items");
+        rdfOut.writeEndResource("channel");
         for (int i = 0; i < upcomingEvents.length; i++) {
             String pk = upcomingEvents[i][0];
             String title = "Deadline for Reporting Obligation: " + upcomingEvents[i][1];
@@ -150,40 +113,25 @@ public class Events extends RSSServletAC {
             String link = getActivityUrl(pk, upcomingEvents[i][4]);
             String description = upcomingEvents[i][5];
 
-            s.append("<item rdf:about=\"").append(obligationsNamespace).append("/").append(pk).append("\">").append("<title>")
-            .append(RODUtil.replaceTags(title, true, true)).append("</title>").append("<link>")
-            .append(RODUtil.replaceTags(link, true, true)).append("</link>").append("<description>")
-            .append(RODUtil.replaceTags(description, true, true)).append("</description>").append("<ev:startdate>")
-            .append(date).append("</ev:startdate>");
+            rdfOut.writeStartResource("item", obligationsNamespace + "/" + pk);
+            rdfOut.writeLiteral("title", title);
+            rdfOut.writeLiteral("link", link);
+            rdfOut.writeLiteral("description", description);
+            rdfOut.writeLiteral("ev:startdate", date);
 
-            s.append("</item>");
+            rdfOut.writeEndResource("item");
         }
 
-        s.append("</rdf:RDF>");
-
-        return s.toString();
-    }
-
-    /**
-     * Checks if input string is a number.
-     * FIXME: Should use RODUtil.isNumber() instead.
-     */
-    public static boolean isNumeric(String inString) {
-        CharacterIterator theIterator = new StringCharacterIterator(inString);
-
-        for (char ch = theIterator.first(); ch != CharacterIterator.DONE; ch = theIterator.next()) {
-            if (!Character.isDigit(ch)) {
-                return false;
-            }
-        }
-
-        return true;
+        rdfOut.writeRdfFooter();
     }
 
     /**
      * Calculates if next deadline for an obligation should be listed in the RSS output.
      *
+     * @param nd - next deadline as a string date
+     * @param freq - Frequency - every X months.
      * @param date - misnamed - next deadline must be after this cut-off date.
+     * @return true if nextdeadline is within 10 % of reporting period in the future.
      */
     public static boolean isUpcomingEvent(String nd, String freq, Date date) {
         int year = Integer.parseInt(nd.substring(0, 4)) - 1900;
@@ -194,17 +142,21 @@ public class Events extends RSSServletAC {
         long nextDeadlineMillis = nextDeadline.getTime();
 
         int f = Integer.parseInt(freq);
-        int period = new Double(3.0 * f).intValue();
-        //TODO: long period = 3L * Integer.parseInt(freq);
-        long periodMillis =
-            (new Long(period).longValue() * new Long(24).longValue() * new Long(3600).longValue() * new Long(1000).longValue());
-        //TODO: long periodMillis = period * 24L * 3600L * 1000L;
-        Date periodStartDate = new Date(nextDeadlineMillis - periodMillis);
+        long tenPctMillis = Integer.parseInt(freq) * TEN_PCT_OF_MONTH_IN_DAYS * DAY_IN_MILLISECONDS;
+        Date deadlineMinus10Pct = new Date(nextDeadlineMillis - tenPctMillis);
 
-        if (nextDeadline.after(date) && periodStartDate.before(date)) {
+        if (nextDeadline.after(date) && deadlineMinus10Pct.before(date)) {
             return true;
         }
         return false;
     }
 
+    /**
+     * Get the date of today from the computer.
+     *
+     * @return today's date
+     */
+    protected Date getTodaysDate() {
+        return new Date();
+    }
 }

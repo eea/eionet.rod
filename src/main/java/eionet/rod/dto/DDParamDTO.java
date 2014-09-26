@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class DDParamDTO implements java.io.Serializable{
+public class DDParamDTO implements java.io.Serializable {
 
     private String elementName;
     private String elementUrl;

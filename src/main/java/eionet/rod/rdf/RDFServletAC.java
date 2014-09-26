@@ -37,6 +37,7 @@ import eionet.rod.Constants;
 import eionet.rod.services.ServiceException;
 
 /**
+ * Parent class for all RDF and RSS 1.0 servlets.
  * <P>Servlet URL: <CODE>rdf</CODE></P>
  *
  * <P>Database tables involved: T_ACTIVITY</P>
@@ -52,21 +53,6 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
     private static final long serialVersionUID = 1L;
 
-    protected static final String RDF_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-        + " <rdf:RDF xmlns:foaf=\"http://xmlns.com/foaf/0.1/\"\n"
-        + " xmlns:owl=\"http://www.w3.org/2002/07/owl#\"\n"
-        + " xmlns=\"http://rod.eionet.europa.eu/schema.rdf#\"\n"
-        + " xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"\n"
-        + " xmlns:cc=\"http://creativecommons.org/ns#\"\n"
-        + " xmlns:skos=\"http://www.w3.org/2004/02/skos/core#\"\n"
-        + " xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
-        + " xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\"\n"
-        + " xmlns:dcterms=\"http://purl.org/dc/terms/\"\n"
-        + " xmlns:geo=\"http://www.w3.org/2003/01/geo/wgs84_pos#\"\n"
-        + " xml:base=\"http://rod.eionet.europa.eu/\">\n";
-
-    protected static final String RDF_FOOTER = "</rdf:RDF>";
-
     protected String activitiesNamespace;
 
     protected String obligationsNamespace;
@@ -79,12 +65,6 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
     protected String spatialNamespace;
 
     protected static ResourceBundle props;
-
-    protected static final String rdfHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-    protected static final String rdfNameSpace = "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" ";
-    protected static final String rdfSNameSpace = "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" ";
-
-    protected static final String dcNs = " xmlns:dc=\"http://purl.org/dc/elements/1.1/\" ";
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -142,7 +122,7 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
 
         if (rodSchemaNamespace == null) {
             try {
-                rodSchemaNamespace=props.getString("schema.namespace");
+                rodSchemaNamespace = props.getString("schema.namespace");
                 //quite likely it will not change
             } catch (MissingResourceException mre) {
                 rodSchemaNamespace = "http://rod.eionet.europa.eu/schema.rdf";
@@ -150,25 +130,22 @@ public abstract class RDFServletAC extends HttpServlet implements Constants {
         }
     }
 
-    protected abstract String generateRDF(HttpServletRequest req) throws ServiceException;
+    protected abstract void generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException, IOException;
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         res.setContentType("application/rdf+xml;charset=UTF-8");
         try {
-            String rdf = generateRDF(req);
-            res.getWriter().write(rdf) ;
+            generateRDF(req, res);
         } catch (ServiceException se) {
             throw new ServletException("Error getting values for activities " + se.toString(), se);
         }
     }
 
     protected String getActivityUrl(String id, String aid) {
-        String url = props.getString(ROD_URL_DOMAIN) + "/" + URL_SERVLET + "?" +
-        URL_ACTIVITY_ID + "=" + id + "&amp;" + URL_ACTIVITY_AMODE;
+        String url = props.getString(ROD_URL_DOMAIN) + URL_SERVLET + "/" + id;
         return url;
-
     }
 
 }

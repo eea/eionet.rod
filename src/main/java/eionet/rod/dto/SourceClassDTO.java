@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class SourceClassDTO implements java.io.Serializable{
+public class SourceClassDTO implements java.io.Serializable {
 
     private int classId;
     private String classificator;

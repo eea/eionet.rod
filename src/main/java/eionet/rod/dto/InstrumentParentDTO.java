@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class InstrumentParentDTO implements java.io.Serializable{
+public class InstrumentParentDTO implements java.io.Serializable {
 
     //Fields from T_SOURCE_CLASS table
     private int classId;

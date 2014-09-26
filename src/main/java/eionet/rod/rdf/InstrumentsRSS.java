@@ -23,27 +23,28 @@
 
 package eionet.rod.rdf;
 
+import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.Constants;
-import eionet.rod.RODUtil;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 
 /**
- * Activities RSS
+ * Activities RSS.
  */
 public class InstrumentsRSS extends RSSServletAC {
 
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected String generateRDF(HttpServletRequest req) throws ServiceException {
+    protected void generateRDF(HttpServletRequest req, HttpServletResponse res) throws ServiceException, IOException {
 
-        StringBuffer s = new StringBuffer();
-        s.append(rdfHeader);
-
-        s.append("<rdf:RDF ").append(rdfNameSpace).append(rssNs).append(eventsNs).append(">");
+        RDFUtil rdfOut = new RDFUtil(res.getWriter());
+        rdfOut.addNamespace("ev", EVENTS_NS);
+        rdfOut.setVocabulary(RSS_NS);
+        rdfOut.writeRdfHeader();
 
         String lisUrl = "http://rod.eionet.europa.eu/instruments.rss";
         try {
@@ -51,37 +52,36 @@ public class InstrumentsRSS extends RSSServletAC {
         } catch (Exception e) {
             // use default
         }
-        addChannelTag(s, lisUrl);
+        rdfOut.writeStartResource("channel", lisUrl);
 
         String[][] lis = RODServices.getDbService().getSourceDao().getInstrumentsRSS();
 
-        s.append("<items><rdf:Seq>");
+        rdfOut.writeStartLiteral("items");
+        rdfOut.writeStartResource("rdf:Seq");
         for (int i = 0; i < lis.length; i++) {
             String pk = lis[i][0];
 
-            s.append("<rdf:li rdf:resource=\"").append(instrumentsNamespace).append(pk).append("\"/>");
-
+            rdfOut.writeReference("rdf:li", instrumentsNamespace + pk);
         }
-        s.append("</rdf:Seq></items>");
-        addChannelEnd(s);
+        rdfOut.writeEndResource("rdf:Seq");
+        rdfOut.writeEndLiteral("items");
 
+        rdfOut.writeEndResource("channel");
         for (int i = 0; i < lis.length; i++) {
             String pk = lis[i][0];
             String title = lis[i][1];
             String link = lis[i][2];
             String description = lis[i][3];
 
-            s.append("<item rdf:about=\"").append(instrumentsNamespace).append(pk).append("\">").append("<title>")
-            .append(RODUtil.replaceTags(title, true, true)).append("</title>").append("<link>")
-            .append(RODUtil.replaceTags(link, true, true)).append("</link>").append("<description>")
-            .append(RODUtil.replaceTags(description, true, true)).append("</description>");
+            rdfOut.writeStartResource("item", instrumentsNamespace + pk);
+            rdfOut.writeLiteral("title", title);
+            rdfOut.writeLiteral("link", link);
+            rdfOut.writeLiteral("description", description);
 
-            s.append("</item>");
+            rdfOut.writeEndResource("item");
         }
 
-        s.append("</rdf:RDF>");
-
-        return s.toString();
+        rdfOut.writeRdfFooter();
     }
 
 }

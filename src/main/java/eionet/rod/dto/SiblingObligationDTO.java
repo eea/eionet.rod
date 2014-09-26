@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class SiblingObligationDTO implements java.io.Serializable{
+public class SiblingObligationDTO implements java.io.Serializable {
 
     private String obligationId;
     private String fkSourceId;

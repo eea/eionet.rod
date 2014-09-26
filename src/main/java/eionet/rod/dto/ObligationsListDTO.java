@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class ObligationsListDTO implements java.io.Serializable{
+public class ObligationsListDTO implements java.io.Serializable {
 
     private Integer obligationId;
     private String obligationTitle;

@@ -76,10 +76,9 @@ public class RdfExporter {
             log("Successfully exported to: " + dir + "/" + table + ".rdf", false);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally{
+        } finally {
             try {
-                if (fos != null){
+                if (fos != null) {
                     fos.close();
                 }
             } catch (Exception e) {

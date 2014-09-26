@@ -5,7 +5,7 @@ package eionet.rod.dto;
  * @author altnyris
  *
  */
-public class DocumentationDTO implements java.io.Serializable{
+public class DocumentationDTO implements java.io.Serializable {
 
     private String areaId;
     private String screenId;

@@ -7,7 +7,7 @@ import java.util.List;
  * @author altnyris
  *
  */
-public class ClientDTO implements java.io.Serializable{
+public class ClientDTO implements java.io.Serializable {
 
     private Integer clientId;
     private String name;

@@ -22,14 +22,14 @@ public interface IUndoDao {
      * @return
      * @throws ServiceException
      */
-    public Hashtable getPreviousActions(String id, String tab, String id_field) throws ServiceException;
+    Hashtable getPreviousActions(String id, String tab, String id_field) throws ServiceException;
 
     /**
      * Returns all previous actions
      * @return
      * @throws ServiceException
      */
-    public List<VersionDTO> getPreviousActionsGeneral() throws ServiceException;
+    List<VersionDTO> getPreviousActionsGeneral() throws ServiceException;
 
     /**
      * @param id
@@ -38,7 +38,7 @@ public interface IUndoDao {
      * @return
      * @throws ServiceException
      */
-    public List<VersionDTO> getPreviousActionsReportSpecific(String id, String tab, String id_field) throws ServiceException;
+    List<VersionDTO> getPreviousActionsReportSpecific(String id, String tab, String id_field) throws ServiceException;
 
     /**
      * Insert obligations related to instrument into T_UNDO table
@@ -46,9 +46,9 @@ public interface IUndoDao {
      * @return
      * @throws ServiceException
      */
-    public Vector getDeletedFromUndo(String item_type) throws ServiceException;
+    Vector getDeletedFromUndo(String item_type) throws ServiceException;
 
-    public void addObligationIdsIntoUndo(Integer id, long ts, String table) throws ServiceException;
+    void addObligationIdsIntoUndo(Integer id, long ts, String table) throws ServiceException;
 
     /**
      * Insert transaction info into T_UNDO table
@@ -60,7 +60,7 @@ public interface IUndoDao {
      * @param extraSQL
      * @throws ServiceException
      */
-    public void insertTransactionInfo(String id, String state, String table, String id_field, long ts, String extraSQL) throws ServiceException;
+    void insertTransactionInfo(String id, String state, String table, String id_field, long ts, String extraSQL) throws ServiceException;
 
     /**
      * @param con
@@ -75,7 +75,7 @@ public interface IUndoDao {
      * @return
      * @throws ServiceException
      */
-    public boolean insertIntoUndo(Connection con, String id, String state, String table, String id_field, long ts, String extraSQL, String show, String whereClause) throws ServiceException;
+    boolean insertIntoUndo(Connection con, String id, String state, String table, String id_field, long ts, String extraSQL, String show, String whereClause) throws ServiceException;
 
     /**
      * Insert into T_UNDO table
@@ -86,7 +86,7 @@ public interface IUndoDao {
      * @return
      * @throws ServiceException
      */
-    public String undo(long ts, String tab, String op, String id) throws ServiceException;
+    String undo(long ts, String tab, String op, String id) throws ServiceException;
 
     /**
      * @param ts
@@ -96,7 +96,7 @@ public interface IUndoDao {
      * @return
      * @throws ServiceException
      */
-    public Vector<Map<String,String>> getUndoInformation(long ts, String op, String tab, String id) throws ServiceException;
+    Vector<Map<String, String>> getUndoInformation(long ts, String op, String tab, String id) throws ServiceException;
 
     /**
      * Returns user who performed the action
@@ -105,7 +105,7 @@ public interface IUndoDao {
      * @return
      * @throws ServiceException
      */
-    public String getUndoUser(long ts, String tab) throws ServiceException;
+    String getUndoUser(long ts, String tab) throws ServiceException;
 
     /**
      * Returns undo object id
@@ -115,14 +115,14 @@ public interface IUndoDao {
      * @return
      * @throws ServiceException
      */
-    public String getUndoObjetcId(long ts, String tab, String col) throws ServiceException;
+    String getUndoObjetcId(long ts, String tab, String col) throws ServiceException;
 
     /**
      * @param id
      * @return
      * @throws ServiceException
      */
-    public String areRelatedObligationsIdsAvailable(String id) throws ServiceException;
+    String areRelatedObligationsIdsAvailable(String id) throws ServiceException;
 
 
     /**
@@ -138,7 +138,7 @@ public interface IUndoDao {
      * @param show
      * @throws ServiceException
      */
-    public void insertIntoUndo(long ts, String table, String column, String state, String quotes, String isPrimary, String value, int rowCnt , String show) throws ServiceException;
+    void insertIntoUndo(long ts, String table, String column, String state, String quotes, String isPrimary, String value, int rowCnt , String show) throws ServiceException;
 
     /**
      * @return 100 most recent ROD updates
@@ -146,7 +146,7 @@ public interface IUndoDao {
      * @param object
      * @throws ServiceException
      */
-    public List<VersionDTO> getUpdateHistory(String id, String object) throws ServiceException;
+    List<VersionDTO> getUpdateHistory(String id, String object) throws ServiceException;
 
     /**
      * Returns undo object title
@@ -155,19 +155,19 @@ public interface IUndoDao {
      * @return
      * @throws ServiceException
      */
-    public String getUndoObjectTitle(long ts, String tab) throws ServiceException;
+    String getUndoObjectTitle(long ts, String tab) throws ServiceException;
 
     /**
      * @return 100 users most recent ROD updates
      * @param username
      * @throws ServiceException
      */
-    public List<VersionDTO> getUpdateHistoryByUser(String username) throws ServiceException;
+    List<VersionDTO> getUpdateHistoryByUser(String username) throws ServiceException;
 
     /**
      * @return deleted obligations/instruments
      * @param type
      * @throws ServiceException
      */
-    public List<VersionDTO> getDeleted(String type) throws ServiceException;
+    List<VersionDTO> getDeleted(String type) throws ServiceException;
 }
