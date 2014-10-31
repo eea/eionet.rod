@@ -3,14 +3,15 @@
 <!ENTITY dctns "http://purl.org/dc/terms/">
 <!ENTITY xsdns "http://www.w3.org/2001/XMLSchema#">
 <!ENTITY rdfsns "http://www.w3.org/2000/01/rdf-schema#">
+<!ENTITY skosns "http://www.w3.org/2004/02/skos/core#">
 ]>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	 xmlns:owl="http://www.w3.org/2002/07/owl#"
-	 xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+	 xmlns:rdfs="&rdfsns;">
 
 	<owl:Ontology rdf:about="">
 		<rdfs:label>Obligations schema</rdfs:label>
-		<owl:versionInfo>$Id: schema.rdf 9191 2011-01-24 14:06:09Z roug $</owl:versionInfo>
+		<owl:versionInfo>$Id: schema.rdf 2014-10-31 roug $</owl:versionInfo>
 	</owl:Ontology>
 
         <!-- Deliveries -->
@@ -86,6 +87,7 @@
 	<rdf:Property rdf:ID="loccode">
 		<rdfs:label>ROD Locality code</rdfs:label>
 		<rdfs:comment>Sometimes this is an ISO country code, but ROD can also contain "local" localities</rdfs:comment>
+		<rdfs:subPropertyOf rdf:resource="&skosns;notation"/>
 	</rdf:Property>
 
 	<rdf:Property rdf:ID="localityName">
@@ -185,15 +187,19 @@
 		<rdfs:subPropertyOf rdf:resource="&dctns;subject"/>
 	</rdf:Property>
 
-	<rdf:Property rdf:ID="terminated">
+	<rdf:Property rdf:ID="isTerminated">
 		<rdfs:label>Obligation Terminated</rdfs:label>
+                <rdfs:range rdf:resource="&xsdns;boolean"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="isEEAPrimary">
+		<rdfs:label>Eionet Priority Dataflow</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
                 <rdfs:range rdf:resource="&xsdns;boolean"/>
 	</rdf:Property>
 
-	<rdf:Property rdf:ID="eea_primary">
-		<rdfs:label>Eionet Priority dataflow</rdfs:label>
-		<rdfs:domain rdf:resource="#Obligation"/>
+	<rdf:Property rdf:ID="isEEACore">
+		<rdfs:label>Used for EEA Core set of indicators</rdfs:label>
                 <rdfs:range rdf:resource="&xsdns;boolean"/>
 	</rdf:Property>
 
@@ -204,6 +210,19 @@
 
 	<rdf:Property rdf:ID="client">
 		<rdfs:label>Client</rdfs:label>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="requester">
+		<rdfs:label>Requesting client</rdfs:label>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="otherClient">
+		<rdfs:label>Other clients</rdfs:label>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="dpsirCategory">
+		<rdfs:label>DPSIR category</rdfs:label>
+                <rdfs:range rdf:resource="&skosns;Concept"/>
 	</rdf:Property>
 
 	<rdf:Property rdf:ID="responsiblerole">
