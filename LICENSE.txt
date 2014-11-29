@@ -11,15 +11,15 @@ rights and limitations under the License.
 The Original Code is "Reporting Obligations Database (ROD)"
 
 The Initial Owner of the Original Code is European Environment
-Agency (EEA).  Portions created by TietoEnator are
+Agency (EEA).  Portions created by TietoEnator and TripleDev are
 Copyright (C) by European Environment Agency.  All
 Rights Reserved.
 
 Contributor(s): Rando Valt (TietoEnator),
-                Risto Alt (TietoEnator),
-                Kaido Laine (TietoEnator),
+                Risto Alt (TripleDev),
+                Kaido Laine (TripleDev),
                 Ander Tenno (TietoEnator),
                 André Karpištšenko (TietoEnator),
-                Jaanus Heinlaid (TietoEnator),
-                Enriko Käsper (TietoEnator),
+                Jaanus Heinlaid (TripleDev),
+                Enriko Käsper (TripleDev),
                 Søren Roug (European Environment Agency)

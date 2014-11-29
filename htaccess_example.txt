@@ -1,4 +1,0 @@
-# add into <VirtualHost *:80>
-RewriteEngine on
-RewriteRule ^/deliveries\.jsv$ /deliveries [R=permanent, QSA, L]
-RewriteRule ^/analysis\.jsv$ /analysis [R=permanent, QSA, L]
