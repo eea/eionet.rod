@@ -22,9 +22,9 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
 
-import com.tee.uit.security.AccessControlListIF;
-import com.tee.uit.security.AccessController;
-import com.tee.uit.security.SignOnException;
+import eionet.acl.AccessControlListIF;
+import eionet.acl.AccessController;
+import eionet.acl.SignOnException;
 
 import eionet.rod.Attrs;
 import eionet.rod.Constants;

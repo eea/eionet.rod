@@ -37,8 +37,8 @@ import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.sparql.SPARQLRepository;
 
-import com.tee.uit.security.AuthMechanism;
-import com.tee.uit.security.SignOnException;
+import eionet.acl.AuthMechanism;
+import eionet.acl.SignOnException;
 
 import eionet.directory.DirServiceException;
 import eionet.directory.DirectoryService;

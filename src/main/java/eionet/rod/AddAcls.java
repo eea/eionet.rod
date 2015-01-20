@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tee.uit.security.AccessController;
+import eionet.acl.AccessController;
 
 import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;

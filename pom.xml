@@ -209,13 +209,13 @@
                                             <token key="PROVIDERUTIL.JAR"
                                                 value="${maven.dependency.providerutil.providerutil.jar.path}" />
                                             <token key="EIONETDIR.JAR"
-                                                value="${maven.dependency.eionet.directory.eionet-dir.jar.path}" />
+                                                value="${maven.dependency.eionet.eionet-dir.jar.path}" />
                                             <token key="ACL.JAR"
-                                                value="${maven.dependency.eionet.acl.acl.jar.path}" />
+                                                value="${maven.dependency.eionet.acl.jar.path}" />
                                             <token key="XMLRPC.JAR"
                                                 value="${maven.dependency.xmlrpc.xmlrpc.jar.path}" />
                                             <token key="UITCLIENT.JAR"
-                                                value="${maven.dependency.eionet.uit-client.jar.path}" />
+                                                value="${maven.dependency.eionet.rpcclient.jar.path}" />
                                             <token key="LOG4J.JAR"
                                                 value="${maven.dependency.log4j.log4j.jar.path}" />
                                             <token key="ALIBABA.JAR"
@@ -403,29 +403,34 @@
             <version>1.1.1</version>
         </dependency>
         <dependency>
-            <groupId>eionet.acl</groupId>
+            <groupId>eionet</groupId>
             <artifactId>acl</artifactId>
-            <version>1.2</version>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
-            <artifactId>uit-server</artifactId>
-            <version>1.0</version>
+            <artifactId>rpcserver</artifactId>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
-            <artifactId>uit-definition</artifactId>
-            <version>1.0</version>
+            <artifactId>definition</artifactId>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
-            <artifactId>uit-client</artifactId>
-            <version>1.0</version>
+            <artifactId>rpcclient</artifactId>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
-            <artifactId>uit-help</artifactId>
-            <version>1.1</version>
+            <artifactId>help</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>eionet</groupId>
+            <artifactId>eionet-dir</artifactId>
+            <version>2.5</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
@@ -438,37 +443,30 @@
             <version>3.5-FINAL</version>
         </dependency>
         <dependency>
-            <groupId>eionet.directory</groupId>
-            <artifactId>eionet-dir</artifactId>
-            <version>2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>castor</groupId>  <!-- Is now org.codehaus.castor? -->
-            <artifactId>castor</artifactId>
-            <version>1.0</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
             <version>2.7.0</version>
             <scope>runtime</scope>
         </dependency>
+        <!--Version cannot be found-->
         <dependency>
             <groupId>cos</groupId>
             <artifactId>cos</artifactId>
             <version>1.0</version>
         </dependency>
+        <!--Version 1.0 cannot be found for jndi-naming-->
         <dependency>
             <groupId>jndi</groupId>
             <artifactId>jndi</artifactId>
             <version>1.0</version>
         </dependency>
+        <!--Version 1.0 cannot be found for com.sun.jndi ldap-->
         <dependency>
             <groupId>ldap</groupId>
             <artifactId>ldap</artifactId>
             <version>1.0</version>
         </dependency>
+        <!--Only 1.2 exists for providerutil-->
         <dependency>
             <groupId>providerutil</groupId>
             <artifactId>providerutil</artifactId>

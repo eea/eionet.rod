@@ -18,8 +18,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import com.tee.uit.security.AccessController;
-import com.tee.uit.security.SignOnException;
+import eionet.acl.AccessController;
+import eionet.acl.SignOnException;
 
 import eionet.rod.RODUtil;
 import eionet.rod.dto.VersionDTO;

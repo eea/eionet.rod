@@ -23,7 +23,7 @@
 
 package eionet.rod.countrysrv;
 
-import com.tee.uit.client.ServiceClientIF;
+import eionet.rpcclient.ServiceClientIF;
 
 /**
  * Constant values for external services, methods exc

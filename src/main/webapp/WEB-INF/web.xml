@@ -190,11 +190,11 @@
 	</servlet>
 	<servlet>
 		<servlet-name>rpcrouter</servlet-name>
-		<servlet-class>com.tee.uit.servlets.XmlRpcRouter</servlet-class>
+		<servlet-class>eionet.rpcserver.servlets.XmlRpcRouter</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>soaprouter</servlet-name>
-		<servlet-class>com.tee.uit.servlets.SOAPRouter</servlet-class>
+		<servlet-class>eionet.rpcserver.servlets.SOAPRouter</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>login</servlet-name>
@@ -216,10 +216,10 @@
 		<servlet-name>allevents_rss</servlet-name>
 		<servlet-class>eionet.rod.rdf.AllEvents</servlet-class>
 	</servlet>
-	<servlet>
+	<!--<servlet>
 		<servlet-name>env</servlet-name>
 		<servlet-class>com.tee.util.EnvServlet</servlet-class>
-	</servlet>
+	</servlet>-->
 	<servlet>
 		<servlet-name>logout</servlet-name>
 		<servlet-class>eionet.rod.LogoutServlet</servlet-class>
@@ -272,10 +272,10 @@
 		<servlet-name>allevents_rss</servlet-name>
 		<url-pattern>/allevents.rss</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
+	<!--<servlet-mapping>
 		<servlet-name>env</servlet-name>
 		<url-pattern>/env</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping>-->
 	<servlet-mapping>
 		<servlet-name>logout</servlet-name>
 		<url-pattern>/logout_servlet</url-pattern>

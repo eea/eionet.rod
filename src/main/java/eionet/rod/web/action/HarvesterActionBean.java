@@ -1,7 +1,7 @@
 package eionet.rod.web.action;
 
-import com.tee.uit.security.AccessControlListIF;
-import com.tee.uit.security.AccessController;
+import eionet.acl.AccessControlListIF;
+import eionet.acl.AccessController;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;

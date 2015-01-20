@@ -31,10 +31,10 @@ import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.util.sql.ConnectionUtil;
 
-import com.tee.uit.security.AccessControlListIF;
-import com.tee.uit.security.AccessController;
-import com.tee.uit.security.AuthMechanism;
-import com.tee.uit.security.SignOnException;
+import eionet.acl.AccessControlListIF;
+import eionet.acl.AccessController;
+import eionet.acl.AuthMechanism;
+import eionet.acl.SignOnException;
 
 /**
  * <P>

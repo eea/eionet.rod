@@ -24,9 +24,9 @@ import net.sourceforge.stripes.validation.ValidationMethod;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.tee.uit.security.AccessControlListIF;
-import com.tee.uit.security.AccessController;
-import com.tee.uit.security.SignOnException;
+import eionet.acl.AccessControlListIF;
+import eionet.acl.AccessController;
+import eionet.acl.SignOnException;
 
 import eionet.rod.Attrs;
 import eionet.rod.Constants;
