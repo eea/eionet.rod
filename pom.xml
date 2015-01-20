@@ -209,13 +209,13 @@
                                             <token key="PROVIDERUTIL.JAR"
                                                 value="${maven.dependency.providerutil.providerutil.jar.path}" />
                                             <token key="EIONETDIR.JAR"
-                                                value="${maven.dependency.eionet.directory.eionet-dir.jar.path}" />
+                                                value="${maven.dependency.eionet.eionet-dir.jar.path}" />
                                             <token key="ACL.JAR"
-                                                value="${maven.dependency.eionet.acl.acl.jar.path}" />
+                                                value="${maven.dependency.eionet.acl.jar.path}" />
                                             <token key="XMLRPC.JAR"
                                                 value="${maven.dependency.xmlrpc.xmlrpc.jar.path}" />
                                             <token key="UITCLIENT.JAR"
-                                                value="${maven.dependency.eionet.uit-client.jar.path}" />
+                                                value="${maven.dependency.eionet.rpcclient.jar.path}" />
                                             <token key="LOG4J.JAR"
                                                 value="${maven.dependency.log4j.log4j.jar.path}" />
                                             <token key="ALIBABA.JAR"
