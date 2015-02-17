@@ -1,7 +1,8 @@
-/rebuild.bat
-/deploy.bat
+/*.bat
 /local.properties
 /target
 /.classpath
 /.project
 /.settings
+/.idea
+/*.iml
