@@ -5,6 +5,4 @@
 /.project
 /.settings
 /.idea
-<<<<<<< .mine/webrod.iml
-=======/*.iml
->>>>>>> .theirs
+*.iml
