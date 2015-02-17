@@ -1,9 +1,10 @@
-/rebuild.bat
-/deploy.bat
+/*.bat
 /local.properties
 /target
 /.classpath
 /.project
 /.settings
 /.idea
-/webrod.iml
+<<<<<<< .mine/webrod.iml
+=======/*.iml
+>>>>>>> .theirs

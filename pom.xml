@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -19,7 +20,6 @@
     <url>http://maven.apache.org</url>
 
     <!-- configuration of Maven repositories to be used -->
-
     <repositories>
         <repository>
             <id>project-local</id>
@@ -449,34 +449,34 @@
             <scope>runtime</scope>
         </dependency>
         <!--Version cannot be found-->
-        <dependency>
+        <!--dependency>
             <groupId>cos</groupId>
             <artifactId>cos</artifactId>
             <version>1.0</version>
-        </dependency>
+        </dependency-->
         <!--Version 1.0 cannot be found for jndi-naming-->
-        <dependency>
+        <!--dependency>
             <groupId>jndi</groupId>
             <artifactId>jndi</artifactId>
             <version>1.0</version>
-        </dependency>
+        </dependency-->
         <!--Version 1.0 cannot be found for com.sun.jndi ldap-->
-        <dependency>
+        <!--dependency>
             <groupId>ldap</groupId>
             <artifactId>ldap</artifactId>
             <version>1.0</version>
-        </dependency>
+        </dependency-->
         <!--Only 1.2 exists for providerutil-->
-        <dependency>
-            <groupId>providerutil</groupId>
+        <!--dependency>
+            <groupId>com.sun.jndi</groupId>
             <artifactId>providerutil</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
+            <version>1.2</version>
+        </dependency-->
+        <!--dependency>
             <groupId>soap</groupId>
             <artifactId>soap</artifactId>
             <version>2.3.1</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-util</artifactId>
@@ -529,6 +529,11 @@
             <artifactId>liquibase-core</artifactId>
             <version>2.0.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
+        </dependency>
         <!-- TEST dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -553,11 +558,6 @@
             <artifactId>mysql-connector-mxj-db-files</artifactId>
             <version>5.0.12</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.httpunit</groupId>
