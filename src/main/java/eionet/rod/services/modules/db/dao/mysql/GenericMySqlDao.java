@@ -1,5 +1,8 @@
 package eionet.rod.services.modules.db.dao.mysql;
 
+import eionet.rod.services.ServiceException;
+import eionet.rod.services.modules.db.dao.IGenericDao;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,9 +14,6 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
-
-import eionet.rod.services.ServiceException;
-import eionet.rod.services.modules.db.dao.IGenericDao;
 
 public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
 
@@ -37,7 +37,8 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
             try {
                 connection = getConnection();
                 preparedStatement = connection.prepareStatement(query);
-                if (isDebugMode) logQuery(query);
+                if (isDebugMode)
+                    logQuery(query);
                 result = _getVectorOfHashes(preparedStatement);
             } catch (SQLException exception) {
                 logger.error(exception);
@@ -72,7 +73,8 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
 
                 con = getConnection();
                 stmt = con.prepareStatement(sql_stmt);
-                if (isDebugMode) logQuery(sql_stmt);
+                if (isDebugMode)
+                    logQuery(sql_stmt);
                 rset = stmt.executeQuery();
                 ResultSetMetaData md = rset.getMetaData();
 
@@ -83,8 +85,10 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
                     for (int i = 0; i < columnCnt; i++) {
                         String name = md.getColumnName(i + 1);
                         String value = rset.getString(i + 1);
-                        if (value == null) value = "";
-                        if (name.equals("Field") || name.equals("Comment")) h.put(name, value);
+                        if (value == null)
+                            value = "";
+                        if (name.equals("Field") || name.equals("Comment"))
+                            h.put(name, value);
                         if (name.equals("Type")) {
                             int start = value.indexOf("(");
                             int end = value.indexOf(")");
@@ -120,14 +124,14 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
     }
 
     private static final String q_is_obligation_id_available =
-        "SELECT PK_RA_ID AS id " +
-        "FROM T_OBLIGATION " +
-        "WHERE PK_RA_ID=?";
+            "SELECT PK_RA_ID AS id " +
+                    "FROM T_OBLIGATION " +
+                    "WHERE PK_RA_ID=?";
 
     private static final String q_is_source_id_available =
-        "SELECT PK_SOURCE_ID AS id " +
-        "FROM T_SOURCE " +
-        "WHERE PK_SOURCE_ID=?";
+            "SELECT PK_SOURCE_ID AS id " +
+                    "FROM T_SOURCE " +
+                    "WHERE PK_SOURCE_ID=?";
 
     @Override
     public boolean isIdAvailable(String id, String table) throws ServiceException {
@@ -142,14 +146,17 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
 
             if (table.equalsIgnoreCase("T_OBLIGATION"))
                 query = q_is_obligation_id_available;
-            else if (table.equalsIgnoreCase("T_SOURCE")) query = q_is_source_id_available;
+            else if (table.equalsIgnoreCase("T_SOURCE"))
+                query = q_is_source_id_available;
             if (query != null) {
                 connection = getConnection();
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setInt(1, Integer.valueOf(id).intValue());
-                if (isDebugMode) logQuery(query);
+                if (isDebugMode)
+                    logQuery(query);
                 m = _executeStringQuery(preparedStatement);
-                if (m.length == 0) result = true;
+                if (m.length == 0)
+                    result = true;
             }
 
         } catch (SQLException exception) {
@@ -184,26 +191,29 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
 
         String[][] oa = _executeStringQuery(o_sql);
         String[][] sa = _executeStringQuery(s_sql);
-        if (oa.length > 0) {
+        if (oa.length > 0 && oa[0][0] != null) {
             o_date.setYear(Integer.parseInt(oa[0][0].substring(0, 4)) - 1900);
             o_date.setMonth(Integer.parseInt(oa[0][0].substring(5, 7)) - 1);
             o_date.setDate(Integer.parseInt(oa[0][0].substring(8, 10)));
         }
-        if (sa.length > 0) {
+        if (sa.length > 0 && sa[0][0] != null) {
             s_date.setYear(Integer.parseInt(sa[0][0].substring(0, 4)) - 1900);
             s_date.setMonth(Integer.parseInt(sa[0][0].substring(5, 7)) - 1);
             s_date.setDate(Integer.parseInt(sa[0][0].substring(8, 10)));
         }
 
-        if (s_date == null && o_date != null)
+        if (s_date == null && o_date != null) {
             return df.format(o_date);
-        else if (s_date != null && o_date == null) return df.format(s_date);
+        } else if (s_date != null && o_date == null) {
+            return df.format(s_date);
+        }
 
         if (o_date != null && s_date != null) {
-            if (o_date.after(s_date))
+            if (o_date.after(s_date)) {
                 ret = df.format(o_date);
-            else
+            } else {
                 ret = df.format(s_date);
+            }
         }
 
         return ret;
