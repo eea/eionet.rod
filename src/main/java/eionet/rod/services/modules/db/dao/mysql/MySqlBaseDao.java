@@ -1,5 +1,14 @@
 package eionet.rod.services.modules.db.dao.mysql;
 
+import eionet.rod.Constants;
+import eionet.rod.services.FileServiceIF;
+import eionet.rod.services.LogServiceIF;
+import eionet.rod.services.RODServices;
+import eionet.rod.services.ServiceException;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,16 +27,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.Vector;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
-import eionet.rod.Constants;
-import eionet.rod.services.FileServiceIF;
-import eionet.rod.services.LogServiceIF;
-import eionet.rod.services.RODServices;
-import eionet.rod.services.ServiceException;
 
 /**
  * @author sasam
@@ -60,10 +59,12 @@ public abstract class MySqlBaseDao {
             properties.put(FileServiceIF.DB_URL, fileService.getStringProperty(FileServiceIF.DB_URL));
             properties.put(FileServiceIF.DB_USER_ID, fileService.getStringProperty(FileServiceIF.DB_USER_ID));
             properties.put(FileServiceIF.DB_USER_PWD, fileService.getStringProperty(FileServiceIF.DB_USER_PWD));
+/*
             properties.put(FileServiceIF.DB_TEST_DRV, fileService.getStringProperty(FileServiceIF.DB_TEST_DRV));
             properties.put(FileServiceIF.DB_TEST_URL, fileService.getStringProperty(FileServiceIF.DB_TEST_URL));
             properties.put(FileServiceIF.DB_TEST_USER_ID, fileService.getStringProperty(FileServiceIF.DB_TEST_USER_ID));
             properties.put(FileServiceIF.DB_TEST_USER_PWD, fileService.getStringProperty(FileServiceIF.DB_TEST_USER_PWD));
+*/
             properties.put(FileServiceIF.RA_NAMESPACE, fileService.getStringProperty(FileServiceIF.RA_NAMESPACE));
             rodDomain  = RODServices.getFileService().getStringProperty( Constants.ROD_URL_DOMAIN );
             roNs= RODServices.getFileService().getStringProperty( FileServiceIF.RO_NAMESPACE);

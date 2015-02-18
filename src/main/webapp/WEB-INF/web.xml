@@ -32,6 +32,22 @@
 		<param-name>edu.yale.its.tp.cas.client.filter.serverName</param-name>
 		<param-value>${edu.yale.its.tp.cas.client.filter.serverName}</param-value>
 	</context-param>
+    <context-param>
+        <param-name>liquibase.changelog</param-name>
+        <param-value>db/db-struct.xml</param-value>
+    </context-param>
+    <context-param>
+        <param-name>liquibase.datasource</param-name>
+        <param-value>java:comp/env/jdbc/webrod</param-value>
+    </context-param>
+    <context-param>
+        <param-name>liquibase.onerror.fail</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>liquibase.contexts</param-name>
+        <param-value>production</param-value>
+    </context-param>
 	<filter>
 	    <filter-name>CAS Filter</filter-name>
 	    <filter-class>edu.yale.its.tp.cas.client.filter.CASFilter</filter-class>
@@ -152,6 +168,10 @@
   	</filter-mapping>
 
     <!-- listeners -->
+    <listener>
+        <listener-class>liquibase.integration.servlet.LiquibaseServletListener</listener-class>
+    </listener>
+
     <listener>
         <listener-class>eionet.rod.scheduled.JobScheduler</listener-class>
     </listener>
@@ -448,6 +468,11 @@
 		<error-code>404</error-code>
 		<location>/pages/common/404.jsp</location>
 	</error-page>
+    <env-entry>
+        <env-entry-name>liquibase.should.run</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>true</env-entry-value>
+    </env-entry>
 	<!-- force the entire application to security constraint CONFIDENTIAL -->
 	<!-- as a result the non-SSL connector will redirect using the redirectPort
        value to the SSL connector -->

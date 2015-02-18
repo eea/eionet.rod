@@ -1,5 +1,15 @@
 package eionet.rod.services.modules.db.dao.mysql;
 
+import eionet.rod.services.FileServiceIF;
+import eionet.rod.services.LogServiceIF;
+import eionet.rod.services.RODServices;
+import org.dbunit.DatabaseTestCase;
+import org.dbunit.database.DatabaseConnection;
+import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,17 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
-
-import org.dbunit.DatabaseTestCase;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-
-import eionet.rod.services.FileServiceIF;
-import eionet.rod.services.LogServiceIF;
-import eionet.rod.services.RODServices;
 
 public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
 
@@ -51,10 +50,12 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
             properties.put(FileServiceIF.DB_USER_PWD, fileService.getStringProperty(FileServiceIF.DB_USER_PWD));
 
             //FIXME: Not needed
+/*
             properties.put(FileServiceIF.DB_TEST_DRV, fileService.getStringProperty(FileServiceIF.DB_TEST_DRV));
             properties.put(FileServiceIF.DB_TEST_URL, fileService.getStringProperty(FileServiceIF.DB_TEST_URL));
             properties.put(FileServiceIF.DB_TEST_USER_ID, fileService.getStringProperty(FileServiceIF.DB_TEST_USER_ID));
             properties.put(FileServiceIF.DB_TEST_USER_PWD, fileService.getStringProperty(FileServiceIF.DB_TEST_USER_PWD));
+*/
         } catch (Exception e) {
             e.printStackTrace();
         }
