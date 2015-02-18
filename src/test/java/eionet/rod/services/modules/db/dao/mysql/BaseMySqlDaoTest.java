@@ -49,13 +49,6 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
             properties.put(FileServiceIF.DB_USER_ID, fileService.getStringProperty(FileServiceIF.DB_USER_ID));
             properties.put(FileServiceIF.DB_USER_PWD, fileService.getStringProperty(FileServiceIF.DB_USER_PWD));
 
-            //FIXME: Not needed
-/*
-            properties.put(FileServiceIF.DB_TEST_DRV, fileService.getStringProperty(FileServiceIF.DB_TEST_DRV));
-            properties.put(FileServiceIF.DB_TEST_URL, fileService.getStringProperty(FileServiceIF.DB_TEST_URL));
-            properties.put(FileServiceIF.DB_TEST_USER_ID, fileService.getStringProperty(FileServiceIF.DB_TEST_USER_ID));
-            properties.put(FileServiceIF.DB_TEST_USER_PWD, fileService.getStringProperty(FileServiceIF.DB_TEST_USER_PWD));
-*/
         } catch (Exception e) {
             e.printStackTrace();
         }

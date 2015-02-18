@@ -73,7 +73,7 @@ public abstract class MySqlBaseDao {
             String mavenPhase = System.getProperty("contreg.maven.phase");
             isUnitTest = mavenPhase != null && mavenPhase.trim().equals("test");
             */
-
+            //TODO isUnitTest is never TRUE!
             if (!isUnitTest) {
                 try {
                     InitialContext ctx = new InitialContext();
@@ -103,6 +103,7 @@ public abstract class MySqlBaseDao {
         Connection conn = null;
 
         try {
+            //TODO isUnitTest is never TRUE!
             if (isUnitTest) {
                 Class.forName(properties.get(FileServiceIF.DB_TEST_DRV).toString());
                 conn = DriverManager.getConnection(properties.get(FileServiceIF.DB_TEST_URL).toString(), properties.get(FileServiceIF.DB_TEST_USER_ID).toString(), properties.get(FileServiceIF.DB_TEST_USER_PWD).toString());
