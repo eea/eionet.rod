@@ -448,35 +448,6 @@
             <version>2.7.0</version>
             <scope>runtime</scope>
         </dependency>
-        <!--Version cannot be found-->
-        <!--dependency>
-            <groupId>cos</groupId>
-            <artifactId>cos</artifactId>
-            <version>1.0</version>
-        </dependency-->
-        <!--Version 1.0 cannot be found for jndi-naming-->
-        <!--dependency>
-            <groupId>jndi</groupId>
-            <artifactId>jndi</artifactId>
-            <version>1.0</version>
-        </dependency-->
-        <!--Version 1.0 cannot be found for com.sun.jndi ldap-->
-        <!--dependency>
-            <groupId>ldap</groupId>
-            <artifactId>ldap</artifactId>
-            <version>1.0</version>
-        </dependency-->
-        <!--Only 1.2 exists for providerutil-->
-        <!--dependency>
-            <groupId>com.sun.jndi</groupId>
-            <artifactId>providerutil</artifactId>
-            <version>1.2</version>
-        </dependency-->
-        <!--dependency>
-            <groupId>soap</groupId>
-            <artifactId>soap</artifactId>
-            <version>2.3.1</version>
-        </dependency-->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-util</artifactId>
