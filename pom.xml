@@ -331,23 +331,8 @@
         <finalName>webrod</finalName>
     </build>
 
-    <!-- dependencies -->
     <dependencies>
-        <dependency>
-            <groupId>eionet.rdf-export</groupId>
-            <artifactId>rdf-exporter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.1</version>
-        </dependency>
+        <!-- webapp dependencies -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -361,9 +346,56 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.6</version>
+            <groupId>net.sourceforge.stripes</groupId>
+            <artifactId>stripes</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cas</groupId>
+            <artifactId>casclient</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>eionet.rdf-export</groupId>
+            <artifactId>rdf-exporter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>displaytag</groupId>
+            <artifactId>displaytag</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-util</artifactId>
+            <version>7.0.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.httpunit</groupId>
+            <artifactId>httpunit</artifactId>
+            <version>1.7.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- java additions and apache commons -->
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
@@ -386,35 +418,23 @@
             <version>1.7.0</version>
         </dependency>
         <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <!-- JDBC -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+        </dependency>
+        <!-- logging -->
+        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.13</version>
         </dependency>
-        <dependency>
-            <groupId>net.sourceforge.stripes</groupId>
-            <artifactId>stripes</artifactId>
-            <version>1.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>cas</groupId>
-            <artifactId>casclient</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-            <version>1.1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>displaytag</groupId>
-            <artifactId>displaytag</artifactId>
-            <version>1.1.1</version>
-        </dependency>
+        <!-- EIONET libraries -->
         <dependency>
             <groupId>eionet</groupId>
             <artifactId>acl</artifactId>
@@ -462,11 +482,6 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-util</artifactId>
-            <version>7.0.8</version>
-        </dependency>
-        <dependency>
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
             <version>2.4.0</version>
@@ -493,6 +508,7 @@
             <artifactId>commons-codec</artifactId>
             <version>1.4</version>
         </dependency>
+        <!-- RDF utilities -->
         <dependency>
             <groupId>org.openrdf</groupId>
             <artifactId>openrdf-alibaba</artifactId>
@@ -503,22 +519,19 @@
             <artifactId>openrdf-sesame</artifactId>
             <version>2.3.2</version>
         </dependency>
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-        </dependency>
+        <!-- DB structure updater -->
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>2.0.5</version>
         </dependency>
+        <!-- cron jobs scheduler -->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>2.2.1</version>
         </dependency>
-        <!-- TEST dependencies -->
+        <!-- TEST libraries -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -543,12 +556,7 @@
             <version>5.0.12</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.httpunit</groupId>
-            <artifactId>httpunit</artifactId>
-            <version>1.7.2</version>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
 
     <reporting>
