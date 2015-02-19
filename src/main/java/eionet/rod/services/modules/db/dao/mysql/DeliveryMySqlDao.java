@@ -1,5 +1,16 @@
 package eionet.rod.services.modules.db.dao.mysql;
 
+import eionet.rod.RODUtil;
+import eionet.rod.dto.CountryDeliveryDTO;
+import eionet.rod.dto.CountryDeliveryDataDTO;
+import eionet.rod.dto.readers.CountryDeliveryDTOReader;
+import eionet.rod.services.ServiceException;
+import eionet.rod.services.modules.db.dao.IDeliveryDao;
+import eionet.rod.util.sql.SQLUtil;
+import org.apache.commons.lang.StringUtils;
+import org.openrdf.query.BindingSet;
+import org.openrdf.query.TupleQueryResult;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,18 +27,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-
-import org.apache.commons.lang.StringUtils;
-import org.openrdf.query.BindingSet;
-import org.openrdf.query.TupleQueryResult;
-
-import eionet.rod.RODUtil;
-import eionet.rod.dto.CountryDeliveryDTO;
-import eionet.rod.dto.CountryDeliveryDataDTO;
-import eionet.rod.dto.readers.CountryDeliveryDTOReader;
-import eionet.rod.services.ServiceException;
-import eionet.rod.services.modules.db.dao.IDeliveryDao;
-import eionet.rod.util.sql.SQLUtil;
 
 public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
 
@@ -268,7 +267,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
         }
     }
 
-    private static final String qBackUpDeliveries = "UPDATE T_DELIVERY " + "SET STATUS=0";
+    private static final String qBackUpDeliveries = "UPDATE T_DELIVERY SET STATUS=0";
 
     /*
      * (non-Javadoc)
