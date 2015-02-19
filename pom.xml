@@ -23,15 +23,6 @@
     <!-- configuration of Maven repositories to be used -->
     <repositories>
         <repository>
-            <id>project-local</id>
-            <name>project-local repository</name>
-            <layout>default</layout>
-            <url>file:///${basedir}/lib</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
             <id>archiva.internal</id>
             <name>Internal Release Repository</name>
             <url>http://archiva.eionet.europa.eu/repository/internal/</url>
@@ -197,6 +188,7 @@
                                     overwrite="true" />
 
                                 <!-- Copy supporting scripts -->
+                                <!-- Can be removed if shell skripts will be obsolete and quartz is used -->
                                 <copy todir="${app.home}"
                                     overwrite="true">
                                     <fileset dir="scripts"></fileset>
@@ -467,8 +459,8 @@
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
-            <artifactId>sparql-client</artifactId>
-            <version>2.2</version>
+            <artifactId>sparqlclient</artifactId>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -510,14 +502,9 @@
         </dependency>
         <!-- RDF utilities -->
         <dependency>
-            <groupId>org.openrdf</groupId>
-            <artifactId>openrdf-alibaba</artifactId>
-            <version>2.0-beta7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf</groupId>
-            <artifactId>openrdf-sesame</artifactId>
-            <version>2.3.2</version>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-runtime</artifactId>
+            <version>2.6.10</version>
         </dependency>
         <!-- DB structure updater -->
         <dependency>
