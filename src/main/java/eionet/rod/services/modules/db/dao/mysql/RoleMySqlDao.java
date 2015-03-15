@@ -25,15 +25,9 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
     public RoleMySqlDao() {
     }
 
-    private static final String q_roleIds =
-        "SELECT ROLE_ID "
-        + "FROM T_ROLE";
+    private static final String q_roleIds = "SELECT ROLE_ID FROM T_ROLE";
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see eionet.rod.services.modules.db.dao.IRoleDao#getRoleIds()
-     */
+    @Override
     public String[][] getRoleIds() throws ServiceException {
         Connection connection = null;
         ResultSet resultSet = null;
@@ -78,19 +72,15 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
         + "SET STATUS=1 "
         + "WHERE STATUS=0 AND ROLE_ID=?";
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see eionet.rod.services.modules.db.dao.IRoleDao#saveRole(java.util.Hashtable)
-     */
+    @Override
     public void saveRole(Hashtable<String, Object> role) throws ServiceException {
-        // backup ->
         String roleId = (String) role.get("ID");
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             connection = getConnection();
+
             preparedStatement = connection.prepareStatement(q_delete_role_data);
             preparedStatement.setString(1, roleId);
             if (isDebugMode) logQuery(q_delete_role_data);
@@ -137,7 +127,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
                             if (org != null)
                                 orgName = (String) org.get("NAME");
                         } catch (DirServiceException dire) {
-                            logger.error("Error getting organisation " + orgId + ": " + dire.toString());
+                            orgName = orgId; // Assume the orgId is the organisation name.
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -193,69 +183,10 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 
     }
 
-    /*public void saveRole(Hashtable role, String person, String org) throws ServiceException {
-        // backup ->
-        String roleId = (String) role.get("ID");
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(q_delete_role_data);
-            preparedStatement.setString(1, roleId);
-            if (isDebugMode) logQuery(q_delete_role_data);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-
-            String circaUrl = (String) role.get("URL");
-            String circaMembersUrl = (String) role.get("URL_MEMBERS");
-            String desc = (String) role.get("DESCRIPTION");
-            String mail = (String) role.get("MAIL");
-
-            if (roleId != null) {
-                preparedStatement = connection.prepareStatement(q_insert_role);
-                preparedStatement.setInt(1, 1);
-                preparedStatement.setString(2, desc);
-                preparedStatement.setString(3, mail);
-                preparedStatement.setString(4, roleId);
-                preparedStatement.setString(5, circaUrl);
-                preparedStatement.setString(6, circaMembersUrl);
-                preparedStatement.setString(7, person);
-                preparedStatement.setString(8, org);
-                if (isDebugMode) logQuery(q_insert_role);
-                preparedStatement.executeUpdate();
-                preparedStatement.close();
-            }
-        } catch (Exception e) {
-            logger.error(e);
-            try {
-                preparedStatement = connection.prepareStatement(q_delete_role_data);
-                preparedStatement.setString(1, roleId);
-                if (isDebugMode) logQuery(q_delete_role_data);
-                preparedStatement.executeUpdate();
-                preparedStatement.close();
-                preparedStatement = connection.prepareStatement(q_update_role_rollback);
-                preparedStatement.setString(1, roleId);
-                if (isDebugMode) logQuery(q_update_role_rollback);
-                preparedStatement.executeUpdate();
-                preparedStatement.close();
-            } catch (SQLException e1) {
-                logger.error(e1);
-                throw new ServiceException(e1.getMessage());
-            }
-        } finally {
-            closeAllResources(null, preparedStatement, connection);
-        }
-
-    }*/
 
     private static final String q_update_role_status = "UPDATE T_ROLE " + "SET STATUS=?";
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see eionet.rod.services.modules.db.dao.IRoleDao#backUpRoles()
-     */
+    @Override
     public void backUpRoles() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -274,13 +205,9 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 
     }
 
-    private static final String q_commit_roles = "DELETE FROM T_ROLE " + "WHERE STATUS=0";
+    private static final String q_commit_roles = "DELETE FROM T_ROLE WHERE STATUS=0";
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see eionet.rod.services.modules.db.dao.IRoleDao#commitRoles()
-     */
+    @Override
     public void commitRoles() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -324,11 +251,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
         + "FROM T_OBLIGATION "
         + "WHERE RESPONSIBLE_ROLE =? ";
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see eionet.rod.services.modules.db.dao.IRoleDao#getRoleDesc(java.lang.String)
-     */
+    @Override
     public ResponsibleRoleDTO getRoleDesc(String role_id, String role_name) throws ServiceException {
 
         Connection connection = null;
@@ -381,11 +304,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
         "SELECT ROLE_ID FROM T_ROLE "
             + "WHERE ROLE_ID =? ";
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see eionet.rod.services.modules.db.dao.IRoleDao#checkRole(java.lang.String)
-     */
+    @Override
     public boolean checkRole(String role_id) throws ServiceException {
 
         Connection connection = null;
