@@ -139,6 +139,14 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
     }
     */
 
+
+    /**
+     * Return the name of the seed file you want to load. Intended to be overridden.
+     */
+    protected String getSeedFilename() {
+        return "seed-rod.xml";
+    }
+
     /**
      * Load the data which will be inserted for the test - Required by DatabaseTestCase.
      * The tables must already exist.
@@ -149,7 +157,8 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
 
         FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
         builder.setColumnSensing(true);
-        loadedDataSet = builder.build(this.getClass().getClassLoader().getResourceAsStream("seed-rod.xml"));
+        String seedFilename = getSeedFilename();
+        loadedDataSet = builder.build(this.getClass().getClassLoader().getResourceAsStream(seedFilename));
         return loadedDataSet;
 
     }

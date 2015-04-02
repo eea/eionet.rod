@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <HLP_AREA AREA_ID="announcements" SCREEN_ID="nr1" DESCRIPTION="Top News!" LANGUAGE="en" HTML="We now have unit tests"
+    MD5="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" POPUP_WIDTH="500" POPUP_LENGTH="4"/>
+
+  <HLP_SCREEN SCREEN_ID="nr1" DESCRIPTION="We now have unit tests" />
+</dataset>
+
