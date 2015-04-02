@@ -430,32 +430,32 @@
         <dependency>
             <groupId>eionet</groupId>
             <artifactId>acl</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
             <artifactId>rpcserver</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
             <artifactId>definition</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
             <artifactId>rpcclient</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
             <artifactId>help</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
             <artifactId>eionet-dir</artifactId>
-            <version>2.5</version>
+            <version>3.0-SNAPSHOT</version> <!-- Use prerelease -->
         </dependency>
         <dependency>
             <groupId>eionet</groupId>
