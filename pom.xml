@@ -167,8 +167,6 @@
                                     <fileset dir="acl"
                                         includes="*.permissions*" />
                                 </copy>
-                                <copy file="WebRODservice.xml"
-                                    todir="${app.home}" overwrite="true" />
                             </tasks>
                         </configuration>
                     </execution>
@@ -184,8 +182,6 @@
 
                                 <!-- we do not care about these files older
                                     versions -->
-                                <copy file="WebRODservice.xml"
-                                    todir="${app.home}" overwrite="true" />
                                 <copy file="VERSION.txt" todir="${app.home}"
                                     overwrite="true" />
 
