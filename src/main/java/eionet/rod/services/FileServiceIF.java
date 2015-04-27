@@ -23,6 +23,9 @@
 
 package eionet.rod.services;
 
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * Methods for file operations. Property names in the props file
  *
@@ -216,6 +219,32 @@ public interface FileServiceIF {
      */
     static final String HISTORY_UNDO_STEP = "history.undo.step";
 
+
+    /**
+     * mail for sysadmins.
+     */
+    static final String MAIL_SYSADMINS = "mail.sysadmins";
+
+    /**
+     * flag showing if smtp auth needed.
+     */
+    static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
+
+    /**
+     * mail host.
+     */
+    static final String MAIL_HOST = "mail.host";
+
+    /**
+     * username if auth is switched on.
+     */
+    static final String MAIL_USER = "mail.user";
+
+    /**
+     * mail password.
+     */
+    static final String MAIL_PASSWORD = "mail.password";
+
     /**
      * Returns String type property from the properties file.
      *
@@ -227,7 +256,8 @@ public interface FileServiceIF {
 
     /**
      * Returns String type property. If no property returns default value.
-     * @param propName property name
+     *
+     * @param propName     property name
      * @param defaultValue default value if no property
      * @return property value
      * @throws ServiceException if reading file does not succeed
@@ -265,20 +295,29 @@ public interface FileServiceIF {
 
     /**
      * returns long value of property.
-     * @param propName property name
+     *
+     * @param propName     property name
      * @param defaultValue default value for case if property not specified
      * @return property value
      * @throws ServiceException if reading fails
      */
-    long getLongProperty(String propName, long defaultValue) throws  ServiceException;
+    long getLongProperty(String propName, long defaultValue) throws ServiceException;
 
     /**
      * Get property value of time in milliseconds presented by time value and unit suffix (1h, 30m, 15s etc).
      *
-     * @param key property name
+     * @param key          property name
      * @param defaultValue default value to be returned if file does not contain the property
      * @return propertyValue
      */
     Long getTimePropertyMilliseconds(final String key, Long defaultValue);
 
-    }
+
+    /**
+     * All properties.
+     *
+     * @return
+     */
+    Properties getProps() throws IOException;
+
+}

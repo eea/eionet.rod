@@ -27,7 +27,9 @@ import eionet.rod.countrysrv.ExtractorConstants;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.ServiceException;
 
+import java.io.IOException;
 import java.util.MissingResourceException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
@@ -179,6 +181,18 @@ public class FileServiceImpl implements FileServiceIF, ExtractorConstants {
         }
 
         return defaultValue;
+    }
+    
+    @Override
+    public Properties getProps() throws IOException{
+        Properties props = new Properties();
+        
+        props.load(getClass().getClassLoader().getResourceAsStream(PROP_FILE + ".properties"));
+        
+        
+        return props;
+        
+        
     }
 }
 

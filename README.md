@@ -80,13 +80,17 @@ Parameters specified in *jobname*.job.data are mandatory for RDF Exporter and Ex
 * RDF Exporter executes *daily* at 5:15 am and exports *all* tables
 
 
-```rdfexporter.job.interval=0 15 5 1/1 * ? *
-rdfexporter.job.data=table=obligations|table=issues|table=clients|table=instruments|table=spatial ```
+```
+rdfexporter.job.interval=0 15 5 1/1 * ? *
+rdfexporter.job.data=table=obligations|table=issues|table=clients|table=instruments|table=spatial
+```
 
 * Extractor executes *daily* at 4:15 am and harvests data from *all* external systems
 
-```extractor.job.interval=0 15 4 1/1 * ? *
-extractor.job.data=mode=all```
+```
+extractor.job.interval=0 15 4 1/1 * ? *
+extractor.job.data=mode=all
+```
 
 
 More examples of cron expressions are available in *unittest.properties*
