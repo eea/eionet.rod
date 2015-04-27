@@ -96,6 +96,29 @@ extractor.job.data=mode=all
 More examples of cron expressions are available in *unittest.properties*
 
 
+###Email configuration
+If a cron job fails email is sent to the system administrators. For enabling the functionality properties below have to be configured
+in local.properties
+
+```
+mail.host=mail.eea.europa.eu
+```
+
+```
+mail.sysadmins=admin@eea.europa.eu
+```
+
+```
+mail.user=mailuser
+```
+
+```
+mail.password=xxx
+```
+
+```
+mail.smtp.auth=1
+```
 
 Installation
 -------------
