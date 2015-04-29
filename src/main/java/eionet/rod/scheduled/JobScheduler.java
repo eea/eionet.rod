@@ -21,9 +21,9 @@ public class JobScheduler implements ServletContextListener {
 
     /**
      * default interval for jobs if not defined in the props file.
-     * 24h.
+     * Job is not excuted.
      */
-    static final long DEFAULT_SCHEDULE_INTERVAL = 24 * 60 * 60 * 1000;
+    static final long DEFAULT_SCHEDULE_INTERVAL = -1;
 
     /** local logger. */
     private static final Log LOGGER = LogFactory.getLog(JobScheduler.class);
