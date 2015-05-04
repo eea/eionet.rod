@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 
 import eionet.rdfexport.RDFExportService;
 import eionet.rdfexport.RDFExportServiceImpl;
+import eionet.rdfexport.RDFExportServiceJSONLD;
 import eionet.rod.util.sql.ConnectionUtil;
 
 /**
@@ -29,6 +30,7 @@ import eionet.rod.util.sql.ConnectionUtil;
 public class RdfFilter implements Filter {
 
     private static final String ACCEPT_RDF_HEADER = "application/rdf+xml";
+    private static final String ACCEPT_JSONLD_HEADER = "application/ld+json";
 
     private String identifier = null;
     private String table = null;
@@ -60,6 +62,7 @@ public class RdfFilter implements Filter {
 
         String uri = httpRequest.getRequestURI();
         String cpath = httpRequest.getContextPath();
+        //return data in RDF/XML Form
         if (uri != null && uri.endsWith("/rdf")) {
             boolean rdf = extractTableAndIdentifier(uri, cpath);
             if (rdf) {
@@ -90,9 +93,40 @@ public class RdfFilter implements Filter {
                 httpResponse.setHeader("Location", uri);
                 return;
             }
-        } else if (StringUtils.contains(httpRequest.getHeader("accept"), ACCEPT_RDF_HEADER)) {
+        } 
+        //return data in JSON-LD Form
+        if (uri != null && uri.endsWith("/json")) {
+            boolean jsonld = extractTableAndIdentifier(uri, cpath);
+            if (jsonld) {
+                Connection conn = null;
+                try {
+                    conn = ConnectionUtil.getConnection();
+                    httpResponse.setContentType(ACCEPT_JSONLD_HEADER);
+                    httpResponse.setCharacterEncoding("UTF-8");
+
+                    Properties props = new Properties();
+                    props.load(getClass().getClassLoader().getResourceAsStream("rdfexport.properties"));
+                    RDFExportService rdfExportService = new RDFExportServiceJSONLD(new PrintStream(httpResponse.getOutputStream()), conn, props);
+                    rdfExportService.exportTable(table, identifier);
+                    return;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new ServletException(e.getMessage(), e);
+                }
+                finally{
+                    ConnectionUtil.closeConnection(conn);
+                }
+            }
+        }
+        else if (StringUtils.contains(httpRequest.getHeader("accept"), ACCEPT_RDF_HEADER)) {
             if (isRdfTable(uri, cpath)) {
                 httpResponse.sendRedirect(uri + "/rdf");
+                return;
+            }
+        }
+        else if (StringUtils.contains(httpRequest.getHeader("accept"), ACCEPT_JSONLD_HEADER)) {
+            if (isRdfTable(uri, cpath)) {
+                httpResponse.sendRedirect(uri + "/json");
                 return;
             }
         }
