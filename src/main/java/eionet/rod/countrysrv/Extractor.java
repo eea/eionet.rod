@@ -23,23 +23,8 @@
 
 package eionet.rod.countrysrv;
 
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-
-import org.openrdf.query.QueryLanguage;
-import org.openrdf.query.TupleQuery;
-import org.openrdf.query.TupleQueryResult;
-import org.openrdf.repository.RepositoryConnection;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.sparql.SPARQLRepository;
-
 import eionet.acl.AuthMechanism;
 import eionet.acl.SignOnException;
-
 import eionet.directory.DirServiceException;
 import eionet.directory.DirectoryService;
 import eionet.rod.services.FileServiceIF;
@@ -47,6 +32,20 @@ import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.RODDaoFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.openrdf.query.QueryLanguage;
+import org.openrdf.query.TupleQuery;
+import org.openrdf.query.TupleQueryResult;
+import org.openrdf.repository.RepositoryConnection;
+import org.openrdf.repository.RepositoryException;
+import org.openrdf.repository.sparql.SPARQLRepository;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 
 /**
  * Pulls information from various services and saves it to DB.
@@ -139,6 +138,7 @@ public class Extractor implements ExtractorConstants {
             extractor.harvest(mode, userName);
         } catch (Exception se) {
             logger.error(se.toString());
+            RODServices.sendEmail("Error in extractor", se.toString());
         }
     }
     private String cDT() {
@@ -211,6 +211,8 @@ public class Extractor implements ExtractorConstants {
                 logger.warning("Unable to open log file for writing. using default. The following error was reported:\n"
                         + e.toString());
                 e.printStackTrace();
+                RODServices.sendEmail("Error in Extractor", "Unable to open log file for writing. \n"
+                        + e.toString());
             }
         }
 
@@ -247,6 +249,8 @@ public class Extractor implements ExtractorConstants {
         if (mode == ALL_DATA || mode == ROLES) {
             actionText += " - roles ";
             try {
+                
+                StringBuilder errMsg = new StringBuilder();
                 String[] respRoles = daoFactory.getObligationDao().getRespRoles();
 
                 log("Found " + respRoles.length + " roles from database");
@@ -257,8 +261,11 @@ public class Extractor implements ExtractorConstants {
                 daoFactory.getRoleDao().backUpRoles();
 
                 for (int i = 0; i < respRoles.length; i++) {
-
-                    saveRole(respRoles[i]);
+                    try {
+                        saveRole(respRoles[i]);
+                    } catch (Exception e) {
+                        errMsg.append('\n').append(e.getMessage());
+                    }
                 } // roles.next()
 
                 daoFactory.getRoleDao().commitRoles();
@@ -267,6 +274,10 @@ public class Extractor implements ExtractorConstants {
                     log("* Roles OK");
                 }
 
+                if (StringUtils.isNotBlank(errMsg.toString())) {
+                    RODServices.sendEmail("Error in Extractor ", errMsg.toString());
+                }
+                
                 // persons + org name
 
             } catch (Exception e) {
@@ -428,8 +439,12 @@ public class Extractor implements ExtractorConstants {
             log("Received role info for " + roleName + " from Directory");
         } catch (DirServiceException de) {
             logger.error("Error getting role " + roleName + ": " + de.toString());
+            //RODServices.sendEmail("Error in Extractor", "Error getting role " + roleName + ": " + de.toString());
+            throw new ServiceException("Error getting role " + de);
         } catch (Exception e) {
             e.printStackTrace();
+            //RODServices.sendEmail("Error in Extractor", e.toString());
+            throw new ServiceException("Error getting role " + e);
         }
 
         if (role == null) {
@@ -438,4 +453,6 @@ public class Extractor implements ExtractorConstants {
 
         daoFactory.getRoleDao().saveRole(role);
     }
+
+
 }

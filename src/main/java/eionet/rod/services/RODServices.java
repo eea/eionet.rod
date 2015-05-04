@@ -23,6 +23,7 @@
 
 package eionet.rod.services;
 
+import eionet.rod.services.modules.EmailServiceImpl;
 import eionet.rod.services.modules.FileServiceImpl;
 import eionet.rod.services.modules.Log4jLoggerImpl;
 import eionet.rod.services.modules.db.dao.RODDaoFactory;
@@ -38,6 +39,7 @@ public class RODServices {
     private static LogServiceIF _logSrv = null;
     private static RODDaoFactory daoFactory = null;
     private static FileServiceIF _fSrv = null;
+    private static EmailServiceIF emailService = null;
 
     /**
      * Instance of RODDaoFactory.
@@ -77,6 +79,19 @@ public class RODServices {
         }
 
         return _logSrv;
+    }
+
+    /**
+     * new instance of emailservice.
+     * @return
+     * @throws ServiceException
+     */
+    public static EmailServiceIF getEmailService()  {
+        if (emailService == null) {
+            emailService = new EmailServiceImpl();
+        }
+
+        return emailService;
     }
 
     /**
@@ -145,4 +160,18 @@ public class RODServices {
         }
     }
 
+    /**
+     * send email to sys admins specified in the props file.
+     * @param subject
+     * @param msg
+     */
+    public static void sendEmail(String subject, String msg) {
+        
+        try {
+            getEmailService().sendToSysAdmin(subject, msg);
+        } catch (Exception e) {
+            getLogService().error("SEnding email failed " + e);
+        }
+        
+    }
 }

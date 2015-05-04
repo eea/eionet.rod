@@ -1,5 +1,12 @@
 package eionet.rod.rdf;
 
+import eionet.rdfexport.RDFExportService;
+import eionet.rdfexport.RDFExportServiceImpl;
+import eionet.rod.services.EmailServiceIF;
+import eionet.rod.services.LogServiceIF;
+import eionet.rod.services.RODServices;
+import eionet.rod.util.sql.ConnectionUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -7,18 +14,14 @@ import java.sql.Connection;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import eionet.rdfexport.RDFExportService;
-import eionet.rdfexport.RDFExportServiceImpl;
-import eionet.rod.services.LogServiceIF;
-import eionet.rod.services.RODServices;
-import eionet.rod.util.sql.ConnectionUtil;
-
 /**
  * @author Risto Alt
  *
  */
 public class RdfExporter {
     protected static LogServiceIF logger = RODServices.getLogService();
+    
+    protected static EmailServiceIF emailSender = RODServices.getEmailService();
     /**
      * main method.
      *
@@ -76,6 +79,8 @@ public class RdfExporter {
             log("Successfully exported to: " + dir + "/" + table + ".rdf", false);
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("ExtractorJob failed " + e);
+            RODServices.sendEmail("RDF Exporter failed", e.toString());
         } finally {
             try {
                 if (fos != null) {
@@ -100,4 +105,6 @@ public class RdfExporter {
             logger.debug(str);
         }
     }
+    
+
 }

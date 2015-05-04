@@ -80,11 +80,19 @@ public abstract class AbstractScheduledJob implements ServletContextListener, Jo
                 if (CronExpression.isValidExpression(intervalPrpValue)) {
                     JobScheduler.scheduleCronJob(intervalPrpValue, jobDetails);
                     LOGGER.info(getName() + " job started crontab " + intervalPrpValue);
-                } else {
+                } else  {
+                    
+                    //if not specified do not execute
                     long interval = RODServices.getFileService().getTimePropertyMilliseconds(propName,
                             JobScheduler.DEFAULT_SCHEDULE_INTERVAL);
-                    JobScheduler.scheduleIntervalJob(interval, jobDetails);
-                    LOGGER.info(getName() + " job started with interval " + interval + " ms");
+                    
+                    if (JobScheduler.DEFAULT_SCHEDULE_INTERVAL != interval) {
+                        JobScheduler.scheduleIntervalJob(interval, jobDetails);
+                        LOGGER.info(getName() + " job started interval " + interval);
+                    } else {
+                        LOGGER.warn(getName() + " job not started because the interval " + propName 
+                                + " is not specified in the props file ");
+                    }
                 }
             }
 

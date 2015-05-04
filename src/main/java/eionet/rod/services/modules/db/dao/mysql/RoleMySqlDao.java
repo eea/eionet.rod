@@ -103,6 +103,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 
             Vector<String> occupants = (Vector<String>) role.get("OCCUPANTS");
             if (occupants != null && occupants.size() > 0) {
+                logger.debug("Role " + roleId + " has " + occupants.size() + " occupants.");
                 for (int i = 0; i < occupants.size(); i++) {
                     uid = (String) occupants.elementAt(i);
 
@@ -111,6 +112,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
                             person = DirectoryService.getPerson(uid);
                         } catch (DirServiceException dire) {
                             logger.error("Error getting person " + uid + ": " + dire.toString());
+                            throw new ServiceException("Error getting person "  + dire.getMessage());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
