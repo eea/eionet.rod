@@ -6,7 +6,7 @@ function mvValues(selFrom, selTo, unit) {
 	var i, count = 0;
 	var optsLen;
 	var newVal, newText;
-	
+
 	isChanged = true;
 
 	var selected = new Array();
@@ -20,7 +20,7 @@ function mvValues(selFrom, selTo, unit) {
 			if (pos > 0) {
 				newVal = newVal.substr(0, pos);
 			}
-			
+
 			newText = selFrom[i].text;
 			pos = newText.indexOf('[');
 			if (pos > 1) {
@@ -37,8 +37,8 @@ function mvValues(selFrom, selTo, unit) {
 			opt.value = newVal;
 		}
 	}
-	
-	// remove from	
+
+	// remove from
 	count = 0;
 	for (i = selected.length-1; i >= 0; --i) {
 		selFrom[selected[i]] = null;
@@ -49,7 +49,7 @@ function addClientValues(selFrom, selTo) {
 	var i, j, count = 0;
 	var optsLen;
 	var newVal, newText;
-	
+
 	isChanged = true;
 
 	var selected = new Array();
@@ -75,14 +75,14 @@ function addClientValues(selFrom, selTo) {
 			}
 			if (!exists) {
 				selected[count++] = i;
-	
+
 				newVal = selFrom[i].value;
 
 				var pos = newVal.indexOf(':');
 				/*if (pos > 0) {
 					newVal = newVal.substr(0, pos);
 				} */
-				
+
 				newText = selFrom[i].text;
 				pos = newText.indexOf('[');
 				if (pos > 1) {
@@ -92,7 +92,7 @@ function addClientValues(selFrom, selTo) {
 					newVal = newVal + ':' + unit.value;
 					newText = newText + ' [' + unit.text + ']';
 				} */
-	
+
 				// add to
 				var opt = document.createElement("option");
 				selTo.add(opt);
@@ -150,15 +150,15 @@ function changedReporting() {
 	next.value = "";
 	next2.value = "";
 	terminate.value = "N";
-	
+
 	fiDate = checkDateSimple(first);
 	toDate = checkDateSimple(to);
 	fx = checkNumberSimple(freq);
-	
+
 	// Provide default if to value not given
 	//
 	if(fiDate != false && toDate == false)
-		to.value = "31/12/9999";			
+		to.value = "31/12/9999";
 
 	// Check that date fields have valid values
 	//
@@ -178,14 +178,14 @@ function changedReporting() {
 	//
 	if(fx == -1)
 		return;
-	
+
 	// If non-repeating, use First Reporting for Next Due Date
 	//
 	if(fx == 0) {
 		next.value = first.value;
 		return;
 	}
-	
+
 	// Repeating date
 	//
 	currDate.setUTCDate(currDate.getUTCDate() - (fx * 3));  // Buffer
@@ -240,7 +240,7 @@ function changedReporting() {
 		}
 	}
 	next.value = ddmmyyyyDate(repDate);
-	
+
 	// Calculate value for TERMINATE
 	//
 	if(repDate.getTime() < currDate.getTime())
@@ -265,14 +265,14 @@ function changedReporting() {
 function checkDateSimple(field) {
 	rVal = new Object;
 	var s = field.value;
-	
+
 	if(s.length == 0) {
 		clearwarning(field);
-		return false; 
+		return false;
 	}
-	
+
 	var re = /([0-9]{2})\/([0-9]{2})\/([0-9]{4})/;
-	
+
 	if(s.length != 10 || !re.test(s)) {
 		setwarning(field, "Invalid date format. Date needs to be in dd/mm/yyyy format.");
 		return false;
@@ -285,7 +285,7 @@ function checkDateSimple(field) {
 		setwarning(field, "Invalid date.");
 		return false;
 	}
-	else if ((rVal.dx < 1) || 
+	else if ((rVal.dx < 1) ||
 				((rVal.mx == 1 || rVal.mx == 3 || rVal.mx == 5 || rVal.mx == 7 || rVal.mx == 8 || rVal.mx == 10 || rVal.mx == 12) && rVal.dx > 31) ||
 				((rVal.mx == 4 || rVal.mx == 6 || rVal.mx == 9 || rVal.mx == 11) && rVal.dx > 30) ||
 				(rVal.mx == 2 && rVal.dx > 29)) {
@@ -298,12 +298,12 @@ function checkDateSimple(field) {
 
 function checkNumberSimple(field) {
 	var s = field.value;
-	
+
 	if(s.length == 0) {
 		clearwarning(field);
-		return -1; 
+		return -1;
 	}
-	
+
 	var fx = parseInt(field.value);
 	if(isNaN(fx) || fx < 0) {
 		setwarning(field, "Invalid reporting frequency. Positive, whole number expected.");
@@ -315,7 +315,7 @@ function checkNumberSimple(field) {
 
 function ddmmyyyyDate(dat) {
 	var s;
-	
+
 	if(dat.getUTCDate() >= 10)
 		s = dat.getUTCDate();
 	else
@@ -326,9 +326,9 @@ function ddmmyyyyDate(dat) {
 		s += parseInt(dat.getUTCMonth() + 1);
 	else
 		s += "0" + parseInt(dat.getUTCMonth() + 1);
-		
+
 	s += "/" + dat.getUTCFullYear();
-	
+
 	return s;
 }
 
@@ -336,16 +336,16 @@ function addValues(selFrom, selTo, unit,clist,volSelTo) {
 	var i, j, count = 0;
 	var optsLen;
 	var newVal, newText;
-	
+
 	isChanged = true;
 
 	var selected = new Array();
-	
-	eu27 = { AT:1,BE:1,BG:1,CY:1,CZ:1,
+
+	eu28 = { AT:1,BE:1,BG:1,HR:1,CY:1,CZ:1,
 		 DE:1,DK:1,EE:1,ES:1,FI:1,FR:1,GB:1,GR:1,
 		 HU:1,IE:1,IT:1,LT:1,LU:1,LV:1,MT:1,NL:1,
 		 PL:1,PT:1,RO:1,SE:1,SI:1,SK:1 }
-	
+
 	for (k = 0; k < selFrom.length; ++k) {
 		if (selFrom[k].selected) {
 			if(selFrom[k].value == '0'){
@@ -356,7 +356,7 @@ function addValues(selFrom, selTo, unit,clist,volSelTo) {
 						ptext = s[1];
 						ptype = s[2];
 						ptwoletter = s[3];
-						if (ptype.valueOf() == 'C' && ptwoletter.valueOf() in eu27) {
+						if (ptype.valueOf() == 'C' && ptwoletter.valueOf() in eu28) {
 							for (q = 0; q < selFrom.length; ++q) {
 								if(selFrom[q].value == pvalue.valueOf()){
 									if (!selFrom[q].selected) {
@@ -371,7 +371,7 @@ function addValues(selFrom, selTo, unit,clist,volSelTo) {
 			}
 		}
 	}
-	
+
 	for (i = 0; i < selFrom.length; ++i) {
 		if (selFrom[i].selected) {
 			var exists;
@@ -393,13 +393,13 @@ function addValues(selFrom, selTo, unit,clist,volSelTo) {
 			if (!exists) {
 				if (!existsVolunt) {
 					selected[count++] = i;
-		
+
 					newVal = selFrom[i].value;
 					var pos = newVal.indexOf(':');
 					if (pos > 0) {
 						newVal = newVal.substr(0, pos);
 					}
-					
+
 					newText = selFrom[i].text;
 					pos = newText.indexOf('[');
 					if (pos > 1) {
@@ -409,7 +409,7 @@ function addValues(selFrom, selTo, unit,clist,volSelTo) {
 						newVal = newVal + ':' + unit.value;
 						newText = newText + ' [' + unit.text + ']';
 					}
-		
+
 					// add to
 					var opt = document.createElement("option");
 					selTo.add(opt);
@@ -435,7 +435,7 @@ function fillclist(type,list,text) {
 	var i,js;
 	for (i = list.length; i > 0; --i)
 		list.options[i] = null;
-	
+
 	var opt = document.createElement("option");
 	//opt.text = "Choose a group";
 	//opt.value = "-1";
@@ -453,7 +453,7 @@ function fillclist(type,list,text) {
 		opt.value = pvalue.valueOf();
 		list.options.add(opt);
 	  }
-	} 
+	}
 	list.options[0] = null;
 	list.options[0].selected = true;
 }
@@ -462,16 +462,16 @@ function addFullValues(selFrom, selTo,clist,forSelTo) {
 	var i, j, count = 0;
 	var optsLen;
 	var newVal, newText;
-	
+
 	isChanged = true;
 
 	var selected = new Array();
-	
-	eu27 = { AT:1,BE:1,BG:1,CY:1,CZ:1,
+
+	eu28 = { AT:1,BE:1,BG:1,HR:1,CY:1,CZ:1,
 		 DE:1,DK:1,EE:1,ES:1,FI:1,FR:1,GB:1,GR:1,
 		 HU:1,IE:1,IT:1,LT:1,LU:1,LV:1,MT:1,NL:1,
 		 PL:1,PT:1,RO:1,SE:1,SI:1,SK:1 }
-	
+
 	for (k = 0; k < selFrom.length; ++k) {
 		if (selFrom[k].selected) {
 			var str,u;
@@ -485,7 +485,7 @@ function addFullValues(selFrom, selTo,clist,forSelTo) {
 						ptext = s[1];
 						ptype = s[2];
 						ptwoletter = s[3];
-						if (ptype.valueOf() == 'C' && ptwoletter.valueOf() in eu27) {
+						if (ptype.valueOf() == 'C' && ptwoletter.valueOf() in eu28) {
 							val = pvalue.valueOf();
 							for (q = 0; q < selFrom.length; ++q) {
 								if(selFrom[q].value == val.valueOf()){
@@ -506,7 +506,7 @@ function addFullValues(selFrom, selTo,clist,forSelTo) {
 		if (selFrom[i].selected) {
 			var st,id;
 			id = new String(selFrom[i].value);
-			
+
 			var exists;
 			exists = false;
 			existsFormally = false;
@@ -534,14 +534,14 @@ function addFullValues(selFrom, selTo,clist,forSelTo) {
 			if (!exists) {
 				if(!existsFormally){
 					selected[count++] = i;
-		
+
 					newVal = selFrom[i].value;
-	
+
 					var pos = newVal.indexOf(':');
 					/*if (pos > 0) {
 						newVal = newVal.substr(0, pos);
 					} */
-					
+
 					newText = selFrom[i].text;
 					pos = newText.indexOf('[');
 					if (pos > 1) {
@@ -551,7 +551,7 @@ function addFullValues(selFrom, selTo,clist,forSelTo) {
 						newVal = newVal + ':' + unit.value;
 						newText = newText + ' [' + unit.text + ']';
 					} */
-		
+
 					// add to
 					var opt = document.createElement("option");
 					selTo.add(opt);
@@ -569,7 +569,7 @@ function addValuesEnv(selFrom, selTo, unit) {
 	var i, j, count = 0;
 	var optsLen;
 	var newVal, newText;
-	
+
 	isChanged = true;
 
 	var selected = new Array();
@@ -586,7 +586,7 @@ function addValuesEnv(selFrom, selTo, unit) {
 					u = s.substr(s.indexOf(":")+1);
 					s = s.substring(0,s.indexOf(":"));
 				}
-				
+
 				if (unit != null) {
 					if ((s.valueOf() == selFrom[i].value) && (u.valueOf() == unit.value)) {
 						exists = true;
@@ -601,13 +601,13 @@ function addValuesEnv(selFrom, selTo, unit) {
 			}
 			if (!exists) {
 				selected[count++] = i;
-	
+
 				newVal = selFrom[i].value;
 				var pos = newVal.indexOf(':');
 				if (pos > 0) {
 					newVal = newVal.substr(0, pos);
 				}
-				
+
 				newText = selFrom[i].text;
 				pos = newText.indexOf('[');
 				if (pos > 1) {
@@ -617,7 +617,7 @@ function addValuesEnv(selFrom, selTo, unit) {
 					newVal = newVal + ':' + unit.value;
 					newText = newText + ' [' + unit.text + ']';
 				}
-	
+
 				// add to
 				var opt = document.createElement("option");
 				selTo.add(opt);
@@ -648,7 +648,7 @@ function clearwarning(field) {
 	fid = field.id;
 	if (fid) {
 		msgobj = document.getElementById("error-" + fid);
-		if (msgobj) 
+		if (msgobj)
 			msgobj.parentNode.removeChild(msgobj);
 	}
 }
