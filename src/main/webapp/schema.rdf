@@ -69,6 +69,12 @@
                 <rdfs:range rdf:resource="&xsdns;dateTime"/>
 	</rdf:Property>
 
+	<rdf:Property rdf:ID="blockedByQA">
+		<rdfs:label>Blocked by QA</rdfs:label>
+                <rdfs:comment>Boolean value that is true if the delivery has too severe quality issues.</rdfs:comment>
+		<rdfs:domain rdf:resource="#Delivery"/>
+	</rdf:Property>
+
 	<rdf:Property rdf:ID="period">
 		<rdfs:label>Delivery period</rdfs:label>
 		<rdfs:subPropertyOf rdf:resource="&dctns;temporal"/>
@@ -76,8 +82,20 @@
                 <!-- XML Schema doesn't have a time interval datatype -->
 	</rdf:Property>
 
+	<rdf:Property rdf:ID="startOfPeriod">
+		<rdfs:label>Start of period</rdfs:label>
+		<rdfs:domain rdf:resource="#Delivery"/>
+                <rdfs:range rdf:resource="&xsdns;date"/>
+	</rdf:Property>
+
+	<rdf:Property rdf:ID="endOfPeriod">
+		<rdfs:label>End of period</rdfs:label>
+		<rdfs:domain rdf:resource="#Delivery"/>
+                <rdfs:range rdf:resource="&xsdns;date"/>
+	</rdf:Property>
+
  
-        <!-- Data providers/Localities (Countries) -->
+        <!-- Data providers/Localities (Countries and territories) -->
 
 	<rdfs:Class rdf:ID="Locality">
 		<rdfs:label>Locality</rdfs:label>
@@ -188,18 +206,18 @@
 	</rdf:Property>
 
 	<rdf:Property rdf:ID="isTerminated">
-		<rdfs:label>Obligation Terminated</rdfs:label>
+		<rdfs:label>Obligation terminated</rdfs:label>
                 <rdfs:range rdf:resource="&xsdns;boolean"/>
 	</rdf:Property>
 
 	<rdf:Property rdf:ID="isEEAPrimary">
-		<rdfs:label>Eionet Priority Dataflow</rdfs:label>
+		<rdfs:label>Eionet priority dataflow</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
                 <rdfs:range rdf:resource="&xsdns;boolean"/>
 	</rdf:Property>
 
 	<rdf:Property rdf:ID="isEEACore">
-		<rdfs:label>Used for EEA Core set of indicators</rdfs:label>
+		<rdfs:label>Used for EEA Core Set of Indicators</rdfs:label>
                 <rdfs:range rdf:resource="&xsdns;boolean"/>
 	</rdf:Property>
 
