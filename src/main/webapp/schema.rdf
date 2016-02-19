@@ -211,7 +211,7 @@
 	</rdf:Property>
 
 	<rdf:Property rdf:ID="isEEAPrimary">
-		<rdfs:label>Eionet priority dataflow</rdfs:label>
+		<rdfs:label>Eionet core data flow</rdfs:label>
 		<rdfs:domain rdf:resource="#Obligation"/>
                 <rdfs:range rdf:resource="&xsdns;boolean"/>
 	</rdf:Property>

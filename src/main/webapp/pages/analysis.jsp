@@ -28,7 +28,7 @@
 				</td>
 			</tr>
 			<tr class="zebraeven">
-				<td>Number of reporting obligations used for the Eionet Priority dataflows</td>
+				<td>Number of reporting obligations used for the Eionet core data flows</td>
 				<td class="center"><c:out value="${actionBean.eeaPriority}"/></td>
 				<td class="center">
 					<c:if test="${actionBean.eeaPriority > 0}">

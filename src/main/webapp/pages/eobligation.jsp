@@ -506,7 +506,7 @@
               			</td>
               			<td>
               				<stripes:checkbox name="obligation.eeaPrimary" checked="1" value="1" id="obligation.eeaPrimary"/>
-		                    <stripes:label for="obligation.eeaPrimary">Eionet Priority Data flow</stripes:label>
+		                    <stripes:label for="obligation.eeaPrimary">Eionet core data flow</stripes:label>
 		                    <br/>
 		                    <stripes:checkbox name="obligation.eeaCore" checked="1" value="1" id="obligation.eeaCore"/>
 		                    <stripes:label for="obligation.eeaCore">used for EEA Core set of indicators</stripes:label>

@@ -935,7 +935,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
         } else if (col != null && col.equalsIgnoreCase("PARAMETERS")) {
             label = "'Parameters' changed ";
         } else if (col != null && col.equalsIgnoreCase("EEA_PRIMARY")) {
-            label = "'This obligation is EIONET Priority Data flow' changed ";
+            label = "'This obligation is an Eionet core data flow' changed ";
             value = getChkValue(value);
             currentValue = getChkValue(currentValue);
         } else if (col != null && col.equalsIgnoreCase("EEA_CORE")) {

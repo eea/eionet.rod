@@ -39,7 +39,7 @@ public interface IAnalysisDao {
     int getEeaCore() throws ServiceException;
 
     /**
-     * Number of reporting obligations used for the EIONET Priority Data flows
+     * Number of reporting obligations used for the Eionet core data flows
      * @throws ServiceException
      */
     int getEeaPriority() throws ServiceException;

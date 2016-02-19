@@ -6,20 +6,20 @@
 
     <stripes:layout-component name="contents">
 
-        <%-- Section displayed when the role was successfully found from EIONET's directory service. --%>
+        <%-- Section displayed when the role was successfully found from Eionet's directory service. --%>
 
         <c:if test="${empty actionBean.dirRole}">
            <div class="system-msg">
                <c:if test="${actionBean.directoryError}">
-                   <p>Technical error when getting the requested role's description from EIONET's directory service!</p>
+                   <p>Technical error when getting the requested role's description from Eionet's directory service!</p>
                </c:if>
                <c:if test="${!actionBean.directoryError}">
-                   <p>Found no description for the requested role in EIONET's directory service!</p>
+                   <p>Found no description for the requested role in Eionet's directory service!</p>
                </c:if>
            </div>
         </c:if>
 
-        <%-- Section displayed when the role was NOT successfully found from EIONET's directory service. --%>
+        <%-- Section displayed when the role was NOT successfully found from Eionet's directory service. --%>
 
         <c:if test="${not empty actionBean.dirRole}">
 

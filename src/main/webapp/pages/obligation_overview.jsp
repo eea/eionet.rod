@@ -35,7 +35,7 @@
 				${rodfn:replaceTags(actionBean.obligation.description)}
 				
 				<c:if test="${actionBean.obligation.eeaPrimary == 1}">
-					<br/>This reporting obligation is an EIONET Priority Data flow<br/>
+					<br/>This reporting obligation is an Eionet core data flow<br/>
 				</c:if>
 				<c:if test="${actionBean.obligation.eeaCore == 1}">
 					<br/>Reporting under this obligation is used for EEA Core set of indicators<br/>

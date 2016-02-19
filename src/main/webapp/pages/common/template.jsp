@@ -136,7 +136,7 @@
 							<li><a href="${pageContext.request.contextPath}/versions">Global History</a></li>
 						</c:if>
 						<li><a href="${pageContext.request.contextPath}/instruments" title="Navigate to reporting obligations via the Eur-lex legislative instrument categories">Legal instruments</a></li>
-						<li><a href="${pageContext.request.contextPath}/obligations?anmode=P" title="Eionet Priority Data flows">Priority dataflows</a></li>
+						<li><a href="${pageContext.request.contextPath}/obligations?anmode=P" title="Eionet core data flows">Core data flows</a></li>
 						<li><a href="${pageContext.request.contextPath}/analysis" title="Database statistics">Database statistics</a></li>
 						<li><a href="${pageContext.request.contextPath}/search" title="Advanced search">Advanced search</a></li>
 						<c:if test="${actionBean.isUserLoggedIn && rodfn:hasPermission(actionBean.userName, '/Admin/Harvest', 'u')}">

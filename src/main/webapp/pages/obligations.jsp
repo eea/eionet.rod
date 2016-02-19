@@ -19,7 +19,7 @@
 
         <h1>Reporting obligations
 	        <c:if test="${!empty actionBean.anmode}">: <c:if test="${actionBean.anmode == 'P'}">
-    				EIONET Priority Data flows
+    				Eionet core data flows
     			</c:if>
     			<c:if test="${actionBean.anmode == 'C'}">
     				EEA Core set of indicators
