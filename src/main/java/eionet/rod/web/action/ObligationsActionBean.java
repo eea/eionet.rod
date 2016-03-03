@@ -904,14 +904,22 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             currentValue = getSuffixValue(currentValue);
         } else if (col != null && col.equalsIgnoreCase("NATIONAL_CONTACT")) {
             label = "'National reporting contacts name' changed ";
+        } else if (col != null && col.equalsIgnoreCase("NATIONAL_CONTACT_URL")) {
+            label = "'National reporting contacts URL' changed ";
         } else if (col != null && col.equalsIgnoreCase("REPORT_FREQ_MONTHS")) {
             label = "'Reporting frequency in months' changed ";
+        } else if (col != null && col.equalsIgnoreCase("REPORT_FREQ")) {
+            label = "'Reporting frequency' changed ";
+        } else if (col != null && col.equalsIgnoreCase("REPORT_FREQ_DETAILS")) {
+            label = "'Reporting frequency details' changed ";
         } else if (col != null && col.equalsIgnoreCase("FIRST_REPORTING")) {
             label = "'Baseline reporting date' changed ";
         } else if (col != null && col.equalsIgnoreCase("VALID_TO")) {
             label = "'Valid to' changed ";
         } else if (col != null && col.equalsIgnoreCase("NEXT_DEADLINE")) {
             label = "'Next due date' changed ";
+        } else if (col != null && col.equalsIgnoreCase("NEXT_DEADLINE2")) {
+            label = "'Due date after next due (calculated automatically)' changed ";
         } else if (col != null && col.equalsIgnoreCase("NEXT_REPORTING")) {
             label = "'Reporting date' changed ";
         } else if (col != null && col.equalsIgnoreCase("DATE_COMMENTS")) {
@@ -930,6 +938,8 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             label = "'URL to repository' changed ";
         } else if (col != null && col.equalsIgnoreCase("DATA_USED_FOR")) {
             label = "'Data used for' changed ";
+        } else if (col != null && col.equalsIgnoreCase("DATA_USED_FOR_URL")) {
+            label = "'Data used for (URL)' changed ";
         } else if (col != null && col.equalsIgnoreCase("LEGAL_MORAL")) {
             label = "'Obligation type' changed ";
         } else if (col != null && col.equalsIgnoreCase("PARAMETERS")) {
@@ -968,8 +978,6 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             currentValue = getDpsirValue(currentValue);
         } else if (col != null && col.equalsIgnoreCase("OVERLAP_URL")) {
             label = "'URL of overlapping obligation' changed ";
-        } else if (col != null && col.equalsIgnoreCase("OVERLAP_URL")) {
-            // Indicators
         } else if (col != null && col.equalsIgnoreCase("COMMENT")) {
             label = "'General comments' changed ";
         } else if (col != null && col.equalsIgnoreCase("AUTHORITY")) {
@@ -982,13 +990,19 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             label = "'Next update due' changed ";
         } else if (col != null && col.equalsIgnoreCase("VALIDATED_BY")) {
             label = "'Validated by' changed ";
+        } else if (col != null && col.equalsIgnoreCase("CONTINOUS_REPORTING")) {
+            label = "'Continuous reporting' changed ";
         } else if (col != null && col.equalsIgnoreCase("FK_CLIENT_ID")) {
             label = "'Report to' changed ";
             value = RODServices.getDbService().getClientDao().getOrganisationNameByID(value);
             currentValue = RODServices.getDbService().getClientDao().getOrganisationNameByID(currentValue);
         } else if (col != null && col.equalsIgnoreCase("LAST_UPDATE")) {
             label = "'Last update' changed ";
-        }
+        } else if (col != null && col.equalsIgnoreCase("LAST_HARVESTED")) {
+            label = "'Last harvested date' changed ";
+        } else if (col != null && col.equalsIgnoreCase("TERMINATE")) {
+            label = "'Terminate' changed ";
+        } 
 
         label = label + " from '" + value + "' to '" + currentValue + "'";
 
