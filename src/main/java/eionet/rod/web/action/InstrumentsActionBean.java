@@ -571,6 +571,8 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
             label = "'Issued by' changed ";
             value = RODServices.getDbService().getClientDao().getOrganisationNameByID(value);
             currentValue = RODServices.getDbService().getClientDao().getOrganisationNameByID(currentValue);
+        } else if (col != null && col.equalsIgnoreCase("ISSUED_BY")) {
+            label = "'Issuer' changed ";
         } else if (col != null && col.equalsIgnoreCase("ISSUED_BY_URL")) {
             label = "'URL to issuer' changed ";
         } else if (col != null && col.equalsIgnoreCase("DGENV_REVIEW")) {
@@ -603,6 +605,10 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
             label = "'Validated by' changed ";
         } else if (col != null && col.equalsIgnoreCase("LAST_UPDATE")) {
             label = "'Last update' changed ";
+        } else if (col != null && col.equalsIgnoreCase("LAST_MODIFIED")) {
+            label = "'Last modification' changed ";
+        } else if (col != null && col.equalsIgnoreCase("LEGAL_NAME")) {
+            label = "'Legal name' changed ";
         }
 
         label = label + " from '" + value + "' to '" + currentValue + "'";
