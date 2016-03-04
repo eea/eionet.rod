@@ -990,12 +990,12 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
             label = "'Next update due' changed ";
         } else if (col != null && col.equalsIgnoreCase("VALIDATED_BY")) {
             label = "'Validated by' changed ";
-        } else if (col != null && col.equalsIgnoreCase("CONTINOUS_REPORTING")) {
-            label = "'Continuous reporting' changed ";
         } else if (col != null && col.equalsIgnoreCase("FK_CLIENT_ID")) {
             label = "'Report to' changed ";
             value = RODServices.getDbService().getClientDao().getOrganisationNameByID(value);
             currentValue = RODServices.getDbService().getClientDao().getOrganisationNameByID(currentValue);
+        } else if (col != null && col.equalsIgnoreCase("CONTINOUS_REPORTING")) {
+            label = "'Continuous reporting' changed ";
         } else if (col != null && col.equalsIgnoreCase("LAST_UPDATE")) {
             label = "'Last update' changed ";
         } else if (col != null && col.equalsIgnoreCase("LAST_HARVESTED")) {
