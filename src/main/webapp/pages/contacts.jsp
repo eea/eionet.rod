@@ -43,7 +43,7 @@
                     </c:if>
                     <c:if test="${not empty actionBean.parentRoleId}">
                         <td>
-                            <stripes:link beanclass="${actionBean.class.name}">
+                            <stripes:link beanclass="${actionBean['class'].name}">
                                 <stripes:param name="roleId" value="${actionBean.parentRoleId}"/>
                                 <c:out value="${actionBean.parentRoleId}"/>
                             </stripes:link>
