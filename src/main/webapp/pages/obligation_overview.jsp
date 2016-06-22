@@ -41,7 +41,7 @@
 					<br/>Reporting under this obligation is used for EEA Core set of indicators<br/>
 				</c:if>
 				<c:if test="${actionBean.obligation.flagged == 1}">
-					<br/>This reporting obligation is flagged<br/>
+					<br/>Delivery process is managed by EEA<br/>
 				</c:if>
 				<c:if test="${!empty actionBean.obligation.overlapUrl}">
 					<br/>Delivery process or content of this obligation overlaps with another reporting obligation (

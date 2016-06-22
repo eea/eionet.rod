@@ -52,7 +52,7 @@
 				</td>
 			</tr>
 			<tr class="zebraeven">
-				<td>Number of reporting obligations flagged&#160;</td>
+				<td>Number of reporting obligations where the delivery process is managed by EEA&#160;</td>
 				<td class="center"><c:out value="${actionBean.flaggedRa}"/></td>
 				<td class="center">
 					<c:if test="${actionBean.flaggedRa > 0}">

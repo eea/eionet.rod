@@ -512,7 +512,7 @@
 		                    <stripes:label for="obligation.eeaCore">used for EEA Core set of indicators</stripes:label>
 		                    <br/>
 		                    <stripes:checkbox name="obligation.flagged" checked="1" value="1" id="obligation.flagged"/>
-		                    <stripes:label for="obligation.flagged">flagged</stripes:label>
+		                    <stripes:label for="obligation.flagged">Delivery process is managed by EEA</stripes:label>
 		                    <br/>
 						</td>
             		</tr>
