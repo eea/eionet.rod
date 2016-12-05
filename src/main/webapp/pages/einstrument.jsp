@@ -82,15 +82,17 @@
 				<tr>
 						<td>
 							<a class="field-help" href="javascript:openViewHelp2('${pageContext.request.contextPath}','HELP_LI_ISSUEDBY')" title="Help on this field"><span>Help on field</span></a>
-			                <stripes:label for="instrument.sourceFKClientId" class="question">Issued by</stripes:label>
+			                <stripes:label for="instrument.sourceFKClientId" class="required question">Issued by</stripes:label>
 						</td>
 						<td>
 							<stripes:select name="instrument.sourceFKClientId" onchange="changed()" class="full" id="instrument.sourceFKClientId">
-								<stripes:option value="NULL" label=""/>
+								<stripes:option value=" " label=""/>
 			    				<c:forEach items="${actionBean.clients}" var="client" varStatus="loop">
 			    					<stripes:option value="${client.clientId}" label="${client.name}"/>
 			    				</c:forEach>
-							</stripes:select>
+                                                        </stripes:select>
+                                                        <stripes:errors field="instrument.sourceFKClientId"/>
+
 						</td>
 				</tr>
 				<tr class="zebraeven">

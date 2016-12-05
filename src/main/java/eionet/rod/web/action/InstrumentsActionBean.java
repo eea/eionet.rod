@@ -53,16 +53,18 @@ import eionet.rod.services.modules.db.dao.IUndoDao;
 @UrlBinding("/instruments/{instId}/{action}")
 public class InstrumentsActionBean extends AbstractRODActionBean implements ValidationErrorHandler {
 
-    @ValidateNestedProperties({ @Validate(field = "sourceTitle", on = { "edit", "add" }, required = true),
-        @Validate(field = "sourceValidFrom", on = { "edit", "add" }, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
-        @Validate(field = "sourceEcEntryIntoForce", on = { "edit", "add" }, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
-        @Validate(field = "sourceEcAccession", on = { "edit", "add" }, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
-        @Validate(field = "sourceUrl", on = { "edit", "add" }, mask = "^((ht|f)tps?://).*"),
-        @Validate(field = "sourceIssuedByUrl", on = { "edit", "add" }, mask = "^((ht|f)tps?://).*"),
-        @Validate(field = "sourceSecretariatUrl", on = { "edit", "add" }, mask = "^((ht|f)tps?://).*"),
-        @Validate(field = "sourceVerified", on = { "edit", "add" }, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
-        @Validate(field = "sourceNextUpdate", on = { "edit", "add" }, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})") })
-        private InstrumentFactsheetDTO instrument;
+    @ValidateNestedProperties({
+        @Validate(field = "sourceTitle", on = {"edit", "add"}, required = true),
+        @Validate(field = "sourceValidFrom", on = {"edit", "add"}, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
+        @Validate(field = "sourceEcEntryIntoForce", on = {"edit", "add"}, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
+        @Validate(field = "sourceEcAccession", on = {"edit", "add"}, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
+        @Validate(field = "sourceUrl", on = {"edit", "add"}, mask = "^((ht|f)tps?://).*"),
+        @Validate(field = "sourceIssuedByUrl", on = {"edit", "add"}, mask = "^((ht|f)tps?://).*"),
+        @Validate(field = "sourceFKClientId", on = {"edit", "add"}, required = true),
+        @Validate(field = "sourceSecretariatUrl", on = {"edit", "add"}, mask = "^((ht|f)tps?://).*"),
+        @Validate(field = "sourceVerified", on = {"edit", "add"}, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})"),
+        @Validate(field = "sourceNextUpdate", on = {"edit", "add"}, mask = "([0-9]{2})/([0-9]{2})/([0-9]{4})")})
+    private InstrumentFactsheetDTO instrument;
     private InstrumentsListDTO hierarchyInstrument;
     private List<HierarchyInstrumentDTO> hierarchyInstruments;
     private String instId;
@@ -99,10 +101,11 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 
         String forwardPage = "/pages/instrument.jsp";
         if (!RODUtil.isNullOrEmpty(instId)) {
-            if (instId.equals("new"))
+            if (instId.equals("new")) {
                 instrument = new InstrumentFactsheetDTO();
-            else
+            } else {
                 instrument = RODServices.getDbService().getSourceDao().getInstrumentFactsheet(instId);
+            }
 
             if (!instId.equals("new") && (instrument == null || !RODUtil.isNumber(instId))) {
                 return new ErrorResolution(HttpServletResponse.SC_NOT_FOUND);
@@ -128,22 +131,25 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
                 }
             }
         } else {
-            if (RODUtil.isNullOrEmpty(id))
+            if (RODUtil.isNullOrEmpty(id)) {
                 id = "1";
+            }
             hierarchyInstrument = RODServices.getDbService().getSourceDao().getHierarchyInstrument(id);
             String parentId = hierarchyInstrument.getParentId();
             boolean hasParent = true;
-            if (RODUtil.isNullOrEmpty(parentId))
+            if (RODUtil.isNullOrEmpty(parentId)) {
                 hasParent = false;
+            }
 
             hierarchyTree = RODServices.getDbService().getSourceDao().getHierarchy(id, hasParent, mode);
 
             hierarchyInstruments = RODServices.getDbService().getSourceDao().getHierarchyInstruments(id);
 
-            if (mode != null && mode.equals("X"))
+            if (mode != null && mode.equals("X")) {
                 forwardPage = "/pages/instrumentsx.jsp";
-            else
+            } else {
                 forwardPage = "/pages/instruments.jsp";
+            }
         }
 
         return new ForwardResolution(forwardPage);
@@ -155,13 +161,17 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
         for (Iterator<SourceClassDTO> it = allSourceClasses.iterator(); it.hasNext();) {
             boolean hasSc = false;
             SourceClassDTO sc = it.next();
+         if(instrumentSourceClasses!=null){
             for (Iterator<SourceClassDTO> it2 = instrumentSourceClasses.iterator(); it2.hasNext();) {
                 SourceClassDTO sc2 = it2.next();
-                if (sc.getClassId() == sc2.getClassId())
+                if (sc.getClassId() == sc2.getClassId()) {
                     hasSc = true;
+                }
             }
-            if (!hasSc)
+        }
+            if (!hasSc) {
                 ret.add(sc);
+            }
         }
         return ret;
     }
@@ -190,8 +200,9 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
             return new ForwardResolution("/pages/einstrument.jsp");
         }
 
-        if (instrument.getSourceCode() == null)
+        if (instrument.getSourceCode() == null) {
             instrument.setSourceCode("");
+        }
 
         sourceDao = RODServices.getDbService().getSourceDao();
         Integer instrumentId = sourceDao.addInstrument(instrument);
@@ -245,8 +256,9 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 
         processEditDelete("U", userName);
 
-        if (instrument.getSourceCode() == null)
+        if (instrument.getSourceCode() == null) {
             instrument.setSourceCode("");
+        }
 
         sourceDao.editInstrument(instrument);
 
@@ -314,8 +326,9 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
         }
 
         // delete all linked parameter and medium records and in delete mode also the self record
-        if (state != null && state.equals("U"))
+        if (state != null && state.equals("U")) {
             RODServices.getDbService().getClientDao().deleteParameterLink(Integer.valueOf(instId));
+        }
 
         delActivity(state);
     }
@@ -350,7 +363,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 
             // cascade delete related reporting obligations
             List<String> sourceObligations = RODServices.getDbService().getObligationDao()
-            .getObligationsBySource(Integer.valueOf(instId));
+                    .getObligationsBySource(Integer.valueOf(instId));
             int cnt = 1;
             Iterator<String> soIterator = sourceObligations.iterator();
             while (soIterator.hasNext()) {
@@ -373,14 +386,17 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 
     private void processLinkedTables() throws ServiceException {
         if (instrument.getSourceFKClientId() != null && !instrument.getSourceFKClientId().trim().equals("")
-                && !instrument.getSourceFKClientId().trim().equals("NULL"))
+                && !instrument.getSourceFKClientId().trim().equals("NULL")) {
             RODServices.getDbService().getClientDao()
-            .insertClientLink(Integer.valueOf(instrument.getSourceFKClientId()), Integer.valueOf(instId), "M", "S");
+                    .insertClientLink(Integer.valueOf(instrument.getSourceFKClientId()), Integer.valueOf(instId), "M", "S");
+        }
 
-        if (!RODUtil.isNullOrEmpty(parentInstrumentId) && !parentInstrumentId.equals("NULL"))
+        if (!RODUtil.isNullOrEmpty(parentInstrumentId) && !parentInstrumentId.equals("NULL")) {
             sourceDao.addParentInstrument(instId, parentInstrumentId);
-        if (selectedSourceClasses != null && selectedSourceClasses.size() > 0)
+        }
+        if (selectedSourceClasses != null && selectedSourceClasses.size() > 0) {
             sourceDao.addLinkedSources(instId, selectedSourceClasses);
+        }
     }
 
     private void initAfterAddEdit() throws ServiceException {
@@ -389,8 +405,9 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
     }
 
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
-        if (errors.hasFieldErrors())
+        if (errors.hasFieldErrors()) {
             initOnValidationErrors();
+        }
         getContext().setSeverity(Constants.SEVERITY_VALIDATION);
         return new ForwardResolution("/pages/einstrument.jsp");
     }
@@ -403,10 +420,11 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
         instrumentSourceClasses = RODServices.getDbService().getSourceDao().getInstrumentSourceClassesList(selectedSourceClasses);
         sourceClasses = initSourceClasses();
 
-        if (instId != null && instId.equals("new"))
+        if (instId != null && instId.equals("new")) {
             parentInstrumentsList = RODServices.getDbService().getSourceDao().getParentInstrumentsList("-1");
-        else
+        } else {
             parentInstrumentsList = RODServices.getDbService().getSourceDao().getParentInstrumentsList(instId);
+        }
 
     }
 
@@ -496,8 +514,9 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 
             lists.add(list);
 
-            if (lists.size() > 0)
+            if (lists.size() > 0) {
                 UNSEventSender.makeCall(lists);
+            }
 
         } catch (Exception e) {
 
@@ -508,7 +527,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 
         Vector<String> res_vec = new Vector<String>();
         Vector<Map<String, String>> undo_vec = RODServices.getDbService().getUndoDao()
-        .getUndoInformation(ts, "U", "T_SOURCE", instrumentID);
+                .getUndoInformation(ts, "U", "T_SOURCE", instrumentID);
         for (int i = 0; i < undo_vec.size(); i++) {
             Map<String, String> hash = undo_vec.elementAt(i);
 
@@ -519,14 +538,16 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
             String value = hash.get("value");
             if (tabel != null && !tabel.equals("") && tabel.equals("T_SOURCE")) {
                 String currentValue = RODServices.getDbService().getDifferencesDao()
-                .getDifferences(Long.valueOf(ut).longValue(), tabel, col);
-                if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null")))
+                        .getDifferences(Long.valueOf(ut).longValue(), tabel, col);
+                if ((value != null && value.trim().equals("")) || (value != null && value.trim().equals("null"))) {
                     value = null;
+                }
                 if ((currentValue != null && currentValue.trim().equals(""))
-                        || (currentValue != null && currentValue.trim().equals("null")))
+                        || (currentValue != null && currentValue.trim().equals("null"))) {
                     currentValue = null;
+                }
                 boolean diff = (value != null && currentValue != null && value.equals(currentValue))
-                || (value == null && currentValue == null);
+                        || (value == null && currentValue == null);
 
                 if (!diff) {
                     label = getLabel(col, value, currentValue);
@@ -536,7 +557,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
         }
 
         DifferenceDTO eurlex = RODServices.getDbService().getDifferencesDao()
-        .getDifferencesInEurlexCategories(ts, new Integer(instrumentID).intValue(), "U");
+                .getDifferencesInEurlexCategories(ts, new Integer(instrumentID).intValue(), "U");
         if (eurlex != null) {
             String added = eurlex.getAdded();
             String removed = eurlex.getRemoved();
@@ -615,6 +636,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
 
         return label;
     }
+
 
     public InstrumentFactsheetDTO getInstrument() {
         return instrument;
