@@ -20,13 +20,6 @@ import eionet.rod.services.ServiceException;
 public interface ISourceDao {
 
     /**
-     * Legal Instruments ARRAY of STRUCTs for RDF
-     * @return array of hashes
-     * @throws ServiceException
-     */
-    Vector<Map<String, String>> getInstruments() throws ServiceException;
-
-    /**
      * Legal Instruments List for RDF
      * @return List of InstrumentRdfDTO objects
      * @throws ServiceException
@@ -49,12 +42,12 @@ public interface ISourceDao {
     List<String> getSubscribeInstruments() throws ServiceException;
 
     /**
-     * Returns instrument by id
+     * Returns title by id
      * @param id
-     * @return instrument by id
+     * @return title by id
      * @throws ServiceException
      */
-    Hashtable<String, String> getInstrumentById(Integer id) throws ServiceException;
+    String getTitle(int id) throws ServiceException;
 
     /**
      * @return

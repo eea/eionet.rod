@@ -52,6 +52,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getDeadlines()
      */
+    @Override
     public String[][] getDeadlines() throws ServiceException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -150,40 +151,6 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             closeAllResources(null, preparedStatement, connection);
         }
 
-    }
-
-    private static final String Q_RA_DATA =
-        "SELECT a.PK_RA_ID, REPLACE(a.TITLE, '&', '&#038;') as TITLE "
-        + "FROM T_OBLIGATION a "
-        + "ORDER BY a.PK_RA_ID";
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see eionet.rod.services.modules.db.dao.IObligationDao#getRaData()
-     */
-    public String[][] getRaData() throws ServiceException {
-
-        Connection connection = null;
-        ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
-        String[][] result = null;
-
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(Q_RA_DATA);
-            logQuery(Q_RA_DATA);
-            resultSet = preparedStatement.executeQuery();
-            result = getResults(resultSet);
-
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
-        } finally {
-            closeAllResources(resultSet, preparedStatement, connection);
-        }
-
-        return result != null ? result : new String[][] {};
     }
 
     private static final String qResponsibleRole =
@@ -730,29 +697,26 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
     }
 
-    private static final String qObligationById =
-        "SELECT "
-        + "o.TITLE as title, "
-        + "c.CLIENT_NAME AS client, "
-        + "o.PK_RA_ID AS obligationID, "
-        + "c.PK_CLIENT_ID AS clientID "
-        + "FROM T_OBLIGATION o, T_CLIENT c "
-        + "WHERE c.PK_CLIENT_ID = o.FK_CLIENT_ID AND o.PK_RA_ID=?";
-
     /*
      * (non-Javadoc)
      *
      * @see eionet.rod.services.modules.db.dao.IObligationDao#getObligationById(java.lang.Integer)
      */
+    @Override
     public Hashtable<String, String> getObligationById(Integer id) throws ServiceException {
+        String sql = "SELECT o.TITLE as title, c.CLIENT_NAME AS client FROM T_OBLIGATION o, T_CLIENT c " + 
+                "WHERE c.PK_CLIENT_ID = o.FK_CLIENT_ID AND o.PK_RA_ID=?";
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         Hashtable<String, String> result = null;
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(qObligationById);
-            preparedStatement = connection.prepareStatement(qObligationById);
-            preparedStatement.setInt(1, id.intValue());
+            if (isDebugMode) {
+                logQuery(sql);
+            }
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
             result = _getHashtable(preparedStatement);
         } catch (SQLException exception) {
             logger.error(exception);
@@ -1291,42 +1255,6 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         }
 
         return obligations;
-    }
-
-    private static final String q_check_obligationid =
-        "SELECT PK_RA_ID AS id "
-        + "FROM T_OBLIGATION "
-        + "WHERE PK_RA_ID =?";
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see eionet.rod.services.modules.db.dao.IObligationDao#checkObligationById(java.lang.String)
-     */
-    public boolean checkObligationById(String id) throws ServiceException {
-
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        Hashtable<String, String> result = null;
-
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(q_check_obligationid);
-            preparedStatement.setString(1, id);
-            logQuery(q_check_obligationid);
-            result = _getHashtable(preparedStatement);
-            if (result != null && result.size() > 0) {
-                return true;
-            }
-
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
-        } finally {
-            closeAllResources(null, preparedStatement, connection);
-        }
-
-        return false;
     }
 
     private String getSearchSql(String spatialId, String clientId, String issueId, String date1,

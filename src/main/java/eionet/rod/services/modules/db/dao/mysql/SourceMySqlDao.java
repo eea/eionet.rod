@@ -5,11 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 import eionet.rod.RODUtil;
 import eionet.rod.dto.HierarchyInstrumentDTO;
@@ -33,60 +30,14 @@ import eionet.rod.dto.readers.SourceLinksDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.ISourceDao;
 import eionet.rod.util.sql.SQLUtil;
+import java.util.Hashtable;
 
 public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
     public SourceMySqlDao() {
     }
 
-    //TODO: escaping HTML should be done in the presentation layer.
-    private static final String Q_INSTRUMENTS =
-        "SELECT "
-        + "s.PK_SOURCE_ID, "
-        + "s.SOURCE_CODE, "
-        + "s.FK_CLIENT_ID, "
-        + "REPLACE(s.TITLE, '&', '&#038;') AS TITLE, "
-        + "REPLACE(s.ALIAS, '&', '&#038;') AS ALIAS, "
-        + "REPLACE(s.URL, '&', '&#038;') AS URL, "
-        + "REPLACE(s.ABSTRACT, '&', '&#038;') AS ABSTRACT, "
-        + "REPLACE(c.CLIENT_NAME, '&', '&#038;') AS ISSUED_BY, "
-        + "REPLACE(s.LEGAL_NAME, '&', '&#038;') AS LEGAL_NAME, "
-        + "REPLACE(s.CELEX_REF, '&', '&#038;') AS CELEX_REF, "
-        + "REPLACE(s.TITLE, '&', '&#038;') AS TITLE, "
-        + "REPLACE(s.TITLE, '&', '&#038;') AS TITLE, "
-        + "CONCAT('" + rodDomain + "/instruments/', PK_SOURCE_ID) AS details_url, "
-        + "DATE_FORMAT(s.LAST_UPDATE, '%Y-%m-%d') AS LAST_UPDATE "
-        + "FROM T_SOURCE s LEFT OUTER JOIN T_CLIENT c ON s.FK_CLIENT_ID=c.PK_CLIENT_ID "
-        + "ORDER BY TITLE ";
-
     private static final String Q_INSTRUMENTS_IDS = "SELECT PK_SOURCE_ID FROM T_SOURCE";
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see eionet.rod.services.modules.db.dao.ISourceDao#getInstruments()
-     */
-    @Override
-    public Vector<Map<String, String>> getInstruments() throws ServiceException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        Vector<Map<String, String>> result = null;
-
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(Q_INSTRUMENTS);
-            if (isDebugMode) logQuery(Q_INSTRUMENTS);
-            result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
-        } finally {
-            closeAllResources(null, preparedStatement, connection);
-        }
-
-        return result != null ? result : new Vector<Map<String, String>>();
-
-    }
 
     private static final String Q_RDF_INSTRUMENTS_FACTSHEET =
         "SELECT SO.PK_SOURCE_ID, SO.SOURCE_CODE, SO.CELEX_REF, SO.TITLE, SO.LEGAL_NAME, SO.ALIAS, SO.URL, "
@@ -248,12 +199,6 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         return ret;
     }
 
-    //TODO: escaping HTML should be done in the presentation layer.
-    private static final String Q_SUBSCRIBE_INSTRUMENTS =
-        "SELECT REPLACE(TITLE, '&', '&#038;') AS TITLE "
-                + "FROM T_SOURCE "
-                + "ORDER BY TITLE ";
-
     /*
      * (non-Javadoc)
      *
@@ -261,14 +206,18 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
      */
     @Override
     public List<String> getSubscribeInstruments() throws ServiceException {
+        String sql = "SELECT TITLE FROM T_SOURCE ORDER BY TITLE";
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         List<String> result = new ArrayList<String>();
 
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement(Q_SUBSCRIBE_INSTRUMENTS);
-            if (isDebugMode) logQuery(Q_SUBSCRIBE_INSTRUMENTS);
+            preparedStatement = connection.prepareStatement(sql);
+            if (isDebugMode) {
+                logQuery(sql);
+            }
             ResultSet rs = null;
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -283,31 +232,22 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         }
 
         return result;
-
     }
 
-    //TODO: escaping HTML should be done in the presentation layer.
-    private static final String Q_INSTRUMENT_BY_ID =
-        "SELECT "
-        + "PK_SOURCE_ID AS instrumentID, "
-        + "REPLACE(TITLE, '&', '&#038;') AS TITLE "
-        + "FROM T_SOURCE WHERE PK_SOURCE_ID=? ";
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see eionet.rod.services.modules.db.dao.ISourceDao#getInstrumentById(java.lang.Integer)
-     */
     @Override
-    public Hashtable<String, String> getInstrumentById(Integer id) throws ServiceException {
+    public String getTitle(int id) throws ServiceException {
+        String sql = "SELECT TITLE FROM T_SOURCE WHERE PK_SOURCE_ID=?";
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         Hashtable<String, String> result = null;
         try {
             connection = getConnection();
-            if (isDebugMode) logQuery(Q_INSTRUMENT_BY_ID);
-            preparedStatement = connection.prepareStatement(Q_INSTRUMENT_BY_ID);
-            preparedStatement.setInt(1, id.intValue());
+            if (isDebugMode) {
+                logQuery(sql);
+            }
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
             result = _getHashtable(preparedStatement);
         } catch (SQLException exception) {
             logger.error(exception);
@@ -315,8 +255,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
-
-        return result != null ? result : new Hashtable<String, String>();
+        return result != null ? result.get("TITLE") : "";
     }
 
     //TODO: escaping HTML should be done in the presentation layer.

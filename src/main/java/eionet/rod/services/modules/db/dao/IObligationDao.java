@@ -52,14 +52,6 @@ public interface IObligationDao {
     void saveTerminate(Integer raId, String terminated) throws ServiceException;
 
     /**
-     * Returns RA data in 2-dimensional array.
-     * 0-PK_ACTIVITTY_DETAILS_ID, 1-TITLE, 2-COUNTRY_ID, 3-COUNTRY_NAME
-     * @return RA data in 2-dimensional array
-     * @throws ServiceException
-     */
-    String[][] getRaData() throws ServiceException;
-
-    /**
      * Returns all responsible role ids from T_ACTIVITY_DETAILS.
      * @return all responsible role ids from T_ACTIVITY_DETAILS
      * @throws ServiceException
@@ -270,13 +262,6 @@ public interface IObligationDao {
      * @throws ServiceException
      */
     List<String> getObligationsBySource(Integer sourceId) throws ServiceException;
-
-    /**
-     * Returns true if obligation id exists.
-     * @param id
-     * @throws ServiceException
-     */
-    boolean checkObligationById(String id) throws ServiceException;
 
     /**
      * Returns search list for search.

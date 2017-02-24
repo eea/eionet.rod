@@ -631,10 +631,6 @@ public abstract class MySqlBaseDao {
 
     }
 
-    protected static String rplAmp(String fld, String alias) {
-        return "REPLACE(REPLACE(" + fld +", '&', '&#038;'),'<','&lt;') AS " + alias;
-    }
-
     /**
      * builds an addition to where clause, OR condition of field IDs, given in
      * the param

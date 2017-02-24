@@ -19,6 +19,8 @@ import eionet.rod.dto.IssueDTO;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * 
@@ -70,21 +72,26 @@ public class SubscribeActionBean extends AbstractRODActionBean {
 
         countries = RODServices.getDbService().getSpatialDao().getCountriesList();
         issues = RODServices.getDbService().getIssueDao().getIssuesList();
-        if (id != null && !id.equals("")) {
-            Hashtable<String, String> clientHash = RODServices.getDbService().getObligationDao()
-                    .getObligationById((new Integer(id)).intValue());
+
+        if (NumberUtils.toInt(id) > 0) {
+            Hashtable<String, String> clientHash = RODServices.getDbService().getObligationDao().
+                    getObligationById(NumberUtils.toInt(id));
             clientName = (String) clientHash.get("client");
             obligationName = (String) clientHash.get("title");
-        } else {
+        }
+
+        if (StringUtils.isBlank(clientName)) {
             clients = RODServices.getDbService().getClientDao().getSubscribeClients();
+        }
+        if (StringUtils.isBlank(obligationName)) {
             obligations = RODServices.getDbService().getObligationDao().getSubscribeObligations();
         }
 
-        if (sid != null && !sid.equals("")) {
-            Hashtable<String, String> sourceHash = RODServices.getDbService().getSourceDao()
-                    .getInstrumentById((new Integer(sid)).intValue());
-            instrumentName = (String) sourceHash.get("TITLE");
-        } else {
+        if (NumberUtils.toInt(sid) > 0) {
+            instrumentName = (String) RODServices.getDbService().getSourceDao().getTitle(NumberUtils.toInt(sid));
+        }
+        
+        if (StringUtils.isBlank(instrumentName)) {
             instruments = RODServices.getDbService().getSourceDao().getSubscribeInstruments();
         }
 

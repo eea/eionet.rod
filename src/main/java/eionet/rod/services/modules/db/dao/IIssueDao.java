@@ -11,12 +11,6 @@ import eionet.rod.services.ServiceException;
 public interface IIssueDao {
 
     /**
-     * @return
-     * @throws ServiceException
-     */
-    Vector<Map<String, String>> getIssues() throws ServiceException;
-
-    /**
      * Returns obligation issues
      * @param id
      * @return obligation issues
@@ -24,19 +18,6 @@ public interface IIssueDao {
      */
     Vector<Map<String, String>> getObligationIssues(Integer id) throws ServiceException;
 
-    /**
-     * @return
-     * @throws ServiceException
-     */
-    String[][] getIssueIdPairs() throws ServiceException;
-
-    /**
-     * Returns issues of an obligations
-     * @param raId
-     * @return issues of an obligations
-     * @throws ServiceException
-     */
-    String[][] getIssues(Integer raId) throws ServiceException;
 
     /**
      * @return list of all issues

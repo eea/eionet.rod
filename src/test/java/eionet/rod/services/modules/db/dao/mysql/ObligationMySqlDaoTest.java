@@ -50,16 +50,6 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
     }
 
     /*
-     * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getRaData()'
-     */
-    public void testGetRaData() throws Exception{
-        String [][] m = obligationMySqlDao.getRaData();
-        assertEquals(2, m.length);
-//      printMatrixResult(m);
-
-    }
-
-    /*
      * Test method for 'eionet.rod.services.modules.db.dao.mysql.ObligationMySqlDao.getRespRoles()'
      */
     public void testGetRespRoles() throws Exception{
@@ -143,7 +133,7 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
      */
     public void testGetObligationById() throws Exception{
         Hashtable<String,String> hash = obligationMySqlDao.getObligationById(new Integer(15));
-        assertEquals(15, Integer.parseInt(hash.get("obligationID")));
+        assertEquals("CLRTAP (AE-1)", hash.get("title"));
 //      printVectorResult(v);
 
 
