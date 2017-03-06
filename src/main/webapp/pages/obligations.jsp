@@ -28,7 +28,7 @@
     				Delivery process or content overlaps with another obligation
     			</c:if>
     			<c:if test="${actionBean.anmode == 'F'}">
-    				Flagged
+    				Delivery process is managed by EEA
     			</c:if>
     			<c:if test="${actionBean.anmode == 'NI'}">
     				No issue allocated
