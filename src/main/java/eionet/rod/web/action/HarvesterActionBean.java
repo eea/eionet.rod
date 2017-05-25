@@ -48,7 +48,7 @@ public class HarvesterActionBean extends AbstractRODActionBean {
             AccessControlListIF acl = AccessController.getAcl(Constants.ACL_HARVEST_NAME);
             boolean perm = acl.checkPermission(userName, Constants.ACL_INSERT_PERMISSION);
             if (!perm) {
-                handleRodException("Isufficient permissions", Constants.SEVERITY_WARNING);
+                handleRodException("Insufficient permissions", Constants.SEVERITY_WARNING);
                 return new ForwardResolution(forwardPage);
             }
 

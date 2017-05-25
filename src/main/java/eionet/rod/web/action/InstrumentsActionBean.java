@@ -196,7 +196,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
         }
 
         if (!ins) {
-            handleRodException("Isufficient permissions", Constants.SEVERITY_WARNING);
+            handleRodException("Insufficient permissions", Constants.SEVERITY_WARNING);
             return new ForwardResolution("/pages/einstrument.jsp");
         }
 
@@ -248,7 +248,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
         }
 
         if (!upd) {
-            handleRodException("Isufficient permissions", Constants.SEVERITY_WARNING);
+            handleRodException("Insufficient permissions", Constants.SEVERITY_WARNING);
             return new ForwardResolution("/pages/einstrument.jsp");
         }
 
@@ -292,7 +292,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
         }
 
         if (!del) {
-            handleRodException("Isufficient permissions", Constants.SEVERITY_WARNING);
+            handleRodException("Insufficient permissions", Constants.SEVERITY_WARNING);
             return new ForwardResolution("/pages/einstrument.jsp");
         }
 
