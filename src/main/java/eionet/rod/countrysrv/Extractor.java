@@ -46,6 +46,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
+import org.openrdf.query.BindingSet;
 
 /**
  * Pulls information from various services and saves it to DB.
@@ -321,22 +322,22 @@ public class Extractor implements ExtractorConstants {
      * @throws ServiceException
      */
     private void extractDeliveries() throws ServiceException {
-
         log("Going to extract deliveries from CR");
 
-        //TODO: Add rod:coverageNote
-        String query = "PREFIX dct: <http://purl.org/dc/terms/> "
-                + "PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> "
-                + "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date ?note WHERE { "
-                + "_:subj a rod:Delivery; "
-                + "rod:link ?link; "
-                + "dct:title ?title; "
-                + "rod:locality ?locality; "
-                + "rod:obligation ?obligation; "
-                + "rod:released ?date "
-                + "OPTIONAL { _:subj rod:period ?period } "
-                + "OPTIONAL { _:subj rod:coverageNote ?note }"
-                + "}";
+        final String prefixDeclarations = "PREFIX dct: <http://purl.org/dc/terms/> " + "PREFIX rod: <http://rod.eionet.europa.eu/schema.rdf#> ";
+        final String queryPattern = "SELECT DISTINCT ?link ?title ?locality ?obligation ?period ?date ?note WHERE { " +
+                "_:subj a rod:Delivery; " +
+                "rod:link ?link; " +
+                "dct:title ?title; " +
+                "rod:locality ?locality; " +
+                "rod:obligation ?obligation; " +
+                "rod:released ?date " +
+                "OPTIONAL { _:subj rod:period ?period } " +
+                "OPTIONAL { _:subj rod:coverageNote ?note }" +
+                "}";
+
+        final String query = prefixDeclarations + queryPattern;
+        final String countQuery = prefixDeclarations + "SELECT (COUNT(*) AS ?count) {{" +  queryPattern + "}}";
 
         RepositoryConnection conn = null;
 
@@ -347,44 +348,44 @@ public class Extractor implements ExtractorConstants {
 
             conn = CREndpoint.getConnection();
 
-            HashMap<String, HashSet<Integer>> savedCountriesByObligationId = new HashMap<String, HashSet<Integer>>();
-
-            // back up currently existing deliveries
-            daoFactory.getDeliveryDao().backUpDeliveries();
-
-            int chunkSize = 1000;
-            int maxLoops = 30;
-            int offset = 0;
-
-            int saveCount = 0;
-            boolean noMoreDeliveries = false;
-
-            for (int j = 0; noMoreDeliveries == false && j < maxLoops; j++) {
-
-                String limitedQuery = query + " LIMIT " + chunkSize + " OFFSET " + offset;
-                TupleQuery q = conn.prepareTupleQuery(QueryLanguage.SPARQL, limitedQuery);
-                TupleQueryResult bindings = q.evaluate();
-
-                // Increase offset
-                offset = offset + chunkSize;
-
-                if (bindings != null && bindings.hasNext()) {
-                    saveCount += daoFactory.getDeliveryDao().saveDeliveries(bindings, savedCountriesByObligationId);
-                } else {
-                    noMoreDeliveries = true;
-                }
+            int resultsSize = 0;
+            TupleQueryResult countTupleQueryResult = conn.prepareTupleQuery(QueryLanguage.SPARQL, countQuery).evaluate();
+            if (countTupleQueryResult.hasNext()) {
+                BindingSet bindingSet = countTupleQueryResult.next();
+                resultsSize = Integer.valueOf(bindingSet.getValue("count").stringValue());
             }
 
-            if (saveCount == 0) {
-                log("CR sparql query call returned 0 deliveries");
-            } else {
+            if (resultsSize > 0) {
+                HashMap<String, HashSet<Integer>> savedCountriesByObligationId = new HashMap<String, HashSet<Integer>>();
+
+                // back up currently existing deliveries
+                daoFactory.getDeliveryDao().backUpDeliveries();
+
+                int chunkSize = 1000;
+                int offset = 0;
+                int saveCount = 0;
+                
+                while (offset <= resultsSize) {
+                    String limitedQuery = query + " LIMIT " + chunkSize + " OFFSET " + offset;
+                    TupleQuery q = conn.prepareTupleQuery(QueryLanguage.SPARQL, limitedQuery);
+                    TupleQueryResult bindings = q.evaluate();
+
+                    // increase offset
+                    offset += chunkSize;
+
+                    if (bindings != null && bindings.hasNext()) {
+                        saveCount += daoFactory.getDeliveryDao().saveDeliveries(bindings, savedCountriesByObligationId);
+                    }
+                }
+
                 log("Going to commit the " + saveCount + " T_DELIVERY rows inserted");
                 daoFactory.getDeliveryDao().commitDeliveries(savedCountriesByObligationId);
                 log("All inserted T_DELIVERY rows committed succesfully!");
+            } else {
+                log("CR sparql query call returned 0 deliveries");
             }
 
             log("Extracting deliveries from CR finished!");
-
         } catch (Exception e) {
             daoFactory.getDeliveryDao().rollBackDeliveries();
             log("Error harvesting deliveries: " + e.toString());
