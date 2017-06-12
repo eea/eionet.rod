@@ -47,12 +47,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import org.openrdf.query.BindingSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Pulls information from various services and saves it to DB.
  */
 
 public class Extractor implements ExtractorConstants {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Extractor.class);
 
     public static final int ALL_DATA = 0;
     public static final int DELIVERIES = 1;
@@ -83,7 +87,7 @@ public class Extractor implements ExtractorConstants {
         } catch (Exception e) {
             // extractor.out.println("Opening connection to database failed. The following error was reported:\n" + e.toString());
             log("Opening connection to database failed. The following error was reported:\n" + e.toString());
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
             exitApp(false);
             // throw new ServiceException("Opening connection to database failed." );
         }
@@ -109,8 +113,8 @@ public class Extractor implements ExtractorConstants {
             } else if (args.length > 1) {
                 //this is feedback to the user not debugging as this class is executed in the cmd line
                 //also log to file for other applications
-                System.out.println("Usage: Extractor [mode]");
-                logger.error("Usage: Extractor [mode]");
+                LOGGER.info("Usage: Extractor [mode]");
+                LOGGER.error("Usage: Extractor [mode]");
                 return;
             } else {
                 mode = String.valueOf(ALL_DATA);
@@ -196,10 +200,9 @@ public class Extractor implements ExtractorConstants {
             // KL 021009 -> cannot print out, when creating logger does not succeed
             // extractor.out.println("Unable to get log file settings from properties file, using defaults. The following error was reported:\n"
             // + e.toString());
-            logger.error("Unable to get settings from properties file. The following error was reported:\n" + e.toString());
-            e.printStackTrace();
-            throw new ServiceException("Unable to get settings from properties file. The following error was reported:\n"
-                    + e.toString());
+            LOGGER.error("Unable to get settings from properties file. The following error was reported:\n" + e.toString());
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException("Unable to get settings from properties file. The following error was reported:\n" + e.toString());
         }
 
         // KL021009
@@ -209,9 +212,9 @@ public class Extractor implements ExtractorConstants {
                 out = new PrintWriter(new FileWriter(logPath + logfileName, !debugLog), true);
             } catch (java.io.IOException e) {
                 // using default logger instead
-                logger.warning("Unable to open log file for writing. using default. The following error was reported:\n"
+                LOGGER.warn("Unable to open log file for writing. using default. The following error was reported:\n"
                         + e.toString());
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
                 RODServices.sendEmail("Error in Extractor", "Unable to open log file for writing. \n"
                         + e.toString());
             }
@@ -284,7 +287,7 @@ public class Extractor implements ExtractorConstants {
             } catch (Exception e) {
                 log("Operation failed while filling the database from Eionet Directory. The following error was reported:\n"
                         + e.toString());
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
                 exitApp(false); // return;
                 throw new ServiceException(
                         "Operation failed while filling the database from Eionet Directory. The following error was reported:\n"
@@ -392,14 +395,14 @@ public class Extractor implements ExtractorConstants {
 
             log("Operation failed while filling the database from Content Registry. The following error was reported:\n"
                     + e.toString());
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
             exitApp(false); // return;
             throw new ServiceException("Error getting data from Content Registry " + e.toString());
         } finally {
             try {
                 conn.close();
             } catch (RepositoryException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
     }
@@ -443,7 +446,7 @@ public class Extractor implements ExtractorConstants {
             //RODServices.sendEmail("Error in Extractor", "Error getting role " + roleName + ": " + de.toString());
             throw new ServiceException("Error getting role " + de);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
             //RODServices.sendEmail("Error in Extractor", e.toString());
             throw new ServiceException("Error getting role " + e);
         }

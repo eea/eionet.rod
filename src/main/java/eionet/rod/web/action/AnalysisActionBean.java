@@ -7,6 +7,8 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -15,6 +17,8 @@ import net.sourceforge.stripes.action.UrlBinding;
  */
 @UrlBinding("/analysis")
 public class AnalysisActionBean extends AbstractRODActionBean {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnalysisActionBean.class);
 
     private int totalRa;
     private String lastUpdateRa;

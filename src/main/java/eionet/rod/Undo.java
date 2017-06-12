@@ -10,8 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import eionet.rod.services.RODServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Undo extends HttpServlet {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Undo.class);
 
     /**
      * 
@@ -46,7 +50,7 @@ public class Undo extends HttpServlet {
             try {
                 location = RODServices.getDbService().getUndoDao().undo(Long.valueOf(va[0]).longValue(), va[1], va[2], va[3]);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
                 throw new ServletException(e.getMessage(), e.getCause());
             }
             res.sendRedirect(location);

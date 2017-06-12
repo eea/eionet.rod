@@ -30,6 +30,8 @@ import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IHistoryDao;
 import eionet.rod.services.modules.db.dao.IUndoDao;
 import eionet.rod.util.sql.SQLUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Queries to implement the UNDO functionality in MySQL.
@@ -86,8 +88,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
     /**
      * Empty constructor. What is it doing here?
      */
-    public UndoMySqlDao() {
-    }
+    public UndoMySqlDao() {}
 
     private static final String Q_COUNT_SQL =
         "SELECT COUNT(*) AS count "
@@ -183,11 +184,10 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             }
 
         } catch (SQLException e) {
-            logger.error("Error occurred when processing result set: " + sql, e);
+            LOGGER.error("Error occurred when processing result set: " + sql, e);
             throw new ServiceException("Error occurred when processing result set: " + sql);
         } catch (NullPointerException nue) {
-            logger.error("getPreviousActions() NullPointerException " + nue);
-            nue.printStackTrace();
+            LOGGER.error("getPreviousActions() NullPointerException " + nue.getMessage() , nue);
         } finally {
             closeAllResources(null, preparedStatement, con);
         }
@@ -219,12 +219,14 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             List<VersionDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -254,12 +256,14 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             List<VersionDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -290,9 +294,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             preparedStatement = connection.prepareStatement(Q_DELETED_FROM_UNDO);
             preparedStatement.setString(1, tab);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -341,9 +345,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             preparedStatement.setString(2, table);
             preparedStatement.setString(3, obligation_ids.toString());
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -381,9 +385,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             preparedStatement.setString(4, state);
             preparedStatement.setString(5, whereClause);
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -463,8 +467,8 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 preparedStatement.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error occurred when processing result set: " + sql_stmt, e);
+            LOGGER.error(e.getMessage(), e);
+            LOGGER.error("Error occurred when processing result set: " + sql_stmt, e);
             throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
         } finally {
             if (doCreateConnection)
@@ -581,10 +585,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                     preparedStatement.executeUpdate();
                 }
             }
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             if (preparedStatement != null) {
                 try {
@@ -850,7 +853,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                                      }
                                  }
                              } catch (SignOnException e) {
-                                 e.printStackTrace();
+                                 LOGGER.error(e.getMessage(), e);
                              }
                          }
                         preparedStatement = con.prepareStatement(Q_DELETE_FROM_UNDO_BY_OPERATION_AND_TABLE);
@@ -895,7 +898,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
             // }
         } catch (SQLException e) {
-            logger.error("Error occurred when processing result set: " + sql_stmt, e);
+            LOGGER.error("Error occurred when processing result set: " + sql_stmt, e);
             throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
         } finally {
             closeAllResources(null, ps, con);
@@ -996,7 +999,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
                 }
             }
         } catch (SQLException e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, con);
@@ -1026,7 +1029,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             if (isDebugMode) logQuery(Q_SELECT_UNDO_BY_TABLE_AND_OPERATION);
             ua = _executeStringQuery(preparedStatement);
         } catch (SQLException e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, con);
@@ -1062,7 +1065,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             if (isDebugMode) logQuery(Q_UNDO_OBJECT_ID);
             ua = _executeStringQuery(preparedStatement);
         } catch (SQLException e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, con);
@@ -1138,7 +1141,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             result = sb.toString();
 
         } catch (SQLException e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, con);
@@ -1169,9 +1172,9 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             preparedStatement.setString(9, show);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1213,7 +1216,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             List<VersionDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
@@ -1247,7 +1250,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             if (isDebugMode) logQuery(Q_SELECT_UNDO_OBJECT_TITLE);
             ua = _executeStringQuery(preparedStatement);
         } catch (SQLException e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, con);
@@ -1319,7 +1322,7 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
 
             return ret;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
@@ -1359,12 +1362,14 @@ public class UndoMySqlDao extends MySqlBaseDao implements IUndoDao {
             List<VersionDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 package eionet.rod.services.modules.db.dao.mysql;
 
 import eionet.rod.services.FileServiceIF;
-import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import org.dbunit.DatabaseTestCase;
 import org.dbunit.database.DatabaseConnection;
@@ -9,6 +8,8 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,8 +24,7 @@ import java.util.Vector;
 
 public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
 
-    protected static LogServiceIF logger = RODServices.getLogService();
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseMySqlDaoTest.class);
     /** Only used in getDataSet(). */
     private FlatXmlDataSet loadedDataSet;
 
@@ -50,7 +50,7 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
             properties.put(FileServiceIF.DB_USER_PWD, fileService.getStringProperty(FileServiceIF.DB_USER_PWD));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -76,7 +76,7 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
                     properties.get(FileServiceIF.DB_USER_PWD).toString());
 
         } catch (Throwable e) {
-            System.err.println(e.getMessage());
+            LOGGER.error(e.getMessage(),e);
             System.exit(1);
         }
     }
@@ -164,8 +164,8 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
     }
 
     protected static void printVectorResult(Vector<Map<String,String>> vector) {
-        logger.debug("\n\n\nResult size is " + vector.size());
-        logger.debug("\nResult is\n " + vector.toString().replaceAll(", \\{", "\n{") + "\n");
+        LOGGER.debug("\n\n\nResult size is " + vector.size());
+        LOGGER.debug("\nResult is\n " + vector.toString().replaceAll(", \\{", "\n{") + "\n");
     }
 
     protected static void printMatrixResult(String[][] matrix) {
@@ -176,7 +176,7 @@ public abstract class BaseMySqlDaoTest extends DatabaseTestCase {
             for (int j = 0; j < strings.length; j++) {
                 result += strings[j] + " ";
             }
-            logger.debug(result + "\n");
+            LOGGER.debug(result + "\n");
         }
     }
 

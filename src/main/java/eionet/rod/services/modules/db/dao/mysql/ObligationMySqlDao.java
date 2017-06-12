@@ -62,9 +62,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement = connection.prepareStatement(Q_DEADLINES);
             if (isDebugMode) logQuery(Q_DEADLINES);
             result = _executeStringQuery(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -113,9 +113,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement.setInt(1, raId.intValue());
             preparedStatement.setDate(2, sqlDate(dFormat.parse(current)));
             preparedStatement.executeUpdate();
-        } catch (Exception exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -144,9 +144,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement.setString(1, terminated);
             preparedStatement.setInt(2, raId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -213,9 +213,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
                 preparedStatement.close();
                 addStringsToSet(roles, result);
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, null, connection);
         }
@@ -253,9 +253,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement = connection.prepareStatement(qUpcomingDeadlines);
             preparedStatement.setDouble(1, days);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -292,9 +292,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             if (isDebugMode) logQuery(qActivities);
             preparedStatement = connection.prepareStatement(qActivities);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -392,9 +392,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
 
                 ret.add(obligation);
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -490,9 +490,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
                 obligation.setDpsirR(rs.getString("dpsirR"));
 
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -524,9 +524,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
                 String title = rs.getString("TITLE");
                 result.add(title);
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -718,9 +718,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             result = _getHashtable(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -756,9 +756,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement = connection.prepareStatement(qObligationDetail);
             preparedStatement.setInt(1, id.intValue());
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -790,9 +790,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             resultSet = preparedStatement.executeQuery();
             result = getResults(resultSet);
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -825,9 +825,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             resultSet = preparedStatement.executeQuery();
             result = getResults(resultSet);
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -882,10 +882,10 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             commit(connection);
             success = 1;
 
-        } catch (SQLException exception) {
+        } catch (SQLException e) {
             rollback(connection);
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -915,9 +915,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement = connection.prepareStatement(qObligationIds);
             resultSet = preparedStatement.executeQuery();
             result = getResults(resultSet);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -942,9 +942,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             if (isDebugMode) logQuery(qROComplete);
             preparedStatement = connection.prepareStatement(qROComplete);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -973,9 +973,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             if (isDebugMode) logQuery(qROSummary);
             preparedStatement = connection.prepareStatement(qROSummary);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1005,9 +1005,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             if (isDebugMode) logQuery(qRODeadlines);
             preparedStatement = connection.prepareStatement(qRODeadlines);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1032,9 +1032,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement.setString(1, "yes");
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1091,9 +1091,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
                 }
             }
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -1113,9 +1113,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement = connection.prepareStatement(q_delete_issue_link);
             preparedStatement.setInt(1, raId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1132,9 +1132,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement = connection.prepareStatement(q_delete_spatial_link);
             preparedStatement.setInt(1, raId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1154,9 +1154,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement.setInt(1, raId.intValue());
             preparedStatement.setInt(2, spatialId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1174,9 +1174,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement = connection.prepareStatement(q_delete_info_link);
             preparedStatement.setInt(1, raId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1197,9 +1197,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement = connection.prepareStatement(q_delete_obligation);
             preparedStatement.setInt(1, raId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1221,9 +1221,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             preparedStatement.setInt(1, raId.intValue());
             preparedStatement.setString(2, infoId);
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1247,9 +1247,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             while (resultSet.next()) {
                 obligations.add(resultSet.getString(1));
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1331,7 +1331,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             List<SearchDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
@@ -1531,9 +1531,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
                 ret.setClientName(rs.getString("CLIENT_NAME"));
 
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1562,12 +1562,14 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             List<LookupDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -1592,12 +1594,14 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             List<LookupDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -1623,12 +1627,14 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             List<SiblingObligationDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -1651,12 +1657,14 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             List<ObligationsListDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -1668,7 +1676,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         try {
             ret = _getVectorOfHashes(query);
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
         return ret != null ? ret : new Vector<Hashtable<String, String>>();
@@ -1744,7 +1752,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             List<ObligationsDueDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
@@ -1828,12 +1836,14 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             SQLUtil.executeUpdate(editObligationSQL, values, conn);
 
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -1914,12 +1924,14 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
             obligationId = SQLUtil.getLastInsertID(conn);
 
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
         return obligationId;
     }
@@ -1977,9 +1989,9 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
                 url.setUrl(rs.getString("DATA_USED_FOR_URL"));
                 ret.add(url);
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }

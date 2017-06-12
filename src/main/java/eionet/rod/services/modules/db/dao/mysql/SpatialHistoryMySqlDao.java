@@ -73,9 +73,9 @@ public class SpatialHistoryMySqlDao extends MySqlBaseDao implements ISpatialHist
             if (isDebugMode) logQuery(q_clear_sh);
             preparedStatement.executeUpdate();
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -119,9 +119,9 @@ public class SpatialHistoryMySqlDao extends MySqlBaseDao implements ISpatialHist
             preparedStatement.setDate(2, new java.sql.Date(simpFormater.parse(end).getTime()));
             if (isDebugMode) logQuery(sql);
             preparedStatement.executeUpdate();
-        } catch (Exception exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -142,9 +142,9 @@ public class SpatialHistoryMySqlDao extends MySqlBaseDao implements ISpatialHist
             preparedStatement = connection.prepareStatement(q_update_end_date_for_obligation);
             preparedStatement.setInt(1, raId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }

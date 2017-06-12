@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RestoreObligation extends HttpServlet {
 
-    protected static LogServiceIF logger = RODServices.getLogService();
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestoreObligation.class);
     /**
      *
      */
@@ -39,16 +41,16 @@ public class RestoreObligation extends HttpServlet {
                         .getRestoreObligation(Integer.valueOf(id), Integer.valueOf(pid), latestVer);
 
             } catch (Exception e) {
-                logger.error("RestoreObligation.service() error when updating " + e);
-                e.printStackTrace();
+                LOGGER.error("RestoreObligation.service() error when updating ");
+                LOGGER.error(e.getMessage(), e);
             }
         }
 
-        logger.debug("RestoreObligation.service() update status: " + update);
+        LOGGER.debug("RestoreObligation.service() update status: " + update);
         if (update != 0) {
             res.sendRedirect("versions.jsp?id=" + pid);
         } else {
-            logger.error("RestoreObligation.service() update status is not correct.");
+            LOGGER.error("RestoreObligation.service() update status is not correct.");
         }
     }
 }

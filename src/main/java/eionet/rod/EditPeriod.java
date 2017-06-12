@@ -8,11 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import eionet.rod.services.RODServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EditPeriod extends HttpServlet {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EditPeriod.class);
+
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -35,11 +39,10 @@ public class EditPeriod extends HttpServlet {
         String ra_id = req.getParameter("ra_id");
 
         try {
-
             RODServices.getDbService().getSpatialHistoryDao().editPeriod(start_date, end_date, spatialHistoryID, ra_id);
-
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
+
         }
         res.sendRedirect("obligations/" + ra_id + "/participation");
 

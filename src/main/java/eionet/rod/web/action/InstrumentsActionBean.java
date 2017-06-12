@@ -44,6 +44,8 @@ import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IObligationDao;
 import eionet.rod.services.modules.db.dao.ISourceDao;
 import eionet.rod.services.modules.db.dao.IUndoDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -52,6 +54,9 @@ import eionet.rod.services.modules.db.dao.IUndoDao;
  */
 @UrlBinding("/instruments/{instId}/{action}")
 public class InstrumentsActionBean extends AbstractRODActionBean implements ValidationErrorHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(InstrumentsActionBean.class);
+
 
     @ValidateNestedProperties({
         @Validate(field = "sourceTitle", on = {"edit", "add"}, required = true),
@@ -215,7 +220,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
                 AccessController.addAcl(aclPath, userName, "");
             }
         } catch (SignOnException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
 
         processLinkedTables();
@@ -356,7 +361,7 @@ public class InstrumentsActionBean extends AbstractRODActionBean implements Vali
                 String aclPath = "/instruments/" + instId;
                 AccessController.removeAcl(aclPath);
             } catch (SignOnException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
 
             undoDao.addObligationIdsIntoUndo(Integer.valueOf(instId), ts, "T_SOURCE");

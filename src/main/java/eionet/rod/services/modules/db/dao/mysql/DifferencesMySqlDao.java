@@ -63,9 +63,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
                     "SELECT SPATIAL_NAME FROM T_SPATIAL WHERE PK_SPATIAL_ID = ", null);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(),sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, null, connection);
         }
@@ -155,9 +155,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
                     "SELECT CLIENT_NAME FROM T_CLIENT WHERE PK_CLIENT_ID = ", status);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, null, connection);
         }
@@ -245,9 +245,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
                     "SELECT CLASS_NAME FROM T_SOURCE_CLASS WHERE PK_CLASS_ID = ", null);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, null, connection);
         }
@@ -335,9 +335,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
                     "SELECT ISSUE_NAME FROM T_ISSUE WHERE PK_ISSUE_ID = ", null);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, null, connection);
         }
@@ -425,9 +425,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
                     "SELECT C_TERM FROM T_LOOKUP WHERE CATEGORY = '" + cat + "' AND C_VALUE = ", null);
             currentPreparedStatement.close();
             undoPreparedStatement.close();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, null, connection);
         }
@@ -499,9 +499,9 @@ public class DifferencesMySqlDao extends MySqlBaseDao implements IDifferencesDao
                 if (va.length > 0) ret = va[0][0];
             }
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }

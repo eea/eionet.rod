@@ -72,9 +72,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             if (result.length > 0) {
                 res = result[0][0];
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -99,9 +99,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             preparedStatement.setString(1, (String) properties.get(FileServiceIF.ORGANISATION_NAMESPACE));
             if (isDebugMode) logQuery(qOrganisations);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -127,9 +127,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             preparedStatement.setInt(1, obligationId.intValue());
             if (isDebugMode) logQuery(getObligationOrg);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (Exception exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -150,9 +150,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             preparedStatement = connection.prepareStatement(q_delete_obligation_link);
             preparedStatement.setInt(1, raId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -174,9 +174,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             preparedStatement.setString(3, status);
             preparedStatement.setString(4, type);
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -198,9 +198,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             preparedStatement = connection.prepareStatement(q_delete_parameter_link);
             preparedStatement.setInt(1, objectId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -222,9 +222,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             preparedStatement = connection.prepareStatement(q_delete_source_link);
             preparedStatement.setInt(1, srcId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -256,12 +256,14 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             List<ClientDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+            }
         }
 
     }
@@ -288,12 +290,14 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             List<ClientDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+            }
         }
     }
 
@@ -331,12 +335,14 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             List<ClientDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+            }
         }
     }
 
@@ -362,12 +368,14 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             List<ClientDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+            }
         }
     }
 
@@ -392,12 +400,14 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             List<ClientDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+            }
         }
     }
 
@@ -519,9 +529,9 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
                 ret.setIndirectInstruments(indirectInstruments);
 
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -560,12 +570,14 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             SQLUtil.executeUpdate(editClientSQL, values, conn);
 
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+            }
         }
     }
 
@@ -600,12 +612,14 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
             clientId = SQLUtil.getLastInsertID(conn);
 
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+            }
         }
         return clientId;
     }
@@ -631,12 +645,14 @@ public class ClientMySqlDao extends MySqlBaseDao implements IClientDao {
                 SQLUtil.executeUpdate(q_insert_obligation_client, values, conn);
             }
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+            }
         }
     }
 

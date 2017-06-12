@@ -46,9 +46,9 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
             preparedStatement.setInt(1, id.intValue());
             if (isDebugMode) logQuery(qObligationIssues);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -78,7 +78,7 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
             List<IssueDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
@@ -112,12 +112,14 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
             List<ObligationDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
 
     }
@@ -145,12 +147,14 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
             List<IssueDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
 
     }
@@ -190,12 +194,14 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
             List<IssueDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
 
     }
@@ -219,9 +225,9 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
             preparedStatement.setString(1, id);
             if (isDebugMode) logQuery(q_issue_name_by_id);
             m = _executeStringQuery(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -249,7 +255,7 @@ public class IssueMySqlDao extends MySqlBaseDao implements IIssueDao {
                 SQLUtil.executeUpdate(q_insert_obligation_issue, values, conn);
             }
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {

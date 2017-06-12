@@ -14,14 +14,16 @@ import eionet.directory.DirectoryService;
 import eionet.directory.dto.MemberDTO;
 import eionet.directory.dto.RoleDTO;
 import eionet.rod.services.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author <a href="mailto:risto.alt@tietoenator.com">Risto Alt</a>
- *
  */
 @UrlBinding("/contacts")
 public class ContactsActionBean extends AbstractRODActionBean {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContactsActionBean.class);
 
     /** */
     private String roleId;
@@ -32,7 +34,6 @@ public class ContactsActionBean extends AbstractRODActionBean {
     private boolean isDirectoryError = false;
 
     /**
-     *
      * @return Resolution
      * @throws ServiceException
      */
@@ -52,7 +53,7 @@ public class ContactsActionBean extends AbstractRODActionBean {
 
         } catch (DirServiceException e) {
             isDirectoryError = true;
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
 
         return new ForwardResolution("/pages/contacts.jsp");

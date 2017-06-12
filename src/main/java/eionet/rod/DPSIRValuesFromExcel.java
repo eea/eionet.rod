@@ -17,8 +17,12 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import eionet.rod.services.FileServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DPSIRValuesFromExcel extends HttpServlet {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DPSIRValuesFromExcel.class);
 
     /**
      * 
@@ -65,7 +69,7 @@ public class DPSIRValuesFromExcel extends HttpServlet {
             res.sendRedirect("index.html");
 
         } catch (ServiceException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
     }
 }

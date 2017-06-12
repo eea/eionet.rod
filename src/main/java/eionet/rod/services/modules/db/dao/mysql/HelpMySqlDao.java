@@ -39,9 +39,9 @@ public class HelpMySqlDao extends MySqlBaseDao implements IHelpDao {
             preparedStatement.setString(1, area_id);
             if (isDebugMode) logQuery(q_html_by_area_id);
             m = _executeStringQuery(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -72,7 +72,7 @@ public class HelpMySqlDao extends MySqlBaseDao implements IHelpDao {
             List<DocumentationDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
@@ -109,9 +109,9 @@ public class HelpMySqlDao extends MySqlBaseDao implements IHelpDao {
                 ret.setDescription(rs.getString("DESCRIPTION"));
                 ret.setHtml(rs.getString("HTML"));
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -148,9 +148,9 @@ public class HelpMySqlDao extends MySqlBaseDao implements IHelpDao {
                 ret.setHelpTitle(rs.getString("HELP_TITLE"));
                 ret.setHelpText(rs.getString("HELP_TEXT"));
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -186,12 +186,14 @@ public class HelpMySqlDao extends MySqlBaseDao implements IHelpDao {
             List<HelpDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+            }
         }
     }
 
@@ -217,12 +219,14 @@ public class HelpMySqlDao extends MySqlBaseDao implements IHelpDao {
             SQLUtil.executeUpdate(editHelpSQL, values, conn);
 
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+            }
         }
     }
 

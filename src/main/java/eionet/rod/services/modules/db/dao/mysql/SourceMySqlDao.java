@@ -111,9 +111,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
                 ret.add(inst);
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -189,9 +189,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 ret.setObligations(obligations);
 
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -224,9 +224,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 String title = rs.getString("TITLE");
                 result.add(title);
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -249,9 +249,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             result = _getHashtable(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -281,9 +281,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             preparedStatement = connection.prepareStatement(Q_INSTRUMENTS_RSS);
             if (isDebugMode) logQuery(Q_INSTRUMENTS_RSS);
             result = _executeStringQuery(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -305,9 +305,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             preparedStatement = connection.prepareStatement(Q_DELETE_CHILD_LINK);
             preparedStatement.setInt(1, childId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -328,9 +328,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             preparedStatement = connection.prepareStatement(Q_DELETE_PARENT_LINK);
             preparedStatement.setInt(1, parentId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -348,9 +348,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             preparedStatement = connection.prepareStatement(Q_DELETE_SOURCE);
             preparedStatement.setInt(1, sourceId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -366,9 +366,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             preparedStatement = connection.prepareStatement(Q_INSTRUMENTS_IDS);
             if (isDebugMode) logQuery(Q_INSTRUMENTS_IDS);
             result = _executeStringQuery(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -405,9 +405,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             if (result.length > 0) {
                 res = result[0][0];
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -436,7 +436,7 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             List<InstrumentsDueDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
@@ -592,9 +592,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 ret.setObligations(obligations);
 
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -633,9 +633,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             if (result.length > 0) {
                 res = result[0][0];
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -675,9 +675,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 ret.setParentId(rs.getString("FK_SOURCE_PARENT_ID"));
 
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -754,9 +754,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 }
                 ret.append("</ul>").append(newLine);
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -790,12 +790,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             List<HierarchyInstrumentDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -821,12 +823,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             List<LookupDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -851,12 +855,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             List<InstrumentDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -889,9 +895,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             if (result.length > 0) {
                 res = result[0][0];
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -920,12 +926,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             List<SourceClassDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -954,12 +962,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             List<SourceClassDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -999,12 +1009,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             List<SourceClassDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
 
     }
@@ -1056,12 +1068,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             SQLUtil.executeUpdate(Q_EDIT_SOURCE, values, conn);
 
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -1078,12 +1092,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             values.add(instId);
             SQLUtil.executeUpdate(Q_INSERT_PARENT_INSTRUMENT, values, conn);
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -1103,12 +1119,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 SQLUtil.executeUpdate(Q_INSERT_LINKED_SOURCES, values, conn);
             }
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -1159,12 +1177,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             instrumentId = SQLUtil.getLastInsertID(conn);
 
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
         return instrumentId;
     }
@@ -1207,9 +1227,9 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
                 url.setUrl(rs.getString("ISSUED_BY_URL"));
                 ret.add(url);
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -1238,12 +1258,14 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             List<SourceLinksDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 }

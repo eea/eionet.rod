@@ -23,6 +23,8 @@
 
 package eionet.rod;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -34,6 +36,8 @@ import java.util.StringTokenizer;
  * Various general utility methods.
  */
 public class RODUtil {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RODUtil.class);
 
     /** Used by {@link #getDate(String)}. */
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
@@ -77,7 +81,7 @@ public class RODUtil {
         try {
             date = SIMPLE_DATE_FORMAT.parse(s);
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
             return null;
         }
         return date;

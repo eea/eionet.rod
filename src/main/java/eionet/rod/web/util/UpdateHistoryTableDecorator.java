@@ -10,6 +10,8 @@ import eionet.rod.RODUtil;
 import eionet.rod.dto.VersionDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -17,6 +19,8 @@ import eionet.rod.services.ServiceException;
  * 
  */
 public class UpdateHistoryTableDecorator extends TableDecorator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateHistoryTableDecorator.class);
 
     /**
      * 
@@ -32,7 +36,7 @@ public class UpdateHistoryTableDecorator extends TableDecorator {
             title = RODServices.getDbService().getUndoDao()
                     .getUndoObjectTitle(Long.valueOf(ver.getUndoTime()).longValue(), ver.getTab());
         } catch (ServiceException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
         title = RODUtil.threeDots(title, 75);
         title = RODUtil.replaceTags(title, true, true);
@@ -106,7 +110,7 @@ public class UpdateHistoryTableDecorator extends TableDecorator {
         try {
             user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(), ver.getTab());
         } catch (ServiceException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
         ret.append("<a href='updatehistory?username=").append(user).append("'>").append(user).append("</a>");
 

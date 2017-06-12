@@ -3,9 +3,10 @@ package eionet.rod.rdf;
 import eionet.rdfexport.RDFExportService;
 import eionet.rdfexport.RDFExportServiceImpl;
 import eionet.rod.services.EmailServiceIF;
-import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.util.sql.ConnectionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,17 +17,16 @@ import java.util.ResourceBundle;
 
 /**
  * @author Risto Alt
- *
  */
 public class RdfExporter {
-    protected static LogServiceIF logger = RODServices.getLogService();
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(RdfExporter.class);
+
     protected static EmailServiceIF emailSender = RODServices.getEmailService();
+
     /**
      * main method.
      *
-     * @param args
-     *            - Command line arguments
+     * @param args - Command line arguments
      */
     public static void main(String... args) {
         if (args.length == 0) {
@@ -78,8 +78,7 @@ public class RdfExporter {
             //feedback to command line user
             log("Successfully exported to: " + dir + "/" + table + ".rdf", false);
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("ExtractorJob failed " + e);
+            LOGGER.error("ExtractorJob failed", e);
             RODServices.sendEmail("RDF Exporter failed", e.toString());
         } finally {
             try {
@@ -87,7 +86,7 @@ public class RdfExporter {
                     fos.close();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
             ConnectionUtil.closeConnection(conn);
         }
@@ -98,13 +97,13 @@ public class RdfExporter {
      * @param error if true logger.error() is called otherwise logger.debug()
      */
     private static void log(String str, boolean error) {
-        System.out.println(str);
+        LOGGER.info(str);
         if (error) {
-            logger.error(str);
+            LOGGER.error(str);
         } else {
-            logger.debug(str);
+            LOGGER.debug(str);
         }
     }
-    
+
 
 }

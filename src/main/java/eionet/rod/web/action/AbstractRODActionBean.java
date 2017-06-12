@@ -8,14 +8,13 @@ import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.controller.AnnotatedClassActionResolver;
 import net.sourceforge.stripes.validation.SimpleError;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import eionet.rod.Constants;
 import eionet.rod.ROUser;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.rod.web.context.RODActionBeanContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Base class for ROD's Stripes action beans.
@@ -26,7 +25,7 @@ import eionet.rod.web.context.RODActionBeanContext;
 public abstract class AbstractRODActionBean implements ActionBean {
 
     /** Static logger for this class. */
-    private static final Log LOGGER = LogFactory.getLog(AbstractRODActionBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRODActionBean.class);
 
     /** ROD's extension to the Stripes action bean context. */
     private RODActionBeanContext context;

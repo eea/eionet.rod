@@ -50,9 +50,9 @@ public class HistoricDeadlineMySqlDao extends MySqlBaseDao implements IHistoricD
             SQLUtil.executeQuery(qHistoricDeadlines, values, rsReader, connection);
             result = rsReader.getResultList();
 
-        } catch (Exception exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, null, connection);
         }
@@ -75,9 +75,9 @@ public class HistoricDeadlineMySqlDao extends MySqlBaseDao implements IHistoricD
             preparedStatement = connection.prepareStatement(q_delete_by_obligation_id);
             preparedStatement.setInt(1, raId.intValue());
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }

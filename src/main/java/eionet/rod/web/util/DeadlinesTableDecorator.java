@@ -12,6 +12,8 @@ import org.displaytag.decorator.TableDecorator;
 
 import eionet.rod.RODUtil;
 import eionet.rod.dto.SearchDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,6 +21,8 @@ import eionet.rod.dto.SearchDTO;
  *
  */
 public class DeadlinesTableDecorator extends TableDecorator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeadlinesTableDecorator.class);
 
     /**
      *
@@ -92,7 +96,7 @@ public class DeadlinesTableDecorator extends TableDecorator {
         try {
             zeroDate = df.parse("0000-00-00");
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
 
         SearchDTO search = (SearchDTO) getCurrentRowObject();

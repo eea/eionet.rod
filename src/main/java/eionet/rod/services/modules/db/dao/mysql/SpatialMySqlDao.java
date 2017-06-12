@@ -53,9 +53,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             preparedStatement.setString(1, (String) properties.get(FileServiceIF.SPATIAL_NAMESPACE));
             if (isDebugMode) logQuery(Q_COUNTRIES);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -83,9 +83,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             preparedStatement.setInt(1, id);
             if (isDebugMode) logQuery(Q_COUNTRY_BY_ID);
             m = _executeStringQuery(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -123,9 +123,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
                 Integer spatialId = rs.getInt("sl.FK_SPATIAL_ID");
                 result.add(spatialId);
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -152,9 +152,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             preparedStatement.setInt(1, id);
             if (isDebugMode) logQuery(Q_OBLIGATION_COUNTRIES);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -182,9 +182,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             preparedStatement = connection.prepareStatement(Q_COUNTRY_ID_PAIRS);
             if (isDebugMode) logQuery(Q_COUNTRY_ID_PAIRS);
             result = _executeStringQuery(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -274,9 +274,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             ret.setDeliveries(list);
 
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -311,9 +311,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
                 return true;
             }
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -348,9 +348,9 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
                 return true;
             }
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -383,12 +383,14 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             List<CountryDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -426,7 +428,7 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
                 ret.setIsMember(rs.getString("SPATIAL_ISMEMBERCOUNTRY"));
             }
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(rs, preparedStatement, connection);
@@ -460,12 +462,14 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             List<ObligationDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
 
     }
@@ -495,12 +499,14 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             List<CountryDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -528,12 +534,14 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             List<CountryDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -560,12 +568,14 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             List<CountryDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -604,12 +614,14 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             List<CountryDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -643,12 +655,14 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             List<CountryDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -676,12 +690,14 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
             List<ObligationCountryDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -706,12 +722,14 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
                 SQLUtil.executeUpdate(Q_INSERT_OBLIGATION_COUNTRIES, values, conn);
             }
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 

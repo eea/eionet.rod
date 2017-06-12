@@ -19,6 +19,8 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IHistoryDao;
 import eionet.rod.util.sql.SQLUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
 
@@ -51,9 +53,9 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
 
             if (isDebugMode) logQuery(qGetItemHistory);
             result = _executeStringQuery(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -84,9 +86,9 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
             preparedStatement.setString(2, itemType);
             if (isDebugMode) logQuery(qDeletedItems);
             result = _executeStringQuery(preparedStatement);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -159,11 +161,10 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error occurred when processing result set: " + sql, e);
+            LOGGER.error("Error occurred when processing result set: " + sql, e);
             throw new ServiceException("Error occurred when processing result set: " + sql);
         } catch (NullPointerException nue) {
-            logger.error("getDeletedItemsVector() NullPointerException " + nue);
+            LOGGER.error("getDeletedItemsVector() NullPointerException ", nue);
         } finally {
             closeAllResources(null, preparedStatement, con);
         }
@@ -200,9 +201,9 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
             preparedStatement.setString(2, type);
             if (isDebugMode) logQuery(qHistory);
             result = _getVectorOfHashes(preparedStatement);
-        } catch (Exception exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -238,9 +239,9 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
             preparedStatement.setString(6, description);
             if (isDebugMode) logQuery(qLogHistory);
             preparedStatement.executeUpdate();
-        } catch (Exception exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -269,12 +270,14 @@ public class HistoryMySqlDao extends MySqlBaseDao implements IHistoryDao {
             List<HarvestHistoryDTO>  list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) conn.close();
-            } catch (SQLException e) {}
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
     }
 

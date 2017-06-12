@@ -26,6 +26,8 @@ package eionet.rod;
 import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.modules.db.dao.IObligationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,17 +35,13 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class DeadlineCalc {
-    private static LogServiceIF logger;
-
-    static {
-        logger = RODServices.getLogService();
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeadlineCalc.class);
 
     public void exitApp(boolean successful) {
         if (successful == true)
-            logger.info("DeadlineCalc v1.0 - finished succesfully.");
+            LOGGER.info("DeadlineCalc v1.0 - finished succesfully.");
         else
-            logger.error("DeadlineCalc v1.0 - failed to complete.");
+            LOGGER.error("DeadlineCalc v1.0 - failed to complete.");
     }
 
     public static void execute() {
@@ -52,16 +50,16 @@ public class DeadlineCalc {
         IObligationDao db;
         String[][] deadlines;
 
-        logger.info("DeadlineCalc v1.0 - getting deadlines...");
+        LOGGER.info("DeadlineCalc v1.0 - getting deadlines...");
 
         // Get DB connection
         //
         try {
             db = RODServices.getDbService().getObligationDao();
         } catch (Exception e) {
-            RODServices.sendEmail("Error in deadlines calc", "Opening connection to database failed. The following error was reported:\n" + e.toString());
-            logger.error("Opening connection to database failed. The following error was reported:\n" + e.toString());
-            e.printStackTrace();
+            RODServices.sendEmail("Error in deadlines calc", "Opening connection to database failed. The following error was reported:\n" + e);
+            LOGGER.error("Opening connection to database failed. The following error was reported:");
+            LOGGER.error(e.getMessage(), e);
             dCalc.exitApp(false);
             return;
         }
@@ -71,18 +69,18 @@ public class DeadlineCalc {
         try {
             deadlines = db.getDeadlines();
         } catch (Exception e) {
-            logger.error("Getting deadlines from database failed. The following error was reported:\n" + e.toString());
+            LOGGER.error("Getting deadlines from database failed. The following error was reported:\n" + e);
             RODServices.sendEmail("Error in deadlines calc", e.toString());
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
             dCalc.exitApp(false);
             return;
         }
         if (deadlines == null) {
-            logger.info("0 deadlines found");
+            LOGGER.info("0 deadlines found");
             dCalc.exitApp(true);
             return;
         }
-        logger.info(deadlines.length + " deadlines found, updating...");
+        LOGGER.info(deadlines.length + " deadlines found, updating...");
 
         // Update deadlines and save them back to the database
         for (int i = 0; i < deadlines.length; i++) {
@@ -106,7 +104,7 @@ public class DeadlineCalc {
                 db.saveTerminate(Integer.valueOf(deadlines[i][0]), currDate.after(toDate) ? "Y" : "N");
             } catch (Exception e) {
                 RODServices.sendEmail("Error in deadlines calc", "Saving terminate failed " + e.toString());
-                logger.error("Saving TERMINATE value to database failed. The following error was reported:\n" + e.toString());
+                LOGGER.error("Saving TERMINATE value to database failed. The following error was reported:", e);
             }
 
             // If not date-based deadline, skip the rest
@@ -156,7 +154,7 @@ public class DeadlineCalc {
                     db.saveTerminate(Integer.valueOf(deadlines[i][0]), "Y");
                 // logger.info("Terminate!\t\t\t\t" + repStr + "\t" + plusStr + "\t" + currStr);
             } catch (Exception e) {
-                logger.error("Saving TERMINATE value to database failed. The following error was reported:\n" + e.toString());
+                LOGGER.error("Saving TERMINATE value to database failed. The following error was reported:", e);
                 RODServices.sendEmail("Error in deadlines calc", "Saving terminate failed " + e.toString());
             }
 
@@ -181,13 +179,13 @@ public class DeadlineCalc {
             try {
                 db.saveDeadline(Integer.valueOf(deadlines[i][0]), repStr, repStr2, deadlines[i][1]);
             } catch (Exception e) {
-                logger.error("Saving deadline to database failed. The following error was reported:\n" + e.toString());
+                LOGGER.error("Saving deadline to database failed. The following error was reported:\n", e);
                 RODServices.sendEmail("Error in deadlines calc", "Saving deadline failed " + e.toString());
             }
 
             // logger.info("\t\t\t\t\t" + repStr + "\t" + plusStr + "\t" + currStr);
         }
-        logger.info("Update complete.");
+        LOGGER.info("Update complete.");
 
         dCalc.exitApp(true);
     }

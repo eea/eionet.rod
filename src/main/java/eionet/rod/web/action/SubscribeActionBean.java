@@ -21,6 +21,8 @@ import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -29,6 +31,8 @@ import org.apache.commons.lang3.math.NumberUtils;
  */
 @UrlBinding("/subscribe")
 public class SubscribeActionBean extends AbstractRODActionBean {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SubscribeActionBean.class);
 
     private String mySubscriptionUrl;
 
@@ -163,7 +167,7 @@ public class SubscribeActionBean extends AbstractRODActionBean {
             showMessage("Subscription successful!");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
             handleRodException(e.getMessage(), Constants.SEVERITY_WARNING);
         }
 

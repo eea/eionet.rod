@@ -16,18 +16,23 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import eionet.rod.web.action.ContactsActionBean;
 import org.apache.commons.lang.StringUtils;
 
 import eionet.rdfexport.RDFExportService;
 import eionet.rdfexport.RDFExportServiceImpl;
 import eionet.rdfexport.RDFExportServiceJSONLD;
 import eionet.rod.util.sql.ConnectionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Risto Alt
  *
  */
 public class RdfFilter implements Filter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RdfFilter.class);
 
     private static final String ACCEPT_RDF_HEADER = "application/rdf+xml";
     private static final String ACCEPT_JSONLD_HEADER = "application/ld+json";
@@ -78,7 +83,7 @@ public class RdfFilter implements Filter {
                     rdfExportService.exportTable(table, identifier);
                     return;
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOGGER.error(e.getMessage(), e);
                     throw new ServletException(e.getMessage(), e);
                 }
                 finally{
@@ -110,7 +115,7 @@ public class RdfFilter implements Filter {
                     rdfExportService.exportTable(table, identifier);
                     return;
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOGGER.error(e.getMessage(), e);
                     throw new ServletException(e.getMessage(), e);
                 }
                 finally{

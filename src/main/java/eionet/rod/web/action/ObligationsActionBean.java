@@ -52,6 +52,8 @@ import eionet.rod.services.modules.db.dao.IObligationDao;
 import eionet.rod.services.modules.db.dao.IUndoDao;
 import eionet.sparqlClient.helpers.QueryExecutor;
 import eionet.sparqlClient.helpers.QueryResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -60,6 +62,8 @@ import eionet.sparqlClient.helpers.QueryResult;
  */
 @UrlBinding("/obligations/{id}/{tab}")
 public class ObligationsActionBean extends AbstractRODActionBean implements ValidationErrorHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ObligationsActionBean.class);
 
     @ValidateNestedProperties({ @Validate(field = "title", on = { "edit", "add" }, required = true),
         @Validate(field = "description", on = { "edit", "add" }, required = true),
@@ -278,7 +282,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 ret = executor.executeASKQuery(sparqlEndpoint, query);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
             throw new Exception("SPARQL endpoint threw error", e.getCause());
         }
 
@@ -306,7 +310,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 products = executor.getResults();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
             throw new Exception("SPARQL endpoint threw error", e.getCause());
         }
     }
@@ -396,7 +400,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 AccessController.addAcl(aclPathForNewObl, userName, "");
             }
         } catch (SignOnException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
 
         processLinkedTables();
@@ -596,7 +600,7 @@ public class ObligationsActionBean extends AbstractRODActionBean implements Vali
                 String aclPath = "/obligations/" + id;
                 AccessController.removeAcl(aclPath);
             } catch (SignOnException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
 

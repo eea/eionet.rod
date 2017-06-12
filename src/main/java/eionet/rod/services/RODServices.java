@@ -28,6 +28,8 @@ import eionet.rod.services.modules.FileServiceImpl;
 import eionet.rod.services.modules.Log4jLoggerImpl;
 import eionet.rod.services.modules.db.dao.RODDaoFactory;
 import eionet.rod.services.modules.db.dao.mysql.MySqlDaoFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Proxy class for accessing CountrySrv services.
@@ -36,6 +38,7 @@ import eionet.rod.services.modules.db.dao.mysql.MySqlDaoFactory;
  */
 public class RODServices {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RODServices.class);
     private static LogServiceIF _logSrv = null;
     private static RODDaoFactory daoFactory = null;
     private static FileServiceIF _fSrv = null;
@@ -100,9 +103,9 @@ public class RODServices {
     static class StderrLogger implements LogServiceIF {
 
         private void out(String severity, Object msg, Throwable t) {
-            System.err.println("<" + severity + "> " + msg);
+            LOGGER.error("<" + severity + "> " + msg);
             if (t != null)
-                t.printStackTrace(System.err);
+                LOGGER.error(t.getMessage(), t);
         }
 
         public boolean enable(int level) {

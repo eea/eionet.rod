@@ -10,6 +10,8 @@ import eionet.rod.util.sql.SQLUtil;
 import org.apache.commons.lang.StringUtils;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.TupleQueryResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -110,7 +112,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
                 }
 
                 if (countryId == null) {
-                    logger.info("!!! Delivery not saved, failed to find id for country: " + locality + ", " + "Identifier: " + link
+                    LOGGER.info("!!! Delivery not saved, failed to find id for country: " + locality + ", " + "Identifier: " + link
                             + ", " + "Title: " + title + ", " + "Date: " + sdate + ", " + "Coverage: " + period);
                 } else if (!StringUtils.isBlank(obligation) && obligation.startsWith(obligationsPrefix)) {
 
@@ -146,7 +148,7 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
             }
             preparedStatement.executeBatch();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException("Saving deliveries failed with reason " + e.toString());
         } finally {
             closeAllResources(null, preparedStatement, connection);
@@ -185,9 +187,9 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
             }
             preparedStatement.executeUpdate();
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -211,9 +213,9 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
             statement.close();
             statement = connection.createStatement();
             statement.executeUpdate("UPDATE T_DELIVERY SET STATUS=1 WHERE STATUS=0");
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, statement, connection);
         }
@@ -259,9 +261,9 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
                 }
             }
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -285,9 +287,9 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
                 logQuery(qBackUpDeliveries);
             }
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -343,14 +345,15 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
             List<CountryDeliveryDTO> list = rsReader.getResultList();
             return list;
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             try {
                 if (conn != null) {
                     conn.close();
                 }
-            } catch (SQLException e) {
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
             }
         }
     }
@@ -400,9 +403,9 @@ public class DeliveryMySqlDao extends MySqlBaseDao implements IDeliveryDao {
                 ret.setClientId(new Integer(rs.getInt("PK_CLIENT_ID")));
                 ret.setClientName(rs.getString("CLIENT_NAME"));
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }

@@ -19,11 +19,12 @@ import eionet.rod.dto.readers.RoleOccupantDTOReader;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IRoleDao;
 import eionet.rod.util.sql.SQLUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 
-    public RoleMySqlDao() {
-    }
+    public RoleMySqlDao() {}
 
     private static final String q_roleIds = "SELECT ROLE_ID FROM T_ROLE";
 
@@ -40,9 +41,9 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
             logQuery(q_roleIds);
             resultSet = preparedStatement.executeQuery();
             result = getResults(resultSet);
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -103,18 +104,18 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
 
             Vector<String> occupants = (Vector<String>) role.get("OCCUPANTS");
             if (occupants != null && occupants.size() > 0) {
-                logger.debug("Role " + roleId + " has " + occupants.size() + " occupants.");
+                LOGGER.debug("Role " + roleId + " has " + occupants.size() + " occupants.");
                 for (int i = 0; i < occupants.size(); i++) {
                     uid = (String) occupants.elementAt(i);
 
                     if (uid != null && uid.trim().length() > 0) {
                         try {
                             person = DirectoryService.getPerson(uid);
-                        } catch (DirServiceException dire) {
-                            logger.error("Error getting person " + uid + ": " + dire.toString());
-                            throw new ServiceException("Error getting person "  + dire.getMessage());
+                        } catch (DirServiceException e) {
+                            LOGGER.error("Error getting person " + uid + ": ", e);
+                            throw new ServiceException("Error getting person "  + e.getMessage());
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            LOGGER.error(e.getMessage(), e);
                         }
                     }
 
@@ -131,7 +132,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
                         } catch (DirServiceException dire) {
                             orgName = orgId; // Assume the orgId is the organisation name.
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            LOGGER.error(e.getMessage(), e);
                         }
                     }
 
@@ -163,7 +164,7 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
                 preparedStatement.close();
             }
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             try {
                 preparedStatement = connection.prepareStatement(q_delete_role_data);
                 preparedStatement.setString(1, roleId);
@@ -175,9 +176,9 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
                 if (isDebugMode) logQuery(q_update_role_rollback);
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
-            } catch (SQLException e1) {
-                logger.error(e1);
-                throw new ServiceException(e1.getMessage());
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+                throw new ServiceException(sqle.getMessage());
             }
         } finally {
             closeAllResources(null, preparedStatement, connection);
@@ -198,9 +199,9 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
             preparedStatement.setInt(1, 0);
             if (isDebugMode) logQuery(q_update_role_status);
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -218,9 +219,9 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
             preparedStatement = connection.prepareStatement(q_commit_roles);
             if (isDebugMode) logQuery(q_commit_roles);
             preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -292,9 +293,9 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
                 ret.setObligations(obligations);
 
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -323,9 +324,9 @@ public class RoleMySqlDao extends MySqlBaseDao implements IRoleDao {
                 return true;
             }
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }

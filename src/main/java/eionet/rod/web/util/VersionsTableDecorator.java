@@ -13,6 +13,8 @@ import eionet.rod.ROUser;
 import eionet.rod.dto.VersionDTO;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -20,6 +22,8 @@ import eionet.rod.services.ServiceException;
  * 
  */
 public class VersionsTableDecorator extends TableDecorator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(VersionsTableDecorator.class);
 
     /**
      * 
@@ -49,7 +53,7 @@ public class VersionsTableDecorator extends TableDecorator {
         try {
             user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(), ver.getTab());
         } catch (ServiceException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
 
         HttpServletRequest req = (HttpServletRequest) getPageContext().getRequest();
@@ -102,7 +106,7 @@ public class VersionsTableDecorator extends TableDecorator {
         try {
             user = RODServices.getDbService().getUndoDao().getUndoUser(Long.valueOf(ver.getUndoTime()).longValue(), ver.getTab());
         } catch (ServiceException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
 
         return user;
@@ -137,7 +141,7 @@ public class VersionsTableDecorator extends TableDecorator {
                 }
             }
         } catch (ServiceException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
 
         return ret.toString();

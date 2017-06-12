@@ -24,9 +24,9 @@ public class AnalysisMySqlDao extends MySqlBaseDao implements IAnalysisDao {
             resultSet = preparedStatement.executeQuery();
             resultArray = getResults(resultSet);
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }
@@ -48,9 +48,9 @@ public class AnalysisMySqlDao extends MySqlBaseDao implements IAnalysisDao {
             resultSet = preparedStatement.executeQuery();
             resultArray = getResults(resultSet);
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(resultSet, preparedStatement, connection);
         }

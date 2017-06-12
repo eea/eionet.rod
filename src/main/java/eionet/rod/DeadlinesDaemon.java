@@ -1,10 +1,11 @@
 package eionet.rod;
 
 import eionet.rod.services.FileServiceIF;
-import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import org.apache.xmlrpc.XmlRpcClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import java.io.BufferedReader;
@@ -23,8 +24,10 @@ import java.util.Vector;
  *         To change the template for this generated type comment go to Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class DeadlinesDaemon {
-    /** logger. */
-    protected static LogServiceIF logger = RODServices.getLogService();
+    /**
+     * logger.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeadlinesDaemon.class);
 
     public DeadlinesDaemon() {
     }
@@ -67,8 +70,7 @@ public class DeadlinesDaemon {
             in.close();
 
         } catch (Throwable t) {
-            logger.error("Error in DeadlinesDaemond " + t);
-            t.printStackTrace();
+            LOGGER.error("Error in DeadlinesDaemond " + t.getMessage(), t);
         }
     }
 
@@ -200,8 +202,7 @@ public class DeadlinesDaemon {
             server.execute(fileSrv.getStringProperty(FileServiceIF.UNS_SEND_NOTIFICATION), params);
 
         } catch (Throwable t) {
-            logger.error("Error in DeadlinesDaemond makeCall() " + t);
-            t.printStackTrace();
+            LOGGER.error("Error in DeadlinesDaemond makeCall() " + t.getMessage(), t);
             throw new ServletException(t);
         }
     }

@@ -21,10 +21,10 @@
 package eionet.rod.scheduled;
 
 import eionet.rod.DeadlineCalc;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextListener;
 
@@ -39,8 +39,8 @@ public class DeadlineCalcJob extends AbstractScheduledJob implements ServletCont
     /**
      * Class logger.
      */
-    private static final Log LOGGER = LogFactory.getLog(DeadlineCalcJob.class);
-
+//    private static final Log LOGGER = LogFactory.getLog(DeadlineCalcJob.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeadlineCalcJob.class);
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         LOGGER.info("Starting to update deadlines.");

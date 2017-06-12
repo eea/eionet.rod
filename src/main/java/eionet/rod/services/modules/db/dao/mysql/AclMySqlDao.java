@@ -71,14 +71,14 @@ public class AclMySqlDao extends MySqlBaseDao implements IAclDao {
             preparedStatement.executeUpdate();
 
             connection.commit();
-        } catch (SQLException exception) {
+        } catch (SQLException sqle) {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                logger.error(e);
+                LOGGER.error(e.getMessage(), e);
             }
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
@@ -101,9 +101,9 @@ public class AclMySqlDao extends MySqlBaseDao implements IAclDao {
             if (hash != null && hash.size() > 0) {
                 ret = (String) hash.get("acl_id");
             }
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }

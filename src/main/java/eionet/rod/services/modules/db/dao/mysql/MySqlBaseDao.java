@@ -2,9 +2,10 @@ package eionet.rod.services.modules.db.dao.mysql;
 
 import eionet.rod.Constants;
 import eionet.rod.services.FileServiceIF;
-import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -34,13 +35,13 @@ import java.util.Vector;
  */
 public abstract class MySqlBaseDao {
 
+    protected static final Logger LOGGER = LoggerFactory.getLogger(MySqlBaseDao.class);
+
     protected static String rodDomain; // TO DO INITIALISATION
 
     protected static String roNs; // TO DO INITIALISATION
 
     private static DataSource ds = null;
-
-    protected static LogServiceIF logger = RODServices.getLogService();
 
     protected static boolean isDebugMode = true; // logger.enable(LogServiceIF.DEBUG);
 
@@ -79,12 +80,12 @@ public abstract class MySqlBaseDao {
                     InitialContext ctx = new InitialContext();
                     ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webrod");
                 } catch (NamingException e) {
-                    logger.error("If you run a web application you need to specify webrod datasource ");
+                    LOGGER.error("If you run a web application you need to specify webrod datasource ", e);
                 }
             }
 
         } catch (Exception e) {
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -116,7 +117,7 @@ public abstract class MySqlBaseDao {
                 }
             }
         } catch (Throwable e) {
-            System.err.println(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
         }
         return conn;
     }
@@ -146,7 +147,7 @@ public abstract class MySqlBaseDao {
                 conn = null;
             }
         } catch (SQLException sqle) {
-            sqle.printStackTrace();
+            LOGGER.error(sqle.getMessage(), sqle);
         }
     }
 
@@ -155,7 +156,7 @@ public abstract class MySqlBaseDao {
             conn.commit();
             conn.setAutoCommit(true);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -164,12 +165,12 @@ public abstract class MySqlBaseDao {
             conn.rollback();
             conn.setAutoCommit(true);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
     protected void logQuery(String query) {
-        logger.debug("Query is " + query);
+        LOGGER.debug("Query is " + query);
     }
 
     protected java.sql.Date sqlDate(Date date) {
@@ -214,10 +215,10 @@ public abstract class MySqlBaseDao {
                 rvec.addElement(row); // Store the row into the vector
             }
         } catch (UnsupportedEncodingException e) {
-            logger.fatal(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } catch (SQLException ex) {
-            logger.error(ex);
+            LOGGER.error(ex.getMessage(), ex);
             throw new ServiceException(ex.getMessage());
         } finally {
             // Close connection
@@ -262,8 +263,8 @@ public abstract class MySqlBaseDao {
                 rvec.addElement(row); // Store the row into the vector
             }
         } catch (UnsupportedEncodingException e) {
-            logger.fatal(e);
-            throw new SQLException(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
+            throw new SQLException(e.getMessage(), e);
         }
         rset.close();
         // Build return value
@@ -304,8 +305,8 @@ public abstract class MySqlBaseDao {
             }
         } catch (SQLException e) {
             // logger.error("Error occurred when processing result set: " + sql, e);
-            logger.error(e);
-            throw new SQLException("Error occurred when processing result set: " + "");
+            LOGGER.error(e.getMessage(), e);
+            throw new SQLException("Error occurred when processing result set: " , e);
         }
 
         // Build return value
@@ -359,11 +360,10 @@ public abstract class MySqlBaseDao {
                 rvec.addElement(h); // Store the row into the vector
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error occurred when processing result set: " + sql_stmt, e);
+            LOGGER.error("Error occurred when processing result set: " + sql_stmt, e);
             throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
         } catch (NullPointerException nue) {
-            logger.error("_getVectorOfHashes() NullPointerException " + nue);
+            LOGGER.error("_getVectorOfHashes() NullPointerException ", nue);
         } finally {
             closeAllResources(rset, stmt, con);
         }
@@ -401,8 +401,8 @@ public abstract class MySqlBaseDao {
                 rvec.addElement(record); // Store the row into the vector
             }
         } catch (UnsupportedEncodingException e) {
-            logger.fatal(e);
-            throw new SQLException(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
+            throw new SQLException(e.getMessage(), e);
         }
         if (rs != null) {
             rs.close();
@@ -451,7 +451,7 @@ public abstract class MySqlBaseDao {
             } catch (Throwable exc) {
                 throw new ServiceException("_close() failed: " + sql_stmt);
             }
-            logger.error("Connection.createStatement() failed: " + sql_stmt, e);
+            LOGGER.error("Connection.createStatement() failed: " + sql_stmt, e);
             throw new ServiceException("Update failed: " + sql_stmt);
         }
 
@@ -577,11 +577,11 @@ public abstract class MySqlBaseDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error occurred when processing result set: " + sql_stmt, e);
+            LOGGER.error("Error occurred when processing result set: " + sql_stmt);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
         } catch (NullPointerException nue) {
-            logger.error("_getHashtable() NullPointerException " + nue);
+            LOGGER.error("_getHashtable() NullPointerException ", nue);
         } finally {
             closeAllResources(null, stmt, con);
         }
@@ -618,11 +618,10 @@ public abstract class MySqlBaseDao {
             }
         } catch (SQLException e) {
 
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } catch (NullPointerException nue) {
-            logger.error("_getHashtable() NullPointerException " + nue);
-            nue.printStackTrace();
+            LOGGER.error("_getHashtable() NullPointerException ", nue);
         } finally {
             closeAllResources(null, stmt, con);
         }
@@ -720,11 +719,9 @@ public abstract class MySqlBaseDao {
                 }
             }
         } catch (NullPointerException nue) {
-            logger.error("_getVectorOfNames() NullPointerException " + nue);
-            nue.printStackTrace();
+            LOGGER.error("_getVectorOfNames() NullPointerException ", nue);
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.error(e);
+            LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         } finally {
             closeAllResources(null, stmt, con);

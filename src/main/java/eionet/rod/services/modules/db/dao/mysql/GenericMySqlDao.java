@@ -2,6 +2,8 @@ package eionet.rod.services.modules.db.dao.mysql;
 
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.IGenericDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,9 +42,9 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
                 if (isDebugMode)
                     logQuery(query);
                 result = _getVectorOfHashes(preparedStatement);
-            } catch (SQLException exception) {
-                logger.error(exception);
-                throw new ServiceException(exception.getMessage());
+            } catch (SQLException sqle) {
+                LOGGER.error(sqle.getMessage(), sqle);
+                throw new ServiceException(sqle.getMessage());
             } finally {
                 closeAllResources(null, preparedStatement, connection);
             }
@@ -108,12 +110,11 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
                     rvec.addElement(h);
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
-                logger.error("Error occurred when processing result set: " + sql_stmt, e);
+                LOGGER.error(e.getMessage() + ": Error occurred when processing result set: "+ sql_stmt, e);
                 throw new ServiceException("Error occurred when processing result set: " + sql_stmt);
             } catch (NullPointerException nue) {
-                nue.printStackTrace();
-                logger.error("getTableDesc() NullPointerException " + nue);
+                LOGGER.error("getTableDesc() NullPointerException ");
+                LOGGER.error(nue.getMessage(), nue);
             } finally {
                 closeAllResources(null, stmt, con);
             }
@@ -159,9 +160,9 @@ public class GenericMySqlDao extends MySqlBaseDao implements IGenericDao {
                     result = true;
             }
 
-        } catch (SQLException exception) {
-            logger.error(exception);
-            throw new ServiceException(exception.getMessage());
+        } catch (SQLException sqle) {
+            LOGGER.error(sqle.getMessage(), sqle);
+            throw new ServiceException(sqle.getMessage());
         } finally {
             closeAllResources(null, preparedStatement, connection);
         }
