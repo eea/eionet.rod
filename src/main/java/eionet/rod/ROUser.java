@@ -27,7 +27,6 @@ import java.sql.*;
 import java.util.Vector;
 
 import eionet.directory.DirectoryService;
-import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.util.sql.ConnectionUtil;
 

@@ -399,11 +399,11 @@
             <artifactId>commons-collections</artifactId>
             <version>3.2</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.1</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -431,10 +431,15 @@
             <version>5.1.6</version>
         </dependency>
         <!-- logging -->
-        <dependency>
+<!--        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.8.2</version>
         </dependency>
         <!-- EIONET libraries -->
         <dependency>
