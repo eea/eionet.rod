@@ -33,6 +33,8 @@ import eionet.rod.services.modules.db.dao.IGenericDao;
 import eionet.rod.services.modules.db.dao.IIssueDao;
 import eionet.rod.services.modules.db.dao.IObligationDao;
 import eionet.rod.services.modules.db.dao.ISpatialDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Container class for providing public services of WebROD through XML/RPC or SOAP.
@@ -41,7 +43,7 @@ import eionet.rod.services.modules.db.dao.ISpatialDao;
  */
 public class WebRODService {
 
-    private static LogServiceIF logger = RODServices.getLogService();
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebRODService.class);
 
     private IObligationDao obligationDao;
     private ISpatialDao spatialDao;
@@ -57,7 +59,7 @@ public class WebRODService {
             issueDao = RODServices.getDbService().getIssueDao();
             genericDao = RODServices.getDbService().getGenericlDao();
         } catch (ServiceException e) {
-            logger.fatal(e);
+            LOGGER.error(e.getMessage(), e);
         }
 
     }

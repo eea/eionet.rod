@@ -28,7 +28,6 @@ import eionet.acl.SignOnException;
 import eionet.directory.DirServiceException;
 import eionet.directory.DirectoryService;
 import eionet.rod.services.FileServiceIF;
-import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.ServiceException;
 import eionet.rod.services.modules.db.dao.RODDaoFactory;
@@ -61,22 +60,14 @@ public class Extractor implements ExtractorConstants {
     public static final int ALL_DATA = 0;
     public static final int DELIVERIES = 1;
     public static final int ROLES = 2;
-
     public static final int PARAMS = 3;
 
     private static FileServiceIF fileSrv = null;
     boolean debugLog = true;
     private static PrintWriter out = null;
-    private static LogServiceIF logger;
     private RODDaoFactory daoFactory;
 
     private static Extractor extractor;
-
-    // For debugLog: returns the current date and time (wrapped) as String
-
-    static {
-        logger = RODServices.getLogService();
-    }
 
     public Extractor() {
 
@@ -129,8 +120,8 @@ public class Extractor implements ExtractorConstants {
 */
 
             execute(Integer.parseInt(mode), userName);
-        } catch (Exception se) {
-            logger.error(se.toString());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -141,9 +132,9 @@ public class Extractor implements ExtractorConstants {
             }
 
             extractor.harvest(mode, userName);
-        } catch (Exception se) {
-            logger.error(se.toString());
-            RODServices.sendEmail("Error in extractor", se.toString());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            RODServices.sendEmail("Error in extractor", e.toString());
         }
     }
     private String cDT() {
@@ -190,8 +181,7 @@ public class Extractor implements ExtractorConstants {
 
             } catch (ServiceException e) {
                 // use default type (XML/RPC), if not specified
-                logger.warning("Unable to get logger settings from properties file. using default The following error was reported:\n"
-                        + e.toString());
+                LOGGER.warn("Unable to get logger settings from properties file. using default The following error was reported:\n" + e.toString());
                 // logfileName = LOG_FILE ; //"extractorlog.txt";
                 // extractor.debugLog = false;
             }
@@ -202,7 +192,7 @@ public class Extractor implements ExtractorConstants {
             // + e.toString());
             LOGGER.error("Unable to get settings from properties file. The following error was reported:\n" + e.toString());
             LOGGER.error(e.getMessage(), e);
-            throw new ServiceException("Unable to get settings from properties file. The following error was reported:\n" + e.toString());
+            throw new ServiceException("Unable to get settings from properties file. The following error was reported:\n" + e);
         }
 
         // KL021009
@@ -212,11 +202,9 @@ public class Extractor implements ExtractorConstants {
                 out = new PrintWriter(new FileWriter(logPath + logfileName, !debugLog), true);
             } catch (java.io.IOException e) {
                 // using default logger instead
-                LOGGER.warn("Unable to open log file for writing. using default. The following error was reported:\n"
-                        + e.toString());
+                LOGGER.warn("Unable to open log file for writing. using default. The following error was reported:\n" + e.toString());
                 LOGGER.error(e.getMessage(), e);
-                RODServices.sendEmail("Error in Extractor", "Unable to open log file for writing. \n"
-                        + e.toString());
+                RODServices.sendEmail("Error in Extractor", "Unable to open log file for writing. \n" + e.toString());
             }
         }
 
@@ -312,7 +300,7 @@ public class Extractor implements ExtractorConstants {
      * @param s
      */
     private static void log(String s) {
-        logger.debug(s);
+        LOGGER.debug(s);
         if (out != null) {
             out.println(s);
         }
@@ -442,7 +430,7 @@ public class Extractor implements ExtractorConstants {
             role = DirectoryService.getRole(roleName);
             log("Received role info for " + roleName + " from Directory");
         } catch (DirServiceException de) {
-            logger.error("Error getting role " + roleName + ": " + de.toString());
+            LOGGER.error("Error getting role " + roleName + ": " + de);
             //RODServices.sendEmail("Error in Extractor", "Error getting role " + roleName + ": " + de.toString());
             throw new ServiceException("Error getting role " + de);
         } catch (Exception e) {

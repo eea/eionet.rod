@@ -6,8 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

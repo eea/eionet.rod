@@ -88,7 +88,7 @@ public class RODServices {
         try {
             getEmailService().sendToSysAdmin(subject, msg);
         } catch (Exception e) {
-            LOGGER.error("Sending email failed " + e);
+            LOGGER.error("Sending email failed ", e);
         }
         
     }

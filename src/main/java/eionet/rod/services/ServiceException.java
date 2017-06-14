@@ -23,6 +23,9 @@
 
 package eionet.rod.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Exception class for service layer error/exception situations.
  *
@@ -31,9 +34,8 @@ package eionet.rod.services;
  */
 public class ServiceException extends java.lang.Exception {
 
-    /**
-     *
-     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceException.class);
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -50,6 +52,6 @@ public class ServiceException extends java.lang.Exception {
      */
     public ServiceException(String msg) {
         super(msg);
-        RODServices.getLogService().error("Service exception occured with reason <<" + msg + ">>");
+        LOGGER.error("Service exception occured with reason <<" + msg + ">>");
     }
 }

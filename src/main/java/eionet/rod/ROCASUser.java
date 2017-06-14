@@ -15,7 +15,7 @@ public class ROCASUser extends ROUser {
         try {
             fullName = AuthMechanism.getFullName(userName);
         } catch (SignOnException e) {
-            logger.error("Fatal error: can not get full name for authaticated user", e);
+            LOGGER.error("Fatal error: can not get full name for authaticated user", e);
         }
         //
         authented = true;

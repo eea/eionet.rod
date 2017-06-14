@@ -10,15 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import eionet.acl.AccessController;
 
-import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AddAcls extends HttpServlet {
-    /**
-     *
-     */
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddAcls.class);
     private static final long serialVersionUID = 1L;
-    protected static LogServiceIF logger = RODServices.getLogService();
 
     /*
      * (non-Javadoc)
@@ -48,7 +47,7 @@ public class AddAcls extends HttpServlet {
             }
             res.sendRedirect("index.html");
         } catch (Throwable t) {
-            logger.error("Error adding acls " + t);
+            LOGGER.error("Error adding acls ", t);
         }
     }
 }

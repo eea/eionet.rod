@@ -23,7 +23,6 @@
 
 package eionet.rod;
 
-import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
 import eionet.rod.services.modules.db.dao.IObligationDao;
 import org.slf4j.Logger;

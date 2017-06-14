@@ -5,8 +5,9 @@ import java.util.Vector;
 import org.apache.xmlrpc.XmlRpcClient;
 
 import eionet.rod.services.FileServiceIF;
-import eionet.rod.services.LogServiceIF;
 import eionet.rod.services.RODServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A simple utility class for sending UNS notifications.
@@ -16,8 +17,7 @@ import eionet.rod.services.RODServices;
  */
 public class UNSEventSender {
 
-    /** Static logger for this class. */
-    private static final LogServiceIF LOGGER = RODServices.getLogService();
+    private static final Logger LOGGER = LoggerFactory.getLogger(UNSEventSender.class);
 
     /**
      * Hide utility class constructor.
