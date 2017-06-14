@@ -97,7 +97,7 @@ public class RdfExporter {
      * @param error if true logger.error() is called otherwise logger.debug()
      */
     private static void log(String str, boolean error) {
-        LOGGER.info(str);
+        System.out.println(str);
         if (error) {
             LOGGER.error(str);
         } else {

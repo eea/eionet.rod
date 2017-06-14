@@ -103,7 +103,7 @@ public class RODServices {
     static class StderrLogger implements LogServiceIF {
 
         private void out(String severity, Object msg, Throwable t) {
-            LOGGER.error("<" + severity + "> " + msg);
+            System.err.println("<" + severity + "> " + msg);
             if (t != null)
                 LOGGER.error(t.getMessage(), t);
         }
