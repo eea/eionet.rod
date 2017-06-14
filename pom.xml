@@ -147,7 +147,6 @@
                                     app-home exist. -->
                                 <mkdir dir="${app.home}" />
                                 <mkdir dir="${app.home}/tmp" />
-                                <mkdir dir="${app.home}/log" />
                                 <mkdir dir="${app.home}/acl" />
 
                                 <!-- Copy all files from acl directory into
