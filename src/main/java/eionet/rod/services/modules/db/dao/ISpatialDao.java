@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Vector;
 
 import eionet.rod.dto.CountryDTO;
-import eionet.rod.dto.CountryInfoDTO;
 import eionet.rod.dto.ObligationCountryDTO;
 import eionet.rod.dto.ObligationDTO;
 import eionet.rod.services.ServiceException;
@@ -53,16 +52,6 @@ public interface ISpatialDao {
      * @throws ServiceException
      */
     String[][] getCountryIdPairs() throws ServiceException;
-
-
-
-    /**
-     * @param ra_id
-     * @param spatial_id
-     * @return
-     * @throws ServiceException
-     */
-    CountryInfoDTO getCountryInfo(String oid, String sid) throws ServiceException ;
 
     /**
      * Returns true if country twoletter exists.

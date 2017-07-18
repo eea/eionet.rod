@@ -202,14 +202,6 @@ SO2 (sulphur dioxide)(mass/time)" VALIDATED_BY="" EEA_PRIMARY="1" EEA_CORE="1" F
      ROLE_ID="eionet-nrc-spatial-mt"
      ROLE_MEMBERS_URL="http://eea.eionet.europa.eu/Members/irc/eionet-circle/Home/central_dir_admin?fn=roles&amp;v=eionet-nrc-spatial-mt&amp;rd=1&amp;ud=1&amp;od=0" LAST_HARVESTED="2007-11-26 13:20:22.0" STATUS="1"/>
 
-  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Stephen Conchin" INSTITUTE=""/>
-  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Ashley Farrugia" INSTITUTE=""/>
-  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Darrin Stevens" INSTITUTE=""/>
-  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Saviour Formosa" INSTITUTE=""/>
-  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Peter Cordina" INSTITUTE=""/>
-  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Michelle Borg" INSTITUTE=""/>
-  <T_ROLE_OCCUPANTS ROLE_ID="eionet-nrc-spatial-mt" PERSON="Christopher Borg" INSTITUTE=""/>
-
 <!-- Source for obligation 514 -->
 
   <T_SOURCE PK_SOURCE_ID="170" FK_TYPE_ID="16" SOURCE_CODE=""

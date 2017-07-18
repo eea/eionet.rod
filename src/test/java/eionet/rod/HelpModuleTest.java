@@ -2,10 +2,8 @@ package eionet.rod;
 
 import eionet.help.Helps;
 import eionet.rod.services.modules.db.dao.mysql.BaseMySqlDaoTest;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
 
 /**

@@ -585,4 +585,11 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liqui
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Object attributes'</sql>
     </changeSet>
 
+    <changeSet author="stamojoh" id="rev-39">
+        <comment>
+            Refs #86274 Remove T_ROLE_OCCUPANTS table
+        </comment>
+        <dropTable tableName="T_ROLE_OCCUPANTS" />
+    </changeSet>
+
 </databaseChangeLog>

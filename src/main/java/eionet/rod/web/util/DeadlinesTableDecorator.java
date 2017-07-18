@@ -125,20 +125,12 @@ public class DeadlinesTableDecorator extends TableDecorator {
         SearchDTO search = (SearchDTO) getCurrentRowObject();
         if (!RODUtil.isNullOrEmpty(search.getObligationRespRole())) {
             if (RODUtil.isNullOrEmpty(search.getRoleDescr())) {
-                if (search.getSpatialIsMember().equals("Y")) {
-                    String rolemc = search.getObligationRespRole() + "-mc-" + search.getSpatialTwoLetter();
-                    ret.append("<div title='").append(rolemc).append("'>");
-                    ret.append(RODUtil.replaceTags(RODUtil.threeDots(rolemc, 35), true, true));
-                    ret.append("</div>");
-                } else {
-                    String rolecc = search.getObligationRespRole() + "-cc-" + search.getSpatialTwoLetter();
-                    ret.append("<div title='").append(rolecc).append("'>");
-                    ret.append(RODUtil.replaceTags(RODUtil.threeDots(rolecc, 35), true, true));
-                    ret.append("</div>");
-                }
+                String role = search.getObligationRespRole();
+                ret.append("<div title='").append(role).append("'>");
+                ret.append(RODUtil.replaceTags(RODUtil.threeDots(role, 35), true, true));
+                ret.append("</div>");
             } else {
-                ret.append("<a href='" + getContextPath() +  "/responsible?role=").append(search.getObligationRespRole()).append("&amp;spatial=");
-                ret.append(search.getSpatialTwoLetter()).append("&amp;member=").append(search.getSpatialIsMember()).append("'>");
+                ret.append("<a href='" + getContextPath() +  "/contacts?roleId=").append(search.getObligationRespRole()).append("'>");
                 ret.append(RODUtil.replaceTags(RODUtil.threeDots(search.getRoleDescr(), 15), true, true));
                 ret.append("</a>");
             }

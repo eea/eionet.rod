@@ -2,7 +2,6 @@ package eionet.rod.services.modules.db.dao.mysql;
 
 import java.util.Hashtable;
 
-import eionet.rod.dto.ResponsibleRoleDTO;
 
 public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
 
@@ -13,9 +12,6 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
     String role_url = "http://ldap.eionet.europa.eu:389/Public/irc/eionet-circle/Home/central_dir_admin?fn=roles&v=eper-dat-se";                                                                                                            
     String role_id  = "eper-dat-test";
     String role_members_url ="http://ldap.eionet.europa.eu:389/Members/irc/eionet-circle/Home/central_dir_admin?fn=roles&v=eper-dat-se";                                                                                                     
-    String person = "Test user"; 
-    String institute = "Test institute";
-
     
     public RoleMySqlDaoTest(String arg0) throws Exception {
         super(arg0);
@@ -42,20 +38,8 @@ public class RoleMySqlDaoTest extends BaseMySqlDaoTest {
         resultSet = statement.executeQuery("select ROLE_ID from T_ROLE where ROLE_EMAIL='" + role_email + "'");
         resultSet.next();
         assertEquals(role_id, resultSet.getString("ROLE_ID"));
-
-        ResponsibleRoleDTO  ht = roleMySqlDao.getRoleDesc(role_id, role_name);
-        assertEquals(role_email, ht.getEmail());
     }
     
-    /*
-     * Test method for 'eionet.rod.services.modules.db.dao.mysql.RoleMySqlDao.savePerson(String, String, String)'
-     */
-    /*public void testSavePerson() throws Exception {
-        roleMySqlDao.savePerson(role_id, person + ( new Random()).nextInt(), institute + ( new Random()).nextInt());
-          
-        METHOD savePerson is no longer in use - occupants are saved in method saveRole 
-    }*/
-
     /*
      * Test method for 'eionet.rod.services.modules.db.dao.mysql.RoleMySqlDao.getRoleIds()'
      */

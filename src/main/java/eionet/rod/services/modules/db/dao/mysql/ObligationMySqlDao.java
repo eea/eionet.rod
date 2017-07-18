@@ -159,8 +159,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         + "WHERE RESPONSIBLE_ROLE IS NOT NULL AND RESPONSIBLE_ROLE <> '' ";
 
     private static final String qCountryResponsibleRole =
-        "SELECT DISTINCT CONCAT(a.RESPONSIBLE_ROLE, '-' , "
-        + "(CASE s.SPATIAL_ISMEMBERCOUNTRY WHEN 'Y' THEN 'mc' WHEN 'N' THEN 'cc' END), '-' , LCASE(s.SPATIAL_TWOLETTER)) AS ohoo "
+        "SELECT DISTINCT a.RESPONSIBLE_ROLE AS ohoo "
         + "FROM T_OBLIGATION a, T_SPATIAL s,  T_RASPATIAL_LNK sl "
         + "WHERE  a.RESPONSIBLE_ROLE_SUF=1 "
         + "AND sl.FK_RA_ID=a.PK_RA_ID "
@@ -178,8 +177,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         + "AND COORDINATOR_ROLE <> '' ";
 
     private static final String qCountryCoordinatorRole =
-        "SELECT DISTINCT CONCAT(a.COORDINATOR_ROLE, '-' , "
-        + "(CASE s.SPATIAL_ISMEMBERCOUNTRY WHEN 'Y' THEN 'mc' WHEN 'N' THEN 'cc' END), '-' , LCASE(s.SPATIAL_TWOLETTER)) "
+        "SELECT DISTINCT a.COORDINATOR_ROLE "
         + "FROM T_OBLIGATION a, T_SPATIAL s,  T_RASPATIAL_LNK sl "
         + "WHERE  a.COORDINATOR_ROLE_SUF=1 "
         + "AND sl.FK_RA_ID=a.PK_RA_ID "
@@ -1282,7 +1280,7 @@ public class ObligationMySqlDao extends MySqlBaseDao implements IObligationDao {
         q_obligations_list.append("(T_RASPATIAL_LNK LEFT JOIN T_SPATIAL ON T_RASPATIAL_LNK.FK_SPATIAL_ID=T_SPATIAL.PK_SPATIAL_ID) "
         + "JOIN T_OBLIGATION ON T_RASPATIAL_LNK.FK_RA_ID=T_OBLIGATION.PK_RA_ID "
         + "LEFT JOIN T_SOURCE ON T_SOURCE.PK_SOURCE_ID = T_OBLIGATION.FK_SOURCE_ID "
-        + "LEFT JOIN T_ROLE ON CONCAT(T_OBLIGATION.RESPONSIBLE_ROLE,'-',IF(T_SPATIAL.SPATIAL_ISMEMBERCOUNTRY='Y','mc','cc'),'-',LCASE(T_SPATIAL.SPATIAL_TWOLETTER))=T_ROLE.ROLE_ID "
+        + "LEFT JOIN T_ROLE ON T_OBLIGATION.RESPONSIBLE_ROLE=T_ROLE.ROLE_ID "
         + "LEFT JOIN T_CLIENT_LNK ON T_CLIENT_LNK.TYPE='A' AND T_CLIENT_LNK.STATUS='M' AND T_CLIENT_LNK.FK_OBJECT_ID=T_OBLIGATION.PK_RA_ID "
         + "LEFT JOIN T_CLIENT ON T_CLIENT.PK_CLIENT_ID = T_CLIENT_LNK.FK_CLIENT_ID ");
         if (!RODUtil.nullString(issueId) && !issueId.equals("0")) {

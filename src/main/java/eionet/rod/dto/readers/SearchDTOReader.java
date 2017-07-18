@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eionet.rod.dto.SearchDTO;
-import eionet.rod.dto.ClientDTO;
 import eionet.rod.util.sql.ResultSetBaseReader;
 
 public class SearchDTOReader extends ResultSetBaseReader {

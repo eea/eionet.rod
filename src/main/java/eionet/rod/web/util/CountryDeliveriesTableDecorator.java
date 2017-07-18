@@ -1,6 +1,5 @@
 package eionet.rod.web.util;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.displaytag.decorator.TableDecorator;
 import eionet.rod.RODUtil;
@@ -12,43 +11,6 @@ import eionet.rod.dto.CountryDeliveryDTO;
  * 
  */
 public class CountryDeliveriesTableDecorator extends TableDecorator {
-
-    /**
-     * 
-     * @return String
-     */
-    public String getContact() {
-
-        StringBuilder ret = new StringBuilder();
-        ret.append("");
-        CountryDeliveryDTO delivery = (CountryDeliveryDTO) getCurrentRowObject();
-        HttpServletRequest req = (HttpServletRequest) getPageContext().getRequest();
-        String path = req.getContextPath();
-        if (!RODUtil.isNullOrEmpty(delivery.getObligationRespRole())) {
-            if (RODUtil.isNullOrEmpty(delivery.getRoleName())) {
-                if (delivery.getSpatialIsMember().equals("Y")) {
-                    String rolemc = delivery.getObligationRespRole() + "-mc-" + delivery.getSpatialTwoLetter();
-                    ret.append("<div title='").append(rolemc).append("'>");
-                    ret.append(RODUtil.threeDots(rolemc, 40));
-                    ret.append("</div>");
-                } else {
-                    String rolecc = delivery.getObligationRespRole() + "-cc-" + delivery.getSpatialTwoLetter();
-                    ret.append("<div title='").append(rolecc).append("'>");
-                    ret.append(RODUtil.threeDots(rolecc, 40));
-                    ret.append("</div>");
-                }
-            } else {
-                ret.append("<a href='").append(path).append("/responsible?role=").append(delivery.getObligationRespRole())
-                        .append("&amp;spatial=");
-                ret.append(delivery.getSpatialTwoLetter()).append("&amp;member=").append(delivery.getSpatialIsMember())
-                        .append("'>");
-                ret.append(RODUtil.threeDots(delivery.getRoleName(), 15));
-                ret.append("</a>");
-            }
-        }
-
-        return ret.toString();
-    }
 
     /**
      * 

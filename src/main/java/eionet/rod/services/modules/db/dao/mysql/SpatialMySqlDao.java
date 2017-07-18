@@ -14,12 +14,9 @@ import java.util.Vector;
 import eionet.rod.RODUtil;
 import eionet.rod.util.sql.SQLUtil;
 import eionet.rod.dto.CountryDTO;
-import eionet.rod.dto.CountryInfoDTO;
-import eionet.rod.dto.DeliveryDTO;
 import eionet.rod.dto.ObligationCountryDTO;
 import eionet.rod.dto.ObligationDTO;
 import eionet.rod.dto.readers.CountryDTOReader;
-import eionet.rod.dto.readers.DeliveryDTOReader;
 import eionet.rod.dto.readers.ObligationCountryDTOReader;
 import eionet.rod.dto.readers.ObligationDTOReader;
 import eionet.rod.services.FileServiceIF;
@@ -190,98 +187,6 @@ public class SpatialMySqlDao extends MySqlBaseDao implements ISpatialDao {
         }
 
         return result != null ? result : new String[][] {};
-    }
-
-
-    private static final String Q_OBLIGATION_INFO =
-        "SELECT TITLE AS title, RESPONSIBLE_ROLE AS role "
-        + "FROM T_OBLIGATION "
-        + "WHERE PK_RA_ID=? ";
-
-    private static final String Q_SPATIAL_INFO =
-        "SELECT SPATIAL_NAME AS name, SPATIAL_TWOLETTER AS two "
-        + "FROM T_SPATIAL "
-        + "WHERE PK_SPATIAL_ID=?";
-
-
-    private static final String Q_PERIOD =
-        "SELECT START_DATE AS start, END_DATE AS end "
-        + "FROM T_SPATIAL_HISTORY "
-        + "WHERE FK_SPATIAL_ID =? AND FK_RA_ID =?";
-
-
-    private static final String Q_DELIVERIES =
-        "SELECT TITLE, DELIVERY_URL "
-        + "FROM T_DELIVERY "
-        + "WHERE FK_SPATIAL_ID=? AND FK_RA_ID=?";
-
-
-    public CountryInfoDTO getCountryInfo(String oid, String sid) throws ServiceException {
-        CountryInfoDTO ret = new CountryInfoDTO();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        Hashtable<String, String> hash = null;
-
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(Q_OBLIGATION_INFO);
-            preparedStatement.setString(1, oid);
-            if (isDebugMode) logQuery(Q_OBLIGATION_INFO);
-            hash =  _getHashtable(preparedStatement);
-            if (hash != null) {
-                ret.setObligationTitle((String) hash.get("title"));
-                ret.setRole((String) hash.get("role"));
-            }
-            preparedStatement.close();
-
-            preparedStatement = connection.prepareStatement(Q_SPATIAL_INFO);
-            preparedStatement.setString(1, sid);
-            if (isDebugMode) logQuery(Q_SPATIAL_INFO);
-            hash =  _getHashtable(preparedStatement);
-            if (hash != null) {
-                ret.setCountry((String) hash.get("name"));
-                ret.setTwoLetter(((String) hash.get("two")).toLowerCase());
-            }
-            preparedStatement.close();
-
-            preparedStatement = connection.prepareStatement(Q_PERIOD);
-            preparedStatement.setString(1, sid);
-            preparedStatement.setString(2, oid);
-            if (isDebugMode) logQuery(Q_PERIOD);
-            hash =  _getHashtable(preparedStatement);
-            if (hash != null) {
-                String start = (String) hash.get("start");
-                if (start == null || start.equals("") || start.equals("00/00/0000") || start.equals("0000-00-00")) {
-                    start = "Prior to start of ROD (2003)";
-                } else {
-                    start = "From " + start;
-                }
-                String end = (String) hash.get("end");
-                if (end == null || end.equals("") || end.equals("00/00/0000") || start.equals("0000-00-00")) {
-                    end = "present";
-                }
-                ret.setStart(start);
-                ret.setEnd(end);
-            }
-            preparedStatement.close();
-
-            List<Object> values = new ArrayList<Object>();
-            values.add(sid);
-            values.add(oid);
-            DeliveryDTOReader rsReader = new DeliveryDTOReader();
-            SQLUtil.executeQuery(Q_DELIVERIES, values, rsReader, connection);
-            List<DeliveryDTO>  list = rsReader.getResultList();
-            ret.setDeliveries(list);
-
-
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new ServiceException(e.getMessage());
-        } finally {
-            closeAllResources(null, preparedStatement, connection);
-        }
-        return ret;
-
     }
 
     private static final String Q_CHECK_TWOLETTER =

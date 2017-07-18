@@ -349,16 +349,6 @@
 
 	<servlet-mapping>
 		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/countryinfo</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>StripesDispatcher</servlet-name>
-		<url-pattern>/responsible</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>StripesDispatcher</servlet-name>
 		<url-pattern>/harvester</url-pattern>
 	</servlet-mapping>
 

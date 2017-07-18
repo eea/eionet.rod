@@ -54,7 +54,7 @@ public class ObligationMySqlDaoTest extends BaseMySqlDaoTest {
      */
     public void testGetRespRoles() throws Exception{
         String[] roles = obligationMySqlDao.getRespRoles();
-        assertEquals(3, roles.length);
+        assertEquals(1, roles.length);
     }
 
     /*
