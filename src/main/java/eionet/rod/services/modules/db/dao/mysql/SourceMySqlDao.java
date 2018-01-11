@@ -778,9 +778,10 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
             + "JOIN T_SOURCE S ON SL.FK_SOURCE_CHILD_ID=S.PK_SOURCE_ID "
             + "LEFT OUTER JOIN T_SOURCE_LNK PSL ON PSL.FK_SOURCE_CHILD_ID=S.PK_SOURCE_ID AND PSL.CHILD_TYPE='S' AND PSL.PARENT_TYPE='S' "
             + "LEFT OUTER JOIN T_SOURCE PS ON PS.PK_SOURCE_ID=PSL.FK_SOURCE_PARENT_ID "
-            + "WHERE SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='C' AND SC.PK_CLASS_ID=" + id + " ORDER BY S.TITLE";
+            + "WHERE SL.CHILD_TYPE='S' AND SL.PARENT_TYPE='C' AND SC.PK_CLASS_ID=? ORDER BY S.TITLE";
 
         List<Object> values = new ArrayList<Object>();
+        values.add(id);
 
         Connection conn = null;
         HierarchyInstrumentDTOReader rsReader = new HierarchyInstrumentDTOReader();
@@ -811,9 +812,10 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         String query = "SELECT C_TERM, C_VALUE "
                 + "FROM T_LOOKUP "
-                + "WHERE CATEGORY='" + category + "' ORDER BY C_TERM";
+                + "WHERE CATEGORY=? ORDER BY C_TERM";
 
         List<Object> values = new ArrayList<Object>();
+        values.add(category);
 
         Connection conn = null;
         LookupDTOReader rsReader = new LookupDTOReader();
@@ -843,10 +845,10 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
     public List<InstrumentDTO> getParentInstrumentsList(String id) throws ServiceException {
 
         String query = "SELECT PK_SOURCE_ID, CONCAT(IF(ALIAS != '', CONCAT(ALIAS, ' - '), ''),  TITLE) AS TITLE "
-                + "FROM T_SOURCE WHERE PK_SOURCE_ID != " + id + " ORDER BY TITLE";
+                + "FROM T_SOURCE WHERE PK_SOURCE_ID !=? ORDER BY TITLE";
 
         List<Object> values = new ArrayList<Object>();
-
+        values.add(id);
         Connection conn = null;
         InstrumentDTOReader rsReader = new InstrumentDTOReader();
         try {
@@ -947,12 +949,13 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
 
         String query = "SELECT T_SOURCE_CLASS.PK_CLASS_ID, T_SOURCE_CLASS.CLASSIFICATOR, T_SOURCE_CLASS.CLASS_NAME, "
         + "T_SOURCE_LNK.FK_SOURCE_PARENT_ID "
-        + "FROM T_SOURCE_LNK, T_SOURCE_CLASS WHERE T_SOURCE_LNK.FK_SOURCE_CHILD_ID = " + id + " "
+        + "FROM T_SOURCE_LNK, T_SOURCE_CLASS WHERE T_SOURCE_LNK.FK_SOURCE_CHILD_ID =? "
         + "AND T_SOURCE_LNK.FK_SOURCE_PARENT_ID=T_SOURCE_CLASS.PK_CLASS_ID "
         + "AND T_SOURCE_LNK.PARENT_TYPE='C' AND T_SOURCE_LNK.CHILD_TYPE='S' "
         + "ORDER BY CLASSIFICATOR";
 
         List<Object> values = new ArrayList<Object>();
+        values.add(id);
 
         Connection conn = null;
         SourceClassDTOReader rsReader = new SourceClassDTOReader();
@@ -994,11 +997,12 @@ public class SourceMySqlDao extends MySqlBaseDao implements ISourceDao {
         }
 
         List<Object> values = new ArrayList<Object>();
+        values.add(ids.toString());
 
         String qObligationIssuesList =
             "SELECT PK_CLASS_ID, CLASSIFICATOR, CLASS_NAME "
             + "FROM T_SOURCE_CLASS "
-            + "WHERE PK_CLASS_ID IN (" + ids.toString() + ") "
+            + "WHERE PK_CLASS_ID IN (?) "
             + "ORDER BY CLASSIFICATOR ";
 
         Connection conn = null;
