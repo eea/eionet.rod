@@ -190,15 +190,15 @@
 				<div id="pagefoot">
 					<a href="${pageContext.request.contextPath}/documentation/Disclaimer">Disclaimer</a>
 					| Copyright: <a rel="license"
-					   href="http://creativecommons.org/licenses/by/2.5/dk/deed.en_GB"
+					   href="https://creativecommons.org/licenses/by/2.5/dk/deed.en_GB"
 					   title="Creative Commons Attribution License">
 					  <img alt="Creative Commons Attribution License"
-					      src="http://i.creativecommons.org/l/by/2.5/dk/80x15.png" /></a>
+					      src="https://i.creativecommons.org/l/by/2.5/dk/80x15.png" /></a>
 					| Last updated: 
 					<a href="${pageContext.request.contextPath}/analysis.jsv">${actionBean.lastUpdate}</a>
 					|	<a href="mailto:helpdesk@eionet.europa.eu?subject=Feedback%20from%20the%20ROD%20website">Feedback</a>
 					<br/>
-					<a href="http://www.eea.europa.eu">European Environment Agency</a>
+					<a href="https://www.eea.europa.eu">European Environment Agency</a>
 					<br/>
 					Kgs. Nytorv 6, DK-1050 Copenhagen K, Denmark - Phone: +45 3336 7100
 				</div>
