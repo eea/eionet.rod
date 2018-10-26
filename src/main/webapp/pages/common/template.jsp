@@ -63,7 +63,7 @@
 			<div id="container">
 				<div id="toolribbon">
 					<div id="lefttools">
-						<a id="eealink" href="http://www.eea.europa.eu/">EEA</a>
+						<a id="eealink" href="https://www.eea.europa.eu/">EEA</a>
 						<a id="ewlink" href="http://www.ewindows.eu.org/">EnviroWindows</a>
 				    </div>
 				    <div id="righttools">
@@ -80,7 +80,7 @@
 	                    </c:if>
 						<a id="printlink" title="Print this page" href="javascript:this.print();"><span>Print</span></a>
 				        <a id="fullscreenlink" href="javascript:toggleFullScreenMode()" title="Switch to/from full screen mode"><span>Switch to/from full screen mode</span></a>
-				        <a id="acronymlink" href="http://www.eionet.europa.eu/acronyms" title="Look up acronyms"><span>Acronyms</span></a>
+				        <a id="acronymlink" href="https://www.eionet.europa.eu/acronyms" title="Look up acronyms"><span>Acronyms</span></a>
 				        <form action="http://google.com/search" method="get">
 							<div id="freesrchform"><label for="freesrchfld">Search</label>
 								<input type="text" id="freesrchfld" name="q" onfocus="if(this.value=='Search ROD')this.value='';" onblur="if(this.value=='')this.value='Search ROD';" value="Search ROD" size="10"/>
@@ -105,7 +105,7 @@
 				<div class="breadcrumbtrail">
 					<div class="breadcrumbhead">You are here:</div>
 					<div class="breadcrumbitem eionetaccronym">
-						<a href="http://www.eionet.europa.eu">Eionet</a>
+						<a href="https://www.eionet.europa.eu">Eionet</a>
 					</div>
 					<c:choose>
                     	<c:when test="${empty pageTitle}">
@@ -190,15 +190,15 @@
 				<div id="pagefoot">
 					<a href="${pageContext.request.contextPath}/documentation/Disclaimer">Disclaimer</a>
 					| Copyright: <a rel="license"
-					   href="http://creativecommons.org/licenses/by/2.5/dk/deed.en_GB"
+					   href="https://creativecommons.org/licenses/by/2.5/dk/deed.en_GB"
 					   title="Creative Commons Attribution License">
 					  <img alt="Creative Commons Attribution License"
-					      src="http://i.creativecommons.org/l/by/2.5/dk/80x15.png" /></a>
+					      src="https://i.creativecommons.org/l/by/2.5/dk/80x15.png" /></a>
 					| Last updated: 
 					<a href="${pageContext.request.contextPath}/analysis.jsv">${actionBean.lastUpdate}</a>
 					|	<a href="mailto:helpdesk@eionet.europa.eu?subject=Feedback%20from%20the%20ROD%20website">Feedback</a>
 					<br/>
-					<a href="http://www.eea.europa.eu">European Environment Agency</a>
+					<a href="https://www.eea.europa.eu">European Environment Agency</a>
 					<br/>
 					Kgs. Nytorv 6, DK-1050 Copenhagen K, Denmark - Phone: +45 3336 7100
 				</div>

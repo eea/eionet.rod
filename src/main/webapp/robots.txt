@@ -5,4 +5,4 @@ Disallow: /instrumentsdue
 User-agent: Nutch
 Disallow: /deadlines
 
-Sitemap: http://rod.eionet.europa.eu/rdf-sitemap.xml
+Sitemap: https://rod.eionet.europa.eu/rdf-sitemap.xml
